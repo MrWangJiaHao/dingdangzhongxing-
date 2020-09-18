@@ -15,9 +15,9 @@
   </div>
 </template>
 <script>
-import Footers from "./components/footer"; //尾部
-import dropDowbox from "./components/commin/dropDownBox"; //下拉框
-import searchBox from "./components/commin/searchBox"; //搜索框
+import Footers from "../../components/footer"; //尾部
+import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
+import searchBox from "../../components/commin/searchBox"; //搜索框
 import pagecomponent from "../../components/commin/pageComponent"; //搜索框
 export default {
   components: {
