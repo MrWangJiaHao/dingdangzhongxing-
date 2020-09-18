@@ -1,0 +1,28 @@
+$btnSuccsee:linear-gradient(117deg, #52A8FD, #73CFFF);
+$btnError:linear-gradient(117deg, #FF8079, #FEB48F);
+$btnUsual:linear-gradient(117deg, #FF8079, #FEB48F);
+$border:4px;
+button{
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+@mixin BtnFunction($msg:'Usual') {
+    width: 82px;
+    height: 36px;
+    border-radius: $border;
+    font-weight: 400;
+    @if $msg ==''{
+        color: #454545;
+        background:$btnUsual;
+    }
+    @if $msg == "error"{
+    color: #FFFFFF;
+    background:$btnError;
+    }
+    @if $msg == "success"{
+        background:$btnSuccsee;
+        color: #FFFFFF;
+
+    }
+}

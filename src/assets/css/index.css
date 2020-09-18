@@ -1,0 +1,124 @@
+
+html,
+body,
+div,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+ul,
+li,
+ol,
+span,
+img,
+dl,
+dt,
+dd,
+b,
+input,
+select,
+textarea,
+i,
+em,
+var,
+strong,
+center,
+small,
+big,
+form,
+table,
+caption,
+tr,
+th,
+td,
+thead,
+tbody,
+del,
+ins,
+abbr {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font: 14px  Arial,;
+  color: #333;
+}
+*{
+  box-sizing: border-box;
+}
+em,
+i,
+var {
+  font-style: normal;
+}
+strong,
+b {
+  font-weight: 400;
+}
+li {
+  list-style: none;
+}
+table {
+  border-collapse: collapse;
+}
+a {
+  text-decoration: none;
+  color: #333;
+}
+/*低版本浏览器中 a标签嵌套img 会有不同颜色的边框*/
+img {
+  border: 0;
+  vertical-align: top;
+}
+input,
+select,
+textarea {
+  outline: none;
+}
+input{
+  border:none;
+}
+textarea {
+  resize: none;
+}
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.tc {
+  text-align: center;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.tc {
+  text-align: center;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: all .5s;
+}
+.ellipsis:hover {
+  width: auto;
+  text-overflow: inherit;
+}
+.nowrap {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.displayFlex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
