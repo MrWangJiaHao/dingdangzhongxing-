@@ -5,15 +5,15 @@ import store from './store'
 
 import VueCookie from 'vue-cookie'
 Vue.use(VueCookie)
-
+import iView from 'iview';
+import 'iview/dist/styles/iview.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import "./assets/css/Toast.css";
 import "./assets/css/index.css";
-Vue.use(ElementUI);
+Vue.use(ElementUI).use(iView)
 import axios from 'axios'
 Vue.prototype.$axios = axios
-
 Vue.config.productionTip = false
 
 new Vue({
