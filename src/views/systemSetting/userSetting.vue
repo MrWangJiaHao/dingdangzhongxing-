@@ -36,7 +36,7 @@
     <!-- 头部 -->
     <div class="btnArr">
       <div style="background-color:#fff;">
-        <div class="title">系统管理</div>
+        <div class="meiyiyetitle">系统管理</div>
         <div class="btnClick">
           <div class="setUser" @click="gotoRouterSetUserIng">创建</div>
           <div class="bianjiUser">编辑</div>
@@ -80,9 +80,7 @@
     <div class="lineBox">
       <div class="line"></div>
     </div>
-    <div>
-      <Footers></Footers>
-    </div>
+    <Footers></Footers>
   </div>
 </template>
 
@@ -104,11 +102,6 @@ export default {
   data() {
     return {
       tableData: [
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
         {
           date: "2016-05-02",
           name: "王小虎",
@@ -203,7 +196,11 @@ export default {
   },
 };
 </script>
-
+<style>
+.searchBox .titleBox::before {
+  content: "";
+}
+</style>
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 
@@ -211,7 +208,7 @@ export default {
   position: relative;
   top: 192px;
   border-top: 1px solid #d1d6e2;
-  background-color: rgb(238, 241, 248);
+  background-color: rgb(232, 233, 236);
   .fuzzyQueryBox {
     padding: 17px 30px;
     display: flex;
@@ -255,23 +252,13 @@ export default {
         display: inline-block;
       }
     }
-    .title {
-      font-size: 14px;
-      font-family: Hiragino Sans GB;
-      font-weight: normal;
-      color: #454545;
+    .meiyiyetitle {
       display: flex;
       align-items: center;
-      vertical-align: middle;
       &::before {
-        content: "";
-        margin-right: 8px;
-        width: 15px;
-        height: 15px;
         background: url(../../assets/img/home_page-icon-default@2x.png) center
           center;
         background-size: cover;
-        display: inline-block;
       }
     }
     .setUser {

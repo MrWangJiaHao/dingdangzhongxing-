@@ -74,7 +74,6 @@ export default {
   .input_box {
     height: 34px;
     background: #ffffff;
-    border: 1px solid #d1d6e2;
     border-radius: 4px;
   }
 }
