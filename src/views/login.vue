@@ -93,15 +93,13 @@ export default {
           //     this.$message.error(data.msg);
           //   }
           // });
-           
-            // axios({
-            //   url:"http://127.0.0.1:8801/am/v1/pUser/login",
-            //   method:"get"
-            // }).then((ok)=>{
-            //   console.log(ok)
-            // })
-
-            this.$router.push('/indexs')
+          // axios({
+          //   url:"http://127.0.0.1:8801/am/v1/pUser/login",
+          //   method:"get"
+          // }).then((ok)=>{
+          //   console.log(ok)
+          // })
+          this.$router.push("/indexs");
         }
       });
     },

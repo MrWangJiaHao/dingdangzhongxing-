@@ -27,10 +27,9 @@
         </div>
         <!-- 创建时间 -->
       </div>
-
       <div class="btns">
-        <div class="queryBtn zujianBox">查询</div>
-        <div class="clearBtn">清空</div>
+        <div class="queryBtn zujianBox" @click="clickQueryUser">查询</div>
+        <div class="clearBtn" @click="clearInputAll">清空</div>
       </div>
     </div>
     <!-- 头部 -->
@@ -54,16 +53,23 @@
             ref="multipleTable"
             :data="tableData"
             :stripe="true"
+            :border="true"
             tooltip-effect="dark"
             style="width: 100%"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column label="日期" width="120">
+            <el-table-column type="selection" width="50"></el-table-column>
+            <el-table-column label="序号" type="index" width="50" show-overflow-tooltip />
+            <el-table-column label="用户账号" prop="accountNumber" show-overflow-tooltip />
+            <el-table-column label="用户姓名" prop="name" show-overflow-tooltip></el-table-column>
+            <el-table-column label="用户角色" prop="role" show-overflow-tooltip></el-table-column>
+            <el-table-column label="联系电话" prop="role" show-overflow-tooltip></el-table-column>
+            <el-table-column label="居住地址" prop="address" show-overflow-tooltip></el-table-column>
+            <el-table-column label="创建人" prop="Founder" show-overflow-tooltip></el-table-column>
+
+            <el-table-column label="创建时间">
               <template slot-scope="scope">{{ scope.row.date }}</template>
             </el-table-column>
-            <el-table-column prop="name" label="姓名" width="120"></el-table-column>
-            <el-table-column prop="address" label="地址" show-overflow-tooltip></el-table-column>
           </el-table>
         </div>
         <!-- 表格主体 -->
@@ -103,34 +109,13 @@ export default {
     return {
       tableData: [
         {
-          date: "2016-05-02",
+          accountNumber: 13688888888,
           name: "王小虎",
+          role: "兼职拣货人员",
+          mobile: 13131221512,
           address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
+          Founder: "的撒大撒大撒",
+          date: "2019-10-25 14：30",
         },
       ],
       multipleSelection: [],
@@ -164,6 +149,13 @@ export default {
         title: "创建时间",
         placeholder: "请选择开始时间",
       },
+      faSonajax: {
+        zhanhao: 0,
+      },
+      pagingQueryData: {
+        pageNumber: 1,
+        pageSize: 10,
+      },
     };
   },
   methods: {
@@ -179,7 +171,7 @@ export default {
     },
     getChangeInput(e) {
       //搜索框改变后的数据
-      console.log(e);
+      this.faSonajax.zhanhao = e;
     },
     toggleSelection(rows) {
       if (rows) {
@@ -193,17 +185,20 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
+    clickQueryUser() {
+      console.log(this.multipleSelection, "选中的");
+    },
+    clearInputAll() {},
   },
 };
 </script>
-<style>
-.searchBox .titleBox::before {
-  content: "";
+<style >
+.cell {
+  text-align: center;
 }
 </style>
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
-
 .userSettingBox {
   position: relative;
   top: 192px;

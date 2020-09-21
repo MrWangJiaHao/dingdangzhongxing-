@@ -8,7 +8,7 @@
         @blur="searchData"
         clearable
         :disabled="searchCenter.disabled"
-        @input="chargeInputs"
+        @input="changerInputs"
       ></el-input>
     </div>
   </div>
@@ -39,9 +39,13 @@ export default {
   methods: {
     searchData() {
       this.$emit("getSearchCenterShuJu", this.input);
+      this.$emit("clearInput", this.clearInput);
     },
-    chargeInputs(e) {
+    changerInputs(e) {
       this.$emit("getChangeInput", e);
+    },
+    clearInput() {
+      this.input = "";
     },
   },
 };

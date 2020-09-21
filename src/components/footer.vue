@@ -35,26 +35,26 @@ export default {
   },
   async created() {
     //发送请求 获取 当前的站内消息
-    let { pageNumber, pageSize } = this;
-    let { result } = await this.$axios.post(
-      "http://localhost:8902/wbs-warehouse-manage/v1/pWarehouseStationInfo/findRecordPage",
-      {
-        pageNumber,
-        pageSize,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json;charset=UTF-8",
-          "X-Auth-user": "warehouse",
-          "X-Auth-Token": "X-Auth-user",
-          "X-Auth-wareId": "X-Auth-user",
-          "X-Auth-name": "warehouse",
-          "X-Auth-wareName": "",
-        },
-      }
-    );
-    let { list } = result;
-    this.content = list.content;
+    // let { pageNumber, pageSize } = this;
+    // let { result } = await this.$axios.post(
+    //   "http://localhost:8902/wbs-warehouse-manage/v1/pWarehouseStationInfo/findRecordPage",
+    //   {
+    //     pageNumber,
+    //     pageSize,
+    //   },
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json;charset=UTF-8",
+    //       "X-Auth-user": "warehouse",
+    //       "X-Auth-Token": "X-Auth-user",
+    //       "X-Auth-wareId": "X-Auth-user",
+    //       "X-Auth-name": "warehouse",
+    //       "X-Auth-wareName": "",
+    //     },
+    //   }
+    // );
+    // let { list } = result;
+    // this.content = list.content;
   },
 };
 </script>
