@@ -96,3 +96,6 @@
   color: #FFFFFF;
   background: linear-gradient(117deg, #52A8FD, #73CFFF);
 }
+.el-table__row--striped{
+  background-color: #D1D6E2;
+}

@@ -61,11 +61,9 @@ export default {
 
 <style lang="scss" scoped>
 .footer_box {
-  position: fixed;
   height: 30px;
   background: #599af3;
   width: 100%;
-  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -90,6 +88,7 @@ export default {
     }
   }
   .dianJiXiaoXi {
+    align-items: center;
     display: flex;
     margin-right: 104px;
     .imgBox {

@@ -2,7 +2,7 @@
   <div id="app">
     <!-- <Footers></Footers>
     <dropDowbox :dropDowBox="dropDowBox" @getDropDownData="getDropDownData"></dropDowbox>
-    <searchBox :searchCenter="searchCenter" @getSearchCenterShuJu="getSearchCenterShuJu"></searchBox>
+    <searchBox :searchCenter="searchCenter" @getChangeInput='getChangeInput' @getSearchCenterShuJu="getSearchCenterShuJu"></searchBox>
     <pagecomponent
       :pageComponentsData="pageComponentsData"
       @getPageNum="getPageNum"
@@ -61,6 +61,9 @@ export default {
     },
     getSearchCenterShuJu(e) {
       console.log("这是搜索框的数据:", e); //返回你输入的数据
+    },
+    getChangeInput(e) {
+      console.log("这是搜索框改变的数据:", e); //返回你输入的数据
     },
     getPageNum(e) {
       console.log("这是获取到了第几页的数据", e); //返回当前的页数
