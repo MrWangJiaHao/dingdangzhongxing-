@@ -21,11 +21,21 @@ const routes = [
     component: () => import("../views/demo/demo.vue")
   },
   {
+    path: "/systemSetting/userSetting",
+    name: 'systemSetting/userSetting',
+    component: () => import("../views/systemSetting/userSetting.vue")
+  },
+  {
+    path: "/systemSetting/setUserIng",
+    name: 'systemSetting/setUserIng',
+    component: () => import("../views/systemSetting/setUserIng.vue")
+  },
+  {
     path: '*',
     name: 'notfount',
     component: () => import('../views/404.vue')
   },
-  
+
 ]
 
 const router = new VueRouter({

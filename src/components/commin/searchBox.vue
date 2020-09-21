@@ -1,6 +1,6 @@
 <template>
   <div class="searchBox">
-    <div class="titleBox">{{title}}</div>
+    <div v-if="title!==''" class="titleBox">{{title}}</div>
     <div>
       <el-input
         :placeholder="searchCenter.placeholder"
@@ -28,10 +28,12 @@ export default {
     };
   },
   created() {
-    this.searchCenter.disabled = this.searchCenter.disabled
-      ? this.searchCenter.disabled
-      : false;
-    this.title = isMaoHao(this.searchCenter.title);
+    if (this.searchCenter.title) {
+      this.searchCenter.disabled = this.searchCenter.disabled
+        ? this.searchCenter.disabled
+        : false;
+      this.title = isMaoHao(this.searchCenter.title);
+    }
   },
   methods: {
     searchData() {

@@ -13,6 +13,7 @@ import "./assets/css/Toast.css";
 import "./assets/css/index.css";
 Vue.use(ElementUI).use(iView)
 import axios from 'axios'
+
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 

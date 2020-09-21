@@ -12,6 +12,8 @@ button{
     height: 36px;
     border-radius: $border;
     font-weight: 400;
+    text-align: center;
+    line-height: 36px;
     @if $msg ==''{
         color: #454545;
         background:$btnUsual;

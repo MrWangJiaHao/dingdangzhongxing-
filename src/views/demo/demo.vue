@@ -1,37 +1,41 @@
 <template>
   <div id="app">
-    <Footers></Footers>
+    <!-- <Footers></Footers>
     <dropDowbox :dropDowBox="dropDowBox" @getDropDownData="getDropDownData"></dropDowbox>
     <searchBox :searchCenter="searchCenter" @getSearchCenterShuJu="getSearchCenterShuJu"></searchBox>
     <pagecomponent
       :pageComponentsData="pageComponentsData"
       @getPageNum="getPageNum"
       @sureSuccssBtn="sureSuccssBtn"
-    />
+    />-->
     <button class="error">错误</button>
     <div class="wenZhiBox ellipsis">title超过8个字鼠标滑过显示出全部的字</div>
     <button class="usual">平常</button>
     <button class="success">成功</button>
+    <!-- <dateTime :dateTimeData="datetimeDate" /> -->
   </div>
 </template>
 <script>
-import Footers from "../../components/footer"; //尾部
-import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
-import searchBox from "../../components/commin/searchBox"; //搜索框
-import pagecomponent from "../../components/commin/pageComponent"; //搜索框
+// import Footers from "../../components/footer"; //尾部
+// import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
+// import searchBox from "../../components/commin/searchBox"; //搜索框
+// import pagecomponent from "../../components/commin/pageComponent"; //分页器
+// import dateTime from "../../components/commin/dateTime.vue"; //时间
+
 export default {
   components: {
-    Footers,
-    dropDowbox,
-    searchBox,
-    pagecomponent,
+    // Footers,
+    // dropDowbox,
+    // searchBox,
+    // pagecomponent,
+    // dateTime,
   },
   data() {
     return {
       dropDowBox: {
         //下拉框需要的json
         title: "测试的demo",
-        dropDownBoxData: ["1231", "12315", "1205152"], //下拉需要的data
+        dropDownBoxData: [], //下拉需要的data
         placeholder: "亲选择",
         disabled: false,
       },
@@ -44,13 +48,10 @@ export default {
       pageComponentsData: {
         //这是分页器需要的json
         pageNums: 100, //一共多少条 //默认一页10条
-        // },
-        datePickerData: {
-          title: "测试的demo",
-        },
-        dateTimeData: {
-          title: "测试的demo",
-        },
+      },
+      datetimeDate: {
+        title: "asd",
+        placeholder: "asdasdsa",
       },
     };
   },

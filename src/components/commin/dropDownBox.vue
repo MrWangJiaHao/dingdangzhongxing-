@@ -1,13 +1,13 @@
 <template>
   <div class="dropDownBox">
-    <div class="titleBox">{{title}}</div>
+    <div v-if="title!==''" class="titleBox">{{title}}</div>
     <div class="input_box">
       <el-select
         v-model="select"
         slot="prepend"
         :disabled="dropDowBox.disabled"
         @input="selectShow"
-        placeholder="请选择"
+        :placeholder="dropDowBox.placeholder"
       >
         <el-option
           v-for="(item,idx) in dropDowBox.dropDownBoxData"
@@ -35,14 +35,15 @@ export default {
     };
   },
   created() {
-    this.dropDowBox.disabled = this.dropDowBox.disabled
-      ? this.dropDowBox.disabled
-      : false;
-    this.title = isMaoHao(this.dropDowBox.title);
+    if (this.dropDowBox.title) {
+      this.dropDowBox.disabled = this.dropDowBox.disabled
+        ? this.dropDowBox.disabled
+        : false;
+      this.title = isMaoHao(this.dropDowBox.title);
+    }
   },
   methods: {
     selectShow(e) {
-      console.log(e, this.dropDowBox.dropDownBoxData[e]);
       this.$emit("getDropDownData", this.dropDowBox.dropDownBoxData[e]);
     },
   },
@@ -71,7 +72,6 @@ export default {
     margin-right: 11px;
   }
   .input_box {
-    width: 362px;
     height: 34px;
     background: #ffffff;
     border: 1px solid #d1d6e2;

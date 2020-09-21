@@ -1,6 +1,5 @@
 <template>
   <div>
-    分页器
     <el-pagination
       @current-change="handleCurrentChange"
       :current-page="currentPage"
