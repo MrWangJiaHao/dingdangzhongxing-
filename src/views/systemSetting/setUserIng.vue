@@ -13,11 +13,11 @@
             <div>
               <div class="displayalign">
                 <div class="noneIconTitle mr11">
-                  用户账号
+                  用户姓名
                   <span style="color:red;">*</span>:
                 </div>
                 <div class="mr20">
-                  <searchBox :searchCenter="searchName"></searchBox>
+                  <searchBox :searchCenter="searchName" @getSearchCenterShuJu="getUserName"></searchBox>
                 </div>
               </div>
             </div>
@@ -25,11 +25,17 @@
             <div>
               <div class="displayalign">
                 <div class="noneIconTitle mr11">
-                  用户账号
+                  联系电话
                   <span style="color:red;">*</span>:
                 </div>
                 <div class="mr20">
-                  <searchBox :searchCenter="searchMobile"></searchBox>
+                  <el-input
+                    placeholder="请输入联系电话"
+                    v-model="createUserData.userPhone"
+                    clearable
+                    @blur="getMobile"
+                    @input="isMobilePanduan"
+                  ></el-input>
                 </div>
               </div>
             </div>
@@ -39,26 +45,38 @@
             <div class="mr20">
               <div class="displayalign">
                 <div class="noneIconTitle mr11">
-                  用户账号
+                  居住地址
                   <span style="visibility: hidden;">*</span>:
                 </div>
                 <div>
-                  <dropDowbox :dropDowBox="dropDowProvince"></dropDowbox>
+                  <dropDowbox
+                    :dropDowBox="dropDowProvince"
+                    @getDropDownData="getProvinceCode"
+                    @cliclInput="setProvinceCode"
+                  ></dropDowbox>
                 </div>
               </div>
             </div>
             <!-- 省 -->
             <div class="mr20">
-              <dropDowbox :dropDowBox="dropDowCity"></dropDowbox>
+              <dropDowbox
+                :dropDowBox="dropDowCity"
+                @getDropDownData="getCityCode"
+                @cliclInput="setCityCode"
+              ></dropDowbox>
             </div>
             <!-- 市 -->
             <div>
-              <dropDowbox :dropDowBox="dropDowDistrictCount"></dropDowbox>
+              <dropDowbox
+                :dropDowBox="dropDowDistrictCount"
+                @getDropDownData="getAreaCode"
+                @cliclInput="setAreaCode"
+              ></dropDowbox>
             </div>
             <!-- 区/县 -->
           </div>
           <div class="textAreaBox">
-            <textarea placeholder="请输入详细地址" maxlength="200"></textarea>
+            <textarea placeholder="请输入详细地址" v-model="createUserData.userAddr" maxlength="200"></textarea>
           </div>
           <!-- 居住地址 -->
         </div>
@@ -73,7 +91,7 @@
               <span style="color:red;">*</span>:
             </div>
             <div class="mr20">
-              <searchBox :searchCenter="searchzhanhao"></searchBox>
+              <searchBox :searchCenter="searchzhanhao" @getSearchCenterShuJu="getLoginName"></searchBox>
             </div>
           </div>
           <!-- 用户账号 -->
@@ -83,7 +101,12 @@
               <span style="color:red;">*</span>:
             </div>
             <div>
-              <searchBox :searchCenter="searchzhanhao"></searchBox>
+              <el-input
+                placeholder="请输入密码"
+                v-model="createUserData.loginPwd"
+                clearable
+                type="password"
+              ></el-input>
             </div>
           </div>
           <!-- 密码 -->
@@ -97,7 +120,7 @@
                 <span style="color:red;">*</span>:
               </div>
               <div class="mr20">
-                <dropDowbox :dropDowBox="dropDowBox"></dropDowbox>
+                <dropDowbox :dropDowBox="dropDowBox" @getDropDownData="getUserType"></dropDowbox>
               </div>
             </div>
           </div>
@@ -105,11 +128,17 @@
           <div>
             <div class="displayalign">
               <div class="noneIconTitle mr11">
-                用户角色
+                用户邮箱
                 <span style="color:red;">*</span>:
               </div>
               <div>
-                <dropDowbox :dropDowBox="dropDowBox"></dropDowbox>
+                <el-input
+                  placeholder="请输入邮箱"
+                  v-model="createUserData.userEmail"
+                  clearable
+                  @blur="isEmails"
+                  type="email"
+                ></el-input>
               </div>
             </div>
           </div>
@@ -125,7 +154,7 @@
               <span class="fosi14">:</span>
             </div>
             <div class="bzTetxArea">
-              <textarea placeholder="请输入备注" maxlength="200"></textarea>
+              <textarea placeholder="请输入备注" v-model="createUserData.remark" maxlength="200"></textarea>
             </div>
           </div>
         </div>
@@ -134,7 +163,7 @@
       <!-- 账号信息 -->
       <div class="displayCenter mb20">
         <div class="quxiaoBox mr20" @click="$router.go(-1)">取消</div>
-        <div class="tijiaoBox">提交</div>
+        <div class="tijiaoBox" @click="goAJAXCreate">提交</div>
       </div>
       <!-- btn -->
     </div>
@@ -144,7 +173,11 @@
 <script>
 import searchBox from "../../components/commin/searchBox"; //搜索框
 import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
+import { Message } from "element-ui";
+import { isMobile, isEmail } from "../../utils/validate";
+import { post } from "../../api/api";
 export default {
+  name: "createUsering",
   components: {
     dropDowbox,
     searchBox,
@@ -158,11 +191,12 @@ export default {
       },
       dropDowCity: {
         placeholder: "市",
+        dropDownBoxData: [], //下拉需要的data
       },
       dropDowDistrictCount: {
         placeholder: "区/县",
+        dropDownBoxData: [], //下拉需要的data
       },
-
       searchName: {
         //搜索框需要的json
         searchWrite: "",
@@ -170,13 +204,7 @@ export default {
       },
       dropDowBox: {
         //下拉框需要的json
-        dropDownBoxData: [
-          "超级管理员",
-          "客服",
-          "运营",
-          "兼职拣货人员",
-          "兼职复核人员",
-        ], //下拉需要的data
+        dropDownBoxData: ["超级管理员", "客服", "运营"],
         placeholder: "请选择用户角色",
         disabled: false,
       },
@@ -195,14 +223,142 @@ export default {
       searchzhanhao: {
         placeholder: "请输入您的账号",
       },
+      createUserData: {
+        userType: null,
+        userName: "",
+        userPhone: "",
+        provinceCode: "",
+        provinceName: "",
+        cityCode: "",
+        cityName: "",
+        areaCode: "",
+        areaName: "",
+        userAddr: "",
+        loginName: "",
+        loginPwd: "",
+        roleId: "",
+        userEmail: "",
+        remark: "",
+        parentId: "",
+        orgId: "FC4AD500BE8E4B5FB58CCAE7B519FB6F",
+        waerId: "",
+      },
+      getProvinceData: {
+        parentCode: 0,
+      },
+      isXuanzhe: false, //判断是否选择了省之前的
+      isCity: false, //判断是否选择了省之前的
     };
+  },
+  created() {
+    let probinceData = this.fasonCodeAjax();
+    probinceData.then((data) => {
+      this.dropDowProvince.dropDownBoxData = data;
+    });
+  },
+  methods: {
+    getUserName(e) {
+      if (!e) return Message("请输入用户姓名");
+      this.createUserData.userName = e;
+    },
+    isMobilePanduan() {
+      this.createUserData.userPhone = this.createUserData.userPhone.substring(
+        0,
+        11
+      );
+    },
+    getMobile() {
+      let mes = isMobile(this.createUserData.userPhone);
+      if (!mes) return Message("请输入11位正确的联系电话");
+    },
+    //点击了提交
+    async goAJAXCreate() {
+      if (!this.createUserData.userName) return Message("请输入用户姓名");
+      if (!this.createUserData.userPhone) return Message("请输入用户联系电话");
+      if (!this.createUserData.loginName) return Message("请输入用户账号");
+      if (!this.createUserData.loginPwd) return Message("请输入用户密码");
+      if (!this.createUserData.userType) return Message("请输入用户角色");
+      if (!this.createUserData.userEmail) return Message("请输入邮箱地址");
+      let results = await post({
+        url: "http://139.196.176.227:8801/am/v1/pUser/saveRecord",
+        data: this.createUserData,
+      });
+      if (results.code === "10000") {
+        Message("创建成功");
+        this.$router.push({
+          path: "/systemSetting/userSetting",
+        });
+      } else {
+        Message(results.msg);
+      }
+    },
+    setProvinceCode() {
+      //点击了省
+      this.isXuanzhe = true;
+    },
+    setCityCode() {
+      if (!this.isXuanzhe) return Message("请选择省");
+      if (!this.getProvinceData.parentCode) return Message("请选择省");
+      let probinceData = this.fasonCodeAjax();
+      probinceData.then((data) => {
+        this.dropDowCity.dropDownBoxData = data;
+      });
+      this.isCity = true;
+    },
+    setAreaCode() {
+      if (!this.isCity) return Message("请选择市");
+      let probinceData = this.fasonCodeAjax();
+      probinceData.then((data) => {
+        this.dropDowDistrictCount.dropDownBoxData = data;
+      });
+    },
+    getProvinceCode(e) {
+      //修改省
+      let { areaCode, areaName } = e;
+      this.createUserData.provinceCode = areaCode;
+      this.createUserData.provinceName = areaName;
+      this.getProvinceData.parentCode = areaCode;
+    },
+    getCityCode(e) {
+      //修改市
+      let { areaCode, areaName } = e;
+      this.createUserData.cityCode = areaCode;
+      this.createUserData.cityName = areaName;
+      this.getProvinceData.parentCode = areaCode;
+    },
+    getAreaCode(e) {
+      //修改区
+      console.log(e);
+      let { areaCode, areaName } = e;
+      this.createUserData.areaCode = areaCode;
+      this.createUserData.areaName = areaName;
+    },
+    //发送省市 ajax
+    async fasonCodeAjax() {
+      let provinceDatas = await post({
+        url: "http://139.196.176.227:8801/am/v1/pArea/findRecord",
+        data: this.getProvinceData,
+      });
+      return provinceDatas.result;
+    },
+    getLoginName(e) {
+      this.createUserData.loginName = e;
+    },
+    isEmails() {
+      let mes = isEmail(this.createUserData.userEmail);
+      if (!mes) return Message("请输入正确的邮箱");
+    },
+    getUserType(e) {
+      //获取创建的用户类型
+      let num = this.dropDowBox.dropDownBoxData.indexOf(e);
+      this.createUserData.userType = ++num;
+    },
   },
 };
 </script>
 
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
-
 .setUserIngBox {
   background: rgb(232, 233, 236);
   padding: 0 10px;

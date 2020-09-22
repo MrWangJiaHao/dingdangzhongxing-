@@ -5,7 +5,7 @@
         <div class="displayalign zujianBox">
           <div class="noneIconTitle mr11">用户账号:</div>
           <div class="mr20">
-            <el-input placeholder="请输入要查询的用户账号" v-model="faSonajax.zhanhao" clearable></el-input>
+            <el-input placeholder="请输入要查询的用户账号" v-model="pagingQueryData.paras.loginName" clearable></el-input>
           </div>
         </div>
         <!-- 用户账户 -->
@@ -14,7 +14,7 @@
             <div class="noneIconTitle mr11">用户角色:</div>
             <div class="mr20">
               <el-select
-                v-model="faSonajax.select"
+                v-model="pagingQueryData.paras.userType"
                 slot="prepend"
                 :disabled="dropDowBox.disabled"
                 :placeholder="dropDowBox.placeholder"
@@ -76,14 +76,14 @@
           >
             <el-table-column type="selection" width="50"></el-table-column>
             <el-table-column label="序号" type="index" width="50" show-overflow-tooltip />
-            <el-table-column label="用户账号" prop="accountNumber" show-overflow-tooltip />
-            <el-table-column label="用户姓名" prop="name" show-overflow-tooltip></el-table-column>
-            <el-table-column label="用户角色" prop="role" show-overflow-tooltip></el-table-column>
-            <el-table-column label="联系电话" prop="role" show-overflow-tooltip></el-table-column>
+            <el-table-column label="用户账号" prop="loginName" show-overflow-tooltip />
+            <el-table-column label="用户姓名" prop="userName" show-overflow-tooltip></el-table-column>
+            <el-table-column label="用户角色" prop="userType" show-overflow-tooltip></el-table-column>
+            <el-table-column label="联系电话" prop="userPhone" show-overflow-tooltip></el-table-column>
             <el-table-column label="居住地址" prop="address" show-overflow-tooltip></el-table-column>
-            <el-table-column label="创建人" prop="Founder" show-overflow-tooltip></el-table-column>
+            <el-table-column label="创建人" prop="createUser" show-overflow-tooltip></el-table-column>
             <el-table-column label="创建时间">
-              <template slot-scope="scope">{{ scope.row.date }}</template>
+              <template slot-scope="scope">{{ scope.row.createTime }}</template>
             </el-table-column>
           </el-table>
         </div>
@@ -109,7 +109,8 @@
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import Footers from "../../components/footer"; //尾部
-
+import { Message } from "element-ui";
+import { post } from "../../api/api";
 export default {
   components: {
     dateTime,
@@ -120,13 +121,13 @@ export default {
     return {
       tableData: [
         {
-          accountNumber: 13688888888,
-          name: "王小虎",
-          role: "兼职拣货人员",
-          mobile: 13131221512,
-          address: "上海市普陀区金沙江路 1518 弄",
-          Founder: "的撒大撒大撒",
-          date: "2019-10-25 14：30",
+          loginName: 0,
+          userName: "",
+          userType: "",
+          userPhone: 0,
+          address: " ",
+          createUser: "",
+          createTime: "",
         },
       ],
       multipleSelection: [],
@@ -149,7 +150,7 @@ export default {
       },
       pageComponentsData: {
         //这是分页器需要的json
-        pageNums: 25, //一共多少条 //默认一页10条
+        pageNums: 0, //一共多少条 //默认一页10条
       },
       datetimeDate: {
         placeholder: "请选择结束时间",
@@ -158,22 +159,65 @@ export default {
         title: "创建时间",
         placeholder: "请选择开始时间",
       },
-      faSonajax: {
-        zhanhao: "",
-        select: "",
-        createStartTime: "",
-        createEndTime: "",
-      },
+
       pagingQueryData: {
+        //分页查询
         pageNumber: 1,
         pageSize: 10,
+        paras: {
+          orgId: "",
+          id: "",
+          userType: "",
+          createStartTime: "",
+          createEndTime: "",
+          loginName: "",
+          roleId: "",
+          wareId: "",
+        },
       },
     };
   },
-  created() {},
+  async created() {
+    this.fasonPagIngQueryData();
+  },
   methods: {
-    getPageNum() {},
-    sureSuccssBtn() {},
+    async fasonPagIngQueryData() {
+      let datas = await post({
+        url: "http://139.196.176.227:8801/am/v1/pUser/findWHRecordPage",
+        data: this.pagingQueryData,
+      });
+      if (datas.code === "10000") {
+        this.changeData(datas.result);
+      } else {
+        Message(datas.msg);
+      }
+    },
+    changeData(data) {
+      // console.log(data);
+      this.changeTableData(data); //用来改变表格
+      this.changePageData(data); //用来改变分页器的条数
+    },
+    //用来改变表格
+    changeTableData(data) {
+      let { list } = data;
+      // console.log(list);
+      this.tableData = list;
+      list.forEach((item, idx) => {
+        this.tableData[idx].address =
+          item.provinceName + item.cityName + item.areaName + item.userAddr;
+      });
+    },
+    //用来改变分页器的条数
+    changePageData(data) {
+      let { totalRow } = data;
+      this.pageComponentsData.pageNums = totalRow;
+    },
+    getPageNum(e) {
+      this.pagingQueryData.pageNumber = e;
+    },
+    sureSuccssBtn(e) {
+      this.pagingQueryData.pageNumber = e;
+    },
     gotoRouterSetUserIng() {
       //点击创建按钮
       this.$router.push({
@@ -198,11 +242,11 @@ export default {
     },
     clickQueryUser() {
       //点击查询按钮
-      console.log(this.faSonajax, "选中的");
+      console.log(this.pagingQueryData, "点击查询");
     },
     clearInputAll() {
       //点击清空按钮
-      this.faSonajax.zhanhao = "";
+      this.pagingQueryData.paras.loginName = "";
       this.clearTimeInput();
     },
     clearTimeInput() {
@@ -210,17 +254,18 @@ export default {
       for (let i = 0; i < input.length; i++) {
         input[i].value = "";
       }
-      let elInput = document.getElementsByClassName("el-input__inner");
+      let elInput = document.querySelectorAll(
+        ".el-input--suffix .el-input__inner"
+      );
       for (let i = 0; i < elInput.length; i++) {
         elInput[i].value = "";
-        console.log(elInput);
       }
     },
     getStartTime(e) {
-      this.faSonajax.createStartTime = e;
+      this.pagingQueryData.paras.createStartTime = e;
     },
     getEndTime(e) {
-      this.faSonajax.createEndTime = e;
+      this.pagingQueryData.paras.createEndTime = e;
     },
   },
 };

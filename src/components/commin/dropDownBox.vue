@@ -8,11 +8,12 @@
         :disabled="dropDowBox.disabled"
         @input="selectShow"
         :placeholder="dropDowBox.placeholder"
+        @focus="getMMs"
       >
         <el-option
           v-for="(item,idx) in dropDowBox.dropDownBoxData"
           :key="idx"
-          :label="item"
+          :label="item.areaName?item.areaName:item"
           :value="idx"
         ></el-option>
       </el-select>
@@ -45,6 +46,9 @@ export default {
   methods: {
     selectShow(e) {
       this.$emit("getDropDownData", this.dropDowBox.dropDownBoxData[e]);
+    },
+    getMMs(e) {
+      this.$emit("cliclInput");
     },
   },
   computed: {},

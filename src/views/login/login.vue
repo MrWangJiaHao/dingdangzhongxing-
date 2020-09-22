@@ -47,7 +47,6 @@
 </template>
 
 <script>
-// import { getUUID } from "@/utils";
 import { login } from "@/api/api.js";
 export default {
   data() {
@@ -72,9 +71,6 @@ export default {
       captchaPath: "",
     };
   },
-  mounted() {
-    
-  },
   methods: {
     // 提交表单
     dataFormSubmit() {
@@ -86,15 +82,15 @@ export default {
             loginPwd: this.dataForm.password,
           };
 
-          this.$store.dispatch("loginRequest")
+          this.$store.dispatch("loginRequest");
 
           login(data).then((ok) => {
-            console.log(ok)
+            console.log(ok);
             if (ok.data.code === "AM000001") {
               this.$message.error(ok.data.msg);
-            }else if(ok.data.code === "AM000005"){
+            } else if (ok.data.code === "AM000005") {
               this.$message.error(ok.data.msg);
-            }else if(ok.data.code === "AM000014"){
+            } else if (ok.data.code === "AM000014") {
               this.$message.error(ok.data.msg);
             } else {
               this.$router.push("/index");
@@ -108,6 +104,18 @@ export default {
               }, 14400000);
             }
           });
+          //点击登录时，将用户名和密码存储到cookies中
+          this.$cookie.set("userName", this.dataForm.userName);
+          this.$cookie.set("password", this.dataForm.password);
+          //四个小时后清除用户名和密码
+          setTimeout(() => {
+            this.$cookie.delete("userName");
+            this.$cookie.delete("password");
+          }, 14400000);
+          login().then((ok) => {
+            console.log(ok);
+          });
+          this.$router.push("/indexs");
         }
       });
     },
