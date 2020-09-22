@@ -11,15 +11,19 @@ const service = axios.create({
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
     "appNo": "F94CB9F5262F46DCB171CECD6FE1193B",
-    "userType": 4
+    "userType": 4,
+    "X-Auth-Token": "7ad69c50-3374-4ff7-9da8-13541f371845",
+    "X-Auth-wareId": "43C86919FC7E4360838AA522B361A242",
+    "X-Auth-user": "41C062F90AA246B8A67EC763329D1F21",
   }
 })
-// "Content-Type": "application/json;charset=UTF-8",
-// "X-Auth-user": "warehouse",
-// "X-Auth-Token": "X-Auth-user",
-// "X-Auth-wareId": "X-Auth-user",
-// "X-Auth-name": "warehouse",
-// "X-Auth-wareName": "",
+//"X-Auth-orgId":"FC4AD500BE8E4B5FB58CCAE7B519FB6F",
+// 'Content-Type': 'application/json; charset=utf-8',
+// "appNo": "F94CB9F5262F46DCB171CECD6FE1193B",
+// "userType": 4,
+// "X-Auth-Token": "7ad69c50-3374-4ff7-9da8-13541f371845",
+// "X-Auth-wareId": "43C86919FC7E4360838AA522B361A242"
+
 /**
  * 请求拦截
  */

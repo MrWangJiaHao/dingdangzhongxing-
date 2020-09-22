@@ -46,9 +46,7 @@
 </template>
 
 <script>
-// import { getUUID } from "@/utils";
 import { login } from "@/api/api.js";
-// import axios from 'axios'
 export default {
   data() {
     return {
@@ -72,7 +70,9 @@ export default {
       captchaPath: "",
     };
   },
-  created() {},
+  created() {
+    login();
+  },
   methods: {
     // 提交表单
     dataFormSubmit() {
@@ -87,11 +87,9 @@ export default {
             this.$cookie.delete("userName");
             this.$cookie.delete("password");
           }, 14400000);
-
           login().then((ok) => {
             console.log(ok);
           });
-
           this.$router.push("/indexs");
         }
       });
