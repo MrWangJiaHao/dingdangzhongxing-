@@ -1,6 +1,7 @@
 <template>
   <div class="tabContainer">
     <div class="header-title">
+<<<<<<< HEAD
       <div class="header-title-img">
         <img src="logo.png" />
       </div>
@@ -182,10 +183,41 @@
 
     </div>
 
+=======
+      <div class="header-title-icon">icon</div>
+      <div class="header-title-text">仓储系统</div>
+    </div>
+    <div class="el-nav">
+      <el-tabs type="card">
+        <el-tab-pane label="消息中心"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="角色管理"></el-tab-pane>
+        <el-tab-pane label="定时任务补偿"></el-tab-pane>
+      </el-tabs>
+    </div>
+>>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
 import dropdown from "./dropdown"; //引入下拉框组件
 export default {
   components: {
@@ -220,6 +252,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
+=======
+export default {};
+</script>
+
+<style scoped>
+</style>
+
+<style>
+>>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
 .tabContainer {
   width: 100%;
   height: 90px;
@@ -230,6 +271,7 @@ export default {
 }
 .header-title {
   color: white;
+<<<<<<< HEAD
   width: 139px;
   height: 100%;
   display: flex;
@@ -250,6 +292,23 @@ export default {
 
 .tabContainer .el-tabs--bottom .el-tabs__header.is-bottom {
   margin: 0;
+=======
+  width: 7.2%;
+  display: flex;
+}
+.header-title-icon {
+  font-size: 20px;
+  margin: 37px 6px 32px 10px;
+  width: 33px;
+}
+.header-title-text {
+  font-size: 18px;
+  margin: 39px 6px 32px 0px;
+  width: 72px;
+}
+.tabContainer .el-tabs__nav-scroll {
+  margin: 25px 0 0 0;
+>>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
 }
 .tabContainer .el-tabs__content {
   display: none;
@@ -262,7 +321,10 @@ export default {
 }
 .tabContainer .el-tabs--card > .el-tabs__header {
   border: none;
+<<<<<<< HEAD
   margin: 0;
+=======
+>>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
 }
 .tabContainer .el-tabs__item {
   color: white;
@@ -281,6 +343,7 @@ export default {
 }
 
 .el-nav {
+<<<<<<< HEAD
   width: 1711px;
 }
 .el-lr {
@@ -314,6 +377,25 @@ export default {
 }
 .tabContainer .el-tabs__nav-wrap {
   position: static;
+=======
+  width: 92.8%;
+}
+.tabContainer .el-tabs__nav-next,
+.el-tabs__nav-prev {
+  position: absolute;
+  cursor: pointer;
+  line-height: 44px;
+  font-size: 21px;
+  color: white;
+}
+.tabContainer .el-tabs__nav-prev {
+  right: 0;
+  top: 20px;
+}
+.tabContainer .el-tabs__nav-next {
+  right: 0;
+  top: 20px;
+>>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
 }
 
 .tabContainer .el-tabs--border-card {
@@ -394,6 +476,9 @@ export default {
   transition: all 0.3s;
   line-height: 28px;
 }
+<<<<<<< HEAD
 
 //作废文件
+=======
+>>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
 </style>

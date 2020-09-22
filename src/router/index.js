@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+<<<<<<< HEAD
 
 Vue.use(VueRouter)
 
@@ -48,11 +49,48 @@ const routes = [{
   },
 
   //404页面
+=======
+// import Home from '../views/Home.vue'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/indexs',
+    name: 'indexs',
+    component: () => import('../views//indexs.vue')
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/login.vue')
+  },
+  {
+    path: "/footerDemo",
+    name: 'footerDemo',
+    component: () => import("../views/demo/demo.vue")
+  },
+  {
+    path: "/systemSetting/userSetting",
+    name: 'systemSetting/userSetting',
+    component: () => import("../views/systemSetting/userSetting.vue")
+  },
+  {
+    path: "/systemSetting/setUserIng",
+    name: 'systemSetting/setUserIng',
+    component: () => import("../views/systemSetting/setUserIng.vue")
+  },
+>>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
   {
     path: '*',
     name: 'notfount',
     component: () => import('../views/404.vue')
+<<<<<<< HEAD
   }
+=======
+  },
+
+>>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
 ]
 
 const router = new VueRouter({
@@ -63,6 +101,7 @@ const router = new VueRouter({
 
 export default router
 
+<<<<<<< HEAD
 router.beforeEach((to, from, next) => {
   if (to.path === "/") {
     let isWindows = /windows|win32/i.test(navigator.userAgent)
@@ -74,3 +113,14 @@ router.beforeEach((to, from, next) => {
   }
   next()
 })
+=======
+// router.beforeEach((to, from, next) => {
+//   if (to.path === "/login") {
+//     let isWindows = /windows|win32/i.test(navigator.userAgent)
+//     if (isWindows === "window") {
+//       console.log(window.navigator.userAgent)
+//     }
+//     next()
+//   }
+// })
+>>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec

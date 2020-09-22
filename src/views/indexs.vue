@@ -1,5 +1,6 @@
 <template>
   <div>
+<<<<<<< HEAD
     <div class="tabContainer">
       <div class="header-title">
         <div class="header-title-img">
@@ -197,10 +198,14 @@
       </div>
     </div>
     <router-view></router-view>
+=======
+      <Header></Header>
+>>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
 import dropdown from "../components/dropdown"; //引入下拉框组件
 export default {
   components: {
@@ -410,4 +415,16 @@ export default {
   transition: all 0.3s;
   line-height: 28px;
 }
+=======
+import Header from '../components/header'
+export default {
+    components:{
+        Header
+    }
+}
+</script>
+
+<style>
+
+>>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
 </style>

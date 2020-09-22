@@ -1,0 +1,215 @@
+
+html,
+body,
+div,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+ul,
+li,
+ol,
+span,
+img,
+dl,
+dt,
+dd,
+b,
+input,
+select,
+textarea,
+i,
+em,
+var,
+strong,
+center,
+small,
+big,
+form,
+table,
+caption,
+tr,
+th,
+td,
+thead,
+tbody,
+del,
+ins,
+abbr {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font: 14px  Arial,;
+  color: #333;
+}
+*{
+  box-sizing: border-box;
+}
+em,
+i,
+var {
+  font-style: normal;
+}
+strong,
+b {
+  font-weight: 400;
+}
+li {
+  list-style: none;
+}
+table {
+  border-collapse: collapse;
+}
+a {
+  text-decoration: none;
+  color: #333;
+}
+/*低版本浏览器中 a标签嵌套img 会有不同颜色的边框*/
+img {
+  border: 0;
+  vertical-align: top;
+}
+input,
+select,
+textarea {
+  outline: none;
+}
+input{
+  border:none;
+}
+textarea {
+  resize: none;
+}
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.tc {
+  text-align: center;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.tc {
+  text-align: center;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: all .5s;
+}
+.ellipsis:hover {
+  width: auto;
+  text-overflow: inherit;
+}
+.nowrap {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.displayCenter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.displayalign{
+  display: flex;
+  align-items: center;
+}
+.dispalyFlex{
+  display: flex;
+}
+.zujianBox{
+  margin-right:19px ;
+}
+.meiyiyetitle{
+  font-size: 14px;
+  font-family: Hiragino Sans GB;
+  font-weight: normal;
+  color: #454545;
+}
+.meiyiyetitle::before{
+  content: "";
+  margin-right: 8px;
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+}
+.noneIconTitle{
+  font-size: 14px;
+  font-family: Hiragino Sans GB;
+  font-weight: normal;
+  color: #454545;
+}
+.setTitle{
+  font-size: 16px;
+  font-family: Microsoft YaHei;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  color: #454545;
+}
+.setTitle::before{
+  content: "";
+  margin-right: 8px;
+  width: 3px;
+  height: 19px;
+  background: linear-gradient(117deg, #52A8FD, #73CFFF);
+  display: inline-block;
+}
+.titleBox{
+  font-size: 14px;
+  font-family: Hiragino Sans GB;
+  font-weight: normal;
+  color: #454545;
+}
+.mr20{
+  margin-right: 20px;
+}
+.closeTitle{
+  font-size: 18px;
+  font-family: Hiragino Sans GB;
+  font-weight: bold;
+  color: #333333;
+}
+.closeIcon{
+  width: 14px;
+  height: 14px;
+  background: #333333;
+  background: url(../img/close.png) center center no-repeat;
+  background-size:cover ;
+}
+textarea{
+  width: 100%;
+  border: 1px solid #DCDFE6;
+  height: 100%;
+  border-radius: 4px;
+}
+.pd10{
+  padding:0 10px ;
+}
+.pd20{
+  padding:0 20px ;
+}
+.mr11{
+  margin-right:11px ;
+}
+.mb20{
+  margin-bottom: 20px;
+}
+.fosi0{
+  font-size: 0px;
+}
+.fosi14{
+  font-size: 14px;
+}
