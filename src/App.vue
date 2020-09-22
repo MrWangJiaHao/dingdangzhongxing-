@@ -12,7 +12,6 @@
 }
 a {
   text-decoration: none;
-  color: white;
 }
 .l {
   float: left;

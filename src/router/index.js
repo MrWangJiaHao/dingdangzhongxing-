@@ -12,7 +12,7 @@ const routes = [
       //首页页面
       path: '/index',
       name: 'index',
-      component: () => import('../views/index.vue'),
+      component: () => import('../views/index/index.vue'),
       meta: {
         Breadcrumb: ["首页", "数据"],
         path: "/index"
@@ -59,7 +59,7 @@ const routes = [
   {
     path: '/',
     name: 'Login',
-    component: () => import('../views/login.vue')
+    component: () => import('../views/login/login.vue')
   }
 ]
 

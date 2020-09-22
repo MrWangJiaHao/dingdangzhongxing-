@@ -16,6 +16,7 @@ import VueCookie from 'vue-cookie'
 Vue.use(VueCookie)
 Vue.use(ElementUI).use(iView)
 Vue.prototype.$axios = axios
+
 Vue.config.productionTip = false
 new Vue({
   router,

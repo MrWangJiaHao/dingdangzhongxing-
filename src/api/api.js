@@ -1,10 +1,10 @@
 import service from "@/utils/request.js"
-export function login() {
+export function login(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "http://127.0.0.1:8801/am/v1/pUser/login",
-            method: "get",
-            data: {},
+            url: "http://139.196.176.227:8801/am/v1/pUser/login",
+            method: "post",
+            data,
             header: {},
         }).then((ok) => {
             resolve(ok)

@@ -3,7 +3,7 @@
     <div class="tabContainer">
       <div class="header-title">
         <div class="header-title-img">
-          <img src="logo.png" />
+          <img src="@/assets/img/logo.png" />
         </div>
       </div>
       <div class="el-nav">
@@ -11,7 +11,7 @@
           <el-tab-pane name="first">
             <div class="iconAndText" slot="label">
               <router-link to="/index">
-                <img src="首页.png" />
+                <img src="@/assets/img/warehouse-index.png" />
                 <div>首页</div>
               </router-link>
             </div>
@@ -19,15 +19,15 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to="/warehouseConfig">
-                <img src="仓库配置.png" />
+                <img src="@/assets/img/warehouse-config.png" />
                 <div>仓库配置</div>
               </router-link>
             </div>
           </el-tab-pane>
           <el-tab-pane>
             <div class="iconAndText" slot="label">
-              <router-link to="shipmentsRuleConfig">
-                <img src="发货规则配置.png" />
+              <router-link to="/shipmentsRuleConfig">
+                <img src="@/assets/img/warehouse-shipmentsRuleConfig.png" />
                 <div>发货规则配置</div>
               </router-link>
             </div>
@@ -35,7 +35,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="发货管理.png" />
+                <img src="@/assets/img/warehouse-shipments.png" />
                 <div>发货管理</div>
               </router-link>
             </div>
@@ -43,7 +43,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="复核配置.png" />
+                <img src="@/assets/img/warehouse-reexamineConfig.png" />
                 <div>复核配置</div>
               </router-link>
             </div>
@@ -51,7 +51,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="采购管理.png" />
+                <img src="@/assets/img/warehouse-procurementConfig.png" />
                 <div>采购管理</div>
               </router-link>
             </div>
@@ -59,8 +59,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="入库管理.png" />
-
+                <img src="@/assets/img/warehouse-instorage.png" />
                 <div>入库管理</div>
               </router-link>
             </div>
@@ -68,8 +67,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="出库管理.png" />
-
+                <img src="@/assets/img/warehouse-outstorage.png" />
                 <div>出库管理</div>
               </router-link>
             </div>
@@ -77,8 +75,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="货品移位.png" />
-
+                <img src="@/assets/img/warehouse-goodsGression.png" />
                 <div>货品移位</div>
               </router-link>
             </div>
@@ -86,8 +83,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="报损管理.png" />
-
+                <img src="@/assets/img/warehouse-breakageConfig.png" />
                 <div>报损管理</div>
               </router-link>
             </div>
@@ -95,8 +91,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="仓库作业.png" />
-
+                <img src="@/assets/img/warehouse-warehouseWork.png" />
                 <div>仓库作业</div>
               </router-link>
             </div>
@@ -104,8 +99,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="PDA操作.png" />
-
+                <img src="@/assets/img/warehouse-PDAoperation.png" />
                 <div>PDA操作</div>
               </router-link>
             </div>
@@ -113,8 +107,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="借调管理.png" />
-
+                <img src="@/assets/img/warehouse-adjustAdmin.png" />
                 <div>借调管理</div>
               </router-link>
             </div>
@@ -122,8 +115,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="库存管理.png" />
-
+                <img src="@/assets/img/warehouse-inventoryAdmin.png" />
                 <div>库存管理</div>
               </router-link>
             </div>
@@ -131,8 +123,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="库存盘点.png" />
-
+                <img src="@/assets/img/warehouse-inventoryCheck.png" />
                 <div>库存盘点</div>
               </router-link>
             </div>
@@ -140,8 +131,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="物料中心.png" />
-
+                <img src="@/assets/img/warehouse-suppliesCenter.png" />
                 <div>
                   <dropdown dropdownTitle="物料中心" :dropdownArr="dropdownArr1"></dropdown>
                 </div>
@@ -151,8 +141,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="物流公司信息.png" />
-
+                <img src="@/assets/img/warehouse-logisticsInfor.png" />
                 <div>物流公司信息</div>
               </router-link>
             </div>
@@ -160,8 +149,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="客户信息.png" />
-
+                <img src="@/assets/img/warehouse-clientInfor.png" />
                 <div>客户信息</div>
               </router-link>
             </div>
@@ -169,8 +157,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="设备管理.png" />
-
+                <img src="@/assets/img/warehouse-equipmentManage.png" />
                 <div>设备管理</div>
               </router-link>
             </div>
@@ -178,8 +165,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="统计.png" />
-
+                <img src="@/assets/img/warehouse-statistics.png" />
                 <div>统计</div>
               </router-link>
             </div>
@@ -187,7 +173,7 @@
           <el-tab-pane>
             <div class="iconAndText" slot="label">
               <router-link to>
-                <img src="系统管理.png" />
+                <img src="@/assets/img/warehouse-systemManage.png" />
                 <div>系统管理</div>
               </router-link>
             </div>
@@ -236,6 +222,7 @@ export default {
   a {
     display: flex;
     align-items: center;
+    color: white;
     img {
       margin: 0 8px 0 0;
       width: 18px;

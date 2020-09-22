@@ -72,7 +72,7 @@ a {
 /*低版本浏览器中 a标签嵌套img 会有不同颜色的边框*/
 img {
   border: 0;
-  vertical-align: top;
+  vertical-align: middle;
 }
 input,
 select,
