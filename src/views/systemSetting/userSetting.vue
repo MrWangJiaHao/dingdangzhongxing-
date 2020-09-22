@@ -109,7 +109,7 @@
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import Footers from "../../components/footer"; //尾部
-
+// import { post } from "../../api/api";
 export default {
   components: {
     dateTime,
@@ -159,18 +159,21 @@ export default {
         placeholder: "请选择开始时间",
       },
       faSonajax: {
+        //条件查询
         zhanhao: "",
         select: "",
         createStartTime: "",
         createEndTime: "",
+        pageNumber: 1,
+        pageSize: 10,
       },
       pagingQueryData: {
+        //分页查询
         pageNumber: 1,
         pageSize: 10,
       },
     };
   },
-  created() {},
   methods: {
     getPageNum() {},
     sureSuccssBtn() {},
