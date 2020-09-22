@@ -14,7 +14,7 @@
             <div class="noneIconTitle mr11">用户角色:</div>
             <div class="mr20">
               <el-select
-                v-model="faSonajax.select"
+                v-model="pagingQueryData.paras.userType"
                 slot="prepend"
                 :disabled="dropDowBox.disabled"
                 :placeholder="dropDowBox.placeholder"
@@ -213,11 +213,9 @@ export default {
       this.pageComponentsData.pageNums = totalRow;
     },
     getPageNum(e) {
-      this.faSonajax.pageNumber = e;
       this.pagingQueryData.pageNumber = e;
     },
     sureSuccssBtn(e) {
-      this.faSonajax.pageNumber = e;
       this.pagingQueryData.pageNumber = e;
     },
     gotoRouterSetUserIng() {
@@ -244,11 +242,11 @@ export default {
     },
     clickQueryUser() {
       //点击查询按钮
-      console.log(this.faSonajax, "点击查询");
+      console.log(this.pagingQueryData, "点击查询");
     },
     clearInputAll() {
       //点击清空按钮
-      this.faSonajax.zhanhao = "";
+      this.pagingQueryData.paras.loginName = "";
       this.clearTimeInput();
     },
     clearTimeInput() {
@@ -264,10 +262,10 @@ export default {
       }
     },
     getStartTime(e) {
-      this.faSonajax.createStartTime = e;
+      this.pagingQueryData.paras.createStartTime = e;
     },
     getEndTime(e) {
-      this.faSonajax.createEndTime = e;
+      this.pagingQueryData.paras.createEndTime = e;
     },
   },
 };
