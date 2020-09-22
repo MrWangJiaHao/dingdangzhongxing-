@@ -12,7 +12,7 @@
     <div class="wenZhiBox ellipsis">title超过8个字鼠标滑过显示出全部的字</div>
     <button class="usual">平常</button>
     <button class="success">成功</button>
-    <!-- <dateTime :dateTimeData="datetimeDate" /> -->
+    <!-- <dateTime :dateTimeData="datetimeDate" @getDateTime='getDateTime' /> -->
   </div>
 </template>
 <script>

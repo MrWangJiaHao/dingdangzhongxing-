@@ -4,11 +4,7 @@
       <div class="site-content">
         <div class="brand-info"></div>
         <div class="login-main">
-<<<<<<< HEAD
           <h3 class="login-title">登录</h3>
-=======
-          <h3 class="login-title">管理员登录</h3>
->>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
           <el-form
             :model="dataForm"
             :rules="dataRule"
@@ -35,11 +31,12 @@
             </el-form-item>
 
             <el-form-item>
-<<<<<<< HEAD
-              <el-button class="login-btn-submit" type="primary" @click="dataFormSubmit()" @keyup.enter="dataFormSubmit()">登录</el-button>
-=======
-              <el-button class="login-btn-submit" type="primary" @click="dataFormSubmit()">登录</el-button>
->>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
+              <el-button
+                class="login-btn-submit"
+                type="primary"
+                @click="dataFormSubmit()"
+                @keyup.enter="dataFormSubmit()"
+              >登录</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -50,11 +47,7 @@
 
 <script>
 // import { getUUID } from "@/utils";
-<<<<<<< HEAD
-import {login} from '@/api/api.js';
-=======
-// import {login} from '@/api/api.js';
->>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
+import { login } from "@/api/api.js";
 // import axios from 'axios'
 export default {
   data() {
@@ -79,18 +72,11 @@ export default {
       captchaPath: "",
     };
   },
-  created() {
-<<<<<<< HEAD
-  
-=======
-    // this.getCaptcha();
->>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
-  },
+  created() {},
   methods: {
     // 提交表单
     dataFormSubmit() {
-<<<<<<< HEAD
-    // let that = this;
+      // let that = this;
       this.$refs["dataForm"].validate((valid) => {
         if (valid) {
           //点击登录时，将用户名和密码存储到cookies中
@@ -102,52 +88,14 @@ export default {
             this.$cookie.delete("password");
           }, 14400000);
 
-          login().then((ok)=>{
-            console.log(ok)
-          })
+          login().then((ok) => {
+            console.log(ok);
+          });
 
-=======
-      this.$refs["dataForm"].validate((valid) => {
-        if (valid) {
-          // this.$http({
-          //   url: this.$http.adornUrl("/sys/login"),
-          //   method: "post",
-          //   data: this.$http.adornData({
-          //     username: this.dataForm.userName,
-          //     password: this.dataForm.password,
-          //     uuid: this.dataForm.uuid,
-          //     captcha: this.dataForm.captcha,
-          //   }),
-          // }).then(({ data }) => {
-          //   if (data && data.code === 0) {
-          //     this.$cookie.set("token", data.token);
-          //     this.$router.replace({ name: "home" });
-          //   } else {
-          //     this.getCaptcha();
-          //     this.$message.error(data.msg);
-          //   }
-          // });
-          // axios({
-          //   url:"http://127.0.0.1:8801/am/v1/pUser/login",
-          //   method:"get"
-          // }).then((ok)=>{
-          //   console.log(ok)
-          // })
->>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
           this.$router.push("/indexs");
         }
       });
     },
-<<<<<<< HEAD
-=======
-    // 获取验证码
-    // getCaptcha() {
-    //   this.dataForm.uuid = getUUID();
-    //   this.captchaPath = this.$http.adornUrl(
-    //     `/captcha.jpg?uuid=${this.dataForm.uuid}`
-    //   );
-    // },
->>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
   },
 };
 </script>
@@ -200,11 +148,7 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-<<<<<<< HEAD
   // background-color: rgba(38, 50, 56, 0.6);
-=======
-  background-color: rgba(38, 50, 56, 0.6);
->>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
   overflow: hidden;
   &:before {
     position: fixed;
@@ -214,13 +158,8 @@ export default {
     width: 100%;
     height: 100%;
     content: "";
-<<<<<<< HEAD
     // background-image: url(~@/assets/img/bg@2x.png);
     // background-size: cover;
-=======
-    background-image: url(~@/assets/img/bg@2x.png);
-    background-size: cover;
->>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
   }
   .site-content__wrapper {
     position: absolute;
@@ -241,17 +180,11 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-<<<<<<< HEAD
     box-shadow: 0px 10px 25px 0px rgba(96, 204, 253, 0.3);
     border-radius: 8px;
   }
   .brand-info {
     width: 580px;
-=======
-  }
-  .brand-info {
-    width: 550px;
->>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
     height: 100%;
     color: #fff;
     background: url(~@/assets/img/sginIn.png) center center;
@@ -293,7 +226,6 @@ export default {
   .login-btn-submit {
     width: 100%;
     margin-top: 38px;
-<<<<<<< HEAD
     height: 56px;
     font-size: 18px;
     font-weight: 400;
@@ -307,8 +239,6 @@ export default {
     );
     border-radius: 3px;
     border: 0;
-=======
->>>>>>> 7ecb8705434d88cc2bee6bb6add68711162f6eec
   }
 }
 </style>

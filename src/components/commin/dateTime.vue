@@ -1,5 +1,5 @@
 <template>
-  <div class="dateTimeBox">
+  <div class="dateTimeBox displayalign">
     <div v-if="title!==''" class="titleBox">{{title}}</div>
     <div>
       <Date-picker
@@ -11,7 +11,13 @@
     </div>
   </div>
 </template>
-
+<style >
+.ivu-input {
+  height: 40px;
+  padding: 0 30px 0 15px;
+  font-size: 15px;
+}
+</style>
 <script>
 import { isMaoHao } from "../../utils/validate";
 export default {

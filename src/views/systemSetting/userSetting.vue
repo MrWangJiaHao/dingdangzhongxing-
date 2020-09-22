@@ -2,26 +2,42 @@
   <div class="userSettingBox">
     <div class="fuzzyQueryBox">
       <div class="biaogeBox">
-        <div class="zujianBox">
-          <searchBox
-            :searchCenter="searchCenter"
-            @getChangeInput="getChangeInput"
-            @getSearchCenterShuJu="getSearchCenterShuJu"
-          ></searchBox>
+        <div class="displayalign zujianBox">
+          <div class="noneIconTitle mr11">用户账号:</div>
+          <div class="mr20">
+            <el-input placeholder="请输入要查询的用户账号" v-model="faSonajax.zhanhao" clearable></el-input>
+          </div>
         </div>
         <!-- 用户账户 -->
         <div class="zujianBox">
-          <dropDowbox :dropDowBox="dropDowBox" @getDropDownData="getDropDownData"></dropDowbox>
+          <div class="displayalign zujianBox">
+            <div class="noneIconTitle mr11">用户角色:</div>
+            <div class="mr20">
+              <el-select
+                v-model="faSonajax.select"
+                slot="prepend"
+                :disabled="dropDowBox.disabled"
+                :placeholder="dropDowBox.placeholder"
+              >
+                <el-option
+                  v-for="(item,idx) in dropDowBox.dropDownBoxData"
+                  :key="idx"
+                  :label="item"
+                  :value="idx"
+                ></el-option>
+              </el-select>
+            </div>
+          </div>
         </div>
         <!-- 用户角色 -->
         <div class="timeBox zujianBox">
           <div style="margin-right: 10px;">
-            <dateTime :dateTimeData="datetimeDates" />
+            <dateTime :dateTimeData="datetimeDates" @getDateTime="getStartTime" />
           </div>
           <!-- 开始时间 -->
           <div class="line"></div>
           <div>
-            <dateTime :dateTimeData="datetimeDate" />
+            <dateTime :dateTimeData="datetimeDate" @getDateTime="getEndTime" />
           </div>
           <!-- 结束时间 -->
         </div>
@@ -66,7 +82,6 @@
             <el-table-column label="联系电话" prop="role" show-overflow-tooltip></el-table-column>
             <el-table-column label="居住地址" prop="address" show-overflow-tooltip></el-table-column>
             <el-table-column label="创建人" prop="Founder" show-overflow-tooltip></el-table-column>
-
             <el-table-column label="创建时间">
               <template slot-scope="scope">{{ scope.row.date }}</template>
             </el-table-column>
@@ -91,16 +106,12 @@
 </template>
 
 <script>
-import searchBox from "../../components/commin/searchBox"; //搜索框
-import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import Footers from "../../components/footer"; //尾部
 
 export default {
   components: {
-    dropDowbox,
-    searchBox,
     dateTime,
     pagecomponent,
     Footers,
@@ -130,11 +141,9 @@ export default {
           "兼职复核人员",
         ], //下拉需要的data
         placeholder: "请选择用户角色",
-        disabled: false,
       },
       searchCenter: {
         //搜索框需要的json
-        title: "用户账号",
         searchWrite: "",
         placeholder: "请输入要查询的用户账号",
       },
@@ -150,7 +159,10 @@ export default {
         placeholder: "请选择开始时间",
       },
       faSonajax: {
-        zhanhao: 0,
+        zhanhao: "",
+        select: "",
+        createStartTime: "",
+        createEndTime: "",
       },
       pagingQueryData: {
         pageNumber: 1,
@@ -158,9 +170,8 @@ export default {
       },
     };
   },
+  created() {},
   methods: {
-    getDropDownData() {},
-    getSearchCenterShuJu() {},
     getPageNum() {},
     sureSuccssBtn() {},
     gotoRouterSetUserIng() {
@@ -186,9 +197,31 @@ export default {
       this.multipleSelection = val;
     },
     clickQueryUser() {
-      console.log(this.multipleSelection, "选中的");
+      //点击查询按钮
+      console.log(this.faSonajax, "选中的");
     },
-    clearInputAll() {},
+    clearInputAll() {
+      //点击清空按钮
+      this.faSonajax.zhanhao = "";
+      this.clearTimeInput();
+    },
+    clearTimeInput() {
+      let input = document.getElementsByClassName("ivu-input");
+      for (let i = 0; i < input.length; i++) {
+        input[i].value = "";
+      }
+      let elInput = document.getElementsByClassName("el-input__inner");
+      for (let i = 0; i < elInput.length; i++) {
+        elInput[i].value = "";
+        console.log(elInput);
+      }
+    },
+    getStartTime(e) {
+      this.faSonajax.createStartTime = e;
+    },
+    getEndTime(e) {
+      this.faSonajax.createEndTime = e;
+    },
   },
 };
 </script>
