@@ -45,19 +45,22 @@
             <div class="area1-title-text">仓库发货人员统计</div>
             <div class="iconfont icon-ziyuan area1-title-icon"></div>
           </div>
-          <div>这里写echarts</div>
+          <div class="ws-area1-echarts">
+            <StaffEcharts></StaffEcharts>
+          </div>
         </div>
         <div class="ws-area2">
           <div class="area2-title">
             <div class="area2-title-text">仓库发货人员效率统计</div>
             <div class="area2-title-button">
-              <button>拣货</button>
-              <button>复核</button>
+              <router-link to="/index/indexFormJH">拣货</router-link>
+              <router-link to="/index/indexFormFH">复核</router-link>
               <span class="iconfont icon-ziyuan area2-title-icon"></span>
             </div>
           </div>
           <div>
-            <IndexForm></IndexForm>
+            <router-view></router-view>
+            <!-- <IndexForm></IndexForm> -->
           </div>
         </div>
       </div>
@@ -67,14 +70,18 @@
             <div class="one-title-text">委托公司发货量统计</div>
             <div class="iconfont icon-ziyuan one-title-icon"></div>
           </div>
-          <div>这里写echarts</div>
+          <div class="infor-one-echarts">
+            <ShipmentsEcharts></ShipmentsEcharts>
+          </div>
         </div>
         <div class="infor-two">
           <div class="infor-two-title">
             <div class="two-title-text">退货订单量统计</div>
             <div class="iconfont icon-ziyuan two-title-icon"></div>
           </div>
-          <div>这里写echarts</div>
+          <div class="infor-two-echarts">
+            <ResalesEcharts></ResalesEcharts>
+          </div>
         </div>
       </div>
     </div>
@@ -84,7 +91,10 @@
 <script>
 import "../../assets/iconfont/iconfont.css"; //引入字体图标文件
 import Breadcrumd from "../../components/breadcrumd"; //引入面包屑组件
-import IndexForm from "../../components/indexForm"; //引入表格组件
+// import IndexForm from "../../components/indexForm"; //引入表格组件
+import ShipmentsEcharts from '../../components/echarts/shipmentsEcharts'//引用发货量统计echarts组件
+import ResalesEcharts from '../../components/echarts/resalesEcharts.vue'//引用退货量统计echarts组件
+import StaffEcharts from '../../components/echarts/staffEcharts.vue'//引用发货人员统计echarts组件
 
 import ciexnhoex from "@/assets/img/ciexnhoex.png";
 import disaggregate from "@/assets/img/disaggregate.png";
@@ -92,21 +102,28 @@ import orderPicking from "@/assets/img/orderPicking.png";
 import recheck from "@/assets/img/recheck.png";
 import pickingFail from "@/assets/img/pickingFail.png";
 import pullGoods from "@/assets/img/pullGoods.png";
+
+import {indexRequest} from '../../api/api'
 export default {
   components: {
-    Breadcrumd,IndexForm
+    Breadcrumd,ShipmentsEcharts,ResalesEcharts,StaffEcharts
   },
   data() {
     return {
       inforArr2: [
-        { img: ciexnhoex, number: "257", text: "缺货订单数" },
-        { img: disaggregate, number: "3842", text: "待集计订单数" },
-        { img: orderPicking, number: "980", text: "待拣货订单数" },
-        { img: recheck, number: "1342", text: "待复核订单数" },
-        { img: pickingFail, number: "401", text: "拣货错误订单数" },
-        { img: pullGoods, number: "37", text: "待揽件订单数" },
+        { img: ciexnhoex, number: 257, text: "缺货订单数" },
+        { img: disaggregate, number: 3842, text: "待集计订单数" },
+        { img: orderPicking, number: 980, text: "待拣货订单数" },
+        { img: recheck, number: 1342, text: "待复核订单数" },
+        { img: pickingFail, number: 401, text: "拣货错误订单数" },
+        { img: pullGoods, number: 37, text: "待揽件订单数" },
       ],
     };
+  },
+  mounted(){
+    indexRequest().then((ok)=>{
+      console.log(ok.data)
+    })
   },
 };
 </script>
@@ -114,8 +131,7 @@ export default {
 <style scoped lang="scss">
 .indexContainer {
   background: #eef1f8;
-  // position: relative;
-  // width: 100%;
+  position: relative;
   .numberInfor1 {
     width: 1872px;
     height: 80px;
@@ -234,6 +250,10 @@ export default {
           font-weight: bold;
         }
       }
+      .ws-area1-echarts{
+        width: 383px;
+        height: 404px;
+      }
     }
     .ws-area2 {
       width: 1488px;
@@ -250,7 +270,10 @@ export default {
         align-items: center;
         font-size: 16px;
         .area2-title-button {
-          button {
+          display: flex;
+          align-items: center;
+          a {
+            display: block;
             width: 72px;
             height: 34px;
             background: #ffffff;
@@ -260,6 +283,12 @@ export default {
             cursor: pointer;
             outline: none;
             font-size: 14px;
+            text-align: center;
+            line-height: 34px;
+          }
+          .router-link-active{
+            border: 1px solid #5a9af2;
+            color: #5a9af2;
           }
           .area2-title-icon {
             font-weight: bold;
@@ -294,6 +323,10 @@ export default {
           cursor: pointer;
         }
       }
+      .infor-one-echarts{
+        width: 936px;
+        height: 486px;
+      }
     }
     .infor-two {
       width: 936px;
@@ -314,6 +347,9 @@ export default {
           font-weight: bold;
           cursor: pointer;
         }
+      }
+      .infor-two-echarts{
+        width: 936px;
       }
     }
   }

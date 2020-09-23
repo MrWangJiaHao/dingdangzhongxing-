@@ -5,12 +5,20 @@ export function login(data) {
             url: "http://139.196.176.227:8801/am/v1/pUser/login",
             method: "post",
             data,
-            // data: {
-            //     "loginName": "warehouse",
-            //     "loginPwd": "123456",
-            //     "userType": 4,
-            //     "appNo": "F94CB9F5262F46DCB171CECD6FE1193B"
-            // },
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+export function indexRequest(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/mainPage/mainPageStatistics",
+            method: "post",
+            data,
         }).then((ok) => {
             resolve(ok)
         }).catch((err) => {
