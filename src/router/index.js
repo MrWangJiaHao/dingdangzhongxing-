@@ -62,6 +62,11 @@ const routes = [{
     component: () => import("../views/systemSetting/setUserIng.vue")
   },
   {
+    path: "/systemSetting/editUserIng",
+    name: 'systemSetting/editUserIng',
+    component: () => import("../views/systemSetting/editUserIng.vue")
+  },
+  {
     path: '*',
     name: 'notfount',
     component: () => import('../views/404.vue')
@@ -72,9 +77,6 @@ const routes = [{
     component: () => import('../views/login/login.vue')
   }
 ]
-
-
-
 //默认进入登录页
 
 const router = new VueRouter({

@@ -120,7 +120,7 @@
                 <span style="color:red;">*</span>:
               </div>
               <div class="mr20">
-                <dropDownUserType :dropDowBox="dropDowUserType" @getDropDownData="getUserType"></dropDownUserType>
+                <dropDowbox :dropDowBox="dropDowBox" @getDropDownData="getUserType"></dropDowbox>
               </div>
             </div>
           </div>
@@ -173,17 +173,18 @@
 <script>
 import searchBox from "../../components/commin/searchBox"; //搜索框
 import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
-import dropDownUserType from "../../components/commin/dropDownUserType"; //用户管理下拉框
-
 import { Message } from "element-ui";
 import { isMobile, isEmail } from "../../utils/validate";
-import { post, getshuju } from "../../api/api";
+import { post } from "../../api/api";
+import { mapState } from "vuex";
 export default {
   name: "createUsering",
   components: {
     dropDowbox,
     searchBox,
-    dropDownUserType,
+  },
+  computed: {
+    ...mapState(["editUser"]),
   },
   data() {
     return {
@@ -205,9 +206,9 @@ export default {
         searchWrite: "",
         placeholder: "请输入用户姓名",
       },
-      dropDowUserType: {
+      dropDowBox: {
         //下拉框需要的json
-        dropDownBoxData: [],
+        dropDownBoxData: ["超级管理员", "客服", "运营"],
         placeholder: "请选择用户角色",
         disabled: false,
       },
@@ -254,9 +255,7 @@ export default {
       isEdit: false, //是不是来编辑的
     };
   },
-  async created() {
-    let datas = await getshuju();
-    this.dropDowUserType.dropDownBoxData = datas.result;
+  created() {
     let probinceData = this.fasonCodeAjax();
     probinceData.then((data) => {
       this.dropDowProvince.dropDownBoxData = data;
@@ -266,7 +265,7 @@ export default {
   methods: {
     //关闭
     closeBtn() {
-      this.$router.go(-1);
+      this.closeEdit();
     },
     //取消编辑
     closeEdit() {

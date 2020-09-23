@@ -54,10 +54,10 @@
         <div class="meiyiyetitle">系统管理</div>
         <div class="btnClick">
           <div class="setUser" @click="gotoRouterSetUserIng">创建</div>
-          <div class="bianjiUser">编辑</div>
+          <div class="bianjiUser" @click="editBtn">编辑</div>
           <div class="goOn">查看</div>
           <div class="lodopFunClear">打印二维码</div>
-          <div class="remove">删除</div>
+          <div class="remove" @click="clearUser">删除</div>
         </div>
       </div>
     </div>
@@ -111,11 +111,15 @@ import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import Footers from "../../components/footer"; //尾部
 import { Message } from "element-ui";
 import { post } from "../../api/api";
+import { mapState } from "vuex";
 export default {
   components: {
     dateTime,
     pagecomponent,
     Footers,
+  },
+  computed: {
+    ...mapState(["editUser"]),
   },
   data() {
     return {
@@ -181,6 +185,34 @@ export default {
     this.fasonPagIngQueryData();
   },
   methods: {
+    //点击删除角色
+    clearUser() {},
+    //点击编辑按钮
+    editBtn() {
+      if (!this.multipleSelection.length) return Message("请选择要编辑的账号");
+      if (this.multipleSelection.length !== 1)
+        return Message({
+          message: "只能编辑一条账号",
+          type: "warning",
+        });
+      let id = this.multipleSelection[0].id;
+      this.fasonEdit({ id });
+    },
+    async fasonEdit(data) {
+      let datas = await post({
+        url: "http://139.196.176.227:8801/am/v1/pUser/findRecord",
+        data,
+      });
+      if (datas.code === "10000") {
+        this.$store.dispatch("editUser", datas.result[0]);
+        this.$router.push({
+          path: "/systemSetting/editUserIng",
+        });
+      } else {
+        Message(datas.msg);
+      }
+    },
+    //发送获取列表的消息
     async fasonPagIngQueryData() {
       let datas = await post({
         url: "http://139.196.176.227:8801/am/v1/pUser/findWHRecordPage",
@@ -193,7 +225,6 @@ export default {
       }
     },
     changeData(data) {
-      // console.log(data);
       this.changeTableData(data); //用来改变表格
       this.changePageData(data); //用来改变分页器的条数
     },
@@ -243,11 +274,12 @@ export default {
     clickQueryUser() {
       //点击查询按钮
       console.log(this.pagingQueryData, "点击查询");
+      this.fasonPagIngQueryData();
     },
     clearInputAll() {
-      //点击清空按钮
       this.pagingQueryData.paras.loginName = "";
       this.clearTimeInput();
+      this.fasonPagIngQueryData();
     },
     clearTimeInput() {
       let input = document.getElementsByClassName("ivu-input");

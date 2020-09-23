@@ -55,3 +55,19 @@ export function get(datas) {
         })
     })
 }
+
+export function getshuju() {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8801/am/v1/pCodeInfo/findRecord",
+            method: "post",
+            data: {
+                "typeCode": "usertype"
+            },
+        }).then((ok) => {
+            resolve(ok.data)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
