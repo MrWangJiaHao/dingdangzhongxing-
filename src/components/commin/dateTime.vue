@@ -6,7 +6,8 @@
         type="datetime"
         :placeholder="dateTimeData.placeholder"
         @on-change="changeDate"
-        @on-oped-change="openChangeDate"
+        @on-open-change="openChangeDate"
+        @on-ok="openChangeDate"
       ></Date-picker>
     </div>
   </div>
@@ -20,15 +21,27 @@
 </style>
 <script>
 import { isMaoHao } from "../../utils/validate";
+import { mapState } from "vuex";
 export default {
   props: {
     dateTimeData: Object,
+  },
+  computed: {
+    ...mapState(["systemTime"]),
   },
   data() {
     return {
       title: "",
       date: "",
     };
+  },
+  watch: {
+    systemTime(n) {
+      if (n) {
+        this.date = "";
+      }
+      console.log(n, "是否发生了变化");
+    },
   },
   created() {
     if (this.dateTimeData.title) {

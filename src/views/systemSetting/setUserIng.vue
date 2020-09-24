@@ -174,10 +174,10 @@
 import searchBox from "../../components/commin/searchBox"; //搜索框
 import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
 import dropDownUserType from "../../components/commin/dropDownUserType"; //用户管理下拉框
-
+import { mapState } from "vuex";
 import { Message } from "element-ui";
 import { isMobile, isEmail } from "../../utils/validate";
-import { post, getshuju } from "../../api/api";
+import { post } from "../../api/api";
 export default {
   name: "createUsering",
   components: {
@@ -227,7 +227,7 @@ export default {
         placeholder: "请输入您的账号",
       },
       createUserData: {
-        userType: null,
+        userType: 4,
         userName: "",
         userPhone: "",
         provinceCode: "",
@@ -245,6 +245,7 @@ export default {
         parentId: "",
         orgId: "FC4AD500BE8E4B5FB58CCAE7B519FB6F",
         waerId: "",
+        codeValue: "",
       },
       getProvinceData: {
         parentCode: 0,
@@ -255,14 +256,17 @@ export default {
     };
   },
   async created() {
-    let datas = await getshuju();
-    this.dropDowUserType.dropDownBoxData = datas.result;
     let probinceData = this.fasonCodeAjax();
     probinceData.then((data) => {
       this.dropDowProvince.dropDownBoxData = data;
     });
   },
-
+  mounted() {
+    this.dropDowUserType.dropDownBoxData = this.userTypeArr;
+  },
+  computed: {
+    ...mapState(["userTypeArr"]),
+  },
   methods: {
     //关闭
     closeBtn() {
@@ -299,6 +303,7 @@ export default {
     },
     //点击了提交
     async goAJAXCreate() {
+      console.log(this.createUserData.userType);
       if (!this.createUserData.userName) return Message("请输入用户姓名");
       if (!this.createUserData.userPhone) return Message("请输入用户联系电话");
       if (!this.createUserData.loginName) return Message("请输入用户账号");
@@ -375,9 +380,10 @@ export default {
       if (!mes) return Message("请输入正确的邮箱");
     },
     getUserType(e) {
+      console.log(e);
       //获取创建的用户类型
-      let num = this.dropDowBox.dropDownBoxData.indexOf(e);
-      this.createUserData.userType = ++num;
+      this.createUserData.codeValue = e.codeValue;
+      this.createUserData.roleId = e.roleId;
     },
   },
 };

@@ -13,7 +13,10 @@ import 'element-ui/lib/theme-chalk/index.css';
 import "./assets/css/Toast.css";
 import "./assets/css/index.css";
 import VueCookie from 'vue-cookie'
+import Lodop from './assets/js/LodopFuncs'
+Vue.use(Lodop)
 Vue.use(VueCookie)
+
 Vue.use(ElementUI).use(iView)
 Vue.prototype.$axios = axios
 

@@ -78,6 +78,11 @@ const routes = [{
     component: () => import("../views/systemSetting/editUserIng.vue")
   },
   {
+    path: "/systemSetting/lookUser",
+    name: 'systemSetting/lookUser',
+    component: () => import("../views/systemSetting/lookUser.vue")
+  },
+  {
     path: '*',
     name: 'notfount',
     component: () => import('../views/404.vue')

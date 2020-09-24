@@ -42,6 +42,9 @@ export default {
         : false;
       this.title = isMaoHao(this.dropDowBox.title);
     }
+    if (this.dropDowBox.value) {
+      this.select = this.dropDowBox.value;
+    }
   },
   methods: {
     selectShow(e) {
