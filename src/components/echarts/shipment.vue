@@ -1,16 +1,14 @@
 <template>
-  <div>
-      <div id="shipmentsEcharts">
+  <div id="shipments">
 
-      </div>
   </div>
 </template>
 
 <script>
-//委托公司发货量统计echarts
 import echarts from "echarts";
+
 export default {
-  data() {
+data() {
     return {};
   },
   mounted() {
@@ -20,7 +18,7 @@ export default {
     shipmentsEcharts() {
       //初始化echarts实例
       let myEcharts = this.$echarts.init(
-        document.getElementById("shipmentsEcharts")
+        document.getElementById("shipments")
       );
 
       var data = [2000, 3000, 2000, 3000, 2000, 3000, 2000];
@@ -249,12 +247,12 @@ export default {
       myEcharts.setOption(option);
     },
   },
-};
+}
 </script>
 
 <style scoped>
-#shipmentsEcharts {
-  width: 936px;
+#shipments{
+     width: 936px;
   height: 486px;
   padding: 18px 18px 28px 28px;
 }

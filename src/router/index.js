@@ -6,11 +6,13 @@ Vue.use(VueRouter)
 const routes = [{
     path: '/indexs',
     name: 'indexs',
+    redirect: '/index',
     component: () => import('../views/indexs.vue'),
     children: [{
         //首页页面
         path: '/index',
         name: 'index',
+        redirect: '/index/indexFormJH',
         component: () => import('../views/index/index.vue'),
         meta: {
           Breadcrumb: ["首页", "数据"],
@@ -27,6 +29,19 @@ const routes = [{
             component: () => import('../views/index/indexForm/indexFormJH.vue'),
           }
         ]
+      },
+      {
+        //用户管理页面
+        path: "/systemSetting/userSetting",
+        name: 'systemSetting/userSetting',
+        component: () => import("../views/systemSetting/userSetting.vue")
+      },
+     
+      {
+        //角色管理页面
+        path: "/systemSetting/userControl",
+        name: 'systemSetting/userControl',
+        component: () => import("../views/systemSetting/userControl.vue")
       },
       {
         //仓库配置页面
@@ -51,11 +66,6 @@ const routes = [{
     path: "/footerDemo",
     name: 'footerDemo',
     component: () => import("../views/demo/demo.vue")
-  },
-  {
-    path: "/systemSetting/userSetting",
-    name: 'systemSetting/userSetting',
-    component: () => import("../views/systemSetting/userSetting.vue")
   },
   {
     path: "/systemSetting/setUserIng",

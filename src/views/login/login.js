@@ -1,9 +1,8 @@
-
-import { login } from "@/api/api.js"
+// import { login } from "@/api/api.js"
 
 export let loginRequest = {
   state: {
-    loginData: {}
+    loginData: []
   },
   mutations: {
     loginData(state, payload) {
@@ -11,10 +10,8 @@ export let loginRequest = {
     }
   },
   actions: {
-    loginRequest(store) {
-      login().then((ok) => {
-        store.commit("loginData", ok.data.result)
-      })
+    loginRequest(store, data) {
+      store.commit("loginData", data)
     }
   },
   getters: {

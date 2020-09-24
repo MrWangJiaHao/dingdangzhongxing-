@@ -17,19 +17,24 @@
                 <div class="img_box">
                   <img src="~@/assets/img/home_page-icon-person@2x.png" alt />
                 </div>
-                <el-input v-model="dataForm.userName" placeholder="请输入用户名称"></el-input>
+                <el-input
+                  v-model="dataForm.userName"
+                  placeholder="请输入用户名称"
+                ></el-input>
               </div>
             </el-form-item>
-
             <el-form-item prop="password">
               <div class="mima_box parent">
                 <div class="img_box">
                   <img src="~@/assets/img/home_page-icon-safe@2x.png" alt />
                 </div>
-                <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
+                <el-input
+                  v-model="dataForm.password"
+                  type="password"
+                  placeholder="密码"
+                ></el-input>
               </div>
             </el-form-item>
-
             <el-form-item>
               <el-button
                 class="login-btn-submit"
@@ -37,7 +42,8 @@
                 @click="dataFormSubmit()"
                 @keyup.enter="dataFormSubmit()"
                 :plain="true"
-              >登录</el-button>
+                >登录</el-button
+              >
             </el-form-item>
           </el-form>
         </div>
@@ -74,51 +80,71 @@ export default {
   methods: {
     // 提交表单
     dataFormSubmit() {
-      // let that = this;
       this.$refs["dataForm"].validate((valid) => {
         if (valid) {
           let data = {
             loginName: this.dataForm.userName,
             loginPwd: this.dataForm.password,
+            userType: 4,
+            appNo: "F94CB9F5262F46DCB171CECD6FE1193B",
           };
 
-          this.$store.dispatch("loginRequest");
-
           login(data).then((ok) => {
-            console.log(ok);
-            if (ok.data.code === "AM000001") {
-              this.$message.error(ok.data.msg);
-            } else if (ok.data.code === "AM000005") {
-              this.$message.error(ok.data.msg);
-            } else if (ok.data.code === "AM000014") {
-              this.$message.error(ok.data.msg);
-            } else {
+            console.log(ok.data);
+            if (ok.data.code === "10000") {
+              this.$message({
+                type: "success",
+                message: "登录成功",
+              });
+              //将请求回来的数据全部存储到vuex里面，使用this.$store.state.loginRequest.loginData调用查看
+              this.$store.dispatch("loginRequest", ok.data.result);
+              console.log(this.$store.state.loginRequest.loginData.user);
               this.$router.push("/index");
               //点击登录时，将用户名和密码存储到cookies中
               this.$cookie.set("userName", this.dataForm.userName);
               this.$cookie.set("password", this.dataForm.password);
+              this.$cookie.set("userToken", ok.data.result.userToken);
               //四个小时后清除用户名和密码
               setTimeout(() => {
                 this.$cookie.delete("userName");
                 this.$cookie.delete("password");
               }, 14400000);
+            } else if (ok.data.code === "AM000001") {
+              this.$message({
+                type: "error",
+                message: ok.data.msg,
+              });
+            } else if (ok.data.code === "AM000005") {
+              this.$message({
+                type: "error",
+                message: ok.data.msg,
+              });
+              // this.$message.error(ok.data.msg);
+            } else if (ok.data.code === "AM000014") {
+              this.$message({
+                type: "error",
+                message: ok.data.msg,
+              });
             }
           });
-          //点击登录时，将用户名和密码存储到cookies中
-          this.$cookie.set("userName", this.dataForm.userName);
-          this.$cookie.set("password", this.dataForm.password);
-          //四个小时后清除用户名和密码
-          setTimeout(() => {
-            this.$cookie.delete("userName");
-            this.$cookie.delete("password");
-          }, 14400000);
-          login().then((ok) => {
-            console.log(ok);
-          });
-          this.$router.push("/indexs");
         }
       });
     },
+  },
+  mounted() {
+    //假如用户之前登录过，就可以自动登录
+    let autoUserName = this.$cookie.get("userName");
+    let autoUserPwd = this.$cookie.get("password");
+    if ((autoUserName === null && autoUserPwd === null) || (autoUserName === undefined && autoUserPwd === undefined)) {
+      this.$message({
+        type: "error",
+        message: "请重新登录",
+      });
+    }else{
+      this.dataForm.userName=autoUserName
+      this.dataForm.password=autoUserPwd
+      this.dataFormSubmit()
+    }
   },
 };
 </script>

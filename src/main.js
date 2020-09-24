@@ -17,7 +17,7 @@ Vue.use(VueCookie)
 Vue.use(ElementUI).use(iView)
 Vue.prototype.$axios = axios
 
-
+import 'lib-flexible'
 // 引入echarts
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts

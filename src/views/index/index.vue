@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="indexMain">
     <!-- 这是首页的页面 -->
     <div class="indexContainer">
       <Breadcrumd></Breadcrumd>
@@ -31,12 +31,12 @@
         </div>
       </div>
       <div class="numberInfor2">
-        <div class="numberInfor2-area" v-for="(v,i) in inforArr2" :key="i">
+        <div class="numberInfor2-area" v-for="(v, i) in inforArr2" :key="i">
           <div class="area-img">
             <img :src="v.img" />
           </div>
-          <div class="area-number">{{v.number}}</div>
-          <div class="area-text">{{v.text}}</div>
+          <div class="area-number">{{ v.number }}</div>
+          <div class="area-text">{{ v.text }}</div>
         </div>
       </div>
       <div class="warehouseStatistics">
@@ -60,7 +60,6 @@
           </div>
           <div>
             <router-view></router-view>
-            <!-- <IndexForm></IndexForm> -->
           </div>
         </div>
       </div>
@@ -71,7 +70,8 @@
             <div class="iconfont icon-ziyuan one-title-icon"></div>
           </div>
           <div class="infor-one-echarts">
-            <ShipmentsEcharts></ShipmentsEcharts>
+            <!-- <ShipmentsEcharts></ShipmentsEcharts> -->
+            <Shipment></Shipment>
           </div>
         </div>
         <div class="infor-two">
@@ -91,10 +91,9 @@
 <script>
 import "../../assets/iconfont/iconfont.css"; //引入字体图标文件
 import Breadcrumd from "../../components/breadcrumd"; //引入面包屑组件
-// import IndexForm from "../../components/indexForm"; //引入表格组件
-import ShipmentsEcharts from '../../components/echarts/shipmentsEcharts'//引用发货量统计echarts组件
-import ResalesEcharts from '../../components/echarts/resalesEcharts.vue'//引用退货量统计echarts组件
-import StaffEcharts from '../../components/echarts/staffEcharts.vue'//引用发货人员统计echarts组件
+import Shipment from "../../components/echarts/shipment"; //引用发货量统计echarts组件
+import ResalesEcharts from "../../components/echarts/resalesEcharts.vue"; //引用退货量统计echarts组件
+import StaffEcharts from "../../components/echarts/staffEcharts.vue"; //引用发货人员统计echarts组件
 
 import ciexnhoex from "@/assets/img/ciexnhoex.png";
 import disaggregate from "@/assets/img/disaggregate.png";
@@ -103,10 +102,13 @@ import recheck from "@/assets/img/recheck.png";
 import pickingFail from "@/assets/img/pickingFail.png";
 import pullGoods from "@/assets/img/pullGoods.png";
 
-import {indexRequest} from '../../api/api'
+import { indexRequest } from "../../api/api";
 export default {
   components: {
-    Breadcrumd,ShipmentsEcharts,ResalesEcharts,StaffEcharts
+    Breadcrumd,
+    ResalesEcharts,
+    StaffEcharts,
+    Shipment,
   },
   data() {
     return {
@@ -120,20 +122,33 @@ export default {
       ],
     };
   },
-  mounted(){
-    indexRequest().then((ok)=>{
-      console.log(ok.data)
-    })
+  mounted() {
+     //将vuex中存储的用户信息拿出来
+    let userInfor=this.$store.state.loginRequest.loginData
+    let userData= {
+        "Content-Type": "application/json; charset=utf-8",
+        "X-Auth-Token": userInfor.userToken,
+        "X-Auth-wareId": userInfor.wareId,
+        "X-Auth-user": userInfor.id,
+      }
+    indexRequest(userData).then((ok) => {
+      console.log(ok);
+    });
   },
 };
 </script>
 
 <style scoped lang="scss">
+#indexMain{
+  position: relative;
+}
 .indexContainer {
   background: #eef1f8;
+  width: 100%;
+  margin: 0 auto;
   position: relative;
   .numberInfor1 {
-    width: 1872px;
+    width: 1888px;
     height: 80px;
     border-radius: 4px;
     margin: 16px;
@@ -203,6 +218,7 @@ export default {
     height: 239px;
     display: flex;
     margin: 0 0 16px 16px;
+    overflow: hidden;
     .numberInfor2-area {
       width: 301px;
       height: 239px;
@@ -224,6 +240,9 @@ export default {
         font-size: 16px;
         text-align: center;
       }
+    }
+    .numberInfor2-area:last-of-type{
+      margin-right: 0;
     }
   }
   .warehouseStatistics {
@@ -250,7 +269,7 @@ export default {
           font-weight: bold;
         }
       }
-      .ws-area1-echarts{
+      .ws-area1-echarts {
         width: 383px;
         height: 404px;
       }
@@ -286,7 +305,7 @@ export default {
             text-align: center;
             line-height: 34px;
           }
-          .router-link-active{
+          .router-link-active {
             border: 1px solid #5a9af2;
             color: #5a9af2;
           }
@@ -323,7 +342,7 @@ export default {
           cursor: pointer;
         }
       }
-      .infor-one-echarts{
+      .infor-one-echarts {
         width: 936px;
         height: 486px;
       }
@@ -348,7 +367,7 @@ export default {
           cursor: pointer;
         }
       }
-      .infor-two-echarts{
+      .infor-two-echarts {
         width: 936px;
       }
     }

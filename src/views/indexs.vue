@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="headerMain">
     <div class="tabContainer">
       <div class="header-title">
         <div class="header-title-img">
@@ -133,7 +133,17 @@
               <router-link to>
                 <img src="@/assets/img/warehouse-suppliesCenter.png" />
                 <div>
-                  <dropdown dropdownTitle="物料中心" :dropdownArr="dropdownArr1"></dropdown>
+                  <el-dropdown trigger="click" @command="clickEvent1">
+                    <span class="el-dropdown-link">物料中心</span>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item
+                        v-for="(v, i) in dropdownArr1"
+                        :key="i"
+                        :command="i"
+                        >{{ v.text }}</el-dropdown-item
+                      >
+                    </el-dropdown-menu>
+                  </el-dropdown>
                 </div>
               </router-link>
             </div>
@@ -174,7 +184,19 @@
             <div class="iconAndText" slot="label">
               <router-link to>
                 <img src="@/assets/img/warehouse-systemManage.png" />
-                <div>系统管理</div>
+                <div>
+                  <el-dropdown trigger="click" @command="clickEvent2">
+                    <span class="el-dropdown-link">系统管理</span>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item
+                        v-for="(v, i) in dropdownArr2"
+                        :key="i"
+                        :command="i"
+                        >{{ v.text }}</el-dropdown-item
+                      >
+                    </el-dropdown-menu>
+                  </el-dropdown>
+                </div>
               </router-link>
             </div>
           </el-tab-pane>
@@ -182,14 +204,18 @@
       </div>
     </div>
     <router-view></router-view>
+    <div class="footerCom">
+      <Footer></Footer>
+    </div>
   </div>
 </template>
 
 <script>
-import dropdown from "../components/dropdown"; //引入下拉框组件
+// import dropdown from "../components/dropdown"; //引入下拉框组件
+import Footer from "../components/footer";
 export default {
   components: {
-    dropdown,
+    Footer,
   },
   data() {
     return {
@@ -200,6 +226,10 @@ export default {
         { text: "物料中心", img: "" },
         { text: "设备管理", img: "" },
       ],
+      dropdownArr2: [
+        { text: "用户管理", img: "" },
+        { text: "角色管理", img: "" },
+      ],
     };
   },
   mounted() {},
@@ -207,18 +237,36 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
     },
+    clickEvent1(command) {
+      console.log(command);
+    },
+    clickEvent2(command) {
+      switch (command) {
+        case 0:
+          this.$router.push("/systemSetting/userSetting");
+          break;
+        case 1:
+          this.$router.push("/systemSetting/userControl");
+          break;
+      }
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
+#headerMain {
+  position: relative;
+}
 .tabContainer {
   width: 100%;
+  margin: 0 auto;
   height: 90px;
   background: linear-gradient(0deg, #3795eb, #4bade4);
   position: relative;
   display: flex;
   align-items: center;
+  overflow: hidden;
   a {
     display: flex;
     align-items: center;
@@ -283,11 +331,11 @@ export default {
 }
 
 .el-nav {
-  width: 1711px;
+  // width: 1711px;
 }
 .el-lr {
-  width: 70px;
-  display: flex;
+  // width: 70px;
+  // display: flex;
 }
 /* .tabContainer .is-disabled .el-icon-arrow-left{
   color: white;
@@ -310,7 +358,9 @@ export default {
   font-size: 18px;
   color: white;
 }
-
+.tabContainer .el-tabs__nav-scroll {
+  width: 1720px;
+}
 .tabContainer .el-tabs__nav-wrap.is-scrollable {
   padding: 0;
 }
@@ -395,5 +445,13 @@ export default {
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
   line-height: 28px;
+}
+.footerCom {
+  height: 30px;
+  z-index: 9999;
+}
+.tabContainer .el-dropdown {
+  font-size: 16px;
+  color: white;
 }
 </style>

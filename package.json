@@ -13,6 +13,7 @@
     "echarts": "^4.9.0",
     "element-ui": "^2.13.2",
     "iview": "^3.5.4",
+    "lib-flexible": "^0.3.2",
     "node-sass": "^4.14.1",
     "qs": "^6.9.4",
     "sass": "^1.26.10",
@@ -32,6 +33,7 @@
     "babel-plugin-component": "^1.1.1",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "px2rem-loader": "^0.1.9",
     "vue-template-compiler": "^2.6.11"
   }
 }
