@@ -3,39 +3,49 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '/indexs',
     name: 'indexs',
     component: () => import('../views/indexs.vue'),
     children: [{
-      //首页页面
-      path: '/index',
-      name: 'index',
-      component: () => import('../views/index/index.vue'),
-      meta: {
-        Breadcrumb: ["首页", "数据"],
-        path: "/index"
-      }
-    },
-    {
-      //仓库配置页面
-      path: '/warehouseConfig',
-      name: 'warehouseConfig',
-      component: () => import('../views/warehouseConfig.vue'),
-      meta: {
-        Breadcrumb: "仓库配置"
-      }
-    },
-    {
-      //发货规则配置页面
-      path: '/shipmentsRuleConfig',
-      name: 'shipmentsRuleConfig',
-      component: () => import('../views/shipmentsRuleConfig.vue'),
-      meta: {
-        Breadcrumb: "发货规则配置"
-      }
-    },]
+        //首页页面
+        path: '/index',
+        name: 'index',
+        component: () => import('../views/index/index.vue'),
+        meta: {
+          Breadcrumb: ["首页", "数据"],
+          path: "/index"
+        },
+        children: [{
+          path: '/index/indexFormFH',
+          name: 'indexFormFH',
+          component: () => import('../views/index/indexForm/indexFormFH.vue'),
+        },
+        {
+          path: '/index/indexFormJH',
+          name: 'indexFormJH',
+          component: () => import('../views/index/indexForm/indexFormJH.vue'),
+        }]
+      },
+      {
+        //仓库配置页面
+        path: '/warehouseConfig',
+        name: 'warehouseConfig',
+        component: () => import('../views/warehouseConfig.vue'),
+        meta: {
+          Breadcrumb: "仓库配置"
+        }
+      },
+      {
+        //发货规则配置页面
+        path: '/shipmentsRuleConfig',
+        name: 'shipmentsRuleConfig',
+        component: () => import('../views/shipmentsRuleConfig.vue'),
+        meta: {
+          Breadcrumb: "发货规则配置"
+        }
+      },
+    ]
   }, {
     path: "/footerDemo",
     name: 'footerDemo',
