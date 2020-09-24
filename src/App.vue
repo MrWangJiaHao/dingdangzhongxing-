@@ -4,6 +4,13 @@
   </div>
 </template>
 
+<script>
+export default {
+  created() {
+    this.$store.dispatch("getusertype");
+  },
+};
+</script>
 <style>
 * {
   margin: 0;
@@ -24,5 +31,4 @@ a {
   display: block;
   clear: both;
 }
-
 </style>

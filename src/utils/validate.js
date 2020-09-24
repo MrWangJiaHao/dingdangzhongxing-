@@ -1,3 +1,4 @@
+
 /**
  * 邮箱
  * @param {*} s
@@ -38,4 +39,39 @@ export const isMaoHao = (value) => {
   return (value.includes(":")
     ? value
     : value + ":");
+}
+/**
+ * 原生ajax post 请求
+ * @param {*} url 路径
+ * @param {*} data 数据
+ * @param {*} fn 返回的函数
+ */
+export const ajaxPost = (url, data, fn) => {
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", url, false);
+  // 添加http头，发送信息至服务器时内容编码类型
+  xhr.setRequestHeader("Content-Type", "application/json");
+  // setRequestHeader()
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4) {
+      if (xhr.status == 200) {
+        // console.log(xhr.responseText);
+        fn(xhr.responseText);
+      }
+    }
+  };
+  let str = arrStr(data)
+  console.log(str)
+  xhr.send(str);
+}
+
+/* 数组转换为字符串 */
+function arrStr(data) {
+  let str = ''
+  data.forEach(item => {
+    str += '"' + item + '"' + ","
+  });
+  str = str.substring(0, str.length - 1)
+  return "[" + str + "]"
 }

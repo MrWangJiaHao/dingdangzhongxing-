@@ -1,3 +1,4 @@
+  /*eslint-disable*/
 <template>
   <div class="userSettingBox">
     <div class="fuzzyQueryBox">
@@ -18,11 +19,12 @@
                 slot="prepend"
                 :disabled="dropDowBox.disabled"
                 :placeholder="dropDowBox.placeholder"
+                @input="getCodeValue"
               >
                 <el-option
                   v-for="(item,idx) in dropDowBox.dropDownBoxData"
                   :key="idx"
-                  :label="item"
+                  :label="item.codeName"
                   :value="idx"
                 ></el-option>
               </el-select>
@@ -55,8 +57,8 @@
         <div class="btnClick">
           <div class="setUser" @click="gotoRouterSetUserIng">创建</div>
           <div class="bianjiUser" @click="editBtn">编辑</div>
-          <div class="goOn">查看</div>
-          <div class="lodopFunClear">打印二维码</div>
+          <div class="goOn" @click="lookUser">查看</div>
+          <div class="lodopFunClear" @click="locotpUserEWM">打印二维码</div>
           <div class="remove" @click="clearUser">删除</div>
         </div>
       </div>
@@ -78,7 +80,7 @@
             <el-table-column label="序号" type="index" width="50" show-overflow-tooltip />
             <el-table-column label="用户账号" prop="loginName" show-overflow-tooltip />
             <el-table-column label="用户姓名" prop="userName" show-overflow-tooltip></el-table-column>
-            <el-table-column label="用户角色" prop="userType" show-overflow-tooltip></el-table-column>
+            <el-table-column label="用户角色" prop="codeName" show-overflow-tooltip></el-table-column>
             <el-table-column label="联系电话" prop="userPhone" show-overflow-tooltip></el-table-column>
             <el-table-column label="居住地址" prop="address" show-overflow-tooltip></el-table-column>
             <el-table-column label="创建人" prop="createUser" show-overflow-tooltip></el-table-column>
@@ -106,12 +108,14 @@
 </template>
 
 <script>
+/*eslint-disable*/
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import Footers from "../../components/footer"; //尾部
 import { Message } from "element-ui";
-import { post } from "../../api/api";
+import { post, logins } from "../../api/api";
 import { mapState } from "vuex";
+import { ajaxPost } from "../../utils/validate";
 export default {
   components: {
     dateTime,
@@ -119,7 +123,7 @@ export default {
     Footers,
   },
   computed: {
-    ...mapState(["editUser"]),
+    ...mapState(["editUser", "userTypeArr"]),
   },
   data() {
     return {
@@ -127,7 +131,7 @@ export default {
         {
           loginName: 0,
           userName: "",
-          userType: "",
+          codeName: "",
           userPhone: 0,
           address: " ",
           createUser: "",
@@ -138,13 +142,7 @@ export default {
       dropDowBox: {
         //下拉框需要的json
         title: "用户角色",
-        dropDownBoxData: [
-          "超级管理员",
-          "客服",
-          "运营",
-          "兼职拣货人员",
-          "兼职复核人员",
-        ], //下拉需要的data
+        dropDownBoxData: [], //下拉需要的data
         placeholder: "请选择用户角色",
       },
       searchCenter: {
@@ -163,7 +161,7 @@ export default {
         title: "创建时间",
         placeholder: "请选择开始时间",
       },
-
+      LODOP: null,
       pagingQueryData: {
         //分页查询
         pageNumber: 1,
@@ -171,7 +169,8 @@ export default {
         paras: {
           orgId: "",
           id: "",
-          userType: "",
+          codeValue: "",
+          userType: null,
           createStartTime: "",
           createEndTime: "",
           loginName: "",
@@ -183,22 +182,126 @@ export default {
   },
   async created() {
     this.fasonPagIngQueryData();
+    setTimeout(() => {
+      this.dropDowBox.dropDownBoxData = this.userTypeArr;
+    }, 0);
   },
   methods: {
+    //点击打印二维码
+    locotpUserEWM() {
+      if (this.multipleSelection.length == 0)
+        return Message("请选择要打印的二维码");
+      let arr = this._getIDArr();
+      setTimeout(
+        () => {
+          this.LODOP = this.$getLodop();
+          this._createEwm(arr);
+        },
+        200,
+        arr
+      );
+    },
+    //打印二维码函数
+    _createEwm(arr) {
+      let x = 0;
+      let y = 0;
+      arr.forEach((item) => {
+        this.LODOP.ADD_PRINT_BARCODE(x, (y += 100), 100, 100, "QRCode", item);
+      });
+      this.LODOP.PREVIEW();
+    },
+    CheckIsInstall() {
+      //查看是否存在有打印控件
+      try {
+        var LODOP = getLodop();
+        if (LODOP.VERSION) {
+          if (LODOP.CVERSION)
+            console.log(
+              "当前有WEB打印服务C-Lodop可用!\n C-Lodop版本:" +
+                LODOP.CVERSION +
+                "(内含Lodop" +
+                LODOP.VERSION +
+                ")"
+            );
+          else
+            console.log(
+              "本机已成功安装了Lodop控件！\n 版本号:" + LODOP.VERSION
+            );
+        }
+        return LODOP;
+      } catch (err) {}
+    },
+    //点击查看角色
+    lookUser() {
+      if (!this.multipleSelection.length) return Message("请选择要查看的账号");
+      if (this.multipleSelection.length !== 1)
+        return Message({
+          message: "每次只能查看一条账号，请重新选择",
+          type: "warning",
+        });
+      let id = this.multipleSelection[0].id;
+      console.log("点击了查看");
+      this.fasonEdit({ id }, "/systemSetting/lookUser");
+    },
     //点击删除角色
-    clearUser() {},
+    clearUser() {
+      let arr = this._getIDArr();
+      if (!arr.length) return Message("请选择要删除的用户");
+      this.$confirm("确定要删除改用户？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this._clearAjax(arr);
+        })
+        .catch((err) => {
+          Message("已取消删除");
+        });
+    },
+    _getIDArr() {
+      let arr = [];
+      this.multipleSelection.forEach((item) => {
+        if (!arr.includes(item.ed)) {
+          arr.push(item.id);
+        }
+      });
+      return arr;
+    },
+    //发送删除的ajax
+    async _clearAjax(data) {
+      ajaxPost(
+        "http://139.196.176.227:8801/am/v1/pUser/delRecord",
+        data,
+        (data) => {
+          if (data.code === "10000") {
+            Message({
+              type: "success",
+              message: data.msg,
+            });
+          } else {
+            Message({
+              type: "error",
+              message: data.msg ? data.msg : "删除失败",
+            });
+          }
+        }
+      );
+    },
     //点击编辑按钮
     editBtn() {
       if (!this.multipleSelection.length) return Message("请选择要编辑的账号");
       if (this.multipleSelection.length !== 1)
         return Message({
-          message: "只能编辑一条账号",
+          message: "每次只能编辑一条账号，请重新选择",
           type: "warning",
         });
+
       let id = this.multipleSelection[0].id;
-      this.fasonEdit({ id });
+      console.log("点击了编辑", id);
+      this.fasonEdit({ id }, "/systemSetting/editUserIng");
     },
-    async fasonEdit(data) {
+    async fasonEdit(data, path) {
       let datas = await post({
         url: "http://139.196.176.227:8801/am/v1/pUser/findRecord",
         data,
@@ -206,7 +309,7 @@ export default {
       if (datas.code === "10000") {
         this.$store.dispatch("editUser", datas.result[0]);
         this.$router.push({
-          path: "/systemSetting/editUserIng",
+          path,
         });
       } else {
         Message(datas.msg);
@@ -216,7 +319,7 @@ export default {
     async fasonPagIngQueryData() {
       let datas = await post({
         url: "http://139.196.176.227:8801/am/v1/pUser/findWHRecordPage",
-        data: this.pagingQueryData,
+        data: { ...this.pagingQueryData, userType: 4 },
       });
       if (datas.code === "10000") {
         this.changeData(datas.result);
@@ -231,7 +334,7 @@ export default {
     //用来改变表格
     changeTableData(data) {
       let { list } = data;
-      // console.log(list);
+      // console.log(list, "表格的数据");
       this.tableData = list;
       list.forEach((item, idx) => {
         this.tableData[idx].address =
@@ -249,14 +352,14 @@ export default {
     sureSuccssBtn(e) {
       this.pagingQueryData.pageNumber = e;
     },
+    //点击创建按钮
     gotoRouterSetUserIng() {
-      //点击创建按钮
       this.$router.push({
         path: "/systemSetting/setUserIng",
       });
     },
+    //搜索框改变后的数据
     getChangeInput(e) {
-      //搜索框改变后的数据
       this.faSonajax.zhanhao = e;
     },
     toggleSelection(rows) {
@@ -271,15 +374,19 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
+    //点击查询按钮
     clickQueryUser() {
-      //点击查询按钮
-      console.log(this.pagingQueryData, "点击查询");
       this.fasonPagIngQueryData();
+      console.log(this.pagingQueryData, "点击查询");
     },
+    //点击清空按钮
     clearInputAll() {
-      this.pagingQueryData.paras.loginName = "";
       this.clearTimeInput();
       this.fasonPagIngQueryData();
+      this.pagingQueryData.paras.loginName = "";
+      this.pagingQueryData.paras.createEndTime = "";
+      this.pagingQueryData.paras.createStartTime = "";
+      this.$store.dispatch("clearsystemSettingtime")
     },
     clearTimeInput() {
       let input = document.getElementsByClassName("ivu-input");
@@ -295,9 +402,17 @@ export default {
     },
     getStartTime(e) {
       this.pagingQueryData.paras.createStartTime = e;
+      this.pagingQueryData.paras.userType = null;
     },
     getEndTime(e) {
       this.pagingQueryData.paras.createEndTime = e;
+      this.pagingQueryData.paras.userType = null;
+    },
+    //用户角色失
+    getCodeValue(e) {
+      this.pagingQueryData.paras.codeValue = this.dropDowBox.dropDownBoxData[
+        e
+      ].codeValue;
     },
   },
 };
@@ -310,8 +425,6 @@ export default {
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .userSettingBox {
-  position: relative;
-  top: 192px;
   border-top: 1px solid #d1d6e2;
   background-color: rgb(232, 233, 236);
   .fuzzyQueryBox {

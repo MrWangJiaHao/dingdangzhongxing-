@@ -12,7 +12,7 @@ const service = axios.create({
     'Content-Type': 'application/json; charset=utf-8',
     "appNo": "F94CB9F5262F46DCB171CECD6FE1193B",
     "userType": 4,
-    "X-Auth-Token": "7ad69c50-3374-4ff7-9da8-13541f371845",
+    "X-Auth-Token": "2e9bf77a-44ae-4dfc-b670-d002cdd7b38f",
     "X-Auth-wareId": "43C86919FC7E4360838AA522B361A242",
     "X-Auth-user": "41C062F90AA246B8A67EC763329D1F21",
   }
