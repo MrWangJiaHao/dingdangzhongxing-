@@ -17,15 +17,16 @@ const routes = [{
           path: "/index"
         },
         children: [{
-          path: '/index/indexFormFH',
-          name: 'indexFormFH',
-          component: () => import('../views/index/indexForm/indexFormFH.vue'),
-        },
-        {
-          path: '/index/indexFormJH',
-          name: 'indexFormJH',
-          component: () => import('../views/index/indexForm/indexFormJH.vue'),
-        }]
+            path: '/index/indexFormFH',
+            name: 'indexFormFH',
+            component: () => import('../views/index/indexForm/indexFormFH.vue'),
+          },
+          {
+            path: '/index/indexFormJH',
+            name: 'indexFormJH',
+            component: () => import('../views/index/indexForm/indexFormJH.vue'),
+          }
+        ]
       },
       {
         //仓库配置页面
