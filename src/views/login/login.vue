@@ -90,7 +90,7 @@ export default {
           };
 
           login(data).then((ok) => {
-            console.log(ok.data);
+            // console.log(ok.data);
             if (ok.data.code === "10000") {
               this.$message({
                 type: "success",
@@ -98,16 +98,23 @@ export default {
               });
               //将请求回来的数据全部存储到vuex里面，使用this.$store.state.loginRequest.loginData调用查看
               this.$store.dispatch("loginRequest", ok.data.result);
-              console.log(this.$store.state.loginRequest.loginData.user);
+              // console.log(this.$store.state.loginRequest.loginData);
               this.$router.push("/index");
               //点击登录时，将用户名和密码存储到cookies中
               this.$cookie.set("userName", this.dataForm.userName);
               this.$cookie.set("password", this.dataForm.password);
               this.$cookie.set("userToken", ok.data.result.userToken);
+              this.$cookie.set("userType", ok.data.result.user.userType);
+              this.$cookie.set("X-Auth-wareId", ok.data.result.user.wareId);
+              this.$cookie.set("X-Auth-user", ok.data.result.user.id);
               //四个小时后清除用户名和密码
               setTimeout(() => {
                 this.$cookie.delete("userName");
                 this.$cookie.delete("password");
+                this.$cookie.delete("userToken");
+                this.$cookie.delete("userType");
+                this.$cookie.delete("X-Auth-wareId");
+                this.$cookie.delete("X-Auth-user");
               }, 14400000);
             } else if (ok.data.code === "AM000001") {
               this.$message({
@@ -131,19 +138,23 @@ export default {
       });
     },
   },
+  
   mounted() {
     //假如用户之前登录过，就可以自动登录
     let autoUserName = this.$cookie.get("userName");
     let autoUserPwd = this.$cookie.get("password");
-    if ((autoUserName === null && autoUserPwd === null) || (autoUserName === undefined && autoUserPwd === undefined)) {
+    if (
+      (autoUserName === null && autoUserPwd === null) ||
+      (autoUserName === undefined && autoUserPwd === undefined)
+    ) {
       this.$message({
         type: "error",
         message: "请重新登录",
       });
-    }else{
-      this.dataForm.userName=autoUserName
-      this.dataForm.password=autoUserPwd
-      this.dataFormSubmit()
+    } else {
+      this.dataForm.userName = autoUserName;
+      this.dataForm.password = autoUserPwd;
+      this.dataFormSubmit();
     }
   },
 };

@@ -6,7 +6,11 @@
         <div class="displayalign zujianBox">
           <div class="noneIconTitle mr11">用户账号:</div>
           <div class="mr20">
-            <el-input placeholder="请输入要查询的用户账号" v-model="pagingQueryData.paras.loginName" clearable></el-input>
+            <el-input
+              placeholder="请输入要查询的用户账号"
+              v-model="pagingQueryData.paras.loginName"
+              clearable
+            ></el-input>
           </div>
         </div>
         <!-- 用户账户 -->
@@ -22,7 +26,7 @@
                 @input="getCodeValue"
               >
                 <el-option
-                  v-for="(item,idx) in dropDowBox.dropDownBoxData"
+                  v-for="(item, idx) in dropDowBox.dropDownBoxData"
                   :key="idx"
                   :label="item.codeName"
                   :value="idx"
@@ -33,8 +37,11 @@
         </div>
         <!-- 用户角色 -->
         <div class="timeBox zujianBox">
-          <div style="margin-right: 10px;">
-            <dateTime :dateTimeData="datetimeDates" @getDateTime="getStartTime" />
+          <div style="margin-right: 10px">
+            <dateTime
+              :dateTimeData="datetimeDates"
+              @getDateTime="getStartTime"
+            />
           </div>
           <!-- 开始时间 -->
           <div class="line"></div>
@@ -52,7 +59,7 @@
     </div>
     <!-- 头部 -->
     <div class="btnArr">
-      <div style="background-color:#fff;">
+      <div style="background-color: #fff">
         <div class="meiyiyetitle">系统管理</div>
         <div class="btnClick">
           <div class="setUser" @click="gotoRouterSetUserIng">创建</div>
@@ -65,7 +72,7 @@
     </div>
     <!-- but按钮 -->
     <div class="tableBox">
-      <div style="background-color:#fff; padding:20px 20px 0 20px;">
+      <div style="background-color: #fff; padding: 20px 20px 0 20px">
         <div class="center">
           <el-table
             ref="multipleTable"
@@ -77,13 +84,42 @@
             @selection-change="handleSelectionChange"
           >
             <el-table-column type="selection" width="50"></el-table-column>
-            <el-table-column label="序号" type="index" width="50" show-overflow-tooltip />
-            <el-table-column label="用户账号" prop="loginName" show-overflow-tooltip />
-            <el-table-column label="用户姓名" prop="userName" show-overflow-tooltip></el-table-column>
-            <el-table-column label="用户角色" prop="codeName" show-overflow-tooltip></el-table-column>
-            <el-table-column label="联系电话" prop="userPhone" show-overflow-tooltip></el-table-column>
-            <el-table-column label="居住地址" prop="address" show-overflow-tooltip></el-table-column>
-            <el-table-column label="创建人" prop="createUser" show-overflow-tooltip></el-table-column>
+            <el-table-column
+              label="序号"
+              type="index"
+              width="50"
+              show-overflow-tooltip
+            />
+            <el-table-column
+              label="用户账号"
+              prop="loginName"
+              show-overflow-tooltip
+            />
+            <el-table-column
+              label="用户姓名"
+              prop="userName"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="用户角色"
+              prop="codeName"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="联系电话"
+              prop="userPhone"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="居住地址"
+              prop="address"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="创建人"
+              prop="createUser"
+              show-overflow-tooltip
+            ></el-table-column>
             <el-table-column label="创建时间">
               <template slot-scope="scope">{{ scope.row.createTime }}</template>
             </el-table-column>
@@ -262,7 +298,7 @@ export default {
     _getIDArr() {
       let arr = [];
       this.multipleSelection.forEach((item) => {
-        if (!arr.includes(item.ed)) {
+        if (!arr.includes(item.id)) {
           arr.push(item.id);
         }
       });
@@ -271,7 +307,7 @@ export default {
     //发送删除的ajax
     async _clearAjax(data) {
       ajaxPost(
-        "http://139.196.176.227:8801/am/v1/pUser/delRecord",
+        "http://139.196.176.227:8801/am/v1/pRole/delRecord",
         data,
         (data) => {
           if (data.code === "10000") {
@@ -386,7 +422,7 @@ export default {
       this.pagingQueryData.paras.loginName = "";
       this.pagingQueryData.paras.createEndTime = "";
       this.pagingQueryData.paras.createStartTime = "";
-      this.$store.dispatch("clearsystemSettingtime")
+      this.$store.dispatch("clearsystemSettingtime");
     },
     clearTimeInput() {
       let input = document.getElementsByClassName("ivu-input");

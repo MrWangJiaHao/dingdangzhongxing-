@@ -83,6 +83,11 @@ const routes = [{
     component: () => import("../views/systemSetting/lookUser.vue")
   },
   {
+    path: "/systemSetting/userControl/setAuthority",
+    name: 'systemSetting/setAuthority',
+    component: () => import("../views/systemSetting/setAuthority.vue")
+  },
+  {
     path: '*',
     name: 'notfount',
     component: () => import('../views/404.vue')

@@ -8,6 +8,20 @@
 export default {
   created() {
     this.$store.dispatch("getusertype");
+
+    if (localStorage.getItem("data")) {
+      //replaceState替换数据 Object.assign合并对象
+      this.$store.replaceState(
+        Object.assign(
+          {},
+          this.$store.state,
+          JSON.parse(localStorage.getItem("data"))
+        )
+      );
+    } //在页面刷新时将vuex里的信息保存到localStorage里
+    window.addEventListener("beforeunload", () => {
+      localStorage.setItem("data", JSON.stringify(this.$store.state));
+    });
   },
 };
 </script>
