@@ -9,7 +9,7 @@
 // import WarehouseConfig from '../components/header'
 export default {
   components: {
-
+    
   },
 };
 </script>

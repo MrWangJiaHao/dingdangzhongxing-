@@ -14,10 +14,13 @@
               <div class="displayalign">
                 <div class="noneIconTitle mr11">
                   用户姓名
-                  <span style="color:red;">*</span>:
+                  <span style="color: red">*</span>:
                 </div>
                 <div class="mr20">
-                  <searchBox :searchCenter="searchName" @getSearchCenterShuJu="getUserName"></searchBox>
+                  <searchBox
+                    :searchCenter="searchName"
+                    @getSearchCenterShuJu="getUserName"
+                  ></searchBox>
                 </div>
               </div>
             </div>
@@ -26,7 +29,7 @@
               <div class="displayalign">
                 <div class="noneIconTitle mr11">
                   联系电话
-                  <span style="color:red;">*</span>:
+                  <span style="color: red">*</span>:
                 </div>
                 <div class="mr20">
                   <el-input
@@ -46,7 +49,7 @@
               <div class="displayalign">
                 <div class="noneIconTitle mr11">
                   居住地址
-                  <span style="visibility: hidden;">*</span>:
+                  <span style="visibility: hidden">*</span>:
                 </div>
                 <div>
                   <dropDowbox
@@ -76,7 +79,11 @@
             <!-- 区/县 -->
           </div>
           <div class="textAreaBox">
-            <textarea placeholder="请输入详细地址" v-model="createUserData.userAddr" maxlength="200"></textarea>
+            <textarea
+              placeholder="请输入详细地址"
+              v-model="createUserData.userAddr"
+              maxlength="200"
+            ></textarea>
           </div>
           <!-- 居住地址 -->
         </div>
@@ -88,17 +95,20 @@
           <div class="displayalign">
             <div class="noneIconTitle mr11">
               用户账号
-              <span style="color:red;">*</span>:
+              <span style="color: red">*</span>:
             </div>
             <div class="mr20">
-              <searchBox :searchCenter="searchzhanhao" @getSearchCenterShuJu="getLoginName"></searchBox>
+              <searchBox
+                :searchCenter="searchzhanhao"
+                @getSearchCenterShuJu="getLoginName"
+              ></searchBox>
             </div>
           </div>
           <!-- 用户账号 -->
           <div class="displayalign">
             <div class="noneIconTitle mr11">
-              <span style="visibility: hidden;">你好</span>密码
-              <span style="color:red;">*</span>:
+              <span style="visibility: hidden">你好</span>密码
+              <span style="color: red">*</span>:
             </div>
             <div>
               <el-input
@@ -117,10 +127,13 @@
             <div class="displayalign">
               <div class="noneIconTitle mr11">
                 用户角色
-                <span style="color:red;">*</span>:
+                <span style="color: red">*</span>:
               </div>
               <div class="mr20">
-                <dropDownUserType :dropDowBox="dropDowUserType" @getDropDownData="getUserType"></dropDownUserType>
+                <dropDownUserType
+                  :dropDowBox="dropDowUserType"
+                  @getDropDownData="getUserType"
+                ></dropDownUserType>
               </div>
             </div>
           </div>
@@ -129,7 +142,7 @@
             <div class="displayalign">
               <div class="noneIconTitle mr11">
                 用户邮箱
-                <span style="color:red;">*</span>:
+                <span style="color: red">*</span>:
               </div>
               <div>
                 <el-input
@@ -148,13 +161,17 @@
         <div>
           <div class="dispalyFlex mb20">
             <div class="noneIconTitle mr11 fosi0">
-              <span class="fosi14" style="visibility: hidden;">你好</span>
+              <span class="fosi14" style="visibility: hidden">你好</span>
               <span class="fosi14">备注</span>
-              <span class="fosi14" style="visibility: hidden;">好</span>
+              <span class="fosi14" style="visibility: hidden">好</span>
               <span class="fosi14">:</span>
             </div>
             <div class="bzTetxArea">
-              <textarea placeholder="请输入备注" v-model="createUserData.remark" maxlength="200"></textarea>
+              <textarea
+                placeholder="请输入备注"
+                v-model="createUserData.remark"
+                maxlength="200"
+              ></textarea>
             </div>
           </div>
         </div>

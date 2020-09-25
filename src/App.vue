@@ -22,6 +22,7 @@ export default {
     window.addEventListener("beforeunload", () => {
       localStorage.setItem("data", JSON.stringify(this.$store.state));
     });
+    this.$store.dispatch("getWarehoseConfig");
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="dropDownBox">
-    <div v-if="title!==''" class="titleBox">{{title}}</div>
+    <div v-if="title !== ''" class="titleBox">{{ title }}</div>
     <div class="input_box">
       <el-select
         v-model="select"
@@ -11,9 +11,9 @@
         @focus="getMMs"
       >
         <el-option
-          v-for="(item,idx) in dropDowBox.dropDownBoxData"
+          v-for="(item, idx) in dropDowBox.dropDownBoxData"
           :key="idx"
-          :label="item.areaName?item.areaName:item"
+          :label="item.areaName ? item.areaName : item"
           :value="idx"
         ></el-option>
       </el-select>

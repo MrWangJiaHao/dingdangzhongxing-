@@ -50,6 +50,9 @@ body {
 *{
   box-sizing: border-box;
 }
+html{
+  font-size: 100px;
+}
 em,
 i,
 var {
@@ -129,8 +132,22 @@ textarea {
 .dispalyFlex{
   display: flex;
 }
+.dispalywrap{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
 .zujianBox{
   margin-right:19px ;
+}
+.tc{
+  text-align: center;
+}
+.tr{
+  text-align: right;
+}
+.disinb{
+  display: inline-block;
 }
 .meiyiyetitle{
   font-size: 14px;
@@ -144,6 +161,8 @@ textarea {
   width: 15px;
   height: 15px;
   display: inline-block;
+  background: url(../../assets/img/systemTitlemesa.png) center center;
+  background-size: cover;
 }
 .noneIconTitle{
   font-size: 14px;
@@ -207,8 +226,47 @@ textarea{
 .mb20{
   margin-bottom: 20px;
 }
+.ml11{
+  margin-left:11px;
+}
+.ml20{
+  margin-left:20px;
+}
+.mr9{
+  margin-right:9px ;
+}
 .fosi0{
   font-size: 0px;
+}
+.M{
+  font-size: 16px;
+font-weight: normal;
+color: #454545;
+}
+.anniu{
+  width: 19px;
+  height: 19px;
+  border: 1px solid #A9AFBD;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.anniu:hover{
+  border: 1px solid #5A9AF2;
+}
+.anniu.active{
+  border: 1px solid #5A9AF2;
+}
+.dian{
+  width: 9px;
+  height: 9px;
+  background: #A9AFBD;
+  border-radius: 50%;
+}
+.anniu:hover .dian{
+  background:#5A9AF2;
+}
+.dian.active{
+  background:#5A9AF2;
 }
 .fosi14{
   font-size: 14px;
@@ -231,4 +289,19 @@ textarea{
   padding: 0 15px;
   transition: border-color .2s cubic-bezier(.645,.045,.355,1);
   width: 100%;
+}
+.noUser{
+  user-select: none;
+}
+.juli{
+  font-size: 14px;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #599AF4;
+}
+.noneZican{
+font-size: 0.24rem;
+font-family: Hiragino Sans GB;
+font-weight: normal;
+color: #454545;
 }

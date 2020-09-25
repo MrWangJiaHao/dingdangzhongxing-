@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getUserTypeshuju } from "../api/api";
+import { getUserTypeshuju, getWarehoseConfig } from "../api/api";
 Vue.use(Vuex)
 
 let actions = {
@@ -16,6 +16,11 @@ let actions = {
   },
   clearsystemSettingtime({ commit }) {
     commit("SHAHCHUSYSTEMTIME")
+  },
+  //获取子仓姓名
+  async getWarehoseConfig({ commit }) {
+    let data = await getWarehoseConfig()
+    commit("GETWAREHOUSECONFIG", data)
   }
 }
 let mutations = {
@@ -30,13 +35,17 @@ let mutations = {
   },
   SHAHCHUSYSTEMTIME(state) {
     state.systemTime = true
+  },
+  GETWAREHOUSECONFIG(state, data) {
+    state.warehouseConfig = data.result
   }
 }
 
 let state = {
   editUser: {},
   userTypeArr: [],
-  systemTime: false
+  systemTime: false,
+  warehouseConfig: []
 }
 import { loginRequest } from "../views/login/login"
 export default new Vuex.Store({
