@@ -8,6 +8,7 @@
 export default {
   created() {
     this.$store.dispatch("getusertype");
+    this.$store.dispatch("getWarehoseConfig");
   },
 };
 </script>

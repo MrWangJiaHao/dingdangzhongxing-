@@ -1,4 +1,4 @@
-
+/*eslint-disable */
 /**
  * 邮箱
  * @param {*} s
@@ -74,4 +74,39 @@ function arrStr(data) {
   });
   str = str.substring(0, str.length - 1)
   return "[" + str + "]"
+}
+
+/**
+ * 存取sessionID
+ * sessionKey:session名称
+ * sessionValue:session值
+ */
+export const setCookie = function (sessionKey, sessionValue) {
+  localStorage.setItem(sessionKey, sessionValue);
+  var exp = new Date();
+  exp.setTime(exp.getTime() + 24 * 60 * 60 * 1000);
+  document.cookie = sessionKey + "=" + escape(sessionValue) + ";expires=" + exp.toGMTString();
+}
+
+/**
+ * getCookie
+ * getCookie:getCookie名称
+ */
+export const getCookie = function (sessionKey) {
+  var arr, reg = new RegExp("(^| )" + sessionKey + "=([^;]*)(;|$)");
+  if (arr = document.cookie.match(reg))
+    return unescape(arr[2]);
+  else
+    return "";
+}
+
+/**
+ * removeCookie
+ */
+export const removeCookie = function (sessionKey) {
+  var exp = new Date();
+  exp.setTime(exp.getTime() - 1);
+  var cval = getCookie(sessionKey);
+  if (cval != null)
+    document.cookie = sessionKey + "=" + cval + ";expires=" + exp.toGMTString();
 }

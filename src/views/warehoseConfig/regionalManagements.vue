@@ -4,29 +4,56 @@
     <div class="fuzzyQueryBox">
       <div class="biaogeBox">
         <div class="displayalign zujianBox">
-          <div class="noneIconTitle mr11">用户账号:</div>
+          <div class="noneIconTitle mr11">子仓名称:</div>
           <div class="mr20">
-            <el-input
-              placeholder="请输入要查询的用户账号"
-              v-model="pagingQueryData.paras.loginName"
-              clearable
-            ></el-input>
+            <el-select
+              v-model="pagingQueryData.paras.childWareId"
+              slot="prepend"
+              :placeholder="nameOfSubWareHouse.placeholder"
+              @input="getwareHouseValue"
+            >
+              <el-option
+                v-for="(item, idx) in nameOfSubWareHouse.nameOfSubwareHouseData"
+                :key="idx"
+                :label="item.codeName"
+                :value="idx"
+              ></el-option>
+            </el-select>
           </div>
         </div>
-        <!-- 用户账户 -->
+        <!-- 子仓名称 -->
         <div class="zujianBox">
           <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">用户角色:</div>
+            <div class="noneIconTitle mr11">区域类型:</div>
             <div class="mr20">
               <el-select
-                v-model="pagingQueryData.paras.userType"
-                slot="prepend"
-                :disabled="dropDowBox.disabled"
-                :placeholder="dropDowBox.placeholder"
-                @input="getCodeValue"
+                v-model="wareAreaTypeJson.wareAreaName"
+                :placeholder="areaType.placeholder"
+                @input="getAreaValue"
               >
                 <el-option
-                  v-for="(item, idx) in dropDowBox.dropDownBoxData"
+                  v-for="(item, idx) in wareAreaTypeJson"
+                  :key="idx"
+                  :label="item.wareAreaName"
+                  :value="idx"
+                ></el-option>
+              </el-select>
+            </div>
+          </div>
+        </div>
+        <!-- 区域类型 -->
+        <div class="zujianBox">
+          <div class="displayalign zujianBox">
+            <div class="noneIconTitle mr11">区域名称:</div>
+            <div class="mr20">
+              <el-select
+                v-model="pagingQueryData.paras.id"
+                slot="prepend"
+                :placeholder="AreaName.placeholder"
+                @input="getAreaNameValue"
+              >
+                <el-option
+                  v-for="(item, idx) in AreaName.AreaNameData"
                   :key="idx"
                   :label="item.codeName"
                   :value="idx"
@@ -35,22 +62,7 @@
             </div>
           </div>
         </div>
-        <!-- 用户角色 -->
-        <div class="timeBox zujianBox">
-          <div style="margin-right: 10px">
-            <dateTime
-              :dateTimeData="datetimeDates"
-              @getDateTime="getStartTime"
-            />
-          </div>
-          <!-- 开始时间 -->
-          <div class="line"></div>
-          <div>
-            <dateTime :dateTimeData="datetimeDate" @getDateTime="getEndTime" />
-          </div>
-          <!-- 结束时间 -->
-        </div>
-        <!-- 创建时间 -->
+        <!-- 区域名称 -->
       </div>
       <div class="btns">
         <div class="queryBtn zujianBox" @click="clickQueryUser">查询</div>
@@ -60,13 +72,14 @@
     <!-- 头部 -->
     <div class="btnArr">
       <div style="background-color: #fff">
-        <div class="meiyiyetitle">系统管理</div>
+        <div class="meiyiyetitle">区域管理</div>
         <div class="btnClick">
-          <div class="setUser" @click="gotoRouterSetUserIng">创建</div>
-          <div class="bianjiUser" @click="editBtn">编辑</div>
-          <div class="goOn" @click="lookUser">查看</div>
-          <div class="lodopFunClear" @click="locotpUserEWM">打印二维码</div>
-          <div class="remove" @click="clearUser">删除</div>
+          <div class="goOn" @click="shelfSetting">货架设置</div>
+          <div class="lodopFunClear" @click="areaPlan">区域平面图</div>
+          <div class="lodopFunClear" @click="warehousePlan">库位平面图</div>
+          <div class="setUser" @click="createSubWarehouse">创建</div>
+          <div class="bianjiUser" @click="createSubWarehouse">编辑</div>
+          <div class="remove" @click="clearWarehouseplan">删除</div>
         </div>
       </div>
     </div>
@@ -83,44 +96,92 @@
             style="width: 100%"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="50"></el-table-column>
+            <el-table-column type="selection" width="82"></el-table-column>
             <el-table-column
               label="序号"
               type="index"
-              width="50"
+              width="71"
               show-overflow-tooltip
             />
             <el-table-column
-              label="用户账号"
-              prop="loginName"
+              label="子仓名称"
+              width="119"
+              prop="childWareName"
               show-overflow-tooltip
             />
             <el-table-column
-              label="用户姓名"
-              prop="userName"
+              label="区域类型"
+              width="119"
+              property="wareAreaType"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
-              label="用户角色"
-              prop="codeName"
+              width="119"
+              label="区域名称"
+              prop="wareAreaName"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
-              label="联系电话"
-              prop="userPhone"
+              width="119"
+              label="区域长(m)"
+              prop="wareAreaLength"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
-              label="居住地址"
-              prop="address"
+              label="区域宽"
+              width="119"
+              prop="wareAreaWidth"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="货架总排数"
+              width="119"
+              prop="rowNum"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="货架总数"
+              width="119"
+              prop="shelfNum"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="货架总库位数"
+              width="119"
+              prop="seatNum"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="已用库位"
+              width="119"
+              prop="useSeat"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="未使用库位"
+              width="119"
+              prop="noSeat"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="未使用面积(㎡)"
+              width="119"
+              prop="createUser"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="已使用面积(㎡)"
+              width="119"
+              prop="createUser"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
               label="创建人"
+              width="120"
               prop="createUser"
               show-overflow-tooltip
             ></el-table-column>
-            <el-table-column label="创建时间">
+            <el-table-column label="创建时间" width="250">
               <template slot-scope="scope">{{ scope.row.createTime }}</template>
             </el-table-column>
           </el-table>
@@ -144,7 +205,6 @@
 
 <script>
 /*eslint-disable*/
-import dateTime from "../../components/commin/dateTime.vue"; //时间
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { Message } from "element-ui";
 import { post, logins } from "../../api/api";
@@ -152,23 +212,40 @@ import { mapState } from "vuex";
 import { ajaxPost } from "../../utils/validate";
 export default {
   components: {
-    dateTime,
     pagecomponent,
   },
   computed: {
-    ...mapState(["editUser", "userTypeArr"]),
+    ...mapState(["editUser", "warehouseConfig"]),
   },
   data() {
     return {
       tableData: [
         {
-          loginName: 0,
-          userName: "",
-          codeName: "",
-          userPhone: 0,
-          address: " ",
-          createUser: "",
-          createTime: "",
+          childWareName: "子仓名称",
+          childWareId: "子仓id",
+          wareAreaType: "区域类型（1-存储区；2-拣货区）",
+          wareAreaName: "区域名称",
+          wareAreaLength: "区域长度",
+          wareAreaWidth: "区域宽度",
+          x: "区域x坐标(距西距离)",
+          y: "区域y坐标(距北距离)",
+          rowNum: "区域摆放的货架总排数",
+          shelfNum: "区域内的总货架数",
+          seatNum: 1100,
+          useSeat: 100,
+          noSeat: 0,
+          createUser: "创建人",
+          createTime: "120820030303033",
+        },
+      ],
+      wareAreaTypeJson: [
+        {
+          wareAreaName: "存储区",
+          wareAreaCode: 1,
+        },
+        {
+          wareAreaName: "拣货区",
+          wareAreaCode: 2,
         },
       ],
       multipleSelection: [],
@@ -178,37 +255,30 @@ export default {
         dropDownBoxData: [], //下拉需要的data
         placeholder: "请选择用户角色",
       },
-      searchCenter: {
-        //搜索框需要的json
-        searchWrite: "",
-        placeholder: "请输入要查询的用户账号",
+      nameOfSubWareHouse: {
+        placeholdes: "请选择子仓名称",
+        nameOfSubwareHouseData: [],
       },
-      pageComponentsData: {
-        //这是分页器需要的json
-        pageNums: 0, //一共多少条 //默认一页10条
+      areaType: {
+        placeholdes: "请选择区域类型",
+        areaTypeData: [],
       },
-      datetimeDate: {
-        placeholder: "请选择结束时间",
-      },
-      datetimeDates: {
-        title: "创建时间",
-        placeholder: "请选择开始时间",
+      AreaName: {
+        placeholdes: "请选择区域名称",
+        AreaNameData: [],
       },
       LODOP: null,
+      pageComponentsData: {
+        pageNums: 0, //一共多少条 //默认一页10条
+      },
       pagingQueryData: {
         //分页查询
         pageNumber: 1,
         pageSize: 10,
         paras: {
-          orgId: "",
+          childWareId: "",
+          wareAreaType: "",
           id: "",
-          codeValue: "",
-          userType: null,
-          createStartTime: "",
-          createEndTime: "",
-          loginName: "",
-          roleId: "",
-          wareId: "",
         },
       },
     };
@@ -216,71 +286,21 @@ export default {
   async created() {
     this.fasonPagIngQueryData();
     setTimeout(() => {
-      this.dropDowBox.dropDownBoxData = this.userTypeArr;
+      this.dropDowBox.dropDownBoxData = this.warehouseConfig;
     }, 0);
   },
   methods: {
-    //点击打印二维码
-    locotpUserEWM() {
-      if (this.multipleSelection.length == 0)
-        return Message("请选择要打印的二维码");
-      let arr = this._getIDArr();
-      setTimeout(
-        () => {
-          this.LODOP = this.$getLodop();
-          this._createEwm(arr);
-        },
-        200,
-        arr
-      );
-    },
-    //打印二维码函数
-    _createEwm(arr) {
-      let x = 0;
-      let y = 0;
-      arr.forEach((item) => {
-        this.LODOP.ADD_PRINT_BARCODE(x, (y += 100), 100, 100, "QRCode", item);
-      });
-      this.LODOP.PREVIEW();
-    },
-    CheckIsInstall() {
-      //查看是否存在有打印控件
-      try {
-        var LODOP = getLodop();
-        if (LODOP.VERSION) {
-          if (LODOP.CVERSION)
-            console.log(
-              "当前有WEB打印服务C-Lodop可用!\n C-Lodop版本:" +
-                LODOP.CVERSION +
-                "(内含Lodop" +
-                LODOP.VERSION +
-                ")"
-            );
-          else
-            console.log(
-              "本机已成功安装了Lodop控件！\n 版本号:" + LODOP.VERSION
-            );
-        }
-        return LODOP;
-      } catch (err) {}
-    },
-    //点击查看角色
-    lookUser() {
-      if (!this.multipleSelection.length) return Message("请选择要查看的账号");
-      if (this.multipleSelection.length !== 1)
-        return Message({
-          message: "每次只能查看一条账号，请重新选择",
-          type: "warning",
-        });
-      let id = this.multipleSelection[0].id;
-      console.log("点击了查看");
-      this.fasonEdit({ id }, "/systemSetting/lookUser");
-    },
-    //点击删除角色
-    clearUser() {
+    //点击查看区域平面图
+    areaPlan() {},
+    //点击查看库位平面图
+    warehousePlan() {},
+    //点击货架设置
+    shelfSetting() {},
+    //点击删除子仓
+    clearWarehouseplan() {
       let arr = this._getIDArr();
       if (!arr.length) return Message("请选择要删除的用户");
-      this.$confirm("确定要删除改用户？", "提示", {
+      this.$confirm("确定要删除区域管理？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -292,6 +312,11 @@ export default {
           Message("已取消删除");
         });
     },
+    //发送删除的ajax
+    async _clearAjax(data) {
+      console.log(data, "要删除的区域管理的id组合集");
+    },
+    //获取要删除的区域管理
     _getIDArr() {
       let arr = [];
       this.multipleSelection.forEach((item) => {
@@ -301,25 +326,31 @@ export default {
       });
       return arr;
     },
-    //发送删除的ajax
-    async _clearAjax(data) {
-      ajaxPost(
-        "http://139.196.176.227:8801/am/v1/pUser/delRecord",
+    //点击创建按钮
+    createSubWarehouse() {
+      if (this.multipleSelection.length == 0)
+        return Message("请选择在那个子仓下创建区域");
+      if (this.multipleSelection.length > 1)
+        return Message("每次只能在一个子仓下创建区域");
+      this.createWarehouseAjax({
+        childWareId: this.multipleSelection[0].childWareId,
+      });
+    },
+    //发送创建区域的ajax
+    async createWarehouseAjax(data) {
+      let datas = await post({
+        url:
+          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/findRecord",
         data,
-        (data) => {
-          if (data.code === "10000") {
-            Message({
-              type: "success",
-              message: data.msg,
-            });
-          } else {
-            Message({
-              type: "error",
-              message: data.msg ? data.msg : "删除失败",
-            });
-          }
-        }
-      );
+      });
+      if (datas.code === "10000") {
+        localStorage.setItem("warseHouseData", JSON.stringify(datas.result[0]));
+        return this.$router.push({
+          path: "/warehoseconfig/createWarehouseConfig",
+        });
+      } else {
+        Message(datas.result);
+      }
     },
     //点击编辑按钮
     editBtn() {
@@ -329,14 +360,14 @@ export default {
           message: "每次只能编辑一条账号，请重新选择",
           type: "warning",
         });
-
       let id = this.multipleSelection[0].id;
-      console.log("点击了编辑", id);
-      this.fasonEdit({ id }, "/systemSetting/editUserIng");
+      this.fasonEdit({ id }, "/systemSetting/createWarehouseConfig");
     },
+    //发送编辑数据ajax
     async fasonEdit(data, path) {
       let datas = await post({
-        url: "http://139.196.176.227:8801/am/v1/pUser/findRecord",
+        url:
+          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/saveRecord",
         data,
       });
       if (datas.code === "10000") {
@@ -351,7 +382,8 @@ export default {
     //发送获取列表的消息
     async fasonPagIngQueryData() {
       let datas = await post({
-        url: "http://139.196.176.227:8801/am/v1/pUser/findWHRecordPage",
+        url:
+          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/findRecordPage",
         data: { ...this.pagingQueryData, userType: 4 },
       });
       if (datas.code === "10000") {
@@ -370,8 +402,11 @@ export default {
       // console.log(list, "表格的数据");
       this.tableData = list;
       list.forEach((item, idx) => {
+        this.tableData[idx].wareAreaType =
+          item.wareAreaType == 1 ? "存储区" : "拣货区";
         this.tableData[idx].address =
           item.provinceName + item.cityName + item.areaName + item.userAddr;
+        this.tableData[idx].noSeat = item.seatNum - item.useSeat;
       });
     },
     //用来改变分页器的条数
@@ -379,31 +414,16 @@ export default {
       let { totalRow } = data;
       this.pageComponentsData.pageNums = totalRow;
     },
+    //点击分页器的
     getPageNum(e) {
       this.pagingQueryData.pageNumber = e;
     },
+    //点击分页器的确定
     sureSuccssBtn(e) {
       this.pagingQueryData.pageNumber = e;
     },
-    //点击创建按钮
-    gotoRouterSetUserIng() {
-      this.$router.push({
-        path: "/systemSetting/setUserIng",
-      });
-    },
     //搜索框改变后的数据
-    getChangeInput(e) {
-      this.faSonajax.zhanhao = e;
-    },
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach((row) => {
-          this.$refs.multipleTable.toggleRowSelection(row);
-        });
-      } else {
-        this.$refs.multipleTable.clearSelection();
-      }
-    },
+    toggleSelection(rows) {},
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -415,11 +435,10 @@ export default {
     //点击清空按钮
     clearInputAll() {
       this.clearTimeInput();
+      this.pagingQueryData.paras.childWareId = "";
+      this.pagingQueryData.paras.wareAreaType = "";
+      this.pagingQueryData.paras.id = "";
       this.fasonPagIngQueryData();
-      this.pagingQueryData.paras.loginName = "";
-      this.pagingQueryData.paras.createEndTime = "";
-      this.pagingQueryData.paras.createStartTime = "";
-      this.$store.dispatch("clearsystemSettingtime");
     },
     clearTimeInput() {
       let input = document.getElementsByClassName("ivu-input");
@@ -441,11 +460,23 @@ export default {
       this.pagingQueryData.paras.createEndTime = e;
       this.pagingQueryData.paras.userType = null;
     },
-    //用户角色失
-    getCodeValue(e) {
-      this.pagingQueryData.paras.codeValue = this.dropDowBox.dropDownBoxData[
+    //子仓名称下拉框
+    getwareHouseValue(e) {
+      console.log(e, "子仓名称下拉框");
+      //   this.pagingQueryData.paras.codeValue = this.dropDowBox.dropDownBoxData[
+      //     e
+      //   ].codeValue;
+    },
+    //区域类型下拉框
+    getAreaValue(e) {
+      console.log(e, "区域类型下拉框");
+      this.pagingQueryData.paras.wareAreaType = this.wareAreaTypeJson[
         e
-      ].codeValue;
+      ].wareAreaCode;
+    },
+    //区域名称下拉框
+    getAreaNameValue(e) {
+      console.log(e, "区域名称下拉框");
     },
   },
 };
@@ -507,7 +538,7 @@ export default {
       display: flex;
       align-items: center;
       &::before {
-        background: url(../../assets/img/systemTitlemesa.png) center
+        background: url(../../assets/img/home_page-icon-default@2x.png) center
           center;
         background-size: cover;
       }

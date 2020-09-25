@@ -55,7 +55,9 @@ export function get(datas) {
         })
     })
 }
-
+/**
+ * 获取用户类型 数据
+ */
 export function getUserTypeshuju() {
     return new Promise((resolve, reject) => {
         service.request({
@@ -63,6 +65,26 @@ export function getUserTypeshuju() {
             method: "post",
             data: {
                 "typeCode": "usertype"
+            },
+        }).then((ok) => {
+            resolve(ok.data)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+/**
+ * 获取子仓名称
+ */
+export function getWarehoseConfig() {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseChild/findRecord",
+            method: "post",
+            data: {
+                id: "",
+                wareType: "",
+                wardId: ""
             },
         }).then((ok) => {
             resolve(ok.data)
