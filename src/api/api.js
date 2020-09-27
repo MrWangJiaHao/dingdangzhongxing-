@@ -41,6 +41,7 @@ export function jurisdicRequest(data) {
     })
 }
 
+
 export function post(datas) {
     let { url, data } = datas
     return new Promise((resolve, reject) => {

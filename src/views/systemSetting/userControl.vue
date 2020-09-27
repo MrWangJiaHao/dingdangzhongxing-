@@ -51,10 +51,10 @@
           >
             <el-table-column type="selection" width="55"> </el-table-column>
             <el-table-column
-              prop="serial"
               label="序号"
               width="180"
               align="center"
+              type="index"
             >
             </el-table-column>
             <el-table-column
@@ -196,39 +196,10 @@ export default {
       value: "全部",
       tableData: [
         {
-          serial: 1,
-          roleName: "王小虎",
-          remark: "拣货人员",
-          createName: "张三",
-          createTime: "2020-9-24",
-        },
-        {
-          serial: 2,
-          roleName: "王小虎",
-          remark: "拣货人员",
-          createName: "张三",
-          createTime: "2020-9-24",
-        },
-        {
-          serial: 3,
-          roleName: "王小虎",
-          remark: "拣货人员",
-          createName: "张三",
-          createTime: "2020-9-24",
-        },
-        {
-          serial: 4,
-          roleName: "王小虎",
-          remark: "拣货人员",
-          createName: "张三",
-          createTime: "2020-9-24",
-        },
-        {
-          serial: 5,
-          roleName: "王小虎",
-          remark: "拣货人员",
-          createName: "张三",
-          createTime: "2020-9-24",
+          roleName: "",
+          remark: "",
+          createName: "",
+          createTime: "",
         },
       ],
       pagingQueryData: {
@@ -258,7 +229,6 @@ export default {
   },
   created() {
     this.queryList();
-    // this.pagingQueryData.paras.userType = this.$store.state.loginRequest.loginData.user.userType
   },
   mounted() {
     this.pagingQueryData.paras.userType = this.$store.state.loginRequest.loginData.user.userType;
@@ -519,7 +489,7 @@ export default {
     padding: 20px;
   }
   .pageComponent {
-    margin: 180px 10px 0 0;
+    margin: 20px 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;

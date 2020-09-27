@@ -53,27 +53,6 @@ const routes = [{
     }
   },
   {
-    //仓库配置页面
-    path: '/warehouseConfig',
-    name: 'warehouseConfig',
-    component: () => import('../views/warehouseConfig.vue'),
-    meta: {
-      Breadcrumb: "仓库配置",
-      title: "仓库配置"
-
-    }
-  },
-  {
-    //发货规则配置页面
-    path: '/shipmentsRuleConfig',
-    name: 'shipmentsRuleConfig',
-    component: () => import('../views/shipmentsRuleConfig.vue'),
-    meta: {
-      Breadcrumb: "发货规则配置",
-      title: "发货规则配置"
-    }
-  },
-  {
     //仓库配置=>区域管理
     path: "/warehoseconfig/regionalManagements",
     name: "/warehoseconfig/regionalManagements",
@@ -83,26 +62,8 @@ const routes = [{
       title: "区域管理"
     }
   },
+
   {
-    //仓库配置=>区域管理=>货架设置
-    path: "/warehoseconfig/shelfSetting",
-    name: "/warehoseconfig/shelfSetting",
-    component: () => import("../views/warehoseConfig/shelfSetting"),
-    meta: {
-      Breadcrumb: "区域管理",
-      title: "货架设置"
-    }
-  },
-  {
-    path: "/systemSetting/userControl/setAuthority",
-    name: 'systemSetting/setAuthority',
-    component: () => import("../views/systemSetting/setAuthority.vue")
-  },
-  {
-    path: '*',
-    name: 'notfount',
-    component: () => import('../views/404.vue')
-  }, {
     //仓库配置=>区域管理=>创建子仓
     path: "/warehoseconfig/createWarehouseConfig",
     name: "/warehoseconfig/createWarehouseConfig",
@@ -113,17 +74,51 @@ const routes = [{
     }
   },
   {
-    //仓库配置=>区域管理=>编辑子仓
-    path: "/warehoseconfig/editWarehouseConfig",
-    name: "/warehoseconfig/editWarehouseConfig",
-    component: () => import("../views/warehoseConfig/editWarehouseConfig"),
+    //仓库配置=>子仓管理
+    path: "/warehoseconfig/childWarehouseAdmin",
+    name: "/warehoseconfig/childWarehouseAdmin",
+    component: () => import("../views/warehoseConfig/childWarehouseAdmin"),
     meta: {
-      Breadcrumb: "编辑子仓",
-      title: "编辑子仓"
+
     }
-  }
+  },
+  //仓库配置=>子仓管理=>创建子仓
+  {
+    path: "/warehoseConfig/addChildWarehouse",
+    name: '/warehoseConfig/addChildWarehouse',
+    component: () => import("../views/warehoseConfig/addChildWarehouse.vue")
+  },
+  {
+    path: "/warehoseConfig/editChildWarehouse",
+    name: '/warehoseConfig/editChildWarehouse',
+    component: () => import("../views/warehoseConfig/editChildWarehouse.vue")
+  },
+  {
+    //仓库配置=>库位管理
+    path: "/warehoseconfig/storageLocalAdmin",
+    name: "/warehoseconfig/storageLocalAdmin",
+    component: () => import("../views/warehoseConfig/storageLocalAdmin"),
+    meta: {
+
+    }
+  }, {
+    //仓库配置=>库位映射
+    path: "/warehoseconfig/storageLocalMap",
+    name: "/warehoseconfig/storageLocalMap",
+    component: () => import("../views/warehoseConfig/storageLocalMap"),
+    meta: {
+
+    }
+  },
   ]
 },
+//设置权限页面
+{
+  path: "/systemSetting/userControl/setAuthority",
+  name: 'systemSetting/setAuthority',
+  component: () => import("../views/systemSetting/setAuthority.vue")
+},
+
 {
   path: "/footerDemo",
   name: 'footerDemo',
@@ -140,6 +135,20 @@ const routes = [{
   component: () => import("../views/systemSetting/editUserIng.vue")
 },
 {
+  //仓库配置=>区域管理=>货架设置
+  path: "/warehoseconfig/shelfSetting",
+  name: "/warehoseconfig/shelfSetting",
+  component: () => import("../views/warehoseConfig/shelfSetting"),
+  meta: {
+    Breadcrumb: "区域管理",
+    title: "货架设置"
+  }
+},
+{
+  path: "/systemSetting/userControl/setAuthority",
+  name: 'systemSetting/setAuthority',
+  component: () => import("../views/systemSetting/setAuthority.vue")
+}, {
   path: "/systemSetting/lookUser",
   name: 'systemSetting/lookUser',
   component: () => import("../views/systemSetting/lookUser.vue")
@@ -148,14 +157,23 @@ const routes = [{
   path: '*',
   name: 'notfount',
   component: () => import('../views/404.vue')
+}, {
+  //仓库配置=>区域管理=>创建子仓
+  path: "/warehoseconfig/createWarehouseConfig",
+  name: "/warehoseconfig/createWarehouseConfig",
+  component: () => import("../views/warehoseConfig/createWarehouseConfig"),
+  meta: {
+    Breadcrumb: "创建子仓",
+    title: "创建子仓"
+  }
 },
+//默认进入登录页
 {
   path: '/',
   name: 'Login',
   component: () => import('../views/login/login.vue')
 },
 ]
-//默认进入登录页
 
 const router = new VueRouter({
   mode: 'history',
