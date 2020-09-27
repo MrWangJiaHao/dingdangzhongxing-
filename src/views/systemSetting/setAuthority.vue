@@ -76,7 +76,8 @@ export default {
     goBack() {
       this.$router.push({ path: "/systemSetting/userControl" }); //返回后 再后退不能再跳转到此页面
     },
-    submitData() {//提交按钮
+    submitData() {
+      //提交按钮
       this.$router.push({ path: "/systemSetting/userControl" });
     },
     handleCheckAllChange(val) {

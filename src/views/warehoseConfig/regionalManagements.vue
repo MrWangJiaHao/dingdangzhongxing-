@@ -383,9 +383,6 @@ export default {
     },
     //点击创建按钮
     createSubWarehouse() {
-      this.childrenJson.id = this.multipleSelection[0].childWareId;
-      this._getChildWidth(this.childrenJson);
-      return;
       if (this.multipleSelection.length == 0)
         return Message("请选择在那个子仓下创建区域");
       if (this.multipleSelection.length > 1)
