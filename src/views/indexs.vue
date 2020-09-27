@@ -18,9 +18,21 @@
           </el-tab-pane>
           <el-tab-pane>
             <div class="iconAndText" slot="label">
-              <router-link to="/warehouseConfig">
+              <router-link to="">
                 <img src="@/assets/img/warehouse-config.png" />
-                <div>仓库配置</div>
+                <div>
+                  <el-dropdown trigger="click" @command="clickEvent3">
+                    <span class="el-dropdown-link">仓库配置</span>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item
+                        v-for="(v, i) in dropdownArr3"
+                        :key="i"
+                        :command="i"
+                        >{{ v.text }}</el-dropdown-item
+                      >
+                    </el-dropdown-menu>
+                  </el-dropdown>
+                </div>
               </router-link>
             </div>
           </el-tab-pane>
@@ -133,7 +145,7 @@
               <router-link to>
                 <img src="@/assets/img/warehouse-suppliesCenter.png" />
                 <div>
-                  <el-dropdown trigger="click" @command="clickEvent1">
+                  <el-dropdown trigger="click" @command="clickEvent3">
                     <span class="el-dropdown-link">物料中心</span>
                     <el-dropdown-menu slot="dropdown">
                       <el-dropdown-item
@@ -213,6 +225,7 @@
 <script>
 // import dropdown from "../components/dropdown"; //引入下拉框组件
 import Footer from "../components/footer";
+import { jurisdicRequest } from "../api/api";
 export default {
   components: {
     Footer,
@@ -230,9 +243,24 @@ export default {
         { text: "用户管理", img: "" },
         { text: "角色管理", img: "" },
       ],
+      dropdownArr3: [
+        { text: "子仓管理", img: "" },
+        { text: "区域管理", img: "" },
+        { text: "库位管理", img: "" },
+        { text: "库位映射", img: "" },
+      ],
     };
   },
-  mounted() {},
+  mounted() {
+    let data = {
+      appNo: "99125FCFA23B4AD09668DC8F1DC53C18",
+      type: "4",
+      id: "AA4EBC35E2544E7688E2F4230F3F5E30",
+    };
+    jurisdicRequest(data).then((ok) => {
+      console.log(ok);
+    });
+  },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
@@ -247,6 +275,22 @@ export default {
           break;
         case 1:
           this.$router.push("/systemSetting/userControl");
+          break;
+      }
+    },
+    clickEvent3(command) {
+      switch (command) {
+        case 0:
+          this.$router.push("/warehoseconfig/childWarehouseAdmin");
+          break;
+        case 1:
+          this.$router.push("/warehoseconfig/regionalManagements");
+          break;
+        case 2:
+          this.$router.push("/warehoseconfig/storageLocalAdmin");
+          break;
+        case 3:
+          this.$router.push("/warehoseconfig/storageLocalMap");
           break;
       }
     },
