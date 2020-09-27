@@ -106,6 +106,7 @@
 </template>
 
 <script>
+import { add_edit_WH_Request } from "../../api/api";
 export default {
   data() {
     return {
@@ -295,6 +296,22 @@ export default {
       ],
       value3: "1",
     };
+  },
+  mounted() {
+    let data = {
+      childWareCode: this.value1 + this.value3, //子仓编号
+      childWareName: this.input1, //子仓名称
+      northDistance: this.input4, //距北距离
+      westDistance: this.input5, //距西距离
+      // wareId:this.  ,//父仓库ID
+      wareLength: this.input2, //子仓长度
+      wareWidth: this.input3,
+      // wareName:      //仓库名称
+      wareType: this.value2, //仓库类型
+    };
+    add_edit_WH_Request(data).then((ok) => {
+      console.log(ok);
+    });
   },
   methods: {
     goBack() {
