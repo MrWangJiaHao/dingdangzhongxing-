@@ -7,15 +7,18 @@
       </div>
       <div class="wenZi">
         登入用户&nbsp;
-        <span>wms_ss:{{userName}}</span>
+        <span>wms_ss:{{ userName }}</span>
       </div>
+    </div>
+    <div class="loginOut">
+      <div class="clickLoginOutCenter">asd</div>
     </div>
     <div class="dianJiXiaoXi displayalign">
       <div class="imgBox">
         <img src="../assets/img/message.png" alt />
       </div>
       <div class="wenZi">消息</div>
-      <div class="xiaoXiCenters">{{content}}</div>
+      <div class="xiaoXiCenters">{{ content }}</div>
     </div>
   </div>
 </template>
@@ -37,7 +40,7 @@ export default {
     //发送请求 获取 当前的站内消息
     // let { pageNumber, pageSize } = this;
     // let { result } = await this.$axios.post(
-    //   "http://localhost:8902/wbs-warehouse-manage/v1/pWarehouseStationInfo/findRecordPage",
+    //   "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseStationInfo/findRecordPage",
     //   {
     //     pageNumber,
     //     pageSize,
@@ -87,6 +90,32 @@ export default {
       font-family: Hiragino Sans GB;
       font-weight: normal;
       color: #ffffff;
+    }
+  }
+  .loginOut {
+    width: 100px;
+    height: 30px;
+    position: absolute;
+    bottom: 37px;
+    left: 30px;
+    border: 1px solid #ccc;
+    &::after {
+      content: "";
+      position: absolute;
+      position: absolute;
+      left: 10px;
+      border: 6px solid;
+      border-width: 6px;
+      bottom: -12px;
+      border-top-color: #ccc;
+      z-index: 100;
+      filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.03));
+    }
+    .clickLoginOutCenter {
+      padding: 10px;
+      &:hover {
+        background: #ccc;
+      }
     }
   }
   .dianJiXiaoXi {

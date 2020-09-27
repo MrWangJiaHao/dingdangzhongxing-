@@ -110,3 +110,19 @@ export const removeCookie = function (sessionKey) {
   if (cval != null)
     document.cookie = sessionKey + "=" + cval + ";expires=" + exp.toGMTString();
 }
+
+/**
+ * 对编辑区域进行了图形化
+ * @param {*} item 
+ */
+export const getConversionPx = (item) => {
+  return {
+    width: item.wareAreaLength * (10000 / 85) + "px",
+    height: item.wareAreaWidth * (10000 / 85) + "px",
+    position: "absolute",
+    top: item.y * (10000 / 85) + "px",
+    left: item.x * (10000 / 85) + "px",
+    background: "#fff",
+    cursor: "pointer",
+  };
+}

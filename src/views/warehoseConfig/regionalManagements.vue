@@ -7,7 +7,7 @@
           <div class="noneIconTitle mr11">子仓名称:</div>
           <div class="mr20">
             <el-select
-              v-model="pagingQueryData.paras.childWareId"
+              v-model="pagingQueryData.paras.childWareName"
               slot="prepend"
               :placeholder="nameOfSubWareHouse.placeholder"
               @input="getwareHouseValue"
@@ -15,7 +15,7 @@
               <el-option
                 v-for="(item, idx) in nameOfSubWareHouse.nameOfSubwareHouseData"
                 :key="idx"
-                :label="item.codeName"
+                :label="item.childWareName"
                 :value="idx"
               ></el-option>
             </el-select>
@@ -47,15 +47,16 @@
             <div class="noneIconTitle mr11">区域名称:</div>
             <div class="mr20">
               <el-select
-                v-model="pagingQueryData.paras.id"
+                v-model="pagingQueryData.paras.wareAreaName"
                 slot="prepend"
                 :placeholder="AreaName.placeholder"
                 @input="getAreaNameValue"
+                @focus="getQuYuData"
               >
                 <el-option
                   v-for="(item, idx) in AreaName.AreaNameData"
                   :key="idx"
-                  :label="item.codeName"
+                  :label="item.wareAreaName"
                   :value="idx"
                 ></el-option>
               </el-select>
@@ -78,11 +79,15 @@
           <div class="lodopFunClear" @click="areaPlan">区域平面图</div>
           <div class="lodopFunClear" @click="warehousePlan">库位平面图</div>
           <div class="setUser" @click="createSubWarehouse">创建</div>
-          <div class="bianjiUser" @click="createSubWarehouse">编辑</div>
+          <div class="bianjiUser" @click="editBtn">编辑</div>
           <div class="remove" @click="clearWarehouseplan">删除</div>
         </div>
       </div>
     </div>
+    <div></div>
+    <!-- 区域平面图 -->
+    <div></div>
+    <!-- 库位平面图 -->
     <!-- but按钮 -->
     <div class="tableBox">
       <div style="background-color: #fff; padding: 20px 20px 0 20px">
@@ -128,7 +133,7 @@
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
-              label="区域宽"
+              label="区域宽(m)"
               width="119"
               prop="wareAreaWidth"
               show-overflow-tooltip
@@ -279,7 +284,13 @@ export default {
           childWareId: "",
           wareAreaType: "",
           id: "",
+          childWareName: "",
+          wareAreaName: "",
         },
+      },
+      childrenJson: {
+        wareId: "43C86919FC7E4360838AA522B361A242",
+        id: "1998999DDA5F4260A5E8598603929477",
       },
     };
   },
@@ -290,12 +301,31 @@ export default {
     }, 0);
   },
   methods: {
+    //获取区域名称
+    getQuYuData() {
+      let json = {
+        childWareId: this.pagingQueryData.paras.childWareId,
+      };
+      this._getQuYuData(json);
+    },
     //点击查看区域平面图
+    async _getQuYuData(data) {
+      let datas = await post({
+        url:
+          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/findRecord",
+        data,
+      });
+      this.AreaName.AreaNameData = datas.result;
+    },
     areaPlan() {},
     //点击查看库位平面图
     warehousePlan() {},
     //点击货架设置
-    shelfSetting() {},
+    shelfSetting() {
+      this.$router.push({
+        path: "/warehoseconfig/shelfSetting",
+      });
+    },
     //点击删除子仓
     clearWarehouseplan() {
       let arr = this._getIDArr();
@@ -306,7 +336,7 @@ export default {
         type: "warning",
       })
         .then(() => {
-          this._clearAjax(arr);
+          this._clearAjax({ ids: arr });
         })
         .catch((err) => {
           Message("已取消删除");
@@ -314,7 +344,23 @@ export default {
     },
     //发送删除的ajax
     async _clearAjax(data) {
-      console.log(data, "要删除的区域管理的id组合集");
+      let res = await post({
+        url:
+          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/delRecord",
+        data,
+      });
+      if (res.code === "10000") {
+        Message({
+          type: "success",
+          message: datas.msg,
+          duration: 1000,
+          onClose() {
+            window.location.reload();
+          },
+        });
+      } else {
+        Message(res.msg);
+      }
     },
     //获取要删除的区域管理
     _getIDArr() {
@@ -326,27 +372,42 @@ export default {
       });
       return arr;
     },
+    //获取子仓的长度
+    async _getChildWidth(data) {
+      let datas = await post({
+        url:
+          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseChild/findRecord",
+        data,
+      });
+      console.log(datas, "获取子仓的长度");
+    },
     //点击创建按钮
     createSubWarehouse() {
+      this.childrenJson.id = this.multipleSelection[0].childWareId;
+      this._getChildWidth(this.childrenJson);
+      return;
       if (this.multipleSelection.length == 0)
         return Message("请选择在那个子仓下创建区域");
       if (this.multipleSelection.length > 1)
         return Message("每次只能在一个子仓下创建区域");
-      this.createWarehouseAjax({
-        childWareId: this.multipleSelection[0].childWareId,
-      });
+      this.createWarehouseAjax(
+        {
+          childWareId: this.multipleSelection[0].childWareId,
+        },
+        "/warehoseconfig/createWarehouseConfig"
+      );
     },
     //发送创建区域的ajax
-    async createWarehouseAjax(data) {
+    async createWarehouseAjax(data, path) {
       let datas = await post({
         url:
           "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/findRecord",
         data,
       });
       if (datas.code === "10000") {
-        localStorage.setItem("warseHouseData", JSON.stringify(datas.result[0]));
+        localStorage.setItem("warseHouseData", JSON.stringify(datas.result));
         return this.$router.push({
-          path: "/warehoseconfig/createWarehouseConfig",
+          path,
         });
       } else {
         Message(datas.result);
@@ -354,14 +415,22 @@ export default {
     },
     //点击编辑按钮
     editBtn() {
-      if (!this.multipleSelection.length) return Message("请选择要编辑的账号");
-      if (this.multipleSelection.length !== 1)
-        return Message({
-          message: "每次只能编辑一条账号，请重新选择",
-          type: "warning",
-        });
-      let id = this.multipleSelection[0].id;
-      this.fasonEdit({ id }, "/systemSetting/createWarehouseConfig");
+      if (this.multipleSelection.length == 0)
+        return Message("请选择编辑哪一个区域区域");
+      if (this.multipleSelection.length > 1)
+        return Message("每次只能在编辑一个区域，请重新选择");
+      window.sessionStorage.setItem(
+        "createWareHuseData",
+        JSON.stringify({
+          childWareId: this.multipleSelection[0].childWareId,
+          id: this.multipleSelection[0].id,
+          id: this.multipleSelection[0].id,
+        })
+      );
+      this.createWarehouseAjax(
+        { childWareId: this.multipleSelection[0].childWareId },
+        "/warehoseconfig/editWarehouseConfig"
+      );
     },
     //发送编辑数据ajax
     async fasonEdit(data, path) {
@@ -393,6 +462,7 @@ export default {
       }
     },
     changeData(data) {
+      this.nameOfSubWareHouse.nameOfSubwareHouseData = data.list;
       this.changeTableData(data); //用来改变表格
       this.changePageData(data); //用来改变分页器的条数
     },
@@ -435,8 +505,8 @@ export default {
     //点击清空按钮
     clearInputAll() {
       this.clearTimeInput();
-      this.pagingQueryData.paras.childWareId = "";
-      this.pagingQueryData.paras.wareAreaType = "";
+      this.pagingQueryData.paras.childWareName = "";
+      this.pagingQueryData.paras.wareAreaName = "";
       this.pagingQueryData.paras.id = "";
       this.fasonPagIngQueryData();
     },
@@ -462,20 +532,28 @@ export default {
     },
     //子仓名称下拉框
     getwareHouseValue(e) {
-      console.log(e, "子仓名称下拉框");
-      //   this.pagingQueryData.paras.codeValue = this.dropDowBox.dropDownBoxData[
-      //     e
-      //   ].codeValue;
+      this.pagingQueryData.paras.childWareId = this.nameOfSubWareHouse.nameOfSubwareHouseData[
+        e
+      ].childWareId;
+      this.pagingQueryData.paras.childWareName = this.nameOfSubWareHouse.nameOfSubwareHouseData[
+        e
+      ].childWareName;
     },
     //区域类型下拉框
     getAreaValue(e) {
-      console.log(e, "区域类型下拉框");
       this.pagingQueryData.paras.wareAreaType = this.wareAreaTypeJson[
         e
       ].wareAreaCode;
     },
     //区域名称下拉框
     getAreaNameValue(e) {
+      console.log(this.nameOfSubWareHouse.nameOfSubwareHouseData[e].id);
+      this.pagingQueryData.paras.id = this.nameOfSubWareHouse.nameOfSubwareHouseData[
+        e
+      ].id;
+      this.pagingQueryData.paras.wareAreaName = this.nameOfSubWareHouse.nameOfSubwareHouseData[
+        e
+      ].wareAreaName;
       console.log(e, "区域名称下拉框");
     },
   },
@@ -537,11 +615,6 @@ export default {
     .meiyiyetitle {
       display: flex;
       align-items: center;
-      &::before {
-        background: url(../../assets/img/home_page-icon-default@2x.png) center
-          center;
-        background-size: cover;
-      }
     }
     .setUser {
       margin-right: 10px;

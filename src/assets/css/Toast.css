@@ -79,6 +79,13 @@
   margin-top: 80px;
   position: inherit;
 }
+.el-message-box__status.el-icon-info {
+  width: 56px;
+  height: 50px;
+  margin-top: 80px;
+  position: inherit;
+}
+
 .el-message-box__btns {
   margin: -20px 20px 0px 0;  
 }
@@ -86,6 +93,9 @@
   padding-bottom: 60px;
 }
 .el-message-box__status.el-icon-warning::before {
+  content: " ";
+}
+.el-message-box__status.el-icon-info::before {
   content: " ";
 }
 .el-message-box__status+.el-message-box__message {

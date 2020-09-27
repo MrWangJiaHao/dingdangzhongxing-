@@ -84,6 +84,16 @@ const routes = [{
     }
   },
   {
+    //仓库配置=>区域管理=>货架设置
+    path: "/warehoseconfig/shelfSetting",
+    name: "/warehoseconfig/shelfSetting",
+    component: () => import("../views/warehoseConfig/shelfSetting"),
+    meta: {
+      Breadcrumb: "区域管理",
+      title: "货架设置"
+    }
+  },
+  {
     path: "/systemSetting/userControl/setAuthority",
     name: 'systemSetting/setAuthority',
     component: () => import("../views/systemSetting/setAuthority.vue")
@@ -92,7 +102,7 @@ const routes = [{
     path: '*',
     name: 'notfount',
     component: () => import('../views/404.vue')
-  },{
+  }, {
     //仓库配置=>区域管理=>创建子仓
     path: "/warehoseconfig/createWarehouseConfig",
     name: "/warehoseconfig/createWarehouseConfig",

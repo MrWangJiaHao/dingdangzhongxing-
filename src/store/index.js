@@ -40,7 +40,6 @@ let mutations = {
     state.warehouseConfig = data.result
   }
 }
-
 let state = {
   editUser: {},
   userTypeArr: [],
