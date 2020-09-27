@@ -12,11 +12,25 @@
         <!-- 距离 -->
       </div>
       <!--子仓区域 title部分  -->
-      <div class="wareHouseCenter noneZican displayCenter">
-        暂未划分子仓
-        <!-- 暂无子仓 -->
+      <div
+        v-if="!createSetting.length"
+        class="wareHouseCenter noneZican displayCenter"
+      >
+        暂未划分区域
       </div>
-      <div class></div>
+      <!-- 暂无子仓 -->
+      <div v-if="createSetting.length" class="wareHouseCenter noneZican">
+        <div
+          v-for="(item, idx) in createSetting"
+          :key="idx"
+          class="displayCenter"
+          :class="activeNum === idx ? 'active' : ''"
+          :style="getConversion(item)"
+          @click="ISEditQuYu(item, idx)"
+        >
+          {{ item.wareAreaName }}
+        </div>
+      </div>
       <!-- 有子仓 -->
       <!-- 子仓图区域 -->
       <div>
@@ -191,13 +205,13 @@
 <script>
 import { Message } from "element-ui";
 import { post } from "../../api/api";
+import { getConversionPx } from "../../utils/validate";
 export default {
   data() {
     return {
       isNum: false,
       createWarehouseJson: {
         wareAreaType: "",
-        id: "",
         childWareId: "",
         wareAreaCode: "",
         wareAreaLength: "",
@@ -224,17 +238,48 @@ export default {
       ],
       wareAreaCodeZIMUstr: "",
       wareAreaCodenum: "",
+      createSetting: [],
+      activeNum: null,
     };
   },
   created() {
     let datas = localStorage.getItem("warseHouseData");
-    this.createWarehouseJson.childWareId = JSON.parse(datas).childWareId;
-    this.createWarehouseJson.id = JSON.parse(datas).id;
-  },
-  beforeDestroy() {
-    localStorage.removeItem("warseHouseData");
+    this.createSetting = JSON.parse(datas);
+    this.createWarehouseJson.childWareId = JSON.parse(datas)[0].childWareId;
   },
   methods: {
+    //是否跳入编辑页
+    ISEditQuYu(item, idx) {
+      this.activeNum = idx;
+      this.$confirm(`确定修改${item.wareAreaName}的仓库配置`, "提示", {
+        type: "info",
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+      })
+        .then(() => {
+          window.sessionStorage.setItem(
+            "createWareHuseData",
+            JSON.parse({
+              childWareId: item.childWareId,
+              id: item.id,
+              idx,
+            })
+          );
+          this.$router.push({
+            path: "/warehoseconfig/editWarehouseConfig",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消修改",
+          });
+        });
+    },
+    //改变距离大小
+    getConversion(item) {
+      return getConversionPx(item);
+    },
     //区域类型数字改变时间
     quyuleixing(e) {
       this.createWarehouseJson.wareAreaType = this.wareAreaTypeJson[
@@ -300,7 +345,11 @@ export default {
       height: 4.71rem;
       background: #eef1f8;
       border-radius: 8px;
+      position: relative;
     }
+  }
+  .active {
+    background: #599af4 !important;
   }
   .fanhiu {
     @include BtnFunction();

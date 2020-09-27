@@ -149,6 +149,12 @@ textarea {
 .disinb{
   display: inline-block;
 }
+.disinbl{
+  display: block;
+}
+.line40{
+  line-height: 40px;
+}
 .meiyiyetitle{
   font-size: 14px;
   font-family: Hiragino Sans GB;

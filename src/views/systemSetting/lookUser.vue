@@ -138,7 +138,7 @@
                 <span style="color:red;">*</span>:
               </div>
               <div class="mr20">
-                <el-input disabled v-model="createUserData.roleId" clearable type="text"></el-input>
+                <el-input disabled v-model="createUserData.createUser" clearable type="text"></el-input>
               </div>
             </div>
           </div>
@@ -250,12 +250,14 @@ export default {
         roleId,
         loginPwdOriginal,
         remark,
+        createUser
       } = this.editUser;
       this.createUserData.userName = userName;
       this.createUserData.userPhone = userPhone;
       this.createUserData.provinceName = provinceName;
       this.createUserData.cityName = cityName;
       this.createUserData.areaName = areaName;
+      this.createUserData.createUser = createUser;
       this.createUserData.userAddr = userAddr;
       this.createUserData.loginName = loginName;
       this.createUserData.loginPwd = loginPwdOriginal;

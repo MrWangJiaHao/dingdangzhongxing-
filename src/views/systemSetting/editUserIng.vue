@@ -14,10 +14,14 @@
               <div class="displayalign">
                 <div class="noneIconTitle mr11">
                   用户姓名
-                  <span style="color:red;">*</span>:
+                  <span style="color: red">*</span>:
                 </div>
                 <div class="mr20">
-                  <el-input placeholder="请输入用户姓名" v-model="createUserData.userName" clearable></el-input>
+                  <el-input
+                    placeholder="请输入用户姓名"
+                    v-model="createUserData.userName"
+                    clearable
+                  ></el-input>
                 </div>
               </div>
             </div>
@@ -26,10 +30,14 @@
               <div class="displayalign">
                 <div class="noneIconTitle mr11">
                   联系电话
-                  <span style="color:red;">*</span>:
+                  <span style="color: red">*</span>:
                 </div>
                 <div class="mr20">
-                  <el-input placeholder="请输入联系电话" v-model="createUserData.userPhone" clearable></el-input>
+                  <el-input
+                    placeholder="请输入联系电话"
+                    v-model="createUserData.userPhone"
+                    clearable
+                  ></el-input>
                 </div>
               </div>
             </div>
@@ -40,7 +48,7 @@
               <div class="displayalign">
                 <div class="noneIconTitle mr11">
                   居住地址
-                  <span style="visibility: hidden;">*</span>:
+                  <span style="visibility: hidden">*</span>:
                 </div>
                 <div>
                   <el-select
@@ -50,9 +58,9 @@
                     @input="getProvinceCode"
                   >
                     <el-option
-                      v-for="(item,idx) in dropDowProvince.dropDownBoxData"
+                      v-for="(item, idx) in dropDowProvince.dropDownBoxData"
                       :key="idx"
-                      :label="item.areaName?item.areaName:item"
+                      :label="item.areaName ? item.areaName : item"
                       :value="idx"
                     ></el-option>
                   </el-select>
@@ -68,9 +76,9 @@
                 slot="prepend"
               >
                 <el-option
-                  v-for="(item,idx) in dropDowCity.dropDownBoxData"
+                  v-for="(item, idx) in dropDowCity.dropDownBoxData"
                   :key="idx"
-                  :label="item.areaName?item.areaName:item"
+                  :label="item.areaName ? item.areaName : item"
                   :value="idx"
                 ></el-option>
               </el-select>
@@ -84,9 +92,9 @@
                 slot="prepend"
               >
                 <el-option
-                  v-for="(item,idx) in dropDowDistrictCount.dropDownBoxData"
+                  v-for="(item, idx) in dropDowDistrictCount.dropDownBoxData"
                   :key="idx"
-                  :label="item.areaName?item.areaName:item"
+                  :label="item.areaName ? item.areaName : item"
                   :value="idx"
                 ></el-option>
               </el-select>
@@ -95,7 +103,11 @@
           </div>
           <div class="textAreaBox">
             <textarea
-              :placeholder="createUserData.userAddr?createUserData.userAddr:'未录入详细地址'"
+              :placeholder="
+                createUserData.userAddr
+                  ? createUserData.userAddr
+                  : '未录入详细地址'
+              "
               v-model="createUserData.userAddr"
               maxlength="200"
             ></textarea>
@@ -110,7 +122,7 @@
           <div class="displayalign">
             <div class="noneIconTitle mr11">
               用户账号
-              <span style="color:red;">*</span>:
+              <span style="color: red">*</span>:
             </div>
             <div class="mr20">
               <el-input
@@ -124,8 +136,8 @@
           <!-- 用户账号 -->
           <div class="displayalign">
             <div class="noneIconTitle mr11">
-              <span style="visibility: hidden;">你好</span>密码
-              <span style="color:red;">*</span>:
+              <span style="visibility: hidden">你好</span>密码
+              <span style="color: red">*</span>:
             </div>
             <div>
               <el-input
@@ -145,10 +157,13 @@
             <div class="displayalign">
               <div class="noneIconTitle mr11">
                 用户角色
-                <span style="color:red;">*</span>:
+                <span style="color: red">*</span>:
               </div>
               <div class="mr20">
-                <dropDownUserType :dropDowBox="dropDowUserType" @getDropDownData="getUserType"></dropDownUserType>
+                <dropDownUserType
+                  :dropDowBox="dropDowUserType"
+                  @getDropDownData="getUserType"
+                ></dropDownUserType>
               </div>
             </div>
           </div>
@@ -157,7 +172,7 @@
             <div class="displayalign">
               <div class="noneIconTitle mr11">
                 用户邮箱
-                <span style="color:red;">*</span>:
+                <span style="color: red">*</span>:
               </div>
               <div>
                 <el-input
@@ -175,14 +190,16 @@
         <div>
           <div class="dispalyFlex mb20">
             <div class="noneIconTitle mr11 fosi0">
-              <span class="fosi14" style="visibility: hidden;">你好</span>
+              <span class="fosi14" style="visibility: hidden">你好</span>
               <span class="fosi14">备注</span>
-              <span class="fosi14" style="visibility: hidden;">好</span>
+              <span class="fosi14" style="visibility: hidden">好</span>
               <span class="fosi14">:</span>
             </div>
             <div class="bzTetxArea">
               <textarea
-                :placeholder="createUserData.remark?createUserData.remark:'未录入备注'"
+                :placeholder="
+                  createUserData.remark ? createUserData.remark : '未录入备注'
+                "
                 v-model="createUserData.remark"
                 maxlength="200"
               ></textarea>
@@ -277,6 +294,7 @@ export default {
         parentId: "",
         orgId: "FC4AD500BE8E4B5FB58CCAE7B519FB6F",
         waerId: "",
+        id: "",
       },
       getProvinceData: {
         parentCode: 0,
@@ -326,6 +344,7 @@ export default {
         userType,
         areaCode,
         loginPwdOriginal,
+        id,
       } = this.editUser;
       this.createUserData.userName = userName;
       this.createUserData.userPhone = userPhone;
@@ -335,6 +354,7 @@ export default {
       this.createUserData.userAddr = userAddr;
       this.createUserData.loginName = loginName;
       this.createUserData.loginPwd = loginPwdOriginal;
+      this.createUserData.id = id;
       this.loginPWd = loginPwdOriginal;
       this.createUserData.roleId = roleId;
       this.createUserData.userType = userType;
@@ -391,7 +411,7 @@ export default {
         data: this.createUserData,
       });
       if (results.code === "10000") {
-        Message("创建成功");
+        Message(results.msg);
         this.$router.push({
           path: "/systemSetting/userSetting",
         });

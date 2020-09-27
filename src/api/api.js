@@ -113,7 +113,7 @@ export function getWarehoseConfig() {
             data: {
                 id: "",
                 wareType: "",
-                wardId: ""
+                wardId: "43C86919FC7E4360838AA522B361A242"
             },
         }).then((ok) => {
             resolve(ok.data)

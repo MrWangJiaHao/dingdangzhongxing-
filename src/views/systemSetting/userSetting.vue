@@ -19,7 +19,7 @@
             <div class="noneIconTitle mr11">用户角色:</div>
             <div class="mr20">
               <el-select
-                v-model="pagingQueryData.paras.userType"
+                v-model="pagingQueryData.paras.createUser"
                 slot="prepend"
                 :disabled="dropDowBox.disabled"
                 :placeholder="dropDowBox.placeholder"
@@ -102,7 +102,7 @@
             ></el-table-column>
             <el-table-column
               label="用户角色"
-              prop="codeName"
+              prop="createUser"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
@@ -117,7 +117,7 @@
             ></el-table-column>
             <el-table-column
               label="创建人"
-              prop="createUser"
+              prop="loginName"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column label="创建时间">
@@ -228,7 +228,7 @@ export default {
       setTimeout(
         () => {
           this.LODOP = this.$getLodop();
-          this._createEwm(arr);
+          this._createEwm(this.multipleSelection);
         },
         200,
         arr
@@ -239,7 +239,21 @@ export default {
       let x = 0;
       let y = 0;
       arr.forEach((item) => {
-        this.LODOP.ADD_PRINT_BARCODE(x, (y += 100), 100, 100, "QRCode", item);
+        this.LODOP.ADD_PRINT_BARCODE(
+          x,
+          (y += 100),
+          100,
+          100,
+          "QRCode",
+          item.id
+        );
+        this.LODOP.ADD_PRINT_IMAGE(
+          30,
+          20,
+          600,
+          250,
+          "<img src='http://www.c-lodop.com/demolist/PrintSample8.jpg' width='100%' height='250'/>"
+        );
       });
       this.LODOP.PREVIEW();
     },
@@ -280,13 +294,14 @@ export default {
     clearUser() {
       let arr = this._getIDArr();
       if (!arr.length) return Message("请选择要删除的用户");
+      if (arr.length !== 1) return Message("一次只能删除一个用户");
       this.$confirm("确定要删除改用户？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(() => {
-          this._clearAjax(arr);
+          this._clearAjax({ id: arr[0] });
         })
         .catch((err) => {
           Message("已取消删除");
@@ -303,23 +318,25 @@ export default {
     },
     //发送删除的ajax
     async _clearAjax(data) {
-      ajaxPost(
-        "http://139.196.176.227:8801/am/v1/pRole/delRecord",
+      let datas = await post({
+        url: "http://139.196.176.227:8801/am/v1/pUser/delRecord",
         data,
-        (data) => {
-          if (data.code === "10000") {
-            Message({
-              type: "success",
-              message: data.msg,
-            });
-          } else {
-            Message({
-              type: "error",
-              message: data.msg ? data.msg : "删除失败",
-            });
-          }
-        }
-      );
+      });
+      if (datas.code === "10000") {
+        Message({
+          type: "success",
+          message: datas.msg,
+          duration: 1000,
+          onClose() {
+            window.location.reload();
+          },
+        });
+      } else {
+        Message({
+          type: "error",
+          message: datas.msg ? datas.msg : "删除失败",
+        });
+      }
     },
     //点击编辑按钮
     editBtn() {
@@ -331,7 +348,6 @@ export default {
         });
 
       let id = this.multipleSelection[0].id;
-      console.log("点击了编辑", id);
       this.fasonEdit({ id }, "/systemSetting/editUserIng");
     },
     async fasonEdit(data, path) {
@@ -414,12 +430,12 @@ export default {
     },
     //点击清空按钮
     clearInputAll() {
-      this.clearTimeInput();
-      this.fasonPagIngQueryData();
+      this.$store.dispatch("clearsystemSettingtime");
       this.pagingQueryData.paras.loginName = "";
       this.pagingQueryData.paras.createEndTime = "";
       this.pagingQueryData.paras.createStartTime = "";
-      this.$store.dispatch("clearsystemSettingtime");
+      this.clearTimeInput();
+      this.fasonPagIngQueryData();
     },
     clearTimeInput() {
       let input = document.getElementsByClassName("ivu-input");
@@ -441,11 +457,11 @@ export default {
       this.pagingQueryData.paras.createEndTime = e;
       this.pagingQueryData.paras.userType = null;
     },
-    //用户角色失
+    //用户角色
     getCodeValue(e) {
       this.pagingQueryData.paras.codeValue = this.dropDowBox.dropDownBoxData[
         e
-      ].codeValue;
+      ].codeName;
     },
   },
 };
@@ -507,8 +523,7 @@ export default {
       display: flex;
       align-items: center;
       &::before {
-        background: url(../../assets/img/systemTitlemesa.png) center
-          center;
+        background: url(../../assets/img/systemTitlemesa.png) center center;
         background-size: cover;
       }
     }
