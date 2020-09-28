@@ -322,6 +322,17 @@ export default {
     warehousePlan() {},
     //点击货架设置
     shelfSetting() {
+      if (this.multipleSelection.length == 0)
+        return Message("请选择在哪个区域下创建货架");
+      if (this.multipleSelection.length > 1)
+        return Message("每次只能在编辑一个区域，请重新选择");
+      sessionStorage.setItem(
+        "shelfSettingData",
+        JSON.stringify({
+          wareAreaId: this.multipleSelection[0].id,
+          childWareId: this.multipleSelection[0].childWareId,
+        })
+      );
       this.$router.push({
         path: "/warehoseconfig/shelfSetting",
       });
@@ -413,9 +424,9 @@ export default {
     //点击编辑按钮
     editBtn() {
       if (this.multipleSelection.length == 0)
-        return Message("请选择编辑哪一个区域区域");
+        return Message("请选择在哪一个区域下编辑");
       if (this.multipleSelection.length > 1)
-        return Message("每次只能在编辑一个区域，请重新选择");
+        return Message("每次只能编辑一个区域，请重新选择");
       window.sessionStorage.setItem(
         "createWareHuseData",
         JSON.stringify({
@@ -551,7 +562,6 @@ export default {
       this.pagingQueryData.paras.wareAreaName = this.nameOfSubWareHouse.nameOfSubwareHouseData[
         e
       ].wareAreaName;
-      console.log(e, "区域名称下拉框");
     },
   },
 };

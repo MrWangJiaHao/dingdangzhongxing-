@@ -125,6 +125,11 @@ textarea {
     align-items: center;
     justify-content: center;
 }
+.displayColom{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
 .displayalign{
   display: flex;
   align-items: center;
@@ -226,6 +231,10 @@ textarea{
 .pd20{
   padding:0 20px ;
 }
+.pt20{
+  padding: 20px 0;
+
+}
 .mr11{
   margin-right:11px ;
 }
@@ -246,8 +255,8 @@ textarea{
 }
 .M{
   font-size: 16px;
-font-weight: normal;
-color: #454545;
+  font-weight: normal;
+  color: #454545;
 }
 .anniu{
   width: 19px;
