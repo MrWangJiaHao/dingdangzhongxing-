@@ -53,12 +53,20 @@
         </div>
         <div class="input3">
           <span>子仓长：</span>
-          <el-input v-model="input2" placeholder="请输入长度"></el-input>
+          <el-input
+            v-model="input2"
+            placeholder="请输入长度"
+            type="number"
+          ></el-input>
           <span>m</span>
         </div>
         <div class="input4">
           <span>子仓宽：</span>
-          <el-input v-model="input3" placeholder="请输入宽度"></el-input>
+          <el-input
+            v-model="input3"
+            placeholder="请输入宽度"
+            type="number"
+          ></el-input>
           <span>m</span>
         </div>
         <div class="input5">
@@ -75,12 +83,20 @@
         </div>
         <div class="input6">
           <span>距北距离：</span>
-          <el-input v-model="input4" placeholder="请输入长度"></el-input>
+          <el-input
+            v-model="input4"
+            placeholder="请输入长度"
+            type="number"
+          ></el-input>
           <span>m</span>
         </div>
         <div class="input7">
           <span>距西距离：</span>
-          <el-input v-model="input5" placeholder="请输入长度"></el-input>
+          <el-input
+            v-model="input5"
+            placeholder="请输入长度"
+            type="number"
+          ></el-input>
           <span>m</span>
         </div>
       </div>
@@ -106,6 +122,9 @@
 </template>
 
 <script>
+import { add_edit_WH_Request } from "../../api/api";
+import { Message } from "element-ui";
+
 export default {
   data() {
     return {
@@ -148,10 +167,6 @@ export default {
         {
           value: "H",
           label: "H",
-        },
-        {
-          value: "L",
-          label: "L",
         },
         {
           value: "I",
@@ -198,10 +213,6 @@ export default {
           label: "S",
         },
         {
-          value: "S",
-          label: "S",
-        },
-        {
           value: "T",
           label: "T",
         },
@@ -234,24 +245,16 @@ export default {
 
       childWarehouseType: [
         {
-          value: "销售",
-          label: "销售",
+          value: "1",
+          label: "1",
         },
         {
-          value: "售后",
-          label: "售后",
+          value: "2",
+          label: "2",
         },
         {
-          value: "残次品",
-          label: "残次品",
-        },
-        {
-          value: "备货",
-          label: "备货",
-        },
-        {
-          value: "验货",
-          label: "验货",
+          value: "3",
+          label: "3",
         },
       ],
       value2: "",
@@ -302,17 +305,32 @@ export default {
     },
     submitData() {
       let data = {
-        childWareCode: this.value1+this.value3, //子仓编号
+        childWareCode: this.value1 + this.value3, //子仓编号
         childWareName: this.input1, //子仓名称
-        northDistance:this.input4,//距北距离
-        westDistance:this.input5,//距西距离
-        // wareId:this.  ,//父仓库ID
+        northDistance: this.input4, //距北距离
+        westDistance: this.input5, //距西距离
+        wareId: this.$store.state.loginRequest.loginData.user.wareId, //父仓库ID
         wareLength: this.input2, //子仓长度
         wareWidth: this.input3,
-        // wareName:      //仓库名称
         wareType: this.value2, //仓库类型
       };
-      console.log(data);
+      // console.log(data);
+      //新增修改子仓信息,当传参带有ID时为修改,不带ID时则为新增
+      add_edit_WH_Request(data).then((ok) => {
+        console.log(ok);
+        if (ok.data.code === "10000") {
+          Message({
+            type: "success",
+            message: "创建成功",
+          });
+          this.$router.push("/warehoseconfig/childWarehouseAdmin");
+        } else {
+          Message({
+            type: "error",
+            message: ok.data.msg,
+          });
+        }
+      });
     },
     clickNumber(v) {
       let input8 = document.querySelector(".input8");

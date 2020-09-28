@@ -144,7 +144,12 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-
+import { Message } from "element-ui";
+import {
+  del_WH_Request,
+  query_WH_Request,
+  TJquery_WH_Request,
+} from "../../api/api";
 export default {
   components: {
     pagecomponent,
@@ -197,59 +202,81 @@ export default {
       ],
       nameValue: "全部",
       typeValue: "全部",
-      tableData: [
-        {
-          CWName: "", //子仓名称
-          CWnumber: "", //子仓编号
-          CWtype: "", //子仓类型
-          CWWidth: "", //子仓长度
-          CWHeight: "", //子仓高度
-          Ndistance: "", //距北距离
-          Wdistance: "", //距西距离
-          divideArea: "", //是否划分区域
-          usedArea: "", //已使用面积
-          unUsedArea: "", //未使用面积
-          remark: "", //备注
-          createName: "", //创建人
-          createTime: "", //创建时间
-        },
-        
-      ],
+      tableData: [],
       multipleSelection: [],
       pagingQueryData: {
         //分页查询
         pageNumber: 1,
         pageSize: 10,
         paras: {
-          // orgId: this.$store.state.loginRequest.loginData.orgId,
-          // id: this.$store.state.loginRequest.loginData.id,
-          userType: "",
-          // createStartTime: this.$store.state.loginRequest.loginData
-          //   .createStartTime,
-          // createEndTime: this.$store.state.loginRequest.loginData.createEndTime,
-          // loginName: this.$store.state.loginRequest.loginData.loginName,
-          // roleId: this.$store.state.loginRequest.loginData.roleId,
-          // wareId: this.$store.state.loginRequest.loginData.wareId,
-
-          roleName: "",
+          wareType: "",
+          id: "",
         },
       },
       pageComponentsData: {
         //这是分页器需要的json
         pageNums: 0, //一共多少条 //默认一页10条
       },
+      requestMethods: "",
     };
   },
+  mounted() {
+    this.requestMethods = () => {
+      let queryData = this.pagingQueryData;
+      let tableData = this.tableData;
+      query_WH_Request(queryData).then((ok) => {
+        if (ok.data.code === "10000") {
+          //将查询结果赋值给一个变量
+          this.changeData(ok.data.result);
+          // 将查询出来的数组进行循环，分别插入到表格中
+          let resultList = ok.data.result.list;
+          //将查询出来的数据存储到vuex里面
+          this.$store.dispatch("CWAdminRequest", ok.data.result);
+
+          resultList.forEach((values, indexs) => {
+            let tableDataItem = {
+              CWName: resultList[indexs].childWareName, //子仓名称
+              CWnumber: resultList[indexs].childWareCode, //子仓编号
+              CWtype: resultList[indexs].wareType, //子仓类型
+              CWWidth: resultList[indexs].wareLength, //子仓长度
+              CWHeight: resultList[indexs].wareWidth, //子仓宽度
+              Ndistance: resultList[indexs].northDistance, //距北距离
+              Wdistance: resultList[indexs].westDistance, //距西距离
+              divideArea: resultList[indexs].enableStatus, //是否划分区域
+              usedArea: resultList[indexs].size, //已使用面积
+              unUsedArea: resultList[indexs].size, //未使用面积
+              remark: resultList[indexs].remark, //备注
+              createName: resultList[indexs].lastModifyUser, //创建人
+              createTime: resultList[indexs].lastModifyTime, //创建时间
+              id: resultList[indexs].id,
+            };
+            // tableData.forEach((v)=>{
+              if(!(tableData.indexOf(tableDataItem) === -1)){
+                return
+              }
+            // })
+            tableData.push(tableDataItem);
+          });
+        }
+      });
+    };
+    this.requestMethods();
+  },
   methods: {
-    selectName() {},
-    selectType() {},
+    handleSelectionChange(value) {
+      this.multipleSelection = value;
+    },
+    selectName(val) {
+      this.nameValue = val;
+    },
+    selectType(val) {
+      this.typeValue = val;
+    },
     clickQuery() {
       //点击查询
-      let queryCondition = {
-        nameValue: this.nameValue,
-        typeValue: this.typeValue,
-      };
-      console.log(queryCondition);
+      TJquery_WH_Request().then((ok) => {
+        console.log(ok);
+      });
     },
     clearInput() {
       //点击清空输入框
@@ -258,18 +285,60 @@ export default {
     },
     createChildWarehouse() {
       //创建
-      this.$router.push({path:"/warehoseConfig/addChildWarehouse"})
+      this.$router.push({ path: "/warehoseConfig/addChildWarehouse" });
     },
     editChildWarehouse() {
       //编辑
-      this.$router.push({path:"/warehoseConfig/editChildWarehouse"})
+      // if (!this.multipleSelection.length) return Message("请选择要查看的账号");
+      // if (this.multipleSelection.length !== 1)
+      //   return Message({
+      //     message: "每次只能查看一条账号，请重新选择",
+      //     type: "warning",
+      //   });
+      this.$router.push({
+        path: "editChildWarehouse",
+        // query: {editArr:this.multipleSelection},
+      });
     },
     delChildWarehouse() {
       //删除
+      let arr = [];
+      this.multipleSelection.forEach((item) => {
+        if (!arr.includes(item.id)) {
+          arr.push(item.id);
+        }
+      });
+      if (!arr.length) return Message("请选择要删除的用户");
+      this.$confirm("确定要删除改用户？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.delRequest({ ids: arr });
+        })
+        .catch(() => {
+          Message("已取消删除");
+        });
     },
-    handleSelectionChange(value) {
-      this.multipleSelection = value;
+    //删除的请求
+    delRequest(data) {
+      del_WH_Request(data).then((ok) => {
+        if (ok.data.code === "10000") {
+          this.requestMethods();
+          Message({
+            type: "success",
+            message: "删除成功",
+          });
+        } else {
+          Message({
+            type: "error",
+            message: ok.data.msg ? ok.data.msg : "删除失败",
+          });
+        }
+      });
     },
+
     getPageNum(e) {
       this.pagingQueryData.pageNumber = e;
     },
@@ -277,18 +346,7 @@ export default {
       this.pagingQueryData.pageNumber = e;
     },
     changeData(data) {
-      this.changeTableData(data); //用来改变表格
       this.changePageData(data); //用来改变分页器的条数
-    },
-    //用来改变表格
-    changeTableData(data) {
-      let { list } = data;
-      // console.log(list, "表格的数据");
-      this.tableData = list;
-      list.forEach((item, idx) => {
-        this.tableData[idx].address =
-          item.provinceName + item.cityName + item.areaName + item.userAddr;
-      });
     },
     //用来改变分页器的条数
     changePageData(data) {
