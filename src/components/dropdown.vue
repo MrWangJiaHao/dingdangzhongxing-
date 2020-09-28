@@ -17,11 +17,11 @@ export default {
     dropdownTitle: String,
     dropdownArr: Array,
   },
-  methods:{
-    clickEvent(command){
-      console.log(command)
-    }
-  }
+  methods: {
+    clickEvent(command) {
+      console.log(command);
+    },
+  },
 };
 </script>
 

@@ -106,9 +106,10 @@ export const getCookie = function (sessionKey) {
 export const removeCookie = function (sessionKey) {
   var exp = new Date();
   exp.setTime(exp.getTime() - 1);
-  var cval = getCookie(sessionKey);
-  if (cval != null)
-    document.cookie = sessionKey + "=" + cval + ";expires=" + exp.toGMTString();
+  var cval = getCookie(name);
+  if (cval != null) {
+    document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+  }
 }
 
 /**
