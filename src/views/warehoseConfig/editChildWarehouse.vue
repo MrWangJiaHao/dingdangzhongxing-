@@ -12,7 +12,10 @@
         </div>
       </div>
       <div class="setArea">
-        <div class="temporarily_no">暂未划分子仓</div>
+        <div class="temporarily_no">
+          <!-- 这里展示子仓平面图 -->
+          <div></div>
+        </div>
       </div>
       <div class="newChildWarehouse">
         <div class="newChildWarehouseImg">
@@ -106,6 +109,7 @@
 </template>
 
 <script>
+import { query_WH_Request } from "../../api/api";
 export default {
   data() {
     return {
@@ -150,10 +154,6 @@ export default {
           label: "H",
         },
         {
-          value: "L",
-          label: "L",
-        },
-        {
           value: "I",
           label: "I",
         },
@@ -192,10 +192,6 @@ export default {
         {
           value: "R",
           label: "R",
-        },
-        {
-          value: "S",
-          label: "S",
         },
         {
           value: "S",
@@ -294,7 +290,52 @@ export default {
         },
       ],
       value3: "1",
+
+      dataArr: [],
+      pagingQueryData: {
+        //分页查询
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          wareType: "",
+          id: "",
+        },
+      },
     };
+  },
+  mounted() {
+    // console.log(this.$route.query.editArr)//路由传参
+    // this.dataArr = this.$route.query.editArr//将传过来的参数给一个数组
+    console.log(this.$store.state.CWAdminRequest.queryData.list)
+    let queryData = this.pagingQueryData;
+    let tableData = this.tableData;
+    query_WH_Request(queryData).then((ok) => {
+      if (ok.data.code === "10000") {
+        //将查询结果赋值给一个变量
+        let resultList = ok.data.result.list;
+        // 将查询出来的数组进行循环，分别插入到表格中
+        resultList.forEach((values, indexs) => {
+          let tableDataItem = {
+            CWName: resultList[indexs].childWareName, //子仓名称
+            CWnumber: resultList[indexs].childWareCode, //子仓编号
+            CWtype: resultList[indexs].wareType, //子仓类型
+            CWWidth: resultList[indexs].wareLength, //子仓长度
+            CWHeight: resultList[indexs].wareWidth, //子仓宽度
+            Ndistance: resultList[indexs].northDistance, //距北距离
+            Wdistance: resultList[indexs].westDistance, //距西距离
+            divideArea: resultList[indexs].enableStatus, //是否划分区域
+            usedArea: resultList[indexs].size, //已使用面积
+            unUsedArea: resultList[indexs].size, //未使用面积
+            remark: resultList[indexs].remark, //备注
+            createName: resultList[indexs].lastModifyUser, //创建人
+            createTime: resultList[indexs].lastModifyTime, //创建时间
+            id: resultList[indexs].id,
+          };
+          tableData.push(tableDataItem);
+
+        });
+      }
+    });
   },
   methods: {
     goBack() {
@@ -362,9 +403,17 @@ export default {
       border: 1px #d8dce7 dotted;
       border-radius: 10px;
       .temporarily_no {
-        text-align: center;
-        line-height: 470px;
-        font-size: 22px;
+        position: relative;
+        div {
+          width: 300px;
+          height: 150px;
+          background: white;
+          position: absolute;
+          left: 20px;
+          top: 20px;
+          cursor: pointer;
+          border-radius: 10px;
+        }
       }
     }
     .newChildWarehouse {

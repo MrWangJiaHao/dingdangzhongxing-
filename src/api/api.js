@@ -40,7 +40,7 @@ export function jurisdicRequest(data) {
         })
     })
 }
-
+//创建和编辑子仓的请求
 export function add_edit_WH_Request(data) {
     return new Promise((resolve, reject) => {
         service.request({
@@ -54,6 +54,51 @@ export function add_edit_WH_Request(data) {
         })
     })
 }
+//删除子仓的请求
+export function del_WH_Request(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseChild/delRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//查询子仓列表请求
+export function query_WH_Request(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseChild/findRecordPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//按条件查询子仓列表请求
+export function TJquery_WH_Request(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseChild/findRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
 
 
 export function post(datas) {
