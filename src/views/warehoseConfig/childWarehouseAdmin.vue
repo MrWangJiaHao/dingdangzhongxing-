@@ -74,44 +74,69 @@
               label="序号"
               align="center"
               type="index"
-              width="80"
+              width="60"
             >
             </el-table-column>
             <el-table-column prop="CWName" label="子仓名称" align="center">
             </el-table-column>
-            <el-table-column prop="CWnumber" label="子仓编号" align="center">
+            <el-table-column
+              prop="CWnumber"
+              label="子仓编号"
+              align="center"
+              width="110"
+            >
             </el-table-column>
-            <el-table-column prop="CWtype" label="子仓类型" align="center">
+            <el-table-column
+              prop="CWtype"
+              label="子仓类型"
+              align="center"
+              width="110"
+            >
             </el-table-column>
-            <el-table-column prop="CWWidth" label="子仓长(m)" align="center">
+            <el-table-column
+              prop="CWWidth"
+              label="子仓长(m)"
+              align="center"
+              width="110"
+            >
             </el-table-column>
-            <el-table-column prop="CWHeight" label="子仓宽(m)" align="center">
+            <el-table-column
+              prop="CWHeight"
+              label="子仓宽(m)"
+              align="center"
+              width="110"
+            >
             </el-table-column>
             <el-table-column
               prop="Ndistance"
               label="距北距离(m)"
               align="center"
+              width="110"
             >
             </el-table-column>
             <el-table-column
               prop="Wdistance"
               label="距西距离(m)"
               align="center"
+              width="110"
             ></el-table-column>
             <el-table-column
               prop="divideArea"
               label="是否划分区域"
               align="center"
+              width="150"
             ></el-table-column>
             <el-table-column
               prop="usedArea"
               label="已使用面积(㎡)"
               align="center"
+              width="110"
             ></el-table-column>
             <el-table-column
               prop="unUsedArea"
               label="未使用面积(㎡)"
               align="center"
+              width="110"
             ></el-table-column>
             <el-table-column
               prop="remark"
@@ -232,7 +257,7 @@ export default {
           let resultList = ok.data.result.list;
           //将查询出来的数据存储到vuex里面
           this.$store.dispatch("CWAdminRequest", ok.data.result);
-
+          
           resultList.forEach((values, indexs) => {
             let tableDataItem = {
               CWName: resultList[indexs].childWareName, //子仓名称
@@ -244,18 +269,15 @@ export default {
               Wdistance: resultList[indexs].westDistance, //距西距离
               divideArea: resultList[indexs].enableStatus, //是否划分区域
               usedArea: resultList[indexs].size, //已使用面积
-              unUsedArea: resultList[indexs].size, //未使用面积
+              unUsedArea:
+                resultList[indexs].wareLength * resultList[indexs].wareWidth -
+                resultList[indexs].size, //未使用面积
               remark: resultList[indexs].remark, //备注
-              createName: resultList[indexs].lastModifyUser, //创建人
-              createTime: resultList[indexs].lastModifyTime, //创建时间
+              createName: resultList[indexs].createUser, //创建人
+              createTime: resultList[indexs].createTime, //创建时间
               id: resultList[indexs].id,
             };
-            // tableData.forEach((v)=>{
-              if(!(tableData.indexOf(tableDataItem) === -1)){
-                return
-              }
-            // })
-            tableData.push(tableDataItem);
+            tableData.push(tableDataItem); //将请求的数据插入到表格中
           });
         }
       });
@@ -325,11 +347,11 @@ export default {
     delRequest(data) {
       del_WH_Request(data).then((ok) => {
         if (ok.data.code === "10000") {
-          this.requestMethods();
           Message({
             type: "success",
             message: "删除成功",
           });
+          window.location.reload();
         } else {
           Message({
             type: "error",

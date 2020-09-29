@@ -12,6 +12,10 @@ import "./assets/css/index.css";
 import VueCookie from 'vue-cookie'
 import Lodop from './assets/js/LodopFuncs'
 import "./assets/js/rem";
+
+import $ from 'jquery'
+Vue.prototype.$ = $
+
 Vue.use(Lodop)
 Vue.use(VueCookie)
 

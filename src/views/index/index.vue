@@ -148,7 +148,6 @@ export default {
   margin: 0 auto;
   position: relative;
   .numberInfor1 {
-    width: 1888px;
     height: 80px;
     border-radius: 4px;
     margin: 16px;
@@ -214,7 +213,6 @@ export default {
     }
   }
   .numberInfor2 {
-    width: 1888px;
     height: 239px;
     display: flex;
     margin: 0 0 16px 16px;
@@ -246,7 +244,6 @@ export default {
     }
   }
   .warehouseStatistics {
-    width: 1888px;
     height: 480px;
     display: flex;
     margin: 0 0 16px 16px;

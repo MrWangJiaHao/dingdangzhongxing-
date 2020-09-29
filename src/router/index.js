@@ -77,7 +77,7 @@ const routes = [{
     //仓库配置=>子仓管理
     path: "/warehoseconfig/childWarehouseAdmin",
     name: "/warehoseconfig/childWarehouseAdmin",
-    component: () => import("../views/warehoseConfig/childWarehouseAdmin"),
+    component: () => import("../views/warehoseConfig/childWarehouseAdmin.vue"),
     meta: {
 
     }
@@ -102,23 +102,14 @@ const routes = [{
     meta: {
 
     }
-  }, {
+  },
+  {
     //仓库配置=>库位映射
     path: "/warehoseconfig/storageLocalMap",
     name: "/warehoseconfig/storageLocalMap",
     component: () => import("../views/warehoseConfig/storageLocalMap"),
     meta: {
 
-    }
-  },
-  {
-    //仓库配置=>区域管理=>货架设置
-    path: "/warehoseconfig/shelfSetting",
-    name: "/warehoseconfig/shelfSetting",
-    component: () => import("../views/warehoseConfig/shelfSetting"),
-    meta: {
-      Breadcrumb: "区域管理",
-      title: "货架设置"
     }
   },
   ]
@@ -145,16 +136,17 @@ const routes = [{
   name: 'systemSetting/editUserIng',
   component: () => import("../views/systemSetting/editUserIng.vue")
 },
-
 {
-  path: "/warehoseConfig/addChildWarehouse",
-  name: '/warehoseConfig/addChildWarehouse',
-  component: () => import("../views/warehoseConfig/addChildWarehouse.vue"),
+  //仓库配置=>区域管理=>货架设置
+  path: "/warehoseconfig/shelfSetting",
+  name: "/warehoseconfig/shelfSetting",
+  component: () => import("../views/warehoseConfig/shelfSetting"),
   meta: {
-    Breadcrumb: "创建子仓",
-    title: "子仓管理"
+    Breadcrumb: "区域管理",
+    title: "货架设置"
   }
-}, {
+},
+{
   path: "/systemSetting/lookUser",
   name: 'systemSetting/lookUser',
   component: () => import("../views/systemSetting/lookUser.vue")

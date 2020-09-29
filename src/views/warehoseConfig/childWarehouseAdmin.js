@@ -4,7 +4,7 @@ export let CWAdminRequest = {
     },
     mutations: {
         queryData(state, payload) {
-            state.loginData = payload
+            state.queryData = payload
         }
     },
     actions: {

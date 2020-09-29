@@ -14,7 +14,6 @@
       <div class="setArea">
         <div class="temporarily_no">
           <!-- 这里展示子仓平面图 -->
-          <div></div>
         </div>
       </div>
       <div class="newChildWarehouse">
@@ -109,7 +108,12 @@
 </template>
 
 <script>
-import { query_WH_Request } from "../../api/api";
+// import { query_WH_Request } from "../../api/api";
+
+import $ from "jquery";
+import { add_edit_WH_Request } from "../../api/api";
+import { Message } from "element-ui";
+
 export default {
   data() {
     return {
@@ -230,24 +234,16 @@ export default {
 
       childWarehouseType: [
         {
-          value: "销售",
-          label: "销售",
+          value: "1",
+          label: "1",
         },
         {
-          value: "售后",
-          label: "售后",
+          value: "2",
+          label: "2",
         },
         {
-          value: "残次品",
-          label: "残次品",
-        },
-        {
-          value: "备货",
-          label: "备货",
-        },
-        {
-          value: "验货",
-          label: "验货",
+          value: "3",
+          label: "3",
         },
       ],
       value2: "",
@@ -301,40 +297,66 @@ export default {
           id: "",
         },
       },
+      childWarehouseList: "",
+      editId: "",
+      divChecked: false,
     };
   },
+  created() {},
   mounted() {
-    // console.log(this.$route.query.editArr)//路由传参
-    // this.dataArr = this.$route.query.editArr//将传过来的参数给一个数组
-    console.log(this.$store.state.CWAdminRequest.queryData.list)
-    let queryData = this.pagingQueryData;
-    let tableData = this.tableData;
-    query_WH_Request(queryData).then((ok) => {
-      if (ok.data.code === "10000") {
-        //将查询结果赋值给一个变量
-        let resultList = ok.data.result.list;
-        // 将查询出来的数组进行循环，分别插入到表格中
-        resultList.forEach((values, indexs) => {
-          let tableDataItem = {
-            CWName: resultList[indexs].childWareName, //子仓名称
-            CWnumber: resultList[indexs].childWareCode, //子仓编号
-            CWtype: resultList[indexs].wareType, //子仓类型
-            CWWidth: resultList[indexs].wareLength, //子仓长度
-            CWHeight: resultList[indexs].wareWidth, //子仓宽度
-            Ndistance: resultList[indexs].northDistance, //距北距离
-            Wdistance: resultList[indexs].westDistance, //距西距离
-            divideArea: resultList[indexs].enableStatus, //是否划分区域
-            usedArea: resultList[indexs].size, //已使用面积
-            unUsedArea: resultList[indexs].size, //未使用面积
-            remark: resultList[indexs].remark, //备注
-            createName: resultList[indexs].lastModifyUser, //创建人
-            createTime: resultList[indexs].lastModifyTime, //创建时间
-            id: resultList[indexs].id,
-          };
-          tableData.push(tableDataItem);
-
-        });
-      }
+    this.childWarehouseList = this.$store.state.CWAdminRequest.queryData.list;
+    let childWarehouseList = this.childWarehouseList;
+    let oDiv = document.querySelector(".temporarily_no");
+    for (let i = 0; i < childWarehouseList.length; i++) {
+      let childDiv = document.createElement("div");
+      childDiv.style.width =
+        (childWarehouseList[i].wareLength * oDiv.offsetWidth) / 200 + "px";
+      childDiv.style.height =
+        (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
+      childDiv.style.background = "white";
+      childDiv.style.position = "absolute";
+      childDiv.style.left =
+        (childWarehouseList[i].westDistance * oDiv.offsetWidth) / 200 + "px";
+      childDiv.style.top =
+        (childWarehouseList[i].northDistance * oDiv.offsetWidth) / 200 + "px";
+      childDiv.style.cursor = "pointer";
+      childDiv.style.textAlign = "center";
+      childDiv.style.border = "1px solid #ddd";
+      childDiv.style.borderRadius =
+        childWarehouseList[i].wareLength * 0.2 + "px";
+      childDiv.style.lineHeight =
+        (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
+      childDiv.style.fontSize = "14px";
+      childDiv.innerHTML = childWarehouseList[i].childWareName;
+      childDiv.className = "childViewDiv";
+      oDiv.append(childDiv);
+    }
+    $(".childViewDiv").each((v, i) => {
+      $(i).click(() => {
+        this.input1 = childWarehouseList[v].childWareName; //子仓名称
+        this.input4 = childWarehouseList[v].northDistance; //距北距离
+        this.input5 = childWarehouseList[v].westDistance; //距西距离
+        this.input2 = childWarehouseList[v].wareLength; //子仓长度
+        this.input3 = childWarehouseList[v].wareWidth; //子仓宽度
+        this.value2 = childWarehouseList[v].wareType; //仓库类型
+        this.textarea = childWarehouseList[v].remark; //备注
+        this.value1 = childWarehouseList[v].childWareCode.substring(0, 1); //子仓编号字母
+        this.value3 = childWarehouseList[v].childWareCode.substring(1); //子仓编号数字
+        this.editId = childWarehouseList[v].id; //选中子仓的id
+        this.divChecked = true;
+        $(i)
+          .css({
+            background: "#367fff",
+            border: "1px solid #0555c2",
+            color: "white",
+          })
+          .siblings()
+          .css({
+            background: "white",
+            border: "1px solid #ddd",
+            color: "black",
+          });
+      });
     });
   },
   methods: {
@@ -342,18 +364,40 @@ export default {
       this.$router.replace("/warehoseconfig/childWarehouseAdmin");
     },
     submitData() {
-      let data = {
-        childWareCode: this.value1 + this.value3, //子仓编号
-        childWareName: this.input1, //子仓名称
-        northDistance: this.input4, //距北距离
-        westDistance: this.input5, //距西距离
-        // wareId:this.  ,//父仓库ID
-        wareLength: this.input2, //子仓长度
-        wareWidth: this.input3,
-        // wareName:      //仓库名称
-        wareType: this.value2, //仓库类型
-      };
-      console.log(data);
+      if (this.divChecked === false) {
+        Message({
+          type: "error",
+          message: "请先选中一个子仓",
+        });
+      } else {
+        let data = {
+          // childWareCode: this.value1 + this.value3, //子仓编号
+          childWareName: this.input1, //子仓名称
+          northDistance: this.input4, //距北距离
+          westDistance: this.input5, //距西距离
+          wareId: this.$store.state.loginRequest.loginData.user.wareId, //父仓库ID
+          wareLength: this.input2, //子仓长度
+          wareWidth: this.input3, //子仓宽度
+          remark: this.textarea, //备注
+          wareType: this.value2, //仓库类型
+          id: this.editId, //仓库id
+        };
+        add_edit_WH_Request(data).then((ok) => {
+          console.log(ok);
+          if (ok.data.code === "10000") {
+            Message({
+              type: "success",
+              message: "修改成功",
+            });
+            this.$router.push("/warehoseconfig/childWarehouseAdmin");
+          } else {
+            Message({
+              type: "error",
+              message: ok.data.msg,
+            });
+          }
+        });
+      }
     },
     clickNumber(v) {
       let input8 = document.querySelector(".input8");
