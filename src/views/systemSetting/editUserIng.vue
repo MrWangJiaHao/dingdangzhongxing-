@@ -2,7 +2,7 @@
   <div class="setUserIngBox">
     <div class="setUserIngBoxCenter">
       <div class="headerBox">
-        <div class="closeTitle">创建用户</div>
+        <div class="closeTitle">编辑用户</div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
 

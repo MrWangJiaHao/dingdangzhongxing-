@@ -206,7 +206,7 @@
       style="background: #fff"
     >
       <div class="pt20">
-        <div class="disinb removeSetting mr20">返回</div>
+        <div class="disinb removeSetting mr20" @click="gotoSanYiye">返回</div>
         <div class="disinb addSetting" @click="shelfSubmit">提交</div>
       </div>
     </div>
@@ -260,6 +260,20 @@ export default {
     // sessionStorage.removeItem("shelfSettingData");
   },
   methods: {
+    //返回上一页
+    gotoSanYiye() {
+      this.$confirm("确认返回上一页", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "info",
+      })
+        .then(() => {
+          this.$router.go(-1);
+        })
+        .catch(() => {
+          Message("已取消返回");
+        });
+    },
     //获取货架名称
     getHuoJiaName(index, idx, idxs) {
       this._mingc(this.getHuojiaNameAndType, index, idx, idxs);

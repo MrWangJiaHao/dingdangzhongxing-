@@ -20,7 +20,19 @@
         暂未划分区域
       </div>
       <!-- 暂无子仓 -->
-      <div v-if="createSetting.length" class="wareHouseCenter noneZican">
+
+      <div
+        v-if="createSetting.length"
+        class="wareHouseCenter noneZican"
+        :style="{
+          width: wareAreaLength * (10000 / 85) + 'px',
+          height: wareAreaWidth * (10000 / 85) + 'px',
+          position: 'relative',
+          background: '#D8DCE7',
+          border: '1px solid #D8DCE7',
+          'border-radius': ' 8px',
+        }"
+      >
         <div
           v-for="(item, idx) in createSetting"
           :key="idx"
@@ -89,7 +101,6 @@
                 v-model="wareAreaCodeChange.STR"
                 placeholder="请选择字母编号"
                 slot="prepend"
-                disabled
                 @input="getWareAreaCode"
               >
                 <el-option
@@ -118,7 +129,6 @@
                 placeholder="请选择数字编号"
                 slot="prepend"
                 @input="getWareAreaNumCode"
-                :disabled="isNum ? false : true"
               >
                 <el-option
                   v-for="(item, idx) in wareAreaCodeNum"
@@ -138,7 +148,7 @@
             <div class="displayalign mr20">
               <el-input
                 placeholder="请输入子仓长度"
-                ty
+                type="number"
                 v-model="createWarehouseJson.wareAreaLength"
                 clearable
               ></el-input>
@@ -153,6 +163,7 @@
             </div>
             <div class="displayalign mr20">
               <el-input
+                type="number"
                 placeholder="请输入子仓宽度"
                 v-model="createWarehouseJson.wareAreaWidth"
                 clearable
@@ -204,6 +215,7 @@
 </template>
 
 <script>
+/*eslint-disable */
 import { Message } from "element-ui";
 import { post } from "../../api/api";
 import { getConversionPx } from "../../utils/validate";
@@ -246,26 +258,37 @@ export default {
       wareAreaCodenum: "",
       createSetting: [],
       activeNum: null,
+      wareAreaLength: "",
+      wareAreaWidth: "",
     };
   },
   beforeDestroy() {
     sessionStorage.removeItem("createWareHuseData");
+    sessionStorage.removeItem("warseHouseData");
   },
   created() {
     let datas = JSON.parse(localStorage.getItem("warseHouseData"));
     let createWareHuseData = JSON.parse(
       sessionStorage.getItem("createWareHuseData")
     );
-    if (createWareHuseData.id) {
+    console.log(createWareHuseData);
+    if (createWareHuseData) {
       this.activeNum = createWareHuseData.idx;
-      this.chaxunDataJson.childWareId = createWareHuseData.childWareId;
-      this.chaxunDataJson.id = createWareHuseData.id;
+      this.createWarehouseJson.childWareId = createWareHuseData.childWareId;
+      this.createWarehouseJson.id = createWareHuseData.id;
+      this.wareAreaLength = createWareHuseData.wareAreaLength;
+      this.wareAreaWidth = createWareHuseData.wareAreaWidth;
+      console.log(createWareHuseData, "创建页跳过来的");
       this.pWarehouseArea();
     }
-    if (datas) {
-      this.createSetting = datas;
-      this.createWarehouseJson.childWareId = datas[0].childWareId;
-      this.createWarehouseJson.id = datas[0].id;
+
+    if (datas.childDatas) {
+      console.log(datas, "首页跳过来的");
+      this.createSetting = datas.childDatas;
+      this.createWarehouseJson.childWareId = datas.childDatas[0].childWareId;
+      this.createWarehouseJson.id = datas.childDatas[0].id;
+      this.wareAreaLength = datas.wareAreaLength;
+      this.wareAreaWidth = datas.wareAreaWidth;
       this.pWarehouseArea();
     }
   },
@@ -364,6 +387,7 @@ export default {
     /*点击提交按钮 */
     submitData() {
       this.sendOutCreatewarehouse();
+      console.log(this.createWarehouseJson);
     },
     async sendOutCreatewarehouse() {
       let { createWarehouseJson } = this;
@@ -374,7 +398,9 @@ export default {
       });
       if (datas.code === "10000") {
         Message(datas.msg);
-        return this.$router.go(-1);
+        return this.$router.push({
+          path: "/warehoseconfig/regionalManagements",
+        });
       } else {
         Message({ message: datas.msg, type: "error" });
       }
@@ -399,15 +425,8 @@ export default {
     }
     .wareHouseCenter {
       padding: 10px 0;
-      width: 18.59rem;
-      height: 4.71rem;
-      background: #eef1f8;
       border-radius: 8px;
-      position: relative;
     }
-  }
-  .active {
-    background: #599af4 !important;
   }
   .fanhiu {
     @include BtnFunction();

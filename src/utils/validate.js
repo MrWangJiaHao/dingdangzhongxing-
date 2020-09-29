@@ -127,3 +127,34 @@ export const getConversionPx = (item) => {
     cursor: "pointer",
   };
 }
+
+/**
+ * 
+ * @param {*} item 
+ */
+
+export const getzicanParent = (parent) => {
+  return {
+    width: parent.wareAreaLength * (10000 / 85) + "px",
+    height: parent.wareAreaWidth * (10000 / 85) + "px",
+  }
+}
+
+/**
+ * 对区域图进行了图形化
+ * @param {*} item 
+ */
+export const getMarginConversion = (item) => {
+  return {
+    width: item.wareAreaLength * (10000 / 85) + "px",
+    height: item.wareAreaWidth * (10000 / 85) + "px",
+    lineHeight: item.wareAreaWidth * (10000 / 85) + "px",
+    top: item.y * (10000 / 85) + "px",
+    left: item.x * (10000 / 85) + "px",
+    cursor: "pointer",
+    position: "absolute",
+    display: "inline-block"
+  };
+}
+
+

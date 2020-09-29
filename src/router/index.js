@@ -111,6 +111,16 @@ const routes = [{
 
     }
   },
+  {
+    //仓库配置=>区域管理=>货架设置
+    path: "/warehoseconfig/shelfSetting",
+    name: "/warehoseconfig/shelfSetting",
+    component: () => import("../views/warehoseConfig/shelfSetting"),
+    meta: {
+      Breadcrumb: "区域管理",
+      title: "货架设置"
+    }
+  },
   ]
 },
 //设置权限页面
@@ -135,16 +145,7 @@ const routes = [{
   name: 'systemSetting/editUserIng',
   component: () => import("../views/systemSetting/editUserIng.vue")
 },
-{
-  //仓库配置=>区域管理=>货架设置
-  path: "/warehoseconfig/shelfSetting",
-  name: "/warehoseconfig/shelfSetting",
-  component: () => import("../views/warehoseConfig/shelfSetting"),
-  meta: {
-    Breadcrumb: "区域管理",
-    title: "货架设置"
-  }
-},
+
 {
   path: "/warehoseConfig/addChildWarehouse",
   name: '/warehoseConfig/addChildWarehouse',

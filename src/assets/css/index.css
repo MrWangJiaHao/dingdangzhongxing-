@@ -166,6 +166,7 @@ textarea {
   font-weight: normal;
   color: #454545;
 }
+
 .meiyiyetitle::before{
   content: "";
   margin-right: 8px;
@@ -320,3 +321,98 @@ font-family: Hiragino Sans GB;
 font-weight: normal;
 color: #454545;
 }
+.displayJuCen{
+  display: flex;
+  justify-content: center;
+}
+.pofixCenter{
+  position: fixed;
+  width: 100%;
+  top: 0;
+  height: 100%;
+  background: rgb(238,241,248);
+  z-index: 111;
+}
+.heiderBoxs{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ECF1F7;
+  border-bottom:1px solid#D1D6E2 ;
+}
+.flexBetWeen{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.p20{
+  padding:16px 20px;
+}
+.quyupinmianBoxMsg{
+  border: 1px solid #E1E6EB;
+  border-radius: 3px;
+}
+.bkf{
+  background: #ffffff;
+}
+.mt20{
+  margin-top: 20px;
+}
+.botD1{
+  border-bottom: 1px solid #D1D6E2;
+}
+/* 横线 */
+.transverseLine{
+  width: 1px;
+  background: rgb(255,155,155);
+  color: rgb(255, 96, 96);
+  position: relative;
+}
+.transverseLine::before{
+  content: " ";
+  width: 7px;
+  height: 1px;
+  background: rgb(255,155,155);
+  position: absolute;
+  top: 0;
+  left: -2.55px;
+}
+.transverseLine::after{
+  content:" ";
+  width: 7px;
+  height: 1px;
+  background: rgb(255,155,155);
+  position: absolute;
+  bottom: 0;
+  left: -2.55px;
+}
+
+/* 竖线 */
+.verticalLine{
+  height:1px;
+  background: rgb(255,155,155);
+  color: rgb(255, 96, 96);
+  position: relative;
+}
+
+.verticalLine::before{
+  content: " ";
+  width: 1px;
+  height: 7px;
+  background: rgb(255,155,155);
+  position: absolute;
+  left: 0;
+  top: -2.55px;
+}
+.verticalLine::after{
+  content: " ";
+  width: 1px;
+  height: 7px;
+  background: rgb(255,155,155);
+  position: absolute;
+  right: 0;
+  top: -2.55px;
+}
+
+
+

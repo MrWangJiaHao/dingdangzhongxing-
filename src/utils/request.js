@@ -4,17 +4,19 @@ import router from '@/router'
 import qs from 'qs'
 import merge from 'lodash/merge'
 import { clearLoginInfo } from '@/utils'
+import { getCookie } from './validate'
+
 const service = axios.create({
   timeout: 1000 * 30,
   withCredentials: true,
   headers: {
-   'Content-Type': 'application/json; charset=utf-8',
+    'Content-Type': 'application/json; charset=utf-8',
     "appNo": "F94CB9F5262F46DCB171CECD6FE1193B",
     "userType": 4,
-    "X-Auth-wareId": "43C86919FC7E4360838AA522B361A242",
-    "X-Auth-user": "41C062F90AA246B8A67EC763329D1F21",
-    "X-Auth-name":"",
-    "X-Auth-wareName":"",
+    "X-Auth-wareId": getCookie("X-Auth-wareId"),
+    "X-Auth-user": getCookie("X-Auth-user"),
+    "X-Auth-name": getCookie("userName"),
+    "X-Auth-wareName": "",
   }
 })
 //"X-Auth-orgId":"FC4AD500BE8E4B5FB58CCAE7B519FB6F",
@@ -28,6 +30,7 @@ const service = axios.create({
  * 请求拦截
  */
 service.interceptors.request.use(config => {
+
   config.headers['X-Auth-Token'] = Vue.cookie.get('userToken') // 请求头带上token
   return config
 }, error => {

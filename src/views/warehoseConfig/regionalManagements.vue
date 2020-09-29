@@ -84,9 +84,93 @@
         </div>
       </div>
     </div>
-    <div></div>
+    <div v-if="quyuLook" class="pofixCenter">
+      <div class="pofixCenter displayCenter">
+        <div class="quyupinmianBoxMsg">
+          <div class="heiderBoxs p20">
+            <div class="closeTitle">区域平面图</div>
+            <div class="closeIcon" @click="quyuLook = !quyuLook"></div>
+          </div>
+          <div class="bkf p20 botD1">
+            <div class="setTitle mb20">货架编号</div>
+            <div class="displayalign flexBetWeen">
+              <div class="displayalign">
+                <div class="mr20">
+                  <div class="displayalign">
+                    <div class="noneIconTitle mr11">
+                      子仓名称
+                      <span style="visibility: hidden">*</span>:
+                    </div>
+                    <div>
+                      <el-select
+                        v-model="
+                          quyuzicanNameOfSubWareHouse.nameOfSubWareHouseName
+                        "
+                        slot="prepend"
+                        :placeholder="nameOfSubWareHouse.placeholder"
+                        @input="getZicankuOfSunWareHouseWareId"
+                      >
+                        <el-option
+                          v-for="(item,
+                          idx) in quyuzicanNameOfSubWareHouse.nameOfSubwareHouseData"
+                          :key="idx"
+                          :label="item.childWareName"
+                          :value="idx"
+                        ></el-option>
+                      </el-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="displayalign">
+                  <div class="noneIconTitle mr11">区域类型:</div>
+                  <div class="mr20">存储区</div>
+                  <div>拣货区</div>
+                </div>
+              </div>
+              <div class="bianjiUser" @click="dinjichaxunquyutu">查询</div>
+            </div>
+          </div>
+          <div class="centers bkf p20 botD1">
+            <div class="displayalign mb20">
+              委托公司1/销售仓/拣货区区域平面图（
+              <div class="juli">上北、下南、左西、右东</div>
+              ）
+            </div>
+            <div class="zuti bkf p20">
+              <quyuLooker :quyuDatas="quyuDatas"></quyuLooker>
+            </div>
+          </div>
+          <div class="p20 bkf tr">
+            <div class="bianjiUser tr disinb" @click="quyuLook = !quyuLook">
+              关闭
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 关闭部分 -->
+    </div>
     <!-- 区域平面图 -->
-    <div></div>
+    <div v-if="kuwieLook" class="pofixCenter">
+      <div class="pofixCenter displayCenter">
+        <div class="quyupinmianBoxMsg">
+          <div class="heiderBoxs p20">
+            <div class="closeTitle">库位平面图</div>
+            <div class="closeIcon" @click="kuwieLook = !kuwieLook"></div>
+          </div>
+          <div class="bkf p20 botD1">
+            <div class="setTitle mb20">库位编号</div>
+            <div>
+              <kuwieLooker :kuwieLookerDataJson="kuwieDatas" />
+            </div>
+          </div>
+          <div class="p20 bkf tc">
+            <div class="bianjiUser tr disinb" @click="kuwieLook = !kuwieLook">
+              关闭
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- 库位平面图 -->
     <!-- but按钮 -->
     <div class="tableBox">
@@ -214,16 +298,162 @@ import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { Message } from "element-ui";
 import { post, logins } from "../../api/api";
 import { mapState } from "vuex";
-import { ajaxPost } from "../../utils/validate";
+import quyuLooker from "../../components/quyuLooker";
+import kuwieLooker from "../../components/kuwieLooker";
+import { ajaxPost, getCookie } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
+    quyuLooker,
+    kuwieLooker,
   },
   computed: {
     ...mapState(["editUser", "warehouseConfig"]),
   },
   data() {
     return {
+      quyuDatas: {
+        warehouseAdmin: {
+          wareAreaWidth: 0,
+          wareAreaLength: 0,
+        },
+        regionalManage: [],
+      }, //区域平面图 data
+      kuwieDatas: {
+        quyu: {
+          wareAreaLength: 5,
+          wareAreaWidth: 4,
+        },
+        kuwie: [
+          {
+            childWareId: "EF0F0B8CA53445E0A65794666B00A200",
+            childWareName: "SND子仓1号",
+            createTime: "2020-03-17 14:38:20",
+            createUser: "admin",
+            curOrgId: "",
+            curOrgName: "",
+            curWareId: "",
+            curWareName: "",
+            dataBaseSubfix: "",
+            enableStatus: 0,
+            groupId: "",
+            id: "6B70A4BB14D249E6A3D744F4212CD3B0",
+            lastModifyTime: null,
+            lastModifyUser: "",
+            orgIds: [],
+            prodIds: [],
+            remark: "",
+            seatProdId: "",
+            seatType: 0,
+            shelfLevelNum: 0,
+            tableSubfix: "",
+            tails: {},
+            userId: "",
+            userName: "",
+            userToken: "",
+            userType: 0,
+            version: 0,
+            wareAreaId: "09100B2AF89C4D2687A09C7019A68D65",
+            wareAreaName: "子仓默认区域",
+            wareAreaType: 0,
+            wareIds: [],
+            wareSeatCode: "A1-A01-009-4-3",
+            wareSeatHight: 40,
+            wareSeatLength: 30,
+            wareSeatWidth: 30,
+            wareShelfId: "015604FA11504D57B969EC9C22031440",
+            wareShelfName: "3*4货架A型",
+            wareType: 0,
+            wtgsOrgId: "",
+          },
+          {
+            childWareId: "EF0F0B8CA53445E0A65794666B00A200",
+            childWareName: "SND子仓1号",
+            createTime: "2020-03-17 14:38:20",
+            createUser: "admin",
+            curOrgId: "",
+            curOrgName: "",
+            curWareId: "",
+            curWareName: "",
+            dataBaseSubfix: "",
+            enableStatus: 0,
+            groupId: "",
+            id: "80C5B700AEB84668A8D36A3BDE2F086E",
+            lastModifyTime: null,
+            lastModifyUser: "",
+            orgIds: [],
+            prodIds: [],
+            remark: "",
+            seatProdId: "",
+            seatType: 0,
+            shelfLevelNum: 0,
+            tableSubfix: "",
+            tails: {},
+            userId: "",
+            userName: "",
+            userToken: "",
+            userType: 0,
+            version: 0,
+            wareAreaId: "09100B2AF89C4D2687A09C7019A68D65",
+            wareAreaName: "子仓默认区域",
+            wareAreaType: 0,
+            wareIds: [],
+            wareSeatCode: "A1-A01-009-4-2",
+            wareSeatHight: 40,
+            wareSeatLength: 30,
+            wareSeatWidth: 30,
+            wareShelfId: "015604FA11504D57B969EC9C22031440",
+            wareShelfName: "3*4货架A型",
+            wareType: 0,
+            wtgsOrgId: "",
+          },
+          {
+            childWareId: "EF0F0B8CA53445E0A65794666B00A200",
+            childWareName: "SND子仓1号",
+            createTime: "2020-03-17 14:38:20",
+            createUser: "admin",
+            curOrgId: "",
+            curOrgName: "",
+            curWareId: "",
+            curWareName: "",
+            dataBaseSubfix: "",
+            enableStatus: 0,
+            groupId: "",
+            id: "AEEB6FE5679C4E93990FE20A1F6B6347",
+            lastModifyTime: null,
+            lastModifyUser: "",
+            orgIds: [],
+            prodIds: [],
+            remark: "",
+            seatProdId: "",
+            seatType: 0,
+            shelfLevelNum: 0,
+            tableSubfix: "",
+            tails: {},
+            userId: "",
+            userName: "",
+            userToken: "",
+            userType: 0,
+            version: 0,
+            wareAreaId: "09100B2AF89C4D2687A09C7019A68D65",
+            wareAreaName: "子仓默认区域",
+            wareAreaType: 0,
+            wareIds: [],
+            wareSeatCode: "A1-A01-009-4-1",
+            wareSeatHight: 40,
+            wareSeatLength: 30,
+            wareSeatWidth: 30,
+            wareShelfId: "015604FA11504D57B969EC9C22031440",
+            wareShelfName: "3*4货架A型",
+            wareType: 0,
+            wtgsOrgId: "",
+          },
+        ],
+      }, //库位平面图 data
+      isJianhuio: true, //是不是拣货区
+      quyuLook: false, //区域平面图 显示
+      kuwieLook: false, //库位平面图 显示
+      kuwieDataJson: {},
       tableData: [
         {
           childWareName: "子仓名称",
@@ -240,7 +470,7 @@ export default {
           useSeat: 100,
           noSeat: 0,
           createUser: "创建人",
-          createTime: "120820030303033",
+          createTime: "",
         },
       ],
       wareAreaTypeJson: [
@@ -263,6 +493,11 @@ export default {
       nameOfSubWareHouse: {
         placeholdes: "请选择子仓名称",
         nameOfSubwareHouseData: [],
+      },
+      quyuzicanNameOfSubWareHouse: {
+        placeholdes: "请选择子仓名称",
+        nameOfSubwareHouseData: [],
+        nameOfSubWareHouseName: "",
       },
       areaType: {
         placeholdes: "请选择区域类型",
@@ -292,6 +527,12 @@ export default {
         wareId: "43C86919FC7E4360838AA522B361A242",
         id: "1998999DDA5F4260A5E8598603929477",
       },
+      zicandaixao: [],
+      zhichangdaxiao: {
+        wareLength: 0,
+        wareWidth: 0,
+      },
+      regionalManage: [],
     };
   },
   async created() {
@@ -299,8 +540,33 @@ export default {
     setTimeout(() => {
       this.dropDowBox.dropDownBoxData = this.warehouseConfig;
     }, 0);
+    if (!getCookie("X-Auth-wareId"))
+      return Message({
+        message: "登入超时,请重新登入",
+        onClose: () => {
+          this.$router.push({ path: "/" });
+        },
+      });
   },
   methods: {
+    //获取子仓名称
+    async getZicankuOfSunWareHouseWareId(e) {
+      let json = {
+        childWareId: this.quyuzicanNameOfSubWareHouse.nameOfSubwareHouseData[e]
+          .childWareId,
+      };
+      let warehouseAdmin = await this._getChildWidth({
+        wareId: getCookie("X-Auth-wareId"),
+        id: this.quyuzicanNameOfSubWareHouse.nameOfSubwareHouseData[e]
+          .childWareId,
+      });
+      this.regionalManage = await this._getQuYuData(json);
+    },
+    dinjichaxunquyutu() {
+      this.quyuDatas.warehouseAdmin.wareAreaWidth = this.wareLength;
+      this.quyuDatas.warehouseAdmin.wareAreaLength = this.wareWidth;
+      this.quyuDatas.regionalManage = this.regionalManage;
+    },
     //获取区域名称
     getQuYuData() {
       let json = {
@@ -308,7 +574,6 @@ export default {
       };
       this._getQuYuData(json);
     },
-    //点击查看区域平面图
     async _getQuYuData(data) {
       let datas = await post({
         url:
@@ -316,10 +581,16 @@ export default {
         data,
       });
       this.AreaName.AreaNameData = datas.result;
+      return datas.result;
     },
-    areaPlan() {},
+    //点击查看区域平面图
+    areaPlan() {
+      this.quyuLook = !this.quyuLook;
+    },
     //点击查看库位平面图
-    warehousePlan() {},
+    warehousePlan() {
+      this.kuwieLook = !this.kuwieLook;
+    },
     //点击货架设置
     shelfSetting() {
       if (this.multipleSelection.length == 0)
@@ -331,6 +602,8 @@ export default {
         JSON.stringify({
           wareAreaId: this.multipleSelection[0].id,
           childWareId: this.multipleSelection[0].childWareId,
+          wareAreaLength: this.multipleSelection[0].wareAreaLength,
+          wareAreaWidth: this.multipleSelection[0].wareAreaWidth,
         })
       );
       this.$router.push({
@@ -390,7 +663,10 @@ export default {
           "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseChild/findRecord",
         data,
       });
-      console.log(datas, "获取子仓的长度");
+      this.zicandaixao = datas.result;
+      this.wareLength = this.zicandaixao[0].wareLength;
+      this.wareWidth = this.zicandaixao[0].wareWidth;
+      return this.zicandaixao;
     },
     //点击创建按钮
     createSubWarehouse() {
@@ -398,6 +674,11 @@ export default {
         return Message("请选择在那个子仓下创建区域");
       if (this.multipleSelection.length > 1)
         return Message("每次只能在一个子仓下创建区域");
+      this._getChildWidth({
+        wareId: getCookie("X-Auth-wareId"),
+        id: this.multipleSelection[0].childWareId,
+      });
+
       this.createWarehouseAjax(
         {
           childWareId: this.multipleSelection[0].childWareId,
@@ -412,8 +693,18 @@ export default {
           "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/findRecord",
         data,
       });
+      if (this.zicandaixao.length == 0) return Message("网络较慢，请稍后重试");
       if (datas.code === "10000") {
-        localStorage.setItem("warseHouseData", JSON.stringify(datas.result));
+        localStorage.setItem(
+          "warseHouseData",
+          JSON.stringify({
+            childDatas: datas.result,
+            wareAreaLength: this.zicandaixao[0].wareLength,
+            wareAreaWidth: this.zicandaixao[0].wareWidth,
+            wareName: this.zicandaixao[0].childWareName,
+            childWareId: this.multipleSelection[0].childWareId,
+          })
+        );
         return this.$router.push({
           path,
         });
@@ -422,17 +713,23 @@ export default {
       }
     },
     //点击编辑按钮
-    editBtn() {
+    async editBtn() {
       if (this.multipleSelection.length == 0)
         return Message("请选择在哪一个区域下编辑");
       if (this.multipleSelection.length > 1)
         return Message("每次只能编辑一个区域，请重新选择");
-      window.sessionStorage.setItem(
-        "createWareHuseData",
+
+      let datas = await this._getChildWidth({
+        wareId: getCookie("X-Auth-wareId"),
+        id: this.multipleSelection[0].childWareId,
+      });
+      sessionStorage.setItem(
+        "createWareHuseDataS",
         JSON.stringify({
           childWareId: this.multipleSelection[0].childWareId,
           id: this.multipleSelection[0].id,
-          id: this.multipleSelection[0].id,
+          wareAreaLength: this.wareAreaLength,
+          wareAreaWidth: this.wareAreaWidth,
         })
       );
       this.createWarehouseAjax(
@@ -471,6 +768,7 @@ export default {
     },
     changeData(data) {
       this.nameOfSubWareHouse.nameOfSubwareHouseData = data.list;
+      this.quyuzicanNameOfSubWareHouse.nameOfSubwareHouseData = data.list;
       this.changeTableData(data); //用来改变表格
       this.changePageData(data); //用来改变分页器的条数
     },
@@ -623,25 +921,6 @@ export default {
       display: flex;
       align-items: center;
     }
-    .setUser {
-      margin-right: 10px;
-      @include BtnFunction("success");
-    }
-    .bianjiUser {
-      margin-right: 10px;
-      @include BtnFunction("success");
-    }
-    .remove {
-      @include BtnFunction("error");
-    }
-    .goOn {
-      margin-right: 10px;
-      @include BtnFunction("success");
-    }
-    .lodopFunClear {
-      margin-right: 10px;
-      @include BtnFunction("success");
-    }
   }
   .tableBox {
     padding: 0 10px 0px 10px;
@@ -663,6 +942,25 @@ export default {
       height: 100%;
       background: #fff;
     }
+  }
+  .setUser {
+    margin-right: 10px;
+    @include BtnFunction("success");
+  }
+  .bianjiUser {
+    margin-right: 10px;
+    @include BtnFunction("success");
+  }
+  .remove {
+    @include BtnFunction("error");
+  }
+  .goOn {
+    margin-right: 10px;
+    @include BtnFunction("success");
+  }
+  .lodopFunClear {
+    margin-right: 10px;
+    @include BtnFunction("success");
   }
 }
 </style>

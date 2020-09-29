@@ -13,7 +13,7 @@
       </div>
     </div>
     <div v-show="display" class="loginOut">
-      <div class="clickLoginOutCenter">退出登入</div>
+      <div @click="loginout" class="clickLoginOutCenter">退出登入</div>
     </div>
     <div class="dianJiXiaoXi displayalign">
       <div class="imgBox">
@@ -32,7 +32,7 @@
 <script>
 import { Message } from "element-ui";
 import { post } from "../api/api";
-import { getCookie, removeCookie } from "../utils/validate";
+import { getCookie } from "../utils/validate";
 export default {
   data() {
     return {
@@ -63,7 +63,6 @@ export default {
   methods: {
     loginOutMeg() {
       this.display = !this.display;
-      this.loginout();
     },
     async loginout() {
       let datas = await post({
@@ -72,12 +71,14 @@ export default {
       });
       if (datas.code == "10000") {
         Message(datas.msg);
-        removeCookie("userName");
-        removeCookie("userToken");
-        removeCookie("X-Auth-user");
-        removeCookie("password");
-        removeCookie("userType");
-        removeCookie("X-Auth-wareId");
+        console.log(1);
+        this.$cookie.delete("userName");
+        this.$cookie.delete("password");
+        this.$cookie.delete("userToken");
+        this.$cookie.delete("userType");
+        this.$cookie.delete("X-Auth-wareId");
+        this.$cookie.delete("X-Auth-user");
+        console.log(2);
         this.$router.push({
           path: "/",
         });

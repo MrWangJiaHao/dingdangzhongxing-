@@ -126,7 +126,6 @@ export default {
                 type: "error",
                 message: ok.data.msg,
               });
-              // this.$message.error(ok.data.msg);
             } else if (ok.data.code === "AM000014") {
               this.$message({
                 type: "error",
@@ -138,7 +137,7 @@ export default {
       });
     },
   },
-  
+
   mounted() {
     //假如用户之前登录过，就可以自动登录
     let autoUserName = this.$cookie.get("userName");

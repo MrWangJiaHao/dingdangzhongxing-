@@ -7,7 +7,10 @@
         <div class="noneIconTitle">子仓区域</div>
         <!-- 子仓区域-->
         （
-        <div class="juli noUser">长：10m 宽：10m 上北、下南、左西、右东</div>
+        <div class="juli noUser">
+          长：{{ wareAreaLength }}m 宽：{{ wareAreaWidth }}m
+          上北、下南、左西、右东
+        </div>
         ）
         <!-- 距离 -->
       </div>
@@ -19,7 +22,18 @@
         暂未划分区域
       </div>
       <!-- 暂无子仓 -->
-      <div v-if="createSetting.length" class="wareHouseCenter noneZican">
+      <div
+        v-if="createSetting.length"
+        class="wareHouseCenter noneZican"
+        :style="{
+          width: wareAreaLength * (10000 / 85) + 'px',
+          height: wareAreaWidth * (10000 / 85) + 'px',
+          position: 'relative',
+          background: '#D8DCE7',
+          border: ' 1px solid #D8DCE7',
+          'border-radius': ' 8px',
+        }"
+      >
         <div
           v-for="(item, idx) in createSetting"
           :key="idx"
@@ -137,7 +151,7 @@
             <div class="displayalign mr20">
               <el-input
                 placeholder="请输入子仓长度"
-                ty
+                type="number"
                 v-model="createWarehouseJson.wareAreaLength"
                 clearable
               ></el-input>
@@ -153,6 +167,7 @@
             <div class="displayalign mr20">
               <el-input
                 placeholder="请输入子仓宽度"
+                type="number"
                 v-model="createWarehouseJson.wareAreaWidth"
                 clearable
               ></el-input>
@@ -169,6 +184,7 @@
               <el-input
                 placeholder="请输入据北距离"
                 v-model="createWarehouseJson.y"
+                type="number"
                 clearable
               ></el-input>
               <span class="ml11 M">m</span>
@@ -183,6 +199,7 @@
             <div class="displayalign mr20">
               <el-input
                 placeholder="请输入据西距离"
+                type="number"
                 v-model="createWarehouseJson.x"
                 clearable
               ></el-input>
@@ -214,9 +231,9 @@ export default {
         wareAreaType: "",
         childWareId: "",
         wareAreaCode: "",
-        wareAreaLength: "",
+        wareAreaLength: 0,
         wareAreaName: "",
-        wareAreaWidth: "",
+        wareAreaWidth: 0,
         y: "",
         x: "",
       },
@@ -240,18 +257,28 @@ export default {
       wareAreaCodenum: "",
       createSetting: [],
       activeNum: null,
+      wareAreaLength: "",
+      wareAreaWidth: "",
+      wareName: "",
     };
   },
   created() {
-    let datas = localStorage.getItem("warseHouseData");
-    this.createSetting = JSON.parse(datas);
-    this.createWarehouseJson.childWareId = JSON.parse(datas)[0].childWareId;
+    let datas = JSON.parse(localStorage.getItem("warseHouseData"));
+    this.createSetting = datas.childDatas;
+    console.log(datas);
+    this.wareAreaWidth = datas.wareAreaWidth;
+    this.wareAreaLength = datas.wareAreaLength;
+    this.wareName = datas.wareName;
+    this.createWarehouseJson.childWareId = datas.childWareId;
+  },
+  beforeDestroy() {
+    sessionStorage.removeItem("warseHouseData");
   },
   methods: {
     //是否跳入编辑页
     ISEditQuYu(item, idx) {
       this.activeNum = idx;
-      this.$confirm(`确定修改${item.wareAreaName}的仓库配置`, "提示", {
+      this.$confirm(`确定修改${this.wareName}的仓库配置`, "提示", {
         type: "info",
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -259,10 +286,12 @@ export default {
         .then(() => {
           window.sessionStorage.setItem(
             "createWareHuseData",
-            JSON.parse({
+            JSON.stringify({
               childWareId: item.childWareId,
               id: item.id,
               idx,
+              wareAreaWidth: this.wareAreaWidth,
+              wareAreaLength: this.wareAreaLength,
             })
           );
           this.$router.push({
@@ -270,6 +299,7 @@ export default {
           });
         })
         .catch(() => {
+          console.log("嗯咯取消");
           this.$message({
             type: "info",
             message: "已取消修改",
@@ -333,6 +363,7 @@ export default {
   .centerCreateWareHouseConfig {
     background: #ffffff;
     padding: 30px 20px 20px 20px;
+    position: relative;
     border-bottom: 1px solid #d1d6e2;
     .createTitle {
       display: flex;
@@ -341,16 +372,10 @@ export default {
     }
     .wareHouseCenter {
       padding: 10px 0;
-      width: 18.59rem;
-      height: 4.71rem;
-      background: #eef1f8;
       border-radius: 8px;
-      position: relative;
     }
   }
-  .active {
-    background: #599af4 !important;
-  }
+
   .fanhiu {
     @include BtnFunction();
 
