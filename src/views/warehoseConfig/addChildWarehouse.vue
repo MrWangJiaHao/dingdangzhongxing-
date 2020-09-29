@@ -12,7 +12,9 @@
         </div>
       </div>
       <div class="setArea">
-        <div class="temporarily_no">暂未划分子仓</div>
+        <div class="temporarily_no">
+          <!-- 这里展示子仓平面图 -->
+        </div>
       </div>
       <div class="newChildWarehouse">
         <div class="newChildWarehouseImg">
@@ -297,7 +299,39 @@ export default {
         },
       ],
       value3: "1",
+      childWarehouseList: "",
     };
+  },
+  mounted() {
+    //获取平面图的div
+    let oDiv = document.querySelector(".temporarily_no");
+    console.log(oDiv.offsetWidth);
+    this.childWarehouseList = this.$store.state.CWAdminRequest.queryData.list;
+    let childWarehouseList = this.childWarehouseList;
+    for (let i = 0; i < childWarehouseList.length; i++) {
+      let childDiv = document.createElement("div");
+      childDiv.style.width =
+        (childWarehouseList[i].wareLength * oDiv.offsetWidth) / 200 + "px";
+      childDiv.style.height =
+        (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
+      childDiv.style.background = "white";
+      childDiv.style.position = "absolute";
+      childDiv.style.left =
+        (childWarehouseList[i].westDistance * oDiv.offsetWidth) / 200 + "px";
+      childDiv.style.top =
+        (childWarehouseList[i].northDistance * oDiv.offsetWidth) / 200 + "px";
+      childDiv.style.cursor = "pointer";
+      childDiv.style.textAlign = "center";
+      childDiv.style.border = "1px solid #ddd";
+      childDiv.style.borderRadius =
+        childWarehouseList[i].wareLength * 0.2 + "px";
+      childDiv.style.lineHeight =
+        (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
+      childDiv.style.fontSize = "14px";
+      childDiv.innerHTML = childWarehouseList[i].childWareName;
+      childDiv.className = "childViewDiv";
+      oDiv.append(childDiv);
+    }
   },
   methods: {
     goBack() {
@@ -311,8 +345,10 @@ export default {
         westDistance: this.input5, //距西距离
         wareId: this.$store.state.loginRequest.loginData.user.wareId, //父仓库ID
         wareLength: this.input2, //子仓长度
-        wareWidth: this.input3,
+        wareWidth: this.input3, //子仓宽度
         wareType: this.value2, //仓库类型
+        remark: this.textarea, //备注
+        createUser: this.$store.state.loginRequest.loginData.user.loginName,
       };
       // console.log(data);
       //新增修改子仓信息,当传参带有ID时为修改,不带ID时则为新增
@@ -383,6 +419,7 @@ export default {
         text-align: center;
         line-height: 470px;
         font-size: 22px;
+        position: relative;
       }
     }
     .newChildWarehouse {
