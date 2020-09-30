@@ -123,14 +123,14 @@ export default {
     };
   },
   mounted() {
-     //将vuex中存储的用户信息拿出来
-    let userInfor=this.$store.state.loginRequest.loginData
-    let userData= {
-        "Content-Type": "application/json; charset=utf-8",
-        "X-Auth-Token": userInfor.userToken,
-        "X-Auth-wareId": userInfor.wareId,
-        "X-Auth-user": userInfor.id,
-      }
+    //将vuex中存储的用户信息拿出来
+    let userInfor = this.$store.state.loginRequest.loginData;
+    let userData = {
+      "Content-Type": "application/json; charset=utf-8",
+      "X-Auth-Token": userInfor.userToken,
+      "X-Auth-wareId": userInfor.wareId,
+      "X-Auth-user": userInfor.id,
+    };
     indexRequest(userData).then((ok) => {
       console.log(ok);
     });
@@ -139,233 +139,223 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#indexMain{
+#indexMain {
   position: relative;
-}
-.indexContainer {
+  height: 100%;
   background: #eef1f8;
-  width: 100%;
-  margin: 0 auto;
-  position: relative;
-  .numberInfor1 {
-    height: 80px;
-    border-radius: 4px;
-    margin: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: white;
-    .numberInfor1-data {
+  .indexContainer {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    height: 100%;
+    .numberInfor1 {
+      height: 80px;
+      border-radius: 4px;
+      margin: 16px;
       display: flex;
+      justify-content: space-between;
       align-items: center;
       background: white;
-
-      .numberInfor1-img {
-        width: 54px;
-        height: 54px;
-        margin: 0 0 0 20px;
+      .numberInfor1-data {
+        display: flex;
+        align-items: center;
+        background: white;
+        .numberInfor1-img {
+          width: 54px;
+          height: 54px;
+          margin: 0 0 0 20px;
+        }
+        .numberInfor1-num1 {
+          padding: 0 44px;
+          border-right: 1px #f2e9e8 solid;
+          span {
+            font-size: 16px;
+          }
+          span:nth-of-type(2) {
+            font-size: 20px;
+            color: #3998eb;
+            font-weight: 500;
+          }
+          span:nth-of-type(4) {
+            color: #fb7572;
+          }
+        }
+        .numberInfor1-num2 {
+          padding: 0 44px;
+          border-right: 1px #f2e9e8 solid;
+          span {
+            font-size: 16px;
+          }
+          span:nth-of-type(2) {
+            font-size: 20px;
+            color: #3998eb;
+            font-weight: 500;
+          }
+        }
+        .numberInfor1-num3 {
+          padding: 0 44px;
+          span {
+            font-size: 16px;
+          }
+          span:nth-of-type(2) {
+            font-size: 20px;
+            color: #3998eb;
+            font-weight: 500;
+          }
+        }
       }
-      .numberInfor1-num1 {
-        padding: 0 44px;
-        border-right: 1px #f2e9e8 solid;
+      .numberInfor1-upTime {
+        margin: 0 18px 0 0;
         span {
-          font-size: 16px;
-        }
-        span:nth-of-type(2) {
-          font-size: 20px;
-          color: #3998eb;
-          font-weight: 500;
-        }
-        span:nth-of-type(4) {
-          color: #fb7572;
-        }
-      }
-      .numberInfor1-num2 {
-        padding: 0 44px;
-        border-right: 1px #f2e9e8 solid;
-        span {
-          font-size: 16px;
-        }
-        span:nth-of-type(2) {
-          font-size: 20px;
-          color: #3998eb;
-          font-weight: 500;
-        }
-      }
-      .numberInfor1-num3 {
-        padding: 0 44px;
-        span {
-          font-size: 16px;
-        }
-        span:nth-of-type(2) {
-          font-size: 20px;
-          color: #3998eb;
-          font-weight: 500;
+          color: #666666;
+          font-size: 14px;
         }
       }
     }
-    .numberInfor1-upTime {
-      margin: 0 18px 0 0;
-      span {
-        color: #666666;
-        font-size: 14px;
-      }
-    }
-  }
-  .numberInfor2 {
-    height: 239px;
-    display: flex;
-    margin: 0 0 16px 16px;
-    overflow: hidden;
-    .numberInfor2-area {
-      width: 301px;
+    .numberInfor2 {
       height: 239px;
-      border-radius: 4px;
-      margin-right: 16px;
-      background: white;
-      .area-img {
-        width: 117px;
-        height: 89px;
-        margin: 26px auto 10px;
-      }
-      .area-number {
-        font-size: 42px;
-        color: #2f4646;
-        text-align: center;
-      }
-      .area-text {
-        color: #919191;
-        font-size: 16px;
-        text-align: center;
-      }
-    }
-    .numberInfor2-area:last-of-type{
-      margin-right: 0;
-    }
-  }
-  .warehouseStatistics {
-    height: 480px;
-    display: flex;
-    margin: 0 0 16px 16px;
-    .ws-area1 {
-      width: 383px;
-      height: 480px;
-      border-radius: 4px;
-      background: white;
-      margin: 0 16px 0 0;
-      padding: 0 30px;
-      .area1-title {
-        width: 100%;
-        height: 76px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 16px;
-        .area1-title-icon {
-          cursor: pointer;
-          font-weight: bold;
+      display: flex;
+      margin: 0 0 16px 16px;
+      .numberInfor2-area {
+        flex: 1;
+        height: 239px;
+        border-radius: 4px;
+        margin-right: 16px;
+        background: white;
+        .area-img {
+          width: 117px;
+          height: 89px;
+          margin: 26px auto 10px;
+        }
+        .area-number {
+          font-size: 42px;
+          color: #2f4646;
+          text-align: center;
+        }
+        .area-text {
+          color: #919191;
+          font-size: 16px;
+          text-align: center;
         }
       }
-      .ws-area1-echarts {
-        width: 383px;
-        height: 404px;
+    }
+    .warehouseStatistics {
+      height: 480px;
+      display: flex;
+      margin: 0 0 16px 16px;
+      .ws-area1 {
+        width: 20.1%;
+        height: 480px;
+        border-radius: 4px;
+        background: white;
+        margin: 0 16px 0 0;
+        padding: 0 30px;
+        .area1-title {
+          height: 76px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 16px;
+          .area1-title-icon {
+            cursor: pointer;
+            font-weight: bold;
+          }
+        }
+        .ws-area1-echarts {
+          height: 404px;
+        }
+      }
+      .ws-area2 {
+        width: 77.6%;
+        height: 480px;
+        border-radius: 4px;
+        background: white;
+        padding: 0 30px;
+        .area2-title {
+          height: 76px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 16px;
+          .area2-title-button {
+            display: flex;
+            align-items: center;
+            a {
+              display: block;
+              width: 72px;
+              height: 34px;
+              background: #ffffff;
+              border: 1px solid #cbcbcb;
+              border-radius: 4px;
+              margin: 0 16px 0 0;
+              cursor: pointer;
+              outline: none;
+              font-size: 14px;
+              text-align: center;
+              line-height: 34px;
+            }
+            .router-link-active {
+              border: 1px solid #5a9af2;
+              color: #5a9af2;
+            }
+            .area2-title-icon {
+              font-weight: bold;
+              cursor: pointer;
+            }
+          }
+        }
       }
     }
-    .ws-area2 {
-      width: 1488px;
-      height: 480px;
-      border-radius: 4px;
-      background: white;
-      padding: 0 30px;
-      margin: 0 16px 0 0;
-      .area2-title {
-        width: 100%;
-        height: 76px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 16px;
-        .area2-title-button {
+    .echartsInfor {
+      height: 560px;
+      display: flex;
+      margin: 0 0 16px 16px;
+      .infor-one {
+        flex: 1;
+        height: 560px;
+        border-radius: 4px;
+        background: white;
+        margin: 0 16px 0 0;
+        .infor-one-title {
+          height: 76px;
           display: flex;
+          justify-content: space-between;
           align-items: center;
-          a {
-            display: block;
-            width: 72px;
-            height: 34px;
-            background: #ffffff;
-            border: 1px solid #cbcbcb;
-            border-radius: 4px;
-            margin: 0 16px 0 0;
-            cursor: pointer;
-            outline: none;
-            font-size: 14px;
-            text-align: center;
-            line-height: 34px;
-          }
-          .router-link-active {
-            border: 1px solid #5a9af2;
-            color: #5a9af2;
-          }
-          .area2-title-icon {
+          font-size: 16px;
+          padding: 0 30px;
+          border-bottom: 1px solid #e5e5e5;
+          .one-title-icon {
             font-weight: bold;
             cursor: pointer;
           }
         }
-      }
-    }
-  }
-  .echartsInfor {
-    width: 1888px;
-    height: 560px;
-    display: flex;
-    margin: 0 0 16px 16px;
-    .infor-one {
-      width: 936px;
-      height: 560px;
-      border-radius: 4px;
-      background: white;
-      margin: 0 16px 0 0;
-      .infor-one-title {
-        width: 100%;
-        height: 76px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 16px;
-        padding: 0 30px;
-        border-bottom: 1px solid #e5e5e5;
-        .one-title-icon {
-          font-weight: bold;
-          cursor: pointer;
+        .infor-one-echarts {
+          height: 486px;
         }
       }
-      .infor-one-echarts {
-        width: 936px;
-        height: 486px;
-      }
-    }
-    .infor-two {
-      width: 936px;
-      height: 560px;
-      border-radius: 4px;
-      background: white;
-      margin: 0 16px 0 0;
-      .infor-two-title {
-        width: 100%;
-        height: 76px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 16px;
-        padding: 0 30px;
-        border-bottom: 1px solid #e5e5e5;
-        .two-title-icon {
-          font-weight: bold;
-          cursor: pointer;
+      .infor-two {
+        flex: 1;
+        height: 560px;
+        border-radius: 4px;
+        background: white;
+        margin: 0 16px 0 0;
+        .infor-two-title {
+          width: 100%;
+          height: 76px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 16px;
+          padding: 0 30px;
+          border-bottom: 1px solid #e5e5e5;
+          .two-title-icon {
+            font-weight: bold;
+            cursor: pointer;
+          }
         }
-      }
-      .infor-two-echarts {
-        width: 936px;
+        .infor-two-echarts {
+          // width: 936px;
+        }
       }
     }
   }

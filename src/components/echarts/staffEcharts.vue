@@ -163,9 +163,8 @@ export default {
 
 <style lang="scss" scoped>
 #staffEcharts {
-  width: 323px;
+  
   height: 234px;
-  /* padding: 18px 70px; */
 }
 
 .echarts-buttom {

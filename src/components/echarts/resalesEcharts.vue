@@ -203,7 +203,7 @@ export default {
 
 <style scoped>
 #resalesEcharts {
-  width: 936px;
+  /* width: 936px; */
   height: 484px;
   padding: 18px 18px 28px 28px;
 }

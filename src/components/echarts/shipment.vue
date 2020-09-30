@@ -252,7 +252,7 @@ data() {
 
 <style scoped>
 #shipments{
-     width: 936px;
+     /* width: 936px; */
   height: 486px;
   padding: 18px 18px 28px 28px;
 }

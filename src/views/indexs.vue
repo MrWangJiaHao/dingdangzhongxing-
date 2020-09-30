@@ -301,37 +301,37 @@ export default {
 <style scoped lang="scss">
 #headerMain {
   position: relative;
-}
-.tabContainer {
-  width: 100%;
-  margin: 0 auto;
-  height: 90px;
-  background: linear-gradient(0deg, #3795eb, #4bade4);
-  position: relative;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  a {
+  .tabContainer {
+    width: 100%;
+    margin: 0 auto;
+    height: 90px;
+    background: linear-gradient(0deg, #3795eb, #4bade4);
+    position: relative;
     display: flex;
     align-items: center;
-    color: white;
-    img {
-      margin: 0 8px 0 0;
-      width: 18px;
-      height: 18px;
+    overflow: hidden;
+    a {
+      display: flex;
+      align-items: center;
+      color: white;
+      img {
+        margin: 0 8px 0 0;
+        width: 18px;
+        height: 18px;
+      }
     }
   }
-}
 
-.header-title {
-  width: 139px;
-  height: 90px;
-  .header-title-img {
+  .header-title {
     width: 139px;
-    height: 22px;
-    img {
-      margin: 34px 10px 34px 20px;
-      cursor: pointer;
+    height: 90px;
+    .header-title-img {
+      width: 139px;
+      height: 22px;
+      img {
+        margin: 34px 10px 34px 20px;
+        cursor: pointer;
+      }
     }
   }
 }
@@ -398,7 +398,7 @@ export default {
 .tabContainer .el-tabs__nav-next {
   top: 0px;
   position: absolute;
-  right: -50px;
+  right: -40px;
   font-size: 18px;
   color: white;
 }
