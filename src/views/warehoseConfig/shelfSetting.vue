@@ -295,6 +295,7 @@ export default {
       });
       if (datas.code == "10000") {
         this.sendOutData.rowData[index].groupData[idx].resultmes = datas.result;
+        return this.sendOutData.rowData[index].groupData[idx].resultmes;
       } else {
         Message(datas.msg);
       }
@@ -401,7 +402,6 @@ export default {
     },
     //获取子仓名称
     getchildValue() {},
-
     isNums(i) {
       switch (i) {
         case 0:
@@ -496,6 +496,7 @@ export default {
   }
   .Onehuojia {
     padding: 10px;
+    display: flex;
   }
   .btnBox {
   }

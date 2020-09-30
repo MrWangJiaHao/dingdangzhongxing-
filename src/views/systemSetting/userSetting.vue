@@ -136,6 +136,12 @@
       </div>
     </div>
     <!-- table表格 -->
+    <div v-show="ewms" class="ewms" id="ewms">
+      <div>
+        <div class="ewmBoxS">二维码</div>
+        <img src="../../assets/img/logo1.png" alt="" />
+      </div>
+    </div>
     <div class="lineBox">
       <div class="line"></div>
     </div>
@@ -146,20 +152,24 @@
 /*eslint-disable*/
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
+import EWM from "../../components/EWM"; //分页器
 import { Message } from "element-ui";
 import { post, logins } from "../../api/api";
 import { mapState } from "vuex";
 import { ajaxPost } from "../../utils/validate";
+
 export default {
   components: {
     dateTime,
     pagecomponent,
+    EWM,
   },
   computed: {
     ...mapState(["editUser", "userTypeArr"]),
   },
   data() {
     return {
+      ewms: false,
       tableData: [
         {
           loginName: 0,
@@ -195,6 +205,7 @@ export default {
         placeholder: "请选择开始时间",
       },
       LODOP: null,
+      EwmArray: [],
       pagingQueryData: {
         //分页查询
         pageNumber: 1,
@@ -225,36 +236,28 @@ export default {
       if (this.multipleSelection.length == 0)
         return Message("请选择要打印的二维码");
       let arr = this._getIDArr();
-      setTimeout(
-        () => {
-          this.LODOP = this.$getLodop();
-          this._createEwm(this.multipleSelection);
-        },
-        200,
-        arr
-      );
+      this.EwmArray = this.multipleSelection;
+      this._shenchengerweiam(arr);
+      setTimeout(() => {
+        this.LODOP = this.$getLodop();
+        this._createEwm(this.multipleSelection);
+      }, 200);
+    },
+    _shenchengerweiam(arr) {
+      arr.forEach((item, idx) => {
+        let qrCode = new QRCode(
+          document.getElementsByClassName("ewmBoxS")[idx],
+          {
+            width: 100,
+            height: 100,
+          }
+        );
+        qrCode.makeCode(item);
+      });
     },
     //打印二维码函数
-    _createEwm(arr) {
-      let x = 0;
-      let y = 0;
-      arr.forEach((item) => {
-        this.LODOP.ADD_PRINT_BARCODE(
-          x,
-          (y += 100),
-          100,
-          100,
-          "QRCode",
-          item.id
-        );
-        this.LODOP.ADD_PRINT_IMAGE(
-          30,
-          20,
-          600,
-          250,
-          "<img src='http://www.c-lodop.com/demolist/PrintSample8.jpg' width='100%' height='250'/>"
-        );
-      });
+    _createEwm() {
+      LODOP.ADD_PRINT_HTM(0, 0, document.getElementById("ewms").innerHTML);
       this.LODOP.PREVIEW();
     },
     CheckIsInstall() {

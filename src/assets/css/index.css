@@ -398,7 +398,7 @@ color: #454545;
 }
 
 .verticalLine::before{
-  content: " ";
+  content: "";
   width: 1px;
   height: 7px;
   background: rgb(255,155,155);
@@ -416,5 +416,8 @@ color: #454545;
   top: -2.55px;
 }
 
-
+.border{
+  border:1px solid #000;
+  border-bottom-color:transparent ;
+}
 

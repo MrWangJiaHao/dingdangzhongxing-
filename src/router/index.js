@@ -104,6 +104,16 @@ const routes = [{
     }
   },
   {
+    //仓库配置=>区域管理=>货架设置
+    path: "/warehoseconfig/shelfSetting",
+    name: "/warehoseconfig/shelfSetting",
+    component: () => import("../views/warehoseConfig/shelfSetting"),
+    meta: {
+      Breadcrumb: "区域管理",
+      title: "货架设置"
+    }
+  },
+  {
     //仓库配置=>库位映射
     path: "/warehoseconfig/storageLocalMap",
     name: "/warehoseconfig/storageLocalMap",
@@ -136,16 +146,7 @@ const routes = [{
   name: 'systemSetting/editUserIng',
   component: () => import("../views/systemSetting/editUserIng.vue")
 },
-{
-  //仓库配置=>区域管理=>货架设置
-  path: "/warehoseconfig/shelfSetting",
-  name: "/warehoseconfig/shelfSetting",
-  component: () => import("../views/warehoseConfig/shelfSetting"),
-  meta: {
-    Breadcrumb: "区域管理",
-    title: "货架设置"
-  }
-},
+
 {
   path: "/systemSetting/lookUser",
   name: 'systemSetting/lookUser',
