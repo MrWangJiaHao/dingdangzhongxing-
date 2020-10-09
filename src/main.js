@@ -1,3 +1,4 @@
+/*eslint-disable */
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -11,18 +12,18 @@ import "./assets/css/Toast.css";
 import "./assets/css/index.css";
 import VueCookie from 'vue-cookie'
 import Lodop from './assets/js/LodopFuncs'
+import qrcode from './assets/js/qrcode'
 import "./assets/js/rem";
-
 import $ from 'jquery'
 Vue.prototype.$ = $
 
-Vue.use(Lodop)
+Vue.use(Lodop).use(qrcode)
 Vue.use(VueCookie)
 
 Vue.use(ElementUI).use(iView)
 Vue.prototype.$axios = axios
 
-// import 'lib-flexible' 
+// import 'lib-flexible'
 // 引入echarts
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts

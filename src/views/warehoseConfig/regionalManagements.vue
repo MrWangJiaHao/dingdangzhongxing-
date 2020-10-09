@@ -337,47 +337,6 @@ export default {
             dataBaseSubfix: "",
             enableStatus: 0,
             groupId: "",
-            id: "6B70A4BB14D249E6A3D744F4212CD3B0",
-            lastModifyTime: null,
-            lastModifyUser: "",
-            orgIds: [],
-            prodIds: [],
-            remark: "",
-            seatProdId: "",
-            seatType: 0,
-            shelfLevelNum: 0,
-            tableSubfix: "",
-            tails: {},
-            userId: "",
-            userName: "",
-            userToken: "",
-            userType: 0,
-            version: 0,
-            wareAreaId: "09100B2AF89C4D2687A09C7019A68D65",
-            wareAreaName: "子仓默认区域",
-            wareAreaType: 0,
-            wareIds: [],
-            wareSeatCode: "A1-A01-009-4-3",
-            wareSeatHight: 40,
-            wareSeatLength: 30,
-            wareSeatWidth: 30,
-            wareShelfId: "015604FA11504D57B969EC9C22031440",
-            wareShelfName: "3*4货架A型",
-            wareType: 0,
-            wtgsOrgId: "",
-          },
-          {
-            childWareId: "EF0F0B8CA53445E0A65794666B00A200",
-            childWareName: "SND子仓1号",
-            createTime: "2020-03-17 14:38:20",
-            createUser: "admin",
-            curOrgId: "",
-            curOrgName: "",
-            curWareId: "",
-            curWareName: "",
-            dataBaseSubfix: "",
-            enableStatus: 0,
-            groupId: "",
             id: "80C5B700AEB84668A8D36A3BDE2F086E",
             lastModifyTime: null,
             lastModifyUser: "",
@@ -406,8 +365,11 @@ export default {
             wareShelfName: "3*4货架A型",
             wareType: 0,
             wtgsOrgId: "",
+            distance: 1,
           },
           {
+            distance: 0.5,
+
             childWareId: "EF0F0B8CA53445E0A65794666B00A200",
             childWareName: "SND子仓1号",
             createTime: "2020-03-17 14:38:20",
@@ -590,22 +552,10 @@ export default {
     //点击查看库位平面图
     warehousePlan() {
       this.kuwieLook = !this.kuwieLook;
+      
     },
     //点击货架设置
     shelfSetting() {
-      if (this.multipleSelection.length == 0)
-        return Message("请选择在哪个区域下创建货架");
-      if (this.multipleSelection.length > 1)
-        return Message("每次只能在编辑一个区域，请重新选择");
-      sessionStorage.setItem(
-        "shelfSettingData",
-        JSON.stringify({
-          wareAreaId: this.multipleSelection[0].id,
-          childWareId: this.multipleSelection[0].childWareId,
-          wareAreaLength: this.multipleSelection[0].wareAreaLength,
-          wareAreaWidth: this.multipleSelection[0].wareAreaWidth,
-        })
-      );
       this.$router.push({
         path: "/warehoseconfig/shelfSetting",
       });
@@ -636,7 +586,7 @@ export default {
       if (res.code === "10000") {
         Message({
           type: "success",
-          message: datas.msg,
+          message: res.msg,
           duration: 1000,
           onClose() {
             window.location.reload();

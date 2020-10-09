@@ -274,6 +274,7 @@ export default {
   },
   async created() {
     let probinceData = this.fasonCodeAjax();
+    
     probinceData.then((data) => {
       this.dropDowProvince.dropDownBoxData = data;
     });

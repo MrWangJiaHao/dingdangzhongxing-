@@ -136,6 +136,21 @@
       </div>
     </div>
     <!-- table表格 -->
+    <div
+      v-show="ewms"
+      class="ewms dispalywrap"
+      style="display: flex; align-items: center; flex-wrap: wrap"
+      id="ewms"
+    >
+      <div
+        v-for="(item, idx) in EwmArray"
+        :key="idx"
+        style="display: inline-block; margin-right: 20px"
+      >
+        <getEwmRes :ewmArr="item" :idx="idx" />
+      </div>
+    </div>
+    <!-- 二维码 -->
     <div class="lineBox">
       <div class="line"></div>
     </div>
@@ -146,20 +161,25 @@
 /*eslint-disable*/
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
+import EWM from "../../components/EWM"; //分页器
 import { Message } from "element-ui";
 import { post, logins } from "../../api/api";
 import { mapState } from "vuex";
 import { ajaxPost } from "../../utils/validate";
+import getEwmRes from "../../components/getEwmRes";
 export default {
   components: {
     dateTime,
     pagecomponent,
+    EWM,
+    getEwmRes,
   },
   computed: {
     ...mapState(["editUser", "userTypeArr"]),
   },
   data() {
     return {
+      ewms: false,
       tableData: [
         {
           loginName: 0,
@@ -195,6 +215,7 @@ export default {
         placeholder: "请选择开始时间",
       },
       LODOP: null,
+      EwmArray: [],
       pagingQueryData: {
         //分页查询
         pageNumber: 1,
@@ -225,36 +246,23 @@ export default {
       if (this.multipleSelection.length == 0)
         return Message("请选择要打印的二维码");
       let arr = this._getIDArr();
-      setTimeout(
-        () => {
-          this.LODOP = this.$getLodop();
-          this._createEwm(this.multipleSelection);
-        },
-        200,
-        arr
-      );
+      this.EwmArray = this.multipleSelection;
+      setTimeout(() => {
+        this.LODOP = this.$getLodop();
+        this._createEwm(this.multipleSelection);
+      }, 200);
     },
     //打印二维码函数
-    _createEwm(arr) {
-      let x = 0;
-      let y = 0;
-      arr.forEach((item) => {
-        this.LODOP.ADD_PRINT_BARCODE(
-          x,
-          (y += 100),
-          100,
-          100,
-          "QRCode",
-          item.id
-        );
-        this.LODOP.ADD_PRINT_IMAGE(
-          30,
-          20,
-          600,
-          250,
-          "<img src='http://www.c-lodop.com/demolist/PrintSample8.jpg' width='100%' height='250'/>"
-        );
-      });
+    _createEwm() {
+      console.log(document.getElementById("ewms").innerHTML);
+      this.LODOP.ADD_PRINT_HTM(
+        0,
+        0,
+        2970,
+        2100,
+        document.getElementById("ewms").innerHTML
+      );
+      // this.LODOP.PRINTA();
       this.LODOP.PREVIEW();
     },
     CheckIsInstall() {
@@ -397,9 +405,11 @@ export default {
     },
     getPageNum(e) {
       this.pagingQueryData.pageNumber = e;
+      this.fasonPagIngQueryData();
     },
     sureSuccssBtn(e) {
       this.pagingQueryData.pageNumber = e;
+      this.fasonPagIngQueryData();
     },
     //点击创建按钮
     gotoRouterSetUserIng() {
@@ -568,5 +578,13 @@ export default {
       background: #fff;
     }
   }
+}
+.ewms {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #f8f8f8;
+  z-index: 100;
 }
 </style>
