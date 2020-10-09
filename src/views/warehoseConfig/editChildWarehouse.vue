@@ -473,11 +473,12 @@ export default {
       display: flex;
       align-items: center;
       margin: 0 0 16px 0;
-      height: 38px;
+      flex-wrap: wrap;
       .input1 {
         display: flex;
         align-items: center;
-        width: 206px;
+        // width: 206px;
+        margin-right: 10px;
         span {
           flex-shrink: 0;
         }
@@ -485,7 +486,8 @@ export default {
       .input2 {
         display: flex;
         align-items: center;
-        width: 252px;
+        // width: 252px;
+        margin-right: 10px;
         span {
           flex-shrink: 0;
         }
@@ -493,7 +495,8 @@ export default {
       .input3 {
         display: flex;
         align-items: center;
-        width: 244px;
+        // width: 244px;
+        margin-right: 10px;
         span {
           flex-shrink: 0;
         }
@@ -504,7 +507,8 @@ export default {
       .input4 {
         display: flex;
         align-items: center;
-        width: 244px;
+        // width: 244px;
+        margin-right: 10px;
         span {
           flex-shrink: 0;
         }
@@ -515,7 +519,8 @@ export default {
       .input5 {
         display: flex;
         align-items: center;
-        width: 276px;
+        // width: 276px;
+        margin-right: 10px;
         span {
           flex-shrink: 0;
         }
@@ -523,8 +528,8 @@ export default {
       .input6 {
         display: flex;
         align-items: center;
-        width: 244px;
-        margin-right: 20px;
+        // width: 244px;
+        margin-right: 10px;
         span {
           flex-shrink: 0;
         }
@@ -535,7 +540,7 @@ export default {
       .input7 {
         display: flex;
         align-items: center;
-        width: 244px;
+        // width: 244px;
         span {
           flex-shrink: 0;
         }
@@ -547,7 +552,7 @@ export default {
         display: flex;
         align-items: center;
         transition: 0.5s;
-        width: 150px;
+        // width: 150px;
         span {
           flex-shrink: 0;
         }
@@ -584,7 +589,7 @@ export default {
 }
 .input2 {
   .el-input {
-    width: 184px;
+    width: 144px;
   }
   .el-checkbox__inner {
     border-radius: 50%;

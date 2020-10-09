@@ -99,6 +99,36 @@ export function TJquery_WH_Request(data) {
     })
 }
 
+//根据库位编码打印条码
+export function getBarCodeImg(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg",
+            method: "get",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//查询库位信息
+export function querySLInfor(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/findRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
 
 
 export function post(datas) {

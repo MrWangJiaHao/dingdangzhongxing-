@@ -46,4 +46,7 @@ a {
   display: block;
   clear: both;
 }
+#app{
+  height: 100%;
+}
 </style>

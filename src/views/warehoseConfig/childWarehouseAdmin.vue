@@ -257,7 +257,11 @@ export default {
           let resultList = ok.data.result.list;
           //将查询出来的数据存储到vuex里面
           this.$store.dispatch("CWAdminRequest", ok.data.result);
-          
+          //将查询出来的数据赋值给子仓名称选择框
+          // let childWarehouseName =  this.childWarehouseName
+          // childWarehouseName.forEach((v,i)=>{
+
+          // })
           resultList.forEach((values, indexs) => {
             let tableDataItem = {
               CWName: resultList[indexs].childWareName, //子仓名称
