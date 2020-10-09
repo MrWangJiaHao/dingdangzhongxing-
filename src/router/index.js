@@ -119,7 +119,7 @@ const routes = [{
     name: "/warehoseconfig/storageLocalMap",
     component: () => import("../views/warehoseConfig/storageLocalMap"),
     meta: {
-
+      title: "库位映射"
     }
   },
   ]
@@ -167,7 +167,6 @@ const routes = [{
     title: "创建子仓"
   }
 },
-// 
 //默认进入登录页
 {
   path: '/',

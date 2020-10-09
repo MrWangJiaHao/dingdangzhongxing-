@@ -482,7 +482,6 @@ var QRCode;
     function _getAndroid() {
         var android = false;
         var sAgent = navigator.userAgent;
-
         if (/android/i.test(sAgent)) { // android
             android = true;
             aMat = sAgent.toString().match(/android ([0-9]\.[0-9])/i);
@@ -491,7 +490,6 @@ var QRCode;
                 android = parseFloat(aMat[1]);
             }
         }
-
         return android;
     }
 
@@ -602,7 +600,7 @@ var QRCode;
 
         // Android 2.1 bug workaround
         // http://code.google.com/p/android/issues/detail?id=5141
-        if (this._android && this._android <= 2.1) {
+        if (true) {
             var factor = 1 / window.devicePixelRatio;
             var drawImage = CanvasRenderingContext2D.prototype.drawImage;
             CanvasRenderingContext2D.prototype.drawImage = function (image, sx, sy, sw, sh, dx, dy, dw, dh) {
@@ -929,3 +927,9 @@ var QRCode;
      */
     QRCode.CorrectLevel = QRErrorCorrectLevel;
 })();
+
+QRCode.install = function (Vue, options) {
+    // 4. 添加实例方法
+    Vue.prototype.$QRCode = QRCode
+}
+export default QRCode

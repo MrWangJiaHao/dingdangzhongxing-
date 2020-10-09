@@ -7,14 +7,15 @@
           <div class="noneIconTitle mr11">子仓名称:</div>
           <div class="mr20">
             <el-select
-              v-model="wareAreaTypeJson.wareAreaName"
+              v-model="sendOutData.childWareName"
               placeholder="请选择子仓名称"
               @input="getchildValue"
+              @focus="getZicanId"
             >
               <el-option
-                v-for="(item, idx) in wareAreaTypeJson"
+                v-for="(item, idx) in nameOfSubWareHouse.nameOfSubwareHouseData"
                 :key="idx"
-                :label="item.wareAreaName"
+                :label="item.childWareName"
                 :value="idx"
               ></el-option>
             </el-select>
@@ -28,12 +29,14 @@
             <div class="noneIconTitle mr11">区域名称:</div>
             <div class="mr20">
               <el-select
-                v-model="wareAreaTypeJson.wareAreaName"
+                v-model="sendOutData.wareAreaName"
                 placeholder="请选择区域名称"
-                @input="getAreaValue"
+                @input="getquyuCode"
+                @focus="getZicanId"
               >
                 <el-option
-                  v-for="(item, idx) in wareAreaTypeJson"
+                  v-for="(item,
+                  idx) in nameOfSubWareHouse.nameOfSubwareHouseData"
                   :key="idx"
                   :label="item.wareAreaName"
                   :value="idx"
@@ -128,10 +131,12 @@
                   <el-select
                     v-model="item.shelfName"
                     placeholder="请选择货架名称"
-                    @input="getAreaValue(index, idx, idxs)"
+                    @input="getShuZhu(index, idx, idxs)"
+                    @change="getAreaValue"
                     @focus="getHuoJiaName(index, idx, idxs)"
                   >
                     <el-option
+                      v-show="item.resultmes"
                       v-for="(itemss, idxx) in item.resultmes"
                       :key="idxx"
                       :label="itemss.shelfName"
@@ -144,14 +149,14 @@
               <div class="displayalign">
                 <div class="noneIconTitle mr11">货架类型:</div>
                 <div class="mr20">
-                  <el-input v-model="items.shelfType"></el-input>
+                  <el-input disabled v-model="items.shelfType"></el-input>
                 </div>
               </div>
               <!-- 货架类型 -->
               <div class="displayalign">
                 <div class="noneIconTitle mr11">可用数量:</div>
                 <div class="mr20">
-                  <el-input v-model="items.shelfNum"></el-input>
+                  <el-input disabled v-model="items.canNum"></el-input>
                 </div>
               </div>
               <!-- 可用数量 -->
@@ -199,7 +204,7 @@
       </div>
       <!-- btn -->
     </div>
-
+    <!-- js 主体部分 -->
     <div
       v-show="sendOutData.rowData[0].groupData.length"
       class="displayCenter"
@@ -210,6 +215,7 @@
         <div class="disinb addSetting" @click="shelfSubmit">提交</div>
       </div>
     </div>
+    <!-- 提交按钮或者返回按钮 -->
   </div>
 </template>
 
@@ -225,11 +231,18 @@ export default {
       wareAreaTypeJson: {
         wareAreaName: "",
       },
+      nameOfSubWareHouse: {
+        placeholdes: "请选择子仓名称",
+        nameOfSubwareHouseData: [],
+      },
       resme: 0,
       sendOutData: {
-        childWareId: "子仓库id",
+        childWareId: "",
+        wareAreaName: "",
+        childWareName: "",
+        wareAreaType: null,
         wareId: getCookie("X-Auth-wareId"),
-        wareAreaId: "仓库区域id",
+        wareAreaId: "",
         rowData: [
           {
             distance: null, //货架排间距 (指与前一排的间距,如果是第一排,此数据无效)
@@ -245,21 +258,44 @@ export default {
       getHuojiaNameAndType: {
         wareAreaId: "",
         wareId: getCookie("X-Auth-wareId"),
-        childWareId: "子仓库id",
+        childWareId: "",
       },
+      // 子仓id
+      zicanData: {
+        pageNumber: 1,
+        pageSize: 10,
+        userType: 4,
+      },
+      shuzu: [],
     };
   },
-  created() {
-    let session = JSON.parse(sessionStorage.getItem("shelfSettingData"));
-    this.sendOutData.childWareId = session.childWareId; //
-    this.sendOutData.wareAreaId = session.wareAreaId; //仓库区域id
-    this.getHuojiaNameAndType.childWareId = session.childWareId; //
-    this.getHuojiaNameAndType.wareAreaId = session.wareAreaId; //仓库区域id
-  },
-  beforeDestroy() {
-    // sessionStorage.removeItem("shelfSettingData");
+  watch: {
+    isNum(n) {
+      //判断是储存还是拣货区
+      if (n) {
+        this.sendOutData.wareAreaType = 1;
+      } else {
+        this.sendOutData.wareAreaType = 2;
+      }
+    },
   },
   methods: {
+    getShuZhu(index, idx, idxs) {
+      console.log(index, idx, idxs);
+      this.shuzu = `${index},${idx},${idxs}`.split(",");
+    },
+    //获取子仓id
+    async getZicanId() {
+      //获取子仓id
+      let datas = await post({
+        url:
+          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/findRecordPage",
+        data: this.zicanData,
+      });
+
+      return (this.nameOfSubWareHouse.nameOfSubwareHouseData =
+        datas.result.list);
+    },
     //返回上一页
     gotoSanYiye() {
       this.$confirm("确认返回上一页", "提示", {
@@ -275,29 +311,40 @@ export default {
         });
     },
     //获取货架名称
-    getHuoJiaName(index, idx, idxs) {
-      this._mingc(this.getHuojiaNameAndType, index, idx, idxs);
-      console.log(this.sendOutData.rowData[index].groupData[idx].resultmes);
+    //  `${index},${idx},${idxs}`.split(",");
+    async getHuoJiaName(index, idx, idxs) {
+      console.log(index, idx, idxs);
+
+      this.resultmes = await this._mingc(this.getHuojiaNameAndType);
+      this.$nextTick(() => {
+        this.sendOutData.rowData[index].groupData[idx].resultmes = this.resultmes;
+      });
     },
     //区域名称input
-    getAreaValue(e, index, idxs, idx) {
-      console.log(this.sendOutData.rowData[index].groupData[idxs], index);
-      this.sendOutData.rowData[index].groupData[idx].shelfType[
-        e
-      ] = this.sendOutData.rowData[index].groupData[idx].resultmes[e];
+    //  `${index},${idx},${idxs}`.split(",");
+    getAreaValue(e) {
+      this.sendOutData.rowData[+this.shuzu[0]].groupData[
+        +this.shuzu[1]
+      ].shelfData[e].shelfType = this.sendOutData.rowData[
+        +this.shuzu[0]
+      ].groupData[+this.shuzu[1]].resultmes[e].shelfType;
+      this.sendOutData.rowData[+this.shuzu[0]].groupData[
+        +this.shuzu[1]
+      ].shelfData[e].canNum = this.sendOutData.rowData[
+        +this.shuzu[0]
+      ].groupData[+this.shuzu[1]].resultmes[e].shelfNum;
     },
     //获取货架名称//ajax
-    async _mingc(data, index, idx, idxs) {
+    async _mingc(data) {
       let datas = await post({
         url:
           "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseShelf/findRecord",
         data,
       });
       if (datas.code == "10000") {
-        this.sendOutData.rowData[index].groupData[idx].resultmes = datas.result;
-        return this.sendOutData.rowData[index].groupData[idx].resultmes;
+        return datas.result;
       } else {
-        Message(datas.msg);
+        return Message(datas.msg);
       }
     },
     //点击了移除
@@ -337,7 +384,7 @@ export default {
     //点击了保存
     baoCunData(item, idx) {},
     //货架组数失去焦点事件
-    createDomZu(parent, index) {
+    async createDomZu(parent, index) {
       let rowNum = +parent;
       if (+parent === NaN) return Message("请输入数字");
       let arr = this._createDom(rowNum, index);
@@ -355,6 +402,7 @@ export default {
             {
               shelfType: "", //摆放货架类型
               shelfNum: "", //摆放货架数量
+              canNum: "", //可用数量
             },
           ],
         };
@@ -371,11 +419,13 @@ export default {
       return {
         shelfType: "", //摆放货架类型
         shelfNum: "", //摆放货架数量
+        canNum: "", //可用数量
       };
     },
     //点击了添加货架
     addHuoJia(item, index, idx, idxs) {
       let res = this._addHuoJia();
+      console.log(res);
       this.sendOutData.rowData[index].groupData[idx].shelfData.push(res);
     },
     //删除的是那个下面的第几个
@@ -401,7 +451,23 @@ export default {
         });
     },
     //获取子仓名称
-    getchildValue() {},
+    async getchildValue(e) {
+      this.sendOutData.childWareId = this.nameOfSubWareHouse.nameOfSubwareHouseData[
+        e
+      ].childWareId;
+      this.getHuojiaNameAndType.childWareId = this.nameOfSubWareHouse.nameOfSubwareHouseData[
+        e
+      ].childWareId;
+    },
+    //获取区域id
+    async getquyuCode(e) {
+      this.sendOutData.wareAreaId = this.nameOfSubWareHouse.nameOfSubwareHouseData[
+        e
+      ].id;
+      this.getHuojiaNameAndType.wareAreaId = this.nameOfSubWareHouse.nameOfSubwareHouseData[
+        e
+      ].id;
+    },
     isNums(i) {
       switch (i) {
         case 0:
@@ -444,6 +510,16 @@ export default {
     },
     //点击了提交
     shelfSubmit() {
+      let show = true;
+      if (!this.sendOutData.childWareId) return Message("请选择子仓名称");
+      if (!this.sendOutData.wareAreaId) return Message("请选择区域名称");
+      this.sendOutData.rowData.forEach((item, idx) => {
+        if (+item.rowNum >= 2 && !item.distance) {
+          show = false;
+          Message(`请输入第${this.isNums(idx)}排货架间距`);
+        }
+      });
+      if (!show) return;
       this.submitDataJson(this.sendOutData);
     },
     async submitDataJson(data) {

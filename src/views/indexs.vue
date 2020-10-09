@@ -223,6 +223,7 @@
 </template>
 
 <script>
+/*eslint-disable */
 // import dropdown from "../components/dropdown"; //引入下拉框组件
 import Footer from "../components/footer";
 import { jurisdicRequest } from "../api/api";
@@ -258,7 +259,7 @@ export default {
       id: "AA4EBC35E2544E7688E2F4230F3F5E30",
     };
     jurisdicRequest(data).then((ok) => {
-      console.log(ok);
+      // console.log(ok);
     });
   },
   methods: {

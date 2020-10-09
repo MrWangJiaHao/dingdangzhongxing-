@@ -368,6 +368,8 @@ export default {
             distance: 1,
           },
           {
+            distance: 0.5,
+
             childWareId: "EF0F0B8CA53445E0A65794666B00A200",
             childWareName: "SND子仓1号",
             createTime: "2020-03-17 14:38:20",
@@ -550,22 +552,10 @@ export default {
     //点击查看库位平面图
     warehousePlan() {
       this.kuwieLook = !this.kuwieLook;
+      
     },
     //点击货架设置
     shelfSetting() {
-      if (this.multipleSelection.length == 0)
-        return Message("请选择在哪个区域下创建货架");
-      if (this.multipleSelection.length > 1)
-        return Message("每次只能在编辑一个区域，请重新选择");
-      sessionStorage.setItem(
-        "shelfSettingData",
-        JSON.stringify({
-          wareAreaId: this.multipleSelection[0].id,
-          childWareId: this.multipleSelection[0].childWareId,
-          wareAreaLength: this.multipleSelection[0].wareAreaLength,
-          wareAreaWidth: this.multipleSelection[0].wareAreaWidth,
-        })
-      );
       this.$router.push({
         path: "/warehoseconfig/shelfSetting",
       });
@@ -596,7 +586,7 @@ export default {
       if (res.code === "10000") {
         Message({
           type: "success",
-          message: datas.msg,
+          message: res.msg,
           duration: 1000,
           onClose() {
             window.location.reload();
