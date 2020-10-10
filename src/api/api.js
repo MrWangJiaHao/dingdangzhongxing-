@@ -114,8 +114,23 @@ export function getBarCodeImg(data) {
     })
 }
 
-//查询库位信息
+//查询库位信息(分页)
 export function querySLInfor(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/findRecordPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//查询库位信息(查询条件)
+export function querySLInforCon(data) {
     return new Promise((resolve, reject) => {
         service.request({
             url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/findRecord",
@@ -128,6 +143,37 @@ export function querySLInfor(data) {
         })
     })
 }
+
+//查询库位映射关系(分页查询)
+export function storeMapRelation(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeatProd/findRecordPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//删除库位映射关系
+export function delStoreMapRelation(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeatProd/delRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
 
 
 

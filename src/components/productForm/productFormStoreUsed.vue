@@ -53,9 +53,7 @@ export default {
         //分页查询
         pageNumber: 1,
         pageSize: 3,
-        paras: {
-         
-        },
+        paras: {},
       },
       pageComponentsData: {
         //这是分页器需要的json

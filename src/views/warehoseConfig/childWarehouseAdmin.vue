@@ -251,6 +251,7 @@ export default {
       let tableData = this.tableData;
       query_WH_Request(queryData).then((ok) => {
         if (ok.data.code === "10000") {
+          console.log(ok.data.result)
           //将查询结果赋值给一个变量
           this.changeData(ok.data.result);
           // 将查询出来的数组进行循环，分别插入到表格中

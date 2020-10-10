@@ -9,7 +9,7 @@
             <el-select
               v-model="nameValue"
               placeholder="请选择子仓名称"
-              @change="nameValue"
+              @change="nameValues"
             >
               <el-option
                 v-for="item in childWarehouseName"
@@ -45,7 +45,7 @@
             <el-select
               v-model="areaTypeValue"
               placeholder="请选择区域类型"
-              @change="areaTypeValue"
+              @change="areaTypeValues"
             >
               <el-option
                 v-for="item in areaTypeData"
@@ -179,7 +179,7 @@
           ></el-table-column>
         </el-table>
       </div>
-      <div class="pageComponent" v-if="this.tableData.length >= 10">
+      <div class="pageComponent">
         <pagecomponent
           :pageComponentsData="pageComponentsData"
           @getPageNum="getPageNum"
@@ -191,9 +191,18 @@
 </template>
 
 <script>
-import { getBarCodeImg, querySLInfor, query_WH_Request } from "../../api/api";
+import {
+  getBarCodeImg,
+  querySLInfor,
+  query_WH_Request,
+  querySLInforCon,
+} from "../../api/api";
 import { Message } from "element-ui";
+import pagecomponent from "../../components/commin/pageComponent";
 export default {
+  components: {
+    pagecomponent,
+  },
   data() {
     return {
       childWarehouseName: [],
@@ -237,44 +246,95 @@ export default {
         //这是分页器需要的json
         pageNums: 0, //一共多少条 //默认一页10条
       },
+      //此数组用来存储子仓的各种信息
+      childStoreData: [],
+      //此数组用来存储子仓里面库位的各种信息
+      CSkuweiData: [],
+      //条件查询的data
+      SLInforData: {
+        childWareId: "AF902E79FE2E41918033C3D727065270", //子仓id
+        wareAreaId: "30C246642D0A438A84A262A91736A0BF", //仓库区域id
+        wareAreaType: "1", //区域类型（1-存储区；2-拣货区）
+        wareShelfId: "030C0A83D9984581B376D81005ADCECB", //仓库货架id
+        shelfLevelNum: "", //货架层数(仅查询本层库位)
+      },
+      updateData: "",
     };
   },
   mounted() {
     //查询的请求
-    let queryData = this.pagingQueryData;
-    querySLInfor(queryData).then((ok) => {
-      console.log(ok);
-    });
-    //查询子仓名称的请求
-    query_WH_Request(queryData).then((ok) => {
-      if (ok.data.code === "10000") {
-        let CWNameList = ok.data.result.list;
-        CWNameList.forEach((v, i) => {
-          this.childWarehouseName.push({
-            value: i,
-            label: v.childWareName,
+    this.updateData = () => {
+      let queryData = this.pagingQueryData;
+      querySLInfor(queryData).then((ok) => {
+        console.log(ok);
+        this.changeData(ok.data.result);
+        this.CSkuweiData = ok.data.result.list;
+        let res = ok.data.result.list;
+        res.forEach((v) => {
+          this.tableData.push({
+            CWName: v.childWareName,
+            areaName: v.wareAreaName,
+            areaType: "",
+            areaNumber: v.wareSeatCode.substring(0, 2),
+            shelfName: v.wareSeatCode.substring(3, 6),
+            tierChoose: v.wareSeatCode.substring(7, 10),
+            storageLocalChoose: v.wareSeatCode,
+            isUsed: v.enableStatus === 0 ? "否" : "是",
+            createName: v.createUser,
+            createTime: v.createTime,
           });
         });
-      } else {
-        Message({
-          type: "error",
-          message: "未知错误",
-        });
-      }
-    });
+      });
+      //查询子仓名称的请求
+      query_WH_Request(queryData).then((ok) => {
+        if (ok.data.code === "10000") {
+          // console.log(ok);
+          this.childStoreData = ok.data.result.list;
+          this.childStoreData.forEach((v) => {
+            this.childWarehouseName.push({
+              value: v.childWareName,
+              label: v.childWareName,
+            });
+          });
+        } else {
+          Message({
+            type: "error",
+            message: "未知错误",
+          });
+        }
+      });
+    };
+    this.updateData();
   },
   methods: {
     clickQuery() {
       //点击查询
-      let SLInforData = {
-        childWareId: "", //子仓id
-        wareAreaId: "", //仓库区域id
-        wareAreaType: 1, //区域类型（1-存储区；2-拣货区）
-        wareShelfId: "", //仓库货架id
-        shelfLevelNum: "", //货架层数(仅查询本层库位)
-      };
-      querySLInfor(SLInforData).then((ok) => {
-        console.log(ok);
+      this.tableData = [];
+      let SLInforData = this.SLInforData;
+      querySLInforCon(SLInforData).then((ok) => {
+        if (ok.data.code === "10000") {
+          // console.log(ok);
+          let res = ok.data.result;
+          res.forEach((v) => {
+            this.tableData.push({
+              CWName: v.childWareName,
+              areaName: v.wareAreaName,
+              areaType: "",
+              areaNumber: v.wareSeatCode.substring(0, 2),
+              shelfName: v.wareSeatCode.substring(3, 6),
+              tierChoose: v.wareSeatCode.substring(7, 10),
+              storageLocalChoose: v.wareSeatCode,
+              isUsed: v.enableStatus === 0 ? "否" : "是",
+              createName: v.createUser,
+              createTime: v.createTime,
+            });
+          });
+        } else {
+          Message({
+            type: "error",
+            message: "未知错误",
+          });
+        }
       });
     },
     clearInput() {
@@ -296,9 +356,29 @@ export default {
         console.log(ok);
       });
     },
+    nameValues(value) {
+      this.nameValue = value;
+      this.childStoreData.forEach((v) => {
+        if (value === v.childWareName) {
+          this.SLInforData.childWareId = v.id;
+        }
+      });
+      this.CSkuweiData.forEach((v) => {
+        if (value === v.childWareName) {
+          this.areaNameData.push({
+            value: v.wareAreaName,
+            label: v.wareAreaName,
+          });
+        }
+      });
+    },
+    areaTypeValues(value) {
+      this.areaTypeValue = value;
+      this.SLInforData.wareAreaType = value;
+    },
     SLmap() {
       //库位映射
-      this.$router.push('/storageLocalMap/SLmapInfor')
+      this.$router.push("/storageLocalMap/SLmapInfor");
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
@@ -307,6 +387,8 @@ export default {
       this.pagingQueryData.pageNumber = e;
     },
     sureSuccssBtn(e) {
+      this.tableData = [];
+      this.updateData();
       this.pagingQueryData.pageNumber = e;
     },
     changeData(data) {
@@ -334,6 +416,7 @@ export default {
   align-items: center;
   .roleName-text {
     font-size: 16px;
+    white-space: nowrap;
   }
   .roleName {
     height: 76px;

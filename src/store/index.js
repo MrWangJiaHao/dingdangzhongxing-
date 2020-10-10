@@ -48,9 +48,10 @@ let state = {
 }
 import { loginRequest } from "../views/login/login"
 import {CWAdminRequest} from '../views/warehoseConfig/childWarehouseAdmin'
+import {storageLocalAdminRequest} from '../views/warehoseConfig/storageLocalAdmin'
 export default new Vuex.Store({
   state,
   mutations,
   actions,
-  modules: { loginRequest,CWAdminRequest }
+  modules: { loginRequest,CWAdminRequest,storageLocalAdminRequest }
 })

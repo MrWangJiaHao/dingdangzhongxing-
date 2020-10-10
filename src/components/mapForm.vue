@@ -85,6 +85,9 @@
 
 <script>
 import pagecomponent from "./commin/pageComponent"; //分页器
+import { delStoreMapRelation } from "../api/api";
+import { Message } from "element-ui";
+
 export default {
   components: {
     pagecomponent,
@@ -106,9 +109,57 @@ export default {
     };
   },
   methods: {
-    create() {},
-    edit() {},
-    del() {},
+    create() {
+      //创建库位
+      this.$router.push("/storageLocalMap/SLmapInfor");
+    },
+    edit() {
+      //编辑操作
+      if (!this.multipleSelection.length) return Message("请选择要查看的账号");
+      if (this.multipleSelection.length !== 1)
+        return Message({
+          message: "每次只能编辑一条账号，请重新选择",
+          type: "warning",
+        });
+    },
+    del() {
+      //删除操作
+      let arr = [];
+      this.multipleSelection.forEach((item) => {
+        if (!arr.includes(item.id)) {
+          arr.push(item.id);
+        }
+      });
+      if (!arr.length) return Message("请选择要删除的用户");
+      this.$confirm("确定要删除改用户？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.delRequest({ ids: arr });
+        })
+        .catch(() => {
+          Message("已取消删除");
+        });
+    },
+    delRequest(data) {
+      //删除的请求
+      delStoreMapRelation(data).then((ok) => {
+        if (ok.data.code === "10000") {
+          Message({
+            type: "success",
+            message: "删除成功",
+          });
+          window.location.reload();
+        } else {
+          Message({
+            type: "error",
+            message: ok.data.msg ? ok.data.msg : "删除失败",
+          });
+        }
+      });
+    },
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },

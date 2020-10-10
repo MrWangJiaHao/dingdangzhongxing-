@@ -200,16 +200,24 @@
           </el-tab-pane>
         </el-tabs>
       </div>
+      <div class="pageComponent">
+        <pagecomponent
+          :pageComponentsData="pageComponentsData"
+          @getPageNum="getPageNum"
+          @sureSuccssBtn="sureSuccssBtn"
+        ></pagecomponent>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import {query_WH_Request } from "../../api/api";
+import { query_WH_Request, storeMapRelation, } from "../../api/api";
 import MapForm from "@/components/mapForm";
 import { Message } from "element-ui";
+import pagecomponent from "../../components/commin/pageComponent";
 export default {
-  components: { MapForm },
+  components: { MapForm, pagecomponent },
   data() {
     return {
       storageArea1: "存储区",
@@ -220,7 +228,8 @@ export default {
       storageShelf2: "拣货货架",
       storageTier2: "拣货层",
       storageUnit2: "拣货库位",
-      delegaCompanyValue: "",
+      //----------------------------------------------
+      delegaCompanyValue: "全部",
       productName: "",
       productCode: "",
       nameValue: "",
@@ -238,11 +247,11 @@ export default {
           label: "全部",
         },
         {
-          value: 0,
+          value: 1,
           label: "巨子生物",
         },
         {
-          value: 0,
+          value: 2,
           label: "创客云商",
         },
       ],
@@ -257,10 +266,27 @@ export default {
         //分页查询
         pageNumber: 1,
         pageSize: 10,
+        paras: {
+          orgId: "", //委托公司id
+          prodName: "", //产品名称
+          prodCode: "", //产品编码
+          childWareId: "", //子仓id
+          wareAreaId: "", //区域id
+        },
+      },
+      multipleSelection: [],
+      pageComponentsData: {
+        //这是分页器需要的json
+        pageNums: 0, //一共多少条 //默认一页10条
       },
     };
   },
   mounted() {
+    //查询库位映射关系
+    let pagingQueryData = this.pagingQueryData
+    storeMapRelation(pagingQueryData).then((ok) => {
+      console.log(ok);
+    });
     //查询子仓名称的请求
     let queryData = this.pagingQueryData;
     query_WH_Request(queryData).then((ok) => {
@@ -307,6 +333,7 @@ export default {
     },
     clickQuery() {
       //点击查询
+      this.tableData = [];
     },
     clearInput() {
       //点击清空
@@ -321,6 +348,24 @@ export default {
       this.pickShelfValue = "";
       this.pickTierValue = "";
       this.pickSL = "";
+    },
+    handleSelectionChange(value) {
+      this.multipleSelection = value;
+    },
+    getPageNum(e) {
+      this.pagingQueryData.pageNumber = e;
+    },
+    sureSuccssBtn(e) {
+      this.tableData = [];
+      this.pagingQueryData.pageNumber = e;
+    },
+    changeData(data) {
+      this.changePageData(data); //用来改变分页器的条数
+    },
+    //用来改变分页器的条数
+    changePageData(data) {
+      let { totalRow } = data;
+      this.pageComponentsData.pageNums = totalRow;
     },
   },
 };
@@ -406,6 +451,12 @@ export default {
         margin: 0 30px 0 10px;
       }
     }
+  }
+  .pageComponent {
+    margin: 20px 10px 0 0;
+    text-align: right;
+    height: 36px;
+    background: #ffffff;
   }
 }
 </style>
