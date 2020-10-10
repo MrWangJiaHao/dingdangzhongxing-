@@ -129,7 +129,7 @@
                 <div class="noneIconTitle mr11">货架名称:</div>
                 <div class="mr20">
                   <el-select
-                    v-model="item.shelfName"
+                    v-model="items.shelfName"
                     placeholder="请选择货架名称"
                     @input="getShuZhu(index, idx, idxs)"
                     @change="getAreaValue"
@@ -267,6 +267,10 @@ export default {
         userType: 4,
       },
       shuzu: [],
+      rowDataIndex: null,
+      groupDataIdx: null,
+      shelfDataIdxs: null,
+      shelfDataE: null,
     };
   },
   watch: {
@@ -281,7 +285,6 @@ export default {
   },
   methods: {
     getShuZhu(index, idx, idxs) {
-      console.log(index, idx, idxs);
       this.shuzu = `${index},${idx},${idxs}`.split(",");
     },
     //获取子仓id
@@ -313,36 +316,45 @@ export default {
     //获取货架名称
     //  `${index},${idx},${idxs}`.split(",");
     async getHuoJiaName(index, idx, idxs) {
-      console.log(index, idx, idxs);
-
-      this.resultmes = await this._mingc(this.getHuojiaNameAndType);
-      this.$nextTick(() => {
-        this.sendOutData.rowData[index].groupData[idx].resultmes = this.resultmes;
+      var _this = this;
+      this.rowDataIndex = index;
+      this.groupDataIdx = idx;
+      this.shelfDataIdxs = idxs;
+      this._mingc(this.getHuojiaNameAndType, function (data) {
+        _this.$nextTick(() => {
+          _this.sendOutData.rowData[index].groupData[idx].resultmes = data;
+          _this.$forceUpdate();
+        });
       });
     },
     //区域名称input
-    //  `${index},${idx},${idxs}`.split(",");
+    //`${index},${idx},${idxs}`.split(",");
     getAreaValue(e) {
-      this.sendOutData.rowData[+this.shuzu[0]].groupData[
-        +this.shuzu[1]
-      ].shelfData[e].shelfType = this.sendOutData.rowData[
-        +this.shuzu[0]
-      ].groupData[+this.shuzu[1]].resultmes[e].shelfType;
-      this.sendOutData.rowData[+this.shuzu[0]].groupData[
-        +this.shuzu[1]
-      ].shelfData[e].canNum = this.sendOutData.rowData[
-        +this.shuzu[0]
-      ].groupData[+this.shuzu[1]].resultmes[e].shelfNum;
+      this.shelfDataE = e;
+      this.sendOutData.rowData[this.rowDataIndex].groupData[
+        this.groupDataIdx
+      ].shelfData[this.shelfDataIdxs].shelfType = this.sendOutData.rowData[
+        this.rowDataIndex
+      ].groupData[this.groupDataIdx].resultmes[e].shelfType;
+
+      this.sendOutData.rowData[this.rowDataIndex].groupData[
+        this.groupDataIdx
+      ].shelfData[this.shelfDataIdxs].canNum = this.sendOutData.rowData[
+        this.rowDataIndex
+      ].groupData[this.groupDataIdx].resultmes[e].shelfNum;
+      this.$forceUpdate();
     },
     //获取货架名称//ajax
-    async _mingc(data) {
+    async _mingc(data, fn) {
       let datas = await post({
         url:
           "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseShelf/findRecord",
         data,
       });
       if (datas.code == "10000") {
-        return datas.result;
+        if (typeof fn == "function") {
+          fn(datas.result);
+        }
       } else {
         return Message(datas.msg);
       }
@@ -401,6 +413,7 @@ export default {
           shelfData: [
             {
               shelfType: "", //摆放货架类型
+              shelfName: "", //货架名称
               shelfNum: "", //摆放货架数量
               canNum: "", //可用数量
             },
@@ -425,8 +438,8 @@ export default {
     //点击了添加货架
     addHuoJia(item, index, idx, idxs) {
       let res = this._addHuoJia();
-      console.log(res);
       this.sendOutData.rowData[index].groupData[idx].shelfData.push(res);
+      this.$forceUpdate();
     },
     //删除的是那个下面的第几个
     removeHuoJia(item, index, idx, idxs) {

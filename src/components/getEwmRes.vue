@@ -3,7 +3,6 @@
     <div
       class="ewmParents displayColom"
       style="
-        width: 59.3px;
         background: #ffffff;
         border: 1px solid #d1d6e2;
         text-align: center;
@@ -17,15 +16,24 @@
           padding: 10px;
           display: flex;
           align-items: center;
+          width: 260px;
           justify-content: center;
+          position: relative;
         "
       >
-        <div class="canvas"></div>
-        <div style="position: absolute">
-          <img src="../assets/svg/logo.svg" style="position: absolute" alt="" />
+        <div style="padding-top:10px;" class="canvas"></div>
+        <div
+          style="
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+          "
+        >
+          <img src="../assets/svg/logo.svg" alt="" />
         </div>
       </div>
-      <div class="fon24 padB10" style="padding-bottom: 10px font-size:24px;">
+      <div class="fon24 padB10" style="padding-bottom: 10px; font-weight:700; font-size: 14px">
         {{ ewmArr.userName }}
       </div>
     </div>
@@ -47,8 +55,8 @@ export default {
       let qrCode = new this.$QRCode(
         document.getElementsByClassName("canvas")[this.idx],
         {
-          width: 52.5,
-          height: 52.5,
+          width: 180,
+          height: 180,
         }
       );
       qrCode.makeCode(this.ewmArr.id);
@@ -63,6 +71,7 @@ export default {
   border: 1px solid #d1d6e2;
   .canvasMes {
     position: relative;
+
     padding: 10px;
   }
   .imgLogo {
