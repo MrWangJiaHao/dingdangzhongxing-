@@ -50,7 +50,7 @@
                 v-model="pagingQueryData.paras.wareAreaName"
                 slot="prepend"
                 :placeholder="AreaName.placeholder"
-                @input="getAreaNameValue"
+                @change="getAreaNameValue"
                 @focus="getQuYuData"
               >
                 <el-option
@@ -552,7 +552,6 @@ export default {
     //点击查看库位平面图
     warehousePlan() {
       this.kuwieLook = !this.kuwieLook;
-      
     },
     //点击货架设置
     shelfSetting() {
@@ -743,10 +742,12 @@ export default {
     //点击分页器的
     getPageNum(e) {
       this.pagingQueryData.pageNumber = e;
+      this.fasonPagIngQueryData();
     },
     //点击分页器的确定
     sureSuccssBtn(e) {
       this.pagingQueryData.pageNumber = e;
+      this.fasonPagIngQueryData();
     },
     //搜索框改变后的数据
     toggleSelection(rows) {},
@@ -756,7 +757,7 @@ export default {
     //点击查询按钮
     clickQueryUser() {
       this.fasonPagIngQueryData();
-      console.log(this.pagingQueryData, "点击查询");
+      // console.log(this.pagingQueryData, "点击查询");
     },
     //点击清空按钮
     clearInputAll() {
@@ -764,6 +765,8 @@ export default {
       this.pagingQueryData.paras.childWareName = "";
       this.pagingQueryData.paras.wareAreaName = "";
       this.pagingQueryData.paras.id = "";
+      this.pagingQueryData.paras.wareAreaType = "";
+      console.log(this.pagingQueryData, "点击清空");
       this.fasonPagIngQueryData();
     },
     clearTimeInput() {
@@ -803,11 +806,8 @@ export default {
     },
     //区域名称下拉框
     getAreaNameValue(e) {
-      console.log(this.nameOfSubWareHouse.nameOfSubwareHouseData[e].id);
-      this.pagingQueryData.paras.id = this.nameOfSubWareHouse.nameOfSubwareHouseData[
-        e
-      ].id;
-      this.pagingQueryData.paras.wareAreaName = this.nameOfSubWareHouse.nameOfSubwareHouseData[
+      this.pagingQueryData.paras.id = this.AreaName.AreaNameData[e].id;
+      this.pagingQueryData.paras.wareAreaName = this.AreaName.AreaNameData[
         e
       ].wareAreaName;
     },

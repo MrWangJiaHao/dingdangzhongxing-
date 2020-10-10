@@ -274,7 +274,7 @@ export default {
   },
   async created() {
     let probinceData = this.fasonCodeAjax();
-    
+
     probinceData.then((data) => {
       this.dropDowProvince.dropDownBoxData = data;
     });
@@ -321,13 +321,17 @@ export default {
     },
     //点击了提交
     async goAJAXCreate() {
-      console.log(this.createUserData.userType);
+      let isMobiles = isMobile(this.createUserData.userPhone);
+      let isEmails = isEmail(this.createUserData.userEmail);
       if (!this.createUserData.userName) return Message("请输入用户姓名");
       if (!this.createUserData.userPhone) return Message("请输入用户联系电话");
       if (!this.createUserData.loginName) return Message("请输入用户账号");
       if (!this.createUserData.loginPwd) return Message("请输入用户密码");
       if (!this.createUserData.userType) return Message("请输入用户角色");
       if (!this.createUserData.userEmail) return Message("请输入邮箱地址");
+      if (!isMobiles) return Message("请输入11位正确的联系电话");
+      if (!isEmails) return Message("请输入正确的邮箱");
+
       let results = await post({
         url: "http://139.196.176.227:8801/am/v1/pUser/saveRecord",
         data: this.createUserData,
@@ -377,7 +381,6 @@ export default {
     },
     getAreaCode(e) {
       //修改区
-      console.log(e);
       let { areaCode, areaName } = e;
       this.createUserData.areaCode = areaCode;
       this.createUserData.areaName = areaName;
@@ -398,7 +401,6 @@ export default {
       if (!mes) return Message("请输入正确的邮箱");
     },
     getUserType(e) {
-      console.log(e);
       //获取创建的用户类型
       this.createUserData.codeValue = e.codeValue;
       this.createUserData.roleId = e.roleId;

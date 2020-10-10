@@ -136,18 +136,20 @@
       </div>
     </div>
     <!-- table表格 -->
-    <div
-      v-show="ewms"
-      class="ewms dispalywrap"
-      style="display: flex; align-items: center; flex-wrap: wrap"
-      id="ewms"
-    >
-      <div
-        v-for="(item, idx) in EwmArray"
-        :key="idx"
-        style="display: inline-block; margin-right: 20px"
-      >
-        <getEwmRes :ewmArr="item" :idx="idx" />
+    <div v-show="ewms" class="ewms clearfix" id="ewms">
+      <div style="width: 840px">
+        <div
+          v-for="(item, idx) in EwmArray"
+          :key="idx"
+          style="
+            float: left;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            width: 220px;
+          "
+        >
+          <getEwmRes :ewmArr="item" :idx="idx" />
+        </div>
       </div>
     </div>
     <!-- 二维码 -->
@@ -254,10 +256,9 @@ export default {
     },
     //打印二维码函数
     _createEwm() {
-      console.log(document.getElementById("ewms").innerHTML);
       this.LODOP.ADD_PRINT_HTM(
-        0,
-        0,
+        20,
+        40,
         2970,
         2100,
         document.getElementById("ewms").innerHTML
