@@ -13,17 +13,42 @@
         <div>复核</div>
       </div>
     </div>
+    <div class="isNoData">
+      <div class="dataImg">
+        <img src="../../assets/img/nopeople.png" alt="" />
+      </div>
+      <div class="dataText">暂无统计人员</div>
+    </div>
   </div>
 </template>
 
 <script>
-//仓库发货人员统计echarts
-// import echarts from "echarts";
+import { indexRequest } from "../../api/api";
 export default {
   data() {
     return {};
   },
   mounted() {
+    let indexQueryData = {
+      searchEndTime: "",
+      searchStartTime: "",
+      wareId: "",
+    };
+    indexRequest(indexQueryData).then((ok) => {
+      let oDiv1 = document.querySelector(".echarts-buttom");
+      let oDiv2 = document.querySelector("#staffEcharts");
+      let oDiv3 = document.querySelector(".isNoData");
+
+      if (ok.data.code === "10000") {
+        oDiv1.style.dispaly = "none";
+        oDiv2.style.dispaly = "none";
+        oDiv3.style.dispaly = "block";
+      } else {
+        oDiv1.style.dispaly = "block";
+        oDiv2.style.dispaly = "block";
+        oDiv3.style.dispaly = "flex";
+      }
+    });
     this.staffEcharts();
   },
   methods: {
@@ -163,14 +188,14 @@ export default {
 
 <style lang="scss" scoped>
 #staffEcharts {
-  
   height: 234px;
+  display: none;
 }
 
 .echarts-buttom {
-  width: 323px;
+  // width: 323px;
   height: 170px;
-  display: flex;
+  display: none;
   justify-content: space-around;
   align-items: center;
   .buttom-left {
@@ -210,6 +235,22 @@ export default {
       color: #999999;
       text-align: center;
     }
+  }
+}
+.isNoData {
+  width: 100%;
+  .dataImg {
+    // display: inline-block;
+    width: 173px;
+    height: 173px;
+    text-align: center;
+    margin: 65px auto 30px;
+  }
+  .dataText {
+    font-size: 18px;
+    line-height: 60px;
+    color: #304747;
+    text-align: center;
   }
 }
 </style>

@@ -4,7 +4,6 @@
       :data="tableData"
       border
       style="width: 100%"
-      @selection-change="handleSelectionChange"
       :stripe="true"
       tooltip-effect="dark"
     >
@@ -61,14 +60,25 @@ export default {
       },
     };
   },
-  mounted() {},
+  mounted() {
+    this.setintervalFun();
+  },
   methods: {
-    handleDelete(index, row) {
-      //表格删除操作
-      console.log(index, row);
+    getTableData() {
+      this.tableData = this.$store.state.PFSRequest.PFSqueryData;
     },
-    handleSelectionChange(value) {
-      this.multipleSelection = value;
+    setintervalFun() {
+      setInterval(() => {
+        this.getTableData();
+      }, 100);
+    },
+    handleDelete(index) {
+      //表格删除操作
+      let dataArr = this.tableData;
+      for (let i = 0; i < dataArr.length; i++) {
+        dataArr.splice(index, 1);
+        this.$store.dispatch("delPFSqueryData", index);
+      }
     },
     getPageNum(e) {
       this.pagingQueryData.pageNumber = e;
@@ -84,6 +94,18 @@ export default {
       let { totalRow } = data;
       this.pageComponentsData.pageNums = totalRow;
     },
+  },
+  beforeDestroy() {
+    let dataArr = this.tableData;
+    for (let i = 0; i < dataArr.length; i++) {
+      this.$store.dispatch("delPFSqueryData", i);
+    }
+  },
+  destroyed(){
+    let dataArr = this.tableData;
+    for (let i = 0; i < dataArr.length; i++) {
+      this.$store.dispatch("delPFSqueryData", i);
+    }
   },
 };
 </script>

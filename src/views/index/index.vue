@@ -10,24 +10,24 @@
           </div>
           <div class="numberInfor1-num1">
             <span>今日发货总单数：</span>
-            <span>28410</span>
+            <span>{{ todaySend }}</span>
             <span>&nbsp;单</span>
-            <span>&nbsp;[⬆1.42%]</span>
+            <span>&nbsp;[{{ rateData }}]</span>
           </div>
           <div class="numberInfor1-num2">
             <span>昨日发货总单数：</span>
-            <span>28410</span>
+            <span>{{ yesterdaySend }}</span>
             <span>&nbsp;单</span>
           </div>
           <div class="numberInfor1-num3">
             <span>今日平均发货速率：</span>
-            <span>1000</span>
+            <span>{{ todaySendRate }}</span>
             <span>&nbsp;单/h/人</span>
           </div>
         </div>
         <div class="numberInfor1-upTime">
           <span>更新时间:&nbsp;</span>
-          <span>2019-12-17 16:24:10</span>
+          <span>{{timeFormate()}}</span>
         </div>
       </div>
       <div class="numberInfor2">
@@ -101,6 +101,7 @@ import orderPicking from "@/assets/img/orderPicking.png";
 import recheck from "@/assets/img/recheck.png";
 import pickingFail from "@/assets/img/pickingFail.png";
 import pullGoods from "@/assets/img/pullGoods.png";
+import { Message } from "element-ui";
 
 import { indexRequest } from "../../api/api";
 export default {
@@ -120,21 +121,65 @@ export default {
         { img: pickingFail, number: 401, text: "拣货错误订单数" },
         { img: pullGoods, number: 37, text: "待揽件订单数" },
       ],
+      todaySend: 0, //今日发货数量、
+      yesterdaySend: 0, //昨日发货数
+      todaySendRate: 0, //今日发货速率
+      rateData: "0.00%",
     };
   },
   mounted() {
-    //将vuex中存储的用户信息拿出来
-    let userInfor = this.$store.state.loginRequest.loginData;
-    let userData = {
-      "Content-Type": "application/json; charset=utf-8",
-      "X-Auth-Token": userInfor.userToken,
-      "X-Auth-wareId": userInfor.wareId,
-      "X-Auth-user": userInfor.id,
+    let indexQueryData = {
+      searchEndTime: "",
+      searchStartTime: "",
+      wareId: "",
     };
-    indexRequest(userData).then((ok) => {
+    indexRequest(indexQueryData).then((ok) => {
       console.log(ok);
+      if (ok.data.code === "10000") {
+        this.inforArr2[0].number = ok.data.result.prodOrder;
+        this.inforArr2[1].number = ok.data.result.megerOrder;
+        this.inforArr2[2].number = ok.data.result.pickOrder;
+        this.inforArr2[3].number = ok.data.result.reCheckOrder;
+        this.inforArr2[4].number = ok.data.result.reCheckFailOrder;
+        this.inforArr2[5].number = ok.data.result.sendOrder;
+        this.todaySend = ok.data.result.todaySend;
+        this.yesterdaySend = ok.data.result.yesterdaySend;
+      } else {
+        Message({
+          type: "error",
+          message: ok.data.msg,
+        });
+      }
     });
+    this.timeFormate()
   },
+  methods:{
+    timeFormate() {
+    // 获取当前时间函数
+      let year = new Date().getFullYear();
+      let month =
+        new Date().getMonth() + 1 < 10
+          ? "0" + (new Date().getMonth() + 1)
+          : new Date().getMonth() + 1;
+      let date =
+        new Date().getDate() < 10
+          ? "0" + new Date().getDate()
+          : new Date().getDate();
+      let hh =
+        new Date().getHours() < 10
+          ? "0" + new Date().getHours()
+          : new Date().getHours();
+      let mm =
+        new Date().getMinutes() < 10
+          ? "0" + new Date().getMinutes()
+          : new Date().getMinutes();
+      let ss =
+        new Date().getSeconds() < 10
+          ? "0" + new Date().getSeconds()
+          : new Date().getSeconds();
+       return year + "年" + month + "月" + date + "日" + " " + hh + ":" + mm + ":" + ss;
+    }
+  }
 };
 </script>
 

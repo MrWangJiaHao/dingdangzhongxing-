@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table
-      :data="tableData"
+      :data="inforData"
       border
       style="width: 100%"
       @selection-change="handleSelectionChange"
@@ -26,20 +26,20 @@
       ></el-table-column>
       <el-table-column prop="storeUnit" label="存放单位" align="center">
       </el-table-column>
-      <el-table-column
-        prop="maxNumber"
-        label="最大存放数"
-        align="center"
-      ></el-table-column>
+      <el-table-column prop="maxNumber" label="最大存放数" align="center">
+        <el-input v-model="MaxNumberInput"></el-input>
+      </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    inforData: Array,
+  },
   data() {
     return {
-      tableData: [],
       multipleSelection: [],
       pagingQueryData: {
         //分页查询
@@ -51,11 +51,14 @@ export default {
         //这是分页器需要的json
         pageNums: 0, //一共多少条 //默认一页10条
       },
+      MaxNumberInput: "",
     };
   },
+  mounted() {},
   methods: {
     handleSelectionChange(value) {
       this.multipleSelection = value;
+      this.$store.dispatch("PFSRequestAct", value);
     },
     getPageNum(e) {
       this.pagingQueryData.pageNumber = e;

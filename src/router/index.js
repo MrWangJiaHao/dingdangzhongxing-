@@ -96,9 +96,9 @@ const routes = [{
   },
   {
     //仓库配置=>库位管理
-    path: "/warehoseconfig/storageLocalAdmin",
-    name: "/warehoseconfig/storageLocalAdmin",
-    component: () => import("../views/warehoseConfig/storageLocalAdmin"),
+    path: "/warehoseconfig/storageLocalAdmins",
+    name: "/warehoseconfig/storageLocalAdmins",
+    component: () => import("../views/warehoseConfig/storageLocalAdmins"),
     meta: {
 
     }
@@ -117,6 +117,15 @@ const routes = [{
     path: "/storageLocalMap/SLmapInfor",
     name: "/storageLocalMap/SLmapInfor",
     component: () => import("../views/warehoseConfig/SLmapInfor.vue"),
+    meta: {
+
+    }
+  },
+  {
+    //仓库配置=>库位映射=>库位信息
+    path: "/storageLocalMap/storageLocalDetail",
+    name: "/storageLocalMap/storageLocalDetail",
+    component: () => import("../views/warehoseConfig/storageLocalDetail.vue"),
     meta: {
 
     }

@@ -288,7 +288,7 @@ export default {
           this.$router.push("/warehoseconfig/regionalManagements");
           break;
         case 2:
-          this.$router.push("/warehoseconfig/storageLocalAdmin");
+          this.$router.push("/warehoseconfig/storageLocalAdmins");
           break;
         case 3:
           this.$router.push("/warehoseconfig/storageLocalMap");
