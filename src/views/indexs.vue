@@ -72,7 +72,17 @@
             <div class="iconAndText" slot="label">
               <router-link to>
                 <img src="@/assets/img/warehouse-instorage.png" />
-                <div>入库管理</div>
+                <el-dropdown trigger="click" @command="clickEvent4">
+                  <span class="el-dropdown-link">入库管理</span>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item
+                      v-for="(v, i) in warehousingManagementArr"
+                      :key="i"
+                      :command="i"
+                      >{{ v.text }}
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
               </router-link>
             </div>
           </el-tab-pane>
@@ -250,6 +260,41 @@ export default {
         { text: "库位管理", img: "" },
         { text: "库位映射", img: "" },
       ],
+      //订单类型(0-手工创建；1-渠道创建 2-预入库 3-采购 4-库建调拨 5-加工作业 6-分解作业 7-退货 8-盘盈 9-其他）
+      warehousingManagementArr: [
+        {
+          text: "手工创建入库",
+        }, //0
+        {
+          text: "采购调拨入库",
+        }, //1
+        {
+          text: "预入库",
+        }, //2
+        {
+          text: "采购预入库",
+        }, //3
+        {
+          text: "调拨入库",
+        }, //4
+        {
+          text: "加工入库",
+        }, //5
+        {
+          text: "拆解入库",
+        }, //6
+        {
+          text: "退货入库",
+        }, //7
+        {
+          text: "盘盈入库",
+          nums: 8,
+        }, //8
+        {
+          text: "其他入库",
+        }, //9
+      ],
+      indxs: null,
     };
   },
   mounted() {
@@ -264,7 +309,7 @@ export default {
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      // console.log(tab, event);
     },
     clickEvent1(command) {
       console.log(command);
@@ -294,6 +339,11 @@ export default {
           this.$router.push("/warehoseconfig/storageLocalMap");
           break;
       }
+    },
+    clickEvent4(command) {
+      if (command === this.indxs) return;
+      this.$router.push("/warehousingManagement/manualManagement/" + command);
+      this.indxs = command;
     },
   },
 };

@@ -4,7 +4,9 @@
     <div
       class="zicankuwie"
       :style="{
-        width: quyuDatas.warehouseAdmin.wareAreaWidth * (10000 / 85) + 'px',
+        width: quyuDatas.warehouseAdmin.wareAreaWidth
+          ? quyuDatas.warehouseAdmin.wareAreaWidth * (10000 / 85) + 'px'
+          : '1000px',
         height: quyuDatas.warehouseAdmin.wareAreaLength * (10000 / 85) + 'px',
       }"
     >
@@ -53,7 +55,6 @@
             </div>
           </div>
         </div>
-        <div>dsa</div>
       </div>
     </div>
   </div>

@@ -1,8 +1,9 @@
 <template>
   <div class="dateTimeBox displayalign">
-    <div v-if="title!==''" class="titleBox">{{title}}</div>
+    <div v-if="title !== ''" class="titleBox">{{ title }}</div>
     <div>
       <Date-picker
+        ref="element"
         type="datetime"
         :placeholder="dateTimeData.placeholder"
         @on-change="changeDate"
@@ -56,6 +57,7 @@ export default {
       if (!e) {
         this.$emit("getDateTime", this.date);
       }
+      // this.$refs.element.handleClear();
     },
   },
 };

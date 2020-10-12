@@ -1,4 +1,5 @@
 import service from "@/utils/request.js"
+import { getCookie } from "../utils/validate"
 export function login(data) {
     return new Promise((resolve, reject) => {
         service.request({
@@ -174,23 +175,25 @@ export function delStoreMapRelation(data) {
     })
 }
 
-//库位映射页面查询产品信息的请求
-export function queryProductInfor(data) {
-    return new Promise((resolve, reject) => {
+/**
+ * 
+ * @param {*}  获取查询仓库下的委托公司
+ */
+export function getEntrustedcompany() {
+    return new Promise((res, rej) => {
         service.request({
-            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWareOrgProd/findWareProduct",
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseOrg/findWareOrg",
             method: "post",
-            data,
+            data: {
+                wareId: getCookie("X-Auth-wareId")
+            }
         }).then((ok) => {
-            resolve(ok)
+            res(ok.data)
         }).catch((err) => {
-            reject(err)
+            rej(err)
         })
     })
 }
-
-
-
 
 
 export function post(datas) {

@@ -40,7 +40,6 @@ const routes = [{
       title: "用户管理"
     }
   },
-
   {
     //角色管理页面
     path: "/systemSetting/userControl",
@@ -140,6 +139,18 @@ const routes = [{
       title: "货架设置"
     }
   },
+  {
+    //warehousingManagement =》手工创建入库
+    // 入库管理=>手工创建入库
+    path: "/warehousingManagement/manualManagement/:type",
+
+    name: "/warehousingManagement/manualManagement",
+    component: () => import("../views/wareHouseIngManagement/manualManagement"),
+    meta: {
+      Breadcrumb: "入库管理",
+      title: "手工创建入库"
+    }
+  }
   ]
 },
 //设置权限页面

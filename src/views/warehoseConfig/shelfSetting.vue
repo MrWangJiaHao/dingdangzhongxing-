@@ -82,7 +82,7 @@
     >
       <div class="meiyiyetitle">{{ isNums(parent.danqpaishu) }}排货架</div>
       <div class="displayalign huoZhujianS">
-        <div class="displayalign mr20">
+        <div class="displayalign mb20 mr20">
           <div class="noneIconTitle mr11">货架组数:</div>
           <div class="mr11">
             <el-input
@@ -96,8 +96,12 @@
           <div class="noneIconTitle">个</div>
         </div>
         <!-- 货架组数 -->
-        <div class="displayalign">
-          <div class="noneIconTitle mr11">一/二组货架间距:</div>
+
+        <div class="displayalign mb20" v-show="sendOutData.rowData.length != 1">
+          <div class="noneIconTitle mr11">
+            {{ isNums(parent.danqpaishu) }}/
+            {{ isNums(parent.danqpaishu + 1) }}排货架间距:
+          </div>
           <div class="displayalign mr11">
             <el-input
               placeholder="请输入货架间距"
@@ -115,77 +119,95 @@
           v-for="(item, idx) in parent.groupData"
           :key="idx"
         >
-          <div class="createDom disinb line40 fl mr20">
-            第{{ isNums(idx) }}组货架:
+          <div class="flexNocenterBetWeen" style="width: 80%">
+            <div>
+              <div class="createDom disinb line40 fl mr20">
+                第{{ isNums(idx) }}组货架:
+              </div>
+            </div>
+            <div>
+              <div
+                v-for="(items, idxs) in item.shelfData"
+                :key="idxs"
+                class="displayalign mb20"
+              >
+                <div class="displayalign">
+                  <div class="noneIconTitle mr11">货架名称:</div>
+                  <div class="mr20">
+                    <el-select
+                      v-model="items.shelfName"
+                      placeholder="请选择货架名称"
+                      @input="getShuZhu(index, idx, idxs)"
+                      @change="getAreaValue"
+                      @focus="getHuoJiaName(index, idx, idxs)"
+                    >
+                      <el-option
+                        v-show="item.resultmes"
+                        v-for="(itemss, idxx) in item.resultmes"
+                        :key="idxx"
+                        :label="itemss.shelfName"
+                        :value="idxx"
+                      ></el-option>
+                    </el-select>
+                  </div>
+                </div>
+                <!-- 货架名称 -->
+                <div class="displayalign">
+                  <div class="noneIconTitle mr11">货架类型:</div>
+                  <div class="mr20">
+                    <el-input disabled v-model="items.shelfType"></el-input>
+                  </div>
+                </div>
+                <!-- 货架类型 -->
+                <div class="displayalign">
+                  <div class="noneIconTitle mr11">可用数量:</div>
+                  <div class="mr20">
+                    <el-input disabled v-model="items.canNum"></el-input>
+                  </div>
+                </div>
+                <!-- 可用数量 -->
+                <div class="displayalign">
+                  <div class="noneIconTitle mr11">货架数量:</div>
+                  <div class="mr20">
+                    <el-input v-model="items.shelfNum"></el-input>
+                  </div>
+                </div>
+                <!-- 货架数量 -->
+                <div class="displayalign">
+                  <div
+                    class="addSetting mr11"
+                    @click="addHuoJia(items, index, idx, idxs)"
+                  >
+                    添加货架
+                  </div>
+                  <div
+                    class="removeSetting"
+                    @click="removeHuoJia(items, index, idx, idxs)"
+                  >
+                    删除
+                  </div>
+                </div>
+                <!-- btn添加货架--删除 -->
+              </div>
+            </div>
           </div>
 
-          <div class="disinb">
-            <div
-              v-for="(items, idxs) in item.shelfData"
-              :key="idxs"
-              class="displayalign mb20"
-            >
-              <div class="displayalign">
-                <div class="noneIconTitle mr11">货架名称:</div>
-                <div class="mr20">
-                  <el-select
-                    v-model="items.shelfName"
-                    placeholder="请选择货架名称"
-                    @input="getShuZhu(index, idx, idxs)"
-                    @change="getAreaValue"
-                    @focus="getHuoJiaName(index, idx, idxs)"
-                  >
-                    <el-option
-                      v-show="item.resultmes"
-                      v-for="(itemss, idxx) in item.resultmes"
-                      :key="idxx"
-                      :label="itemss.shelfName"
-                      :value="idxx"
-                    ></el-option>
-                  </el-select>
-                </div>
-              </div>
-              <!-- 货架名称 -->
-              <div class="displayalign">
-                <div class="noneIconTitle mr11">货架类型:</div>
-                <div class="mr20">
-                  <el-input disabled v-model="items.shelfType"></el-input>
-                </div>
-              </div>
-              <!-- 货架类型 -->
-              <div class="displayalign">
-                <div class="noneIconTitle mr11">可用数量:</div>
-                <div class="mr20">
-                  <el-input disabled v-model="items.canNum"></el-input>
-                </div>
-              </div>
-              <!-- 可用数量 -->
-              <div class="displayalign">
-                <div class="noneIconTitle mr11">货架数量:</div>
-                <div class="mr20">
-                  <el-input v-model="items.shelfNum"></el-input>
-                </div>
-              </div>
-              <!-- 货架数量 -->
-              <div class="displayalign">
-                <div
-                  class="addSetting mr11"
-                  @click="addHuoJia(items, index, idx, idxs)"
-                >
-                  添加货架
-                </div>
-                <div
-                  class="removeSetting"
-                  @click="removeHuoJia(items, index, idx, idxs)"
-                >
-                  删除
-                </div>
-              </div>
-              <!-- btn添加货架--删除 -->
+          <div class="displayalign mb20">
+            <div class="noneIconTitle mr11">
+              {{ isNums(idx) }}/ {{ isNums(idx + 1) }}组货架间距:
             </div>
+            <div class="displayalign mr11">
+              <el-input
+                placeholder="请输入货架间距"
+                v-model="item.distance"
+                clearable
+              ></el-input>
+            </div>
+            <div class="noneIconTitle">米</div>
           </div>
         </div>
       </div>
+
       <!-- 创建子仓内容 -->
       <div class="tr btnBox" v-show="sendOutData.rowData[0].groupData.length">
         <div
@@ -271,6 +293,10 @@ export default {
       groupDataIdx: null,
       shelfDataIdxs: null,
       shelfDataE: null,
+      preservationJson: {
+        childWareName: "",
+        wareAreaName: "",
+      },
     };
   },
   watch: {
@@ -282,6 +308,13 @@ export default {
         this.sendOutData.wareAreaType = 2;
       }
     },
+  },
+  created() {
+    let sendOutDatas = JSON.parse(window.sessionStorage.getItem("sendOutData"));
+    if (sendOutDatas) {
+      this.sendOutData = sendOutDatas;
+      this.isNum = sendOutDatas.isNum;
+    }
   },
   methods: {
     getShuZhu(index, idx, idxs) {
@@ -314,7 +347,7 @@ export default {
         });
     },
     //获取货架名称
-    //  `${index},${idx},${idxs}`.split(",");
+    //`${index},${idx},${idxs}`.split(",");
     async getHuoJiaName(index, idx, idxs) {
       var _this = this;
       this.rowDataIndex = index;
@@ -394,7 +427,15 @@ export default {
       };
     },
     //点击了保存
-    baoCunData(item, idx) {},
+    baoCunData(item, idx) {
+      sessionStorage.setItem(
+        "sendOutData",
+        JSON.stringify({ ...this.sendOutData, isNum: this.isNum })
+      );
+      setTimeout(() => {
+        sessionStorage.removeItem("sendOutData");
+      }, 1 * 24 * 60 * 60 * 1000);
+    },
     //货架组数失去焦点事件
     async createDomZu(parent, index) {
       let rowNum = +parent;
@@ -471,6 +512,9 @@ export default {
       this.getHuojiaNameAndType.childWareId = this.nameOfSubWareHouse.nameOfSubwareHouseData[
         e
       ].childWareId;
+      this.sendOutData.childWareName = this.nameOfSubWareHouse.nameOfSubwareHouseData[
+        e
+      ].childWareName;
     },
     //获取区域id
     async getquyuCode(e) {
@@ -480,6 +524,9 @@ export default {
       this.getHuojiaNameAndType.wareAreaId = this.nameOfSubWareHouse.nameOfSubwareHouseData[
         e
       ].id;
+      this.sendOutData.wareAreaName = this.nameOfSubWareHouse.nameOfSubwareHouseData[
+        e
+      ].wareAreaName;
     },
     isNums(i) {
       switch (i) {
@@ -527,13 +574,31 @@ export default {
       if (!this.sendOutData.childWareId) return Message("请选择子仓名称");
       if (!this.sendOutData.wareAreaId) return Message("请选择区域名称");
       this.sendOutData.rowData.forEach((item, idx) => {
-        if (+item.rowNum >= 2 && !item.distance) {
+        console.log(this.sendOutData.rowData);
+        if (this.sendOutData.rowData.length >= 2 && !item.distance) {
           show = false;
-          Message(`请输入第${this.isNums(idx)}排货架间距`);
+          Message(
+            `请输入第${this.isNums(idx)}/${this.isNums(idx + 1)}排货架间距`
+          );
         }
+        item.groupData.forEach((groupData, idxs) => {
+          if (item.groupData.length >= 2 && groupData.distance === undefined) {
+            show = false;
+            Message(
+              `请输入第${this.isNums(idxs)}/${this.isNums(idxs + 1)}组货架间距`
+            );
+          }
+          groupData.shelfData.forEach((shelfData) => {
+            if (shelfData.shelfNum == "") {
+              show = false;
+              Message(`请输入货架数量`);
+            }
+          });
+        });
       });
       if (!show) return;
       this.submitDataJson(this.sendOutData);
+      sessionStorage.removeItem("sendOutData");
     },
     async submitDataJson(data) {
       let datas = await post({
@@ -578,7 +643,6 @@ export default {
     padding: 10px 0;
   }
   .createDom {
-    height: 14px;
     font-size: 14px;
     font-family: Hiragino Sans GB;
     color: #599af3;
@@ -586,8 +650,7 @@ export default {
   .Onehuojia {
     padding: 10px;
     display: flex;
-  }
-  .btnBox {
+    flex-direction: column;
   }
   .addSetting {
     @include BtnFunction("success");
