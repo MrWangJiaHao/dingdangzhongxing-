@@ -143,6 +143,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 33;
   .dianJiTuiChu {
     display: flex;
     align-items: center;
@@ -161,6 +162,7 @@ export default {
       font-family: Hiragino Sans GB;
       font-weight: normal;
       color: #ffffff;
+      cursor: pointer;
     }
   }
 
@@ -187,6 +189,7 @@ export default {
     &:hover {
       border-top-color: #ccc;
       .clickLoginOutCenter {
+        cursor: pointer;
         background: #ccc;
       }
     }

@@ -212,7 +212,7 @@
 </template>
 
 <script>
-import { query_WH_Request, storeMapRelation, } from "../../api/api";
+import { query_WH_Request, storeMapRelation } from "../../api/api";
 import MapForm from "@/components/mapForm";
 import { Message } from "element-ui";
 import pagecomponent from "../../components/commin/pageComponent";
@@ -283,7 +283,7 @@ export default {
   },
   mounted() {
     //查询库位映射关系
-    let pagingQueryData = this.pagingQueryData
+    let pagingQueryData = this.pagingQueryData;
     storeMapRelation(pagingQueryData).then((ok) => {
       console.log(ok);
     });

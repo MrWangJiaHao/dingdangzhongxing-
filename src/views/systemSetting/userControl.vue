@@ -216,7 +216,6 @@ export default {
           // loginName: this.$store.state.loginRequest.loginData.loginName,
           // roleId: this.$store.state.loginRequest.loginData.roleId,
           // wareId: this.$store.state.loginRequest.loginData.wareId,
-
           roleName: "",
         },
       },
@@ -243,7 +242,7 @@ export default {
         url: "http://139.196.176.227:8801/am/v1/pRole/findRecordPage",
         data: this.pagingQueryData,
       });
-      console.log(datas)
+      console.log(datas);
       if (datas.code === "10000") {
         this.changeData(datas.result);
       } else {
@@ -294,9 +293,8 @@ export default {
 
       this.centerDialogVisibleB = true;
 
-      this.inputContentB = this.multipleSelection[0].roleName
-      this.textareaContentB = this.multipleSelection[0].remark
-      
+      this.inputContentB = this.multipleSelection[0].roleName;
+      this.textareaContentB = this.multipleSelection[0].remark;
     },
     goOn() {
       if (!this.multipleSelection.length) return Message("请选择要查看的账号");

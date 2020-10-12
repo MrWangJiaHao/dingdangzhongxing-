@@ -3,23 +3,25 @@
     <div class="kuweituBox" :style="getzicanParent(kuwieLookerDataJson.quyu)">
       <div v-for="(item, idx) in kuwieLookerDataJson.kuwie" :key="idx">
         <div class="displayalign diyipaidechanshu">
-          <div class="paishu displayalign">{{ getdaxieShuZi(idx) }}排</div>
-          <div v-for="zuS in 3" :key="zuS" class="center-box">
+          <div class="paishu displayalign ellipsis">
+            {{ getdaxieShuZi(idx) }}排
+          </div>
+          <div v-for="(zuS, idx) in item.groups" :key="idx" class="center-box">
             <div class="disinb">
               <div class="border" v-for="Nums in 9" :key="Nums">
                 {{ "0" + Nums }}
               </div>
             </div>
             <div
-              v-if="item.distance"
+              v-if="zuS.shelfDist"
               class="disinb verticalLine tc"
               :style="{
-                width: item.distance * (10000 / 85) + 'px',
+                width: zuS.shelfDist * (10000 / 85) + 'px',
               }"
             >
-              {{ item.distance }}m
+              {{ zuS.shelfDist }}m
             </div>
-            <!-- 组与组直接的距离 -->
+            <!-- 组与组之间的距离 -->
             <div class="disinb">
               <div class="border displayCenter" v-for="Nums in 9" :key="Nums">
                 {{ "0" + Nums }}
@@ -29,17 +31,17 @@
         </div>
         <!-- 排 -->
         <div
-          v-if="item.distance"
+          v-if="item.rowDist && kuwieLookerDataJson.kuwie.length != 1"
           class="transverseLine juliLineShu"
           :style="{
-            height: item.distance * (10000 / 85) + 'px',
-            lineHeight: item.distance * (10000 / 85) + 'px',
+            height: item.rowDist * (10000 / 85) + 'px',
+            lineHeight: item.rowDist * (10000 / 85) + 'px',
             marginLeft: 28 + 30 + 14 - 4 + 'px',
           }"
         >
-          {{ item.distance }}m
+          {{ item.rowDist }}m
         </div>
-        <!-- 排与排直接的距离 -->
+        <!-- 排与排之间的距离 -->
       </div>
     </div>
   </div>

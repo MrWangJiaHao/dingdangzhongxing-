@@ -109,15 +109,11 @@ textarea {
 }
 
 .ellipsis {
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   transition: all .5s;
 }
-.ellipsis:hover {
-  width: auto;
-  text-overflow: inherit;
-}
+
 .nowrap {
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -133,6 +129,9 @@ textarea {
 .dis{
   display: flex;
   flex-wrap: wrap;
+}
+.mr20{
+  margin-right: 20px;
 }
 .displayColom{
   display: flex;
@@ -370,6 +369,10 @@ textarea{
 .flexBetWeen{
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+.flexNocenterBetWeen{
+  display: flex;
   justify-content: space-between;
 }
 .p20{

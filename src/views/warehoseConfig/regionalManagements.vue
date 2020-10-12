@@ -84,6 +84,8 @@
         </div>
       </div>
     </div>
+    <!-- but按钮 -->
+
     <div v-if="quyuLook" class="pofixCenter">
       <div class="pofixCenter displayCenter">
         <div class="quyupinmianBoxMsg">
@@ -172,7 +174,6 @@
       </div>
     </div>
     <!-- 库位平面图 -->
-    <!-- but按钮 -->
     <div class="tableBox">
       <div style="background-color: #fff; padding: 20px 20px 0 20px">
         <div class="center">
@@ -252,7 +253,7 @@
               prop="noSeat"
               show-overflow-tooltip
             ></el-table-column>
-            <el-table-column
+            <!-- <el-table-column
               label="未使用面积(㎡)"
               width="119"
               prop="createUser"
@@ -263,7 +264,7 @@
               width="119"
               prop="createUser"
               show-overflow-tooltip
-            ></el-table-column>
+            ></el-table-column> -->
             <el-table-column
               label="创建人"
               width="120"
@@ -551,7 +552,27 @@ export default {
     },
     //点击查看库位平面图
     warehousePlan() {
+      if (!this.multipleSelection.length)
+        return Message("请选择看那个库位的平面图");
+      if (this.multipleSelection.length !== 1)
+        return Message("只能选择一个库位查看库位图");
+
+      this.kuwieDatas.quyu.wareAreaLength = this.multipleSelection[0].wareAreaLength;
+      this.kuwieDatas.quyu.wareAreaWidth = this.multipleSelection[0].wareAreaWidth;
+      this._quyuAsync({
+        wareAreaId: this.multipleSelection[0].id,
+      });
       this.kuwieLook = !this.kuwieLook;
+    },
+    //点击发送区域平面图js
+    async _quyuAsync(data) {
+      let datas = await post({
+        url:
+          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/findWareSeatRecord",
+        data,
+      });
+      this.kuwieDatas.kuwie = datas.result;
+      return datas;
     },
     //点击货架设置
     shelfSetting() {
