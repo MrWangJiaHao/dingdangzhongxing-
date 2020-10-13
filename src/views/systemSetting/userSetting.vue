@@ -38,15 +38,12 @@
         <!-- 用户角色 -->
         <div class="timeBox zujianBox">
           <div style="margin-right: 10px">
-            <dateTime
-              :dateTimeData="datetimeDates"
-              @getDateTime="getStartTime"
-            />
+            <dateTime :dateTimeData="datetimeDates" @getDateTime="getStartTime" ref="startTime" />
           </div>
           <!-- 开始时间 -->
           <div class="line"></div>
           <div>
-            <dateTime :dateTimeData="datetimeDate" @getDateTime="getEndTime" />
+            <dateTime :dateTimeData="datetimeDate" @getDateTime="getEndTime" ref="endTime" />
           </div>
           <!-- 结束时间 -->
         </div>
@@ -447,6 +444,8 @@ export default {
       this.pagingQueryData.paras.createStartTime = "";
       this.clearTimeInput();
       this.fasonPagIngQueryData();
+      this.$refs.startTime.clear()
+      this.$refs.endTime.clear()
     },
     clearTimeInput() {
       let input = document.getElementsByClassName("ivu-input");
