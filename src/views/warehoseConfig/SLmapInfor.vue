@@ -104,6 +104,7 @@
                 v-model="childStoreValue"
                 placeholder="请选择子仓"
                 @change="childStoreValues"
+                @visible-change="chooseItem"
               >
                 <el-option
                   v-for="item in childStoreData"
@@ -255,11 +256,13 @@
 import ProductFormStoreUsed from "../../components/productForm/productFormStoreUsed";
 import ProductFormPick from "../../components/productForm/productFormPick";
 import ProductFormPickUsed from "../../components/productForm/productFormPickUsed";
-import prodFromStore from '../../components/productForm/prodFromStore.vue'
+import prodFromStore from "../../components/productForm/prodFromStore.vue";
 import {
   queryProductInfor,
   query_WH_Request,
-  querySLInfor,
+  querySLInforCon,
+  prodStoreMap,
+  queryAreaOfWS,
 } from "../../api/api";
 import { Message } from "element-ui";
 
@@ -297,7 +300,7 @@ export default {
       ProdWidth: "", //产品宽度
       ProdHeight: "", //产品高度
       prodInforData: [], //产品信息集合
-
+      prodId: "", //存储当前选择产品的id
       pagingQueryData: {
         pageNumber: 1,
         pageSize: 10,
@@ -306,13 +309,29 @@ export default {
 
       queryCSinfor: [],
       SLInforData: {
-        childWareId: "764F9BB09A884EDDAC1D81E291662A81", //子仓id
-        wareAreaId: "5F85E0829ADF4C9493D2D3312B5BA40B", //仓库区域id
-        wareAreaType: this.areaTypeValue, //区域类型（1-存储区；2-拣货区）
+        childWareId: "", //子仓id
+        wareAreaId: "", //仓库区域id
         wareShelfId: "", //仓库货架id
-        shelfLevelNum: "", //货架层数(仅查询本层库位)
       },
       inforData: [],
+
+      requestData: {
+        prodId: "031B18740CFC4D3A81782AF884AFF634",
+        seatDatas: [
+          {
+            maxNum: 10,
+            minNum: "",
+            prodUnit: "箱",
+            seatId: "310EB10F222645CE96E8ADB0BD9CAF2D",
+            seatType: "0",
+          },
+        ],
+      },
+      areaData: {
+        childWareId: "",
+        id: "",
+      },
+      CSandareaData: [],
     };
   },
   mounted() {
@@ -326,9 +345,20 @@ export default {
         this.prodInforData = ok.data.result;
         this.prodInforData.forEach((v) => {
           this.delegaCompanyData.push({
-            // value: i,
+            value: v.orgName,
             label: v.orgName,
           });
+
+          let testObj = {};
+          this.delegaCompanyData = this.delegaCompanyData.reduce(
+            (item, next) => {
+              testObj[next.value]
+                ? ""
+                : (testObj[next.value] = true && item.push(next));
+              return item;
+            },
+            []
+          );
           this.productNameData.push({
             value: v.prodName,
             label: v.prodName,
@@ -341,7 +371,7 @@ export default {
     let queryData = this.pagingQueryData;
     query_WH_Request(queryData).then((ok) => {
       if (ok.data.code === "10000") {
-        console.log(ok);
+        // console.log(ok);
         this.queryCSinfor = ok.data.result.list;
         this.queryCSinfor.forEach((v) => {
           this.childStoreData.push({
@@ -356,10 +386,18 @@ export default {
         });
       }
     });
+    //根据子仓id查询区域
+    let data1 = this.areaData;
+    queryAreaOfWS(data1).then((ok) => {
+      // console.log(ok);
+      if (ok.data.code === "10000") {
+        this.CSandareaData = ok.data.result;
+      }
+    });
   },
   methods: {
-    delegaCompanyValues(v) {
-      this.delegaCompanyValue = v;
+    delegaCompanyValues(value) {
+      this.delegaCompanyValue = value;
     },
     productCodeValues(v) {
       this.productCodeValue = v;
@@ -374,17 +412,44 @@ export default {
           this.ProdLength = v.ProdLength;
           this.ProdWidth = v.ProdWidth;
           this.ProdHeight = v.ProdHeight;
+          this.prodId = v.id;
         }
       });
     },
     specificationValues(v) {
       this.specificationValue = v;
     },
-    childStoreValues(v) {
-      this.childStoreValue = v;
+    childStoreValues(value) {
+      this.childStoreValue = value;
+      this.queryCSinfor.forEach((v) => {
+        if (value === v.childWareName) {
+          this.SLInforData.childWareId = v.id;
+        }
+      });
+      this.CSandareaData.forEach((v) => {
+        if (value === v.childWareName) {
+          this.storeAreaData.push({
+            value: v.wareAreaName,
+            label: v.wareAreaName,
+          });
+        }
+      });
     },
-    storeAreaValues(v) {
-      this.storeAreaValue = v;
+    storeAreaValues(value) {
+      this.storeAreaValue = value;
+      this.CSandareaData.forEach((v) => {
+        if (value === v.wareAreaName) {
+          this.SLInforData.wareAreaId = v.id;
+        }
+      });
+    },
+    chooseItem(event) {
+      if (event) {
+        this.storeAreaData = [];
+      }
+      // if(event === false){
+      //   console.log(this.SLInforData)
+      // }
     },
     storeShelfValues(v) {
       this.storeShelfValue = v;
@@ -398,11 +463,12 @@ export default {
 
     storeClickQuery() {
       //存储区查询
+      this.inforData = [];
       let SLInforData = this.SLInforData;
-      querySLInfor(SLInforData).then((ok) => {
+      querySLInforCon(SLInforData).then((ok) => {
         if (ok.data.code === "10000") {
-          // console.log(ok);
-          let res = ok.data.result.list;
+          console.log(ok);
+          let res = ok.data.result;
           res.forEach((v) => {
             this.inforData.push({
               CWName: v.childWareName,
@@ -410,8 +476,9 @@ export default {
               shelfName: v.wareShelfName,
               tierChoose: v.wareSeatCode,
               storageLocalChoose: v.wareSeatCode,
-              storeUnit: "",
-              maxNumber: "",
+              prodUnit: "箱",
+              MaxNumberInput: "10",
+              seatId: v.id,
             });
           });
         } else {
@@ -431,6 +498,21 @@ export default {
     },
     submitData() {
       //提交按钮
+      let requestData = this.requestData;
+      prodStoreMap(requestData).then((ok) => {
+        console.log(ok);
+        if (ok.data.code === "10000") {
+          Message({
+            type: "success",
+            message: "绑定成功",
+          });
+        }else{
+          Message({
+            type: "error",
+            message: ok.data.msg,
+          });
+        }
+      });
     },
   },
 };
@@ -484,7 +566,7 @@ export default {
         align-items: center;
         font-size: 16px;
         margin-right: 16px;
-
+        white-space: nowrap;
         div:nth-of-type(2) {
           display: inline-block;
           width: 190px;

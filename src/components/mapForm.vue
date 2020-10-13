@@ -73,7 +73,7 @@
         ></el-table-column>
       </el-table>
     </div>
-    <div class="pageComponent" v-if="this.tableData.length >= 10">
+    <div class="pageComponent">
       <pagecomponent
         :pageComponentsData="pageComponentsData"
         @getPageNum="getPageNum"
@@ -97,10 +97,10 @@ export default {
     storageShelf: String,
     storageTier: String,
     storageUnit: String,
+    tableData: Array,
   },
   data() {
     return {
-      tableData: [],
       multipleSelection: [],
       pageComponentsData: {
         //这是分页器需要的json
@@ -130,8 +130,8 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return Message("请选择要删除的用户");
-      this.$confirm("确定要删除改用户？", "提示", {
+      if (!arr.length) return Message("请选择要删除的库位");
+      this.$confirm("确定要删除吗？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
