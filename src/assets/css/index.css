@@ -138,6 +138,14 @@ textarea {
   align-items: center;
   flex-direction: column;
 }
+.cell {
+  text-align: center;
+  white-space: nowrap!important;
+  text-overflow: ellipsis;
+}
+.cell:hover {
+  white-space: normal!important;
+}
 .displayalign{
   display: flex;
   align-items: center;

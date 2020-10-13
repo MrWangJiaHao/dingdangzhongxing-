@@ -62,7 +62,76 @@
           <div class="tijiaoBox disinb mr20" @click="addChanpin">添加产品</div>
           <div class="quxiaoBox disinb" @click="goAJAXCreate">删除</div>
         </div>
-        <div class="mb20">biaoge</div>
+        <div class="mb20">
+          <el-table
+            ref="multipleTable"
+            :data="tableData"
+            :stripe="true"
+            :border="true"
+            tooltip-effect="dark"
+            style="width: 100%"
+            @selection-change="handleSelectionChange"
+          >
+            <el-table-column type="selection" width="82"></el-table-column>
+            <el-table-column
+              label="序号"
+              type="index"
+              width="71"
+              show-overflow-tooltip
+            />
+            <el-table-column
+              label="产品编码"
+              width="119"
+              prop="orgName"
+              show-overflow-tooltip
+            />
+            <el-table-column
+              label="产品名称"
+              width="119"
+              property="putWareNo"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              width="119"
+              label="产品规格"
+              prop="orderNo"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="品牌"
+              prop="expectedSendStartTime"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="推荐库位产品数量"
+              width="119"
+              prop="putstatus"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="最大存放数"
+              width="119"
+              prop="putUser"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="入库数量*"
+              prop="putStartTime"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="推荐库位"
+              prop="putEndTime"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="期望入库时间"
+              width="119"
+              prop="batchNo"
+              show-overflow-tooltip
+            ></el-table-column>
+          </el-table>
+        </div>
       </div>
       <div>
         <div class="dispalyFlex mb20">
@@ -292,6 +361,7 @@ export default {
     top: 50%;
     left: 50%;
     width: 980px;
+    z-index: 44;
     background: #f8f8f8;
     transform: translate(-50%, -50%);
   }
