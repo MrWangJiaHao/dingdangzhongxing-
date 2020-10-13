@@ -10,6 +10,7 @@
               v-model="nameValue"
               placeholder="请选择子仓名称"
               @change="nameValues"
+              @visible-change="chooseItem"
             >
               <el-option
                 v-for="item in childWarehouseName"
@@ -27,7 +28,7 @@
             <el-select
               v-model="areaNameValue"
               placeholder="请选择区域名称"
-              @change="areaNameValue"
+              @change="areaNameValues"
             >
               <el-option
                 v-for="item in areaNameData"
@@ -196,6 +197,7 @@ import {
   querySLInfor,
   query_WH_Request,
   querySLInforCon,
+  queryAreaOfWS,
 } from "../../api/api";
 import { Message } from "element-ui";
 import pagecomponent from "../../components/commin/pageComponent";
@@ -252,13 +254,18 @@ export default {
       CSkuweiData: [],
       //条件查询的data
       SLInforData: {
-        childWareId: "764F9BB09A884EDDAC1D81E291662A81", //子仓id
-        wareAreaId: "5F85E0829ADF4C9493D2D3312B5BA40B", //仓库区域id
-        wareAreaType: this.areaTypeValue, //区域类型（1-存储区；2-拣货区）
+        childWareId: "", //子仓id
+        wareAreaId: "", //仓库区域id
+        wareAreaType: "", //区域类型（1-存储区；2-拣货区）
         wareShelfId: "", //仓库货架id
         shelfLevelNum: "", //货架层数(仅查询本层库位)
       },
       updateData: "",
+      areaData: {
+        childWareId: "",
+        id: "",
+      },
+      CSandareaData: [],
     };
   },
   mounted() {
@@ -266,9 +273,8 @@ export default {
     this.updateData = () => {
       let queryData = this.pagingQueryData;
       querySLInfor(queryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         this.changeData(ok.data.result);
-        this.CSkuweiData = ok.data.result.list;
         let res = ok.data.result.list;
         res.forEach((v) => {
           this.tableData.push({
@@ -305,6 +311,34 @@ export default {
       });
     };
     this.updateData();
+
+    // let SLInforData = this.SLInforData;
+    // querySLInforCon(SLInforData).then((ok) => {
+    //   if (ok.data.code === "10000") {
+    //     this.CSkuweiData = ok.data.result;
+    //     this.CSkuweiData.forEach((v) => {
+    //       this.areaNameData.push({
+    //         value: v.wareAreaName,
+    //         label: v.wareAreaName,
+    //       });
+    //     });
+    //     let testObj = {};
+    //     this.areaNameData = this.areaNameData.reduce((item, next) => {
+    //       testObj[next.value]
+    //         ? ""
+    //         : (testObj[next.value] = true && item.push(next));
+    //       return item;
+    //     }, []);
+    //   }
+    // });
+
+    let data1 = this.areaData;
+    queryAreaOfWS(data1).then((ok) => {
+      // console.log(ok);
+      if (ok.data.code === "10000") {
+        this.CSandareaData = ok.data.result;
+      }
+    });
   },
   methods: {
     clickQuery() {
@@ -319,7 +353,7 @@ export default {
             this.tableData.push({
               CWName: v.childWareName,
               areaName: v.wareAreaName,
-              areaType: "",
+              areaType: v.wareAreaType === 0 ? "存储区" : "拣货区",
               areaNumber: v.wareSeatCode.substring(0, 2),
               shelfName: v.wareSeatCode.substring(3, 6),
               tierChoose: v.wareSeatCode.substring(7, 10),
@@ -328,8 +362,8 @@ export default {
               createName: v.createUser,
               createTime: v.createTime,
             });
-            // this.pagingQueryData.pageNumber = res.length;
-            // this.pageComponentsData.pageNums = res.length;
+            this.pagingQueryData.pageNumber = res.length;
+            this.pageComponentsData.pageNums = res.length;
           });
         } else {
           Message({
@@ -365,7 +399,7 @@ export default {
           this.SLInforData.childWareId = v.id;
         }
       });
-      this.CSkuweiData.forEach((v) => {
+      this.CSandareaData.forEach((v) => {
         if (value === v.childWareName) {
           this.areaNameData.push({
             value: v.wareAreaName,
@@ -374,8 +408,24 @@ export default {
         }
       });
     },
+    areaNameValues(value) {
+      this.areaNameValue = value;
+      this.CSandareaData.forEach((v) => {
+        if (value === v.wareAreaName) {
+          this.SLInforData.wareAreaId = v.id;
+        }
+      });
+    },
+    chooseItem(event) {
+      if (event) {
+        this.areaNameData = [];
+      }
+      // if(event === false){
+      //   console.log(this.SLInforData)
+      // }
+    },
     areaTypeValues(value) {
-      this.areaTypeValue = value;
+      this.SLInforData.wareAreaType = value;
     },
     shelfNameValues(value) {
       this.shelfNameValue = value;

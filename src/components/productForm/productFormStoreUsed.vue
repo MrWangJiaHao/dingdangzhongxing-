@@ -22,10 +22,10 @@
         label="库位"
         align="center"
       ></el-table-column>
-      <el-table-column prop="storeUnit" label="存放单位" align="center">
+      <el-table-column prop="prodUnit" label="存放单位" align="center">
       </el-table-column>
       <el-table-column
-        prop="maxNumber"
+        prop="MaxNumberInput"
         label="最大存放数"
         align="center"
       ></el-table-column>
@@ -94,18 +94,6 @@ export default {
       let { totalRow } = data;
       this.pageComponentsData.pageNums = totalRow;
     },
-  },
-  beforeDestroy() {
-    let dataArr = this.tableData;
-    for (let i = 0; i < dataArr.length; i++) {
-      this.$store.dispatch("delPFSqueryData", i);
-    }
-  },
-  destroyed(){
-    let dataArr = this.tableData;
-    for (let i = 0; i < dataArr.length; i++) {
-      this.$store.dispatch("delPFSqueryData", i);
-    }
   },
 };
 </script>

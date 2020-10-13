@@ -158,7 +158,6 @@
                   :label="item.label"
                   :value="item.value"
                 >
-                
                 </el-option>
               </el-select>
             </div>
@@ -189,6 +188,7 @@
               :storageShelf="storageShelf1"
               :storageTier="storageTier1"
               :storageUnit="storageUnit1"
+              :tableData="tableData"
             ></MapForm>
           </el-tab-pane>
           <el-tab-pane label="拣货区库位">
@@ -201,13 +201,6 @@
           </el-tab-pane>
         </el-tabs>
       </div>
-      <div class="pageComponent">
-        <pagecomponent
-          :pageComponentsData="pageComponentsData"
-          @getPageNum="getPageNum"
-          @sureSuccssBtn="sureSuccssBtn"
-        ></pagecomponent>
-      </div>
     </div>
   </div>
 </template>
@@ -216,11 +209,11 @@
 import { query_WH_Request, storeMapRelation } from "../../api/api";
 import MapForm from "@/components/mapForm";
 import { Message } from "element-ui";
-import pagecomponent from "../../components/commin/pageComponent";
 export default {
-  components: { MapForm, pagecomponent },
+  components: { MapForm },
   data() {
     return {
+      tableData: [],
       storageArea1: "存储区",
       storageShelf1: "存储货架",
       storageTier1: "存储层",
@@ -230,7 +223,7 @@ export default {
       storageTier2: "拣货层",
       storageUnit2: "拣货库位",
       //----------------------------------------------
-      delegaCompanyValue: "全部",
+      delegaCompanyValue: "",
       productName: "",
       productCode: "",
       nameValue: "",
@@ -242,20 +235,7 @@ export default {
       pickTierValue: "",
       pickSL: "",
       //委托公司
-      delegaCompanyData: [
-        {
-          value: 0,
-          label: "全部",
-        },
-        {
-          value: 1,
-          label: "巨子生物",
-        },
-        {
-          value: 2,
-          label: "创客云商",
-        },
-      ],
+      delegaCompanyData: [],
       childWarehouseName: [],
       placeAreaData: [],
       placeShelfData: [],
@@ -268,7 +248,7 @@ export default {
         pageNumber: 1,
         pageSize: 10,
         paras: {
-          orgId: "", //委托公司id
+          orgId: "4C2F466B16E94451B942EBBD07BE0F8B", //委托公司id
           prodName: "", //产品名称
           prodCode: "", //产品编码
           childWareId: "", //子仓id
@@ -284,10 +264,7 @@ export default {
   },
   mounted() {
     //查询库位映射关系
-    let pagingQueryData = this.pagingQueryData;
-    storeMapRelation(pagingQueryData).then((ok) => {
-      console.log(ok);
-    });
+    this.clickQuery();
     //查询子仓名称的请求
     let queryData = this.pagingQueryData;
     query_WH_Request(queryData).then((ok) => {
@@ -335,6 +312,35 @@ export default {
     clickQuery() {
       //点击查询
       this.tableData = [];
+      let queryData = this.pagingQueryData;
+      storeMapRelation(queryData).then((ok) => {
+        console.log(ok);
+        if (ok.data.code === "10000") {
+          let resData = ok.data.result.list;
+          resData.forEach((v) => {
+            this.tableData.push({
+              delegaCompany: v.orgName,
+              productName: v.prodName,
+              productNumber: v.prodCode,
+              producTspecifica: v.specName + "ml",
+              brand: v.braName,
+              CHName: v.childWareName,
+              storageArea: v.wareAreaName,
+              storageShelf: v.wareSeatNo.split('-')[1],
+              storageTier: v.wareSeatNo.split('-')[3],
+              storageUnit: v.wareSeatNo,
+              createName: v.createUser,
+              createTime: v.createTime,
+              id: v.id,
+            });
+          });
+        } else {
+          Message({
+            type: "error",
+            message: "未知错误",
+          });
+        }
+      });
     },
     clearInput() {
       //点击清空
@@ -352,21 +358,6 @@ export default {
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
-    },
-    getPageNum(e) {
-      this.pagingQueryData.pageNumber = e;
-    },
-    sureSuccssBtn(e) {
-      this.tableData = [];
-      this.pagingQueryData.pageNumber = e;
-    },
-    changeData(data) {
-      this.changePageData(data); //用来改变分页器的条数
-    },
-    //用来改变分页器的条数
-    changePageData(data) {
-      let { totalRow } = data;
-      this.pageComponentsData.pageNums = totalRow;
     },
   },
 };

@@ -190,6 +190,40 @@ export function queryProductInfor(data) {
     })
 }
 
+//查询子仓下面区域的id
+export function queryAreaOfWS(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/findRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+
+//产品库位映射
+export function prodStoreMap(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeatProd/saveRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+
+
+
 /**
  * 
  * @param {*}  获取查询仓库下的委托公司
