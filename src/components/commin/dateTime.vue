@@ -3,12 +3,12 @@
     <div v-if="title !== ''" class="titleBox">{{ title }}</div>
     <div>
       <Date-picker
-        ref="element"
         type="datetime"
         :placeholder="dateTimeData.placeholder"
         @on-change="changeDate"
         @on-open-change="openChangeDate"
         @on-ok="openChangeDate"
+        ref='time'
       ></Date-picker>
     </div>
   </div>
@@ -59,6 +59,9 @@ export default {
       }
       // this.$refs.element.handleClear();
     },
+    clear() {
+      this.$refs.time.handleClear()
+    }
   },
 };
 </script>
