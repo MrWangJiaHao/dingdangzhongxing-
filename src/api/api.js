@@ -175,6 +175,21 @@ export function delStoreMapRelation(data) {
     })
 }
 
+//查询库位信息里面产品的详情
+export function queryProductInfor(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWareOrgProd/findWareProduct",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
 /**
  * 
  * @param {*}  获取查询仓库下的委托公司

@@ -165,7 +165,7 @@
         </div>
       </div>
       <div class="productForm">
-        <ProductFormStore :inforData="inforData"></ProductFormStore>
+        <prodFromStore :inforData="inforData"></prodFromStore>
       </div>
       <div class="selectedForm">
         <div class="selectedForm-title">已选库位：</div>
@@ -252,10 +252,10 @@
 </template>
 
 <script>
-import ProductFormStore from "../../components/productForm/productFormStore";
 import ProductFormStoreUsed from "../../components/productForm/productFormStoreUsed";
 import ProductFormPick from "../../components/productForm/productFormPick";
 import ProductFormPickUsed from "../../components/productForm/productFormPickUsed";
+import prodFromStore from '../../components/productForm/prodFromStore.vue'
 import {
   queryProductInfor,
   query_WH_Request,
@@ -265,7 +265,7 @@ import { Message } from "element-ui";
 
 export default {
   components: {
-    ProductFormStore,
+    prodFromStore,
     ProductFormStoreUsed,
     ProductFormPick,
     ProductFormPickUsed,
