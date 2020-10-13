@@ -57,7 +57,6 @@ export default {
       if (!e) {
         this.$emit("getDateTime", this.date);
       }
-      // this.$refs.element.handleClear();
     },
     clear() {
       this.$refs.time.handleClear()

@@ -148,6 +148,9 @@ textarea {
 .pad20{
   padding: 10px;
 }
+.zIndex3{
+  z-index: 3;
+}
 .dispalywrap{
   display: flex;
   align-items: center;

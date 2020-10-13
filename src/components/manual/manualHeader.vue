@@ -153,6 +153,7 @@
                 <dateTime
                   :dateTimeData="expectedSendStartTimeData"
                   @getDateTime="getexpectedSendStartTime"
+                  ref="expectedStart"
                 />
               </div>
               <!-- 开始时间 -->
@@ -161,6 +162,7 @@
                 <dateTime
                   :dateTimeData="expectedSendEndTimeData"
                   @getDateTime="getexpectedSendEndTime"
+                  ref="expectedEnd"
                 />
               </div>
               <!-- 结束时间 -->
@@ -177,6 +179,7 @@
                 <dateTime
                   :dateTimeData="putStartTimeData"
                   @getDateTime="getputStartTime"
+                  ref="putStart"
                 />
               </div>
               <!-- 开始时间 -->
@@ -185,6 +188,7 @@
                 <dateTime
                   :dateTimeData="putEndTimeData"
                   @getDateTime="getputEndTime"
+                  ref="putEnd"
                 />
               </div>
               <!-- 结束时间 -->
@@ -339,7 +343,8 @@ export default {
       this.WarehousingType.WarehousingTypeCenter = this.WarehousingType.WarehousingTypeArr[
         +to.params.type
       ].WarehousingTypeCenter;
-      this.paras.orderSource = this.$route.params.typeto.params.type;
+
+      this.paras.orderSource = to.params.type;
     },
   },
   props: {
@@ -369,16 +374,14 @@ export default {
     associatedArr(queryString, cb) {
       this.paras.orderNo = queryString;
       this.$emit("getParasJson", this.paras);
-      this.$nextTick(() => {
-        let arr = [];
-        this.tableData.forEach((item) => {
-          if (!arr.includes(item.orderNo)) {
-            arr.push(item.orderNo);
-          }
-        });
-        console.log(arr);
-        cb(arr);
+      let arr = [];
+      this.tableData.forEach((item) => {
+        if (!arr.includes(item.orderNo)) {
+          arr.push(item.orderNo);
+        }
       });
+      console.log(this.tableData, "this.tableData");
+      cb(arr);
     },
     //关联单号 模糊搜索
     associatedSelect(item) {}, //选中的item
@@ -429,9 +432,17 @@ export default {
     },
     //点击了清空
     clearInputAll() {
-      this.$nextTick(() => {
-        console.log("点击了清空");
-      });
+      this.paras.orgName = "";
+      this.associatedOrderNo.associatedOrderNoCenter = "";
+      this.stockInNo.stockInNoCenter = "";
+      this.WarehousingType.WarehousingTypeCenter = "";
+      this.paras.prodCode = "";
+      this.paras.prodName = "";
+      //清空时间
+      this.$refs.expectedStart.clear();
+      this.$refs.expectedEnd.clear();
+      this.$refs.putStart.clear();
+      this.$refs.putEnd.clear();
     },
   },
 };
