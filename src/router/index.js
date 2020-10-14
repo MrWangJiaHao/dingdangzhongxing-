@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { getCookie } from '../utils/validate'
 
 Vue.use(VueRouter)
 
@@ -157,7 +158,6 @@ const routes = [{
   //warehousingManagement 创建入库单
   // 入库管理 => 创建入库 =》 创建入库单
   path: "/warehousingManagement/createManagement",
-
   name: "/warehousingManagement/createManagement",
   component: () => import("../views/wareHouseIngManagement/createManagement"),
   meta: {
@@ -224,26 +224,22 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path === "/") {
-    let isWindows = /windows|win32/i.test(navigator.userAgent)
-    if (isWindows === true) {
-      console.log("这是windows系统")
+  let cookie = getCookie("userToken");
+  console.log(cookie)
+  if (cookie == "") {
+    if (to.path === "/") {
+      next()
     } else {
-      console.log("这是mac系统")
+      next({ path: "/" })
     }
+  } else {
+    next()
   }
-  next()
 })
-
-
 export default router
 
-// router.beforeEach((to, from, next) => {
-//   if (to.path === "/login") {
-//     let isWindows = /windows|win32/i.test(navigator.userAgent)
-//     if (isWindows === "window") {
-//       console.log(window.navigator.userAgent)
-//     }
-//     next()
-//   }
-// })
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch(err => err)
+}
