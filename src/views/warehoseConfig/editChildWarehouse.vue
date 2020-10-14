@@ -110,7 +110,7 @@
 <script>
 // import { query_WH_Request } from "../../api/api";
 
-import $ from "jquery";
+// import $ from "jquery";
 import { add_edit_WH_Request } from "../../api/api";
 import { Message } from "element-ui";
 
@@ -331,33 +331,52 @@ export default {
       childDiv.className = "childViewDiv";
       oDiv.append(childDiv);
     }
-    $(".childViewDiv").each((v, i) => {
-      $(i).click(() => {
-        this.input1 = childWarehouseList[v].childWareName; //子仓名称
-        this.input4 = childWarehouseList[v].northDistance; //距北距离
-        this.input5 = childWarehouseList[v].westDistance; //距西距离
-        this.input2 = childWarehouseList[v].wareLength; //子仓长度
-        this.input3 = childWarehouseList[v].wareWidth; //子仓宽度
-        this.value2 = childWarehouseList[v].wareType; //仓库类型
-        this.textarea = childWarehouseList[v].remark; //备注
-        this.value1 = childWarehouseList[v].childWareCode.substring(0, 1); //子仓编号字母
-        this.value3 = childWarehouseList[v].childWareCode.substring(1); //子仓编号数字
-        this.editId = childWarehouseList[v].id; //选中子仓的id
+    let childViewDiv = document.querySelectorAll('.childViewDiv')
+    childViewDiv.forEach((v,i)=>{
+      v.onclick = ()=>{
+        this.input1 = childWarehouseList[i].childWareName; //子仓名称
+        this.input4 = childWarehouseList[i].northDistance; //距北距离
+        this.input5 = childWarehouseList[i].westDistance; //距西距离
+        this.input2 = childWarehouseList[i].wareLength; //子仓长度
+        this.input3 = childWarehouseList[i].wareWidth; //子仓宽度
+        this.value2 = childWarehouseList[i].wareType; //仓库类型
+        this.textarea = childWarehouseList[i].remark; //备注
+        this.value1 = childWarehouseList[i].childWareCode.substring(0, 1); //子仓编号字母
+        this.value3 = childWarehouseList[i].childWareCode.substring(1); //子仓编号数字
+        this.editId = childWarehouseList[i].id; //选中子仓的id
         this.divChecked = true;
-        $(i)
-          .css({
-            background: "#367fff",
-            border: "1px solid #0555c2",
-            color: "white",
-          })
-          .siblings()
-          .css({
-            background: "white",
-            border: "1px solid #ddd",
-            color: "black",
-          });
-      });
-    });
+        // v.style.background = "#367fff"
+        // v.style.border = "1px solid #0555c2"
+        // v.style.color = "white"
+      }
+    })
+    // $(".childViewDiv").each((v, i) => {
+    //   $(i).click(() => {
+    //     this.input1 = childWarehouseList[v].childWareName; //子仓名称
+    //     this.input4 = childWarehouseList[v].northDistance; //距北距离
+    //     this.input5 = childWarehouseList[v].westDistance; //距西距离
+    //     this.input2 = childWarehouseList[v].wareLength; //子仓长度
+    //     this.input3 = childWarehouseList[v].wareWidth; //子仓宽度
+    //     this.value2 = childWarehouseList[v].wareType; //仓库类型
+    //     this.textarea = childWarehouseList[v].remark; //备注
+    //     this.value1 = childWarehouseList[v].childWareCode.substring(0, 1); //子仓编号字母
+    //     this.value3 = childWarehouseList[v].childWareCode.substring(1); //子仓编号数字
+    //     this.editId = childWarehouseList[v].id; //选中子仓的id
+    //     this.divChecked = true;
+    //     $(i)
+    //       .css({
+    //         background: "#367fff",
+    //         border: "1px solid #0555c2",
+    //         color: "white",
+    //       })
+    //       .siblings()
+    //       .css({
+    //         background: "white",
+    //         border: "1px solid #ddd",
+    //         color: "black",
+    //       });
+    //   });
+    // });
   },
   methods: {
     goBack() {
@@ -578,6 +597,11 @@ export default {
       right: 30px;
       bottom: 20px;
     }
+  }
+  .childViewDiv.active{
+    background : "#367fff";
+    border : "1px solid #0555c2";
+    color : "white";
   }
 }
 </style>

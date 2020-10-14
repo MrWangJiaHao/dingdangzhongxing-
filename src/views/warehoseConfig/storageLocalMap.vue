@@ -43,7 +43,7 @@
                 v-model="nameValue"
                 placeholder="请选择子仓名称"
                 @change="nameValues"
-              @visible-change="chooseItem"
+                @visible-change="chooseItem"
               >
                 <el-option
                   v-for="item in childWarehouseName"
@@ -211,6 +211,7 @@ import {
   query_WH_Request,
   storeMapRelation,
   queryAreaOfWS,
+  queryEntrustCompany,
 } from "../../api/api";
 // import MapForm from "@/components/mapForm";
 import MapForms from "../../components/mapForms";
@@ -304,6 +305,21 @@ export default {
       // console.log(ok);
       if (ok.data.code === "10000") {
         this.CSandareaData = ok.data.result;
+      }
+    });
+    let EntrustCompanyData = {
+      wareId: "2A8B48391F4F4EB5BDEDF9EBA0B6BAE7",
+    };
+    queryEntrustCompany(EntrustCompanyData).then((ok) => {
+      console.log(ok);
+      if (ok.data.code === "10000") {
+        let res = ok.data.result;
+        res.forEach((v) => {
+          this.delegaCompanyData.push({
+            value: v.orgName,
+            label: v.orgName,
+          });
+        });
       }
     });
   },

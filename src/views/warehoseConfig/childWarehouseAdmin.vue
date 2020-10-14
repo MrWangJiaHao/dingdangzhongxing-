@@ -181,24 +181,7 @@ export default {
   },
   data() {
     return {
-      childWarehouseName: [
-        {
-          value: "全部",
-          label: "全部",
-        },
-        {
-          value: "销售仓",
-          label: "销售仓",
-        },
-        {
-          value: "残次品仓",
-          label: "残次品仓",
-        },
-        {
-          value: "售后仓",
-          label: "售后仓",
-        },
-      ],
+      childWarehouseName: [],
       childWarehouseType: [
         {
           value: "全部",
@@ -225,7 +208,7 @@ export default {
           label: "验货",
         },
       ],
-      nameValue: "全部",
+      nameValue: "",
       typeValue: "全部",
       tableData: [],
       multipleSelection: [],
@@ -243,6 +226,10 @@ export default {
         pageNums: 0, //一共多少条 //默认一页10条
       },
       requestMethods: "",
+      tjQueryData: {
+        id: "",
+        wareId: "",
+      },
     };
   },
   mounted() {
@@ -251,7 +238,7 @@ export default {
       let tableData = this.tableData;
       query_WH_Request(queryData).then((ok) => {
         if (ok.data.code === "10000") {
-          console.log(ok.data.result)
+          console.log(ok.data.result);
           //将查询结果赋值给一个变量
           this.changeData(ok.data.result);
           // 将查询出来的数组进行循环，分别插入到表格中
@@ -259,10 +246,6 @@ export default {
           //将查询出来的数据存储到vuex里面
           this.$store.dispatch("CWAdminRequest", ok.data.result);
           //将查询出来的数据赋值给子仓名称选择框
-          // let childWarehouseName =  this.childWarehouseName
-          // childWarehouseName.forEach((v,i)=>{
-
-          // })
           resultList.forEach((values, indexs) => {
             let tableDataItem = {
               CWName: resultList[indexs].childWareName, //子仓名称
@@ -283,6 +266,10 @@ export default {
               id: resultList[indexs].id,
             };
             tableData.push(tableDataItem); //将请求的数据插入到表格中
+            this.childWarehouseName.push({
+              value:resultList[indexs].childWareName,
+              label:resultList[indexs].childWareName
+            })
           });
         }
       });
@@ -295,13 +282,21 @@ export default {
     },
     selectName(val) {
       this.nameValue = val;
+      this.tableData.forEach((v) => {
+        if (val === v.CWName) {
+          this.tjQueryData.id = v.id;
+        }
+      });
     },
     selectType(val) {
       this.typeValue = val;
     },
     clickQuery() {
       //点击查询
-      TJquery_WH_Request().then((ok) => {
+      this.tableData = [];
+      let tjQueryData = this.tjQueryData;
+      console.log(tjQueryData)
+      TJquery_WH_Request(tjQueryData).then((ok) => {
         console.log(ok);
       });
     },
