@@ -188,12 +188,33 @@
         ></pagecomponent>
       </div>
     </div>
+    <div
+      v-show="showTizoxinma"
+      id="tiaoxingmaquyu"
+      :style="{
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%,-50%)',
+      }"
+    >
+      <div style="width: 770px">
+        <div>
+          <div
+            style="display: inline-block; margin-bottom: 10px"
+            v-for="(item, idx) in ImgsrcArr"
+            :key="idx"
+          >
+            <img :src="tiaoxinmaSrc + item" />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import {
-  getBarCodeImg,
   querySLInfor,
   query_WH_Request,
   querySLInforCon,
@@ -207,6 +228,9 @@ export default {
   },
   data() {
     return {
+      showTizoxinma: false,
+      tiaoxinmaSrc:
+        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=",
       childWarehouseName: [],
       areaNameData: [],
       areaTypeData: [
@@ -267,10 +291,11 @@ export default {
       },
       CSandareaData: [],
 
-      codeData : {
+      codeData: {
         code: "B2-C02-007-1-3",
       },
-      captchaPath:""
+      captchaPath: "",
+      ImgsrcArr: [],
     };
   },
   mounted() {
@@ -359,9 +384,9 @@ export default {
               CWName: v.childWareName,
               areaName: v.wareAreaName,
               areaType: v.wareAreaType === 0 ? "存储区" : "拣货区",
-              areaNumber: v.wareSeatCode.split('-')[0],
-              shelfName: v.wareSeatCode.split('-')[1],
-              tierChoose: v.wareSeatCode.split('-')[3],
+              areaNumber: v.wareSeatCode.split("-")[0],
+              shelfName: v.wareSeatCode.split("-")[1],
+              tierChoose: v.wareSeatCode.split("-")[3],
               storageLocalChoose: v.wareSeatCode,
               isUsed: v.enableStatus === 0 ? "否" : "是",
               createName: v.createUser,
@@ -389,18 +414,41 @@ export default {
     },
     printSLCode() {
       //打印条形码图片
-       this.captchaPath =
-        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=" +
-        this.codeData.code;
-      let blob = new Blob([this.captchaPath], { type: "image/jpeg" });
-     
-        console.log(blob)
-      
-      let codeData = this.codeData
-      getBarCodeImg(codeData).then((ok) => {
-        console.log(ok);
+      if (!this.multipleSelection.length)
+        return Message("请选择要打印的条形码");
+      // storageLocalChoose
+      let codeArr = [];
+      this.multipleSelection.forEach((item) => {
+        if (!codeArr.includes(item.storageLocalChoose)) {
+          codeArr.push(item.storageLocalChoose);
+        }
       });
+      this._barCodeImg(codeArr);
     },
+    //打印条形码
+    dayintiaoxinma() {
+      console.log(document.getElementById("tiaoxingmaquyu"));
+      setTimeout(() => {
+        this.LODOP = this.$getLodop();
+        this.LODOP.ADD_PRINT_HTM(
+          20,
+          0,
+          2970,
+          2100,
+          document.getElementById("tiaoxingmaquyu").innerHTML
+        );
+        // this.LODOP.PRINTA(); //不需要进入查看页面 直接打印
+        this.LODOP.PREVIEW(); //需要进入页面查看
+      }, 200);
+    },
+    async _barCodeImg(data) {
+      //获取条形码
+      data.forEach((item) => {
+        this.ImgsrcArr.push(item);
+      });
+      this.dayintiaoxinma();
+    },
+
     nameValues(value) {
       this.nameValue = value;
       this.childStoreData.forEach((v) => {
