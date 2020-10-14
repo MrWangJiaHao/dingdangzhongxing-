@@ -38,12 +38,20 @@
         <!-- 用户角色 -->
         <div class="timeBox zujianBox">
           <div style="margin-right: 10px">
-            <dateTime :dateTimeData="datetimeDates" @getDateTime="getStartTime" ref="startTime" />
+            <dateTime
+              :dateTimeData="datetimeDates"
+              @getDateTime="getStartTime"
+              ref="startTime"
+            />
           </div>
           <!-- 开始时间 -->
           <div class="line"></div>
           <div>
-            <dateTime :dateTimeData="datetimeDate" @getDateTime="getEndTime" ref="endTime" />
+            <dateTime
+              :dateTimeData="datetimeDate"
+              @getDateTime="getEndTime"
+              ref="endTime"
+            />
           </div>
           <!-- 结束时间 -->
         </div>
@@ -260,8 +268,8 @@ export default {
         2100,
         document.getElementById("ewms").innerHTML
       );
-      // this.LODOP.PRINTA();
-      this.LODOP.PREVIEW();
+      this.LODOP.PRINTA(); //不需要进入查看页面 直接打印
+      // this.LODOP.PREVIEW(); //需要进入页面查看
     },
     CheckIsInstall() {
       //查看是否存在有打印控件
@@ -444,8 +452,8 @@ export default {
       this.pagingQueryData.paras.createStartTime = "";
       this.clearTimeInput();
       this.fasonPagIngQueryData();
-      this.$refs.startTime.clear()
-      this.$refs.endTime.clear()
+      this.$refs.startTime.clear();
+      this.$refs.endTime.clear();
     },
     clearTimeInput() {
       let input = document.getElementsByClassName("ivu-input");

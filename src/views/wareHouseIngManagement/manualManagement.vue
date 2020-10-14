@@ -177,8 +177,10 @@ export default {
     this.getTableData();
   },
   watch: {
-    $route(to) {
-      this.sendOutDataJson.paras.orderSource = to.params.type;
+    $route(to, from) {
+      this.sendOutDataJson.paras.orderSource = to.params.type
+        ? to.params.type
+        : from.params.type;
       this.getTableData();
     },
   },
@@ -205,7 +207,9 @@ export default {
     //导出
     ExportArr() {},
     //创建入库单
-    CreateStockInOrder() {},
+    CreateStockInOrder() {
+      this.$router.push("/warehousingManagement/createManagement");
+    },
     //编辑
     editBtn() {},
     //删除
@@ -226,9 +230,11 @@ export default {
       return datas;
     },
     changeDatas(datas) {
-      datas.list.forEach((item) => {
-        item.putstatus = item.putstatus ? "已入库" : "未入库";
-      });
+      if (datas.list) {
+        datas.list.forEach((item) => {
+          item.putstatus = item.putstatus ? "已入库" : "未入库";
+        });
+      }
       this.tableData = datas.list;
       this.pageComponentsData.pageNums = datas.totalRow;
     },

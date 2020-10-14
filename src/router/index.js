@@ -147,11 +147,23 @@ const routes = [{
     name: "/warehousingManagement/manualManagement",
     component: () => import("../views/wareHouseIngManagement/manualManagement"),
     meta: {
-      Breadcrumb: "入库管理",
+      Breadcrumb: "手工创建入库",
       title: "手工创建入库"
     }
-  }
+  },
   ]
+},
+{
+  //warehousingManagement 创建入库单
+  // 入库管理 => 创建入库 =》 创建入库单
+  path: "/warehousingManagement/createManagement",
+
+  name: "/warehousingManagement/createManagement",
+  component: () => import("../views/wareHouseIngManagement/createManagement"),
+  meta: {
+    Breadcrumb: "创建入库单",
+    title: "创建入库单"
+  }
 },
 //设置权限页面
 {
