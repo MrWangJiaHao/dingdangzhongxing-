@@ -25,8 +25,8 @@
         v-if="createSetting.length"
         class="wareHouseCenter noneZican"
         :style="{
-          width: wareAreaLength * (10000 / 85) + 'px',
-          height: wareAreaWidth * (10000 / 85) + 'px',
+          width: wareAreaLength * (10000 / 85) + 3 + 'px',
+          height: wareAreaWidth * (10000 / 85) + 3 + 'px',
           position: 'relative',
           background: '#D8DCE7',
           border: '1px solid #D8DCE7',

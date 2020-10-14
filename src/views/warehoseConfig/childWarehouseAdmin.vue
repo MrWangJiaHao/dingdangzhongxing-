@@ -267,9 +267,9 @@ export default {
             };
             tableData.push(tableDataItem); //将请求的数据插入到表格中
             this.childWarehouseName.push({
-              value:resultList[indexs].childWareName,
-              label:resultList[indexs].childWareName
-            })
+              value: resultList[indexs].childWareName,
+              label: resultList[indexs].childWareName,
+            });
           });
         }
       });
@@ -295,7 +295,7 @@ export default {
       //点击查询
       this.tableData = [];
       let tjQueryData = this.tjQueryData;
-      console.log(tjQueryData)
+      console.log(tjQueryData);
       TJquery_WH_Request(tjQueryData).then((ok) => {
         console.log(ok);
       });

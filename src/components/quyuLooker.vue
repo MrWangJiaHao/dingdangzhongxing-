@@ -17,9 +17,46 @@
         :style="getStyle(item)"
       >
         <div class="parents">
-          <div class="namesBox">
+          <div class="namesBox displayCenter ellipsis">
             {{ item.wareAreaName }}
           </div>
+          <div
+            style="position: absolute"
+            :style="{
+              left: '-' + item.x * (10000 / 85) + 'px',
+              top: '50%',
+            }"
+          >
+            <div
+              class="verticalLine displayCenter"
+              :style="{
+                width: item.x * (10000 / 85) + 'px',
+                bottom: -11 + 'px',
+                'text-indent': 10 + 'px',
+              }"
+            >
+              {{ item.x }}m
+            </div>
+          </div>
+          <!-- x -->
+          <div
+            style="position: absolute"
+            :style="{
+              top: '-' + item.y * (10000 / 85) + 'px',
+              left: '50%',
+            }"
+          >
+            <div
+              class="transverseLine displayCenter"
+              :style="{
+                height: item.y * (10000 / 85) + 'px',
+                'text-indent': 10 + 'px',
+              }"
+            >
+              {{ item.y }}m
+            </div>
+          </div>
+          <!-- y -->
           <div
             class="tansveerBox"
             :style="{
