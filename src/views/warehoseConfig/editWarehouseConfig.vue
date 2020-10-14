@@ -20,7 +20,6 @@
         暂未划分区域
       </div>
       <!-- 暂无子仓 -->
-
       <div
         v-if="createSetting.length"
         class="wareHouseCenter noneZican"

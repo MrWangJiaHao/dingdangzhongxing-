@@ -397,7 +397,6 @@ export default {
     //用来改变表格
     changeTableData(data) {
       let { list } = data;
-      // console.log(list, "表格的数据");
       this.tableData = list;
       list.forEach((item, idx) => {
         this.tableData[idx].address =

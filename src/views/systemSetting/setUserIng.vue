@@ -193,7 +193,7 @@ import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
 import dropDownUserType from "../../components/commin/dropDownUserType"; //用户管理下拉框
 import { mapState } from "vuex";
 import { Message } from "element-ui";
-import { isMobile, isEmail } from "../../utils/validate";
+import { isMobile, isEmail, getCookie } from "../../utils/validate";
 import { post } from "../../api/api";
 export default {
   name: "createUsering",
@@ -260,7 +260,7 @@ export default {
         userEmail: "",
         remark: "",
         parentId: "",
-        orgId: "FC4AD500BE8E4B5FB58CCAE7B519FB6F",
+        orgId: getCookie("orgId"),
         waerId: "",
         codeValue: "",
       },
@@ -274,7 +274,6 @@ export default {
   },
   async created() {
     let probinceData = this.fasonCodeAjax();
-
     probinceData.then((data) => {
       this.dropDowProvince.dropDownBoxData = data;
     });

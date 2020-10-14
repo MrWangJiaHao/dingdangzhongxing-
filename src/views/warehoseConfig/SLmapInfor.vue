@@ -325,7 +325,7 @@ export default {
         id: "",
         wareAreaId: "",
       },
-      shelfResList:[]
+      shelfResList: [],
     };
   },
   mounted() {
@@ -446,16 +446,16 @@ export default {
       });
       let areaShelfQueryData = this.areaShelfQueryData;
       areaShelfQuery(areaShelfQueryData).then((ok) => {
-        console.log(ok)
-        if(ok.data.code === "10000"){
-          this.shelfResList = ok.data.result
-          this.shelfResList.forEach((v)=>{
+        console.log(ok);
+        if (ok.data.code === "10000") {
+          this.shelfResList = ok.data.result;
+          this.shelfResList.forEach((v) => {
             this.storeShelfData.push({
-              value:v.shelfName,
-              label:v.shelfName,
-            })
-          })
-        } 
+              value: v.shelfName,
+              label: v.shelfName,
+            });
+          });
+        }
       });
     },
     chooseItem(event) {
@@ -465,11 +465,11 @@ export default {
     },
     storeShelfValues(value) {
       this.storeShelfValue = value;
-      this.shelfResList.forEach((v)=>{
-        if(value === v.shelfName){
-          this.SLInforData.wareShelfId = v.id
+      this.shelfResList.forEach((v) => {
+        if (value === v.shelfName) {
+          this.SLInforData.wareShelfId = v.id;
         }
-      })
+      });
     },
     pickAreaValues(v) {
       this.pickAreaValue = v;

@@ -73,7 +73,12 @@
         </div>
         <div class="input5">
           <span>子仓类型：</span>
-          <el-select v-model="value2" filterable placeholder="请选择子仓类型" @change="value2Event">
+          <el-select
+            v-model="value2"
+            filterable
+            placeholder="请选择子仓类型"
+            @change="value2Event"
+          >
             <el-option
               v-for="item in childWarehouseType"
               :key="item.value"
@@ -379,9 +384,9 @@ export default {
         input8_input.style.display = "none";
       }
     },
-    value2Event(val){
-      this.value2 = val
-    }
+    value2Event(val) {
+      this.value2 = val;
+    },
   },
 };
 </script>

@@ -238,6 +238,7 @@ textarea {
 .closeIcon{
   width: 14px;
   height: 14px;
+  cursor: pointer;
   background: #333333;
   background: url(../img/close.png) center center no-repeat;
   background-size:cover ;
