@@ -99,7 +99,6 @@ export default {
               //将请求回来的数据全部存储到vuex里面，使用this.$store.state.loginRequest.loginData调用查看
               this.$store.dispatch("loginRequest", ok.data.result);
               // console.log(this.$store.state.loginRequest.loginData);
-              this.$router.push("/index");
               //点击登录时，将用户名和密码存储到cookies中
               this.$cookie.set("userName", this.dataForm.userName);
               this.$cookie.set("password", this.dataForm.password);
@@ -107,6 +106,7 @@ export default {
               this.$cookie.set("userType", ok.data.result.user.userType);
               this.$cookie.set("X-Auth-wareId", ok.data.result.user.wareId);
               this.$cookie.set("X-Auth-user", ok.data.result.user.id);
+              this.$router.push("/index/indexFormJH");
               //四个小时后清除用户名和密码
               setTimeout(() => {
                 this.$cookie.delete("userName");
@@ -116,17 +116,7 @@ export default {
                 this.$cookie.delete("X-Auth-wareId");
                 this.$cookie.delete("X-Auth-user");
               }, 14400000);
-            } else if (ok.data.code === "AM000001") {
-              this.$message({
-                type: "error",
-                message: ok.data.msg,
-              });
-            } else if (ok.data.code === "AM000005") {
-              this.$message({
-                type: "error",
-                message: ok.data.msg,
-              });
-            } else if (ok.data.code === "AM000014") {
+            } else {
               this.$message({
                 type: "error",
                 message: ok.data.msg,

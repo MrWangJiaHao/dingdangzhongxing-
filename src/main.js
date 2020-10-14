@@ -4,7 +4,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
-import iView from 'iview';
+import { DatePicker } from 'iview';
 import 'iview/dist/styles/iview.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -16,11 +16,11 @@ import qrcode from './assets/js/qrcode'
 import "./assets/js/rem";
 import $ from 'jquery'
 Vue.prototype.$ = $
-
-Vue.use(Lodop).use(qrcode)
+Vue.component('DatePicker', DatePicker)
+Vue.use(Lodop)
 Vue.use(VueCookie)
 
-Vue.use(ElementUI).use(iView)
+Vue.use(ElementUI).use(qrcode)
 Vue.prototype.$axios = axios
 
 // import 'lib-flexible'

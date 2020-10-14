@@ -344,7 +344,6 @@ export default {
   bottom: 0;
   right: 0;
   left: 0;
-
   .headerBox {
     height: 50px;
     border-radius: 3px;
