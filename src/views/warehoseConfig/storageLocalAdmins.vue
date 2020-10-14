@@ -142,6 +142,7 @@
           @selection-change="handleSelectionChange"
           :stripe="true"
           tooltip-effect="dark"
+          max-height="570"
         >
           <el-table-column type="selection" width="55"> </el-table-column>
           <el-table-column label="序号" align="center" type="index" width="55">
@@ -219,6 +220,7 @@ import {
   query_WH_Request,
   querySLInforCon,
   queryAreaOfWS,
+  areaShelfQuery
 } from "../../api/api";
 import { Message } from "element-ui";
 import pagecomponent from "../../components/commin/pageComponent";
@@ -296,6 +298,11 @@ export default {
       },
       captchaPath: "",
       ImgsrcArr: [],
+      areaShelfQueryData: {
+        id: "",
+        wareAreaId: "",
+      },
+      shelfResList:[]
     };
   },
   mounted() {
@@ -468,9 +475,24 @@ export default {
     areaNameValues(value) {
       this.areaNameValue = value;
       this.CSandareaData.forEach((v) => {
+        console.log(v)
         if (value === v.wareAreaName) {
           this.SLInforData.wareAreaId = v.id;
+          this.areaShelfQueryData.wareAreaId = v.id;
         }
+      });
+
+      let areaShelfQueryData = this.areaShelfQueryData;
+      areaShelfQuery(areaShelfQueryData).then((ok) => {
+        if(ok.data.code === "10000"){
+          this.shelfResList = ok.data.result
+          this.shelfResList.forEach((v)=>{
+            this.shelfNameData.push({
+              value:v.shelfName,
+              label:v.shelfName,
+            })
+          })
+        } 
       });
     },
     chooseItem(event) {
@@ -486,6 +508,11 @@ export default {
     },
     shelfNameValues(value) {
       this.shelfNameValue = value;
+      this.shelfResList.forEach((v)=>{
+        if(value === v.shelfName){
+          this.SLInforData.wareShelfId = v.id
+        }
+      })
     },
     tierChooseValues(value) {
       this.tierChooseValue = value;

@@ -6,6 +6,7 @@
       style="width: 100%"
       :stripe="true"
       tooltip-effect="dark"
+      max-height="300"
     >
       <el-table-column label="序号" align="center" type="index" width="55">
       </el-table-column>

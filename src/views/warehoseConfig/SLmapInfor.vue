@@ -263,6 +263,7 @@ import {
   querySLInforCon,
   prodStoreMap,
   queryAreaOfWS,
+  areaShelfQuery,
 } from "../../api/api";
 import { Message } from "element-ui";
 
@@ -319,18 +320,22 @@ export default {
         id: "",
       },
       CSandareaData: [],
-      choosedKuWeiData:[],
+      choosedKuWeiData: [],
+      areaShelfQueryData: {
+        id: "",
+        wareAreaId: "",
+      },
+      shelfResList:[]
     };
   },
   mounted() {
     // this.choosedKuWeiData = this.$store.state.fromDataRequest.fromData
-    this.choosedKuWeiData = this.$route.query.datas
-    console.log(this.choosedKuWeiData)
-    this.delegaCompanyValue = this.choosedKuWeiData[0].delegaCompany
-    this.productNameValue = this.choosedKuWeiData[0].productName
-    this.productCodeValue = this.choosedKuWeiData[0].productNumber
-    this.specificationValue = this.choosedKuWeiData[0].producTspecifica
-    this.ProdBrandName = this.choosedKuWeiData[0].brand
+    // this.choosedKuWeiData = this.$route.query.datas
+    // this.delegaCompanyValue = this.choosedKuWeiData[0].delegaCompany
+    // this.productNameValue = this.choosedKuWeiData[0].productName
+    // this.productCodeValue = this.choosedKuWeiData[0].productNumber
+    // this.specificationValue = this.choosedKuWeiData[0].producTspecifica
+    // this.ProdBrandName = this.choosedKuWeiData[0].brand
     let data = {
       wareId: "2A8B48391F4F4EB5BDEDF9EBA0B6BAE7",
       orgId: "4C2F466B16E94451B942EBBD07BE0F8B",
@@ -436,19 +441,35 @@ export default {
       this.CSandareaData.forEach((v) => {
         if (value === v.wareAreaName) {
           this.SLInforData.wareAreaId = v.id;
+          this.areaShelfQueryData.wareAreaId = v.id;
         }
+      });
+      let areaShelfQueryData = this.areaShelfQueryData;
+      areaShelfQuery(areaShelfQueryData).then((ok) => {
+        console.log(ok)
+        if(ok.data.code === "10000"){
+          this.shelfResList = ok.data.result
+          this.shelfResList.forEach((v)=>{
+            this.storeShelfData.push({
+              value:v.shelfName,
+              label:v.shelfName,
+            })
+          })
+        } 
       });
     },
     chooseItem(event) {
       if (event) {
         this.storeAreaData = [];
       }
-      // if(event === false){
-      //   console.log(this.SLInforData)
-      // }
     },
-    storeShelfValues(v) {
-      this.storeShelfValue = v;
+    storeShelfValues(value) {
+      this.storeShelfValue = value;
+      this.shelfResList.forEach((v)=>{
+        if(value === v.shelfName){
+          this.SLInforData.wareShelfId = v.id
+        }
+      })
     },
     pickAreaValues(v) {
       this.pickAreaValue = v;
@@ -503,9 +524,9 @@ export default {
             prodUnit: "箱",
             seatId: "310EB10F222645CE96E8ADB0BD9CAF2D",
             seatType: "0",
-          }
-        ]
-      }
+          },
+        ],
+      };
       prodStoreMap(requestData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
@@ -513,7 +534,7 @@ export default {
             type: "success",
             message: "绑定成功",
           });
-        }else{
+        } else {
           Message({
             type: "error",
             message: ok.data.msg,
