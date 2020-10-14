@@ -314,27 +314,23 @@ export default {
         wareShelfId: "", //仓库货架id
       },
       inforData: [],
-
-      requestData: {
-        prodId: "031B18740CFC4D3A81782AF884AFF634",
-        seatDatas: [
-          {
-            maxNum: 10,
-            minNum: "",
-            prodUnit: "箱",
-            seatId: "310EB10F222645CE96E8ADB0BD9CAF2D",
-            seatType: "0",
-          },
-        ],
-      },
       areaData: {
         childWareId: "",
         id: "",
       },
       CSandareaData: [],
+      choosedKuWeiData:[],
     };
   },
   mounted() {
+    // this.choosedKuWeiData = this.$store.state.fromDataRequest.fromData
+    this.choosedKuWeiData = this.$route.query.datas
+    console.log(this.choosedKuWeiData)
+    this.delegaCompanyValue = this.choosedKuWeiData[0].delegaCompany
+    this.productNameValue = this.choosedKuWeiData[0].productName
+    this.productCodeValue = this.choosedKuWeiData[0].productNumber
+    this.specificationValue = this.choosedKuWeiData[0].producTspecifica
+    this.ProdBrandName = this.choosedKuWeiData[0].brand
     let data = {
       wareId: "2A8B48391F4F4EB5BDEDF9EBA0B6BAE7",
       orgId: "4C2F466B16E94451B942EBBD07BE0F8B",
@@ -467,7 +463,7 @@ export default {
       let SLInforData = this.SLInforData;
       querySLInforCon(SLInforData).then((ok) => {
         if (ok.data.code === "10000") {
-          console.log(ok);
+          // console.log(ok);
           let res = ok.data.result;
           res.forEach((v) => {
             this.inforData.push({
@@ -498,9 +494,20 @@ export default {
     },
     submitData() {
       //提交按钮
-      let requestData = this.requestData;
+      let requestData = {
+        prodId: this.prodId,
+        seatDatas: [
+          {
+            maxNum: 10,
+            minNum: "",
+            prodUnit: "箱",
+            seatId: "310EB10F222645CE96E8ADB0BD9CAF2D",
+            seatType: "0",
+          }
+        ]
+      }
       prodStoreMap(requestData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           Message({
             type: "success",

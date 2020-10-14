@@ -43,6 +43,7 @@
                 v-model="nameValue"
                 placeholder="请选择子仓名称"
                 @change="nameValues"
+              @visible-change="chooseItem"
               >
                 <el-option
                   v-for="item in childWarehouseName"
@@ -206,7 +207,11 @@
 </template>
 
 <script>
-import { query_WH_Request, storeMapRelation } from "../../api/api";
+import {
+  query_WH_Request,
+  storeMapRelation,
+  queryAreaOfWS,
+} from "../../api/api";
 import MapForm from "@/components/mapForm";
 import { Message } from "element-ui";
 export default {
@@ -243,23 +248,32 @@ export default {
       pickAreaData: [],
       pickShelfData: [],
       pickTierfData: [],
-      pagingQueryData: {
-        //分页查询
-        pageNumber: 1,
-        pageSize: 10,
-        paras: {
-          orgId: "4C2F466B16E94451B942EBBD07BE0F8B", //委托公司id
-          prodName: "", //产品名称
-          prodCode: "", //产品编码
-          childWareId: "", //子仓id
-          wareAreaId: "", //区域id
-        },
-      },
+
       multipleSelection: [],
       pageComponentsData: {
         //这是分页器需要的json
         pageNums: 0, //一共多少条 //默认一页10条
       },
+      childStoreData: [],
+      pagingQueryData: {
+        //分页查询
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          childWareId: "", //子仓ID
+          wareAreaId: "", //区域ID
+          wareAreaType: "", //区域类型
+          wareShelfId: "", //货架
+          shelfLevelNum: "", //货架层数
+          wareSeatCode: "", //库位编号
+          id: "", //货架ID
+        },
+      },
+      areaData: {
+        childWareId: "",
+        id: "",
+      },
+      CSandareaData: [],
     };
   },
   mounted() {
@@ -269,10 +283,10 @@ export default {
     let queryData = this.pagingQueryData;
     query_WH_Request(queryData).then((ok) => {
       if (ok.data.code === "10000") {
-        let CWNameList = ok.data.result.list;
-        CWNameList.forEach((v, i) => {
+        this.childStoreData = ok.data.result.list;
+        this.childStoreData.forEach((v) => {
           this.childWarehouseName.push({
-            value: i,
+            value: v.childWareName,
             label: v.childWareName,
           });
         });
@@ -283,36 +297,84 @@ export default {
         });
       }
     });
+
+    let data1 = this.areaData;
+    queryAreaOfWS(data1).then((ok) => {
+      // console.log(ok);
+      if (ok.data.code === "10000") {
+        this.CSandareaData = ok.data.result;
+      }
+    });
   },
   methods: {
-    delegaCompanyValues(v) {
-      this.delegaCompanyValue = v;
+    delegaCompanyValues(value) {
+      this.delegaCompanyValue = value;
     },
-    nameValues(v) {
-      this.nameValue = v;
+    nameValues(value) {
+      this.nameValue = value;
+      this.childStoreData.forEach((v) => {
+        if (value === v.childWareName) {
+          this.pagingQueryData.paras.childWareId = v.id;
+        }
+      });
+
+      this.CSandareaData.forEach((v) => {
+        if (value === v.childWareName) {
+          this.placeAreaData.push({
+            value: v.wareAreaName,
+            label: v.wareAreaName,
+          });
+        }
+      });
     },
-    placeAreaValues(v) {
-      this.placeAreaValue = v;
+    placeAreaValues(value) {
+      this.placeAreaValue = value;
+      this.pagingQueryData.paras.prodCode = value;
+      this.CSandareaData.forEach((v) => {
+        if (value === v.wareAreaName) {
+          this.SLInforData.wareAreaId = v.id;
+        }
+      });
     },
-    placeShelfValues(v) {
-      this.placeShelfValue = v;
+
+    chooseItem(event) {
+      if (event) {
+        this.placeAreaData = [];
+      }
+      // if(event === false){
+      //   console.log(this.SLInforData)
+      // }
     },
-    placeTierValues(v) {
-      this.placeTierValue = v;
+    placeShelfValues(value) {
+      this.placeShelfValue = value;
     },
-    pickAreaValues(v) {
-      this.pickAreaValue = v;
+    placeTierValues(value) {
+      this.placeTierValue = value;
     },
-    pickShelfValues(v) {
-      this.pickShelfValue = v;
+    pickAreaValues(value) {
+      this.pickAreaValue = value;
     },
-    pickTierValues(v) {
-      this.pickTierValue = v;
+    pickShelfValues(value) {
+      this.pickShelfValue = value;
+    },
+    pickTierValues(value) {
+      this.pickTierValue = value;
     },
     clickQuery() {
       //点击查询
       this.tableData = [];
-      let queryData = this.pagingQueryData;
+      let queryData = {
+        //分页查询
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          orgId: "4C2F466B16E94451B942EBBD07BE0F8B", //委托公司id
+          prodName: this.productName, //产品名称
+          prodCode: this.productCode, //产品编码
+          childWareId: this.pagingQueryData.paras.childWareId, //子仓id
+          wareAreaId: "", //区域id
+        },
+      };
       storeMapRelation(queryData).then((ok) => {
         console.log(ok);
         if (ok.data.code === "10000") {
@@ -326,14 +388,20 @@ export default {
               brand: v.braName,
               CHName: v.childWareName,
               storageArea: v.wareAreaName,
-              storageShelf: v.wareSeatNo.split('-')[1],
-              storageTier: v.wareSeatNo.split('-')[3],
+              storageShelf: v.wareSeatNo.split("-")[1],
+              storageTier: v.wareSeatNo.split("-")[3],
               storageUnit: v.wareSeatNo,
               createName: v.createUser,
               createTime: v.createTime,
               id: v.id,
             });
           });
+          if (resData.length === 0) {
+            Message({
+              type: "error",
+              message: "查询失败",
+            });
+          }
         } else {
           Message({
             type: "error",
