@@ -253,18 +253,6 @@
               prop="noSeat"
               show-overflow-tooltip
             ></el-table-column>
-            <!-- <el-table-column
-              label="未使用面积(㎡)"
-              width="119"
-              prop="createUser"
-              show-overflow-tooltip
-            ></el-table-column>
-            <el-table-column
-              label="已使用面积(㎡)"
-              width="119"
-              prop="createUser"
-              show-overflow-tooltip
-            ></el-table-column> -->
             <el-table-column
               label="创建人"
               width="120"

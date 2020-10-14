@@ -40,7 +40,6 @@
             </div>
           </div>
         </div>
-
         <div class="roleName-botton">
           <div class="queryBtn" @click="clickQuery">查询</div>
           <div class="clearBtn" @click="clearInput">清空</div>
