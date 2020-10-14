@@ -184,21 +184,21 @@
       <div class="formTabs">
         <el-tabs type="card">
           <el-tab-pane label="存储区库位">
-            <MapForm
+            <MapForms
               :storageArea="storageArea1"
               :storageShelf="storageShelf1"
               :storageTier="storageTier1"
               :storageUnit="storageUnit1"
               :tableData="tableData"
-            ></MapForm>
+            ></MapForms>
           </el-tab-pane>
           <el-tab-pane label="拣货区库位">
-            <MapForm
+            <MapForms
               :storageArea="storageArea2"
               :storageShelf="storageShelf2"
               :storageTier="storageTier2"
               :storageUnit="storageUnit2"
-            ></MapForm>
+            ></MapForms>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -212,10 +212,11 @@ import {
   storeMapRelation,
   queryAreaOfWS,
 } from "../../api/api";
-import MapForm from "@/components/mapForm";
+// import MapForm from "@/components/mapForm";
+import MapForms from "../../components/mapForms";
 import { Message } from "element-ui";
 export default {
-  components: { MapForm },
+  components: { MapForms },
   data() {
     return {
       tableData: [],

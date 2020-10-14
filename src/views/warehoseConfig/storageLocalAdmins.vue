@@ -266,6 +266,11 @@ export default {
         id: "",
       },
       CSandareaData: [],
+
+      codeData : {
+        code: "B2-C02-007-1-3",
+      },
+      captchaPath:""
     };
   },
   mounted() {
@@ -384,10 +389,14 @@ export default {
     },
     printSLCode() {
       //打印条形码图片
-      //后台没有返回数据
-      let codeData = {
-        code: "B2-C02-007-1-3",
-      };
+       this.captchaPath =
+        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=" +
+        this.codeData.code;
+      let blob = new Blob([this.captchaPath], { type: "image/jpeg" });
+     
+        console.log(blob)
+      
+      let codeData = this.codeData
       getBarCodeImg(codeData).then((ok) => {
         console.log(ok);
       });

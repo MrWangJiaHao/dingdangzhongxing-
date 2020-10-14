@@ -26,18 +26,18 @@
       ></el-table-column>
       <el-table-column prop="prodUnit" label="存放单位" align="center">
         <el-select
-                v-model="prodUnit"
-                placeholder="请选择单位"
-                @change="prodUnits"
-              >
-                <el-option
-                  v-for="item in prodUnitData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
+          v-model="prodUnit"
+          placeholder="请选择单位"
+          @change="prodUnits"
+        >
+          <el-option
+            v-for="item in prodUnitData"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
       </el-table-column>
       <el-table-column prop="MaxNumberInput" label="最大存放数" align="center">
         <el-input v-model="MaxNumberInput"></el-input>
@@ -65,27 +65,26 @@ export default {
         pageNums: 0, //一共多少条 //默认一页10条
       },
       MaxNumberInput: "",
-      prodUnit:"个",
-      prodUnitData:[
+      prodUnit: "个",
+      prodUnitData: [
         {
-          value:"箱",
-          label:"箱",
+          value: "箱",
+          label: "箱",
         },
         {
-          value:"个",
-          label:"个",
+          value: "个",
+          label: "个",
         },
-      ]
+      ],
     };
   },
   mounted() {},
   methods: {
-    prodUnits(value){
-      this.prodUnit = value
+    prodUnits(value) {
+      this.prodUnit = value;
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
-      console.log(value)
       this.$store.dispatch("PFSRequestAct", value);
     },
     getPageNum(e) {
