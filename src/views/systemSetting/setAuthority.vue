@@ -5,35 +5,20 @@
         <div class="title">设置权限</div>
         <div class="icon el-icon-close" @click="goBack"></div>
       </div>
-      <el-tabs
-        :tab-position="tabPosition"
-        style="height: 520px"
-        :stretch="true"
-      >
-        <el-tab-pane
-          :label="pageDataArr[i].title"
-          v-for="(v, i) in pageDataArr"
-          :key="i"
-        >
-          <div class="checkBoxDiv">
-            <el-checkbox
-              :indeterminate="isIndeterminate"
-              v-model="checkAll"
-              @change="handleCheckAllChange"
-              >全选</el-checkbox
-            >
-            <div style="margin: 15px 0"></div>
-            <el-checkbox-group
-              v-model="checkedCities"
-              @change="handleCheckedCitiesChange"
-            >
-              <el-checkbox v-for="city in cities" :label="city" :key="city">{{
-                city
-              }}</el-checkbox>
-            </el-checkbox-group>
-          </div>
-        </el-tab-pane>
-      </el-tabs>
+      <div class="mainBox">
+        <div class="authName">
+          <el-tree
+            :data="Treedata"
+            show-checkbox
+            node-key="id"
+            :default-expanded-keys="[2, 3]"
+            :default-checked-keys="[5]"
+            :props="defaultProps"
+          >
+          </el-tree>
+        </div>
+        <div class="authChoose"></div>
+      </div>
       <div class="submit-cancel">
         <el-button @click="goBack">取 消</el-button>
         <el-button type="primary" @click="submitData">提 交</el-button>
@@ -48,17 +33,15 @@ import { jurisdicRequest } from "../../api/api";
 
 //这是设置角色权限的页面
 
-const cityOptions = ["上海", "北京", "广州", "深圳"];
 export default {
   data() {
     return {
-      tabPosition: "left",
+      Treedata: [],
+      defaultProps: {
+        children: "children",
+        label: "label",
+      },
       pageDataArr: [],
-      selected: "",
-      checkAll: false,
-      checkedCities: [],
-      cities: cityOptions,
-      isIndeterminate: true,
     };
   },
   mounted() {
@@ -69,7 +52,18 @@ export default {
     };
     jurisdicRequest(data).then((ok) => {
       console.log(ok);
-      this.pageDataArr = ok.data.result;
+      if (ok.data.code === "10000") {
+        this.pageDataArr = ok.data.result;
+        this.pageDataArr.forEach((v, i) => {
+          this.Treedata.push({
+            id: i,
+            label: v.title,
+          });
+          v.children.forEach((value, index) => {
+            console.log(value, index);
+          });
+        });
+      }
     });
   },
   methods: {
@@ -79,17 +73,6 @@ export default {
     submitData() {
       //提交按钮
       this.$router.push({ path: "/systemSetting/userControl" });
-    },
-    handleCheckAllChange(val) {
-      this.checkedCities = val ? cityOptions : [];
-      this.isIndeterminate = false;
-    },
-    handleCheckedCitiesChange(value) {
-      let checkedCount = value.length;
-      this.checkAll = checkedCount === this.cities.length;
-      this.isIndeterminate =
-        checkedCount > 0 && checkedCount < this.cities.length;
-      console.log(value);
     },
   },
 };
@@ -113,6 +96,18 @@ export default {
   background: #ecf1f7;
   box-shadow: 0px 0px 10px 5px #e4e6e9;
   margin: auto;
+  .mainBox {
+    display: flex;
+    height: 520px;
+    .authName {
+      width: 200px;
+      height: 100%;
+    }
+    .authChoose {
+      width: 670px;
+      height: 100%;
+    }
+  }
 }
 
 .title-icon {
@@ -142,8 +137,4 @@ export default {
 }
 </style>
 <style lang="scss">
-.AuthorityPage .el-tabs__content {
-  position: relative;
-  padding: 50px;
-}
 </style>
