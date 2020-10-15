@@ -17,14 +17,10 @@ const service = axios.create({
     "X-Auth-user": getCookie("X-Auth-user"),
     "X-Auth-name": getCookie("userName"),
     "X-Auth-wareName": "",
+    "X-Auth-Id": "AA4EBC35E2544E7688E2F4230F3F5E30",
+    "X-Auth-orgId": "FC4AD500BE8E4B5FB58CCAE7B519FB6F"
   }
 })
-//"X-Auth-orgId":"FC4AD500BE8E4B5FB58CCAE7B519FB6F",
-// 'Content-Type': 'application/json; charset=utf-8',
-// "appNo": "F94CB9F5262F46DCB171CECD6FE1193B",
-// "userType": 4,
-// "X-Auth-Token": "7ad69c50-3374-4ff7-9da8-13541f371845",
-// "X-Auth-wareId": "43C86919FC7E4360838AA522B361A242"
 
 /**
  * 请求拦截

@@ -14,6 +14,8 @@ import VueCookie from 'vue-cookie'
 import Lodop from './assets/js/LodopFuncs'
 import qrcode from './assets/js/qrcode'
 import "./assets/js/rem";
+
+
 // import $ from 'jquery'
 // Vue.prototype.$ = $
 Vue.component('DatePicker', DatePicker)

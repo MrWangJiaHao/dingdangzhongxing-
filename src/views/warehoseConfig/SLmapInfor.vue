@@ -140,6 +140,7 @@
                 v-model="storeShelfValue"
                 placeholder="请选择货架"
                 @change="storeShelfValues"
+                
               >
                 <el-option
                   v-for="item in storeShelfData"
