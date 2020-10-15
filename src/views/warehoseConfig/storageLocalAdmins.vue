@@ -220,7 +220,7 @@ import {
   query_WH_Request,
   querySLInforCon,
   queryAreaOfWS,
-  areaShelfQuery
+  areaShelfQuery,
 } from "../../api/api";
 import { Message } from "element-ui";
 import pagecomponent from "../../components/commin/pageComponent";
@@ -302,7 +302,7 @@ export default {
         id: "",
         wareAreaId: "",
       },
-      shelfResList:[]
+      shelfResList: [],
     };
   },
   mounted() {
@@ -317,7 +317,7 @@ export default {
           this.tableData.push({
             CWName: v.childWareName,
             areaName: v.wareAreaName,
-            areaType: "",
+            areaType: v.wareAreaType === 0 ? "存储区" : "拣货区",
             areaNumber: v.wareSeatCode.substring(0, 2),
             shelfName: v.wareSeatCode.substring(3, 6),
             tierChoose: v.wareSeatCode.substring(7, 10),
@@ -380,6 +380,22 @@ export default {
   methods: {
     clickQuery() {
       //点击查询
+      if (this.nameValue === "") {
+        return Message({
+          type: "error",
+          message: "请选择子仓名称",
+        });
+      } else if (this.areaNameValue === "") {
+        return Message({
+          type: "error",
+          message: "请选择区域名称",
+        });
+      } else if (this.areaTypeValue === "") {
+        return Message({
+          type: "error",
+          message: "请选择区域类型",
+        });
+      }
       this.tableData = [];
       let SLInforData = this.SLInforData;
       querySLInforCon(SLInforData).then((ok) => {
@@ -475,7 +491,6 @@ export default {
     areaNameValues(value) {
       this.areaNameValue = value;
       this.CSandareaData.forEach((v) => {
-        console.log(v)
         if (value === v.wareAreaName) {
           this.SLInforData.wareAreaId = v.id;
           this.areaShelfQueryData.wareAreaId = v.id;
@@ -484,15 +499,15 @@ export default {
 
       let areaShelfQueryData = this.areaShelfQueryData;
       areaShelfQuery(areaShelfQueryData).then((ok) => {
-        if(ok.data.code === "10000"){
-          this.shelfResList = ok.data.result
-          this.shelfResList.forEach((v)=>{
+        if (ok.data.code === "10000") {
+          this.shelfResList = ok.data.result;
+          this.shelfResList.forEach((v) => {
             this.shelfNameData.push({
-              value:v.shelfName,
-              label:v.shelfName,
-            })
-          })
-        } 
+              value: v.shelfName,
+              label: v.shelfName,
+            });
+          });
+        }
       });
     },
     chooseItem(event) {
@@ -508,11 +523,11 @@ export default {
     },
     shelfNameValues(value) {
       this.shelfNameValue = value;
-      this.shelfResList.forEach((v)=>{
-        if(value === v.shelfName){
-          this.SLInforData.wareShelfId = v.id
+      this.shelfResList.forEach((v) => {
+        if (value === v.shelfName) {
+          this.SLInforData.wareShelfId = v.id;
         }
-      })
+      });
     },
     tierChooseValues(value) {
       this.tierChooseValue = value;

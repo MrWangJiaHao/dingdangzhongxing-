@@ -410,9 +410,9 @@ export default {
           this.productCodeValue = v.prodCode;
           this.specificationValue = v.specName + "ml";
           this.ProdBrandName = v.braName;
-          this.ProdLength = v.ProdLength;
-          this.ProdWidth = v.ProdWidth;
-          this.ProdHeight = v.ProdHeight;
+          this.ProdLength = v.ProdLength ? v.ProdLength : "0";
+          this.ProdWidth = v.ProdWidth ? v.ProdWidth : "0";
+          this.ProdHeight = v.ProdHeight ? v.ProdHeight : "0";
           this.prodId = v.id;
         }
       });
@@ -493,8 +493,8 @@ export default {
               shelfName: v.wareShelfName,
               tierChoose: v.wareSeatCode,
               storageLocalChoose: v.wareSeatCode,
-              prodUnit: "箱",
-              MaxNumberInput: "10",
+              prodUnit: "",
+              MaxNumberInput: "",
               seatId: v.id,
             });
           });
@@ -534,6 +534,7 @@ export default {
             type: "success",
             message: "绑定成功",
           });
+          this.$router.push('/warehoseconfig/storageLocalMap')
         } else {
           Message({
             type: "error",
