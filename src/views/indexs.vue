@@ -243,6 +243,68 @@ export default {
   },
   data() {
     return {
+      dataArr: [
+        {
+          title: "仓库配置",
+        },
+        {
+          title: "发货规则配置",
+        },
+        {
+          title: "发货管理",
+        },
+        {
+          title: "复核配置",
+        },
+        {
+          title: "采购管理",
+        },
+        {
+          title: "入库管理",
+        },
+        {
+          title: "出库管理",
+        },
+        {
+          title: "货品移位",
+        },
+        {
+          title: "报损管理",
+        },
+        {
+          title: "报损管理",
+        },
+        {
+          title: "PDA操作",
+        },
+        {
+          title: "借调管理",
+        },
+        {
+          title: "库存管理",
+        },
+        {
+          title: "库存盘点",
+        },
+        {
+          title: "物料中心",
+        },
+        {
+          title: "物流公司信息",
+        },
+        {
+          title: "客户信息",
+        },
+        {
+          title: "设备管理",
+        },
+        {
+          title: "统计",
+        },
+        {
+          title: "系统管理",
+        },
+      ],
       activeName: "first",
       dropdownArr1: [
         { text: "供应商管理", img: "" },
@@ -260,7 +322,6 @@ export default {
         { text: "库位管理", img: "" },
         { text: "库位映射", img: "" },
       ],
-      //订单类型(0-手工创建；1-渠道创建 2-预入库 3-采购 4-库建调拨 5-加工作业 6-分解作业 7-退货 8-盘盈 9-其他）
       warehousingManagementArr: [
         {
           text: "手工创建入库",

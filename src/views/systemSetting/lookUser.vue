@@ -14,7 +14,7 @@
               <div class="displayalign">
                 <div class="noneIconTitle mr11">
                   用户姓名
-                  <span style="color:red;">*</span>:
+                  <span style="color: red">*</span>:
                 </div>
                 <div class="mr20">
                   <el-input
@@ -31,7 +31,7 @@
               <div class="displayalign">
                 <div class="noneIconTitle mr11">
                   联系电话
-                  <span style="color:red;">*</span>:
+                  <span style="color: red">*</span>:
                 </div>
                 <div class="mr20">
                   <el-input
@@ -50,12 +50,16 @@
               <div class="displayalign">
                 <div class="noneIconTitle mr11">
                   居住地址
-                  <span style="visibility: hidden;">*</span>:
+                  <span style="visibility: hidden">*</span>:
                 </div>
                 <div>
                   <el-input
                     disabled
-                    :placeholder="createUserData.provinceName?createUserData.provinceName:'未录入居住省'"
+                    :placeholder="
+                      createUserData.provinceName
+                        ? createUserData.provinceName
+                        : '未录入居住省'
+                    "
                     v-model="createUserData.provinceName"
                     clearable
                   ></el-input>
@@ -66,7 +70,11 @@
             <div class="mr20">
               <el-input
                 disabled
-                :placeholder="createUserData.cityName?createUserData.cityName:'未录入居住市'"
+                :placeholder="
+                  createUserData.cityName
+                    ? createUserData.cityName
+                    : '未录入居住市'
+                "
                 v-model="createUserData.cityName"
                 clearable
               ></el-input>
@@ -75,7 +83,11 @@
             <div>
               <el-input
                 disabled
-                :placeholder="createUserData.areaName?createUserData.areaName:'未录入居住区/县'"
+                :placeholder="
+                  createUserData.areaName
+                    ? createUserData.areaName
+                    : '未录入居住区/县'
+                "
                 v-model="createUserData.areaName"
                 clearable
               ></el-input>
@@ -84,7 +96,11 @@
           </div>
           <div class="textAreaBox">
             <textarea
-              :placeholder="createUserData.userAddr?createUserData.userAddr:'未录入详细地址'"
+              :placeholder="
+                createUserData.userAddr
+                  ? createUserData.userAddr
+                  : '未录入详细地址'
+              "
               disabled
               v-model="createUserData.userAddr"
               maxlength="200"
@@ -100,7 +116,7 @@
           <div class="displayalign">
             <div class="noneIconTitle mr11">
               用户账号
-              <span style="color:red;">*</span>:
+              <span style="color: red">*</span>:
             </div>
             <div class="mr20">
               <el-input
@@ -114,8 +130,8 @@
           <!-- 用户账号 -->
           <div class="displayalign">
             <div class="noneIconTitle mr11">
-              <span style="visibility: hidden;">你好</span>密码
-              <span style="color:red;">*</span>:
+              <span style="visibility: hidden">你好</span>密码
+              <span style="color: red">*</span>:
             </div>
             <div>
               <el-input
@@ -135,10 +151,15 @@
             <div class="displayalign">
               <div class="noneIconTitle mr11">
                 用户角色
-                <span style="color:red;">*</span>:
+                <span style="color: red">*</span>:
               </div>
               <div class="mr20">
-                <el-input disabled v-model="createUserData.createUser" clearable type="text"></el-input>
+                <el-input
+                  disabled
+                  v-model="createUserData.createUser"
+                  clearable
+                  type="text"
+                ></el-input>
               </div>
             </div>
           </div>
@@ -147,7 +168,7 @@
             <div class="displayalign">
               <div class="noneIconTitle mr11">
                 用户邮箱
-                <span style="color:red;">*</span>:
+                <span style="color: red">*</span>:
               </div>
               <div>
                 <el-input
@@ -166,14 +187,16 @@
         <div>
           <div class="dispalyFlex mb20">
             <div class="noneIconTitle mr11 fosi0">
-              <span class="fosi14" style="visibility: hidden;">你好</span>
+              <span class="fosi14" style="visibility: hidden">你好</span>
               <span class="fosi14">备注</span>
-              <span class="fosi14" style="visibility: hidden;">好</span>
+              <span class="fosi14" style="visibility: hidden">好</span>
               <span class="fosi14">:</span>
             </div>
             <div class="bzTetxArea">
               <textarea
-                :placeholder="createUserData.remark?createUserData.remark:'未录入备注'"
+                :placeholder="
+                  createUserData.remark ? createUserData.remark : '未录入备注'
+                "
                 disabled
                 v-model="createUserData.remark"
                 maxlength="200"
@@ -250,7 +273,7 @@ export default {
         roleId,
         loginPwdOriginal,
         remark,
-        createUser
+        createUser,
       } = this.editUser;
       this.createUserData.userName = userName;
       this.createUserData.userPhone = userPhone;

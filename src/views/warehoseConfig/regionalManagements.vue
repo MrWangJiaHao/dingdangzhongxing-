@@ -9,7 +9,7 @@
             <el-select
               v-model="pagingQueryData.paras.childWareName"
               slot="prepend"
-              :placeholder="nameOfSubWareHouse.placeholder"
+              placeholder="请选择子仓名称"
               @input="getwareHouseValue"
             >
               <el-option
@@ -28,7 +28,7 @@
             <div class="mr20">
               <el-select
                 v-model="wareAreaTypeJson.wareAreaName"
-                :placeholder="areaType.placeholder"
+                placeholder="请选择区域类型"
                 @input="getAreaValue"
               >
                 <el-option
@@ -49,7 +49,7 @@
               <el-select
                 v-model="pagingQueryData.paras.wareAreaName"
                 slot="prepend"
-                :placeholder="AreaName.placeholder"
+                placeholder="请选择区域名称"
                 @change="getAreaNameValue"
                 @focus="getQuYuData"
               >
@@ -58,7 +58,7 @@
                   :key="idx"
                   :label="item.wareAreaName"
                   :value="idx"
-                ></el-option>
+                   ></el-option>
               </el-select>
             </div>
           </div>
