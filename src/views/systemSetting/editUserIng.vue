@@ -345,7 +345,7 @@ export default {
         areaCode,
         loginPwdOriginal,
         id,
-        orgId
+        orgId,
       } = this.editUser;
       this.createUserData.orgId = orgId;
       this.createUserData.userName = userName;

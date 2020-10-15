@@ -27,7 +27,8 @@
       ></el-table-column>
       <el-table-column prop="prodUnit" label="存放单位" align="center">
         <el-select
-          v-model="prodUnit"
+          slot-scope="scope"
+          v-model="scope.row.prodUnit"
           placeholder="请选择单位"
           @change="prodUnits"
         >
@@ -41,7 +42,10 @@
         </el-select>
       </el-table-column>
       <el-table-column prop="MaxNumberInput" label="最大存放数" align="center">
-        <el-input v-model="MaxNumberInput"></el-input>
+        <el-input
+          slot-scope="scope"
+          v-model="scope.row.MaxNumberInput"
+        ></el-input>
       </el-table-column>
     </el-table>
   </div>
