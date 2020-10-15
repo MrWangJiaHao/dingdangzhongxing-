@@ -7,224 +7,69 @@
         </div>
       </div>
       <div class="el-nav">
-        <el-tabs type="card" @tab-click="handleClick" v-model="activeName">
-          <el-tab-pane name="first">
-            <div class="iconAndText" slot="label">
-              <router-link to="/index">
-                <img src="@/assets/img/warehouse-index.png" />
-                <div>首页</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to="">
-                <img src="@/assets/img/warehouse-config.png" />
-                <div>
-                  <el-dropdown trigger="click" @command="clickEvent3">
-                    <span class="el-dropdown-link">仓库配置</span>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item
-                        v-for="(v, i) in dropdownArr3"
-                        :key="i"
-                        :command="i"
-                        >{{ v.text }}</el-dropdown-item
-                      >
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to="/shipmentsRuleConfig">
-                <img src="@/assets/img/warehouse-shipmentsRuleConfig.png" />
-                <div>发货规则配置</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-shipments.png" />
-                <div>发货管理</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-reexamineConfig.png" />
-                <div>复核配置</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-procurementConfig.png" />
-                <div>采购管理</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-instorage.png" />
-                <el-dropdown trigger="click" @command="clickEvent4">
-                  <span class="el-dropdown-link">入库管理</span>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item
-                      v-for="(v, i) in warehousingManagementArr"
-                      :key="i"
-                      :command="i"
-                      >{{ v.text }}
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-outstorage.png" />
-                <div>出库管理</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-goodsGression.png" />
-                <div>货品移位</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-breakageConfig.png" />
-                <div>报损管理</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-warehouseWork.png" />
-                <div>仓库作业</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-PDAoperation.png" />
-                <div>PDA操作</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-adjustAdmin.png" />
-                <div>借调管理</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-inventoryAdmin.png" />
-                <div>库存管理</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-inventoryCheck.png" />
-                <div>库存盘点</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-suppliesCenter.png" />
-                <div>
-                  <el-dropdown trigger="click" @command="clickEvent3">
-                    <span class="el-dropdown-link">物料中心</span>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item
-                        v-for="(v, i) in dropdownArr1"
-                        :key="i"
-                        :command="i"
-                        >{{ v.text }}</el-dropdown-item
-                      >
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-logisticsInfor.png" />
-                <div>物流公司信息</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-clientInfor.png" />
-                <div>客户信息</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-equipmentManage.png" />
-                <div>设备管理</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-statistics.png" />
-                <div>统计</div>
-              </router-link>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane>
-            <div class="iconAndText" slot="label">
-              <router-link to>
-                <img src="@/assets/img/warehouse-systemManage.png" />
-                <div>
-                  <el-dropdown trigger="click" @command="clickEvent2">
-                    <span class="el-dropdown-link">系统管理</span>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item
-                        v-for="(v, i) in dropdownArr2"
-                        :key="i"
-                        :command="i"
-                        >{{ v.text }}</el-dropdown-item
-                      >
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </div>
-              </router-link>
+        <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane v-for="(navIndex, idx) in dataArr" :key="idx">
+            <div slot="label" v-if="navIndex.children">
+              <el-dropdown
+                trigger="click"
+                v-if="navIndex.children.length != 0"
+                @command="clickEventGoRouter"
+              >
+                <span class="el-dropdown-link">
+                  <img :src="navIndex.iconCls" /> {{ navIndex.title }}
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item
+                    v-for="(itemCenter, idx) in navIndex.children"
+                    :key="idx"
+                    :command="idx"
+                    >{{ itemCenter.title }}</el-dropdown-item
+                  >
+                </el-dropdown-menu>
+              </el-dropdown>
+              <div v-else>
+                <img :src="navIndex.iconCls" /> {{ navIndex.title }}
+              </div>
             </div>
           </el-tab-pane>
         </el-tabs>
       </div>
     </div>
+
+    <div class="dianjiqiehuan">
+      <div class="dianjiCenters">
+        <el-tabs
+          v-model="activeName"
+          type="card"
+          editable
+          @tab-remove="removeTab"
+          @tab-click="handleTabsEdit"
+        >
+          <el-tab-pane
+            :key="idx + 'dsadsa'"
+            v-for="(item, idx) in dropdownArr"
+            :label="item.title"
+            :name="'+' + idx"
+          >
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+    </div>
+    <!-- 可以删除的导航 -->
+    <div class="dianjiqiehuan" v-show="mianbaoxieArr.length">
+      <div class="mianbaoxie">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item
+            v-for="(item, idx) in mianbaoxieArr"
+            :key="idx + 'dsa'"
+            :to="{ path: item.name }"
+            >{{ item.title }}</el-breadcrumb-item
+          >
+        </el-breadcrumb>
+      </div>
+    </div>
+    <!-- 面包屑导航 -->
+
     <router-view></router-view>
     <div class="footerCom">
       <Footer></Footer>
@@ -243,119 +88,170 @@ export default {
   },
   data() {
     return {
+      tabIndex: 0,
       dataArr: [
         {
           title: "仓库配置",
+          name: "",
+          iconCls: require("@/assets/img/warehouse-config.png"),
+          children: [
+            { title: "子仓管理", name: "/warehoseconfig/childWarehouseAdmin" },
+            { title: "区域管理", name: "/warehoseconfig/regionalManagements" },
+            { title: "库位管理", name: "/warehoseconfig/storageLocalAdmins" },
+            { title: "库位映射", name: "/warehoseconfig/storageLocalMap" },
+          ],
         },
         {
           title: "发货规则配置",
+          iconCls: require("@/assets/img/warehouse-shipmentsRuleConfig.png"),
+          children: [],
         },
         {
           title: "发货管理",
+          iconCls: require("@/assets/img/warehouse-shipments.png"),
+          children: [],
         },
         {
           title: "复核配置",
+          iconCls: require("@/assets/img/warehouse-reexamineConfig.png"),
+          children: [],
         },
         {
           title: "采购管理",
+          iconCls: require("@/assets/img/warehouse-procurementConfig.png"),
+          children: [],
         },
         {
           title: "入库管理",
+          iconCls: require("@/assets/img/warehouse-instorage.png"),
+          children: [
+            {
+              title: "手工创建入库",
+              name: "/warehousingManagement/manualManagement/0",
+            }, //0
+            {
+              title: "采购调拨入库",
+              name: "/warehousingManagement/manualManagement/1",
+            }, //1
+            {
+              title: "预入库",
+              name: "/warehousingManagement/manualManagement/2",
+            }, //2
+            {
+              title: "采购预入库",
+              name: "/warehousingManagement/manualManagement/3",
+            }, //3
+            {
+              title: "调拨入库",
+              name: "/warehousingManagement/manualManagement/4",
+            }, //4
+            {
+              title: "加工入库",
+              name: "/warehousingManagement/manualManagement/5",
+            }, //5
+            {
+              title: "拆解入库",
+              name: "/warehousingManagement/manualManagement/6",
+            }, //6
+            {
+              title: "退货入库",
+              name: "/warehousingManagement/manualManagement/7",
+            }, //7
+            {
+              title: "盘盈入库",
+              name: "/warehousingManagement/manualManagement/8",
+            }, //8
+            {
+              title: "其他入库",
+              name: "/warehousingManagement/manualManagement/9",
+            }, //9
+          ],
         },
         {
           title: "出库管理",
+          iconCls: require("@/assets/img/warehouse-outstorage.png"),
+          children: [],
         },
         {
           title: "货品移位",
+          iconCls: require("@/assets/img/warehouse-goodsGression.png"),
+          children: [],
         },
         {
           title: "报损管理",
+          iconCls: require("@/assets/img/warehouse-breakageConfig.png"),
+          children: [],
         },
         {
-          title: "报损管理",
+          title: "仓库作业",
+          iconCls: require("@/assets/img/warehouse-warehouseWork.png"),
+          children: [],
         },
         {
           title: "PDA操作",
+          iconCls: require("@/assets/img/warehouse-PDAoperation.png"),
+          children: [],
         },
         {
           title: "借调管理",
+          iconCls: require("@/assets/img/warehouse-adjustAdmin.png"),
+          children: [],
         },
         {
           title: "库存管理",
+          iconCls: require("@/assets/img/warehouse-inventoryAdmin.png"),
+          children: [],
         },
         {
           title: "库存盘点",
+          iconCls: require("@/assets/img/warehouse-inventoryCheck.png"),
+          children: [],
         },
         {
           title: "物料中心",
+          iconCls: require("@/assets/img/warehouse-suppliesCenter.png"),
+          children: [
+            { title: "供应商管理", name: "" },
+            { title: "设备管理", name: "" },
+            { title: "物料中心", name: "" },
+            { title: "设备管理", name: "" },
+          ],
         },
         {
           title: "物流公司信息",
+          iconCls: require("@/assets/img/warehouse-logisticsInfor.png"),
+          children: [],
         },
         {
           title: "客户信息",
+          iconCls: require("@/assets/img/warehouse-clientInfor.png"),
+          children: [],
         },
         {
           title: "设备管理",
+          iconCls: require("@/assets/img/warehouse-equipmentManage.png"),
+          children: [],
         },
         {
           title: "统计",
+          iconCls: require("@/assets/img/warehouse-statistics.png"),
+          children: [],
         },
         {
           title: "系统管理",
+          iconCls: require("@/assets/img/warehouse-systemManage.png"),
+          children: [
+            { title: "用户管理", name: "/systemSetting/userSetting" },
+            { title: "角色管理", name: "/systemSetting/userControl" },
+          ],
         },
       ],
-      activeName: "first",
-      dropdownArr1: [
-        { text: "供应商管理", img: "" },
-        { text: "设备管理", img: "" },
-        { text: "物料中心", img: "" },
-        { text: "设备管理", img: "" },
-      ],
-      dropdownArr2: [
-        { text: "用户管理", img: "" },
-        { text: "角色管理", img: "" },
-      ],
-      dropdownArr3: [
-        { text: "子仓管理", img: "" },
-        { text: "区域管理", img: "" },
-        { text: "库位管理", img: "" },
-        { text: "库位映射", img: "" },
-      ],
-      warehousingManagementArr: [
-        {
-          text: "手工创建入库",
-        }, //0
-        {
-          text: "采购调拨入库",
-        }, //1
-        {
-          text: "预入库",
-        }, //2
-        {
-          text: "采购预入库",
-        }, //3
-        {
-          text: "调拨入库",
-        }, //4
-        {
-          text: "加工入库",
-        }, //5
-        {
-          text: "拆解入库",
-        }, //6
-        {
-          text: "退货入库",
-        }, //7
-        {
-          text: "盘盈入库",
-          nums: 8,
-        }, //8
-        {
-          text: "其他入库",
-        }, //9
-      ],
-      indxs: null,
+      activeName: "0",
+      dropdownArr: [],
+      mianbaoxieArr: [],
+      oldName: 0,
+      firstShow: true,
+      activeNames: 1,
     };
   },
   mounted() {
@@ -368,48 +264,121 @@ export default {
       // console.log(ok);
     });
   },
+  created() {
+    this.dataArr.unshift({
+      title: "首页",
+      name: "/index/indexFormJH",
+      iconCls: require("@/assets/img/warehouse-index.png"),
+      children: [],
+    });
+    this.dropdownArr.unshift({
+      title: "首页",
+      name: "/index/indexFormJH",
+    });
+    this.mianbaoxieArr.unshift();
+  },
   methods: {
-    handleClick(tab, event) {
-      // console.log(tab, event);
+    clickItemIdx(e) {
+      console.log(e, "点击item");
     },
-    clickEvent1(command) {
-      console.log(command);
+    //点击子
+    dianji(e) {
+      console.log(e, "dianji");
     },
-    clickEvent2(command) {
-      switch (command) {
-        case 0:
-          this.$router.push("/systemSetting/userSetting");
-          break;
-        case 1:
-          this.$router.push("/systemSetting/userControl");
-          break;
+    //点击选中
+    handleTabsEdit(e) {
+      let dataArrJson = this.dataArr[+this.activeName].children[0];
+      let mianbaoxieArrJson = this.dataArr[+this.activeName];
+      if (!this.mianbaoxieArr.includes(mianbaoxieArrJson)) {
+        this.mianbaoxieArr.unshift(mianbaoxieArrJson);
       }
+      this.mianbaoxieArr.splice(1, 1, dataArrJson);
     },
-    clickEvent3(command) {
-      switch (command) {
-        case 0:
-          this.$router.push("/warehoseconfig/childWarehouseAdmin");
-          break;
-        case 1:
-          this.$router.push("/warehoseconfig/regionalManagements");
-          break;
-        case 2:
-          this.$router.push("/warehoseconfig/storageLocalAdmins");
-          break;
-        case 3:
-          this.$router.push("/warehoseconfig/storageLocalMap");
-          break;
+    //点击删除
+    removeTab(e) {
+      let removeSrc = e.substring(e.length, e.length - 1);
+      if (!removeSrc) return;
+      this.dropdownArr.splice(removeSrc, 1);
+      this.mianbaoxieArr.splice(removeSrc, 1);
+    },
+    handleClick() {
+      let json = this.dataArr[+this.activeName];
+      console.log(+this.activeName, "handleClick");
+      //跳转路由
+      if (!this.dropdownArr.includes(json)) {
+        this.dropdownArr.push(this.dataArr[+this.activeName]);
       }
+      if (!this.mianbaoxieArr.includes(json)) {
+        this.mianbaoxieArr.push(this.dataArr[+this.activeName]);
+        this.mianbaoxieArr.splice(this.dataArr[+this.activeName].children[0]);
+      }
+      this.oldName = +this.activeName;
     },
-    clickEvent4(command) {
-      if (command === this.indxs) return;
-      this.$router.push("/warehousingManagement/manualManagement/" + command);
-      this.indxs = command;
+    clickEventGoRouter(e) {
+      let dataArrJson = this.dataArr[+this.activeName].children[e];
+      let mianbaoxieArrJson = this.dataArr[+this.activeName];
+      if (!this.mianbaoxieArr.includes(mianbaoxieArrJson)) {
+        this.mianbaoxieArr.unshift(mianbaoxieArrJson);
+      }
+      this.mianbaoxieArr.splice(1, 1, dataArrJson);
+      let router = this.dataArr[+this.activeName].children[e].name;
+      this.$router.push(router);
+      console.log(this.mianbaoxieArr);
     },
   },
 };
 </script>
-
+<style >
+.el-tabs__new-tab {
+  display: none;
+}
+.el-tabs__header {
+  margin: 0 0 0;
+}
+.el-tabs {
+  position: relative;
+  top: 1px;
+  left: 10px;
+  z-index: 10;
+}
+.el-tabs--card > .el-tabs__header .el-tabs__item {
+  border: 1px solid #ced4de;
+}
+.el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
+  border-bottom-color: #ced4de;
+}
+.mianbaoxie {
+  padding: 20px 10px;
+}
+.dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item:first-child {
+  border-left: 1px solid #ced4de !important;
+}
+.el-tabs__item.is-top.is-active.is-closable {
+  color: #000 !important;
+  border-bottom-color: #eef1f8 !important;
+}
+.el-breadcrumb__item {
+  display: flex;
+}
+.el-breadcrumb .el-breadcrumb__item:first-child::before {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 16px;
+  background: #5a9af4;
+  margin-right: 10px;
+}
+.el-tabs--card > .el-tabs__header .el-tabs__nav {
+  border: none;
+}
+.el-tabs__item.is-top.is-closable {
+  margin-right: 18px;
+}
+.el-tabs__item:hover {
+  color: #000;
+  cursor: pointer;
+}
+</style>
 <style scoped lang="scss">
 #headerMain {
   position: relative;
@@ -433,7 +402,14 @@ export default {
       }
     }
   }
-
+  .dianjiqiehuan {
+    padding: 0 20px;
+    background: #eef1f8;
+    border-bottom: 1px solid #ced4de;
+    .dianjiCenters {
+      padding-top: 20px;
+    }
+  }
   .header-title {
     width: 139px;
     height: 90px;
