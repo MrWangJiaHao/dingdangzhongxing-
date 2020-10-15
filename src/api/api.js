@@ -253,6 +253,21 @@ export function areaShelfQuery(data) {
     })
 }
 
+//删除角色
+export function delRole(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8801/am/v1/pRole/delRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
 
 
 

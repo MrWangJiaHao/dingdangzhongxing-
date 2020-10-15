@@ -11,13 +11,33 @@
             :data="Treedata"
             show-checkbox
             node-key="id"
-            :default-expanded-keys="[2, 3]"
-            :default-checked-keys="[5]"
             :props="defaultProps"
+            :highlight-current="true"
+            @node-click="nodeClick"
           >
           </el-tree>
         </div>
-        <div class="authChoose"></div>
+        <div class="authChoose">
+          <div v-for="(v, i) in authChooseData" :key="i">
+            {{ v.title }}
+            <br />
+            <el-checkbox
+              :indeterminate="isIndeterminate"
+              v-model="checkAll"
+              @change="handleCheckAllChange"
+              >全选</el-checkbox
+            >
+            <div style="margin: 15px 0"></div>
+            <el-checkbox-group
+              v-model="checkedCities"
+              @change="handleCheckedCitiesChange"
+            >
+              <el-checkbox v-for="city in cities" :label="city" :key="city">{{
+                city
+              }}</el-checkbox>
+            </el-checkbox-group>
+          </div>
+        </div>
       </div>
       <div class="submit-cancel">
         <el-button @click="goBack">取 消</el-button>
@@ -36,12 +56,19 @@ import { jurisdicRequest } from "../../api/api";
 export default {
   data() {
     return {
+      checkAll: false,
+      checkedCities: [],
+      cities: ["添加","删除"],
+      isIndeterminate: true,
+
       Treedata: [],
+      authChooseData: [],
       defaultProps: {
         children: "children",
         label: "label",
       },
       pageDataArr: [],
+      checkBox: [],
     };
   },
   mounted() {
@@ -54,25 +81,68 @@ export default {
       console.log(ok);
       if (ok.data.code === "10000") {
         this.pageDataArr = ok.data.result;
-        this.pageDataArr.forEach((v, i) => {
+        this.pageDataArr.forEach((v, idx) => {
           this.Treedata.push({
-            id: i,
             label: v.title,
+            children: [],
           });
-          v.children.forEach((value, index) => {
-            console.log(value, index);
+          v.children.forEach((val) => {
+            this.Treedata[idx].children.push({
+              label: val.title,
+            });
+            // this.cities.push(
+            //   val.permissions
+            // )
           });
         });
       }
     });
   },
   methods: {
+    nodeClick(a) {
+      let label = a.label;
+      switch (label) {
+        case "渠道管理":
+          this.authChooseDataQC();
+          this.authChooseData.push({ title: "渠道管理" });
+          break;
+        case "物流公司管理":
+          this.authChooseDataQC();
+          this.authChooseData.push({ title: "物流公司管理" });
+          break;
+      }
+    },
+    authChooseDataQC() {
+      // let testObj = {};
+      // this.authChooseData = this.authChooseData.reduce((item, next) => {
+      //   testObj[next.value]
+      //     ? ""
+      //     : (testObj[next.value] = true && item.push(next));
+      //   return item;
+      // }, []);
+      this.authChooseData = [];
+    },
+
     goBack() {
       this.$router.replace({ path: "/systemSetting/userControl" }); //返回后 再后退不能再跳转到此页面
     },
     submitData() {
       //提交按钮
-      this.$router.push({ path: "/systemSetting/userControl" });
+      this.$router.push({
+        path: "/systemSetting/userControl",
+        query: { id: 1 },
+      });
+    },
+
+    handleCheckAllChange(val) {
+      this.checkedCities = val ? this.cities : [];
+      this.isIndeterminate = false;
+    },
+    handleCheckedCitiesChange(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.cities.length;
+      this.isIndeterminate =
+        checkedCount > 0 && checkedCount < this.cities.length;
     },
   },
 };
@@ -100,12 +170,14 @@ export default {
     display: flex;
     height: 520px;
     .authName {
-      width: 200px;
+      width: 300px;
       height: 100%;
+      overflow-y: auto;
     }
     .authChoose {
       width: 670px;
-      height: 100%;
+      height: 440px;
+      border-bottom: 1px #e1e6eb solid;
     }
   }
 }

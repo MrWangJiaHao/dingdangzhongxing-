@@ -107,7 +107,7 @@ export default {
               this.$cookie.set("X-Auth-wareId", ok.data.result.user.wareId);
               this.$cookie.set("orgId", ok.data.result.user.orgId);
               this.$cookie.set("X-Auth-user", ok.data.result.user.id);
-              this.$router.push("/index/indexFormJH");
+              this.$router.push('/index')
               //四个小时后清除用户名和密码
               setTimeout(() => {
                 this.$cookie.delete("userName");

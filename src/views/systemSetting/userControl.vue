@@ -72,7 +72,7 @@
             </el-table-column>
           </el-table>
         </div>
-        <div class="pageComponent" v-if="this.tableData.length !== 0">
+        <div class="pageComponent" v-if="this.tableData.length >= 10">
           <pagecomponent
             :pageComponentsData="pageComponentsData"
             @getPageNum="getPageNum"
@@ -98,11 +98,9 @@
         </div>
         <div class="accreditMenu">
           <span>授权菜单：</span>
-          <span
-            ><router-link to="/systemSetting/userControl/setAuthority"
-              >设置权限</router-link
-            ></span
-          >
+          <span>
+            <router-link to="/systemSetting/userControl/setAuthority">设置权限</router-link>
+          </span>
         </div>
         <div class="remarks">
           <div>备注：</div>
@@ -152,9 +150,10 @@
 
 <script>
 import { Message } from "element-ui";
-import { post } from "../../api/api";
+import { post, delRole } from "../../api/api";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { ajaxPost } from "../../utils/validate";
+
+// import { ajaxPost } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -167,75 +166,39 @@ export default {
       textareaContentB: "",
       centerDialogVisible: false,
       centerDialogVisibleB: false,
-      options: [
-        {
-          value: "全部",
-          label: "全部",
-        },
-        {
-          value: "仓库管理员",
-          label: "仓库管理员",
-        },
-        {
-          value: "兼职拣货人员",
-          label: "兼职拣货人员",
-        },
-        {
-          value: "兼职复核人员",
-          label: "兼职复核人员",
-        },
-        {
-          value: "拣货人员",
-          label: "拣货人员",
-        },
-        {
-          value: "复核人员",
-          label: "复核人员",
-        },
-      ],
-      value: "全部",
-      tableData: [
-        {
-          roleName: "",
-          remark: "",
-          createName: "",
-          createTime: "",
-        },
-      ],
+      options: [],
+      value: "",
+      tableData: [],
       pagingQueryData: {
         //分页查询
+        orderBy: "createTime",
         pageNumber: 1,
         pageSize: 10,
-        paras: {
-          // orgId: this.$store.state.loginRequest.loginData.orgId,
-          // id: this.$store.state.loginRequest.loginData.id,
-          userType: "",
-          // createStartTime: this.$store.state.loginRequest.loginData
-          //   .createStartTime,
-          // createEndTime: this.$store.state.loginRequest.loginData.createEndTime,
-          // loginName: this.$store.state.loginRequest.loginData.loginName,
-          // roleId: this.$store.state.loginRequest.loginData.roleId,
-          // wareId: this.$store.state.loginRequest.loginData.wareId,
-          roleName: "",
-        },
+        paras: {},
       },
       pageComponentsData: {
         //这是分页器需要的json
         pageNums: 0, //一共多少条 //默认一页10条
       },
       multipleSelection: [],
+      roleQueryRes: [],
+      roleQueryData: {
+        id: "",
+      },
     };
   },
-  created() {
-    this.queryList();
-  },
+  created() {},
   mounted() {
     this.pagingQueryData.paras.userType = this.$store.state.loginRequest.loginData.user.userType;
+    this.queryList();
   },
   methods: {
     selectSome(event) {
-      //拉下菜单选中的值
-      this.pagingQueryData.paras.roleName = event; //把选中的值赋给请求头里
+      this.roleQueryRes.forEach((v) => {
+        if (v.roleName === event) {
+          this.roleQueryData.id = v.id;
+        }
+      });
     },
     async queryList() {
       let datas = await post({
@@ -244,24 +207,27 @@ export default {
       });
       console.log(datas);
       if (datas.code === "10000") {
-        this.changeData(datas.result);
+        let res = datas.result.list;
+        this.roleQueryRes = datas.result.list;
+        res.forEach((v) => {
+          this.tableData.push({
+            roleName: v.roleName,
+            remark: v.roleDesc,
+            createName: v.createUser,
+            createTime: v.createTime,
+            id: v.id,
+          });
+          this.options.push({
+            value: v.roleName,
+            label: v.roleName,
+          });
+        });
       } else {
         Message(datas.msg);
       }
     },
     changeData(data) {
-      this.changeTableData(data); //用来改变表格
       this.changePageData(data); //用来改变分页器的条数
-    },
-    //用来改变表格
-    changeTableData(data) {
-      let { list } = data;
-      // console.log(list);
-      this.tableData = list;
-      list.forEach((item, idx) => {
-        this.tableData[idx].address =
-          item.provinceName + item.cityName + item.areaName + item.userAddr;
-      });
     },
     //用来改变分页器的条数
     changePageData(data) {
@@ -274,11 +240,34 @@ export default {
     sureSuccssBtn(e) {
       this.pagingQueryData.pageNumber = e;
     },
-    clickQueryUser() {
+    async clickQueryUser() {
       //点击查询
+      this.tableData = [];
+      let datas = await post({
+        url: "http://139.196.176.227:8801/am/v1/pRole/findRecord",
+        data: this.roleQueryData,
+      });
+      console.log(datas);
+      if (datas.code === "10000") {
+        let res = datas.result;
+        res.forEach((v) => {
+          this.tableData.push({
+            roleName: v.roleName,
+            remark: v.roleDesc,
+            createName: v.createUser,
+            createTime: v.createTime,
+            id: v.id,
+          });
+        });
+      } else {
+        Message(datas.msg);
+      }
+    },
+    clearInputAll() {
+      this.value = "";
+      this.tableData = [];
       this.queryList();
     },
-    clearInputAll() {},
     //创建角色
     createRole() {
       this.centerDialogVisible = true;
@@ -315,7 +304,7 @@ export default {
         type: "warning",
       })
         .then(() => {
-          this._clearAjax(arr);
+          this._clearAjax({ id: arr[0] });
         })
         .catch((err) => {
           Message("已取消删除");
@@ -332,32 +321,42 @@ export default {
       return arr;
     },
     //发送删除的ajax
-    async _clearAjax(data) {
-      ajaxPost(
-        "http://139.196.176.227:8801/am/v1/pUser/delRecord",
-        data,
-        (data) => {
-          if (data.code === "10000") {
-            Message({
-              type: "success",
-              message: data.msg,
-            });
-          } else {
-            Message({
-              type: "error",
-              message: data.msg ? data.msg : "删除失败",
-            });
-          }
+    _clearAjax(data) {
+      delRole(data).then((ok) => {
+        if (ok.data.code === "10000") {
+          Message({
+            type: "success",
+            message: "删除成功",
+          });
+        } else {
+          Message({
+            type: "error",
+            message: "删除失败",
+          });
         }
-      );
+      });
     },
     //创建角色
     async pupopBox() {
+      if (this.inputContent === "") {
+        return Message({
+          type: "error",
+          message: "角色名称不能为空",
+        });
+      }
       let pupopBoxInfor = {
-        roleName: this.textareaContent,
-        roleDesc: this.inputContent,
-        userId: this.$store.state.loginRequest.loginData.id,
-        //权限还没写
+        enableStatus: 0,
+        roleName: this.inputContent,
+        roleDesc: this.textareaContent,
+        userId: this.$store.state.loginRequest.loginData.user.id,
+        orgId: "FC4AD500BE8E4B5FB58CCAE7B519FB6F",
+        userType: "4",
+        pmenuRoles: [
+          {
+            checkboxPermissions: ["1", "1", "1", "1"],
+            menuId: "34955547FA3E45E8A52421BECCC5971A",
+          },
+        ],
       };
       let createRoleData = await post({
         url: "http://139.196.176.227:8801/am/v1/pUserRole/insertRecord",
@@ -375,7 +374,6 @@ export default {
     },
     //编辑角色
     async pupopBoxB() {
-      console.log(123);
       let pupopBoxInfor = {
         roleName: this.textareaContentB,
         roleDesc: this.inputContentB,
@@ -399,6 +397,7 @@ export default {
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
+    
   },
 };
 </script>
@@ -496,6 +495,15 @@ export default {
 }
 </style>
 <style >
+.feedback_dialog .el-dialog__header {
+  background: #eef1f8;
+}
+.feedback_dialog .el-dialog__footer {
+  background: #eef1f8;
+}
+.feedback_dialog .el-dialog__body {
+  background: #eef1f8;
+}
 .feedback_dialog .el-dialog__body .roleName-input {
   margin: 20px 0;
 }
