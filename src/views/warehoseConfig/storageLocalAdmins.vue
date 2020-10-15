@@ -246,7 +246,17 @@ export default {
         },
       ],
       shelfNameData: [],
-      tierChooseData: [],
+      tierChooseData: [
+        { value: "1", label: "1" },
+        { value: "2", label: "2" },
+        { value: "3", label: "3" },
+        { value: "4", label: "4" },
+        { value: "5", label: "5" },
+        { value: "6", label: "6" },
+        { value: "7", label: "7" },
+        { value: "8", label: "8" },
+        { value: "9", label: "9" },
+      ],
       storageLocalChooseData: [],
       nameValue: "",
       areaNameValue: "",
@@ -305,12 +315,17 @@ export default {
       shelfResList: [],
     };
   },
+  computed:{
+    shelfLevelNumInt(){
+      return this.shelfLevelNum
+    }
+  },
   mounted() {
     //查询的请求
     this.updateData = () => {
       let queryData = this.pagingQueryData;
       querySLInfor(queryData).then((ok) => {
-        // console.log(ok);
+        console.log(ok);
         this.changeData(ok.data.result);
         let res = ok.data.result.list;
         res.forEach((v) => {
@@ -318,9 +333,9 @@ export default {
             CWName: v.childWareName,
             areaName: v.wareAreaName,
             areaType: v.wareAreaType === 0 ? "存储区" : "拣货区",
-            areaNumber: v.wareSeatCode.substring(0, 2),
-            shelfName: v.wareSeatCode.substring(3, 6),
-            tierChoose: v.wareSeatCode.substring(7, 10),
+            areaNumber: v.wareSeatCode.split("-")[0],
+            shelfName: v.wareSeatCode.split("-")[1],
+            tierChoose: v.wareSeatCode.split("-")[3],
             storageLocalChoose: v.wareSeatCode,
             isUsed: v.seatProdId === "" ? "否" : "是",
             createName: v.createUser,
@@ -411,7 +426,7 @@ export default {
               shelfName: v.wareSeatCode.split("-")[1],
               tierChoose: v.wareSeatCode.split("-")[3],
               storageLocalChoose: v.wareSeatCode,
-              isUsed: v.enableStatus === 0 ? "否" : "是",
+              isUsed: v.seatProdId === "" ? "否" : "是",
               createName: v.createUser,
               createTime: v.createTime,
             });

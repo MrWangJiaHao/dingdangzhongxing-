@@ -491,13 +491,7 @@ export default {
     setTimeout(() => {
       this.dropDowBox.dropDownBoxData = this.warehouseConfig;
     }, 0);
-    if (!getCookie("X-Auth-wareId"))
-      return Message({
-        message: "登入超时,请重新登入",
-        onClose: () => {
-          this.$router.push({ path: "/" });
-        },
-      });
+  
   },
   methods: {
     //获取子仓名称

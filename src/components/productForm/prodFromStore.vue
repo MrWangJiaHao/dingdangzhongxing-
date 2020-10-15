@@ -52,6 +52,8 @@
 </template>
 
 <script>
+// import { Message } from "element-ui";
+
 export default {
   props: {
     inforData: Array,
@@ -70,7 +72,7 @@ export default {
         pageNums: 0, //一共多少条 //默认一页10条
       },
       MaxNumberInput: "",
-      prodUnit: "个",
+      prodUnit: "",
       prodUnitData: [
         {
           value: "箱",
@@ -81,6 +83,7 @@ export default {
           label: "个",
         },
       ],
+      emptyArr: [],
     };
   },
   mounted() {},
@@ -106,6 +109,12 @@ export default {
       let { totalRow } = data;
       this.pageComponentsData.pageNums = totalRow;
     },
+  },
+  updated() {
+    this.$store.dispatch("PFSRequestAct", this.emptyArr);
+  },
+  beforeDestroy() {
+    this.$store.dispatch("PFSRequestAct", this.emptyArr);
   },
 };
 </script>

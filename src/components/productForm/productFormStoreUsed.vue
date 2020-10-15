@@ -78,7 +78,7 @@ export default {
       let dataArr = this.tableData;
       for (let i = 0; i < dataArr.length; i++) {
         dataArr.splice(index, 1);
-        this.$store.dispatch("delPFSqueryData", index);
+        this.$store.dispatch("delPFSRequestAct", index);
       }
     },
     getPageNum(e) {

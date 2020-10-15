@@ -140,7 +140,6 @@
                 v-model="storeShelfValue"
                 placeholder="请选择货架"
                 @change="storeShelfValues"
-                
               >
                 <el-option
                   v-for="item in storeShelfData"
@@ -327,9 +326,14 @@ export default {
         wareAreaId: "",
       },
       shelfResList: [],
+      requestData: {
+        prodId: "",
+        seatDatas: [],
+      },
     };
   },
   mounted() {
+    this.setintervalFun();
     // this.choosedKuWeiData = this.$store.state.fromDataRequest.fromData
     // this.choosedKuWeiData = this.$route.query.datas
     // this.delegaCompanyValue = this.choosedKuWeiData[0].delegaCompany
@@ -398,6 +402,14 @@ export default {
     });
   },
   methods: {
+    getTableData() {
+      this.choosedKuWeiData = this.$store.state.PFSRequest.PFSqueryData;
+    },
+    setintervalFun() {
+      setInterval(() => {
+        this.getTableData();
+      }, 100);
+    },
     delegaCompanyValues(value) {
       this.delegaCompanyValue = value;
     },
@@ -415,6 +427,7 @@ export default {
           this.ProdWidth = v.ProdWidth ? v.ProdWidth : "0";
           this.ProdHeight = v.ProdHeight ? v.ProdHeight : "0";
           this.prodId = v.id;
+          this.requestData.prodId = v.id;
         }
       });
     },
@@ -516,26 +529,33 @@ export default {
     },
     submitData() {
       //提交按钮
-      let requestData = {
-        prodId: this.prodId,
-        seatDatas: [
-          {
-            maxNum: 10,
+
+      this.choosedKuWeiData.forEach((v) => {
+        this.requestData.seatDatas.push({
+            maxNum: v.MaxNumberInput,
             minNum: "",
-            prodUnit: "箱",
-            seatId: "310EB10F222645CE96E8ADB0BD9CAF2D",
+            prodUnit: v.prodUnit,
+            seatId: v.seatId,
             seatType: "0",
-          },
-        ],
-      };
+          });
+          console.log(this.requestData.seatDatas)
+        if (v.prodUnit === "" || v.MaxNumberInput === "") {
+          
+          return Message({
+            type: "error",
+            message: "请选择存放单位和存放数量",
+          });
+        }
+      });
+      let requestData = this.requestData;
       prodStoreMap(requestData).then((ok) => {
-        // console.log(ok);
+        console.log(ok);
         if (ok.data.code === "10000") {
           Message({
             type: "success",
             message: "绑定成功",
           });
-          this.$router.push('/warehoseconfig/storageLocalMap')
+          this.$router.push("/warehoseconfig/storageLocalMap");
         } else {
           Message({
             type: "error",
