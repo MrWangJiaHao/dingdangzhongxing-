@@ -211,10 +211,12 @@ export default {
           title: "物料中心",
           iconCls: require("@/assets/img/warehouse-suppliesCenter.png"),
           children: [
-            { title: "供应商管理", name: "" },
-            { title: "设备管理", name: "" },
-            { title: "物料中心", name: "" },
-            { title: "设备管理", name: "" },
+            { title: "供应商管理", name: "/suppliesCenter/supplierAdmin" },
+            { title: "品牌管理", name: "/suppliesCenter/brandAdmin" },
+            { title: "规格管理", name: "/suppliesCenter/specificationAdmin" },
+            { title: "物料管理", name: "/suppliesCenter/materialAdmin" },
+            { title: "物料库存", name: "/suppliesCenter/suppliesInventory" },
+            { title: "物料记录", name: "/suppliesCenter/suppliesRecord" },
           ],
         },
         {
