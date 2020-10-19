@@ -330,6 +330,188 @@ export function querySupplierCon(data) {
 }
 
 
+//创建品牌
+export function createBrand(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWareBrand/saveRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//查询品牌(分页)
+export function queryBrand(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWareBrand/findRecordPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//删除供应商
+export function delBrand(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWareBrand/delRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//查询供应商(查询条件)
+export function queryBrandCon(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWareBrand/findRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+
+//创建规格
+export function createSpec(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWareProdSpec/saveRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//查询规格(分页)
+export function querySpec(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWareProdSpec/findRecordPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//删除规格
+export function delSpec(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWareProdSpec/delRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//查询规格(查询条件)
+export function querySpecCon(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWareProdSpec/findRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+
+//创建物料管理
+export function createMateAdmin(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWareMateriel/saveRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//查询物料管理(分页)
+export function queryMateAdmin(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWareMateriel/findRecordPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//删除物料管理
+export function delMateAdmin(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWareMateriel/delRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//查询物料管理(查询条件)
+export function queryMateAdminCon(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWareMateriel/findRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
 
 /**
  * 
