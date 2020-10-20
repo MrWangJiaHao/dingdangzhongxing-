@@ -226,16 +226,17 @@ export function prodStoreMap(data) {
 export function queryEntrustCompany(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseOrg/findWareOrg",
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage//v1/pWarehouseOrg/findWareOrg",
             method: "post",
             data,
         }).then((ok) => {
-            resolve(ok)
+            resolve(ok.data)
         }).catch((err) => {
             reject(err)
         })
     })
 }
+
 
 
 //区域货架查询
@@ -351,6 +352,67 @@ export function getEntrustedcompany() {
     })
 }
 
+/**
+ * 入库管理下面的委托公司
+ * @param {*} getFindWareOrg 
+ */
+export function getFindWareOrg() {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseOrg/findWareOrg",
+            method: "post",
+            data: {
+                wareId: getCookie("X-Auth-wareId")
+            }
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+
+/**
+ *  根据委托公司查询子仓名称
+ *  @param {*} orgId 委托公司ordId 
+*/
+export function getFindOrgChildWare(orgId) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseChild/findOrgChildWare",
+            method: "post",
+            data: {
+                orgId
+            }
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ *  委托公司子仓库产品查询 添加产品
+ * http://localhost:8902/wbs-warehouse-manage/v1/pOrgProducts/findOrgProductPage
+ * @param {*} datas 
+ * 
+ */
+export const getfindOrgProductPage = function (data) {
+
+    return new Promise((res, rej) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgProducts/findOrgProductPage",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+
+}
+
 
 export function post(datas) {
     let { url, data } = datas
@@ -418,6 +480,7 @@ export function getWarehoseConfig() {
         })
     })
 }
+
 export function logins() {
     return new Promise((resolve, reject) => {
         service.request({
@@ -436,3 +499,4 @@ export function logins() {
         })
     })
 }
+

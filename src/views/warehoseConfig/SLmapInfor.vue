@@ -532,15 +532,14 @@ export default {
 
       this.choosedKuWeiData.forEach((v) => {
         this.requestData.seatDatas.push({
-            maxNum: v.MaxNumberInput,
-            minNum: "",
-            prodUnit: v.prodUnit,
-            seatId: v.seatId,
-            seatType: "0",
-          });
-          console.log(this.requestData.seatDatas)
+          maxNum: v.MaxNumberInput,
+          minNum: "",
+          prodUnit: v.prodUnit,
+          seatId: v.seatId,
+          seatType: "0",
+        });
+        console.log(this.requestData.seatDatas);
         if (v.prodUnit === "" || v.MaxNumberInput === "") {
-          
           return Message({
             type: "error",
             message: "请选择存放单位和存放数量",

@@ -2,67 +2,39 @@
   <div class="setUserIngBox">
     <div class="setUserIngBoxCenter">
       <div class="headerBox">
-        <div class="closeTitle">创建入库单</div>
+        <div class="closeTitle">入库确认</div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
 
       <div class="centerBox">
-        <div class="setTitle">创建入库单</div>
+        <div class="setTitle">入库确认</div>
         <div class="gerxinxiBox">
           <div class="xinxiBitian">
-            <div>
-              <div class="displayalign ellipsis">
-                <div class="noneIconTitle mr11">委托公司:</div>
-                <div class="mr20">
-                  <el-select
-                    v-model="companyJson.value"
-                    @focus="getCompanyJsonAndArr"
-                    @change="changeCompany"
-                    placeholder="请选择委托公司:"
-                  >
-                    <el-option
-                      v-for="(item, idx) in companyJson.companyArr"
-                      :key="idx"
-                      :label="item.orgName"
-                      :value="idx"
-                    >
-                    </el-option>
-                  </el-select>
+            <div class="dispalywrap rukuquerenparent">
+              <div
+                v-for="(key, item, idx) in rukuSure"
+                :key="idx"
+                class="displayalign parentBox"
+              >
+                <div class="titleBox displayCenter">
+                  {{ shezhizitiwiered(item) }}
+                </div>
+                <div class="centersBox">
+                  <div v-if="item == '入库人*'">
+                    <el-input placeholder="请输入入库人"></el-input>
+                  </div>
+                  <div v-else-if="item == '入库时间*'">
+                    <el-input placeholder="请输入入库时间"></el-input>
+                  </div>
+                  <div v-else-if="item == '批次号*'">
+                    <el-input placeholder="请输入批次号"></el-input>
+                  </div>
+                  <div v-else>
+                    {{ key }}
+                  </div>
                 </div>
               </div>
             </div>
-            <!-- 委托公司 -->
-            <div>
-              <div class="displayalign ellipsis">
-                <div class="noneIconTitle mr11">子仓名称:</div>
-                <div class="mr20">
-                  <el-select
-                    v-model="ziCangJson.value"
-                    @focus="getZiCangJsonAndArr"
-                    @change="changeziCang"
-                    placeholder="请选择子仓名称:"
-                  >
-                    <el-option
-                      v-for="item in ziCangJson.ziCangArr"
-                      :key="item.childWareName"
-                      :label="item.childWareName"
-                      :value="item.childWareName"
-                    >
-                    </el-option>
-                  </el-select>
-                </div>
-              </div>
-            </div>
-            <!-- 根据委托公司查询子仓 getFindOrgChildWare -->
-            <div>
-              <div class="displayalign ellipsis">
-                <div class="noneIconTitle mr11">期望入库时间:</div>
-                <div class="mr20">
-                  <dateTime :dateTimeData="datetimeDate" />
-                </div>
-              </div>
-            </div>
-            <!-- 期望入库时间 -->
           </div>
         </div>
       </div>
@@ -70,6 +42,7 @@
       <div class="pd20">
         <div class="setTitle">产品明细</div>
         <div class="mb20 tr">
+          <div class="tijiaoBox disinb mr20" @click="addChanpin">复制产品</div>
           <div class="tijiaoBox disinb mr20" @click="addChanpin">添加产品</div>
           <div class="quxiaoBox disinb" @click="goAJAXCreate">删除</div>
         </div>
@@ -242,6 +215,16 @@ export default {
       datetimeDate: {
         placeholder: "请选择预期入库时间",
       },
+      rukuSure: {
+        入库单号: "CK20180904006",
+        委托公司: "委托公司委托公司1",
+        入库状态: "入库状态",
+        入库类型: "采购",
+        "入库人*": "",
+        "入库时间*": "",
+        "批次号*": "",
+        关联单号: "CG20180923006",
+      },
       multipleSelection: [],
       tabledata: [
         // {
@@ -291,7 +274,12 @@ export default {
     this.tabledata = this.tables;
     this.createUserData.detailList = this.tables;
   },
+  computed: {},
   methods: {
+    shezhizitiwiered(item) {
+      console.log(item);
+      return item;
+    },
     getkuweimes() {
       console.log(1);
     },
@@ -323,9 +311,7 @@ export default {
     changeziCang(e) {},
     //点击了添加产品
     addChanpin() {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
       this.addChanpins = true;
-      sessionStorage.setItem("orgId", this.createUserData.orgId);
     },
     //关闭
     closeBtn() {
@@ -349,7 +335,12 @@ export default {
   },
 };
 </script>
-
+<style lang="scss" >
+.el-input__inner {
+  padding: 0;
+  height: 30px;
+}
+</style>
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .fade-enter-active,
@@ -358,6 +349,20 @@ export default {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   transform: scale(0);
+}
+.rukuquerenparent {
+  width: 100%;
+  .parentBox {
+    width: 33.3%;
+    color: #333333;
+    border: 1px solid #d1d6e2;
+    .titleBox {
+      padding: 12px 0;
+      width: 106px;
+      border-right: 1px solid #d1d6e2;
+      background-color: #ecf1f7;
+    }
+  }
 }
 .setUserIngBox {
   background: rgb(232, 233, 236);
@@ -409,6 +414,7 @@ export default {
       }
       .xinxiBitian {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         > div {
           margin-right: 20px;
@@ -453,4 +459,4 @@ export default {
     @include BtnFunction("success");
   }
 }
-</style>
+</style>    

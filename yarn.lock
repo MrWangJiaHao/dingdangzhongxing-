@@ -2654,6 +2654,11 @@ check-types@^8.0.3:
   resolved "https://registry.yarnpkg.com/check-types/-/check-types-8.0.3.tgz#3356cca19c889544f2d7a95ed49ce508a0ecf552"
   integrity sha512-YpeKZngUmG65rLudJ4taU7VLkOCTMhNl/u4ctNC56LQS/zJTyNH0Lrtwm1tfTsbLlwvlfsA2d1c8vCf/Kh2KwQ==
 
+china-area-data@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/china-area-data/-/china-area-data-5.0.1.tgz#7943b83a0619f033bb5893da80cb46e52e44be66"
+  integrity sha512-BQDPpiv5Nn+018ekcJK2oSD9PAD+E1bvXB0wgabc//dFVS/KvRqCgg0QOEUt3vBkx9XzB5a9BmkJCEZDBxVjVw==
+
 "chokidar@>=2.0.0 <4.0.0", chokidar@^3.4.1:
   version "3.4.2"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.4.2.tgz#38dc8e658dec3809741eb3ef7bb0a47fe424232d"
@@ -3677,6 +3682,14 @@ electron-to-chromium@^1.3.570:
   version "1.3.570"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.570.tgz#3f5141cc39b4e3892a276b4889980dabf1d29c7f"
   integrity sha512-Y6OCoVQgFQBP5py6A/06+yWxUZHDlNr/gNDGatjH8AZqXl8X0tE4LfjLJsXGz/JmWJz8a6K7bR1k+QzZ+k//fg==
+
+element-china-area-data@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/element-china-area-data/-/element-china-area-data-5.0.2.tgz#006c26594b8865cb619994063c732562e4583d30"
+  integrity sha512-vLQuvOKJy/uiX7MRHEk3x/j09hipuIl6DJ/C4XFUG7D7Pj3O47sy+Y6aAArM6k9v8cD9UX6e+yz2S4J+IPnZ8g==
+  dependencies:
+    china-area-data "^5.0.1"
+    lodash-es "^4.17.15"
 
 element-resize-detector@^1.2.0:
   version "1.2.1"
@@ -5776,6 +5789,11 @@ locate-path@^5.0.0:
   integrity sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==
   dependencies:
     p-locate "^4.1.0"
+
+lodash-es@^4.17.15:
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
+  integrity sha512-rlrc3yU3+JNOpZ9zj5pQtxnx2THmvRykwL4Xlxoa8I9lHBlVbbyPhgyPMioxVZ4NqyxaVVtaJnzsyOidQIhyyQ==
 
 lodash.defaultsdeep@^4.6.1:
   version "4.6.1"
@@ -9120,6 +9138,11 @@ vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
   integrity sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==
+
+vue-layer@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/vue-layer/-/vue-layer-1.2.1.tgz#0f642baf3a8431e920dba2184475f57dd8363343"
+  integrity sha512-00Kf2SBnu3fZwVwNNk/ZvhKkN0//wf043vbk7WWgzQVioGK0zx9x+P7gxaPviPemliOxDRUiUk+qDBgZjCujTw==
 
 "vue-loader-v16@npm:vue-loader@^16.0.0-beta.7":
   version "16.0.0-beta.7"

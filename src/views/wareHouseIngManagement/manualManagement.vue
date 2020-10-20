@@ -197,7 +197,9 @@ export default {
       this.multipleSelection = e;
     },
     //入库确认
-    warehousingConfirmation() {},
+    warehousingConfirmation() {
+      this.$router.push("/warehousingManagement/manageMentrukuSure");
+    },
     //打印入库单:
     printstockinlist() {},
     //打印收货单
