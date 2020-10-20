@@ -198,6 +198,7 @@
               :storageShelf="storageShelf2"
               :storageTier="storageTier2"
               :storageUnit="storageUnit2"
+              :tableData="tableData1"
             ></MapForms>
           </el-tab-pane>
         </el-tabs>
@@ -221,6 +222,7 @@ export default {
   data() {
     return {
       tableData: [],
+      tableData1: [],
       storageArea1: "存储区",
       storageShelf1: "存储货架",
       storageTier1: "存储层",
@@ -312,8 +314,8 @@ export default {
     };
     queryEntrustCompany(EntrustCompanyData).then((ok) => {
       // console.log(ok);
-      if (ok.data.code === "10000") {
-        let res = ok.data.result;
+      if (ok.code === "10000") {
+        let res = ok.result;
         res.forEach((v) => {
           this.delegaCompanyData.push({
             value: v.orgName,

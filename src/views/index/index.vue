@@ -114,12 +114,12 @@ export default {
   data() {
     return {
       inforArr2: [
-        { img: ciexnhoex, number: 257, text: "缺货订单数" },
-        { img: disaggregate, number: 3842, text: "待集计订单数" },
-        { img: orderPicking, number: 980, text: "待拣货订单数" },
-        { img: recheck, number: 1342, text: "待复核订单数" },
-        { img: pickingFail, number: 401, text: "拣货错误订单数" },
-        { img: pullGoods, number: 37, text: "待揽件订单数" },
+        { img: ciexnhoex, number: "0", text: "缺货订单数" },
+        { img: disaggregate, number: "0", text: "待集计订单数" },
+        { img: orderPicking, number: "0", text: "待拣货订单数" },
+        { img: recheck, number: "0", text: "待复核订单数" },
+        { img: pickingFail, number: "0", text: "拣货错误订单数" },
+        { img: pullGoods, number: "0", text: "待揽件订单数" },
       ],
       todaySend: 0, //今日发货数量、
       yesterdaySend: 0, //昨日发货数

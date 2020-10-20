@@ -4,7 +4,6 @@
       :data="tableData"
       border
       style="width: 100%"
-      @selection-change="handleSelectionChange"
       :stripe="true"
       tooltip-effect="dark"
       max-height="300"
@@ -24,10 +23,10 @@
         label="库位"
         align="center"
       ></el-table-column>
-      <el-table-column prop="storeUnit" label="存放单位" align="center">
+      <el-table-column prop="prodUnit" label="存放单位" align="center">
       </el-table-column>
       <el-table-column
-        prop="maxNumber"
+        prop="MaxNumberInput"
         label="最大存放数"
         align="center"
       ></el-table-column>
@@ -56,21 +55,34 @@ export default {
         pageSize: 3,
         paras: {},
       },
+      
       pageComponentsData: {
         //这是分页器需要的json
         pageNums: 0, //一共多少条 //默认一页10条
       },
     };
   },
-  mounted() {},
+  mounted() {
+    this.setintervalFun();
+  },
   methods: {
-    handleDelete(index, row) {
+    getTableData() {
+      this.tableData = this.$store.state.PFSRequest.PFSqueryData1;
+    },
+    setintervalFun() {
+      setInterval(() => {
+        this.getTableData();
+      }, 100);
+    },
+    handleDelete(index) {
       //表格删除操作
-      console.log(index, row);
+      let dataArr = this.tableData;
+      for (let i = 0; i < dataArr.length; i++) {
+        dataArr.splice(index, 1);
+        this.$store.dispatch("delPFSRequestAct1", index);
+      }
     },
-    handleSelectionChange(value) {
-      this.multipleSelection = value;
-    },
+    
     getPageNum(e) {
       this.pagingQueryData.pageNumber = e;
     },

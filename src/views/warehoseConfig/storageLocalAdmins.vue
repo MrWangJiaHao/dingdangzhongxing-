@@ -295,6 +295,7 @@ export default {
         wareAreaType: "", //区域类型（1-存储区；2-拣货区）
         wareShelfId: "", //仓库货架id
         shelfLevelNum: "", //货架层数(仅查询本层库位)
+        id: "",
       },
       updateData: "",
       areaData: {
@@ -313,26 +314,27 @@ export default {
         wareAreaId: "",
       },
       shelfResList: [],
+      kuweiData: [],
     };
   },
-  computed:{
-    shelfLevelNumInt(){
-      return this.shelfLevelNum
-    }
+  computed: {
+    shelfLevelNumInt() {
+      return this.shelfLevelNum;
+    },
   },
   mounted() {
     //查询的请求
     this.updateData = () => {
       let queryData = this.pagingQueryData;
       querySLInfor(queryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         this.changeData(ok.data.result);
         let res = ok.data.result.list;
         res.forEach((v) => {
           this.tableData.push({
             CWName: v.childWareName,
             areaName: v.wareAreaName,
-            areaType: v.wareAreaType === 0 ? "存储区" : "拣货区",
+            areaType: v.wareAreaType === 1 ? "存储区" : "拣货区",
             areaNumber: v.wareSeatCode.split("-")[0],
             shelfName: v.wareSeatCode.split("-")[1],
             tierChoose: v.wareSeatCode.split("-")[3],
@@ -415,13 +417,13 @@ export default {
       let SLInforData = this.SLInforData;
       querySLInforCon(SLInforData).then((ok) => {
         if (ok.data.code === "10000") {
-          console.log(ok);
+          // console.log(ok);
           let res = ok.data.result;
           res.forEach((v) => {
             this.tableData.push({
               CWName: v.childWareName,
               areaName: v.wareAreaName,
-              areaType: v.wareAreaType === 0 ? "存储区" : "拣货区",
+              areaType: v.wareAreaType === 1 ? "存储区" : "拣货区",
               areaNumber: v.wareSeatCode.split("-")[0],
               shelfName: v.wareSeatCode.split("-")[1],
               tierChoose: v.wareSeatCode.split("-")[3],
@@ -465,7 +467,7 @@ export default {
     },
     //打印条形码
     dayintiaoxinma() {
-      console.log(document.getElementById("tiaoxingmaquyu"));
+      // console.log(document.getElementById("tiaoxingmaquyu"));
       setTimeout(() => {
         this.LODOP = this.$getLodop();
         this.LODOP.ADD_PRINT_HTM(
@@ -543,12 +545,31 @@ export default {
           this.SLInforData.wareShelfId = v.id;
         }
       });
+
+      let SLInforData = this.SLInforData;
+      querySLInforCon(SLInforData).then((ok) => {
+        if (ok.data.code === "10000") {
+          this.kuweiData = ok.data.result;
+          this.kuweiData.forEach((v) => {
+            this.storageLocalChooseData.push({
+              value: v.wareSeatCode,
+              label: v.wareSeatCode,
+            });
+          });
+        }
+      });
     },
     tierChooseValues(value) {
       this.tierChooseValue = value;
+      this.SLInforData.shelfLevelNum = value;
     },
     storageLocalChooseValues(value) {
       this.storageLocalChooseValue = value;
+      this.kuweiData.forEach((v) => {
+        if (value === v.wareSeatCode) {
+          this.SLInforData.id = v.id;
+        }
+      });
     },
     SLmap() {
       //库位映射

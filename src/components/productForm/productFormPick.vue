@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table
-      :data="tableData"
+      :data="inforData"
       border
       style="width: 100%"
       @selection-change="handleSelectionChange"
@@ -27,43 +27,76 @@
       ></el-table-column>
       <el-table-column prop="storeUnit" label="库位存放体积(m³)" align="center">
       </el-table-column>
-      <el-table-column
-        prop="maxNumber"
-        label="最大存放数"
-        align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="maxNumber"
-        label="最大存放数"
-        align="center"
-      ></el-table-column>
+      <el-table-column prop="prodUnit" label="存放单位" align="center">
+        <el-select
+          slot-scope="scope"
+          v-model="scope.row.prodUnit"
+          placeholder="请选择单位"
+          @change="prodUnits"
+        >
+          <el-option
+            v-for="item in prodUnitData"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+      </el-table-column>
+      <el-table-column prop="MaxNumberInput" label="最大存放数" align="center">
+        <el-input
+          slot-scope="scope"
+          v-model="scope.row.MaxNumberInput"
+        ></el-input>
+      </el-table-column>
+      <el-table-column prop="repleNum" label="补货预警值" align="center">
+        <el-input slot-scope="scope" v-model="scope.row.repleNum"></el-input>
+      </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    inforData: Array,
+  },
   data() {
     return {
-      tableData: [],
       multipleSelection: [],
+      prodUnitData: [
+        {
+          value: "箱",
+          label: "箱",
+        },
+        {
+          value: "个",
+          label: "个",
+        },
+      ],
+      MaxNumberInput: "",
+      prodUnit: "",
       pagingQueryData: {
         //分页查询
         pageNumber: 1,
         pageSize: 3,
-        paras: {
-         
-        },
+        paras: {},
       },
       pageComponentsData: {
         //这是分页器需要的json
         pageNums: 0, //一共多少条 //默认一页10条
       },
+      emptyArr: [],
     };
   },
   methods: {
+    prodUnits(value) {
+      this.prodUnit = value;
+    },
     handleSelectionChange(value) {
       this.multipleSelection = value;
+      console.log(value)
+      this.$store.dispatch("PFSRequestAct1", value);
     },
     getPageNum(e) {
       this.pagingQueryData.pageNumber = e;
@@ -78,6 +111,12 @@ export default {
     changePageData(data) {
       let { totalRow } = data;
       this.pageComponentsData.pageNums = totalRow;
+    },
+    updated() {
+      this.$store.dispatch("PFSRequestAct1", this.emptyArr);
+    },
+    beforeDestroy() {
+      this.$store.dispatch("PFSRequestAct1", this.emptyArr);
     },
   },
 };

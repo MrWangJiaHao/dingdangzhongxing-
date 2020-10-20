@@ -184,6 +184,23 @@
         <div class="selectDiv2">
           <section>
             <div class="text_select">
+              <div>子仓：</div>
+              <el-select
+                v-model="pickStoreValue"
+                placeholder="请选择子仓"
+                @change="pickStoreValues"
+                @visible-change="chooseItem"
+              >
+                <el-option
+                  v-for="item in pickStoreData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+            <div class="text_select">
               <div>区域：</div>
               <el-select
                 v-model="pickAreaValue"
@@ -234,7 +251,7 @@
         </div>
       </div>
       <div class="productForm">
-        <ProductFormPick></ProductFormPick>
+        <ProductFormPick :inforData="inforData1"></ProductFormPick>
       </div>
       <div class="selectedForm">
         <div class="selectedForm-title">已选库位：</div>
@@ -270,6 +287,8 @@ export default {
   beforeRouteEnter(to, from, next) {
     if (from.name === "/warehoseconfig/storageLocalAdmins") {
       next();
+    } else {
+      next();
     }
     if (from.name === "/warehoseconfig/storageLocalMap") {
       next((vm) => {
@@ -284,6 +303,8 @@ export default {
         vm.ProdWidth = vm.recepData[0].ProdWidth;
         vm.ProdHeight = vm.recepData[0].ProdHeight;
       });
+    } else {
+      next();
     }
   },
   components: {
@@ -310,9 +331,11 @@ export default {
       storeShelfValue: "", //存储区货架选择
       storeShelfData: [],
       storageLocation1: "", //存储区库位
-      pickAreaValue: "", //存储区区域选择
-      pickAreaData: [],
-      pickShelfValue: "", //拣货区区域选择
+      pickAreaValue: "", //拣货区区域选择
+      pickStoreData: [], //拣货区子仓选择
+      pickStoreValue: "",
+      pickAreaData: [], //拣货区区域选择
+      pickShelfValue: "",
       pickShelfData: [],
       storageLocation2: "", //拣货区库位
       ProdBrandName: "", //产品品牌
@@ -334,6 +357,7 @@ export default {
         wareShelfId: "", //仓库货架id
       },
       inforData: [],
+      inforData1: [],
       areaData: {
         childWareId: "",
         id: "",
@@ -361,7 +385,6 @@ export default {
       // console.log(ok);
       if (ok.data.code === "10000") {
         this.prodInforData = ok.data.result;
-        // console.log(this.prodInforData);
         this.prodInforData.forEach((v) => {
           this.delegaCompanyData.push({
             value: v.orgName,
@@ -400,6 +423,10 @@ export default {
             value: v.childWareName,
             label: v.childWareName,
           });
+          this.pickStoreData.push({
+            value: v.childWareName,
+            label: v.childWareName,
+          });
         });
       } else {
         Message({
@@ -420,6 +447,7 @@ export default {
   methods: {
     getTableData() {
       this.choosedKuWeiData = this.$store.state.PFSRequest.PFSqueryData;
+      this.choosedKuWeiData = this.$store.state.PFSRequest.PFSqueryData1;
     },
     setintervalFun() {
       setInterval(() => {
@@ -501,11 +529,51 @@ export default {
         }
       });
     },
-    pickAreaValues(v) {
-      this.pickAreaValue = v;
+    pickAreaValues(value) {
+      this.pickAreaValue = value;
+      this.CSandareaData.forEach((v) => {
+        if (value === v.wareAreaName) {
+          this.SLInforData.wareAreaId = v.id;
+          this.areaShelfQueryData.wareAreaId = v.id;
+        }
+      });
+      let areaShelfQueryData = this.areaShelfQueryData;
+      areaShelfQuery(areaShelfQueryData).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.shelfResList = ok.data.result;
+          this.shelfResList.forEach((v) => {
+            this.pickShelfData.push({
+              value: v.shelfName,
+              label: v.shelfName,
+            });
+          });
+        }
+      });
     },
-    pickShelfValues(v) {
-      this.pickShelfValue = v;
+    pickShelfValues(value) {
+      this.pickShelfValue = value;
+      this.shelfResList.forEach((v) => {
+        if (value === v.shelfName) {
+          this.SLInforData.wareShelfId = v.id;
+        }
+      });
+    },
+    pickStoreValues(value) {
+      this.pickStoreValue = value;
+      this.queryCSinfor.forEach((v) => {
+        if (value === v.childWareName) {
+          this.SLInforData.childWareId = v.id;
+        }
+      });
+      this.CSandareaData.forEach((v) => {
+        if (value === v.childWareName) {
+          this.pickAreaData.push({
+            value: v.wareAreaName,
+            label: v.wareAreaName,
+          });
+        }
+      });
     },
 
     storeClickQuery() {
@@ -521,7 +589,7 @@ export default {
               CWName: v.childWareName,
               areaName: v.wareAreaName,
               shelfName: v.wareShelfName,
-              tierChoose: v.wareSeatCode,
+              tierChoose: v.wareSeatCode.split("-")[3],
               storageLocalChoose: v.wareSeatCode,
               prodUnit: "",
               MaxNumberInput: "",
@@ -538,6 +606,31 @@ export default {
     },
     pickClickQuery() {
       //拣货区查询
+      this.inforData1 = [];
+      let SLInforData = this.SLInforData;
+      querySLInforCon(SLInforData).then((ok) => {
+        if (ok.data.code === "10000") {
+          // console.log(ok);
+          let res = ok.data.result;
+          res.forEach((v) => {
+            this.inforData1.push({
+              CWName: v.childWareName,
+              areaName: v.wareAreaName,
+              shelfName: v.wareShelfName,
+              tierChoose: v.wareSeatCode.split("-")[3],
+              storageLocalChoose: v.wareSeatCode,
+              prodUnit: "",
+              MaxNumberInput: "",
+              seatId: v.id,
+            });
+          });
+        } else {
+          Message({
+            type: "error",
+            message: "未知错误",
+          });
+        }
+      });
     },
     goBack() {
       //返回按钮
@@ -554,18 +647,19 @@ export default {
           seatId: v.seatId,
           seatType: "0",
         });
-        console.log(this.requestData.seatDatas);
+        // console.log(this.requestData.seatDatas);
         if (v.prodUnit === "" || v.MaxNumberInput === "") {
           return Message({
             type: "error",
             message: "请选择存放单位和存放数量",
           });
+          
         }
       });
       let requestData = this.requestData;
-      console.log(requestData);
+      // console.log(requestData);
       prodStoreMap(requestData).then((ok) => {
-        // console.log(ok);
+        console.log(ok);
         if (ok.data.code === "10000") {
           Message({
             type: "success",

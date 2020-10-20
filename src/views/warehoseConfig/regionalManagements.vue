@@ -626,7 +626,7 @@ export default {
         return Message("请选择在那个子仓下创建区域");
       if (this.multipleSelection.length > 1)
         return Message("每次只能在一个子仓下创建区域");
-      this._getChildWidth({
+     this._getChildWidth({
         wareId: getCookie("X-Auth-wareId"),
         id: this.multipleSelection[0].childWareId,
       });
@@ -646,6 +646,7 @@ export default {
         data,
       });
       if (this.zicandaixao.length == 0) return Message("网络较慢，请稍后重试");
+      console.log(this.zicandaixao,"his.zicandaixao")
       if (datas.code === "10000") {
         localStorage.setItem(
           "warseHouseData",
