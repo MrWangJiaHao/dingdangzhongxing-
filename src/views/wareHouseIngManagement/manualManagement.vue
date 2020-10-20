@@ -13,9 +13,27 @@
             <div class="bianjiUser" @click="printReceipt">打印收货单</div>
             <div class="bianjiUser" @click="parintBatchNumber">打印批次号</div>
             <div class="lodopFunClear" @click="ExportArr">导出</div>
-            <div class="goOn" @click="CreateStockInOrder">创建入库单</div>
-            <div class="lodopFunClear" @click="editBtn">编辑</div>
-            <div class="remove" @click="clearBtn">删除</div>
+            <div
+              class="goOn"
+              v-if="$route.params.type == 0"
+              @click="CreateStockInOrder"
+            >
+              创建入库单
+            </div>
+            <div
+              class="lodopFunClear"
+              v-if="$route.params.type == 0"
+              @click="editBtn"
+            >
+              编辑
+            </div>
+            <div
+              class="remove"
+              v-if="$route.params.type == 0"
+              @click="clearBtn"
+            >
+              删除
+            </div>
           </div>
         </div>
         <!-- but按钮 -->
@@ -137,6 +155,7 @@ import WarehouseReceipt from "../../components/manual/WarehouseReceipt"; //入�
 import Receipt from "../../components/manual/Receipt"; //收货单
 import BatchNumber from "../../components/manual/BatchNumber"; //批次号
 import { post } from "../../api/api";
+import { Message } from "element-ui";
 
 export default {
   components: {
@@ -149,8 +168,11 @@ export default {
   data() {
     return {
       WarehouseReceipt: false,
+      WarehouseReceiptIds: "",
       Receipt: false,
+      ReceiptIds: "",
       BatchNumber: false,
+      BatchNumberIds: "",
       tableData: [
         {
           orgName: "", //委托公司
@@ -228,15 +250,40 @@ export default {
     },
     //入库确认
     warehousingConfirmation() {
-      this.$router.push("/warehousingManagement/manageMentrukuSure");
+      if (!this.multipleSelection.length) {
+        return Message("请选择入库确认的单号");
+      } else if (this.multipleSelection.length > 1) {
+        return Message("只能选择一个入库单号");
+      } else {
+        this.$router.push({
+          path: "/warehousingManagement/manageMentrukuSure",
+          query: {
+            id: this.multipleSelection[0].id,
+          },
+        });
+      }
     },
     //打印入库单:
     printstockinlist() {
-      this.WarehouseReceipt = !this.WarehouseReceipt;
+      if (!this.multipleSelection.length) {
+        return Message("请选择要打印的入库单");
+      } else if (this.multipleSelection.length > 1) {
+        return Message("只能选择打印一个入库单");
+      } else {
+        this.WarehouseReceipt = !this.WarehouseReceipt;
+        this.WarehouseReceiptIds = this.multipleSelection[0].id;
+      }
     },
     //打印收货单
     printReceipt() {
-      this.Receipt = !this.Receipt;
+      if (!this.multipleSelection.length) {
+        return Message("请选择要打印的收货单");
+      } else if (this.multipleSelection.length > 1) {
+        return Message("只能选择打印一个收货单");
+      } else {
+        this.Receipt = !this.Receipt;
+        this.ReceiptIds = this.multipleSelection[0].id;
+      }
     },
     // 打印批次号
     parintBatchNumber() {
