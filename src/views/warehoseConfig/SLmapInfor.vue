@@ -346,7 +346,7 @@ export default {
       orgId: "4C2F466B16E94451B942EBBD07BE0F8B",
     };
     queryProductInfor(data).then((ok) => {
-      console.log(ok);
+      // console.log(ok);
       if (ok.data.code === "10000") {
         this.prodInforData = ok.data.result;
         this.prodInforData.forEach((v) => {

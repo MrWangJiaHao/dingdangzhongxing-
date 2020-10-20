@@ -226,6 +226,7 @@ export default {
     this.querySupplierFun = () => {
       let pagingQueryData = this.pagingQueryData;
       querySupplier(pagingQueryData).then((ok) => {
+        console.log(ok)
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result.list;
           this.tableData1 = ok.data.result.list;
