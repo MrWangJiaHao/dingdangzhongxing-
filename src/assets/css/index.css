@@ -265,6 +265,9 @@ textarea{
 .mb20{
   margin-bottom: 20px;
 }
+.mt20{
+  margin-top: 20px;
+}
 .ml11{
   margin-left:11px;
 }
@@ -371,6 +374,7 @@ textarea{
   height: 50%;
   transform: translate(-50%,-50%);
 }
+
 .heiderBoxs{
   display: flex;
   align-items: center;
@@ -400,8 +404,19 @@ textarea{
 .bkf{
   background: #ffffff;
 }
-.mt20{
-  margin-top: 20px;
+.mtb20{
+  margin: 20px 0;
+}
+.ptb20{
+  padding: 20px 0;
+
+}
+.mb10{
+  margin-bottom: 10px;
+}
+.pb10{
+  padding-bottom: 10px;
+
 }
 .botD1{
   border-bottom: 1px solid #D1D6E2;

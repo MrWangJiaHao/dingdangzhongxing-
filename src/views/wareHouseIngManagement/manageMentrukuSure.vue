@@ -21,13 +21,13 @@
                 </div>
                 <div class="centersBox">
                   <div v-if="item == '入库人*'">
-                    <el-input placeholder="请输入入库人"></el-input>
+                    <input class="input" placeholder="请输入入库人" />
                   </div>
                   <div v-else-if="item == '入库时间*'">
-                    <el-input placeholder="请输入入库时间"></el-input>
+                    <input class="input" placeholder="请输入入库时间" />
                   </div>
                   <div v-else-if="item == '批次号*'">
-                    <el-input placeholder="请输入批次号"></el-input>
+                    <input class="input" placeholder="请输入批次号" />
                   </div>
                   <div v-else>
                     {{ key }}
@@ -220,9 +220,9 @@ export default {
         委托公司: "委托公司委托公司1",
         入库状态: "入库状态",
         入库类型: "采购",
-        "入库人*": "",
-        "入库时间*": "",
-        "批次号*": "",
+        "*入库人": "",
+        "*入库时间": "",
+        "*批次号": "",
         关联单号: "CG20180923006",
       },
       multipleSelection: [],
@@ -335,12 +335,7 @@ export default {
   },
 };
 </script>
-<style lang="scss" >
-.el-input__inner {
-  padding: 0;
-  height: 30px;
-}
-</style>
+
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .fade-enter-active,
@@ -349,6 +344,12 @@ export default {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   transform: scale(0);
+}
+.input {
+  border: 1px solid #d2d6e2;
+  height: 28px;
+  text-indent: 10px;
+  border-radius: 2px;
 }
 .rukuquerenparent {
   width: 100%;
@@ -361,6 +362,7 @@ export default {
       width: 106px;
       border-right: 1px solid #d1d6e2;
       background-color: #ecf1f7;
+      text-align: right;
     }
   }
 }

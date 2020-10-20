@@ -11,7 +11,7 @@
             <div class="setUser" @click="warehousingConfirmation">入库确认</div>
             <div class="bianjiUser" @click="printstockinlist">打印入库单</div>
             <div class="bianjiUser" @click="printReceipt">打印收货单</div>
-            <div class="bianjiUser" @click="editBtn">打印批次号</div>
+            <div class="bianjiUser" @click="parintBatchNumber">打印批次号</div>
             <div class="lodopFunClear" @click="ExportArr">导出</div>
             <div class="goOn" @click="CreateStockInOrder">创建入库单</div>
             <div class="lodopFunClear" @click="editBtn">编辑</div>
@@ -105,6 +105,24 @@
       <!-- table-biaoge -->
     </div>
     <!-- 头部组件 -->
+    <div v-show="WarehouseReceipt">
+      <div class="posFixCenter">
+        <WarehouseReceipt />
+      </div>
+    </div>
+    <!-- 入库单 -->
+    <div v-show="Receipt">
+      <div class="posFixCenter">
+        <Receipt />
+      </div>
+    </div>
+    <!-- 收货单 -->
+    <div v-show="BatchNumber">
+      <div class="posFixCenter">
+        <BatchNumber />
+      </div>
+    </div>
+    <!-- 批次号 -->
   </div>
 </template>
 <style>
@@ -115,12 +133,24 @@
 <script>
 import manualHeader from "../../components/manual/manualHeader";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
+import WarehouseReceipt from "../../components/manual/WarehouseReceipt"; //入库单
+import Receipt from "../../components/manual/Receipt"; //收货单
+import BatchNumber from "../../components/manual/BatchNumber"; //批次号
 import { post } from "../../api/api";
 
 export default {
-  components: { manualHeader, pagecomponent },
+  components: {
+    manualHeader,
+    pagecomponent,
+    WarehouseReceipt,
+    Receipt,
+    BatchNumber,
+  },
   data() {
     return {
+      WarehouseReceipt: false,
+      Receipt: false,
+      BatchNumber: false,
       tableData: [
         {
           orgName: "", //委托公司
@@ -201,11 +231,17 @@ export default {
       this.$router.push("/warehousingManagement/manageMentrukuSure");
     },
     //打印入库单:
-    printstockinlist() {},
+    printstockinlist() {
+      this.WarehouseReceipt = !this.WarehouseReceipt;
+    },
     //打印收货单
-    printReceipt() {},
+    printReceipt() {
+      this.Receipt = !this.Receipt;
+    },
     // 打印批次号
-    printBatchNumber() {},
+    parintBatchNumber() {
+      this.BatchNumber = !this.BatchNumber;
+    },
     //导出
     ExportArr() {},
     //创建入库单
@@ -246,6 +282,11 @@ export default {
 
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
+.posFixCenter {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+}
 
 .manualBox {
   border-top: 1px solid #d1d6e2;
