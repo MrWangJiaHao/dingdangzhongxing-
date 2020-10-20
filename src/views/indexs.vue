@@ -343,7 +343,7 @@ export default {
   left: 10px;
   z-index: 10;
 }
-.el-tabs--card > .el-tabs__header .el-tabs__item {
+.dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item {
   border: 1px solid #ced4de;
 }
 .el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
@@ -471,12 +471,6 @@ export default {
   // width: 70px;
   // display: flex;
 }
-/* .tabContainer .is-disabled .el-icon-arrow-left{
-  color: white;
-}
-.tabContainer .is-disabled .el-icon-arrow-right{
-  color: white;
-} */
 
 .tabContainer .el-tabs__nav-prev {
   left: 1720px;
@@ -527,8 +521,6 @@ export default {
   .el-tabs__item.is-active {
   color: #1b2945;
   background-color: #fff;
-  /*border-right-color: #DCDFE6;*/
-  /*border-left-color: #DCDFE6;*/
   border: none;
   box-shadow: none;
 }
@@ -542,9 +534,7 @@ export default {
   > .el-tabs__header
   .el-tabs__item:not(.is-disabled):hover {
   color: #409eff;
-  /*color: #FFFFFF;*/
 }
-/*input*/
 .tabContainer .tabInput {
   background: none;
   width: 160px;

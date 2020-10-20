@@ -182,7 +182,7 @@
     </div>
     <div class="formBox">
       <div class="formTabs">
-        <el-tabs type="card">
+        <el-tabs type="card" @tab-click="pickStoreQuery">
           <el-tab-pane label="存储区库位">
             <MapForms
               :storageArea="storageArea1"
@@ -192,7 +192,7 @@
               :tableData="tableData"
             ></MapForms>
           </el-tab-pane>
-          <el-tab-pane label="拣货区库位">
+          <el-tab-pane label="拣货区库位" >
             <MapForms
               :storageArea="storageArea2"
               :storageShelf="storageShelf2"
@@ -311,7 +311,7 @@ export default {
       wareId: "2A8B48391F4F4EB5BDEDF9EBA0B6BAE7",
     };
     queryEntrustCompany(EntrustCompanyData).then((ok) => {
-      console.log(ok);
+      // console.log(ok);
       if (ok.data.code === "10000") {
         let res = ok.data.result;
         res.forEach((v) => {
@@ -349,7 +349,7 @@ export default {
       this.pagingQueryData.paras.prodCode = value;
       this.CSandareaData.forEach((v) => {
         if (value === v.wareAreaName) {
-          this.SLInforData.wareAreaId = v.id;
+           this.pagingQueryData.paras.wareAreaId = v.id;
         }
       });
     },
@@ -389,7 +389,7 @@ export default {
           prodName: this.productName, //产品名称
           prodCode: this.productCode, //产品编码
           childWareId: this.pagingQueryData.paras.childWareId, //子仓id
-          wareAreaId: "", //区域id
+          wareAreaId: this.pagingQueryData.paras.wareAreaId, //区域id
         },
       };
       storeMapRelation(queryData).then((ok) => {
@@ -426,6 +426,11 @@ export default {
           });
         }
       });
+    },
+    pickStoreQuery(a){
+      if(a.label === "拣货区库位"){
+        console.log(123)
+      }
     },
     clearInput() {
       //点击清空

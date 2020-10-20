@@ -115,13 +115,12 @@ export default {
     },
     edit() {
       //编辑操作
-      if (!this.multipleSelection.length) return Message("请选择要查看的库位");
+      if (!this.multipleSelection.length) return Message("请选择要编辑的库位");
       if (this.multipleSelection.length !== 1)
         return Message({
           message: "每次只能编辑一条库位信息，请重新选择",
           type: "warning",
         });
-      // this.$store.dispatch("fromDataAct",this.multipleSelection)
       this.$router.push({path:'/storageLocalMap/SLmapInfor',query:{datas:this.multipleSelection}})
     },
     del() {

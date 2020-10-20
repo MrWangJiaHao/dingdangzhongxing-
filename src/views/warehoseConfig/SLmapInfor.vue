@@ -266,8 +266,26 @@ import {
   areaShelfQuery,
 } from "../../api/api";
 import { Message } from "element-ui";
-
 export default {
+  beforeRouteEnter(to, from, next) {
+    if (from.name === "/warehoseconfig/storageLocalAdmins") {
+      next();
+    }
+    if (from.name === "/warehoseconfig/storageLocalMap") {
+      next((vm) => {
+        // console.log(vm.$route.query.datas);
+        vm.recepData = vm.$route.query.datas;
+        vm.delegaCompanyValue = vm.recepData[0].delegaCompany;
+        vm.productNameValue = vm.recepData[0].productName;
+        vm.productCodeValue = vm.recepData[0].productNumber;
+        vm.specificationValue = vm.recepData[0].producTspecifica;
+        vm.ProdBrandName = vm.recepData[0].brand;
+        vm.ProdLength = vm.recepData[0].ProdLength;
+        vm.ProdWidth = vm.recepData[0].ProdWidth;
+        vm.ProdHeight = vm.recepData[0].ProdHeight;
+      });
+    }
+  },
   components: {
     prodFromStore,
     ProductFormStoreUsed,
@@ -276,6 +294,7 @@ export default {
   },
   data() {
     return {
+      recepData: [],
       delegaCompanyValue: "", //委托公司
       productCodeValue: "", //产品编号
       productNameValue: "", //产品名称
@@ -334,13 +353,6 @@ export default {
   },
   mounted() {
     this.setintervalFun();
-    // this.choosedKuWeiData = this.$store.state.fromDataRequest.fromData
-    // this.choosedKuWeiData = this.$route.query.datas
-    // this.delegaCompanyValue = this.choosedKuWeiData[0].delegaCompany
-    // this.productNameValue = this.choosedKuWeiData[0].productName
-    // this.productCodeValue = this.choosedKuWeiData[0].productNumber
-    // this.specificationValue = this.choosedKuWeiData[0].producTspecifica
-    // this.ProdBrandName = this.choosedKuWeiData[0].brand
     let data = {
       wareId: "2A8B48391F4F4EB5BDEDF9EBA0B6BAE7",
       orgId: "4C2F466B16E94451B942EBBD07BE0F8B",
@@ -349,6 +361,7 @@ export default {
       // console.log(ok);
       if (ok.data.code === "10000") {
         this.prodInforData = ok.data.result;
+        // console.log(this.prodInforData);
         this.prodInforData.forEach((v) => {
           this.delegaCompanyData.push({
             value: v.orgName,
@@ -369,6 +382,9 @@ export default {
             value: v.prodName,
             label: v.prodName,
           });
+          if (this.productNameValue === v.prodFullName) {
+            this.requestData.prodId = v.id;
+          }
         });
       }
     });
@@ -460,7 +476,7 @@ export default {
       });
       let areaShelfQueryData = this.areaShelfQueryData;
       areaShelfQuery(areaShelfQueryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.shelfResList = ok.data.result;
           this.shelfResList.forEach((v) => {
@@ -532,15 +548,14 @@ export default {
 
       this.choosedKuWeiData.forEach((v) => {
         this.requestData.seatDatas.push({
-            maxNum: v.MaxNumberInput,
-            minNum: "",
-            prodUnit: v.prodUnit,
-            seatId: v.seatId,
-            seatType: "0",
-          });
-          console.log(this.requestData.seatDatas)
+          maxNum: v.MaxNumberInput,
+          minNum: "",
+          prodUnit: v.prodUnit,
+          seatId: v.seatId,
+          seatType: "0",
+        });
+        // console.log(this.requestData.seatDatas)
         if (v.prodUnit === "" || v.MaxNumberInput === "") {
-          
           return Message({
             type: "error",
             message: "请选择存放单位和存放数量",
@@ -548,8 +563,9 @@ export default {
         }
       });
       let requestData = this.requestData;
+      console.log(requestData);
       prodStoreMap(requestData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           Message({
             type: "success",

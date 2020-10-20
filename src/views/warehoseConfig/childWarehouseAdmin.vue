@@ -227,8 +227,9 @@ export default {
       requestMethods: "",
       tjQueryData: {
         id: "",
-        wareId: "",
+        wareId: "2A8B48391F4F4EB5BDEDF9EBA0B6BAE7",
       },
+      queryRes: [],
     };
   },
   mounted() {
@@ -237,8 +238,8 @@ export default {
       let tableData = this.tableData;
       query_WH_Request(queryData).then((ok) => {
         if (ok.data.code === "10000") {
-          console.log(ok.data.result);
-          //将查询结果赋值给一个变量
+          // console.log(ok.data.result);
+          this.queryRes = ok.data.result.list;
           this.changeData(ok.data.result);
           // 将查询出来的数组进行循环，分别插入到表格中
           let resultList = ok.data.result.list;
@@ -281,8 +282,8 @@ export default {
     },
     selectName(val) {
       this.nameValue = val;
-      this.tableData.forEach((v) => {
-        if (val === v.CWName) {
+      this.queryRes.forEach((v) => {
+        if (val === v.childWareName) {
           this.tjQueryData.id = v.id;
         }
       });
@@ -294,9 +295,26 @@ export default {
       //点击查询
       this.tableData = [];
       let tjQueryData = this.tjQueryData;
-      console.log(tjQueryData);
       TJquery_WH_Request(tjQueryData).then((ok) => {
-        console.log(ok);
+        if (ok.data.code === "10000") {
+          let res = ok.data.result[0];
+          this.tableData.push({
+            CWName: res.childWareName, //子仓名称
+            CWnumber: res.childWareCode, //子仓编号
+            CWtype: res.wareType, //子仓类型
+            CWWidth: res.wareLength, //子仓长度
+            CWHeight: res.wareWidth, //子仓宽度
+            Ndistance: res.northDistance, //距北距离
+            Wdistance: res.westDistance, //距西距离
+            divideArea: res.enableStatus, //是否划分区域
+            usedArea: res.size, //已使用面积
+            unUsedArea: res.wareLength * res.wareWidth - res.size, //未使用面积
+            remark: res.remark, //备注
+            createName: res.createUser, //创建人
+            createTime: res.createTime, //创建时间
+            id: res.id,
+          });
+        }
       });
     },
     clearInput() {
