@@ -3,7 +3,8 @@
     <el-pagination
       @current-change="handleCurrentChange"
       :current-page="currentPage"
-      layout="prev, pager, next, jumper,slot, total "
+      @size-change="handleSizeChange"
+      :layout="layout"
       :total="pageComponentsData.pageNums"
     >
       <span class="successBtn" @click="sureBtnSuccess">确定</span>
@@ -22,6 +23,13 @@ export default {
   props: {
     pageComponentsData: Object,
   },
+  computed: {
+    layout() {
+      return `prev, pager, next, jumper,slot,${
+        this.pageComponentsData.sizes ? "sizes," : ""
+      }  total`;
+    },
+  },
   methods: {
     handleCurrentChange(val) {
       this.value = val;
@@ -29,6 +37,9 @@ export default {
     },
     sureBtnSuccess() {
       this.$emit("sureSuccssBtn", this.value);
+    },
+    handleSizeChange(e) {
+      this.$emit("handleSizeChange", e);
     },
   },
 };

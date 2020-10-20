@@ -554,7 +554,7 @@ export default {
           seatId: v.seatId,
           seatType: "0",
         });
-        // console.log(this.requestData.seatDatas)
+        console.log(this.requestData.seatDatas);
         if (v.prodUnit === "" || v.MaxNumberInput === "") {
           return Message({
             type: "error",

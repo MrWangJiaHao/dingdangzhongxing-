@@ -10,16 +10,26 @@
           <div class="displayalign ellipsis">
             <div class="noneIconTitle mr11">产品名称:</div>
             <div class="mr20">
-              <el-input></el-input>
+              <el-autocomplete
+                class="inline-input"
+                v-model="sendoutDatas.paras.prodName"
+                :fetch-suggestions="prodNameQuerySearch"
+                placeholder="请输入产品名称"
+                :trigger-on-focus="false"
+                @select="prodNameHandleSelect"
+              ></el-autocomplete>
             </div>
           </div>
         </div>
         <!-- 产品名称 -->
         <div>
           <div class="displayalign ellipsis">
-            <div class="noneIconTitle mr11">产品名称:</div>
+            <div class="noneIconTitle mr11">产品编码:</div>
             <div class="mr20">
-              <el-input></el-input>
+              <el-input
+                v-model="sendoutDatas.paras.prodCode"
+                placeholder="请输入产品编码"
+              ></el-input>
             </div>
           </div>
         </div>
@@ -28,19 +38,28 @@
           <div class="displayalign ellipsis">
             <div class="noneIconTitle mr11">产品规格:</div>
             <div class="mr20">
-              <el-input></el-input>
+              <el-input
+                v-model="sendoutDatas.paras.specName"
+                placeholder="请输入产品规格"
+              ></el-input>
             </div>
           </div>
         </div>
         <!-- 产品规格 -->
+        <div class="displayalign">
+          <div class="disinb tijiaoBox mr11" @click="sendoutDataAsync">
+            查询
+          </div>
+          <div class="disinb quxiaoBox" @click="clearChanPinMinChen">清空</div>
+        </div>
       </div>
       <div class="btn tr mb20 pd20">
-        <div class="disinb quxiaoBox">删除</div>
+        <div class="disinb quxiaoBox" @click="clearRemovetable">删除</div>
       </div>
       <div class="mb20 pd20">
         <el-table
           ref="multipleTable"
-          :data="tableData"
+          :data="tabledata"
           :stripe="true"
           :border="true"
           tooltip-effect="dark"
@@ -57,79 +76,172 @@
           <el-table-column
             label="产品编码"
             width="119"
-            prop="orgName"
+            prop="prodcode"
             show-overflow-tooltip
           />
           <el-table-column
             label="产品名称"
             width="119"
-            property="putWareNo"
+            property="prodFullName"
             show-overflow-tooltip
           ></el-table-column>
           <el-table-column
             width="119"
             label="产品规格"
-            prop="orderNo"
+            prop="specName"
             show-overflow-tooltip
           ></el-table-column>
           <el-table-column
             label="供应商"
-            prop="expectedSendStartTime"
+            prop="supName"
             show-overflow-tooltip
           ></el-table-column>
           <el-table-column
             label="品牌"
             width="119"
-            prop="putstatus"
+            prop="braName"
             show-overflow-tooltip
           ></el-table-column>
         </el-table>
       </div>
+      <div class="tr mb20 pd20">
+        <pageComponent
+          @handleSizeChange="handleSizeChange"
+          :pageComponentsData="pageComponentsData"
+        />
+      </div>
+
       <div class="mb20 pd20 tc">
-        <div class="disinb quxiaoBox mr11" @click="closeBtn">删除</div>
-        <div class="disinb tijiaoBox">提交</div>
+        <div class="disinb quxiaoBox mr11" @click="closeBtn">返回</div>
+        <div class="disinb tijiaoBox" @click="clickSubmit">提交</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import searchBox from "../../components/commin/searchBox"; //搜索框
-
+import { getfindOrgProductPage, queryProductInfor } from "../../api/api";
+import { getCookie } from "../../utils/validate";
+/*eslint-disable */
+import pageComponent from "../commin/pageComponent";
 export default {
   data() {
-    let tabledata = [
-      {
-        orgName: "", //委托公司
-        orgId: "", //委托id
-        orderNo: "", //原定单号（关联单号）
-        putWareNo: "", //入库单号
-        putstatus: "", //入库状态
-        prodCode: "", //产品编码
-        prodName: "", //产品名称
-        specName: "", //规格名称
-        putStartTime: "", //入库时间开始时间
-        putEndTime: "", //入库时间结束时间
-        expectedSendStartTime: "", //期望入库开始时间
-        expectedSendEndTime: "", //期望入库时间结束时间
-        putUser: "", //入库人
-        batchNo: "",
-      },
-    ];
     return {
-      tabledata,
+      pageComponentsData: {
+        pageNums: 0,
+        sizes: true,
+      },
+      tabledata: [
+        {
+          prodcode: "1", //产品编码
+          prodFullName: "1322", //产品名称
+          specName: "321", //产品规格
+          supName: "321", //供应商
+          braName: "321", //品牌
+          id: 1,
+        },
+        {
+          prodcode: "2", //产品编码
+          prodFullName: "1323", //产品名称
+          specName: "321", //产品规格
+          supName: "3221", //供应商
+          braName: "321", //品牌
+          id: 0,
+        },
+        {
+          prodcode: "3", //产品编码
+          prodFullName: "1324", //产品名称
+          specName: "321", //产品规格
+          supName: "3211", //供应商
+          braName: "321", //品牌
+          id: 2,
+        },
+      ],
+      mutalisArr: [],
+      sendoutDatas: {
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          prodName: "", //产品名称
+          prodCode: "", //产品编码
+          specName: "", //产品规格
+        },
+      },
     };
   },
   components: {
     // searchBox,
+    pageComponent,
   },
   methods: {
+    async _chanpinmingc(data) {
+      let datas = await queryProductInfor({
+        wareid: getCookie("X-Auth-wareId"),
+        orgId: sessionStorage.getItem("orgId"),
+        paras: {
+          ...data,
+        },
+      });
+      return datas.data;
+    },
+    prodNameQuerySearch(e, cb) {
+      this._chanpinmingc({ prodName: e }).then((res) => {
+        console.log(res);
+        cb(res.result);
+      });
+    },
+    prodNameHandleSelect() {},
+    sendoutDataAsync() {
+      this._sendOutAsync().then((res) => {
+        this._changeList(res);
+      });
+    },
+    clearChanPinMinChen() {
+      this.sendoutDatas.paras.prodName = "";
+      this.sendoutDatas.paras.prodCode = "";
+      this.sendoutDatas.paras.specName = "";
+    },
     closeBtn() {
-      this.$parent._data.addChanpins = false;
+      window.location.reload(true);
+      // this.$parent._data.addChanpins = false;
+    },
+    handleSelectionChange(e) {
+      this.mutalisArr = e;
+    },
+    clearRemovetable() {
+      console.log(this.mutalisArr);
+      this.mutalisArr.forEach((item) => {
+        let idxs = this.tabledata.indexOf(item);
+        this.tabledata.splice(idxs, 1);
+      });
+    },
+    //点击了提交
+    clickSubmit() {
+      this.$emit("tables", this.mutalisArr);
+      sessionStorage.setItem("_addTablesData", JSON.stringify(this.mutalisArr));
+      this.closeBtn();
+    },
+    //发生请求
+    async _sendOutAsync() {
+      let datas = await getfindOrgProductPage(this.sendoutDatas);
+      return datas.result;
+    },
+    //改变数据
+    _changeList(data) {
+      data.tabledata = data.list;
+      this.pageComponentsData.pageNums = data.totalRow;
+    },
+    handleSizeChange(e) {
+      this.sendoutDatas.pageSize = e;
     },
   },
 };
 </script>
+<style>
+.el-pager {
+  margin-right: 6px;
+}
+</style>
 
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
