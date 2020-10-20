@@ -46,5 +46,15 @@
     "eslint-plugin-vue": "^6.2.2",
     "px2rem-loader": "^0.1.9",
     "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "rules": {
+      "vue/no-parsing-error": [
+        2,
+        {
+          "x-invalid-end-tag": false
+        }
+      ]
+    }
   }
 }

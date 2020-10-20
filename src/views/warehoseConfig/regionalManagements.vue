@@ -58,7 +58,7 @@
                   :key="idx"
                   :label="item.wareAreaName"
                   :value="idx"
-                   ></el-option>
+                ></el-option>
               </el-select>
             </div>
           </div>
@@ -313,93 +313,7 @@ export default {
           wareAreaLength: 5,
           wareAreaWidth: 4,
         },
-        kuwie: [
-          {
-            childWareId: "EF0F0B8CA53445E0A65794666B00A200",
-            childWareName: "SND子仓1号",
-            createTime: "2020-03-17 14:38:20",
-            createUser: "admin",
-            curOrgId: "",
-            curOrgName: "",
-            curWareId: "",
-            curWareName: "",
-            dataBaseSubfix: "",
-            enableStatus: 0,
-            groupId: "",
-            id: "80C5B700AEB84668A8D36A3BDE2F086E",
-            lastModifyTime: null,
-            lastModifyUser: "",
-            orgIds: [],
-            prodIds: [],
-            remark: "",
-            seatProdId: "",
-            seatType: 0,
-            shelfLevelNum: 0,
-            tableSubfix: "",
-            tails: {},
-            userId: "",
-            userName: "",
-            userToken: "",
-            userType: 0,
-            version: 0,
-            wareAreaId: "09100B2AF89C4D2687A09C7019A68D65",
-            wareAreaName: "子仓默认区域",
-            wareAreaType: 0,
-            wareIds: [],
-            wareSeatCode: "A1-A01-009-4-2",
-            wareSeatHight: 40,
-            wareSeatLength: 30,
-            wareSeatWidth: 30,
-            wareShelfId: "015604FA11504D57B969EC9C22031440",
-            wareShelfName: "3*4货架A型",
-            wareType: 0,
-            wtgsOrgId: "",
-            distance: 1,
-          },
-          {
-            distance: 0.5,
-
-            childWareId: "EF0F0B8CA53445E0A65794666B00A200",
-            childWareName: "SND子仓1号",
-            createTime: "2020-03-17 14:38:20",
-            createUser: "admin",
-            curOrgId: "",
-            curOrgName: "",
-            curWareId: "",
-            curWareName: "",
-            dataBaseSubfix: "",
-            enableStatus: 0,
-            groupId: "",
-            id: "AEEB6FE5679C4E93990FE20A1F6B6347",
-            lastModifyTime: null,
-            lastModifyUser: "",
-            orgIds: [],
-            prodIds: [],
-            remark: "",
-            seatProdId: "",
-            seatType: 0,
-            shelfLevelNum: 0,
-            tableSubfix: "",
-            tails: {},
-            userId: "",
-            userName: "",
-            userToken: "",
-            userType: 0,
-            version: 0,
-            wareAreaId: "09100B2AF89C4D2687A09C7019A68D65",
-            wareAreaName: "子仓默认区域",
-            wareAreaType: 0,
-            wareIds: [],
-            wareSeatCode: "A1-A01-009-4-1",
-            wareSeatHight: 40,
-            wareSeatLength: 30,
-            wareSeatWidth: 30,
-            wareShelfId: "015604FA11504D57B969EC9C22031440",
-            wareShelfName: "3*4货架A型",
-            wareType: 0,
-            wtgsOrgId: "",
-          },
-        ],
+        kuwie: [],
       }, //库位平面图 data
       isJianhuio: true, //是不是拣货区
       quyuLook: false, //区域平面图 显示
@@ -491,7 +405,6 @@ export default {
     setTimeout(() => {
       this.dropDowBox.dropDownBoxData = this.warehouseConfig;
     }, 0);
-  
   },
   methods: {
     //获取子仓名称
