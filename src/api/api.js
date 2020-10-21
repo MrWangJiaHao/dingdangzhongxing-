@@ -595,7 +595,63 @@ export const getfindOrgProductPage = function (data) {
 
 }
 
+/**
+ * 入库单详情/打印入库单、打印收货单等
+ * @param {*} datas  http://localhost:8902/wbs-warehouse-manage/v1/putWarehouse/findRecord
+ */
+export const getFindRecord = function (ids) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/putWarehouse/findRecord",
+            method: "post",
+            data: {
+                ids
+            }
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
 
+/**
+ * 
+ * @param {*} datas /wbs-warehouse-manage/v1/putWarehouse/findWarehouseProduct
+ *  
+ */
+export const getFindWarehouseProduct = function (id) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/putWarehouse/findWarehouseProduct",
+            method: "post",
+            data: {
+                id
+            }
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 
+ * @param {*} datas  /wbs-warehouse-manage/v1/putWarehouse/saveRecord
+ */
+export const getSaveRecord = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/putWarehouse/saveRecord",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
 export function post(datas) {
     let { url, data } = datas
     return new Promise((resolve, reject) => {

@@ -20,7 +20,7 @@
             >
               创建入库单
             </div>
-            
+
             <div
               class="lodopFunClear"
               v-if="$route.params.type == 0"
@@ -307,6 +307,7 @@ export default {
       } else if (this.multipleSelection.length > 1) {
         return Message("只能选择一个入库单号");
       } else {
+        console.log(this.multipleSelection[0]);
         this._getFindRecord(this.multipleSelection[0].id).then(() => {
           this.$router.push({
             path: "/warehousingManagement/manageMentrukuSure",
@@ -315,6 +316,7 @@ export default {
               WarehousingTypeArr: this.WarehousingTypeArr[
                 this.$route.params.type
               ].WarehousingTypeCenter,
+              childWareId: this.multipleSelection[0].childWareId,
             },
           });
         });

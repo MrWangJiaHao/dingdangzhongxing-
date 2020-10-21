@@ -8,7 +8,7 @@
         @on-change="changeDate"
         @on-open-change="openChangeDate"
         @on-ok="openChangeDate"
-        ref='time'
+        ref="time"
       ></Date-picker>
     </div>
   </div>
@@ -59,8 +59,8 @@ export default {
       }
     },
     clear() {
-      this.$refs.time.handleClear()
-    }
+      this.$refs.time.handleClear();
+    },
   },
 };
 </script>

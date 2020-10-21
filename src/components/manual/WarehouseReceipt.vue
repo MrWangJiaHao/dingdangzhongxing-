@@ -12,7 +12,7 @@
               style="
                 width: 1000px;
                 position: relative;
-                height: 90px;
+                height: 100px;
                 border-bottom: 1px solid #d2d6e2;
               "
             >
@@ -22,7 +22,7 @@
                   font-size: 24px;
                   font-weight: bold;
                   left: 50%;
-                  top: 20px;
+                  top: 30px;
                   transrom: translate(-50%);
                   color: #343434;
                   line-height: 26px;
@@ -32,7 +32,10 @@
               </div>
               <div style="position: absolute; top: 10px; right: 50px">
                 <img
-                  src="http://172.16.3.30:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=RK_20200420104302547_044943"
+                  :src="
+                    'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
+                    listArrs.putWareNo
+                  "
                   width="300"
                   height="90"
                 />
@@ -62,7 +65,7 @@
                       margin-right: 50px;
                     "
                   >
-                    委托公司
+                    {{ listArrs.orgName }}
                   </div>
                 </div>
                 <div style="display: inline-block">
@@ -86,7 +89,7 @@
                       margin-right: 50px;
                     "
                   >
-                    RK_20200420104302547_044943
+                    {{ listArrs.putWareNo }}
                   </div>
                 </div>
                 <div style="display: inline-block">
@@ -110,7 +113,7 @@
                       margin-right: 50px;
                     "
                   >
-                    312321dsadsa
+                    {{ listArrs.orderNo }}
                   </div>
                 </div>
                 <div style="display: inline-block">
@@ -134,7 +137,7 @@
                       margin-right: 50px;
                     "
                   >
-                    dsadsddasd
+                    {{ listArrs.batchNo }}
                   </div>
                 </div>
                 <div style="display: inline-block">
@@ -158,7 +161,7 @@
                       margin-right: 50px;
                     "
                   >
-                    预入库
+                    {{ WarehousingType }}
                   </div>
                 </div>
                 <div style="display: inline-block">
@@ -289,6 +292,7 @@
                   打印时间：{{ Newtime }}
                 </div>
                 <div
+                  v-if="tableDatas.length >= 5"
                   style="
                     display: inline-block;
                     font-size: 14px;
@@ -296,7 +300,7 @@
                     font-weight: normal;
                   "
                 >
-                  1/3
+                  1/{{ tableDatas.length / 5 }}
                 </div>
               </div>
               <!-- 入库尾部 -->
@@ -321,13 +325,21 @@ export default {
     return {
       tableDatas: [],
       Newtime: "",
+      listArrs: {},
     };
+  },
+  props: {
+    WarehousingType: String,
   },
   created() {
     this._changeTime();
   },
   mounted() {
     this.$nextTick(() => {
+      let listArrs = JSON.parse(sessionStorage.getItem("listArrs"));
+      console.log(listArrs, "入库单");
+      this.listArrs = listArrs;
+      this.tableDatas = listArrs.detailList;
       let cells = document
         .getElementById("printCenter")
         .getElementsByClassName("cell");

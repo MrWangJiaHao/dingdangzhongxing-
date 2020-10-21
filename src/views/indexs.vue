@@ -334,6 +334,9 @@ export default {
 .el-tabs__new-tab {
   display: none;
 }
+.el-table__body-wrapper .is-scrolling-right {
+  overflow: auto;
+}
 .el-tabs__header {
   margin: 0 0 0;
 }
