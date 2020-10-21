@@ -32,7 +32,7 @@
               </div>
               <div style="position: absolute; top: 10px; right: 50px">
                 <img
-                  src="http://172.16.3.30:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=RK_20200420104302547_044943"
+                  src="http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=RK_20200420104302547_044943"
                   width="300"
                   height="90"
                 />

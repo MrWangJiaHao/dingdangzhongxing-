@@ -159,6 +159,7 @@
             <el-table-column
               label="期望入库时间"
               prop="expectedSendTime"
+              width="200"
               show-overflow-tooltip
             >
               <div slot-scope="scope">
@@ -243,24 +244,7 @@ export default {
         placeholder: "请选择预期入库时间",
       },
       multipleSelection: [],
-      tabledata: [
-        // {
-        // orgName: "1", //委托公司
-        // orgId: "1", //委托id
-        // orderNo: "1", //原定单号（关联单号）
-        // putWareNo: "1", //入库单号
-        // putstatus: "1", //入库状态
-        // prodCode: "1", //产品编码
-        // prodName: "1", //产品名称
-        // specName: "1", //规格名称
-        // putStartTime: "1", //入库时间开始时间
-        // putEndTime: "1", //入库时间结束时间
-        // expectedSendStartTime: "1", //期望入库开始时间
-        // expectedSendEndTime: "1", //期望入库时间结束时间
-        // putUser: "1", //入库人
-        // batchNo: "1",
-        // },
-      ],
+      tabledata: [],
       addChanpins: false,
       ziCangJson: {
         value: "",
@@ -274,6 +258,7 @@ export default {
         orgId: "",
         waerId: "",
         codeValue: "",
+        operatorType: 1,
         detailList: [],
       },
       getProvinceData: {
@@ -285,11 +270,13 @@ export default {
   },
   async created() {
     this.tables = eval(sessionStorage.getItem("_addTablesData"));
-    this.tables.forEach((item) => {
-      item.prodId = item.id;
-    });
-    this.tabledata = this.tables;
-    this.createUserData.detailList = this.tables;
+    if (this.tables) {
+      this.tables.forEach((item) => {
+        item.prodId = item.id;
+      });
+      this.tabledata = this.tables;
+      this.createUserData.detailList = this.tables;
+    }
   },
   methods: {
     getkuweimes() {

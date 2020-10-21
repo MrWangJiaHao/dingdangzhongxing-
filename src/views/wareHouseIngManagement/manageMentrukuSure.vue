@@ -1,5 +1,5 @@
 <template>
-  <div class="setUserIngBox">
+  <div class="setUserIngBox" id="manageMenyrukuSure">
     <div class="setUserIngBoxCenter">
       <div class="headerBox">
         <div class="closeTitle">入库确认</div>
@@ -16,21 +16,30 @@
                 :key="idx"
                 class="displayalign parentBox"
               >
-                <div class="titleBox displayCenter">
-                  {{ shezhizitiwiered(item) }}
-                </div>
+                <div class="titleBox" v-html="shezhizitiwiered(item)"></div>
                 <div class="centersBox">
-                  <div v-if="item == '入库人*'">
-                    <input class="input" placeholder="请输入入库人" />
+                  <div v-if="item == '*入库人'">
+                    <input
+                      v-model="createUserData.putUser"
+                      class="input"
+                      placeholder="请输入入库人"
+                    />
                   </div>
-                  <div v-else-if="item == '入库时间*'">
-                    <input class="input" placeholder="请输入入库时间" />
+                  <div v-else-if="item == '*入库时间'">
+                    <dateTime
+                      :dateTimeData="dateTimeData"
+                      @getDateTime="getDateTimeExpectedSendTime"
+                    />
                   </div>
-                  <div v-else-if="item == '批次号*'">
-                    <input class="input" placeholder="请输入批次号" />
+                  <div v-else-if="item == '*批次号'">
+                    <input
+                      v-model="createUserData.batchNo"
+                      class="input"
+                      placeholder="请输入批次号"
+                    />
                   </div>
                   <div v-else>
-                    {{ key }}
+                    {{ key() }}
                   </div>
                 </div>
               </div>
@@ -42,18 +51,19 @@
       <div class="pd20">
         <div class="setTitle">产品明细</div>
         <div class="mb20 tr">
-          <div class="tijiaoBox disinb mr20" @click="addChanpin">复制产品</div>
+          <div class="tijiaoBox disinb mr20" @click="copyChanpin">复制产品</div>
           <div class="tijiaoBox disinb mr20" @click="addChanpin">添加产品</div>
-          <div class="quxiaoBox disinb" @click="goAJAXCreate">删除</div>
+          <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
         </div>
         <div class="mb20">
           <el-table
             ref="multipleTable"
             :data="tabledata"
             :stripe="true"
+            @select="select"
             :border="true"
             tooltip-effect="dark"
-            style="width: 100%"
+            style="width: 100%; overflow: auto"
             @selection-change="handleSelectionChange"
           >
             <el-table-column type="selection" width="82"></el-table-column>
@@ -61,86 +71,135 @@
               label="序号"
               type="index"
               width="71"
+              :index="indexMethod"
               show-overflow-tooltip
             />
             <el-table-column
               label="产品编码"
-              width="119"
-              prop="prodcode"
+              prop="damagedNum"
               show-overflow-tooltip
             />
             <el-table-column
               label="产品名称"
-              width="119"
-              property="prodFullName"
+              property="damagedNum"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
-              width="119"
               label="产品规格"
               prop="specName"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
               label="品牌"
-              width="119"
               prop="braName"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
-              label="推荐库位产品数量"
-              width="119"
-              prop="putstatus"
+              label="申请入库数量"
+              prop="braName"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
-              label="最大存放数"
-              width="119"
-              prop="putUser"
+              label="存储区库位产品数量"
+              prop="braName"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
-              label="入库数量*"
-              width="119"
-              prop="putStartTime"
+              label="残次品库位产品数量"
+              prop="damagedNum"
               show-overflow-tooltip
-            >
-              <el-input slot-scope="scope" v-model="scope.row.putStartTime">
-              </el-input>
-            </el-table-column>
+            ></el-table-column>
             <el-table-column
-              label="推荐库位"
-              prop="putEndTime"
+              label="存储区库位最大存放数"
+              prop="damagedNum"
               show-overflow-tooltip
-              width="119"
+            ></el-table-column>
+            <el-table-column
+              label="残次品库位最大存放数"
+              prop="damagedNum"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="推荐入库库位"
+              prop="damagedNum"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              label="实际入库库位"
+              prop="damagedNum"
+              show-overflow-tooltip
             >
-              <el-select
-                slot-scope="scope"
-                v-model="scope.row.putEndTime"
-                placeholder="请选择库位"
-                @focus="getkuweimes"
-              >
-                <el-option
-                  v-for="item in prodUnitData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+              <div slot-scope="scoped">
+                <el-select
+                  v-model="scoped.row.damagedNum"
+                  placeholder="请选择实际入库库位"
                 >
-                </el-option>
-              </el-select>
+                  <el-option
+                    v-for="item in prodUnitData"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
             </el-table-column>
             <el-table-column
-              label="期望入库时间"
-              prop="expectedSendTime"
+              label="实际入库数量*"
+              prop="actualNum"
               show-overflow-tooltip
             >
               <div slot-scope="scope">
-                <div @click="mes(scope.row, index)">
-                  <dateTime
-                    :dateTimeData="datetimeDate"
-                    @getDateTime="getDateTimeExpectedSendTime(scope.row)"
-                  />
-                </div>
+                <el-input
+                  v-model="scope.row.actualNum"
+                  placeholder="实际入库数量"
+                ></el-input>
+              </div>
+            </el-table-column>
+            <el-table-column
+              label="残次品数量"
+              prop="actualNum"
+              show-overflow-tooltip
+            >
+              <div slot-scope="scoped">
+                <el-input
+                  v-model="scoped.row.acyualNum"
+                  placeholder="请输入残次品数量"
+                ></el-input>
+              </div>
+            </el-table-column>
+            <el-table-column
+              label="残次品库位"
+              prop="actualNum"
+              show-overflow-tooltip
+            >
+              <div slot-scope="scoped">
+                <el-select
+                  v-model="scoped.row.damagedNum"
+                  placeholder="请选择残次品库位"
+                >
+                  <el-option
+                    v-for="item in prodUnitData"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+            </el-table-column>
+            <el-table-column
+              label="生产日期"
+              prop="actualNum"
+              show-overflow-tooltip
+              width="200"
+            >
+              <div slot-scope="scoped">
+                <dateTime
+                  :dateTimeData="dateTimeData"
+                  v-model="scoped.row.actualNum"
+                  @getDateTime="getDateSelectTime"
+                />
               </div>
             </el-table-column>
           </el-table>
@@ -195,6 +254,8 @@ import {
   getFindWareOrg,
   getFindOrgChildWare,
   getfindOrgProductPage,
+  getFindWarehouseProduct,
+  getSaveRecord,
 } from "../../api/api";
 import choiceSelect from "../../components/manual/choiceSelect";
 export default {
@@ -212,38 +273,26 @@ export default {
         companyArr: [],
         value: "",
       },
+      self: this,
       datetimeDate: {
         placeholder: "请选择预期入库时间",
+        title: "",
+      },
+      dateTimeData: {
+        placeholder: "请选择入库时间",
       },
       rukuSure: {
-        入库单号: "CK20180904006",
-        委托公司: "委托公司委托公司1",
-        入库状态: "入库状态",
-        入库类型: "采购",
+        入库单号: () => this.listJson.putWareNo,
+        委托公司: () => this.listJson.orgName,
+        入库状态: () => (this.listJson.putstatus ? "已入库" : "未入库"),
+        入库类型: () => this.$route.query.WarehousingTypeArr,
         "*入库人": "",
         "*入库时间": "",
         "*批次号": "",
-        关联单号: "CG20180923006",
+        关联单号: () => this.listJson.orderNo,
       },
       multipleSelection: [],
-      tabledata: [
-        // {
-        // orgName: "1", //委托公司
-        // orgId: "1", //委托id
-        // orderNo: "1", //原定单号（关联单号）
-        // putWareNo: "1", //入库单号
-        // putstatus: "1", //入库状态
-        // prodCode: "1", //产品编码
-        // prodName: "1", //产品名称
-        // specName: "1", //规格名称
-        // putStartTime: "1", //入库时间开始时间
-        // putEndTime: "1", //入库时间结束时间
-        // expectedSendStartTime: "1", //期望入库开始时间
-        // expectedSendEndTime: "1", //期望入库时间结束时间
-        // putUser: "1", //入库人
-        // batchNo: "1",
-        // },
-      ],
+      tabledata: [],
       addChanpins: false,
       ziCangJson: {
         value: "",
@@ -252,32 +301,80 @@ export default {
       createUserData: {
         userType: 4,
         userAddr: "",
+        address: "",
+        expectedSendTime: "", //expectedSendTime
+        orderSource: "", //订单类型(0-手工创建；1-渠道创建 2-预入库 3-采购 4-库建调拨 5-加工作业 6-分解作业 7-退货 8-盘盈 9-其他）
+        orgName: "",
         roleId: "",
         parentId: "",
         orgId: "",
+        putUser: "",
         waerId: "",
         codeValue: "",
         detailList: [],
+        createUser: "",
+        createTime: "",
+        batchNo: "",
+        id: this.$route.query.id,
+        operatorType: 3,
+        wareId: this.$cookie.get("X-Auth-wareId"),
       },
       getProvinceData: {
         parentCode: 0,
       },
       prodUnitData: [],
       tables: [],
+      listJson: JSON.parse(sessionStorage.getItem("listArrs")),
+      chanpinCenter: {},
     };
   },
   async created() {
+    this._getFindWarehouseProduct(this.$route.query.id);
+    this.tabledata = this.listJson.detailList;
     this.tables = eval(sessionStorage.getItem("_addTablesData"));
-    this.tables.forEach((item) => {
-      item.prodId = item.id;
-    });
-    this.tabledata = this.tables;
-    this.createUserData.detailList = this.tables;
+    if (this.tables) {
+      this.tables.forEach((item) => {
+        item.prodId = item.id;
+      });
+      this.tabledata = this.tabledata.concat(this.tables);
+    }
   },
-  computed: {},
+  //getFindWarehouseProduct
   methods: {
+    indexMethod(e) {
+      return e;
+    },
+    //删除产品
+    goClearRemove() {
+      console.log(this.multipleSelection, "点击了删除");
+    },
+    //copy产品
+    copyChanpin() {
+      if (this.multipleSelection.length == 0) {
+        return Message("请选择要复制的产品");
+      } else if (this.multipleSelection.length != 1) {
+        return Message("每次只能复制一个产品");
+      } else {
+        let idxs = this.tabledata.indexOf(this.multipleSelection[0]);
+        let copyIdxs = this.multipleSelection[0];
+        this.tabledata.splice(idxs, 0, copyIdxs);
+        this.$refs.multipleTable.toggleRowSelection(this.tabledata[idxs+1]);
+      }
+      console.log('this.tabledata', this.tabledata)
+    },
+    select(e, row) {
+      console.log(e, row, "select");
+    },
+    getDateSelectTime(e) {
+      console.log(e, "el-input");
+    },
     shezhizitiwiered(item) {
-      console.log(item);
+      let idxs = item.indexOf("*");
+      if (idxs != -1) {
+        item =
+          `<span style="color:red;">${item[idxs]}</span>` +
+          item.substring(idxs + 1);
+      }
       return item;
     },
     getkuweimes() {
@@ -289,10 +386,7 @@ export default {
       this.companyJson.companyArr = datas.result;
     },
     getDateTimeExpectedSendTime(e) {
-      console.log(e);
-    },
-    mes(e) {
-      console.log(e, "parent");
+      this.createUserData.expectedSendTime = e;
     },
     //改变委托公司
     changeCompany(e) {
@@ -302,13 +396,10 @@ export default {
     },
     //点击了子仓名称
     async getZiCangJsonAndArr() {
-      console.log(this.createUserData.orgId);
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       let datas = await getFindOrgChildWare(this.createUserData.orgId);
       this.ziCangJson.ziCangArr = datas.result;
     },
-    //改变了子仓名称
-    changeziCang(e) {},
     //点击了添加产品
     addChanpin() {
       this.addChanpins = true;
@@ -321,21 +412,59 @@ export default {
       this.multipleSelection = e;
     },
     //点击了提交
-    async goAJAXCreate() {
-      console.log(this.tabledata);
-      let datas = await getfindOrgProductPage(this.createUserData);
-
-      console.log(datas);
+    goAJAXCreate() {
+      this.createUserData.detailList = this.multipleSelection;
+      if (!this.createUserData.putUser) return Message("请输入入库人");
+      if (!this.createUserData.expectedSendTime)
+        return Message("请输入入库时间");
+      if (!this.createUserData.batchNo) return Message("请输入批次号");
+      this._getSaveRecord(this.createUserData).then((res) => {
+        if (res.code == "10000") {
+          Message(res.msg);
+          this.closeBtn();
+        } else {
+          Message(res.msg);
+        }
+      });
     },
+    async _getSaveRecord(data) {
+      let datas = await getSaveRecord(data);
+      return datas;
+    },
+    //getSaveRecord
     getUserType(e) {
       //获取创建的用户类型
       this.createUserData.codeValue = e.codeValue;
       this.createUserData.roleId = e.roleId;
     },
+    async _getChanping() {
+      let datas = await getfindOrgProductPage(this.createUserData);
+      console.log(datas);
+    },
+    async _getFindWarehouseProduct(id) {
+      let datas = await getFindWarehouseProduct(id);
+      return (this.chanpinCenter = datas.result);
+    },
   },
 };
 </script>
+<style >
+#manageMenyrukuSure
+  .ivu-input-wrapper.ivu-input-wrapper-default.ivu-input-type.ivu-date-picker-editor {
+  width: 172px;
+  height: 28px;
+}
 
+#manageMenyrukuSure .ivu-input.ivu-input-default.ivu-input-with-suffix {
+  border: 1px solid #d2d6e2;
+  height: 28px;
+  color: #333333;
+  font-size: 14px;
+  font-weight: normal;
+  background: rgba(236, 241, 247, 0);
+  border-radius: 2px;
+}
+</style>
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .fade-enter-active,
@@ -349,6 +478,10 @@ export default {
   border: 1px solid #d2d6e2;
   height: 28px;
   text-indent: 10px;
+  color: #333333;
+  font-size: 14px;
+  font-weight: normal;
+  background: rgba(236, 241, 247, 0);
   border-radius: 2px;
 }
 .rukuquerenparent {
@@ -358,7 +491,7 @@ export default {
     color: #333333;
     border: 1px solid #d1d6e2;
     .titleBox {
-      padding: 12px 0;
+      padding: 12px 20px 12px 0;
       width: 106px;
       border-right: 1px solid #d1d6e2;
       background-color: #ecf1f7;

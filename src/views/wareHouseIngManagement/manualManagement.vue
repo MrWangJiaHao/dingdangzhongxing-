@@ -20,6 +20,7 @@
             >
               创建入库单
             </div>
+
             <div
               class="lodopFunClear"
               v-if="$route.params.type == 0"
@@ -123,19 +124,27 @@
       <!-- table-biaoge -->
     </div>
     <!-- 头部组件 -->
-    <div v-show="WarehouseReceipt">
+    <div v-if="WarehouseReceipt">
       <div class="posFixCenter">
-        <WarehouseReceipt />
+        <WarehouseReceipt
+          :WarehousingType="
+            WarehousingTypeArr[$route.params.type].WarehousingTypeCenter
+          "
+        />
       </div>
     </div>
     <!-- 入库单 -->
-    <div v-show="Receipt">
+    <div v-if="Receipt">
       <div class="posFixCenter">
-        <Receipt />
+        <Receipt
+          :WarehousingType="
+            WarehousingTypeArr[$route.params.type].WarehousingTypeCenter
+          "
+        />
       </div>
     </div>
     <!-- 收货单 -->
-    <div v-show="BatchNumber">
+    <div v-if="BatchNumber">
       <div class="posFixCenter">
         <BatchNumber />
       </div>
@@ -154,7 +163,7 @@ import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import WarehouseReceipt from "../../components/manual/WarehouseReceipt"; //入库单
 import Receipt from "../../components/manual/Receipt"; //收货单
 import BatchNumber from "../../components/manual/BatchNumber"; //批次号
-import { post } from "../../api/api";
+import { getFindRecord, post } from "../../api/api";
 import { Message } from "element-ui";
 
 export default {
@@ -218,6 +227,49 @@ export default {
       },
       multipleSelection: [], //选择了那个
       thisOneShow: true,
+      listArrs: {},
+      WarehousingTypeArr: [
+        {
+          WarehousingType: 0,
+          WarehousingTypeCenter: "手工创建入库",
+        },
+        {
+          WarehousingType: 1,
+          WarehousingTypeCenter: "采购调拨入库",
+        },
+        {
+          WarehousingType: 2,
+          WarehousingTypeCenter: "预入库",
+        },
+        {
+          WarehousingType: 3,
+          WarehousingTypeCenter: "采购预入库",
+        },
+        {
+          WarehousingType: 4,
+          WarehousingTypeCenter: "调拨入库",
+        },
+        {
+          WarehousingType: 5,
+          WarehousingTypeCenter: "加工入库",
+        },
+        {
+          WarehousingType: 6,
+          WarehousingTypeCenter: "拆解入库",
+        },
+        {
+          WarehousingType: 7,
+          WarehousingTypeCenter: "退货入库",
+        },
+        {
+          WarehousingType: 8,
+          WarehousingTypeCenter: "盘盈入库",
+        },
+        {
+          WarehousingType: 9,
+          WarehousingTypeCenter: "其他入库",
+        },
+      ],
     };
   },
   created() {
@@ -255,11 +307,18 @@ export default {
       } else if (this.multipleSelection.length > 1) {
         return Message("只能选择一个入库单号");
       } else {
-        this.$router.push({
-          path: "/warehousingManagement/manageMentrukuSure",
-          query: {
-            id: this.multipleSelection[0].id,
-          },
+        console.log(this.multipleSelection[0]);
+        this._getFindRecord(this.multipleSelection[0].id).then(() => {
+          this.$router.push({
+            path: "/warehousingManagement/manageMentrukuSure",
+            query: {
+              id: this.multipleSelection[0].id,
+              WarehousingTypeArr: this.WarehousingTypeArr[
+                this.$route.params.type
+              ].WarehousingTypeCenter,
+              childWareId: this.multipleSelection[0].childWareId,
+            },
+          });
         });
       }
     },
@@ -272,6 +331,7 @@ export default {
       } else {
         this.WarehouseReceipt = !this.WarehouseReceipt;
         this.WarehouseReceiptIds = this.multipleSelection[0].id;
+        this._getFindRecord(this.multipleSelection[0].id);
       }
     },
     //打印收货单
@@ -283,11 +343,19 @@ export default {
       } else {
         this.Receipt = !this.Receipt;
         this.ReceiptIds = this.multipleSelection[0].id;
+        this._getFindRecord(this.multipleSelection[0].id);
       }
     },
     // 打印批次号
     parintBatchNumber() {
       this.BatchNumber = !this.BatchNumber;
+    },
+    //
+    async _getFindRecord(ids) {
+      let datas = await getFindRecord(ids);
+      this.listArrs = datas.result[0];
+      sessionStorage.setItem("listArrs", JSON.stringify(datas.result[0]));
+      return datas;
     },
     //导出
     ExportArr() {},

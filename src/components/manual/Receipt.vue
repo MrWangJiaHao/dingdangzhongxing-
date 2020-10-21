@@ -6,7 +6,7 @@
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
       <div style="border-bottom: 1px solid #d2d6e2; padding: 0 0 10px 0">
-        <div id="printCenter" style="padding: 20px">
+        <div id="printCenters" style="padding: 20px">
           <div class="ptb20" style="border: 1px solid #d2d6e2; width: 1000px">
             <div
               style="
@@ -32,7 +32,10 @@
               </div>
               <div style="position: absolute; top: 10px; right: 50px">
                 <img
-                  src="http://172.16.3.30:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=RK_20200420104302547_044943"
+                  :src="
+                    'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
+                    listArrs.putWareNo
+                  "
                   width="300"
                   height="90"
                 />
@@ -62,7 +65,7 @@
                       margin-right: 50px;
                     "
                   >
-                    委托公司
+                    {{ listArrs.orgName }}
                   </div>
                 </div>
                 <div style="display: inline-block">
@@ -86,7 +89,7 @@
                       margin-right: 50px;
                     "
                   >
-                    RK_20200420104302547_044943
+                    {{ listArrs.putWareNo }}
                   </div>
                 </div>
                 <div style="display: inline-block">
@@ -110,7 +113,7 @@
                       margin-right: 50px;
                     "
                   >
-                    预入库
+                    {{ WarehousingType }}
                   </div>
                 </div>
                 <div style="display: inline-block">
@@ -258,16 +261,26 @@ export default {
     return {
       tableDatas: [],
       Newtime: "",
+      listArrs: {},
     };
   },
+  props: {
+    WarehousingType: String,
+  },
+
   created() {
     this._changeTime();
   },
   mounted() {
     this.$nextTick(() => {
+      let listArrs = JSON.parse(sessionStorage.getItem("listArrs"));
+      console.log(listArrs, "收货单");
+      this.listArrs = listArrs;
+      this.tableDatas = listArrs.detailList;
       let cells = document
-        .getElementById("printCenter")
+        .getElementById("printCenters")
         .getElementsByClassName("cell");
+
       let array = Array.from(cells);
       array.forEach((item) => {
         item.style = "text-align:center;";
@@ -296,7 +309,7 @@ export default {
         30,
         2970,
         2100,
-        document.getElementById("printCenter").innerHTML
+        document.getElementById("printCenters").innerHTML
       );
       // this.LODOP.PRINTA(); //不需要进入查看页面 直接打印
       this.LODOP.PREVIEW(); //需要进入页面查看
