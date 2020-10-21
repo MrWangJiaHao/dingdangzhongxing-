@@ -1,5 +1,6 @@
 <template>
   <div id="supplierAdmin">
+    <!-- 这是供应商管理页面 -->
     <div class="roleName">
       <div class="roleName-choose">
         <div class="name_type">

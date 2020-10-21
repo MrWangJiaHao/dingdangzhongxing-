@@ -143,7 +143,11 @@
             </el-table-column>
             <el-table-column prop="braName" label="品牌" align="center">
             </el-table-column>
-            <el-table-column prop="inventoryFloor" label="低库存预警值" align="center">
+            <el-table-column
+              prop="inventoryFloor"
+              label="低库存预警值"
+              align="center"
+            >
             </el-table-column>
             <el-table-column
               prop="remark"
@@ -321,7 +325,20 @@ export default {
       brandNameValue: "",
       mateNameValueData: [],
       mateNumValueData: [],
-      mateTypeValueData: [],
+      mateTypeValueData: [
+        {
+          value: "1",
+          label: "纸箱",
+        },
+        {
+          value: "2",
+          label: "胶带",
+        },
+        {
+          value: "3",
+          label: "打印纸",
+        },
+      ],
       supNameValueData: [],
       brandNameValueData: [],
 
@@ -385,9 +402,106 @@ export default {
       allBrandId: "",
       allSupId: "",
       allSpecId: "",
+
+      queryAnyInfor:""
     };
   },
   mounted() {
+    this.queryAnyInfor = () =>{
+      let QueryData = {
+        orderBy: "createTime",
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          id: "",
+        },
+      };
+      //查询品牌
+      queryBrand(QueryData).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.allBrandData = ok.data.result.list;
+          // console.log(this.allBrandData)
+          this.allBrandData.forEach((v) => {
+            this.dialogBrandData.push({
+              value: v.braFullName,
+              label: v.braFullName,
+            });
+            this.brandNameValueData.push({
+              value: v.braFullName,
+              label: v.braFullName,
+            });
+            let testObj = {};
+            this.dialogBrandData = this.dialogBrandData.reduce((item, next) => {
+              testObj[next.value]
+                ? ""
+                : (testObj[next.value] = true && item.push(next));
+              return item;
+            }, []);
+          });
+        } else {
+          Message({
+            message: "查询品牌失败",
+            type: "error",
+          });
+        }
+      });
+      //查询供应商
+      querySupplier(QueryData).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.allSupData = ok.data.result.list;
+          this.allSupData.forEach((v) => {
+            this.dialogSupData.push({
+              value: v.supFullName,
+              label: v.supFullName,
+            });
+            this.supNameValueData.push({
+              value: v.supFullName,
+              label: v.supFullName,
+            });
+            let testObj1 = {};
+            this.dialogSupData = this.dialogSupData.reduce((item, next) => {
+              testObj1[next.value]
+                ? ""
+                : (testObj1[next.value] = true && item.push(next));
+              return item;
+            }, []);
+          });
+        } else {
+          Message({
+            message: "查询供应商失败",
+            type: "error",
+          });
+        }
+      });
+      //查询规格
+      querySpec(QueryData).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.allSpecData = ok.data.result.list;
+          this.allSpecData.forEach((v) => {
+            this.dialogSpecData.push({
+              value: v.specValue,
+              label: v.specValue,
+            });
+            let testObj2 = {};
+            this.dialogSpecData = this.dialogSpecData.reduce((item, next) => {
+              testObj2[next.value]
+                ? ""
+                : (testObj2[next.value] = true && item.push(next));
+              return item;
+            }, []);
+          });
+        } else {
+          Message({
+            message: "查询规格失败",
+            type: "error",
+          });
+        }
+      });
+    }
+    this.queryAnyInfor();
     this.queryMateAdminFun = () => {
       let pagingQueryData = this.pagingQueryData;
       queryMateAdmin(pagingQueryData).then((ok) => {
@@ -399,6 +513,10 @@ export default {
             this.mateNameValueData.push({
               value: v.materielName,
               label: v.materielName,
+            });
+            this.mateNumValueData.push({
+              value: v.materielCode,
+              label: v.materielCode,
             });
           });
         } else {
@@ -471,7 +589,7 @@ export default {
         materielType: this.dialogMateType, //物料类型
         materielName: this.dialogMateName, //物料名称
         materielCode: this.dialogMateCode, //物料编码
-        branId: this.allBrandId,
+        braId: this.allBrandId,
         braName: this.dialogBrandName, //品牌名称
         supId: this.allSupId,
         supName: this.dialogSupValue, //供应商
@@ -480,8 +598,9 @@ export default {
         remark: this.remarkInfor, //备注
         inventoryFloor: this.dialogEarlyWarnValue,
       };
+      // console.log(createData)
       createMateAdmin(createData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           Message({
             message: "创建成功",
@@ -513,7 +632,7 @@ export default {
         wareId: "",
       };
       queryMateAdminCon(idQueryData).then((ok) => {
-        console.log(ok)
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result;
         } else {
@@ -537,93 +656,8 @@ export default {
       //创建
       this.title = "添加物料";
       this.dialogFormVisible = true;
-      this.queryAnyInfor();
     },
-    queryAnyInfor() {
-      let QueryData = {
-        orderBy: "createTime",
-        pageNumber: 1,
-        pageSize: 10,
-        paras: {
-          id: "",
-        },
-      };
-      //查询品牌
-      queryBrand(QueryData).then((ok) => {
-        // console.log(ok);
-        if (ok.data.code === "10000") {
-          this.allBrandData = ok.data.result.list;
-          this.allBrandData.forEach((v) => {
-            this.dialogBrandData.push({
-              value: v.braFullName,
-              label: v.braFullName,
-            });
-            let testObj = {};
-            this.dialogBrandData = this.dialogBrandData.reduce((item, next) => {
-              testObj[next.value]
-                ? ""
-                : (testObj[next.value] = true && item.push(next));
-              return item;
-            }, []);
-          });
-        } else {
-          Message({
-            message: "查询品牌失败",
-            type: "error",
-          });
-        }
-      });
-      //查询供应商
-      querySupplier(QueryData).then((ok) => {
-        // console.log(ok);
-        if (ok.data.code === "10000") {
-          this.allSupData = ok.data.result.list;
-          this.allSupData.forEach((v) => {
-            this.dialogSupData.push({
-              value: v.supFullName,
-              label: v.supFullName,
-            });
-            let testObj1 = {};
-            this.dialogSupData = this.dialogSupData.reduce((item, next) => {
-              testObj1[next.value]
-                ? ""
-                : (testObj1[next.value] = true && item.push(next));
-              return item;
-            }, []);
-          });
-        } else {
-          Message({
-            message: "查询供应商失败",
-            type: "error",
-          });
-        }
-      });
-      //查询规格
-      querySpec(QueryData).then((ok) => {
-        // console.log(ok);
-        if (ok.data.code === "10000") {
-          this.allSpecData = ok.data.result.list;
-          this.allSpecData.forEach((v) => {
-            this.dialogSpecData.push({
-              value: v.specValue,
-              label: v.specValue,
-            });
-            let testObj2 = {};
-            this.dialogSpecData = this.dialogSpecData.reduce((item, next) => {
-              testObj2[next.value]
-                ? ""
-                : (testObj2[next.value] = true && item.push(next));
-              return item;
-            }, []);
-          });
-        } else {
-          Message({
-            message: "查询规格失败",
-            type: "error",
-          });
-        }
-      });
-    },
+    
     editChildWarehouse() {
       //编辑
       if (!this.multipleSelection.length) return Message("请选择要查看物料");
@@ -634,7 +668,6 @@ export default {
         });
       this.title = "编辑物料";
       this.dialogFormVisible = true;
-      this.queryAnyInfor();
       let gys = this.multipleSelection[0];
       this.dialogMateName = gys.materielName;
       this.dialogMateType = gys.materielType;

@@ -1,20 +1,578 @@
 <template>
-  <div>
-    <!-- 这是物料库存页面 -->
+  <!-- 这是物料库存页面 -->
+  <div id="mateAdmin">
+    <div class="roleName">
+      <div class="roleName-choose">
+        <div class="name_type">
+          <div class="nameBox">
+            <div class="roleName-text">物料类型：</div>
+            <div class="roleName-checkBox">
+              <el-select
+                v-model="mateTypeValue"
+                placeholder="请选择物料类型"
+                @change="mateTypeValues"
+                clearable
+              >
+                <el-option
+                  v-for="item in mateTypeValueData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="nameBox">
+            <div class="roleName-text">物料名称：</div>
+            <div class="roleName-checkBox">
+              <el-select
+                v-model="mateNameValue"
+                placeholder="请选择物料名称"
+                @change="mateNameValues"
+                clearable
+              >
+                <el-option
+                  v-for="item in mateNameValueData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="nameBox">
+            <div class="roleName-text">规格：</div>
+            <div class="roleName-checkBox">
+              <el-select
+                v-model="mateSpecValue"
+                placeholder="请选择规格"
+                @change="mateSpecValues"
+                clearable
+              >
+                <el-option
+                  v-for="item in mateSpecValueData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="nameBox">
+            <div class="roleName-text">供应商：</div>
+            <div class="roleName-checkBox">
+              <el-select
+                v-model="supNameValue"
+                placeholder="请选择供应商"
+                @change="supNameValues"
+                clearable
+              >
+                <el-option
+                  v-for="item in supNameValueData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="nameBox">
+            <div class="roleName-text">品牌：</div>
+            <div class="roleName-checkBox">
+              <el-select
+                v-model="brandNameValue"
+                placeholder="请选择品牌"
+                @change="brandNameValues"
+                clearable
+              >
+                <el-option
+                  v-for="item in brandNameValueData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="nameBox">
+            <div class="roleName-text">低库存预警：</div>
+            <div class="roleName-checkBox">
+              <el-select
+                v-model="inventoryFloorValue"
+                placeholder="请选择低库存预警"
+                @change="inventoryFloors"
+                clearable
+              >
+                <el-option
+                  v-for="item in inventoryFloorData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+        </div>
+        <div class="roleName-botton">
+          <div class="queryBtn" @click="clickQuery">查询</div>
+          <div class="clearBtn" @click="clearInput">清空</div>
+        </div>
+      </div>
+      <div class="childWarehouseForm">
+        <!-- <div class="formHeader">
+          <div class="icon-title">
+            <div class="icon-title-icon">
+              <img src="../../assets/img/home_page-icon-default@2x.png" />
+            </div>
+            <div class="icon-title-title">物料管理信息</div>
+          </div>
+          <div class="someBtn">
+            <div class="setUser" @click="createChildWarehouse">创建</div>
+            <div class="bianjiUser" @click="editChildWarehouse">编辑</div>
+            <div class="remove" @click="delChildWarehouse">删除</div>
+          </div>
+        </div> -->
+        <div class="resultForm">
+          <el-table
+            :data="tableData"
+            border
+            style="width: 100%"
+            :stripe="true"
+            tooltip-effect="dark"
+          >
+            <el-table-column
+              label="序号"
+              align="center"
+              type="index"
+              width="60"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="materielName"
+              label="物料名称"
+              align="center"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="materielCode"
+              label="物料编号"
+              align="center"
+            >
+            </el-table-column>
+            <el-table-column prop="specName" label="物料规格" align="center">
+            </el-table-column>
+            <el-table-column
+              prop="materielType"
+              label="物料类型"
+              align="center"
+            >
+            </el-table-column>
+            <el-table-column prop="braName" label="品牌" align="center">
+            </el-table-column>
+            <el-table-column
+              prop="supName"
+              label="供应商"
+              align="center"
+              width="110"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="inventoryFloor"
+              label="低库存预警值"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="actualInventory"
+              label="实际库存"
+              align="center"
+            ></el-table-column>
+          </el-table>
+        </div>
+        <div class="pageComponent" v-if="this.tableData.length >= 10">
+          <pagecomponent
+            :pageComponentsData="pageComponentsData"
+            @getPageNum="getPageNum"
+            @sureSuccssBtn="sureSuccssBtn"
+          ></pagecomponent>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import {
+  queryMateAdmin,
+  queryBrand,
+  querySupplier,
+  querySpec,
+} from "../../api/api";
+import pagecomponent from "../../components/commin/pageComponent"; //分页器
+import { Message } from "element-ui";
+
 export default {
-  data() {
-    return {};
+  components: {
+    pagecomponent,
   },
-  mounted() {},
-  methods: {},
+  data() {
+    return {
+      tableData: [],
+      tableData1: [],
+      mateTypeValue: "",
+      mateNameValue: "",
+      mateSpecValue: "",
+      supNameValue: "",
+      brandNameValue: "",
+      inventoryFloorValue: "",
+      mateTypeValueData: [
+        {
+          value: "1",
+          label: "纸箱",
+        },
+        {
+          value: "2",
+          label: "胶带",
+        },
+        {
+          value: "3",
+          label: "打印纸",
+        },
+      ],
+      mateNameValueData: [],
+      mateSpecValueData: [],
+      supNameValueData: [],
+      brandNameValueData: [],
+      inventoryFloorData: [
+        { value: "0", label: "未达到" },
+        { value: "1", label: "达到" },
+      ],
+      queryData: {
+        orderBy: "createTime",
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          unReach: "",
+          materielType: "",
+          id: "",
+          specId: "",
+          supId: "",
+          braId: "",
+        },
+      },
+      queryAnyInfor: "",
+      allBrandData: [],
+      allSupData: [],
+      allSpecData: [],
+    };
+  },
+  mounted() {
+    let queryData = this.queryData;
+    queryMateAdmin(queryData).then((ok) => {
+      // console.log(ok);
+      if (ok.data.code === "10000") {
+        this.tableData = ok.data.result.list;
+        this.tableData1 = ok.data.result.list;
+        let res = ok.data.result.list;
+        res.forEach((v) => {
+          this.mateNameValueData.push({
+            value: v.materielName,
+            label: v.materielName,
+          });
+        });
+      }
+    });
+
+    this.queryAnyInfor = () => {
+      let QueryData = {
+        orderBy: "createTime",
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          id: "",
+        },
+      };
+      //查询品牌
+      queryBrand(QueryData).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.allBrandData = ok.data.result.list;
+          // console.log(this.allBrandData)
+          this.allBrandData.forEach((v) => {
+            this.brandNameValueData.push({
+              value: v.braFullName,
+              label: v.braFullName,
+            });
+            let testObj = {};
+            this.brandNameValueData = this.brandNameValueData.reduce(
+              (item, next) => {
+                testObj[next.value]
+                  ? ""
+                  : (testObj[next.value] = true && item.push(next));
+                return item;
+              },
+              []
+            );
+          });
+        } else {
+          Message({
+            message: "查询品牌失败",
+            type: "error",
+          });
+        }
+      });
+      //查询供应商
+      querySupplier(QueryData).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.allSupData = ok.data.result.list;
+          this.allSupData.forEach((v) => {
+            this.supNameValueData.push({
+              value: v.supFullName,
+              label: v.supFullName,
+            });
+            let testObj1 = {};
+            this.supNameValueData = this.supNameValueData.reduce(
+              (item, next) => {
+                testObj1[next.value]
+                  ? ""
+                  : (testObj1[next.value] = true && item.push(next));
+                return item;
+              },
+              []
+            );
+          });
+        } else {
+          Message({
+            message: "查询供应商失败",
+            type: "error",
+          });
+        }
+      });
+      //查询规格
+      querySpec(QueryData).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.allSpecData = ok.data.result.list;
+          this.allSpecData.forEach((v) => {
+            this.mateSpecValueData.push({
+              value: v.specValue,
+              label: v.specValue,
+            });
+            let testObj2 = {};
+            this.mateSpecValueData = this.mateSpecValueData.reduce(
+              (item, next) => {
+                testObj2[next.value]
+                  ? ""
+                  : (testObj2[next.value] = true && item.push(next));
+                return item;
+              },
+              []
+            );
+          });
+        } else {
+          Message({
+            message: "查询规格失败",
+            type: "error",
+          });
+        }
+      });
+    };
+    this.queryAnyInfor();
+  },
+  methods: {
+    clickQuery() {
+      //查询
+      this.tableData = [];
+      let queryData = this.queryData;
+      queryMateAdmin(queryData).then((ok) => {
+        // console.log(ok)
+        if (ok.data.code === "10000") {
+          this.tableData = ok.data.result.list;
+        }
+      });
+    },
+    clearInput() {
+      //清空输入框
+      this.mateTypeValue = "";
+      this.mateNameValue = "";
+      this.mateSpecValue = "";
+      this.supNameValue = "";
+      this.brandNameValue = "";
+      this.inventoryFloorValue = "";
+    },
+    mateTypeValues(val) {
+      this.mateTypeValue = val;
+      this.queryData.paras.materielType = val;
+    },
+    mateNameValues(val) {
+      this.mateNameValue = val;
+      this.tableData1.forEach((v) => {
+        if (val === v.materielName) {
+          this.queryData.paras.id = v.id;
+        }
+      });
+    },
+    mateSpecValues(val) {
+      this.mateSpecValue = val;
+      this.allSpecData.forEach((v) => {
+        if (val === v.specValue) {
+          this.queryData.paras.specId = v.id;
+        }
+      });
+    },
+    supNameValues(val) {
+      this.supNameValue = val;
+      this.allSupData.forEach((v) => {
+        if (val === v.supFullName) {
+          this.queryData.paras.supId = v.id;
+        }
+      });
+    },
+    brandNameValues(val) {
+      this.brandNameValue = val;
+      this.allBrandData.forEach((v) => {
+        if (val === v.braFullName) {
+          this.queryData.paras.braId = v.id;
+        }
+      });
+    },
+    inventoryFloors(val) {
+      this.inventoryFloorValue = val;
+      this.queryData.paras.unReach = val;
+    },
+
+    // handleSelectionChange(value) {
+    //   this.multipleSelection = value;
+    // },
+    getPageNum(e) {
+      this.pagingQueryData.pageNumber = e;
+    },
+    sureSuccssBtn(e) {
+      this.pagingQueryData.pageNumber = e;
+    },
+    changeData(data) {
+      this.changePageData(data); //用来改变分页器的条数
+    },
+    //用来改变分页器的条数
+    changePageData(data) {
+      let { totalRow } = data;
+      this.pageComponentsData.pageNums = totalRow;
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/scss/btn.scss";
+#mateAdmin {
+  background: #e6e7ea;
+  padding: 16px;
+}
+.roleName-choose {
+  display: flex;
+  justify-content: space-between;
+  .name_type {
+    display: flex;
+    .nameBox {
+      display: flex;
+      align-items: center;
+      margin: 0 16px 0 0;
+      .roleName-text {
+        font-size: 16px;
+        white-space: nowrap;
+      }
+      .roleName {
+        height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #d1d6e2;
+        .roleName-choose {
+          width: 360px;
+          display: flex;
+          align-items: center;
+          .roleName-text {
+            margin: 0 10px 0 30px;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+
+  .roleName-botton {
+    display: flex;
+    align-items: center;
+    .queryBtn {
+      @include BtnFunction("success");
+    }
+    .clearBtn {
+      @include BtnFunction();
+      background: #fff;
+      margin: 0 30px 0 10px;
+    }
+  }
+}
+.childWarehouseForm {
+  margin: 16px 0 0 0;
+  background: white;
+  .formHeader {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #d1d6e2;
+    .icon-title {
+      display: flex;
+      margin: 24px 0 0 0;
+      .icon-title-icon {
+        width: 14px;
+        height: 14px;
+        margin: 0 0 0 20px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .icon-title-title {
+        margin: 0 0 0 8px;
+        font-size: 16px;
+      }
+    }
+    .someBtn {
+      display: flex;
+      margin: 16px 20px 16px 0;
+      .setUser {
+        margin-right: 10px;
+        @include BtnFunction("success");
+      }
+      .bianjiUser {
+        margin-right: 10px;
+        @include BtnFunction("success");
+      }
+      .remove {
+        @include BtnFunction("error");
+      }
+      .goOn {
+        margin-right: 10px;
+        @include BtnFunction("success");
+      }
+    }
+  }
+  .resultForm {
+    padding: 20px;
+  }
+  .pageComponent {
+    margin: 20px 10px 0 0;
+    text-align: right;
+    height: 36px;
+    background: #ffffff;
+  }
+}
 </style>
 
 <style lang="scss">
