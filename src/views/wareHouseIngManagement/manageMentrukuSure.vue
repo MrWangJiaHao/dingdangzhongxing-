@@ -194,7 +194,10 @@
               show-overflow-tooltip
               width="200"
             >
-              <div slot-scope="scoped">
+              <div
+                slot-scope="scoped"
+                @click="getDataSelentIndex(scoped.$index)"
+              >
                 <dateTime
                   :dateTimeData="dateTimeData"
                   v-model="scoped.row.actualNum"
@@ -326,6 +329,7 @@ export default {
       tables: [],
       listJson: JSON.parse(sessionStorage.getItem("listArrs")),
       chanpinCenter: {},
+      rowTable: 0,
     };
   },
   async created() {
@@ -341,12 +345,20 @@ export default {
   },
   //getFindWarehouseProduct
   methods: {
+    getDataSelentIndex(e) {
+      this.rowTable = e;
+      console.log(e, "index");
+    },
     indexMethod(e) {
       return e;
     },
     //删除产品
     goClearRemove() {
       console.log(this.multipleSelection, "点击了删除");
+      this.multipleSelection.forEach((item) => {
+        let idxs = this.tabledata.indexOf(item);
+        this.tabledata.splice(idxs, 1);
+      });
     },
     //copy产品
     copyChanpin() {
@@ -358,15 +370,16 @@ export default {
         let idxs = this.tabledata.indexOf(this.multipleSelection[0]);
         let copyIdxs = this.multipleSelection[0];
         this.tabledata.splice(idxs, 0, copyIdxs);
-        this.$refs.multipleTable.toggleRowSelection(this.tabledata[idxs+1]);
+        this.$refs.multipleTable.toggleRowSelection(this.tabledata[idxs + 1]);
       }
-      console.log('this.tabledata', this.tabledata)
+      console.log("this.tabledata", this.tabledata);
     },
     select(e, row) {
       console.log(e, row, "select");
     },
     getDateSelectTime(e) {
-      console.log(e, "el-input");
+      console.log(this.rowTable, "el-input");
+      this.tabledata[+this.rowTable].manuTime = e;
     },
     shezhizitiwiered(item) {
       let idxs = item.indexOf("*");
@@ -403,6 +416,7 @@ export default {
     //点击了添加产品
     addChanpin() {
       this.addChanpins = true;
+      sessionStorage.setItem("orgId", this.createUserData.orgId);
     },
     //关闭
     closeBtn() {

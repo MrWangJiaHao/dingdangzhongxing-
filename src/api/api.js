@@ -1,5 +1,5 @@
 import service from "@/utils/request.js"
-import { getCookie } from "../utils/validate"
+import { ajaxPost, getCookie } from "../utils/validate"
 export function login(data) {
     return new Promise((resolve, reject) => {
         service.request({
@@ -718,6 +718,16 @@ export const getSaveRecord = function (data) {
             rej(err)
         })
     })
+}
+
+/**
+ * 打印批次号
+ * /wbs-warehouse-manage//v1/putWarehouse/findWareHouseDetailByIds
+ * @param {*} datas 
+ * ajaxPost
+ */
+export const getFindWareHouseDetailByIds = function (data, fn) {
+    ajaxPost("http://139.196.176.227:8902/wbs-warehouse-manage//v1/putWarehouse/findWareHouseDetailByIds", data, fn)
 }
 export function post(datas) {
     let { url, data } = datas

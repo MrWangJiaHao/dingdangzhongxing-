@@ -43,10 +43,10 @@
                     placeholder="请选择子仓名称:"
                   >
                     <el-option
-                      v-for="item in ziCangJson.ziCangArr"
-                      :key="item.childWareName"
+                      v-for="(item, idx) in ziCangJson.ziCangArr"
+                      :key="idx"
                       :label="item.childWareName"
-                      :value="item.childWareName"
+                      :value="idx"
                     >
                     </el-option>
                   </el-select>
@@ -71,7 +71,7 @@
         <div class="setTitle">产品明细</div>
         <div class="mb20 tr">
           <div class="tijiaoBox disinb mr20" @click="addChanpin">添加产品</div>
-          <div class="quxiaoBox disinb" @click="goAJAXCreate">删除</div>
+          <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
         </div>
         <div class="mb20">
           <el-table
@@ -163,10 +163,10 @@
               show-overflow-tooltip
             >
               <div slot-scope="scope">
-                <div @click="mes(scope.row, index)">
+                <div @click="getDateTimeIndex(scope.$index)">
                   <dateTime
                     :dateTimeData="datetimeDate"
-                    @getDateTime="getDateTimeExpectedSendTime(scope.row)"
+                    @getDateTime="getDateTimeExpectedSendTime"
                   />
                 </div>
               </div>
@@ -223,6 +223,7 @@ import {
   getFindWareOrg,
   getFindOrgChildWare,
   getfindOrgProductPage,
+  getSaveRecord,
 } from "../../api/api";
 import choiceSelect from "../../components/manual/choiceSelect";
 export default {
@@ -260,12 +261,14 @@ export default {
         codeValue: "",
         operatorType: 1,
         detailList: [],
+        orderSource: (() => this.$route.query.orderSource)(),
       },
       getProvinceData: {
         parentCode: 0,
       },
       prodUnitData: [],
       tables: [],
+      rowTables: null,
     };
   },
   async created() {
@@ -288,9 +291,11 @@ export default {
       this.companyJson.companyArr = datas.result;
     },
     getDateTimeExpectedSendTime(e) {
-      console.log(e);
+      this.tabledata[+this.rowTables].expectedSendTime = e;
+      console.log(this.tabledata, "getDateTimeExpectedSendTime");
     },
-    mes(e) {
+    getDateTimeIndex(e) {
+      this.rowTables = e;
       console.log(e, "parent");
     },
     //改变委托公司
@@ -301,13 +306,24 @@ export default {
     },
     //点击了子仓名称
     async getZiCangJsonAndArr() {
-      console.log(this.createUserData.orgId);
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       let datas = await getFindOrgChildWare(this.createUserData.orgId);
       this.ziCangJson.ziCangArr = datas.result;
     },
+    goClearRemove() {
+      console.log(this.multipleSelection, "点击了删除");
+      this.multipleSelection.forEach((item) => {
+        let idxs = this.tabledata.indexOf(item);
+        this.tabledata.splice(idxs, 1);
+      });
+    },
     //改变了子仓名称
-    changeziCang(e) {},
+    changeziCang(e) {
+      this.createUserData.childWareId = this.ziCangJson.ziCangArr[e].id;
+      this.createUserData.wareId = this.ziCangJson.ziCangArr[e].wareId;
+
+      console.log(this.ziCangJson.ziCangArr[e], "改变了子仓名称");
+    },
     //点击了添加产品
     addChanpin() {
       if (!this.createUserData.orgId) return Message("请选择委托公司");
@@ -323,9 +339,9 @@ export default {
     },
     //点击了提交
     async goAJAXCreate() {
-      console.log(this.tabledata);
-      let datas = await getfindOrgProductPage(this.createUserData);
-
+      if (!this.createUserData.childWareId) return Message("请选择子仓名称");
+      this.createUserData.detailList = this.multipleSelection;
+      let datas = await getSaveRecord(this.createUserData);
       console.log(datas);
     },
     getUserType(e) {
