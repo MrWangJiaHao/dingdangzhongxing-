@@ -7,307 +7,50 @@
       </div>
       <div style="border-bottom: 1px solid #d2d6e2; padding: 0 0 10px 0">
         <div id="printCenter" style="padding: 20px">
-          <div class="ptb20" style="border: 1px solid #d2d6e2; width: 1000px">
+          <div class="ptb20" style="width: 1060px">
             <div
+              v-for="(item, idx) in parintBatchNumberArrs"
+              :key="idx"
               style="
-                width: 1000px;
-                position: relative;
-                height: 90px;
-                border-bottom: 1px solid #d2d6e2;
+                padding: 20px;
+                display: inline-block;
+                margin-left: 20px;
+                margin-bottom: 20px;
+                width: 460px;
+                height: 240px;
+                color: #333333;
+                font-size: 16px;
+                font-weight: normal;
+                border: 1px solid #d1d6e2;
               "
             >
-              <div
-                style="
-                  position: absolute;
-                  font-size: 24px;
-                  font-weight: bold;
-                  left: 50%;
-                  top: 20px;
-                  transrom: translate(-50%);
-                  color: #343434;
-                  line-height: 26px;
-                "
-              >
-                入库单
+              <div style="margin-bottom: 15px">
+                产品名称：{{ item.prodName }}
               </div>
-              <div style="position: absolute; top: 10px; right: 50px">
+              <div style="margin-bottom: 15px">规 格：{{ item.specName }}</div>
+              <div style="margin-bottom: 15px">
+                委托公司：{{ item.supName }}
+              </div>
+              <div style="margin-bottom: 15px">批次号：{{ item.batchNo }}</div>
+              <div style="width: 440px; height: 50px; overflow: hidden">
                 <img
-                  src="http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=RK_20200420104302547_044943"
-                  width="300"
-                  height="90"
+                  width="440"
+                  style="margin-left: -40px"
+                  :src="
+                    'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
+                    item.batchNo
+                  "
                 />
               </div>
             </div>
-            <!-- 入库单头部 -->
-            <div style="padding: 20px 20px 0 20px; width: 1000px">
-              <div style="width: 100%">
-                <div style="display: inline-block">
-                  <div
-                    style="
-                      display: inline-block;
-                      font-size: 14px;
-                      color: #343434;
-                      line-height: 26px;
-                      margin-right: 10px;
-                    "
-                  >
-                    委托公司:
-                  </div>
-                  <div
-                    style="
-                      display: inline-block;
-                      font-size: 14px;
-                      color: #343434;
-                      line-height: 26px;
-                      margin-right: 50px;
-                    "
-                  >
-                    委托公司
-                  </div>
-                </div>
-                <div style="display: inline-block">
-                  <div
-                    style="
-                      display: inline-block;
-                      font-size: 14px;
-                      color: #343434;
-                      line-height: 26px;
-                      margin-right: 10px;
-                    "
-                  >
-                    入库单号:
-                  </div>
-                  <div
-                    style="
-                      display: inline-block;
-                      font-size: 14px;
-                      color: #343434;
-                      line-height: 26px;
-                      margin-right: 50px;
-                    "
-                  >
-                    RK_20200420104302547_044943
-                  </div>
-                </div>
-                <div style="display: inline-block">
-                  <div
-                    style="
-                      display: inline-block;
-                      font-size: 14px;
-                      color: #343434;
-                      line-height: 26px;
-                      margin-right: 10px;
-                    "
-                  >
-                    入库单号:
-                  </div>
-                  <div
-                    style="
-                      display: inline-block;
-                      font-size: 14px;
-                      color: #343434;
-                      line-height: 26px;
-                      margin-right: 50px;
-                    "
-                  >
-                    312321dsadsa
-                  </div>
-                </div>
-                <div style="display: inline-block">
-                  <div
-                    style="
-                      display: inline-block;
-                      font-size: 14px;
-                      color: #343434;
-                      line-height: 26px;
-                      margin-right: 10px;
-                    "
-                  >
-                    批次号:
-                  </div>
-                  <div
-                    style="
-                      display: inline-block;
-                      font-size: 14px;
-                      color: #343434;
-                      line-height: 26px;
-                      margin-right: 50px;
-                    "
-                  >
-                    dsadsddasd
-                  </div>
-                </div>
-                <div style="display: inline-block">
-                  <div
-                    style="
-                      display: inline-block;
-                      font-size: 14px;
-                      color: #343434;
-                      line-height: 26px;
-                      margin-right: 10px;
-                    "
-                  >
-                    入库类型:
-                  </div>
-                  <div
-                    style="
-                      display: inline-block;
-                      font-size: 14px;
-                      color: #343434;
-                      line-height: 26px;
-                      margin-right: 50px;
-                    "
-                  >
-                    预入库
-                  </div>
-                </div>
-                <div style="display: inline-block">
-                  <div
-                    style="
-                      display: inline-block;
-                      font-size: 14px;
-                      color: #343434;
-                      line-height: 26px;
-                      margin-right: 10px;
-                    "
-                  >
-                    入库人(签字):
-                  </div>
-                  <div
-                    style="
-                      display: inline-block;
-                      font-size: 14px;
-                      color: #343434;
-                      line-height: 26px;
-                      margin-right: 50px;
-                      width: 130px;
-                      border-bottom: 1px solid #000;
-                    "
-                  ></div>
-                </div>
-                <div style="display: inline-block">
-                  <div
-                    style="
-                      display: inline-block;
-                      font-size: 14px;
-                      color: #343434;
-                      line-height: 26px;
-                      margin-right: 10px;
-                    "
-                  >
-                    入库号时间:
-                  </div>
-                  <div
-                    style="
-                      display: inline-block;
-                      font-size: 14px;
-                      color: #343434;
-                      line-height: 26px;
-                      margin-right: 50px;
-                      width: 130px;
-                      border-bottom: 1px solid #000;
-                    "
-                  ></div>
-                </div>
-              </div>
-              <!-- 入库单信息 -->
-              <div>
-                <div style="padding: 10px 0">
-                  <div
-                    style="
-                      display: inline-block;
-                      background: #4897e4;
-                      width: 3px;
-                      height: 16px;
-                      margin-right: 10px;
-                    "
-                  ></div>
-                  <div
-                    style="
-                      display: inline-block;
-                      color: #4897e4;
-                      font-size: 16px;
-                      line-height: 16px;
-                    "
-                  >
-                    基础信息
-                  </div>
-                </div>
-                <div>
-                  <el-table
-                    style="width: 980px"
-                    ref="singleTable"
-                    :data="tableDatas"
-                    border
-                    highlight-current-row
-                  >
-                    <el-table-column type="index" width="50"> </el-table-column>
-                    <el-table-column
-                      property="prodcode"
-                      label="产品编码"
-                      style="text-align: center; width: 80px"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      property="prodFullName"
-                      label="产品名称"
-                      width="120"
-                    >
-                    </el-table-column>
-                    <el-table-column property="specName" label="产品规格">
-                    </el-table-column>
-                    <el-table-column property="prodNum" label="申请入库数量">
-                    </el-table-column>
-                    <el-table-column
-                      property="shijishulian"
-                      label="实际入库数量"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      property="recommendSeatNo"
-                      label="推荐库位"
-                    >
-                    </el-table-column>
-                    <el-table-column property="wareSeatNo" label="实际库位">
-                    </el-table-column>
-                  </el-table>
-                </div>
-                <!-- 表格title -->
-              </div>
-              <!-- 入库单表格 -->
-              <div style="padding: 20px 30px 20px 0; text-align: right">
-                <div
-                  style="
-                    display: inline-block;
-                    margin-right: 40px;
-                    font-size: 14px;
-                    color: #343434;
-                    font-weight: normal;
-                  "
-                >
-                  打印时间：{{ Newtime }}
-                </div>
-                <div
-                  style="
-                    display: inline-block;
-                    font-size: 14px;
-                    color: #000000;
-                    font-weight: normal;
-                  "
-                >
-                  1/3
-                </div>
-              </div>
-              <!-- 入库尾部 -->
-            </div>
           </div>
         </div>
-      </div>
-      <!-- 打印的内容 -->
+        <!-- 打印的内容 -->
 
-      <div class="tr" style="padding: 20px 20px 20px 0">
-        <div class="tijiaoBox mt20 disinb" @click="printWarehouseReceipt">
-          打印
+        <div class="tr" style="padding: 20px 20px 20px 0">
+          <div class="tijiaoBox mt20 disinb" @click="printWarehouseReceipt">
+            打印
+          </div>
         </div>
       </div>
     </div>
@@ -320,10 +63,17 @@ export default {
     return {
       tableDatas: [],
       Newtime: "",
+      parintBatchNumberArrs: [],
     };
   },
   created() {
     this._changeTime();
+    let parintBatchNumberArrs = eval(
+      sessionStorage.getItem("parintBatchNumberArrs")
+    );
+    if (parintBatchNumberArrs) {
+      this.parintBatchNumberArrs = parintBatchNumberArrs;
+    }
   },
   mounted() {
     this.$nextTick(() => {
@@ -354,8 +104,8 @@ export default {
     _createEwm() {
       this.LODOP.SET_PRINT_PAGESIZE(3, 2970, 2100);
       this.LODOP.ADD_PRINT_HTM(
+        40,
         20,
-        30,
         2970,
         2100,
         document.getElementById("printCenter").innerHTML
@@ -411,7 +161,7 @@ export default {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 980px;
+    width: 1140px;
     z-index: 44;
     background: #f8f8f8;
     transform: translate(-50%, -50%);
@@ -422,7 +172,7 @@ export default {
     top: 144px;
     transform: translateX(-50%);
     background: #fff;
-    width: 1034px;
+    width: 1140px;
     .centerBox {
       padding: 30px 20px;
     }

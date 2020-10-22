@@ -61,11 +61,17 @@ export const ajaxPost = (url, data, fn) => {
       }
     }
   };
-  let str = arrStr(data)
+  let str = ''
+  // let str = arrStr(data)
+  console.log(typeof data)
+  if (typeof data == 'array') {
+    str = arrStr(data)
+  } else {
+    str = JSON.stringify(data)
+  }
   console.log(str)
   xhr.send(str);
 }
-
 /* 数组转换为字符串 */
 function arrStr(data) {
   let str = ''
@@ -155,6 +161,15 @@ export const getMarginConversion = (item) => {
     position: "absolute",
     display: "inline-block"
   };
+}
+export const _getArrTarget = (arr, target) => {
+  let needArr = [];
+  arr.forEach((item) => {
+    if (needArr.indexOf(item[target])) {
+      needArr.push(item[target]);
+    }
+  });
+  return needArr;
 }
 
 /**

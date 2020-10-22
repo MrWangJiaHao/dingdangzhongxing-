@@ -163,8 +163,13 @@ import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import WarehouseReceipt from "../../components/manual/WarehouseReceipt"; //入库单
 import Receipt from "../../components/manual/Receipt"; //收货单
 import BatchNumber from "../../components/manual/BatchNumber"; //批次号
-import { getFindRecord, post } from "../../api/api";
+import {
+  getFindRecord,
+  getFindWareHouseDetailByIds,
+  post,
+} from "../../api/api";
 import { Message } from "element-ui";
+import { _getArrTarget } from "../../utils/validate";
 
 export default {
   components: {
@@ -316,6 +321,7 @@ export default {
               WarehousingTypeArr: this.WarehousingTypeArr[
                 this.$route.params.type
               ].WarehousingTypeCenter,
+              orderSource: this.sendOutDataJson.paras.orderSource,
               childWareId: this.multipleSelection[0].childWareId,
             },
           });
@@ -343,12 +349,30 @@ export default {
       } else {
         this.Receipt = !this.Receipt;
         this.ReceiptIds = this.multipleSelection[0].id;
+
         this._getFindRecord(this.multipleSelection[0].id);
       }
     },
     // 打印批次号
     parintBatchNumber() {
-      this.BatchNumber = !this.BatchNumber;
+      if (!this.multipleSelection.length)
+        return Message("请选择需要打印的批次号");
+      let target = _getArrTarget(this.multipleSelection, "id");
+      console.log({ ids: target });
+      getFindWareHouseDetailByIds({ ids: target }, (data) => {
+        data = JSON.parse(data);
+        console.log(data);
+        if (data.code === "10000") {
+          sessionStorage.setItem(
+            "parintBatchNumberArrs",
+            JSON.stringify(data.result)
+          );
+          this.BatchNumber = !this.BatchNumber;
+        } else {
+          Message(data.msg);
+        }
+      });
+      // sessionStorage.setItem("FindWareHouseDetailByIds");
     },
     //
     async _getFindRecord(ids) {
@@ -357,11 +381,15 @@ export default {
       sessionStorage.setItem("listArrs", JSON.stringify(datas.result[0]));
       return datas;
     },
+
     //导出
     ExportArr() {},
     //创建入库单
     CreateStockInOrder() {
-      this.$router.push("/warehousingManagement/createManagement");
+      this.$router.push({
+        path: "/warehousingManagement/createManagement",
+        query: { orderSource: this.sendOutDataJson.paras.orderSource },
+      });
     },
     //编辑
     editBtn() {},

@@ -268,8 +268,8 @@ export default {
         2100,
         document.getElementById("ewms").innerHTML
       );
-      this.LODOP.PRINTA(); //不需要进入查看页面 直接打印
-      // this.LODOP.PREVIEW(); //需要进入页面查看
+      // this.LODOP.PRINTA(); //不需要进入查看页面 直接打印
+      this.LODOP.PREVIEW(); //需要进入页面查看
     },
     CheckIsInstall() {
       //查看是否存在有打印控件
