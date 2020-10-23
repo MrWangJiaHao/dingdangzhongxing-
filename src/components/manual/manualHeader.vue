@@ -303,6 +303,14 @@ export default {
           name: "/warehouseManagement/warehouseIndex/0",
         },
         {
+          title: "销售出库",
+          name: "/warehouseManagement/warehouseIndex/1",
+        },
+        {
+          title: "自提出库",
+          name: "/warehouseManagement/warehouseIndex/2",
+        },
+        {
           title: "调拨出库",
           name: "/warehouseManagement/warehouseIndex/3",
         },
@@ -313,14 +321,6 @@ export default {
         {
           title: "拆解出库",
           name: "/warehouseManagement/warehouseIndex/5",
-        },
-        {
-          title: "自提出库",
-          name: "/warehouseManagement/warehouseIndex/2",
-        },
-        {
-          title: "销售出库",
-          name: "/warehouseManagement/warehouseIndex/1",
         },
         {
           title: "报损出库",
@@ -378,11 +378,18 @@ export default {
   },
   watch: {
     $route(to) {
-      this.WarehousingType.WarehousingTypeCenter = this.WarehousingType.WarehousingTypeArr[
-        +to.params.type
-      ].WarehousingTypeCenter;
-      this.paras.orderSource = to.params.type;
-      this.paras.outWareType = to.params.type;
+      let path = this._isRuku();
+      if (path) {
+        this.WarehousingType.WarehousingTypeCenter = this.WarehousingType.WarehousingTypeArr[
+          +to.params.type
+        ].WarehousingTypeCenter;
+        this.paras.orderSource = to.params.type;
+      } else {
+        this.WarehousingType.WarehousingTypeCenter = this.transeArr[
+          +to.params.type
+        ].title;
+        this.paras.outWareType = this.$route.params.type;
+      }
     },
   },
   props: {
@@ -403,6 +410,9 @@ export default {
         this.isOneShou = false;
       }
     } else {
+      this.WarehousingType.WarehousingTypeCenter = this.transeArr[
+        +this.$route.params.type
+      ].title;
       this.paras.outWareType = this.$route.params.type;
       this.isOneShou = false;
     }
@@ -429,7 +439,6 @@ export default {
           arr.push(item.orderNo);
         }
       });
-      console.log(this.tableData, "this.tableData");
       cb(arr);
     },
     //关联单号 模糊搜索
