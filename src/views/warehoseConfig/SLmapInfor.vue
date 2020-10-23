@@ -293,15 +293,17 @@ export default {
     if (from.name === "/warehoseconfig/storageLocalMap") {
       next((vm) => {
         // console.log(vm.$route.query.datas);
-        vm.recepData = vm.$route.query.datas;
-        vm.delegaCompanyValue = vm.recepData[0].delegaCompany;
-        vm.productNameValue = vm.recepData[0].productName;
-        vm.productCodeValue = vm.recepData[0].productNumber;
-        vm.specificationValue = vm.recepData[0].producTspecifica;
-        vm.ProdBrandName = vm.recepData[0].brand;
-        vm.ProdLength = vm.recepData[0].ProdLength;
-        vm.ProdWidth = vm.recepData[0].ProdWidth;
-        vm.ProdHeight = vm.recepData[0].ProdHeight;
+        if (vm.$route.query.type === "edit") {
+          vm.recepData = vm.$route.query.datas;
+          vm.delegaCompanyValue = vm.recepData[0].delegaCompany;
+          vm.productNameValue = vm.recepData[0].productName;
+          vm.productCodeValue = vm.recepData[0].productNumber;
+          vm.specificationValue = vm.recepData[0].producTspecifica;
+          vm.ProdBrandName = vm.recepData[0].brand;
+          vm.ProdLength = vm.recepData[0].ProdLength;
+          vm.ProdWidth = vm.recepData[0].ProdWidth;
+          vm.ProdHeight = vm.recepData[0].ProdHeight;
+        }
       });
     } else {
       next();
@@ -653,7 +655,6 @@ export default {
             type: "error",
             message: "请选择存放单位和存放数量",
           });
-          
         }
       });
       let requestData = this.requestData;
