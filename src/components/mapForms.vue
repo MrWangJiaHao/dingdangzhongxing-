@@ -111,7 +111,7 @@ export default {
   methods: {
     create() {
       //创建库位
-      this.$router.push("/storageLocalMap/SLmapInfor");
+      this.$router.push({path:"/storageLocalMap/SLmapInfor",query:{datas:this.multipleSelection,type:"create"}});
     },
     edit() {
       //编辑操作
@@ -121,7 +121,7 @@ export default {
           message: "每次只能编辑一条库位信息，请重新选择",
           type: "warning",
         });
-      this.$router.push({path:'/storageLocalMap/SLmapInfor',query:{datas:this.multipleSelection}})
+      this.$router.push({path:'/storageLocalMap/SLmapInfor',query:{datas:this.multipleSelection,type:"edit"}})
     },
     del() {
       //删除操作
