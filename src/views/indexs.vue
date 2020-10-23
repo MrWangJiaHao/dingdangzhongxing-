@@ -306,6 +306,11 @@ export default {
     handleClick() {
       let json = this.dataArr[+this.activeName];
       console.log(+this.activeName, "handleClick");
+      let router =
+        this.dataArr[+this.activeName].children.length != 0
+          ? this.dataArr[+this.activeName].children[0].name
+          : this.dataArr[+this.activeName].name;
+      this.$router.push(router);
       //跳转路由
       if (!this.dropdownArr.includes(json)) {
         this.dropdownArr.push(this.dataArr[+this.activeName]);
