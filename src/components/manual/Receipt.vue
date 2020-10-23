@@ -303,7 +303,6 @@ export default {
       });
     },
     _createEwm() {
-      this.LODOP.SET_PRINT_PAGESIZE(3, 2970, 2100);
       this.LODOP.ADD_PRINT_HTM(
         20,
         30,
@@ -311,7 +310,6 @@ export default {
         2100,
         document.getElementById("printCenters").innerHTML
       );
-      // this.LODOP.PRINTA(); //不需要进入查看页面 直接打印
       this.LODOP.PREVIEW(); //需要进入页面查看
     },
     _changeTime() {

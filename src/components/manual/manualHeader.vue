@@ -297,6 +297,44 @@ export default {
           },
         ],
       },
+      transeArr: [
+        {
+          title: "手工创建出库",
+          name: "/warehouseManagement/warehouseIndex/0",
+        },
+        {
+          title: "调拨出库",
+          name: "/warehouseManagement/warehouseIndex/3",
+        },
+        {
+          title: "加工出库",
+          name: "/warehouseManagement/warehouseIndex/4",
+        },
+        {
+          title: "拆解出库",
+          name: "/warehouseManagement/warehouseIndex/5",
+        },
+        {
+          title: "自提出库",
+          name: "/warehouseManagement/warehouseIndex/2",
+        },
+        {
+          title: "销售出库",
+          name: "/warehouseManagement/warehouseIndex/1",
+        },
+        {
+          title: "报损出库",
+          name: "/warehouseManagement/warehouseIndex/6",
+        },
+        {
+          title: "盘亏出库",
+          name: "/warehouseManagement/warehouseIndex/7",
+        },
+        {
+          title: "其他出库",
+          name: "/warehouseManagement/warehouseIndex/8",
+        },
+      ],
       //产品编码
       ProductCodeJson: {
         placeholder: "请输入产品编码",
@@ -307,7 +345,6 @@ export default {
         ProductSpecificationsArr: [],
         placeholder: "请选择产品规格",
       },
-
       expectedSendStartTimeData: {
         placeholder: "请选择期望入库时间",
       },
@@ -327,6 +364,7 @@ export default {
         putWareNo: "", //入库单号
         putstatus: "", //入库状态
         orderSource: "", //订单类型(0-手工创建；1-渠道创建 2-预入库 3-采购 4-库建调拨 5-加工作业 6-分解作业 7-退货 8-盘盈 9-其他）
+        outWareType: "",
         prodCode: "", //产品编码
         prodName: "", //产品名称
         specName: "", //规格名称
@@ -343,8 +381,8 @@ export default {
       this.WarehousingType.WarehousingTypeCenter = this.WarehousingType.WarehousingTypeArr[
         +to.params.type
       ].WarehousingTypeCenter;
-
       this.paras.orderSource = to.params.type;
+      this.paras.outWareType = to.params.type;
     },
   },
   props: {
@@ -354,15 +392,26 @@ export default {
     },
   },
   created() {
-    if (this.isOneShou) {
-      this.WarehousingType.WarehousingTypeCenter = this.WarehousingType.WarehousingTypeArr[
-        +this.$route.params.type
-      ].WarehousingTypeCenter;
-      this.paras.orderSource = this.$route.params.type;
+    let path = this._isRuku();
+    console.log(path);
+    if (path) {
+      if (this.isOneShou) {
+        this.WarehousingType.WarehousingTypeCenter = this.WarehousingType.WarehousingTypeArr[
+          +this.$route.params.type
+        ].WarehousingTypeCenter;
+        this.paras.orderSource = this.$route.params.type;
+        this.isOneShou = false;
+      }
+    } else {
+      this.paras.outWareType = this.$route.params.type;
       this.isOneShou = false;
     }
   },
   methods: {
+    _isRuku() {
+      let path = this.$route.path.includes("ing");
+      return path;
+    },
     //发送ajax
     async getOrderArr() {
       let datas = await getEntrustedcompany();
@@ -391,7 +440,8 @@ export default {
       this.$emit("getParasJson", this.paras);
       cb(this.tableData);
     },
-    stockInNoSelect(item) {}, //入库单号 选中的item
+    //入库单号 选中的item
+    stockInNoSelect(item) {},
     //产品名称
     ProductName() {},
     ProductNameArr(queryString, cb) {

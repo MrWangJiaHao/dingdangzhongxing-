@@ -365,7 +365,6 @@ export default {
       });
     },
     _createEwm() {
-      this.LODOP.SET_PRINT_PAGESIZE(3, 2970, 2100);
       this.LODOP.ADD_PRINT_HTM(
         20,
         30,

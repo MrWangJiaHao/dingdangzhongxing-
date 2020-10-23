@@ -139,18 +139,18 @@
               label="推荐库位"
               prop="putEndTime"
               show-overflow-tooltip
-              width="119"
+              width="150"
             >
               <el-select
                 slot-scope="scope"
-                v-model="scope.row.putEndTime"
+                v-model="scope.row.value"
                 placeholder="请选择库位"
-                @focus="getkuweimes"
+                @focus="getkuweimes(scope.row)"
               >
                 <el-option
-                  v-for="item in prodUnitData"
-                  :key="item.value"
-                  :label="item.label"
+                  v-for="(item, idx) in scope.row.kueirArr"
+                  :key="idx"
+                  :label="item.lables"
                   :value="item.value"
                 >
                 </el-option>
@@ -282,8 +282,30 @@ export default {
     }
   },
   methods: {
-    getkuweimes() {
-      console.log(1);
+    getkuweimes(data) {
+      this.$nextTick(() => {
+        data.kueirArr = [
+          {
+            item: "mes",
+            lable: "adsad",
+            lables: "adsad1",
+            value: "1",
+          },
+          {
+            item: "mes",
+            lable: "adsad",
+            lables: "adsad2",
+            value: "2",
+          },
+          {
+            item: "mes",
+            lable: "adsad",
+            lables: "adsad3",
+            value: "3",
+          },
+        ];
+        this.$forceUpdate();
+      });
     },
     //点击选择委托公司
     async getCompanyJsonAndArr() {
@@ -340,9 +362,12 @@ export default {
     //点击了提交
     async goAJAXCreate() {
       if (!this.createUserData.childWareId) return Message("请选择子仓名称");
+      if (!this.multipleSelection.length)
+        return Message("请选择要创建的产品明细");
       this.createUserData.detailList = this.multipleSelection;
+      console.log(this.createUserData);
+
       let datas = await getSaveRecord(this.createUserData);
-      console.log(datas);
     },
     getUserType(e) {
       //获取创建的用户类型

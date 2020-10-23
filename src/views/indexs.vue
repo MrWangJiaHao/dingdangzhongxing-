@@ -170,7 +170,44 @@ export default {
         {
           title: "出库管理",
           iconCls: require("@/assets/img/warehouse-outstorage.png"),
-          children: [],
+          children: [
+            {
+              title: "手工创建出库",
+              name: "/warehouseManagement/warehouseIndex/0",
+            },
+            {
+              title: "调拨出库",
+              name: "/warehouseManagement/warehouseIndex/3",
+            },
+            {
+              title: "加工出库",
+              name: "/warehouseManagement/warehouseIndex/4",
+            },
+            {
+              title: "拆解出库",
+              name: "/warehouseManagement/warehouseIndex/5",
+            },
+            {
+              title: "自提出库",
+              name: "/warehouseManagement/warehouseIndex/2",
+            },
+            {
+              title: "销售出库",
+              name: "/warehouseManagement/warehouseIndex/1",
+            },
+            {
+              title: "报损出库",
+              name: "/warehouseManagement/warehouseIndex/6",
+            },
+            {
+              title: "盘亏出库",
+              name: "/warehouseManagement/warehouseIndex/7",
+            },
+            {
+              title: "其他出库",
+              name: "/warehouseManagement/warehouseIndex/8",
+            },
+          ],
         },
         {
           title: "货品移位",
@@ -289,7 +326,16 @@ export default {
     },
     //点击选中
     handleTabsEdit(e) {
-      let dataArrJson = this.dataArr[+this.activeName].children[0];
+      let router =
+        this.dataArr[+this.activeName].children.length != 0
+          ? this.dataArr[+this.activeName].children[0].name
+          : this.dataArr[+this.activeName].name;
+      this.$router.push(router);
+      let dataArrJson =
+        this.dataArr[+this.activeName].children.length != 0
+          ? this.dataArr[+this.activeName].children[0]
+          : this.dataArr[+this.activeName];
+      this.mianbaoxieArr = [];
       let mianbaoxieArrJson = this.dataArr[+this.activeName];
       if (!this.mianbaoxieArr.includes(mianbaoxieArrJson)) {
         this.mianbaoxieArr.unshift(mianbaoxieArrJson);
@@ -305,7 +351,7 @@ export default {
     },
     handleClick() {
       let json = this.dataArr[+this.activeName];
-      console.log(+this.activeName, "handleClick");
+      // console.log(+this.activeName, "handleClick");
       let router =
         this.dataArr[+this.activeName].children.length != 0
           ? this.dataArr[+this.activeName].children[0].name
@@ -330,7 +376,6 @@ export default {
       this.mianbaoxieArr.splice(1, 1, dataArrJson);
       let router = this.dataArr[+this.activeName].children[e].name;
       this.$router.push(router);
-      console.log(this.mianbaoxieArr);
     },
   },
 };
