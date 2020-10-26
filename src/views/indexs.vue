@@ -11,12 +11,14 @@
           <el-tab-pane v-for="(navIndex, idx) in dataArr" :key="idx">
             <div slot="label" v-if="navIndex.children">
               <el-dropdown
+                placement="bottom"
                 trigger="click"
                 v-if="navIndex.children.length != 0"
                 @command="clickEventGoRouter"
               >
                 <span class="el-dropdown-link">
-                  <img :src="navIndex.iconCls" /> {{ navIndex.title }}
+                  <img :src="navIndex.iconCls" width="20" height="20" />
+                  {{ navIndex.title }}
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item
@@ -28,7 +30,10 @@
                 </el-dropdown-menu>
               </el-dropdown>
               <div v-else>
-                <img :src="navIndex.iconCls" /> {{ navIndex.title }}
+                <span class="el-dropdown-link">
+                  <img :src="navIndex.iconCls" width="20" height="20" />
+                  {{ navIndex.title }}
+                </span>
               </div>
             </div>
           </el-tab-pane>
@@ -336,6 +341,7 @@ export default {
           : this.dataArr[+this.activeName].name;
       // console.log(router);
       if (!router) return Message("该模块在开发中请耐心等候稍后");
+
       this.$router.push(router);
       let dataArrJson =
         this.dataArr[+this.activeName].children.length != 0
@@ -356,6 +362,17 @@ export default {
       this.mianbaoxieArr.splice(removeSrc, 1);
     },
     handleClick() {
+      console.log("this.activeName", this.activeName);
+      if (
+        !this.dataArr[+this.activeName].children.length &&
+        this.dataArr[+this.activeName].title != "首页"
+      )
+        return Message({
+          message: "该模块在开发中，请耐心等候",
+          duration: 500,
+        });
+      if (this.dataArr[+this.activeName].title == "首页")
+        return this.$router.push("/index/indexFormJH");
       let json = this.dataArr[+this.activeName];
       // console.log("点击了第一级的菜单栏");
       sessionStorage.setItem("activeName", this.activeName);
@@ -387,14 +404,19 @@ export default {
   },
 };
 </script>
-<style >
+<style lang='scss' >
+.popper__arrow {
+  left: 50% !important;
+  transform: translate(-50%);
+}
 .has-gutter .el-table td,
 .el-table th.is-leaf {
   background: #e1eaf5;
 }
 .el-table td,
 .el-table th.is-leaf {
-  border: 0.5px solid #d2d6e2;
+  border-right: 0.5px solid #d2d6e2;
+  border-bottom: 0.5px solid #d2d6e2;
 }
 .cell {
   text-align: center;
@@ -420,6 +442,7 @@ export default {
 .el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
   border-bottom-color: #ced4de;
 }
+
 .mianbaoxie {
   padding: 20px 10px;
 }
