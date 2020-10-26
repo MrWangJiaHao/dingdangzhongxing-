@@ -27,11 +27,16 @@
         </div>
         <div class="numberInfor1-upTime">
           <span>更新时间:&nbsp;</span>
-          <span>{{timeFormate()}}</span>
+          <span>{{ timeFormate() }}</span>
         </div>
       </div>
       <div class="numberInfor2">
-        <div class="numberInfor2-area" v-for="(v, i) in inforArr2" :key="i">
+        <div
+          class="numberInfor2-area"
+          v-for="(v, i) in inforArr2"
+          :key="i"
+          @click="detailInfor(i)"
+        >
           <div class="area-img">
             <img :src="v.img" />
           </div>
@@ -43,7 +48,10 @@
         <div class="ws-area1">
           <div class="area1-title">
             <div class="area1-title-text">仓库发货人员统计</div>
-            <div class="iconfont icon-ziyuan area1-title-icon"></div>
+            <div
+              class="iconfont icon-ziyuan area1-title-icon"
+              @click="detail1"
+            ></div>
           </div>
           <div class="ws-area1-echarts">
             <StaffEcharts></StaffEcharts>
@@ -55,7 +63,10 @@
             <div class="area2-title-button">
               <router-link to="/index/indexFormJH">拣货</router-link>
               <router-link to="/index/indexFormFH">复核</router-link>
-              <span class="iconfont icon-ziyuan area2-title-icon"></span>
+              <span
+                class="iconfont icon-ziyuan area2-title-icon"
+                @click="detail2"
+              ></span>
             </div>
           </div>
           <div>
@@ -67,7 +78,10 @@
         <div class="infor-one">
           <div class="infor-one-title">
             <div class="one-title-text">委托公司发货量统计</div>
-            <div class="iconfont icon-ziyuan one-title-icon"></div>
+            <div
+              class="iconfont icon-ziyuan one-title-icon"
+              @click="detail3"
+            ></div>
           </div>
           <div class="infor-one-echarts">
             <!-- <ShipmentsEcharts></ShipmentsEcharts> -->
@@ -77,7 +91,10 @@
         <div class="infor-two">
           <div class="infor-two-title">
             <div class="two-title-text">退货订单量统计</div>
-            <div class="iconfont icon-ziyuan two-title-icon"></div>
+            <div
+              class="iconfont icon-ziyuan two-title-icon"
+              @click="detail4"
+            ></div>
           </div>
           <div class="infor-two-echarts">
             <ResalesEcharts></ResalesEcharts>
@@ -151,11 +168,11 @@ export default {
         });
       }
     });
-    this.timeFormate()
+    this.timeFormate();
   },
-  methods:{
+  methods: {
     timeFormate() {
-    // 获取当前时间函数
+      // 获取当前时间函数
       let year = new Date().getFullYear();
       let month =
         new Date().getMonth() + 1 < 10
@@ -177,9 +194,56 @@ export default {
         new Date().getSeconds() < 10
           ? "0" + new Date().getSeconds()
           : new Date().getSeconds();
-       return year + "年" + month + "月" + date + "日" + " " + hh + ":" + mm + ":" + ss;
-    }
-  }
+      return (
+        year +
+        "年" +
+        month +
+        "月" +
+        date +
+        "日" +
+        " " +
+        hh +
+        ":" +
+        mm +
+        ":" +
+        ss
+      );
+    },
+    detail1() {
+      return Message("该模块还在开发中");
+    },
+    detail2() {
+      return Message("该模块还在开发中");
+    },
+    detail3() {
+      return Message("该模块还在开发中");
+    },
+    detail4() {
+      return Message("该模块还在开发中");
+    },
+    detailInfor(i) {
+      switch (i) {
+        case 0:
+           Message("该模块还在开发中");
+          break;
+        case 1:
+           Message("该模块还在开发中");
+          break;
+        case 2:
+           Message("该模块还在开发中");
+          break;
+        case 3:
+           Message("该模块还在开发中");
+          break;
+        case 4:
+           Message("该模块还在开发中");
+          break;
+        case 5:
+           Message("该模块还在开发中");
+          break;
+      }
+    },
+  },
 };
 </script>
 
@@ -262,6 +326,7 @@ export default {
       display: flex;
       margin: 0 0 16px 16px;
       .numberInfor2-area {
+        cursor: pointer;
         flex: 1;
         height: 239px;
         border-radius: 4px;

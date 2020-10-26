@@ -131,7 +131,22 @@
                 </el-option>
               </el-select>
             </div>
-            <div class="lookArea">查看该区域委托公司</div>
+            <div class="lookArea">
+              <span @mouseenter="mouseEnterEvent" @mouseout="mouseOutEvent"
+                >查看该区域委托公司</span
+              >
+              <div class="comForm">
+                <el-table :data="comData1" style="width: 100%">
+                  <el-table-column
+                    prop="companyName"
+                    label="委托公司"
+                    width="180"
+                    max-height="150px"
+                  >
+                  </el-table-column>
+                </el-table>
+              </div>
+            </div>
           </section>
           <section>
             <div class="text_select">
@@ -216,7 +231,21 @@
                 </el-option>
               </el-select>
             </div>
-            <div class="lookArea">查看该区域委托公司</div>
+            <div class="lookArea">
+              <span @mouseenter="mouseEnterEvent1" @mouseout="mouseOutEvent1"
+                >查看该区域委托公司</span
+              >
+              <div class="comForm1">
+                <el-table :data="comData1" style="width: 100%" max-height="150px">
+                  <el-table-column
+                    prop="companyName"
+                    label="委托公司"
+                    width="180"
+                  >
+                  </el-table-column>
+                </el-table>
+              </div>
+            </div>
           </section>
           <section>
             <div class="text_select">
@@ -374,6 +403,16 @@ export default {
         prodId: "",
         seatDatas: [],
       },
+      comData1: [
+        {
+          companyName: "巨子生物",
+        },
+      ],
+      comData2: [
+        {
+          companyName: "巨子生物",
+        },
+      ],
     };
   },
   mounted() {
@@ -674,6 +713,22 @@ export default {
         }
       });
     },
+    mouseEnterEvent() {
+      let comFormDiv = document.querySelector(".comForm");
+      comFormDiv.style.display = "block";
+    },
+    mouseOutEvent() {
+      let comFormDiv = document.querySelector(".comForm");
+      comFormDiv.style.display = "none";
+    },
+    mouseEnterEvent1() {
+      let comFormDiv1 = document.querySelector(".comForm1");
+      comFormDiv1.style.display = "block";
+    },
+    mouseOutEvent1() {
+      let comFormDiv1 = document.querySelector(".comForm1");
+      comFormDiv1.style.display = "none";
+    },
   },
 };
 </script>
@@ -747,9 +802,19 @@ export default {
         display: flex;
         align-items: center;
         .lookArea {
-          color: blue;
-          cursor: pointer;
-          text-decoration: underline;
+          position: relative;
+          span {
+            color: #599af4;
+            cursor: pointer;
+            text-decoration: underline;
+          }
+          .comForm,
+          .comForm1 {
+            position: absolute;
+            right: -200px;
+            top: -70px;
+            display: none;
+          }
         }
       }
       section:nth-of-type(2) {

@@ -213,7 +213,7 @@ export default {
       multipleSelection: [],
       pagingQueryData: {
         //分页查询
-        orderBy:"createTime",
+        orderBy: "createTime",
         pageNumber: 1,
         pageSize: 10,
         paras: {
@@ -271,6 +271,16 @@ export default {
               value: resultList[indexs].childWareName,
               label: resultList[indexs].childWareName,
             });
+            let testObj = {};
+            this.childWarehouseName = this.childWarehouseName.reduce(
+              (item, next) => {
+                testObj[next.value]
+                  ? ""
+                  : (testObj[next.value] = true && item.push(next));
+                return item;
+              },
+              []
+            );
           });
         }
       });
@@ -322,6 +332,9 @@ export default {
       //点击清空输入框
       this.nameValue = "";
       this.typeValue = "";
+      this.tableData = [];
+      this.queryRes = [];
+      this.requestMethods();
     },
     createChildWarehouse() {
       //创建
