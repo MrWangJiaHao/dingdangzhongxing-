@@ -14,8 +14,10 @@ export default {
   },
   methods: {
     resalesEcharts() {
-      let data = [4000, 5000, 3000, 2000, 1000, 4000, 6666];
-      let data2 = [3000, 5000, 4444, 5555, 6666, 2222, 3333];
+      // let data = [4000, 5000, 3000, 2000, 1000, 4000, 6666];
+      let data = [];
+      // let data2 = [3000, 5000, 4444, 5555, 6666, 2222, 3333];
+      let data2 = [];
       let myEcharts = this.$echarts.init(
         document.getElementById("resalesEcharts")
       );
@@ -153,7 +155,7 @@ export default {
           {
             name: "已退数",
             type: "bar",
-            barWidth : 20,
+            barWidth: 20,
             itemStyle: {
               normal: {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -176,7 +178,7 @@ export default {
           {
             name: "待退数",
             type: "bar",
-            barWidth : 20,
+            barWidth: 20,
             itemStyle: {
               normal: {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [

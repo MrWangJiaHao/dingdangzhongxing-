@@ -79,11 +79,7 @@
             </el-table-column>
             <el-table-column prop="specValue" label="规格值" align="center">
             </el-table-column>
-            <el-table-column
-              prop="specUnit"
-              label="规格单位"
-              align="center"
-            >
+            <el-table-column prop="specUnit" label="规格单位" align="center">
             </el-table-column>
             <el-table-column
               prop="remark"
@@ -115,7 +111,7 @@
     </div>
 
     <!-- 弹框 -->
-    <el-dialog title="供应商信息" :visible.sync="dialogFormVisible">
+    <el-dialog :title="title" :visible.sync="dialogFormVisible">
       <div class="dialogBox">
         <div class="boxTitle"><span>基础信息</span></div>
         <div class="boxContent">
@@ -131,7 +127,7 @@
               <div class="setSupplierName">规格值</div>
               <el-input
                 v-model="specValueInput"
-                placeholder="请输入规格值"
+                placeholder="请输入规格值 例:20*20*20"
               ></el-input>
             </div>
           </div>
@@ -160,19 +156,14 @@
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { Message } from "element-ui";
-import {
-  createSpec,
-  querySpec,
-  delSpec,
-  querySpecCon,
-} from "../../api/api";
+import { createSpec, querySpec, delSpec, querySpecCon } from "../../api/api";
 export default {
   components: {
     pagecomponent,
   },
   data() {
     return {
-      
+      title: "",
       specUnitValue: "",
       specValue: "",
       specUnitData: [],
@@ -206,7 +197,7 @@ export default {
     this.querySpecFun = () => {
       let pagingQueryData = this.pagingQueryData;
       querySpec(pagingQueryData).then((ok) => {
-        console.log(ok)
+        console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result.list;
           this.tableData1 = ok.data.result.list;
@@ -272,7 +263,7 @@ export default {
         remark: this.remarkInfor,
       };
       createSpec(createData).then((ok) => {
-        console.log(ok)
+        // console.log(ok)
         if (ok.data.code === "10000") {
           Message({
             message: "创建成功",
@@ -317,14 +308,16 @@ export default {
     createChildWarehouse() {
       //创建
       this.dialogFormVisible = true;
+      this.title = "添加规格";
     },
     editChildWarehouse() {
       //编辑
       this.dialogFormVisible = true;
-      if (!this.multipleSelection.length) return Message("请选择要查看的账号");
+      this.title = "编辑规格";
+      if (!this.multipleSelection.length) return Message("请选择要查看的规格");
       if (this.multipleSelection.length !== 1)
         return Message({
-          message: "每次只能编辑一个供应商信息，请重新选择",
+          message: "每次只能编辑一个规格，请重新选择",
           type: "warning",
         });
       let gys = this.multipleSelection[0];
@@ -341,8 +334,8 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return Message("请选择要删除的供应商");
-      this.$confirm("确定要删除该供应商？", "提示", {
+      if (!arr.length) return Message("请选择要删除的规格");
+      this.$confirm("确定要删除该规格？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -386,8 +379,6 @@ export default {
       let { totalRow } = data;
       this.pageComponentsData.pageNums = totalRow;
     },
-
-    
   },
 };
 </script>
@@ -549,7 +540,7 @@ export default {
           .content_one {
             display: flex;
             margin-bottom: 16px;
-            .name_con_one{
+            .name_con_one {
               border: 1px solid #d1d6e2;
               margin-right: 20px;
               width: 420px;
@@ -571,7 +562,6 @@ export default {
               }
             }
 
-            
             .name_con {
               display: flex;
             }

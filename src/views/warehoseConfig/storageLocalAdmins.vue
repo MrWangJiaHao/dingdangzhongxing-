@@ -125,7 +125,7 @@
       <div class="formHeader">
         <div class="icon-title">
           <div class="icon-title-icon">
-            <img src="../../assets/img/home_page-icon-default@2x.png" />
+            <img src="../../assets/img/systemTitlemesa.png" />
           </div>
           <div class="icon-title-title">库位管理</div>
         </div>
@@ -268,6 +268,7 @@ export default {
       multipleSelection: [],
       pagingQueryData: {
         //分页查询
+        orderBy:"createTime",
         pageNumber: 1,
         pageSize: 10,
         paras: {
