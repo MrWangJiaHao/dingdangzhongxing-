@@ -199,14 +199,19 @@
         transform: 'translate(-50%,-50%)',
       }"
     >
-      <div style="width: 770px">
+      <div style="width: 800px">
         <div>
           <div
             style="display: inline-block; margin-bottom: 10px"
             v-for="(item, idx) in ImgsrcArr"
             :key="idx"
           >
-            <img :src="tiaoxinmaSrc + item" />
+            <img
+              width="265"
+              height="75"
+              style="margin-left: -10px"
+              :src="tiaoxinmaSrc + item"
+            />
           </div>
         </div>
       </div>
@@ -268,7 +273,7 @@ export default {
       multipleSelection: [],
       pagingQueryData: {
         //分页查询
-        orderBy:"createTime",
+        orderBy: "createTime",
         pageNumber: 1,
         pageSize: 10,
         paras: {

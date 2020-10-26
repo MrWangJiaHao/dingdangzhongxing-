@@ -13,7 +13,7 @@
               @input="getwareHouseValue"
             >
               <el-option
-                v-for="(item, idx) in nameOfSubWareHouse.nameOfSubwareHouseData"
+                v-for="(item, idx) in nameOfSubwareHouseDataArr"
                 :key="idx"
                 :label="item.childWareName"
                 :value="idx"
@@ -359,6 +359,8 @@ export default {
         placeholdes: "请选择子仓名称",
         nameOfSubwareHouseData: [],
       },
+      nameOfSubwareHouseDataArr: [],
+
       quyuzicanNameOfSubWareHouse: {
         placeholdes: "请选择子仓名称",
         nameOfSubwareHouseData: [],
@@ -398,6 +400,7 @@ export default {
         wareWidth: 0,
       },
       regionalManage: [],
+      flag: true,
     };
   },
   async created() {
@@ -539,7 +542,7 @@ export default {
         return Message("请选择在那个子仓下创建区域");
       if (this.multipleSelection.length > 1)
         return Message("每次只能在一个子仓下创建区域");
-     this._getChildWidth({
+      this._getChildWidth({
         wareId: getCookie("X-Auth-wareId"),
         id: this.multipleSelection[0].childWareId,
       });
@@ -559,7 +562,7 @@ export default {
         data,
       });
       if (this.zicandaixao.length == 0) return Message("网络较慢，请稍后重试");
-      console.log(this.zicandaixao,"his.zicandaixao")
+      console.log(this.zicandaixao, "his.zicandaixao");
       if (datas.code === "10000") {
         localStorage.setItem(
           "warseHouseData",
@@ -633,6 +636,10 @@ export default {
       }
     },
     changeData(data) {
+      if (this.flag) {
+        this.nameOfSubwareHouseDataArr = data.list;
+        this.flag = false;
+      }
       this.nameOfSubWareHouse.nameOfSubwareHouseData = data.list;
       this.quyuzicanNameOfSubWareHouse.nameOfSubwareHouseData = data.list;
       this.changeTableData(data); //用来改变表格
@@ -683,6 +690,7 @@ export default {
       this.pagingQueryData.paras.wareAreaName = "";
       this.pagingQueryData.paras.id = "";
       this.pagingQueryData.paras.wareAreaType = "";
+      this.pagingQueryData.paras.childWareId = "";
       console.log(this.pagingQueryData, "点击清空");
       this.fasonPagIngQueryData();
     },
@@ -708,10 +716,10 @@ export default {
     },
     //子仓名称下拉框
     getwareHouseValue(e) {
-      this.pagingQueryData.paras.childWareId = this.nameOfSubWareHouse.nameOfSubwareHouseData[
+      this.pagingQueryData.paras.childWareId = this.nameOfSubwareHouseDataArr[
         e
       ].childWareId;
-      this.pagingQueryData.paras.childWareName = this.nameOfSubWareHouse.nameOfSubwareHouseData[
+      this.pagingQueryData.paras.childWareName = this.nameOfSubwareHouseDataArr[
         e
       ].childWareName;
     },
