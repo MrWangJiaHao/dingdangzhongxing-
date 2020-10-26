@@ -152,11 +152,7 @@
     <!-- 批次号 -->
   </div>
 </template>
-<style>
-.cell {
-  text-align: center;
-}
-</style>
+
 <script>
 import manualHeader from "../../components/manual/manualHeader";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器

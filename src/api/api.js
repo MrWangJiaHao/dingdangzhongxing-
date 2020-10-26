@@ -729,6 +729,26 @@ export const getSaveRecord = function (data) {
 export const getFindWareHouseDetailByIds = function (data, fn) {
     ajaxPost("http://139.196.176.227:8902/wbs-warehouse-manage//v1/putWarehouse/findWareHouseDetailByIds", data, fn)
 }
+
+/**
+ * 入库管理  根据id删除出库单
+ * @param {*} id http://localhost:8902/wbs-warehouse-manage//v1/putWarehouse/delRecordById
+ */
+
+export const delRecordByIdArrs = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "http://139.196.176.227:8902/wbs-warehouse-manage//v1/putWarehouse/delRecordById",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok)
+        }).catch(err => {
+            rej(err)
+        })
+    })
+}
+
 // =================出库管理 start ==============
 /**
  *     获取 分页查询出库列表

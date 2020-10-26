@@ -118,19 +118,7 @@ export default {
   },
 };
 </script>
-<style >
-.has-gutter .el-table td,
-.el-table th.is-leaf {
-  background: #e1eaf5;
-}
-.el-table td,
-.el-table th.is-leaf {
-  border: 1px solid #d2d6e2;
-}
-.cell {
-  text-align: center;
-}
-</style>
+
 
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";

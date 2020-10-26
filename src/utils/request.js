@@ -6,9 +6,19 @@ import merge from 'lodash/merge'
 import { clearLoginInfo } from '@/utils'
 import { getCookie } from './validate'
 
+const getHref = function () {
+  let href = window.location.href
+  if (href.includes("systemSetting")) {
+    return "http://139.196.176.227:8801"
+  } else {
+    return "http://139.196.176.227:8902"
+  }
+}
+console.log(getHref())
 const service = axios.create({
   timeout: 1000 * 30,
   withCredentials: true,
+  baseURL: getHref(),
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
     "appNo": "F94CB9F5262F46DCB171CECD6FE1193B",
@@ -39,7 +49,7 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(response => {
   if (response.data && response.data.code === 401) { // 401, token失效
     clearLoginInfo()
-    router.push({ name: 'login' })
+    router.push({ name: '/' })
   }
   return response
 }, error => {

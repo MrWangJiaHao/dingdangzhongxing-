@@ -333,16 +333,17 @@ export default {
     //发送删除的ajax
     async _clearAjax(data) {
       let datas = await post({
-        url: "http://139.196.176.227:8801/am/v1/pUser/delRecord",
-        data,
-      });
+          url: "http://139.196.176.227:8801/am/v1/pUser/delRecord",
+          data,
+        }),
+        self = this;
       if (datas.code === "10000") {
         Message({
           type: "success",
           message: datas.msg,
           duration: 1000,
           onClose() {
-            window.location.reload();
+            self.fasonPagIngQueryData();
           },
         });
       } else {
