@@ -82,6 +82,7 @@
 // import dropdown from "../components/dropdown"; //引入下拉框组件
 import Footer from "../components/footer";
 import { jurisdicRequest } from "../api/api";
+import { Message } from "element-ui";
 export default {
   components: {
     Footer,
@@ -327,12 +328,12 @@ export default {
     //点击选中
     handleTabsEdit() {
       console.log(this.dataArr[+this.activeName], "this.dataArr");
-
       let router =
         this.dataArr[+this.activeName].children.length != 0
           ? this.dataArr[+this.activeName].children[0].name
           : this.dataArr[+this.activeName].name;
       console.log(router);
+      if (!router) return Message("请求出错");
       this.$router.push(router);
       let dataArrJson =
         this.dataArr[+this.activeName].children.length != 0

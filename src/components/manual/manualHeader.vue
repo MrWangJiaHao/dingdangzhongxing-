@@ -170,10 +170,9 @@
           </div>
         </div>
         <!-- 期望入库时间 -->
-
         <div class="zujianBox mb20">
           <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">期望入库时间:</div>
+            <div class="noneIconTitle mr11">入库开始时间:</div>
             <div class="mr20 displayalign">
               <div style="margin-right: 10px">
                 <dateTime
