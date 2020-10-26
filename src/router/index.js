@@ -144,7 +144,7 @@ const routes = [{
   },
   {
     //warehousingManagement =》手工创建入库
-    // 入库管理=>手工创建入库
+    // 入库管理=>创建入库
     path: "/warehousingManagement/manualManagement/:type",
     name: "/warehousingManagement/manualManagement",
     component: () => import("../views/wareHouseIngManagement/manualManagement"),
@@ -153,6 +153,20 @@ const routes = [{
       title: "手工创建入库"
     }
   },
+  //---------------------------------------------------------出库管理模块开始-------------------------------------------------------------------------------------------
+  {
+    //warehousingManagement =》手工创建入库
+    // 入库管理=>出库管理
+    path: "/warehouseManagement/warehouseIndex/:type",
+    name: "/warehouseManagement/warehouseIndex",
+    component: () => import("../views/warehouseManagement/warehouseIndex"),
+    meta: {
+      Breadcrumb: "出库管理",
+      title: "出库管理"
+    }
+  },
+  //---------------------------------------------------------出库管理模块结束-------------------------------------------------------------------------------------------
+
   //---------------------------------------------------------物料中心模块开始-------------------------------------------------------------------------------------------
   {
     // 物料中心=>供应商管理

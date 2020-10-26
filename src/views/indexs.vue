@@ -82,6 +82,7 @@
 // import dropdown from "../components/dropdown"; //引入下拉框组件
 import Footer from "../components/footer";
 import { jurisdicRequest } from "../api/api";
+import { Message } from "element-ui";
 export default {
   components: {
     Footer,
@@ -170,7 +171,44 @@ export default {
         {
           title: "出库管理",
           iconCls: require("@/assets/img/warehouse-outstorage.png"),
-          children: [],
+          children: [
+            {
+              title: "手工创建出库",
+              name: "/warehouseManagement/warehouseIndex/0",
+            },
+            {
+              title: "调拨出库",
+              name: "/warehouseManagement/warehouseIndex/3",
+            },
+            {
+              title: "加工出库",
+              name: "/warehouseManagement/warehouseIndex/4",
+            },
+            {
+              title: "拆解出库",
+              name: "/warehouseManagement/warehouseIndex/5",
+            },
+            {
+              title: "自提出库",
+              name: "/warehouseManagement/warehouseIndex/2",
+            },
+            {
+              title: "销售出库",
+              name: "/warehouseManagement/warehouseIndex/1",
+            },
+            {
+              title: "报损出库",
+              name: "/warehouseManagement/warehouseIndex/6",
+            },
+            {
+              title: "盘亏出库",
+              name: "/warehouseManagement/warehouseIndex/7",
+            },
+            {
+              title: "其他出库",
+              name: "/warehouseManagement/warehouseIndex/8",
+            },
+          ],
         },
         {
           title: "货品移位",
@@ -288,8 +326,21 @@ export default {
       console.log(e, "dianji");
     },
     //点击选中
-    handleTabsEdit(e) {
-      let dataArrJson = this.dataArr[+this.activeName].children[0];
+    handleTabsEdit() {
+      console.log("点击选中，第二级的菜单栏");
+      console.log(this.dataArr[+this.activeName], "this.dataArr");
+      let router =
+        this.dataArr[+this.activeName].children.length != 0
+          ? this.dataArr[+this.activeName].children[0].name
+          : this.dataArr[+this.activeName].name;
+      console.log(router);
+      if (!router) return Message("该模块在开发中请耐心等候稍后");
+      this.$router.push(router);
+      let dataArrJson =
+        this.dataArr[+this.activeName].children.length != 0
+          ? this.dataArr[+this.activeName].children[0]
+          : this.dataArr[+this.activeName];
+      this.mianbaoxieArr = [];
       let mianbaoxieArrJson = this.dataArr[+this.activeName];
       if (!this.mianbaoxieArr.includes(mianbaoxieArrJson)) {
         this.mianbaoxieArr.unshift(mianbaoxieArrJson);
@@ -305,7 +356,7 @@ export default {
     },
     handleClick() {
       let json = this.dataArr[+this.activeName];
-      console.log(+this.activeName, "handleClick");
+      console.log("点击了第一级的菜单栏");
       let router =
         this.dataArr[+this.activeName].children.length != 0
           ? this.dataArr[+this.activeName].children[0].name
@@ -330,12 +381,22 @@ export default {
       this.mianbaoxieArr.splice(1, 1, dataArrJson);
       let router = this.dataArr[+this.activeName].children[e].name;
       this.$router.push(router);
-      console.log(this.mianbaoxieArr);
     },
   },
 };
 </script>
 <style >
+.has-gutter .el-table td,
+.el-table th.is-leaf {
+  background: #e1eaf5;
+}
+.el-table td,
+.el-table th.is-leaf {
+  border: 0.5px solid #d2d6e2;
+}
+.cell {
+  text-align: center;
+}
 .el-tabs__new-tab {
   display: none;
 }

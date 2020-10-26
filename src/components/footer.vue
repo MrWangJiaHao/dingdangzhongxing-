@@ -83,7 +83,7 @@ export default {
           path: "/",
         });
       } else {
-        Message(datas.msg);
+        Message("退出登入" + datas.msg);
       }
     },
   },

@@ -9,6 +9,7 @@
         @on-open-change="openChangeDate"
         @on-ok="openChangeDate"
         ref="time"
+        :transfer="transfer"
       ></Date-picker>
     </div>
   </div>
@@ -26,6 +27,10 @@ import { mapState } from "vuex";
 export default {
   props: {
     dateTimeData: Object,
+    transfer: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
     ...mapState(["systemTime"]),

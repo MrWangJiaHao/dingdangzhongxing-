@@ -152,11 +152,7 @@
     <!-- 批次号 -->
   </div>
 </template>
-<style>
-.cell {
-  text-align: center;
-}
-</style>
+
 <script>
 import manualHeader from "../../components/manual/manualHeader";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
@@ -166,11 +162,10 @@ import BatchNumber from "../../components/manual/BatchNumber"; //批次号
 import {
   getFindRecord,
   getFindWareHouseDetailByIds,
-  post,
+  getPOutWarehouse,
 } from "../../api/api";
 import { Message } from "element-ui";
 import { _getArrTarget } from "../../utils/validate";
-
 export default {
   components: {
     manualHeader,
@@ -215,7 +210,7 @@ export default {
           orderNo: "",
           putWareNo: "",
           putstatus: "",
-          orderSource: "",
+          outWareType: "",
           prodCode: "",
           prodName: "",
           specName: "",
@@ -280,14 +275,14 @@ export default {
   created() {
     if (this.thisOneShow) {
       let type = this.$route.params.type;
-      this.sendOutDataJson.paras.orderSource = type;
+      this.sendOutDataJson.paras.outWareType = type;
       this.thisOneShow = false;
     }
     this.getTableData();
   },
   watch: {
     $route(to, from) {
-      this.sendOutDataJson.paras.orderSource = to.params.type
+      this.sendOutDataJson.paras.outWareType = to.params.type
         ? to.params.type
         : from.params.type;
       this.getTableData();
@@ -312,7 +307,6 @@ export default {
       } else if (this.multipleSelection.length > 1) {
         return Message("只能选择一个入库单号");
       } else {
-        console.log(this.multipleSelection[0]);
         this._getFindRecord(this.multipleSelection[0].id).then(() => {
           this.$router.push({
             path: "/warehousingManagement/manageMentrukuSure",
@@ -349,7 +343,6 @@ export default {
         return Message("只能选择打印一个收货单");
       } else {
         this.ReceiptIds = this.multipleSelection[0].id;
-
         this._getFindRecord(this.multipleSelection[0].id, () => {
           this.Receipt = !this.Receipt;
         });
@@ -402,12 +395,12 @@ export default {
     },
     //获取table表格内容
     async getTableData(fn) {
-      let datas = await post({
-        url:
-          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/putWarehouse/findRecordPage",
-        data: this.sendOutDataJson,
-      });
-      this.changeDatas(datas.result);
+      let datas = await getPOutWarehouse(this.sendOutDataJson);
+      if (datas.code == "10000") {
+        this.changeDatas(datas.result);
+      } else {
+        Message(datas.msg);
+      }
       fn && fn();
       return datas;
     },
