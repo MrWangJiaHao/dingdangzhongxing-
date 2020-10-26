@@ -236,7 +236,11 @@
                 >查看该区域委托公司</span
               >
               <div class="comForm1">
-                <el-table :data="comData1" style="width: 100%" max-height="150px">
+                <el-table
+                  :data="comData1"
+                  style="width: 100%"
+                  max-height="150px"
+                >
                   <el-table-column
                     prop="companyName"
                     label="委托公司"
@@ -487,7 +491,8 @@ export default {
   methods: {
     getTableData() {
       this.choosedKuWeiData = this.$store.state.PFSRequest.PFSqueryData;
-      this.choosedKuWeiData = this.$store.state.PFSRequest.PFSqueryData1;
+      this.choosedKuWeiData = this.$store.state.PFSRequest1.PFSqueryData1;
+      // console.log(this.choosedKuWeiData);
     },
     setintervalFun() {
       setInterval(() => {

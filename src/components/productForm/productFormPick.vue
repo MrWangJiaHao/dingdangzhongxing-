@@ -86,7 +86,7 @@ export default {
         //这是分页器需要的json
         pageNums: 0, //一共多少条 //默认一页10条
       },
-      emptyArr: [],
+      emptyArr1: [],
     };
   },
   methods: {
@@ -95,7 +95,6 @@ export default {
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
-      console.log(value)
       this.$store.dispatch("PFSRequestAct1", value);
     },
     getPageNum(e) {
@@ -113,10 +112,10 @@ export default {
       this.pageComponentsData.pageNums = totalRow;
     },
     updated() {
-      this.$store.dispatch("PFSRequestAct1", this.emptyArr);
+      this.$store.dispatch("PFSRequestAct1", []);
     },
     beforeDestroy() {
-      this.$store.dispatch("PFSRequestAct1", this.emptyArr);
+      this.$store.dispatch("PFSRequestAct1", []);
     },
   },
 };

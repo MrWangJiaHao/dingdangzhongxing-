@@ -192,7 +192,7 @@
               :tableData="tableData"
             ></MapForms>
           </el-tab-pane>
-          <el-tab-pane label="拣货区库位" >
+          <el-tab-pane label="拣货区库位">
             <MapForms
               :storageArea="storageArea2"
               :storageShelf="storageShelf2"
@@ -213,6 +213,7 @@ import {
   storeMapRelation,
   queryAreaOfWS,
   queryEntrustCompany,
+  areaShelfQuery,
 } from "../../api/api";
 // import MapForm from "@/components/mapForm";
 import MapForms from "../../components/mapForms";
@@ -248,7 +249,17 @@ export default {
       childWarehouseName: [],
       placeAreaData: [],
       placeShelfData: [],
-      placeTierData: [],
+      placeTierData: [
+        { value: 1, label: 1 },
+        { value: 2, label: 2 },
+        { value: 3, label: 3 },
+        { value: 4, label: 4 },
+        { value: 5, label: 5 },
+        { value: 6, label: 6 },
+        { value: 7, label: 7 },
+        { value: 8, label: 8 },
+        { value: 9, label: 9 },
+      ],
       pickAreaData: [],
       pickShelfData: [],
       pickTierfData: [],
@@ -278,6 +289,11 @@ export default {
         id: "",
       },
       CSandareaData: [],
+      areaShelfQueryData: {
+        id: "",
+        wareAreaId: "",
+      },
+      shelfResList: [],
     };
   },
   mounted() {
@@ -351,7 +367,21 @@ export default {
       this.pagingQueryData.paras.prodCode = value;
       this.CSandareaData.forEach((v) => {
         if (value === v.wareAreaName) {
-           this.pagingQueryData.paras.wareAreaId = v.id;
+          this.pagingQueryData.paras.wareAreaId = v.id;
+          this.areaShelfQueryData.wareAreaId = v.id;
+        }
+      });
+      let areaShelfQueryData = this.areaShelfQueryData;
+      areaShelfQuery(areaShelfQueryData).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.shelfResList = ok.data.result;
+          this.shelfResList.forEach((v) => {
+            this.placeShelfData.push({
+              value: v.shelfName,
+              label: v.shelfName,
+            });
+          });
         }
       });
     },
@@ -429,9 +459,9 @@ export default {
         }
       });
     },
-    pickStoreQuery(a){
-      if(a.label === "拣货区库位"){
-        console.log(123)
+    pickStoreQuery(a) {
+      if (a.label === "拣货区库位") {
+        console.log(123);
       }
     },
     clearInput() {

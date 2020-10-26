@@ -85,7 +85,7 @@
             <div class="roleName-checkBox">
               <el-select
                 v-model="anyTypeValue"
-                placeholder="请选择品牌"
+                placeholder="请选择类型"
                 @change="anyTypeValues"
                 clearable
               >
@@ -131,7 +131,7 @@
         <div class="formHeader">
           <div class="icon-title">
             <div class="icon-title-icon">
-              <img src="../../assets/img/home_page-icon-default@2x.png" />
+              <img src="../../assets/img/systemTitlemesa.png" />
             </div>
             <div class="icon-title-title">物料记录信息</div>
           </div>
@@ -614,7 +614,7 @@ export default {
       this.mateTypeValue = val;
     },
     supNameValues(val) {
-      this.mateNameValue = val;
+      this.supNameValue = val;
       this.allSupData.forEach((v) => {
         if (val === v.supName) {
           this.allQueryInfor.supId = v.id;
@@ -700,7 +700,7 @@ export default {
       };
       // console.log(createData);
       createMateRecord(createData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           Message({
             message: "创建成功",
@@ -721,14 +721,15 @@ export default {
       this.tableData = [];
       let idQueryData = {
         id: this.allQueryInfor.id,
-        wareId: "3B31612A55EE4EB09363A6E3805A3F6D",
+        wareId: "",
         // supId: this.allQueryInfor.supId,
         // braId: this.allQueryInfor.braId,
         // type: this.allQueryInfor.type,
         // startTime: this.allQueryInfor.startTime,
         // endTime: this.allQueryInfor.endTime,
       };
-      console.log(idQueryData);
+      // console.log(idQueryData);
+      
       queryMateRecordCon(idQueryData).then((ok) => {
         console.log(ok);
         if (ok.data.code === "10000") {

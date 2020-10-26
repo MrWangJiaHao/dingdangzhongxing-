@@ -1,24 +1,37 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getUserTypeshuju, getWarehoseConfig } from "../api/api";
+import {
+  getUserTypeshuju,
+  getWarehoseConfig
+} from "../api/api";
 Vue.use(Vuex)
 
 let actions = {
-  editUser({ commit }, data) {
+  editUser({
+    commit
+  }, data) {
     commit("GET_EDIT_USER", data)
   },
-  clearEditUser({ commit }) {
+  clearEditUser({
+    commit
+  }) {
     commit("CLEAR_EDIT_USER")
   },
-  async getusertype({ commit }) { //获取用户角色
+  async getusertype({
+    commit
+  }) { //获取用户角色
     let data = await getUserTypeshuju()
     commit("GET_USER_TYPR", data)
   },
-  clearsystemSettingtime({ commit }) {
+  clearsystemSettingtime({
+    commit
+  }) {
     commit("SHAHCHUSYSTEMTIME")
   },
   //获取子仓姓名
-  async getWarehoseConfig({ commit }) {
+  async getWarehoseConfig({
+    commit
+  }) {
     let data = await getWarehoseConfig()
     commit("GETWAREHOUSECONFIG", data)
   }
@@ -46,13 +59,30 @@ let state = {
   systemTime: false,
   warehouseConfig: []
 }
-import { loginRequest } from "../views/login/login"
-import {CWAdminRequest} from '../views/warehoseConfig/childWarehouseAdmin'
-import {storageLocalAdminRequest} from '../views/warehoseConfig/storageLocalAdmin'
-import {PFSRequest} from '../components/productForm/productFormStore'
+import {
+  loginRequest
+} from "../views/login/login"
+import {
+  CWAdminRequest
+} from '../views/warehoseConfig/childWarehouseAdmin'
+import {
+  storageLocalAdminRequest
+} from '../views/warehoseConfig/storageLocalAdmin'
+import {
+  PFSRequest
+} from '../components/productForm/productFormStore'
+import {
+  PFSRequest1
+} from '../components/productForm/productFormPick'
 export default new Vuex.Store({
   state,
   mutations,
   actions,
-  modules: { loginRequest,CWAdminRequest,storageLocalAdminRequest,PFSRequest }
+  modules: {
+    loginRequest,
+    CWAdminRequest,
+    storageLocalAdminRequest,
+    PFSRequest,
+    PFSRequest1
+  }
 })
