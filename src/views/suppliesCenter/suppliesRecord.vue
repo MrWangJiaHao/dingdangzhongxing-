@@ -154,7 +154,6 @@
             <el-table-column type="selection" width="55"> </el-table-column>
             <el-table-column
               label="序号"
-              prop="id"
               align="center"
               type="index"
               width="60"
@@ -183,7 +182,7 @@
             >
             </el-table-column>
             <el-table-column
-              prop="remark"
+              prop="braName"
               label="品牌"
               align="center"
               width="110"
@@ -203,12 +202,7 @@
               width="110"
             >
             </el-table-column>
-            <el-table-column
-              prop="type"
-              label="数量"
-              align="center"
-              width="110"
-            >
+            <el-table-column prop="num" label="数量" align="center" width="110">
             </el-table-column>
             <el-table-column
               prop="actualInventory"
@@ -217,12 +211,7 @@
               width="110"
             >
             </el-table-column>
-            <el-table-column
-              prop="type"
-              label="领取人"
-              align="center"
-              width="110"
-            >
+            <el-table-column prop="" label="领取人" align="center" width="110">
             </el-table-column>
             <el-table-column
               prop="createUser"
@@ -489,13 +478,13 @@ export default {
         },
       },
       mateNameData: [], //用来存储查询物料名称等相关信息
-      allQueryInfor:{
-        id:"",
-        supId:"",
-        braId:"",
-        type:"",
-        startTime:"",
-        endTime:"",
+      allQueryInfor: {
+        id: "",
+        supId: "",
+        braId: "",
+        type: "",
+        startTime: "",
+        endTime: "",
       },
       // 导出文件名称
       filename: "物料记录信息",
@@ -503,6 +492,7 @@ export default {
       autoWidth: true,
       // 导出文件格式
       bookType: "xlsx",
+      pageQueryFun: "",
     };
   },
   mounted() {
@@ -581,10 +571,28 @@ export default {
         });
       }
     });
-    let pagingQueryData = this.pagingQueryData;
-    queryMateRecord(pagingQueryData).then((ok) => {
-      console.log(ok);
-    });
+    this.pageQueryFun = () => {
+      let pagingQueryData = this.pagingQueryData;
+      queryMateRecord(pagingQueryData).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.tableData = ok.data.result.list;
+          this.tableData.forEach((v) => {
+            this.anyTypeData.forEach((vv) => {
+              if (v.type === +vv.value) {
+                v.type = vv.label;
+              }
+            });
+            this.mateTypeValueData.forEach((vvv) => {
+              if (v.materielType === vvv.value) {
+                v.materielType = vvv.label;
+              }
+            });
+          });
+        }
+      });
+    };
+    this.pageQueryFun();
   },
   watch: {},
   methods: {
@@ -593,34 +601,33 @@ export default {
     },
     mateNameValues(val) {
       this.mateNameValue = val;
-      this.mateNameData.forEach((v)=>{
-        if(val === v.materielName){
-          this.allQueryInfor.id = v.id
+      this.mateNameData.forEach((v) => {
+        if (val === v.materielName) {
+          this.allQueryInfor.id = v.id;
         }
-      })
+      });
     },
     mateNumValues(val) {
       this.mateNameValue = val;
     },
     mateTypeValues(val) {
       this.mateTypeValue = val;
-      
     },
     supNameValues(val) {
       this.mateNameValue = val;
       this.allSupData.forEach((v) => {
-          if(val === v.supName){
-            this.allQueryInfor.supId = v.id
-          }
-        });
+        if (val === v.supName) {
+          this.allQueryInfor.supId = v.id;
+        }
+      });
     },
     brandNameValues(val) {
       this.brandNameValue = val;
       this.allBrandData.forEach((v) => {
-          if(val === v.barName){
-            this.allQueryInfor.braId = v.id
-          }
-        });
+        if (val === v.barName) {
+          this.allQueryInfor.braId = v.id;
+        }
+      });
     },
 
     dialogBelongCompanys(val) {
@@ -668,7 +675,7 @@ export default {
     },
     anyTypeValues(val) {
       this.anyTypeValue = val;
-      this.allQueryInfor.type = val
+      this.allQueryInfor.type = val;
     },
     okBtn() {
       this.dialogFormVisible = false;
@@ -691,7 +698,7 @@ export default {
         orgId: "", //委托公司id
         orgName: this.dialogBelongCompany, //委托公司
       };
-      console.log(createData);
+      // console.log(createData);
       createMateRecord(createData).then((ok) => {
         console.log(ok);
         if (ok.data.code === "10000") {
@@ -699,6 +706,7 @@ export default {
             message: "创建成功",
             type: "success",
           });
+          this.pageQueryFun();
         } else {
           Message({
             message: ok.data.msg,
@@ -714,13 +722,13 @@ export default {
       let idQueryData = {
         id: this.allQueryInfor.id,
         wareId: "3B31612A55EE4EB09363A6E3805A3F6D",
-        supId:this.allQueryInfor.supId,
-        braId:this.allQueryInfor.braId,
-        type:this.allQueryInfor.type,
-        startTime:this.allQueryInfor.startTime,
-        endTime:this.allQueryInfor.endTime
+        // supId: this.allQueryInfor.supId,
+        // braId: this.allQueryInfor.braId,
+        // type: this.allQueryInfor.type,
+        // startTime: this.allQueryInfor.startTime,
+        // endTime: this.allQueryInfor.endTime,
       };
-      console.log(idQueryData)
+      console.log(idQueryData);
       queryMateRecordCon(idQueryData).then((ok) => {
         console.log(ok);
         if (ok.data.code === "10000") {
@@ -778,14 +786,18 @@ export default {
         ];
         // 设置要导出的属性
         const filterVal = [
-          "id",
+          "",
+          "orgName",
           "materielName",
           "materielCode",
           "specName",
-          "inventoryFloor",
-          "remark",
+          "materielType",
+          "braName",
           "supName",
           "type",
+          "num",
+          "actualInventory",
+          "",
           "createUser",
           "createTime",
         ];
@@ -857,6 +869,7 @@ export default {
             type: "success",
             message: "删除成功",
           });
+          this.pageQueryFun();
         } else {
           Message({
             type: "error",
@@ -881,10 +894,10 @@ export default {
       this.pageComponentsData.pageNums = totalRow;
     },
     getStartTime(e) {
-      this.allQueryInfor.startTime = e
+      this.allQueryInfor.startTime = e;
     },
     getEndTime(e) {
-      this.allQueryInfor.endTime = e
+      this.allQueryInfor.endTime = e;
     },
     clearTimeInput() {
       let input = document.getElementsByClassName("ivu-input");

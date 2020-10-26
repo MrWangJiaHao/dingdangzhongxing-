@@ -91,7 +91,7 @@
     </div>
 
     <!-- 弹框 -->
-    <el-dialog title="供应商信息" :visible.sync="dialogFormVisible">
+    <el-dialog :title="title" :visible.sync="dialogFormVisible">
       <div class="dialogBox">
         <div class="boxTitle"><span>基础信息</span></div>
         <div class="boxContent">
@@ -141,6 +141,7 @@ export default {
   },
   data() {
     return {
+      title: "",
       nameValue: "",
       brandNameData: [],
       tableData: [],
@@ -262,10 +263,12 @@ export default {
     createChildWarehouse() {
       //创建
       this.dialogFormVisible = true;
+      this.title = "添加品牌";
     },
     editChildWarehouse() {
       //编辑
       this.dialogFormVisible = true;
+      this.title = "编辑品牌";
       if (!this.multipleSelection.length) return Message("请选择要查看的品牌");
       if (this.multipleSelection.length !== 1)
         return Message({
@@ -511,8 +514,6 @@ export default {
                 }
               }
             }
-            
-            
             .name_con {
               display: flex;
             }

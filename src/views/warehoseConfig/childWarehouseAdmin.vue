@@ -49,7 +49,7 @@
         <div class="formHeader">
           <div class="icon-title">
             <div class="icon-title-icon">
-              <img src="../../assets/img/home_page-icon-default@2x.png" />
+              <img src="../../assets/img/systemTitlemesa.png" />
             </div>
             <div class="icon-title-title">子仓管理</div>
           </div>
@@ -154,7 +154,7 @@
             ></el-table-column>
           </el-table>
         </div>
-        <div class="pageComponent" v-if="this.tableData.length >= 10">
+        <div class="pageComponent">
           <pagecomponent
             :pageComponentsData="pageComponentsData"
             @getPageNum="getPageNum"
@@ -213,6 +213,7 @@ export default {
       multipleSelection: [],
       pagingQueryData: {
         //分页查询
+        orderBy:"createTime",
         pageNumber: 1,
         pageSize: 10,
         paras: {

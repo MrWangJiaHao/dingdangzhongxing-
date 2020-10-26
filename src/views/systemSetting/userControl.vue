@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="roleAdminPage">
     <div class="userControl">
       <div class="roleName">
         <div class="roleName-choose">
@@ -83,92 +83,110 @@
     </div>
 
     <!-- 创建角色的弹窗 -->
-    <el-dialog
-      title="创建角色"
-      :visible.sync="centerDialogVisible"
-      width="30%"
-      center
-      :append-to-body="true"
-      class="feedback_dialog"
-    >
-      <div class="createRolePage">
-        <div class="roleName-input">
-          <span>角色名称：</span>
-          <input type="text" v-model="inputContent" />
+    <div class="createRole">
+      <el-dialog :title="title" :visible.sync="centerDialogVisible" width="30%">
+        <div class="createRolePage">
+          <div class="roleName-input">
+            <span>角色名称：</span>
+            <input type="text" v-model="inputContent" />
+          </div>
+          <div class="accreditMenu">
+            <span>授权菜单：</span>
+            <span @click="setQuanxian"> 设置权限 </span>
+          </div>
+          <div class="remarks">
+            <div>备注：</div>
+            <textarea v-model="textareaContent"></textarea>
+          </div>
         </div>
-        <div class="accreditMenu">
-          <span>授权菜单：</span>
-          <span>
-            <router-link to="/systemSetting/userControl/setAuthority">设置权限</router-link>
-          </span>
-        </div>
-        <div class="remarks">
-          <div>备注：</div>
-          <textarea v-model="textareaContent"></textarea>
-        </div>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="pupopBox">确 定</el-button>
-      </span>
-    </el-dialog>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="centerDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="pupopBox">确 定</el-button>
+        </span>
+      </el-dialog>
+    </div>
 
-    <!-- 编辑角色的弹窗 -->
-    <el-dialog
-      title="编辑角色"
-      :visible.sync="centerDialogVisibleB"
-      width="30%"
-      center
-      :append-to-body="true"
-      class="feedback_dialog"
-    >
-      <div class="createRolePage">
-        <div class="roleName-input">
-          <span>角色名称：</span>
-          <input type="text" v-model="inputContentB" />
+    <!-- 设置权限弹窗 -->
+    <div class="setqxDiv">
+      <el-dialog title="设置权限" :visible.sync="centerDialogVisibleC">
+        <div class="AuthorityPage">
+          <div class="mainBox">
+            <div class="authName">
+              <el-tree
+                :data="Treedata"
+                show-checkbox
+                node-key="id"
+                :props="defaultProps"
+                :highlight-current="true"
+                @node-click="nodeClick"
+              >
+              </el-tree>
+            </div>
+            <div class="authChoose">
+              <div v-for="(v, i) in authChooseData" :key="i">
+                {{ v.title }}
+                <el-checkbox
+                  :indeterminate="isIndeterminate"
+                  v-model="checkAll"
+                  @change="handleCheckAllChange"
+                  >全选</el-checkbox
+                >
+                <div style="margin: 15px 0"></div>
+                <el-checkbox-group
+                  v-model="checkedCities"
+                  @change="handleCheckedCitiesChange1"
+                >
+                  <el-checkbox
+                    v-for="city in cities"
+                    :label="city"
+                    :key="city"
+                    >{{ city }}</el-checkbox
+                  >
+                </el-checkbox-group>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="accreditMenu">
-          <span>授权菜单：</span>
-          <span
-            ><router-link to="/systemSetting/userControl/setAuthority"
-              >设置权限</router-link
-            ></span
-          >
-        </div>
-        <div class="remarks">
-          <div>备注：</div>
-          <textarea v-model="textareaContentB"></textarea>
-        </div>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="centerDialogVisibleB = false">取 消</el-button>
-        <el-button type="primary" @click="pupopBoxB">确 定</el-button>
-      </span>
-    </el-dialog>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="centerDialogVisibleC = false">取 消</el-button>
+          <el-button type="primary" @click="pupopBoxC">确 定</el-button>
+        </span>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
 <script>
 import { Message } from "element-ui";
-import { post, delRole } from "../../api/api";
+import { post, delRole, jurisdicRequest } from "../../api/api";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 
-// import { ajaxPost } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
   },
   data() {
     return {
+      title: "",
       inputContent: "",
-      inputContentB: "",
+      inputContentC: "",
       textareaContent: "",
-      textareaContentB: "",
+      textareaContentC: "",
       centerDialogVisible: false,
-      centerDialogVisibleB: false,
+      centerDialogVisibleC: false,
       options: [],
       value: "",
       tableData: [],
+      Treedata: [],
+      authChooseData: [],
+      cities: [],
+      checkedCities: [],
+      defaultProps: {
+        children: "children",
+        label: "label",
+      },
+      isIndeterminate: true,
+      checkAll: false,
       pagingQueryData: {
         //分页查询
         orderBy: "createTime",
@@ -187,12 +205,60 @@ export default {
       },
     };
   },
-  created() {},
   mounted() {
     this.pagingQueryData.paras.userType = this.$store.state.loginRequest.loginData.user.userType;
     this.queryList();
   },
   methods: {
+    handleCheckedCitiesChange1(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.cities.length;
+      this.isIndeterminate =
+        checkedCount > 0 && checkedCount < this.cities.length;
+    },
+    handleCheckAllChange(val) {
+      this.checkedCities = val ? this.cities : [];
+      this.isIndeterminate = false;
+    },
+    nodeClick(a) {
+      let label = a.label;
+      switch (label) {
+        case "渠道管理":
+          this.authChooseData.push({ title: "渠道管理" });
+          break;
+        case "物流公司管理":
+          this.authChooseData.push({ title: "物流公司管理" });
+          break;
+      }
+    },
+    setQuanxian() {
+      this.centerDialogVisibleC = true;
+      let data = {
+        appNo: "99125FCFA23B4AD09668DC8F1DC53C18",
+        type: "4",
+        id: "AA4EBC35E2544E7688E2F4230F3F5E30",
+      };
+      jurisdicRequest(data).then((ok) => {
+        console.log(ok);
+        if (ok.data.code === "10000") {
+          this.pageDataArr = ok.data.result;
+          this.pageDataArr.forEach((v, idx) => {
+            this.Treedata.push({
+              label: v.title,
+              children: [],
+            });
+            v.children.forEach((val) => {
+              this.Treedata[idx].children.push({
+                label: val.title,
+              });
+              // this.cities.push(
+              //   val.permissions
+              // )
+            });
+          });
+        }
+      });
+    },
     selectSome(event) {
       this.roleQueryRes.forEach((v) => {
         if (v.roleName === event) {
@@ -271,19 +337,21 @@ export default {
     //创建角色
     createRole() {
       this.centerDialogVisible = true;
+      this.title = "创建角色";
     },
     editBtn() {
+      //编辑角色
       if (!this.multipleSelection.length) return Message("请选择要编辑的账号");
       if (this.multipleSelection.length !== 1)
         return Message({
           message: "每次只能编辑一条账号，请重新选择",
           type: "warning",
         });
+      this.title = "编辑角色";
+      this.centerDialogVisible = true;
 
-      this.centerDialogVisibleB = true;
-
-      this.inputContentB = this.multipleSelection[0].roleName;
-      this.textareaContentB = this.multipleSelection[0].remark;
+      this.inputContent = this.multipleSelection[0].roleName;
+      this.textareaContent = this.multipleSelection[0].remark;
     },
     goOn() {
       if (!this.multipleSelection.length) return Message("请选择要查看的账号");
@@ -372,32 +440,12 @@ export default {
       this.textareaContent = "";
       this.inputContent = "";
     },
-    //编辑角色
-    async pupopBoxB() {
-      let pupopBoxInfor = {
-        roleName: this.textareaContentB,
-        roleDesc: this.inputContentB,
-        userId: this.$store.state.loginRequest.loginData.id,
-        //权限还没写
-      };
-      let createRoleData = await post({
-        url: "http://139.196.176.227:8801/am/v1/pRole/saveRecord",
-        data: pupopBoxInfor,
-      });
-      if (createRoleData.code === "10000") {
-        Message("编辑成功");
-      } else {
-        Message(createRoleData.msg);
-      }
-
-      this.centerDialogVisibleB = false;
-      this.textareaContentB = "";
-      this.inputContentB = "";
+    pupopBoxC() {
+      this.centerDialogVisibleC = false;
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
-    
   },
 };
 </script>
@@ -494,49 +542,108 @@ export default {
   }
 }
 </style>
-<style >
-.feedback_dialog .el-dialog__header {
-  background: #eef1f8;
-}
-.feedback_dialog .el-dialog__footer {
-  background: #eef1f8;
-}
-.feedback_dialog .el-dialog__body {
-  background: #eef1f8;
-}
-.feedback_dialog .el-dialog__body .roleName-input {
-  margin: 20px 0;
-}
-.feedback_dialog .el-dialog__body .roleName-input span {
-  font-size: 16px;
-}
-.feedback_dialog .el-dialog__body .roleName-input input {
-  border: 1px solid #999;
-  width: 200px;
-  height: 30px;
-  border-radius: 5px;
-  text-indent: 1em;
-}
-.feedback_dialog .el-dialog__body .accreditMenu {
-  margin: 0 0 20px 0;
-}
-.feedback_dialog .el-dialog__body .accreditMenu span:nth-of-type(1) {
-  font-size: 16px;
-}
-.feedback_dialog .el-dialog__body .accreditMenu span:nth-of-type(2) a {
-  border: 1px solid #999;
-  padding: 5px;
-  border-radius: 5px;
-}
-.feedback_dialog .el-dialog__body .remarks {
-  display: flex;
-}
-.feedback_dialog .el-dialog__body .remarks textarea {
-  border: 1px solid #999;
-  width: 200px;
-  height: 50px;
-}
-.feedback_dialog .el-dialog__body .remarks div {
-  font-size: 16px;
+<style lang="scss">
+#roleAdminPage {
+  .createRole {
+    .el-dialog__wrapper {
+      .el-dialog__header {
+        background: #eef1f8;
+      }
+      .el-dialog__footer {
+        background: #eef1f8;
+      }
+      .el-dialog__body {
+        background: #eef1f8;
+        .roleName-input span {
+          font-size: 16px;
+        }
+        .roleName-input input {
+          border: 1px solid #999;
+          width: 200px;
+          height: 30px;
+          border-radius: 5px;
+          text-indent: 1em;
+        }
+        .accreditMenu {
+          margin: 0 0 20px 0;
+          span:nth-of-type(1) {
+            font-size: 16px;
+          }
+          span:nth-of-type(2) {
+            display: inline-block;
+            border: 1px solid #999;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+        }
+        .remarks {
+          display: flex;
+          textarea {
+            border: 1px solid #999;
+            width: 200px;
+            height: 50px;
+          }
+          div {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+    .roleName-input {
+      margin: 20px 0;
+    }
+  }
+  .setqxDiv {
+    .el-dialog__wrapper {
+      background: #eef1f8;
+      .el-dialog {
+        width: 870px;
+        height: 560px;
+        box-shadow: 0px 0px 10px 5px #e4e6e9;
+        border-radius: 5px;
+        .el-dialog__header {
+          padding: 0 20px;
+          font-weight: 600;
+          height: 50px;
+          width: 100%;
+          line-height: 50px;
+          background: #ecf1f7;
+          border-bottom: 1px #e1e6eb solid;
+          .el-dialog__headerbtn {
+            top: 0;
+          }
+        }
+        .el-dialog__body {
+          padding: 0;
+          .mainBox {
+            display: flex;
+            height: 520px;
+            height: 440px;
+            .authName {
+              width: 300px;
+              overflow-y: auto;
+            }
+            .authChoose {
+              background: #eef1f8;
+              width: 670px;
+              height: 440px;
+              border-bottom: 1px #e1e6eb solid;
+              border-left: 1px #e1e6eb solid;
+            }
+          }
+        }
+        .el-dialog__footer {
+          .el-button {
+            margin-top: 19px;
+          }
+          width: 100%;
+          height: 76px;
+          padding: 0 20px;
+          background: #eef1f8;
+        }
+      }
+    }
+  }
 }
 </style>

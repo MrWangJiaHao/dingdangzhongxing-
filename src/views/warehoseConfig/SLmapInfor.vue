@@ -292,7 +292,6 @@ export default {
     }
     if (from.name === "/warehoseconfig/storageLocalMap") {
       next((vm) => {
-        // console.log(vm.$route.query.datas);
         if (vm.$route.query.type === "edit") {
           vm.recepData = vm.$route.query.datas;
           vm.delegaCompanyValue = vm.recepData[0].delegaCompany;

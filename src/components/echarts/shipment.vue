@@ -1,6 +1,8 @@
 <template>
-  <div id="shipments">
-
+  <div class="shipment">
+    <div id="shipments">
+      <div class="noData"></div>
+    </div>
   </div>
 </template>
 
@@ -8,24 +10,26 @@
 import echarts from "echarts";
 
 export default {
-data() {
+  data() {
     return {};
   },
   mounted() {
     this.shipmentsEcharts();
+    let oDiv = document.querySelector('#shipments')
+    let firstDiv = oDiv.firstChild
+    firstDiv.setAttribute("class", "canvasDiv");
   },
   methods: {
     shipmentsEcharts() {
       //初始化echarts实例
-      let myEcharts = this.$echarts.init(
-        document.getElementById("shipments")
-      );
+      let myEcharts = this.$echarts.init(document.getElementById("shipments"));
 
-      var data = [2000, 3000, 2000, 3000, 2000, 3000, 2000];
-      var data2 = [3000, 2000, 3000, 2000, 3000, 2000, 3000];
+      // var data = [2000, 3000, 2000, 3000, 2000, 3000, 2000];
+      // var data2 = [3000, 2000, 3000, 2000, 3000, 2000, 3000];
+      var data = [];
+      var data2 = [];
 
       let option = {
-         
         animation: true,
         legend: {
           top: "top",
@@ -106,7 +110,7 @@ data() {
           ],
           type: "category",
           //   show:false,
-        //   boundaryGap: ["50%","50%"], //坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样。
+          //   boundaryGap: ["50%","50%"], //坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样。
           axisLine: {
             //坐标轴轴线相关设置。
             show: false, //是否显示坐标轴轴线。
@@ -135,7 +139,7 @@ data() {
             inside: false, //坐标轴刻度是否朝内，默认朝外。
             show: false, //是否显示坐标轴刻度。
           },
-        //   scale:true,
+          //   scale:true,
         },
         yAxis: {
           //Y坐标轴刻度相关设置。
@@ -148,7 +152,7 @@ data() {
             align: "center",
             verticalAlign: "bottom",
           },
-          
+
           min: 0,
           max: 7000,
           nameGap: 20, //坐标轴名称与轴线之间的距离。
@@ -173,7 +177,7 @@ data() {
             },
           },
           z: 10, //Y 轴组件的所有图形的z值。控制图形的前后顺序。z值小的图形会被z值大的图形覆盖。
-        //   scale:true,//按比例显示
+          //   scale:true,//按比例显示
         },
         dataZoom: [
           {
@@ -206,10 +210,10 @@ data() {
                   color: "#fff",
                 },
               ]),
-              origin:"start"
+              origin: "start",
             },
             lineStyle: {
-              width: 0,//图形描边线条宽度
+              width: 0, //图形描边线条宽度
             },
             data: data, //https://echarts.apache.org/zh/option.html#series-line.data
           },
@@ -247,13 +251,19 @@ data() {
       myEcharts.setOption(option);
     },
   },
-}
+};
 </script>
 
 <style scoped>
-#shipments{
-     /* width: 936px; */
+#shipments {
+  /* width: 936px; */
   height: 486px;
   padding: 18px 18px 28px 28px;
+}
+.noData{
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: red;
 }
 </style>

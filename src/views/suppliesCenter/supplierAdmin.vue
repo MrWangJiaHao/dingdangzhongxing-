@@ -125,6 +125,7 @@
               <el-input
                 v-model="telPeoplePhone"
                 placeholder="请输入联系电话"
+                @blur="testIsMobile"
               ></el-input>
             </div>
           </div>
@@ -180,6 +181,7 @@ import {
   delSupplier,
   querySupplierCon,
 } from "../../api/api";
+import { isMobile } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -227,7 +229,7 @@ export default {
     this.querySupplierFun = () => {
       let pagingQueryData = this.pagingQueryData;
       querySupplier(pagingQueryData).then((ok) => {
-        console.log(ok)
+        console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result.list;
           this.tableData1 = ok.data.result.list;
@@ -405,6 +407,15 @@ export default {
         CodeToText[this.form.city],
         CodeToText[this.form.area]
       );
+    },
+    testIsMobile() {
+      let telPeoplePhone = this.telPeoplePhone;
+      if (!isMobile(telPeoplePhone)) {
+        return Message({
+          type: "error",
+          message: "请输入正确的手机号",
+        });
+      }
     },
   },
 };
