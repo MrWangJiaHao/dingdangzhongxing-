@@ -13,6 +13,7 @@
               <el-dropdown
                 placement="bottom"
                 trigger="click"
+                class="displayalign"
                 v-if="navIndex.children.length != 0"
                 @command="clickEventGoRouter"
               >
@@ -363,6 +364,7 @@ export default {
     },
     handleClick() {
       console.log("this.activeName", this.activeName);
+
       if (
         !this.dataArr[+this.activeName].children.length &&
         this.dataArr[+this.activeName].title != "首页"
@@ -568,13 +570,13 @@ export default {
 
 .tabContainer .el-tabs__nav-prev {
   left: 1720px;
-  top: 0px;
+  top: -5px;
   font-size: 18px;
   color: white;
   position: absolute;
 }
 .tabContainer .el-tabs__nav-next {
-  top: 0px;
+  top: -5px;
   position: absolute;
   right: -40px;
   font-size: 18px;
