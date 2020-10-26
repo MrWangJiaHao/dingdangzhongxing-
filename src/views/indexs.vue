@@ -309,6 +309,7 @@ export default {
     jurisdicRequest(data).then((ok) => {
       // console.log(ok);
     });
+    this.activeName = sessionStorage.getItem("activeName");
   },
   created() {
     this.dataArr.unshift({
@@ -333,10 +334,14 @@ export default {
     },
     //点击选中
     handleTabsEdit() {
+      // console.log("点击选中，第二级的菜单栏");
+      // console.log(this.dataArr[+this.activeName], "this.dataArr");
       let router =
         this.dataArr[+this.activeName].children.length != 0
           ? this.dataArr[+this.activeName].children[0].name
           : this.dataArr[+this.activeName].name;
+      // console.log(router);
+      if (!router) return Message("该模块在开发中请耐心等候稍后");
 
       this.$router.push(router);
       let dataArrJson =
@@ -371,6 +376,8 @@ export default {
       if (this.dataArr[+this.activeName].title == "首页")
         return this.$router.push("/index/indexFormJH");
       let json = this.dataArr[+this.activeName];
+      // console.log("点击了第一级的菜单栏");
+      sessionStorage.setItem("activeName", this.activeName);
       let router =
         this.dataArr[+this.activeName].children.length != 0
           ? this.dataArr[+this.activeName].children[0].name
