@@ -361,7 +361,6 @@ export default {
           message: "每次只能编辑一条账号，请重新选择",
           type: "warning",
         });
-
       let id = this.multipleSelection[0].id;
       this.fasonEdit({ id }, "/systemSetting/editUserIng");
     },

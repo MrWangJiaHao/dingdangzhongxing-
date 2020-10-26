@@ -411,7 +411,6 @@ export default {
         });
       }
       this.tableData = datas.list;
-
       this.pageComponentsData.pageNums = datas.totalRow;
     },
   },

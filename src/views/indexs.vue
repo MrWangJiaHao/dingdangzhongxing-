@@ -325,7 +325,7 @@ export default {
       console.log(e, "dianji");
     },
     //点击选中
-    handleTabsEdit(e) {
+    handleTabsEdit() {
       let router =
         this.dataArr[+this.activeName].children.length != 0
           ? this.dataArr[+this.activeName].children[0].name
