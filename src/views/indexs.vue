@@ -327,13 +327,14 @@ export default {
     },
     //点击选中
     handleTabsEdit() {
+      console.log("点击选中，第二级的菜单栏");
       console.log(this.dataArr[+this.activeName], "this.dataArr");
       let router =
         this.dataArr[+this.activeName].children.length != 0
           ? this.dataArr[+this.activeName].children[0].name
           : this.dataArr[+this.activeName].name;
       console.log(router);
-      if (!router) return Message("请求出错");
+      if (!router) return Message("该模块在开发中请耐心等候稍后");
       this.$router.push(router);
       let dataArrJson =
         this.dataArr[+this.activeName].children.length != 0
@@ -355,7 +356,7 @@ export default {
     },
     handleClick() {
       let json = this.dataArr[+this.activeName];
-      // console.log(+this.activeName, "handleClick");
+      console.log("点击了第一级的菜单栏");
       let router =
         this.dataArr[+this.activeName].children.length != 0
           ? this.dataArr[+this.activeName].children[0].name
