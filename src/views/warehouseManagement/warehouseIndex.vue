@@ -8,19 +8,16 @@
         <div style="background-color: #fff">
           <div class="meiyiyetitle">入库管理</div>
           <div class="btnClick">
-            <div class="setUser" @click="warehousingConfirmation">入库确认</div>
-            <div class="bianjiUser" @click="printstockinlist">打印入库单</div>
-            <div class="bianjiUser" @click="printReceipt">打印收货单</div>
-            <div class="bianjiUser" @click="parintBatchNumber">打印批次号</div>
+            <div class="setUser" @click="warehousingConfirmation">出库确认</div>
+            <div class="bianjiUser" @click="printstockinlist">打印出库单</div>
             <div class="lodopFunClear" @click="ExportArr">导出</div>
             <div
               class="goOn"
               v-if="$route.params.type == 0"
               @click="CreateStockInOrder"
             >
-              创建入库单
+              创建
             </div>
-
             <div
               class="lodopFunClear"
               v-if="$route.params.type == 0"
@@ -65,7 +62,7 @@
                 show-overflow-tooltip
               />
               <el-table-column
-                label="入库单号"
+                label="出库单号"
                 width="119"
                 property="putWareNo"
                 show-overflow-tooltip
@@ -77,34 +74,53 @@
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                label="期望入库开始时间"
-                prop="expectedSendStartTime"
-                show-overflow-tooltip
-              ></el-table-column>
-              <el-table-column
-                label="入库状态"
                 width="119"
-                prop="putstatus"
+                label="出库状态1"
+                prop="orderNo"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                label="入库人"
+                width="119"
+                label="物流公司1"
+                prop="orderNo"
+                show-overflow-tooltip
+              ></el-table-column>
+              <el-table-column
+                width="119"
+                label="物流单号1"
+                prop="orderNo"
+                show-overflow-tooltip
+              ></el-table-column>
+              <el-table-column
+                label="出库人1"
                 width="119"
                 prop="putUser"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                label="入库开始时间"
+                label="出库时间1"
                 prop="putStartTime"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                label="入库完成时间"
+                label="拣货人1"
+                width="119"
+                prop="putUser"
+                show-overflow-tooltip
+              ></el-table-column>
+              <el-table-column
+                label="拣货完成时间"
                 prop="putEndTime"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                label="入库批次"
+                label="复核人1"
+                width="119"
+                prop="putUser"
+                show-overflow-tooltip
+              ></el-table-column>
+              <el-table-column
+                label="复核完成时间"
                 width="119"
                 prop="batchNo"
                 show-overflow-tooltip
@@ -159,13 +175,8 @@ import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import WarehouseReceipt from "../../components/manual/WarehouseReceipt"; //入库单
 import Receipt from "../../components/manual/Receipt"; //收货单
 import BatchNumber from "../../components/manual/BatchNumber"; //批次号
-import {
-  getFindRecord,
-  getFindWareHouseDetailByIds,
-  getPOutWarehouse,
-} from "../../api/api";
+import { getFindRecord, getPOutWarehouse } from "../../api/api";
 import { Message } from "element-ui";
-import { _getArrTarget } from "../../utils/validate";
 export default {
   components: {
     manualHeader,
@@ -322,7 +333,7 @@ export default {
         });
       }
     },
-    //打印入库单:
+    //打印出库单:
     printstockinlist() {
       if (!this.multipleSelection.length) {
         return Message("请选择要打印的入库单");
@@ -335,38 +346,7 @@ export default {
         });
       }
     },
-    //打印收货单
-    printReceipt() {
-      if (!this.multipleSelection.length) {
-        return Message("请选择要打印的收货单");
-      } else if (this.multipleSelection.length > 1) {
-        return Message("只能选择打印一个收货单");
-      } else {
-        this.ReceiptIds = this.multipleSelection[0].id;
-        this._getFindRecord(this.multipleSelection[0].id, () => {
-          this.Receipt = !this.Receipt;
-        });
-      }
-    },
-    // 打印批次号
-    parintBatchNumber() {
-      if (!this.multipleSelection.length)
-        return Message("请选择需要打印的批次号");
-      let target = _getArrTarget(this.multipleSelection, "id");
-      getFindWareHouseDetailByIds({ ids: target }, (data) => {
-        data = JSON.parse(data);
-        console.log(data);
-        if (data.code === "10000") {
-          sessionStorage.setItem(
-            "parintBatchNumberArrs",
-            JSON.stringify(data.result)
-          );
-          this.BatchNumber = !this.BatchNumber;
-        } else {
-          Message(data.msg);
-        }
-      });
-    },
+
     async _getFindRecord(ids, fn) {
       let datas = await getFindRecord(ids);
       this.listArrs = datas.result[0];

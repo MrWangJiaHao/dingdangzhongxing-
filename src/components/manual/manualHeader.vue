@@ -22,7 +22,20 @@
           </div>
         </div>
         <!-- 委托公司 -->
-
+        <div v-if="!_isRuku()" class="zujianBox mb20">
+          <div class="displayalign zujianBox">
+            <div class="noneIconTitle mr11">出库单号:</div>
+            <div class="mr20">
+              <el-autocomplete
+                v-model="associatedOrderNo.associatedOrderNoCenter"
+                :fetch-suggestions="associatedArr"
+                :placeholder="associatedOrderNo.placeholder"
+                @select="associatedSelect"
+              ></el-autocomplete>
+            </div>
+          </div>
+        </div>
+        <!-- 出库单号 -->
         <div class="zujianBox mb20">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">关联单号:</div>
@@ -91,6 +104,27 @@
           </div>
         </div>
         <!-- 入库类型 在路径上获取 -->
+        <div v-if="!_isRuku()" class="displayalign mb20 zujianBox">
+          <div class="noneIconTitle mr11">出库状态:</div>
+          <div class="mr20">
+            <el-select
+              v-model="paras.orgName"
+              slot="prepend"
+              :placeholder="EntrustedCompany.placeholder"
+              @input="getOrdName"
+              @focus="getOrderArr"
+            >
+              <el-option
+                v-for="(item, idx) in EntrustedCompany.entrustedCompanyArr"
+                :key="idx"
+                :label="item.orgFullName"
+                :value="idx"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>
+
+        <!-- 出库状态 -->
 
         <div class="zujianBox mb20">
           <div class="displayalign zujianBox">
@@ -145,7 +179,7 @@
         </div> -->
         <!-- 产品规格 ProductSpecificationsJson -->
 
-        <div class="zujianBox mb20">
+        <div v-if="_isRuku()" class="zujianBox mb20">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">期望入库时间:</div>
             <div class="mr20 displayalign">
@@ -170,7 +204,7 @@
           </div>
         </div>
         <!-- 期望入库时间 -->
-        <div class="zujianBox mb20">
+        <div v-if="_isRuku()" class="zujianBox mb20">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">入库开始时间:</div>
             <div class="mr20 displayalign">
@@ -195,6 +229,84 @@
           </div>
         </div>
         <!-- 入库开始时间 -->
+
+        <div v-if="!_isRuku()" class="zujianBox mb20">
+          <div class="displayalign zujianBox">
+            <div class="noneIconTitle mr11">出库时间:</div>
+            <div class="mr20 displayalign">
+              <div style="margin-right: 10px">
+                <dateTime
+                  :dateTimeData="putStartTimeData"
+                  @getDateTime="getputStartTime"
+                  ref="putStart"
+                />
+              </div>
+              <!-- 开始时间 -->
+              <div class="line"></div>
+              <div>
+                <dateTime
+                  :dateTimeData="putEndTimeData"
+                  @getDateTime="getputEndTime"
+                  ref="putEnd"
+                />
+              </div>
+              <!-- 结束时间 -->
+            </div>
+          </div>
+        </div>
+        <!-- 出库时间 -->
+
+        <div v-if="!_isRuku()" class="zujianBox mb20">
+          <div class="displayalign zujianBox">
+            <div class="noneIconTitle mr11">拣货完成时间:</div>
+            <div class="mr20 displayalign">
+              <div style="margin-right: 10px">
+                <dateTime
+                  :dateTimeData="putStartTimeData"
+                  @getDateTime="getputStartTime"
+                  ref="putStart"
+                />
+              </div>
+              <!-- 开始时间 -->
+              <div class="line"></div>
+              <div>
+                <dateTime
+                  :dateTimeData="putEndTimeData"
+                  @getDateTime="getputEndTime"
+                  ref="putEnd"
+                />
+              </div>
+              <!-- 结束时间 -->
+            </div>
+          </div>
+        </div>
+        <!-- 拣货完成时间 -->
+
+        <div v-if="!_isRuku()" class="zujianBox mb20">
+          <div class="displayalign zujianBox">
+            <div class="noneIconTitle mr11">复核完成时间:</div>
+            <div class="mr20 displayalign">
+              <div style="margin-right: 10px">
+                <dateTime
+                  :dateTimeData="putStartTimeData"
+                  @getDateTime="getputStartTime"
+                  ref="putStart"
+                />
+              </div>
+              <!-- 开始时间 -->
+              <div class="line"></div>
+              <div>
+                <dateTime
+                  :dateTimeData="putEndTimeData"
+                  @getDateTime="getputEndTime"
+                  ref="putEnd"
+                />
+              </div>
+              <!-- 结束时间 -->
+            </div>
+          </div>
+        </div>
+        <!-- 复核完成时间 -->
       </div>
       <div class="tr" style="width: 100%">
         <div class="btns mb20">
