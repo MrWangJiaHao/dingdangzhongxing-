@@ -727,7 +727,7 @@ export const getSaveRecord = function (data) {
  * ajaxPost
  */
 export const getFindWareHouseDetailByIds = function (data, fn) {
-    ajaxPost("/wbs-warehouse-manage/v1/putWarehouse/findWareHouseDetailByIds", data, fn)
+    ajaxPost("http://139.196.176.227:8902/wbs-warehouse-manage/v1/putWarehouse/findWareHouseDetailByIds", data, fn)
 }
 
 /**
