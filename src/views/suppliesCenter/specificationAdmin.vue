@@ -120,7 +120,8 @@
               <div class="setSupplierName">规格单位</div>
               <el-input
                 v-model="specUnitInput"
-                placeholder="请输入规格单位 cm或者m"
+                placeholder="请输入规格单位 mm/cm/m"
+                @blur="specUnitInputEvent"
               ></el-input>
             </div>
             <div class="name_con name_con_one">
@@ -128,6 +129,8 @@
               <el-input
                 v-model="specValueInput"
                 placeholder="请输入规格值 例:20*20*20"
+                @blur="specValueInputEvent"
+                @focus="specValueInputFocusEvent"
               ></el-input>
             </div>
           </div>
@@ -303,6 +306,8 @@ export default {
       //点击清空输入框
       this.specUnitValue = "";
       this.specValue = "";
+      this.tableData = [];
+      this.tableData1 = [];
       this.querySpecFun();
     },
     createChildWarehouse() {
@@ -364,6 +369,42 @@ export default {
         }
       });
     },
+    //输入框失焦事件
+    specUnitInputEvent() {
+      if (
+        this.specUnitInput === "mm" ||
+        this.specUnitInput === "cm" ||
+        this.specUnitInput === "m"
+      ) {
+        return;
+      } else {
+        Message({
+          type: "error",
+          message: "请输入正确的规格单位",
+        });
+      }
+    },
+    specValueInputEvent() {
+      if (this.specValueInput !== "") {
+        this.specValueInput =
+          this.specValueInput.split("*")[0] +
+          this.specUnitInput +
+          "*" +
+          this.specValueInput.split("*")[1] +
+          this.specUnitInput +
+          "*" +
+          this.specValueInput.split("*")[2] +
+          this.specUnitInput;
+      }
+    },
+    specValueInputFocusEvent() {
+      if (this.specUnitInput === "") {
+        Message({
+          type: "error",
+          message: "请先输入规格单位",
+        });
+      }
+    },
 
     getPageNum(e) {
       this.pagingQueryData.pageNumber = e;
@@ -402,13 +443,11 @@ export default {
         font-size: 16px;
       }
       .roleName {
-        // width: 100%;
         height: 76px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         border-bottom: 1px solid #d1d6e2;
-        // margin: 16px;
         .roleName-choose {
           width: 360px;
           display: flex;

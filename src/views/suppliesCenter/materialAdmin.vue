@@ -45,7 +45,7 @@
             <div class="roleName-checkBox">
               <el-select
                 v-model="mateTypeValue"
-                placeholder="请选择物料编号"
+                placeholder="请选择物料类型"
                 @change="mateTypeValues"
               >
                 <el-option
@@ -403,11 +403,11 @@ export default {
       allSupId: "",
       allSpecId: "",
 
-      queryAnyInfor:""
+      queryAnyInfor: "",
     };
   },
   mounted() {
-    this.queryAnyInfor = () =>{
+    this.queryAnyInfor = () => {
       let QueryData = {
         orderBy: "createTime",
         pageNumber: 1,
@@ -500,9 +500,11 @@ export default {
           });
         }
       });
-    }
+    };
     this.queryAnyInfor();
     this.queryMateAdminFun = () => {
+      this.mateNameValueData=[]
+      this.mateNumValueData=[]
       let pagingQueryData = this.pagingQueryData;
       queryMateAdmin(pagingQueryData).then((ok) => {
         // console.log(ok);
@@ -530,6 +532,14 @@ export default {
     this.queryMateAdminFun();
   },
   methods: {
+    deWeightFun(arr) {
+      let Obj = {};
+      arr = arr.reduce((item, next) => {
+        Obj[next.value] ? "" : (Obj[next.value] = true && item.push(next));
+        return item;
+      }, []);
+      return arr;
+    },
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
@@ -542,16 +552,26 @@ export default {
       });
     },
     mateNumValues(val) {
-      this.mateNameValue = val;
+      this.mateNumValue = val;
     },
     mateTypeValues(val) {
       this.mateTypeValue = val;
     },
     supNameValues(val) {
-      this.mateNameValue = val;
+      this.supNameValue = val;
+      this.allSupData.forEach((v) => {
+        if (val === v.supFullName) {
+          this.allSupId = v.id;
+        }
+      });
     },
     brandNameValues(val) {
       this.brandNameValue = val;
+      this.allBrandData.forEach((v) => {
+        if (val === v.braFullName) {
+          this.allBrandId = v.id;
+        }
+      });
     },
     dialogBrandNames(val) {
       this.dialogBrandName = val;
@@ -630,6 +650,10 @@ export default {
       let idQueryData = {
         id: this.mateId,
         wareId: "",
+        braId: this.allBrandId,
+        materielCode: this.mateNumValue,
+        materielType: this.mateTypeValue,
+        supId: this.allSupId,
       };
       queryMateAdminCon(idQueryData).then((ok) => {
         // console.log(ok);
@@ -650,6 +674,10 @@ export default {
       this.mateTypeValue = "";
       this.supNameValue = "";
       this.brandNameValue = "";
+      this.tableData = [];
+      this.tableData1 = [];
+      this.mateNameValueData = [];
+      this.mateNumValueData = [];
       this.queryMateAdminFun();
     },
     createChildWarehouse() {
@@ -657,7 +685,7 @@ export default {
       this.title = "添加物料";
       this.dialogFormVisible = true;
     },
-    
+
     editChildWarehouse() {
       //编辑
       if (!this.multipleSelection.length) return Message("请选择要查看物料");

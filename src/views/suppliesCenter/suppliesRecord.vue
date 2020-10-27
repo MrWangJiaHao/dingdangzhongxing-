@@ -149,6 +149,7 @@
             style="width: 100%"
             @selection-change="handleSelectionChange"
             :stripe="true"
+            empty-text="加载中请稍等"
             tooltip-effect="dark"
           >
             <el-table-column type="selection" width="55"> </el-table-column>
@@ -181,37 +182,21 @@
               align="center"
             >
             </el-table-column>
-            <el-table-column
-              prop="braName"
-              label="品牌"
-              align="center"
-              width="110"
-            >
+            <el-table-column prop="braName" label="品牌" align="center">
             </el-table-column>
-            <el-table-column
-              prop="supName"
-              label="供应商"
-              align="center"
-              width="110"
-            >
+            <el-table-column prop="supName" label="供应商" align="center">
             </el-table-column>
-            <el-table-column
-              prop="type"
-              label="类型"
-              align="center"
-              width="110"
-            >
+            <el-table-column prop="type" label="类型" align="center">
             </el-table-column>
-            <el-table-column prop="num" label="数量" align="center" width="110">
+            <el-table-column prop="num" label="数量" align="center">
             </el-table-column>
             <el-table-column
               prop="actualInventory"
               label="实际库存"
               align="center"
-              width="110"
             >
             </el-table-column>
-            <el-table-column prop="" label="领取人" align="center" width="110">
+            <el-table-column prop="" label="领取人" align="center">
             </el-table-column>
             <el-table-column
               prop="createUser"
@@ -342,11 +327,11 @@ import {
   createMateRecord,
   delMateRecord,
   queryMateRecord,
-  queryMateRecordCon,
   queryMateAdmin,
   querySupplier,
   queryBrand,
   querySpec,
+  getFindWareOrg,
 } from "../../api/api";
 export default {
   components: {
@@ -493,9 +478,28 @@ export default {
       // 导出文件格式
       bookType: "xlsx",
       pageQueryFun: "",
+      queryComRes: [],
+      orgId: "",
     };
   },
   mounted() {
+    //查村委托公司
+    // let queryComData = {
+    //   wareId: "2A8B48391F4F4EB5BDEDF9EBA0B6BAE7",
+    // };
+    getFindWareOrg().then((ok) => {
+      // console.log(ok);
+      if (ok.code === "10000") {
+        this.queryComRes = ok.result;
+        this.queryComRes.forEach((v) => {
+          this.dialogBelongCompanyData.push({
+            value: v.orgName,
+            label: v.orgName,
+          });
+        });
+      }
+    });
+
     //查询物料名称的请求
     let queryData = this.queryData;
     queryMateAdmin(queryData).then((ok) => {
@@ -601,23 +605,26 @@ export default {
     },
     mateNameValues(val) {
       this.mateNameValue = val;
-      this.mateNameData.forEach((v) => {
-        if (val === v.materielName) {
-          this.allQueryInfor.id = v.id;
-        }
-      });
+      // this.mateNameData.forEach((v) => {
+      //   if (val === v.materielName) {
+      //     this.allQueryInfor.id = v.id;
+      //   }
+      // });
+      this.pagingQueryData.paras.materielName = val;
     },
     mateNumValues(val) {
       this.mateNameValue = val;
     },
     mateTypeValues(val) {
       this.mateTypeValue = val;
+      this.pagingQueryData.paras.materielType = val;
     },
     supNameValues(val) {
       this.supNameValue = val;
       this.allSupData.forEach((v) => {
         if (val === v.supName) {
           this.allQueryInfor.supId = v.id;
+          this.pagingQueryData.paras.supId = v.id;
         }
       });
     },
@@ -626,12 +633,19 @@ export default {
       this.allBrandData.forEach((v) => {
         if (val === v.barName) {
           this.allQueryInfor.braId = v.id;
+          this.pagingQueryData.paras.braId = v.id;
         }
       });
     },
 
     dialogBelongCompanys(val) {
       this.dialogBelongCompany = val;
+      this.queryComRes.forEach((v) => {
+        if (val === v.orgName) {
+          this.orgId = v.id;
+          console.log(this.orgId);
+        }
+      });
     },
     dialogMateNames(val) {
       this.dialogMateName = val;
@@ -676,6 +690,7 @@ export default {
     anyTypeValues(val) {
       this.anyTypeValue = val;
       this.allQueryInfor.type = val;
+      this.pagingQueryData.paras.type = val;
     },
     okBtn() {
       this.dialogFormVisible = false;
@@ -690,12 +705,12 @@ export default {
         braName: this.dialogBrandValue, //品牌名称
         specId: this.allSpecId, //规格Id
         specName: this.dialogSpecValue, //规格名称(eg.10ml/瓶)
-        type: this.dialogTypeValue, //materielRecordType 物料入库类型（1-入库；2-出库；3-残废）
+        type: +this.dialogTypeValue, //materielRecordType 物料入库类型（1-入库；2-出库；3-残废）
         num: this.dialogQuantity, //物料数量
         id: "", //修改时id为必须自动
         materielName: this.dialogMateName, //物料名称
         materielId: this.queryData.paras.id, //物料id
-        orgId: "", //委托公司id
+        orgId: this.orgId, //委托公司id
         orgName: this.dialogBelongCompany, //委托公司
       };
       // console.log(createData);
@@ -707,6 +722,14 @@ export default {
             type: "success",
           });
           this.pageQueryFun();
+          this.dialogBelongCompany = "";
+          this.dialogMateName = "";
+          this.dialogMateCode = "";
+          this.dialogSupValue = "";
+          this.dialogSpecValue = "";
+          this.dialogBrandValue = "";
+          this.dialogQuantity = "";
+          this.dialogTypeValue = "";
         } else {
           Message({
             message: ok.data.msg,
@@ -719,28 +742,29 @@ export default {
     clickQuery() {
       //点击查询
       this.tableData = [];
-      let idQueryData = {
-        id: this.allQueryInfor.id,
-        wareId: "",
-        // supId: this.allQueryInfor.supId,
-        // braId: this.allQueryInfor.braId,
-        // type: this.allQueryInfor.type,
-        // startTime: this.allQueryInfor.startTime,
-        // endTime: this.allQueryInfor.endTime,
-      };
+      // let idQueryData = {
+      // id: "",
+      // wareId: "",
+      // supId: this.allQueryInfor.supId,
+      // braId: this.allQueryInfor.braId,
+      // type: this.allQueryInfor.type,
+      // startTime: this.allQueryInfor.startTime,
+      // endTime: this.allQueryInfor.endTime,
+      // };
       // console.log(idQueryData);
-      
-      queryMateRecordCon(idQueryData).then((ok) => {
-        console.log(ok);
-        if (ok.data.code === "10000") {
-          this.tableData = ok.data.result;
-        } else {
-          Message({
-            message: "未知错误",
-            type: "error",
-          });
-        }
-      });
+
+      // queryMateRecordCon(idQueryData).then((ok) => {
+      //   console.log(ok);
+      //   if (ok.data.code === "10000") {
+      //     this.tableData = ok.data.result;
+      //   } else {
+      //     Message({
+      //       message: "未知错误",
+      //       type: "error",
+      //     });
+      //   }
+      // });
+      this.pageQueryFun();
     },
     clearInput() {
       //点击清空输入框
@@ -752,6 +776,15 @@ export default {
       this.clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
+      this.tableData = [];
+      this.pagingQueryData.paras.materielName = "";
+      this.pagingQueryData.paras.materielType = "";
+      this.pagingQueryData.paras.supId = "";
+      this.pagingQueryData.paras.braId = "";
+      this.pagingQueryData.paras.type = "";
+      this.pagingQueryData.paras.startTime = "";
+      this.pagingQueryData.paras.endTime = "";
+      this.pageQueryFun();
     },
     createChildWarehouse() {
       //创建
@@ -770,7 +803,6 @@ export default {
       import("../../js-xlsx/Export2Excel").then((excel) => {
         // 设置导出表格的头部
         const tHeader = [
-          "序号",
           "所属公司",
           "物料名称",
           "物料编号",
@@ -787,7 +819,6 @@ export default {
         ];
         // 设置要导出的属性
         const filterVal = [
-          "",
           "orgName",
           "materielName",
           "materielCode",
@@ -830,14 +861,15 @@ export default {
     },
     editChildWarehouse() {
       //编辑
-      this.dialogFormVisible = true;
       this.title = "编辑物料记录";
       if (!this.multipleSelection.length) return Message("请选择要查看的账号");
       if (this.multipleSelection.length !== 1)
         return Message({
-          message: "每次只能编辑一个供应商信息，请重新选择",
+          message: "每次只能编辑一个物料记录信息，请重新选择",
           type: "warning",
         });
+      this.dialogFormVisible = true;
+
       // let res = this.multipleSelection[0];
     },
 
@@ -896,9 +928,11 @@ export default {
     },
     getStartTime(e) {
       this.allQueryInfor.startTime = e;
+      this.pagingQueryData.paras.startTime = e;
     },
     getEndTime(e) {
       this.allQueryInfor.endTime = e;
+      this.pagingQueryData.paras.endTime = e;
     },
     clearTimeInput() {
       let input = document.getElementsByClassName("ivu-input");
