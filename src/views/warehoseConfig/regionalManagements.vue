@@ -437,8 +437,7 @@ export default {
     },
     async _getQuYuData(data) {
       let datas = await post({
-        url:
-          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/findRecord",
+        url: "/wbs-warehouse-manage/v1/pWarehouseArea/findRecord",
         data,
       });
       this.AreaName.AreaNameData = datas.result;
@@ -465,8 +464,7 @@ export default {
     //点击发送区域平面图js
     async _quyuAsync(data) {
       let datas = await post({
-        url:
-          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/findWareSeatRecord",
+        url: "/wbs-warehouse-manage/v1/pWarehouseSeat/findWareSeatRecord",
         data,
       });
       this.kuwieDatas.kuwie = datas.result;
@@ -497,8 +495,7 @@ export default {
     //发送删除的ajax
     async _clearAjax(data) {
       let res = await post({
-        url:
-          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/delRecord",
+        url: "/wbs-warehouse-manage/v1/pWarehouseArea/delRecord",
         data,
       });
       if (res.code === "10000") {
@@ -527,8 +524,7 @@ export default {
     //获取子仓的长度
     async _getChildWidth(data) {
       let datas = await post({
-        url:
-          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseChild/findRecord",
+        url: "/wbs-warehouse-manage/v1/pWarehouseChild/findRecord",
         data,
       });
       this.zicandaixao = datas.result;
@@ -557,8 +553,7 @@ export default {
     //发送创建区域的ajax
     async createWarehouseAjax(data, path) {
       let datas = await post({
-        url:
-          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/findRecord",
+        url: "/wbs-warehouse-manage/v1/pWarehouseArea/findRecord",
         data,
       });
       if (this.zicandaixao.length == 0) return Message("网络较慢，请稍后重试");
@@ -609,8 +604,7 @@ export default {
     //发送编辑数据ajax
     async fasonEdit(data, path) {
       let datas = await post({
-        url:
-          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/saveRecord",
+        url: "/wbs-warehouse-manage/v1/pWarehouseArea/saveRecord",
         data,
       });
       if (datas.code === "10000") {
@@ -625,8 +619,7 @@ export default {
     //发送获取列表的消息
     async fasonPagIngQueryData() {
       let datas = await post({
-        url:
-          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/findRecordPage",
+        url: "/wbs-warehouse-manage/v1/pWarehouseArea/findRecordPage",
         data: { ...this.pagingQueryData, userType: 4 },
       });
       if (datas.code === "10000") {

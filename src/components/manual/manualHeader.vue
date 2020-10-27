@@ -511,7 +511,6 @@ export default {
   },
   created() {
     let path = this._isRuku();
-    console.log(path);
     if (path) {
       if (this.isOneShou) {
         this.WarehousingType.WarehousingTypeCenter = this.WarehousingType.WarehousingTypeArr[

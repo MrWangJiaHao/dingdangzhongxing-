@@ -60,7 +60,6 @@
             ref="multipleTable"
             :data="tabledata"
             :stripe="true"
-            @select="select"
             :border="true"
             tooltip-effect="dark"
             style="width: 100%; overflow: auto"
@@ -313,6 +312,7 @@ export default {
         orderSource: "", //订单类型(0-手工创建；1-渠道创建 2-预入库 3-采购 4-库建调拨 5-加工作业 6-分解作业 7-退货 8-盘盈 9-其他）
         orgName: "",
         orgId: "",
+        remark: "",
         waerId: "",
         detailList: [],
         batchNo: "",
