@@ -247,13 +247,13 @@
                     <el-table-column type="index" label="序号" width="50">
                     </el-table-column>
                     <el-table-column
-                      property="prodcode"
+                      property="prodCode"
                       label="产品编码"
                       style="text-align: center; width: 80px"
                     >
                     </el-table-column>
                     <el-table-column
-                      property="prodFullName"
+                      property="prodName"
                       label="产品名称"
                       width="120"
                     >

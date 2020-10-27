@@ -8,6 +8,7 @@
         @on-change="changeDate"
         @on-open-change="openChangeDate"
         @on-ok="openChangeDate"
+        :value="valueDataStart"
         ref="time"
         :transfer="transfer"
       ></Date-picker>
@@ -30,6 +31,10 @@ export default {
     transfer: {
       type: Boolean,
       default: true,
+    },
+    valueDataStart: {
+      type: String,
+      default: null,
     },
   },
   computed: {
