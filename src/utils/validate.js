@@ -69,7 +69,6 @@ export const ajaxPost = (url, data, fn) => {
   } else {
     str = JSON.stringify(data)
   }
-  console.log(str)
   xhr.send(str);
 }
 /* 数组转换为字符串 */

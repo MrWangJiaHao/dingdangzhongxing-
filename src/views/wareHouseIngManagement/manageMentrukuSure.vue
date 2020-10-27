@@ -76,12 +76,12 @@
             />
             <el-table-column
               label="产品编码"
-              prop="damagedNum"
+              prop="prodCode"
               show-overflow-tooltip
             />
             <el-table-column
               label="产品名称"
-              property="damagedNum"
+              property="prodName"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
@@ -96,7 +96,7 @@
             ></el-table-column>
             <el-table-column
               label="申请入库数量"
-              prop="braName"
+              prop="prodNum"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
@@ -116,28 +116,32 @@
             ></el-table-column>
             <el-table-column
               label="残次品库位最大存放数"
-              prop="damagedNum"
+              prop="maxNum"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
               label="推荐入库库位"
-              prop="damagedNum"
+              prop="recommendSeatNo"
+              width="180"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
               label="实际入库库位"
-              prop="damagedNum"
+              prop="recommendSeatNo"
               show-overflow-tooltip
+              width="180"
             >
               <div slot-scope="scoped">
                 <el-select
-                  v-model="scoped.row.damagedNum"
+                  v-model="scoped.row.recommendSeatNo"
+                  @focus="getkuweimes(scoped.row)"
+                  @change="kuweiChanges"
                   placeholder="请选择实际入库库位"
                 >
                   <el-option
-                    v-for="item in prodUnitData"
+                    v-for="item in kueirArr"
                     :key="item"
-                    :label="item"
+                    :label="item.recommendSeatNo"
                     :value="item"
                   >
                   </el-option>
@@ -171,6 +175,7 @@
             <el-table-column
               label="残次品库位"
               prop="actualNum"
+              width="180"
               show-overflow-tooltip
             >
               <div slot-scope="scoped">
@@ -301,25 +306,21 @@ export default {
         value: "",
         ziCangArr: [],
       },
+      kueirArr: [],
       createUserData: {
         userType: 4,
-        userAddr: "",
-        address: "",
         expectedSendTime: "", //expectedSendTime
         orderSource: "", //订单类型(0-手工创建；1-渠道创建 2-预入库 3-采购 4-库建调拨 5-加工作业 6-分解作业 7-退货 8-盘盈 9-其他）
         orgName: "",
-        roleId: "",
-        parentId: "",
         orgId: "",
-        putUser: "",
         waerId: "",
-        codeValue: "",
         detailList: [],
-        createUser: "",
-        createTime: "",
         batchNo: "",
-        id: this.$route.query.id,
+        putWareId: "",
+        recommendSeatId: "",
+        id: (() => this.$route.query.id)(),
         operatorType: 3,
+        childWareId: "",
         wareId: this.$cookie.get("X-Auth-wareId"),
       },
       getProvinceData: {
@@ -333,6 +334,16 @@ export default {
     };
   },
   async created() {
+    let manageMentrukuSureData = JSON.parse(
+      sessionStorage.getItem("manageMentrukuSureData")
+    );
+    if (manageMentrukuSureData) {
+      this.createUserData.putWareId = manageMentrukuSureData.id;
+      this.createUserData.recommendSeatId =
+        manageMentrukuSureData.recommendSeatId;
+      this.createUserData.childWareId = manageMentrukuSureData.childWareId;
+      this.createUserData.orgId = manageMentrukuSureData.orgId;
+    }
     this._getFindWarehouseProduct(this.$route.query.id);
     this.tabledata = this.listJson.detailList;
     this.tables = eval(sessionStorage.getItem("_addTablesData"));
@@ -343,7 +354,6 @@ export default {
       this.tabledata = this.tabledata.concat(this.tables);
     }
   },
-  //getFindWarehouseProduct
   methods: {
     getDataSelentIndex(e) {
       this.rowTable = e;
@@ -390,9 +400,48 @@ export default {
       }
       return item;
     },
-    getkuweimes() {
-      console.log(1);
+    getkuweimes(data) {
+      this.targetRow = data;
+      this.$nextTick(() => {
+        getfindOrgProductPage(this.createUserData).then((res) => {
+          this._changeKuweiS(res.result.list, data);
+          this.$forceUpdate();
+        });
+      });
+      this.$forceUpdate();
     },
+    _changeKuweiS(arr, dataJson) {
+      this.$nextTick(() => {
+        arr.forEach((item, idx) => {
+          if (item.prodCode == dataJson.prodCode) {
+            console.log(item.prodSeatList);
+            this.kueirArr = item.prodSeatList;
+            this.delistIndex = idx;
+            this.$forceUpdate();
+          }
+        });
+        this.$forceUpdate();
+      });
+    },
+    //库位点击
+    kuweiChanges(e) {
+      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      this.targetRow.maxNum = this.kueirArr[e].maxNum;
+      this.targetRow.currInventory = this.kueirArr[e].currInventory;
+      this.createUserData.detailList[
+        this.delistIndex
+      ].recommendSeatId = this.kueirArr[e].recommendSeatId;
+      this.createUserData.detailList[
+        this.delistIndex
+      ].recommendSeatNo = this.kueirArr[e].recommendSeatNo;
+      this.createUserData.detailList[
+        this.delistIndex
+      ].recommendAreaId = this.kueirArr[e].recommendAreaId;
+      this.createUserData.detailList[
+        this.delistIndex
+      ].recommendAreaName = this.kueirArr[e].recommendAreaName;
+    },
+
     //点击选择委托公司
     async getCompanyJsonAndArr() {
       let datas = await getFindWareOrg();

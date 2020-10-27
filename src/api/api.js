@@ -1,4 +1,5 @@
 import service from "@/utils/request.js"
+import { Message } from "element-ui"
 import { ajaxPost, getCookie } from "../utils/validate"
 export function login(data) {
     return new Promise((resolve, reject) => {
@@ -606,6 +607,7 @@ export function getEntrustedcompany() {
  * @param {*} getFindWareOrg 
  */
 export function getFindWareOrg() {
+    if (!getCookie("X-Auth-wareId")) return Message("该管理员没有委托公司")
     return new Promise((res, rej) => {
         service.request({
             url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseOrg/findWareOrg",
@@ -647,7 +649,6 @@ export function getFindOrgChildWare(orgId) {
  * 
  */
 export const getfindOrgProductPage = function (data) {
-
     return new Promise((res, rej) => {
         service.request({
             url: "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgProducts/findOrgProductPage",
@@ -659,7 +660,6 @@ export const getfindOrgProductPage = function (data) {
             rej(err)
         })
     })
-
 }
 
 /**
@@ -703,7 +703,7 @@ export const getFindWarehouseProduct = function (id) {
     })
 }
 /**
- * 
+ * 寻找产品明细
  * @param {*} datas  /wbs-warehouse-manage/v1/putWarehouse/saveRecord
  */
 export const getSaveRecord = function (data) {
@@ -727,14 +727,13 @@ export const getSaveRecord = function (data) {
  * ajaxPost
  */
 export const getFindWareHouseDetailByIds = function (data, fn) {
-    ajaxPost("http://139.196.176.227:8902/wbs-warehouse-manage//v1/putWarehouse/findWareHouseDetailByIds", data, fn)
+    ajaxPost("http://139.196.176.227:8902/wbs-warehouse-manage/v1/putWarehouse/findWareHouseDetailByIds", data, fn)
 }
 
 /**
  * 入库管理  根据id删除出库单
  * @param {*} id http://localhost:8902/wbs-warehouse-manage//v1/putWarehouse/delRecordById
  */
-
 export const delRecordByIdArrs = function (data) {
     return new Promise((res, rej) => {
         service.request({
@@ -748,6 +747,25 @@ export const delRecordByIdArrs = function (data) {
         })
     })
 }
+
+/**
+ *  导出为excel v1/putWarehouse/insertExcelData
+ * @param {*} data 
+ */
+export const insertExcelData = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/putWarehouse/insertExcelData",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok)
+        }).catch(err => {
+            rej(err)
+        })
+    })
+}
+
 
 // =================出库管理 start ==============
 /**

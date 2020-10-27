@@ -26,10 +26,14 @@
           <div class="displayalign ellipsis">
             <div class="noneIconTitle mr11">产品编码:</div>
             <div class="mr20">
-              <el-input
+              <el-autocomplete
+                class="inline-input"
                 v-model="sendoutDatas.paras.prodCode"
+                :fetch-suggestions="prodCodeQuerySearch"
                 placeholder="请输入产品编码"
-              ></el-input>
+                :trigger-on-focus="false"
+                @select="prodCodeHandleSelect"
+              ></el-autocomplete>
             </div>
           </div>
         </div>
@@ -38,10 +42,14 @@
           <div class="displayalign ellipsis">
             <div class="noneIconTitle mr11">产品规格:</div>
             <div class="mr20">
-              <el-input
+              <el-autocomplete
+                class="inline-input"
                 v-model="sendoutDatas.paras.specName"
+                :fetch-suggestions="specNameQuerySearch"
                 placeholder="请输入产品规格"
-              ></el-input>
+                :trigger-on-focus="false"
+                @select="specNameHandleSelect"
+              ></el-autocomplete>
             </div>
           </div>
         </div>
@@ -76,13 +84,13 @@
           <el-table-column
             label="产品编码"
             width="119"
-            prop="prodcode"
+            prop="prodCode"
             show-overflow-tooltip
           />
           <el-table-column
             label="产品名称"
             width="119"
-            property="prodFullName"
+            property="prodName"
             show-overflow-tooltip
           ></el-table-column>
           <el-table-column
@@ -120,7 +128,11 @@
 </template>
 
 <script>
-import { getfindOrgProductPage, queryProductInfor } from "../../api/api";
+import {
+  getfindOrgProductPage,
+  queryProductInfor,
+  getSaveRecord,
+} from "../../api/api";
 import { getCookie } from "../../utils/validate";
 /*eslint-disable */
 import pageComponent from "../commin/pageComponent";
@@ -131,36 +143,18 @@ export default {
         pageNums: 0,
         sizes: true,
       },
-      tabledata: [
-        {
-          prodcode: "1", //产品编码
-          prodFullName: "1322", //产品名称
-          specName: "321", //产品规格
-          supName: "321", //供应商
-          braName: "321", //品牌
-          id: 1,
-        },
-        {
-          prodcode: "2", //产品编码
-          prodFullName: "1323", //产品名称
-          specName: "321", //产品规格
-          supName: "3221", //供应商
-          braName: "321", //品牌
-          id: 0,
-        },
-        {
-          prodcode: "3", //产品编码
-          prodFullName: "1324", //产品名称
-          specName: "321", //产品规格
-          supName: "3211", //供应商
-          braName: "321", //品牌
-          id: 2,
-        },
-      ],
+      tabledata: [],
       mutalisArr: [],
       sendoutDatas: {
         pageNumber: 1,
         pageSize: 10,
+        operatorType: 1,
+        wareid: getCookie("X-Auth-wareId"),
+        childWareId: (() => {
+          return sessionStorage.getItem("createManagementChildWareId");
+        })(),
+        orgId: sessionStorage.getItem("orgId"),
+        orderSource: (() => this.$route.query.orderSource)(),
         paras: {
           prodName: "", //产品名称
           prodCode: "", //产品编码
@@ -169,28 +163,84 @@ export default {
       },
     };
   },
+  created() {
+    this.sendoutDataAsync();
+  },
   components: {
     // searchBox,
     pageComponent,
   },
   methods: {
-    async _chanpinmingc(data) {
+    async _chanpinmingc(dataJson) {
       let datas = await queryProductInfor({
-        wareid: getCookie("X-Auth-wareId"),
-        orgId: sessionStorage.getItem("orgId"),
-        paras: {
-          ...data,
+        data: {
+          ...this.sendoutDatas,
+          paras: {
+            ...dataJson,
+          },
         },
       });
       return datas.data;
     },
+    //点击产品名称
+    async _getSaveRecord(dataJson) {
+      let datas = await getSaveRecord({
+        ...this.sendoutDatas,
+        paras: {
+          ...dataJson,
+        },
+      });
+      console.log(datas);
+    },
     prodNameQuerySearch(e, cb) {
-      this._chanpinmingc({ prodName: e }).then((res) => {
-        console.log(res);
-        cb(res.result);
+      this.$nextTick(() => {
+        this._sendOutAsync({ prodName: e }).then((res) => {
+          let arr = [];
+          res.list.forEach((item) => {
+            item.value = item.prodName;
+          });
+          cb(res.list);
+        });
       });
     },
-    prodNameHandleSelect() {},
+    prodNameHandleSelect(e) {
+      console.log(e, "选择了产品名称");
+      if (!e) this.sendoutDatas.paras.braId = "";
+      this.sendoutDatas.paras.braId = e.braId;
+      this.tabledata = [e];
+    },
+    prodCodeQuerySearch(e, cb) {
+      this.$nextTick(() => {
+        this._sendOutAsync({ prodName: e }).then((res) => {
+          let arr = [];
+          res.list.forEach((item) => {
+            item.value = item.prodCode;
+          });
+          cb(res.list);
+        });
+      });
+    },
+    prodCodeHandleSelect(e) {
+      if (!e) this.sendoutDatas.paras.prodCode = "";
+      this.sendoutDatas.paras.prodCode = e.prodCode;
+      this.tabledata = [e];
+    },
+    specNameQuerySearch(e, cb) {
+      this.$nextTick(() => {
+        this._sendOutAsync({ specName: e }).then((res) => {
+          let arr = [];
+          res.list.forEach((item) => {
+            item.value = item.specName;
+          });
+          cb(res.list);
+        });
+      });
+    },
+    specNameHandleSelect(e) {
+      if (!e) this.sendoutDatas.paras.specName = "";
+      this.sendoutDatas.paras.specName = e.specName;
+      this.tabledata = [e];
+    },
     sendoutDataAsync() {
       this._sendOutAsync().then((res) => {
         this._changeList(res);
@@ -200,24 +250,26 @@ export default {
       this.sendoutDatas.paras.prodName = "";
       this.sendoutDatas.paras.prodCode = "";
       this.sendoutDatas.paras.specName = "";
+      this.sendoutDataAsync();
     },
     closeBtn() {
-      window.location.reload(true);
-      // this.$parent._data.addChanpins = false;
+
+      this.$parent._data.addChanpins = false;
     },
     handleSelectionChange(e) {
       this.mutalisArr = e;
     },
     clearRemovetable() {
-      console.log(this.mutalisArr);
       this.mutalisArr.forEach((item) => {
         let idxs = this.tabledata.indexOf(item);
         this.tabledata.splice(idxs, 1);
       });
+      sessionStorage.setItem("_addTablesData", JSON.stringify(this.tabledata));
     },
     //点击了提交
     clickSubmit() {
       this.$emit("tables", this.mutalisArr);
+      console.log(this.mutalisArr, "this.mutalisArr");
       sessionStorage.setItem("_addTablesData", JSON.stringify(this.mutalisArr));
       this.closeBtn();
     },
@@ -228,7 +280,7 @@ export default {
     },
     //改变数据
     _changeList(data) {
-      data.tabledata = data.list;
+      this.tabledata = data.list;
       this.pageComponentsData.pageNums = data.totalRow;
     },
     handleSizeChange(e) {

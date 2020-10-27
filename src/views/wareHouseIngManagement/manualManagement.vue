@@ -78,7 +78,7 @@
               ></el-table-column>
               <el-table-column
                 label="期望入库开始时间"
-                prop="expectedSendStartTime"
+                prop="expectedSendTime"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
@@ -166,7 +166,9 @@ import BatchNumber from "../../components/manual/BatchNumber"; //批次号
 import {
   getFindRecord,
   getFindWareHouseDetailByIds,
+  insertExcelData,
   post,
+  delRecordByIdArrs,
 } from "../../api/api";
 import { Message } from "element-ui";
 import { _getArrTarget } from "../../utils/validate";
@@ -312,8 +314,11 @@ export default {
       } else if (this.multipleSelection.length > 1) {
         return Message("只能选择一个入库单号");
       } else {
-        console.log(this.multipleSelection[0]);
         this._getFindRecord(this.multipleSelection[0].id).then(() => {
+          sessionStorage.setItem(
+            "manageMentrukuSureData",
+            JSON.stringify(this.multipleSelection[0])
+          );
           this.$router.push({
             path: "/warehousingManagement/manageMentrukuSure",
             query: {
@@ -382,7 +387,17 @@ export default {
       return datas;
     },
     //导出
-    ExportArr() {},
+    ExportArr() {
+      if (!this.multipleSelection.length)
+        return Message("请选择要导出的入库单");
+      if (this.multipleSelection.length != 1)
+        return Message("一次只能选择一个入库单");
+      insertExcelData({
+        ids: this.multipleSelection[0].id,
+      }).then((res) => {
+        console.log(res);
+      });
+    },
     //创建入库单
     CreateStockInOrder() {
       this.$router.push({
@@ -391,9 +406,39 @@ export default {
       });
     },
     //编辑
-    editBtn() {},
+    editBtn() {
+      if (!this.multipleSelection.length)
+        return Message("请选择要编辑的入库单");
+      if (this.multipleSelection.length != 1)
+        return Message("一次只能编辑一个入库单");
+      sessionStorage.setItem(
+        "manualManageMentEdit",
+        JSON.stringify(this.multipleSelection[0])
+      );
+      this.$router.push({
+        path: "/warehousingManagement/createManagement",
+        query: {
+          orderSource: this.sendOutDataJson.paras.orderSource,
+          id: this.multipleSelection[0].id,
+        },
+      });
+    },
     //删除
-    clearBtn() {},
+    clearBtn() {
+      if (!this.multipleSelection.length)
+        return Message("请选择要删除的入库单");
+      _getArrTarget(this.multipleSelection, "id");
+      delRecordByIdArrs({
+        ids: _getArrTarget(this.multipleSelection, "id"),
+      }).then((res) => {
+        if (res.data.code == "10000") {
+          this.getTableData();
+          return Message("删除成功");
+        } else {
+          return Message(res.data.msgdfs);
+        }
+      });
+    },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {
       console.log(data);
