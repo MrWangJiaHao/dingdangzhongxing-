@@ -58,6 +58,7 @@
 
 <script>
 export default {
+  name: "aaa",
   props: {
     inforData: Array,
   },

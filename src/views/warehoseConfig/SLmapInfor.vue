@@ -304,7 +304,7 @@
 
 <script>
 import ProductFormStoreUsed from "../../components/productForm/productFormStoreUsed";
-import * as ProductFormPick from "../../components/productForm/productFormPick";
+import ProductFormPick from "../../components/productForm/productFormPick.vue";
 import ProductFormPickUsed from "../../components/productForm/productFormPickUsed";
 import prodFromStore from "../../components/productForm/prodFromStore.vue";
 import {
