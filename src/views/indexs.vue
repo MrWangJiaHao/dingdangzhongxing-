@@ -303,6 +303,8 @@ export default {
       oldName: 0,
       firstShow: true,
       activeNames: 1,
+      rightLock: true,
+      leftLock: true,
     };
   },
   mounted() {
@@ -331,28 +333,35 @@ export default {
   },
   methods: {
     leftMove() {
+      this.rightLock = true;
+      if (!this.leftLock) return;
       let oDiv = document.querySelector(".el-tabs__nav-scroll");
+      let rightDiv = document.querySelector(".right");
+      console.log(oDiv);
       oDiv.style.left = "0";
       a = 0;
+      this.leftLock = false;
     },
     rightMove() {
+      this.leftLock = true;
+      if (!this.rightLock) return;
       let oDiv = document.querySelector(".el-tabs__nav-scroll");
-      let rightDiv = document.querySelector('.right')
+      let rightDiv = document.querySelector(".right");
       // a = a + 1020;
       // oDiv.style.left = -a + "px";
       // if (oDiv.offsetLeft === -1020) {
       //   a = 0;
       // }
-
       let time = setInterval(() => {
         let buchang = oDiv.offsetWidth / 50;
+
         a += buchang;
         oDiv.style.left = -a + "px";
-        console.log(oDiv.offsetLeft);
         if (oDiv.offsetLeft < -1020) {
           clearInterval(time);
-          rightDiv.attributes()
+          // rightDiv.attributes();
         }
+        this.rightLock = false;
       }, 1);
     },
     clickItemIdx(e) {
