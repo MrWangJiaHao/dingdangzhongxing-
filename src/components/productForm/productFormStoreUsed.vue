@@ -67,6 +67,7 @@ export default {
   methods: {
     getTableData() {
       this.tableData = this.$store.state.PFSRequest.PFSqueryData;
+      // console.log(this.tableData);
     },
     setintervalFun() {
       setInterval(() => {

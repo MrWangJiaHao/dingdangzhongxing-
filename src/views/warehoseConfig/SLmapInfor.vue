@@ -303,9 +303,9 @@
 </template>
 
 <script>
-import ProductFormStoreUsed from "../../components/productForm/productFormStoreUsed";
+import ProductFormStoreUsed from "../../components/productForm/productFormStoreUsed.vue";
 import ProductFormPick from "../../components/productForm/productFormPick.vue";
-import ProductFormPickUsed from "../../components/productForm/productFormPickUsed";
+import ProductFormPickUsed from "../../components/productForm/productFormPickUsed.vue";
 import prodFromStore from "../../components/productForm/prodFromStore.vue";
 import {
   queryProductInfor,
@@ -491,12 +491,16 @@ export default {
   methods: {
     getTableData() {
       this.choosedKuWeiData = this.$store.state.PFSRequest.PFSqueryData;
+      // console.log(this.choosedKuWeiData);
+    },
+     getTableData1() {
       this.choosedKuWeiData = this.$store.state.PFSRequest1.PFSqueryData1;
       // console.log(this.choosedKuWeiData);
     },
     setintervalFun() {
       setInterval(() => {
         this.getTableData();
+        this.getTableData1();
       }, 100);
     },
     delegaCompanyValues(value) {
