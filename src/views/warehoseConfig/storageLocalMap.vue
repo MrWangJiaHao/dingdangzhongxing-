@@ -215,7 +215,6 @@ import {
   queryEntrustCompany,
   areaShelfQuery,
 } from "../../api/api";
-// import MapForm from "@/components/mapForm";
 import MapForms from "../../components/mapForms";
 import { Message } from "element-ui";
 export default {

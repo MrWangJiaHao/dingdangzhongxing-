@@ -165,7 +165,6 @@ const routes = [{
       title: "出库管理"
     }
   },
-
   //---------------------------------------------------------出库管理模块结束-------------------------------------------------------------------------------------------
 
   //---------------------------------------------------------物料中心模块开始-------------------------------------------------------------------------------------------
@@ -232,6 +231,86 @@ const routes = [{
     //----------------------------------------------------------物料中心模块结束-----------------------------------------------------------------------------------------
   ]
 },
+{
+  //warehousingManagement 创建入库单
+  // 入库管理 => 创建入库 =》 创建入库单
+  path: "/warehousingManagement/createManagement",
+  name: "/warehousingManagement/createManagement",
+  component: () => import("../views/wareHouseIngManagement/createManagement"),
+  meta: {
+    Breadcrumb: "创建入库单",
+    title: "创建入库单"
+  }
+},
+
+
+{
+  path: "/indexdemo",
+  name: "/indexdemo",
+  component: () => import("../views/demo/indexdemo.vue")
+},
+
+{
+  //warehousingManagement 入库确认
+  // 入库管理 => 创建入库 =》 入库确认
+  path: "/warehousingManagement/manageMentrukuSure",
+  name: "/warehousingManagement/manageMentrukuSure",
+  component: () => import("../views/wareHouseIngManagement/manageMentrukuSure"),
+  meta: {
+    Breadcrumb: "入库确认",
+    title: "入库确认"
+  }
+},
+//设置权限页面
+{
+  path: "/systemSetting/userControl/setAuthority",
+  name: 'systemSetting/setAuthority',
+  component: () => import("../views/systemSetting/setAuthority.vue")
+},
+
+{
+  path: "/footerDemo",
+  name: 'footerDemo',
+  component: () => import("../views/demo/demo.vue")
+},
+{
+  path: "/systemSetting/setUserIng",
+  name: 'systemSetting/setUserIng',
+  component: () => import("../views/systemSetting/setUserIng.vue")
+},
+{
+  path: "/systemSetting/editUserIng",
+  name: 'systemSetting/editUserIng',
+  component: () => import("../views/systemSetting/editUserIng.vue")
+},
+{
+  path: "/systemSetting/lookUser",
+  name: 'systemSetting/lookUser',
+  component: () => import("../views/systemSetting/lookUser.vue")
+},
+{
+  path: '*',
+  name: 'notfount',
+  component: () => import('../views/404.vue')
+},
+{
+  //仓库配置=>区域管理=>创建子仓
+  path: "/warehoseconfig/editWarehouseConfig",
+  name: "/warehoseconfig/editWarehouseConfig",
+  component: () => import("../views/warehoseConfig/editWarehouseConfig"),
+  meta: {
+    Breadcrumb: "创建子仓",
+    title: "创建子仓"
+  }
+},
+// 
+//默认进入登录页
+{
+  path: '/',
+  name: 'Login',
+  component: () => import('../views/login/login.vue')
+},
+//----------------------------------------------------------物料中心模块结束-----------------------------------------------------------------------------------------
 {
   //warehousingManagement 创建入库单
   // 入库管理 => 创建入库 =》 创建入库单

@@ -40,6 +40,10 @@
           </el-tab-pane>
         </el-tabs>
       </div>
+      <div class="el-lr">
+        <div class="el-icon-arrow-left left" @click="leftMove"></div>
+        <div class="el-icon-arrow-right right" @click="rightMove"></div>
+      </div>
     </div>
 
     <div class="dianjiqiehuan">
@@ -86,6 +90,7 @@
 <script>
 /*eslint-disable */
 // import dropdown from "../components/dropdown"; //引入下拉框组件
+let a = 0;
 import Footer from "../components/footer";
 import { jurisdicRequest } from "../api/api";
 import { Message } from "element-ui";
@@ -325,6 +330,31 @@ export default {
     this.mianbaoxieArr.unshift();
   },
   methods: {
+    leftMove() {
+      let oDiv = document.querySelector(".el-tabs__nav-scroll");
+      oDiv.style.left = "0";
+      a = 0;
+    },
+    rightMove() {
+      let oDiv = document.querySelector(".el-tabs__nav-scroll");
+      let rightDiv = document.querySelector('.right')
+      // a = a + 1020;
+      // oDiv.style.left = -a + "px";
+      // if (oDiv.offsetLeft === -1020) {
+      //   a = 0;
+      // }
+
+      let time = setInterval(() => {
+        let buchang = oDiv.offsetWidth / 50;
+        a += buchang;
+        oDiv.style.left = -a + "px";
+        console.log(oDiv.offsetLeft);
+        if (oDiv.offsetLeft < -1020) {
+          clearInterval(time);
+          rightDiv.attributes()
+        }
+      }, 1);
+    },
     clickItemIdx(e) {
       console.log(e, "点击item");
     },
@@ -482,7 +512,6 @@ export default {
   position: relative;
   .tabContainer {
     width: 100%;
-    margin: 0 auto;
     height: 90px;
     background: linear-gradient(0deg, #3795eb, #4bade4);
     position: relative;
@@ -561,114 +590,33 @@ export default {
 }
 
 .el-nav {
-  // width: 1711px;
+  width: 89%;
+  flex: 1;
 }
 .el-lr {
-  // width: 70px;
-  // display: flex;
+  width: 70px;
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  color: #fff;
+  justify-content: space-around;
+  div {
+    cursor: pointer;
+  }
 }
 
-.tabContainer .el-tabs__nav-prev {
-  left: 1720px;
-  top: -5px;
-  font-size: 18px;
-  color: white;
-  position: absolute;
-}
-.tabContainer .el-tabs__nav-next {
-  top: -5px;
-  position: absolute;
-  right: -40px;
-  font-size: 18px;
-  color: white;
-}
 .tabContainer .el-tabs__nav-scroll {
-  width: 1720px;
+  position: absolute;
+  // transition: 0.5s;
 }
 .tabContainer .el-tabs__nav-wrap.is-scrollable {
   padding: 0;
 }
 .tabContainer .el-tabs__nav-wrap {
-  position: static;
-}
-
-.tabContainer .el-tabs--border-card {
-  border: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.tabContainer > .el-tabs--border-card > .el-tabs__header {
-  /**/
-  background-color: #1b2945;
-  border: none;
-  border-top: 1px solid #1b2945;
-  border-radius: 3px;
-  margin: 0;
-}
-.tabContainer .el-tabs--border-card > .el-tabs__header .el-tabs__item {
-  color: #ffffff;
-  text-align: center;
-  border: none;
-  min-width: 80px;
-}
-.tabContainer
-  .el-tabs--border-card
-  > .el-tabs__header
-  .el-tabs__item.is-active {
-  color: #1b2945;
-  background-color: #fff;
-  border: none;
-  box-shadow: none;
-}
-.el-tabs--border-card > .el-tabs__content {
-  margin: 0;
-  padding: 0;
-  height: 0;
-}
-.tabContainer
-  .el-tabs--border-card
-  > .el-tabs__header
-  .el-tabs__item:not(.is-disabled):hover {
-  color: #409eff;
-}
-.tabContainer .tabInput {
-  background: none;
-  width: 160px;
-  height: 28px;
-  position: absolute;
-  right: 0;
-  top: 5px;
-  margin-right: 10px;
-}
-
-.tabContainer .el-input__inner {
-  -webkit-appearance: none;
-  background: none;
-  border-radius: 4px;
-  border: 1px solid #dcdfe6;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  color: #606266;
-  display: inline-block;
-  font-size: 15px;
-  height: 28px;
-  line-height: 28px;
-  outline: 0;
-  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-  width: 100%;
-}
-
-.tabContainer .el-input__icon {
-  height: 100%;
-  width: 25px;
-  text-align: center;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  line-height: 28px;
-}
-.footerCom {
-  height: 30px;
-  z-index: 9999;
+  position: relative;
+  height: 90px;
+  display: flex;
+  align-items: center;
 }
 .tabContainer .el-dropdown {
   font-size: 16px;
