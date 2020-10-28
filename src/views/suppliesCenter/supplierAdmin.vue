@@ -69,7 +69,7 @@
             </el-table-column>
             <el-table-column prop="supContact" label="联系人" align="center">
             </el-table-column>
-            <el-table-column prop="supAddr" label="公司地址" align="center">
+            <el-table-column prop="companyAddress" label="公司地址" align="center">
             </el-table-column>
             <el-table-column
               prop="remark"
@@ -79,7 +79,7 @@
             >
             </el-table-column>
             <el-table-column
-              prop="createName"
+              prop="createUser"
               label="创建人"
               align="center"
             ></el-table-column>
@@ -139,6 +139,8 @@
                 class="full-width"
                 size="medium"
                 v-model="form.selectedOptions"
+                separator="-"
+                clearable
               />
             </div>
           </div>
@@ -238,6 +240,13 @@ export default {
               value: v.supFullName,
               label: v.supFullName,
             });
+            let testObj = {};
+            this.supProNameData = this.supProNameData.reduce((item, next) => {
+              testObj[next.value]
+                ? ""
+                : (testObj[next.value] = true && item.push(next));
+              return item;
+            }, []);
           });
         } else {
           Message({
@@ -262,6 +271,7 @@ export default {
       });
     },
     okBtn() {
+      // this.testIsMobile()
       this.dialogFormVisible = false;
 
       let createData = {
@@ -270,15 +280,16 @@ export default {
         supFullName: this.supplierName,
         supContact: this.telPeople,
         supContactPhone: this.telPeoplePhone,
-        supProCode: "",
+        supProCode: this.form.province,
         supProName: CodeToText[this.form.province],
-        supCityCode: "",
+        supCityCode: this.form.city,
         supCityName: CodeToText[this.form.city],
-        supCountyCode: "",
+        supCountyCode: this.form.area,
         supCountyName: CodeToText[this.form.area],
         supAddr: this.xiangxiAddrName,
         remark: this.remarkInfor,
       };
+      console.log(createData)
       createSupplier(createData).then((ok) => {
         if (ok.data.code === "10000") {
           Message({
@@ -328,13 +339,15 @@ export default {
     },
     editChildWarehouse() {
       //编辑
-      this.dialogFormVisible = true;
-      if (!this.multipleSelection.length) return Message("请选择要查看的账号");
+      if (!this.multipleSelection.length)
+        return Message("请选择要查看的供应商");
       if (this.multipleSelection.length !== 1)
         return Message({
           message: "每次只能编辑一个供应商信息，请重新选择",
           type: "warning",
         });
+      this.dialogFormVisible = true;
+
       let gys = this.multipleSelection[0];
       this.xiangxiAddrName = gys.supAddr;
       this.remarkInfor = gys.remark;

@@ -269,25 +269,36 @@ export default {
       allBrandData: [],
       allSupData: [],
       allSpecData: [],
+      queryMateAdminFun: "",
     };
   },
   mounted() {
-    let queryData = this.queryData;
-    queryMateAdmin(queryData).then((ok) => {
-      // console.log(ok);
-      if (ok.data.code === "10000") {
-        this.tableData = ok.data.result.list;
-        this.tableData1 = ok.data.result.list;
-        let res = ok.data.result.list;
-        res.forEach((v) => {
-          this.mateNameValueData.push({
-            value: v.materielName,
-            label: v.materielName,
+    this.queryMateAdminFun = () => {
+      this.mateNameValueData = [];
+      let queryData = this.queryData;
+      queryMateAdmin(queryData).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.tableData = ok.data.result.list;
+          this.tableData.forEach((v) => {
+            this.mateTypeValueData.forEach((vv) => {
+              if (v.materielType == +vv.value) {
+                v.materielType = vv.label;
+              }
+            });
           });
-        });
-      }
-    });
-
+          this.tableData1 = ok.data.result.list;
+          let res = ok.data.result.list;
+          res.forEach((v) => {
+            this.mateNameValueData.push({
+              value: v.materielName,
+              label: v.materielName,
+            });
+          });
+        }
+      });
+    };
+    this.queryMateAdminFun();
     this.queryAnyInfor = () => {
       let QueryData = {
         orderBy: "createTime",
@@ -394,6 +405,13 @@ export default {
         // console.log(ok)
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result.list;
+          this.tableData.forEach((v) => {
+            this.mateTypeValueData.forEach((vv) => {
+              if (v.materielType == +vv.value) {
+                v.materielType = vv.label;
+              }
+            });
+          });
         }
       });
     },
@@ -405,6 +423,16 @@ export default {
       this.supNameValue = "";
       this.brandNameValue = "";
       this.inventoryFloorValue = "";
+      this.tableData = [];
+      this.tableData1 = [];
+
+      this.queryData.paras.unReach = "";
+      this.queryData.paras.materielType = "";
+      this.queryData.paras.id = "";
+      this.queryData.paras.specId = "";
+      this.queryData.paras.supId = "";
+      this.queryData.paras.braId = "";
+      this.queryMateAdminFun();
     },
     mateTypeValues(val) {
       this.mateTypeValue = val;
