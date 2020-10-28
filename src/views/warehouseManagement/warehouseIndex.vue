@@ -221,7 +221,7 @@ export default {
           orderNo: "",
           putWareNo: "",
           putstatus: "",
-          outWareType: "",
+          outWareType: (() => this.$route.params.type)(),
           prodCode: "",
           prodName: "",
           specName: "",
@@ -239,48 +239,7 @@ export default {
       multipleSelection: [], //选择了那个
       thisOneShow: true,
       listArrs: {},
-      WarehousingTypeArr: [
-        {
-          WarehousingType: 0,
-          WarehousingTypeCenter: "手工创建入库",
-        },
-        {
-          WarehousingType: 1,
-          WarehousingTypeCenter: "采购调拨入库",
-        },
-        {
-          WarehousingType: 2,
-          WarehousingTypeCenter: "预入库",
-        },
-        {
-          WarehousingType: 3,
-          WarehousingTypeCenter: "采购预入库",
-        },
-        {
-          WarehousingType: 4,
-          WarehousingTypeCenter: "调拨入库",
-        },
-        {
-          WarehousingType: 5,
-          WarehousingTypeCenter: "加工入库",
-        },
-        {
-          WarehousingType: 6,
-          WarehousingTypeCenter: "拆解入库",
-        },
-        {
-          WarehousingType: 7,
-          WarehousingTypeCenter: "退货入库",
-        },
-        {
-          WarehousingType: 8,
-          WarehousingTypeCenter: "盘盈入库",
-        },
-        {
-          WarehousingType: 9,
-          WarehousingTypeCenter: "其他入库",
-        },
-      ],
+      WarehousingTypeArr: [],
     };
   },
   created() {
@@ -326,7 +285,7 @@ export default {
               WarehousingTypeArr: this.WarehousingTypeArr[
                 this.$route.params.type
               ].WarehousingTypeCenter,
-              orderSource: this.sendOutDataJson.paras.orderSource,
+              orderSource: this.sendOutDataJson.paras.outWareType,
               childWareId: this.multipleSelection[0].childWareId,
             },
           });
@@ -346,7 +305,6 @@ export default {
         });
       }
     },
-
     async _getFindRecord(ids, fn) {
       let datas = await getFindRecord(ids);
       this.listArrs = datas.result[0];
@@ -355,18 +313,34 @@ export default {
       return datas;
     },
     //导出
-    ExportArr() {},
-    //创建入库单
+    ExportArr() {
+      if (!this.multipleSelection.length || this.multipleSelection.length != 1)
+        return Message("请选择要导出的出库单，只能选择一个导出出库单");
+    },
+    //创建出库单
     CreateStockInOrder() {
       this.$router.push({
-        path: "/warehousingManagement/createManagement",
-        query: { orderSource: this.sendOutDataJson.paras.orderSource },
+        path: "/warehouseManagement/createWarehouse",
+        query: { outWareType: this.sendOutDataJson.paras.outWareType },
       });
     },
     //编辑
-    editBtn() {},
+    editBtn() {
+      if (!this.multipleSelection.length || this.multipleSelection.length != 1)
+        return Message("请选择要编辑的出库单，只能选择一个编辑出库单");
+      this.$router.push({
+        path: "/warehouseManagement/createWarehouse",
+        query: {
+          outWareType: this.sendOutDataJson.paras.outWareType,
+          id: this.multipleSelection[0].id,
+        },
+      });
+    },
     //删除
-    clearBtn() {},
+    clearBtn() {
+      if (!this.multipleSelection.length || this.multipleSelection.length != 1)
+        return Message("请选择要删除的出库单，只能选择一个删除出库单");
+    },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {
       console.log(data);

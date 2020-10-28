@@ -727,7 +727,7 @@ export const getSaveRecord = function (data) {
  * ajaxPost
  */
 export const getFindWareHouseDetailByIds = function (data, fn) {
-    ajaxPost("/wbs-warehouse-manage/v1/putWarehouse/findWareHouseDetailByIds", data, fn)
+    ajaxPost("http://139.196.176.227:8902/wbs-warehouse-manage/v1/putWarehouse/findWareHouseDetailByIds", data, fn)
 }
 
 /**
@@ -757,7 +757,8 @@ export const insertExcelData = function (data) {
         service.request({
             url: "/wbs-warehouse-manage/v1/putWarehouse/insertExcelData",
             method: "post",
-            data
+            data,
+            responseType: 'blob'
         }).then((ok) => {
             res(ok)
         }).catch(err => {
@@ -785,6 +786,60 @@ export const getPOutWarehouse = function (data) {
         })
     })
 }
+
+/**
+ * 出库管理获取推荐库位
+ * @param {*} datas 区域名称 /wbs-warehouse-manage/v1/pOutWarehouse/recommendSeatByBatchNoAndQualityDate
+ */
+export const getRecommendSeatByBatchNoAndQualityDate = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOutWarehouse/recommendSeatByBatchNoAndQualityDate",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 出库管理获取添加产品信息
+ * @param {*} datas 
+    ///wbs-warehouse-manage/v1/pOutWarehouse/findProdByWare
+ */
+export const getAddfindProdByWare = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOutWarehouse/findProdByWare",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 新增修改出库单
+ * @param {*} datas /wbs-warehouse-manage/v1/pOutWarehouse/saveRecord
+ */
+export const getpOutWarehouseSaveRecord = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOutWarehouse/saveRecord",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+
 // =================出库管理 end ==============
 export function post(datas) {
     let { url, data } = datas

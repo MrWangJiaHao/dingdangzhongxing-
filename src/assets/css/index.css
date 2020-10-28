@@ -185,7 +185,9 @@ textarea {
   font-weight: normal;
   color: #454545;
 }
-
+.displayBlock{
+  display: block;
+}
 .meiyiyetitle::before{
   content: "";
   margin-right: 8px;

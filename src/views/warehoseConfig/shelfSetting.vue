@@ -32,7 +32,7 @@
                 v-model="sendOutData.wareAreaName"
                 placeholder="请选择区域名称"
                 @input="getquyuCode"
-                @focus="getZicanId"
+                @focus="getquyuId"
               >
                 <el-option
                   v-for="(item,
@@ -326,7 +326,17 @@ export default {
       let datas = await post({
         url:
           "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/findRecordPage",
-        data: this.zicanData,
+        data: this.sendOutData,
+      });
+
+      return (this.nameOfSubWareHouse.nameOfSubwareHouseData =
+        datas.result.list);
+    },
+    async getquyuId() {
+      let datas = await post({
+        url:
+          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/findRecordPage",
+        data: this.sendOutData,
       });
 
       return (this.nameOfSubWareHouse.nameOfSubwareHouseData =
