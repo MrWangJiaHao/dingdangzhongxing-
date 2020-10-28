@@ -3,14 +3,14 @@
     <div class="setUserIngBoxCenter">
       <div class="headerBox">
         <div class="closeTitle">
-          {{ this.$route.query.id ? "编辑入库单" : "创建入库单" }}
+          {{ this.$route.query.id ? "编辑出库单" : "创建出库单" }}
         </div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
 
       <div class="centerBox">
         <div class="setTitle">
-          {{ this.$route.query.id ? "编辑入库单" : "创建入库单" }}
+          {{ this.$route.query.id ? "编辑出库单" : "创建出库单" }}
         </div>
         <div class="gerxinxiBox">
           <div class="xinxiBitian">
@@ -60,13 +60,22 @@
             <!-- 根据委托公司查询子仓 getFindOrgChildWare -->
             <div>
               <div class="displayalign ellipsis">
-                <div class="noneIconTitle mr11">期望入库时间:</div>
+                <div class="noneIconTitle mr11">区域名称:</div>
                 <div class="mr20">
-                  <dateTime
-                    :valueDataStart="createUserData.expectedSendTime"
-                    :dateTimeData="datetimeDate"
-                    @getDateTime="getExpectedSendTime"
-                  />
+                  <el-select
+                    v-model="createUserData.wareAreaName"
+                    @focus="getquyuJsonAndArr"
+                    @change="changequyu"
+                    placeholder="请选择区域名称"
+                  >
+                    <el-option
+                      v-for="(item, idx) in quyuJson.quyuArr"
+                      :key="idx"
+                      :label="item.wareAreaName"
+                      :value="item.id"
+                    >
+                    </el-option>
+                  </el-select>
                 </div>
               </div>
             </div>
@@ -123,21 +132,21 @@
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
-              label="当前库位产品数量"
+              label="低库存预警值"
               width="119"
               prop="currInventory"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
-              label="最大存放数"
+              label="推荐库位可用库存"
               width="119"
               prop="maxNum"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
-              label="入库数量*"
+              label="申请出库数量*"
               width="119"
-              prop="prodNum"
+              prop="actualProdNum"
               show-overflow-tooltip
             >
               <el-input slot-scope="scope" v-model="scope.row.prodNum">
@@ -145,7 +154,7 @@
             </el-table-column>
             <el-table-column
               label="推荐库位"
-              prop="putEndTime"
+              prop="recommendSeatNo"
               show-overflow-tooltip
               width="180"
             >
@@ -164,22 +173,6 @@
                 >
                 </el-option>
               </el-select>
-            </el-table-column>
-            <el-table-column
-              label="期望入库时间"
-              prop="expectedSendTime"
-              width="200"
-              show-overflow-tooltip
-            >
-              <div slot-scope="scope">
-                <div @click="getDateTimeIndex(scope.$index)">
-                  <dateTime
-                    :valueDataStart="scope.row.manuTime"
-                    :dateTimeData="datetimeDate"
-                    @getDateTime="getDateTimeExpectedSendTime"
-                  />
-                </div>
-              </div>
             </el-table-column>
           </el-table>
         </div>
@@ -210,7 +203,7 @@
       <!-- btn -->
       <!-- 添加产品 start -->
       <transition name="fade">
-        <div v-show="addChanpins" ref="parentSelect" class="addChanpinClass">
+        <div v-if="addChanpins" ref="parentSelect" class="addChanpinClass">
           <choiceSelect ref="childSelect" />
         </div>
       </transition>
@@ -227,7 +220,12 @@ import dropDownUserType from "../../components/commin/dropDownUserType"; //用�
 import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
 import { mapState } from "vuex";
 import { Message } from "element-ui";
-import { isMobile, isEmail, getCookie } from "../../utils/validate";
+import {
+  isMobile,
+  isEmail,
+  getCookie,
+  _getArrTarget,
+} from "../../utils/validate";
 import {
   post,
   getFindWareOrg,
@@ -235,8 +233,11 @@ import {
   getfindOrgProductPage,
   getFindWareHouseDetailByIds,
   getSaveRecord,
+  queryAreaOfWS,
+  getpOutWarehouseSaveRecord,
+  getRecommendSeatByBatchNoAndQualityDate,
 } from "../../api/api";
-import choiceSelect from "../../components/manual/choiceSelect";
+import choiceSelect from "../../components/warehouse/choiceSelectCopy";
 export default {
   name: "createUsering",
   components: {
@@ -246,7 +247,6 @@ export default {
     choiceSelect,
     dateTime,
   },
-
   data() {
     return {
       companyJson: {
@@ -264,41 +264,32 @@ export default {
         ziCangArr: [],
       },
       createUserData: {
+        pageNumber: 1,
+        pageSize: 10,
         putstatus: "0",
         disposeStatus: "0", //处理状态
         expectedSendTime: "", //期望入库时间
         operatorType: 1,
-        wareid: getCookie("X-Auth-wareId"),
-        childWareId: sessionStorage.getItem("createManagementChildWareId"),
+        wareId: "",
+        childWareId: "",
         remark: "",
-        orgId: sessionStorage.getItem("orgId"),
+        wareAreaId: "",
+        wareAreaName: "",
+        orgId: "",
         orgName: "",
         childWareName: "",
-        detailList: [],
-        orderSource: (() => this.$route.query.orderSource)(),
+        pOutWarehouseDetails: [],
+        prodIds: [],
+        recommendSeatNo: [],
+        outWareType: (() => this.$route.query.outWareType)(),
         id: (() => {
           return this.$route.query.id ? this.$route.query.id : "";
         })(),
       },
-      sendoutDatas: {
-        pageNumber: 1,
-        pageSize: 10,
-        operatorType: 1,
-        wareid: getCookie("X-Auth-wareId"),
-        childWareId: (() => {
-          return sessionStorage.getItem("createManagementChildWareId");
-        })(),
-        orgId: sessionStorage.getItem("orgId"),
-        orderSource: (() => this.$route.query.orderSource)(),
-        paras: {
-          prodName: "", //产品名称
-          prodCode: "", //产品编码
-          specName: "", //产品规格
-        },
-      },
       getProvinceData: {
         parentCode: 0,
       },
+      quyuJson: { quyuArr: [] },
       prodUnitData: [],
       tables: [],
       rowTables: null,
@@ -325,7 +316,7 @@ export default {
         item.id = item.id;
       });
       this.tabledata = this.tables;
-      this.createUserData.detailList = this.tables;
+      this.createUserData.pOutWarehouseDetails = this.tables;
     }
   },
   destroyed() {
@@ -341,7 +332,7 @@ export default {
             item.prodId = item.id;
           });
           this.tabledata = this.tables;
-          this.createUserData.detailList = this.tables;
+          this.createUserData.pOutWarehouseDetails = this.tables;
         }
       }
     },
@@ -357,16 +348,38 @@ export default {
     _changeChangPinMinXi(data) {
       this.tabledata = data;
     },
-    //期望入库时间
-    getExpectedSendTime(e) {
-      this.createUserData.expectedSendTime = e;
+    //点击区域
+    getquyuJsonAndArr() {
+      this.createUserData.wareAreaId = "";
+      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.childWareId) return Message("请选择子仓名称");
+      // queryAreaOfWS
+      queryAreaOfWS(this.createUserData).then((res) => {
+        if (res.data.code == "10000") {
+          this._changequyuJsonArr(res.data.result);
+        } else {
+          Message(res.data.data.msg);
+        }
+      });
+    },
+    _changequyuJsonArr(arr) {
+      this.quyuJson.quyuArr = arr;
+    },
+    //点击区域select
+    changequyu(e) {
+      this.createUserData.wareAreaId = e;
+      sessionStorage.setItem("createNabagenentWarehousewareAreaId", e);
     },
     getkuweimes(data) {
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       this.targetRow = data;
+      let datas = eval(sessionStorage.getItem("_addTablesData"));
+      this.createUserData.prodIds = _getArrTarget(datas, "prodId");
       this.$nextTick(() => {
-        getfindOrgProductPage(this.sendoutDatas).then((res) => {
-          this._changeKuweiS(res.result.list, data);
+        getRecommendSeatByBatchNoAndQualityDate({
+          ...this.createUserData,
+        }).then((res) => {
+          this._changeKuweiS(res.result, data);
           this.$forceUpdate();
         });
       });
@@ -374,22 +387,37 @@ export default {
     },
     kuweiChanges(e) {
       if (!this.createUserData.orgId) return Message("请选择委托公司");
-      this.targetRow.maxNum = this.kueirArr[e].maxNum;
+      this.targetRow.minNum = this.kueirArr[e].minNum;
+
       this.targetRow.currInventory = this.kueirArr[e].currInventory;
-      this.createUserData.detailList[
+
+      this.createUserData.pOutWarehouseDetails[
         this.delistIndex
       ].recommendSeatId = this.kueirArr[e].recommendSeatId;
-      this.createUserData.detailList[
+
+      this.createUserData.pOutWarehouseDetails[
         this.delistIndex
       ].recommendSeatNo = this.kueirArr[e].recommendSeatNo;
-      this.createUserData.detailList[
+
+      this.createUserData.pOutWarehouseDetails[
+        this.delistIndex
+      ].batchNo = this.kueirArr[e].batchNo;
+
+      this.createUserData.pOutWarehouseDetails[
         this.delistIndex
       ].recommendAreaId = this.kueirArr[e].recommendAreaId;
-      this.createUserData.detailList[
+
+      this.createUserData.pOutWarehouseDetails[
         this.delistIndex
       ].recommendAreaName = this.kueirArr[e].recommendAreaName;
+
+      this.createUserData.pOutWarehouseDetails[
+        this.delistIndex
+      ].manufTime = this.kueirArr[e].manufTime;
     },
     _changeKuweiS(arr, dataJson) {
+      console.log(arr);
+      if (!arr.length) return Message("暂时并未有库位，尝试去创建？");
       this.$nextTick(() => {
         arr.forEach((item, idx) => {
           if (item.prodCode == dataJson.prodCode) {
@@ -403,6 +431,8 @@ export default {
     },
     //点击选择委托公司
     async getCompanyJsonAndArr() {
+      this.createUserData.wareAreaId = "";
+      this.createUserData.orgId = "";
       let datas = await getFindWareOrg();
       this.companyJson.companyArr = datas.result;
     },
@@ -415,11 +445,13 @@ export default {
     },
     //改变委托公司
     changeCompany(e) {
+      console.log(this.createUserData.orgId, " this.createUserData.orgId");
       this.createUserData.orgId = this.companyJson.companyArr[e].id;
       this.createUserData.orgName = this.companyJson.companyArr[e].orgName;
     },
     //点击了子仓名称
     async getZiCangJsonAndArr() {
+      this.createUserData.wareAreaId = "";
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       let datas = await getFindOrgChildWare(this.createUserData.orgId);
       this.ziCangJson.ziCangArr = datas.result;
@@ -436,6 +468,7 @@ export default {
     },
     //改变了子仓名称
     changeziCang(e) {
+      console.log(this.createUserData.wareId, " this.createUserData.wareId", e);
       this.createUserData.childWareId = this.ziCangJson.ziCangArr[e].id;
       sessionStorage.setItem(
         "createManagementChildWareId",
@@ -461,18 +494,14 @@ export default {
     handleSelectionChange(e) {
       this.multipleSelection = e;
     },
-    async _goAJAXCreate() {
-      let datas = await getSaveRecord(this.createUserData);
-      console.log(datas);
-    },
     //点击了提交
     async goAJAXCreate() {
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       if (!this.createUserData.childWareId) return Message("请选择子仓名称");
       if (!this.multipleSelection.length)
         return Message("请选择要创建的产品明细");
-      this.createUserData.detailList = this.multipleSelection;
-      let datas = await getSaveRecord(this.createUserData);
+      this.createUserData.pOutWarehouseDetails = this.multipleSelection;
+      let datas = await getpOutWarehouseSaveRecord(this.createUserData);
       if (datas.code == "10000") {
         sessionStorage.removeItem("_addTablesData");
         sessionStorage.removeItem("createManagementChildWareId");

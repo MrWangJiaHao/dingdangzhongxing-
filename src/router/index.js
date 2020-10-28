@@ -165,6 +165,7 @@ const routes = [{
       title: "出库管理"
     }
   },
+
   //---------------------------------------------------------出库管理模块结束-------------------------------------------------------------------------------------------
 
   //---------------------------------------------------------物料中心模块开始-------------------------------------------------------------------------------------------
@@ -269,6 +270,18 @@ const routes = [{
   path: "/systemSetting/setUserIng",
   name: 'systemSetting/setUserIng',
   component: () => import("../views/systemSetting/setUserIng.vue")
+},
+// /warehousingManagement/createWarehouse
+{
+  //warehousingManagement =》手工创建入库
+  // 入库管理=>出库管理
+  path: "/warehouseManagement/createWarehouse",
+  name: "/warehouseManagement/createWarehouse",
+  component: () => import("../views/warehouseManagement/createWarehouse"),
+  meta: {
+    Breadcrumb: "创建出库单",
+    title: "创建出库单"
+  }
 },
 {
   path: "/systemSetting/editUserIng",

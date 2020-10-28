@@ -251,11 +251,9 @@ export default {
               this.Treedata[idx].children.push({
                 label: val.title,
               });
-              // this.cities.push(
-              //   val.permissions
-              // )
             });
           });
+          console.log(this.Treedata, "Treedata");
         }
       });
     },

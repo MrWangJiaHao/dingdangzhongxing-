@@ -12,7 +12,9 @@
             <div class="bianjiUser" @click="printstockinlist">打印入库单</div>
             <div class="bianjiUser" @click="printReceipt">打印收货单</div>
             <div class="bianjiUser" @click="parintBatchNumber">打印批次号</div>
-            <div class="lodopFunClear" @click="ExportArr">导出</div>
+            <a class="lodopFunClear disinb" id="rukudanExcel" @click="ExportArr"
+              >导出</a
+            >
             <div
               class="goOn"
               v-if="$route.params.type == 0"
@@ -20,7 +22,6 @@
             >
               创建入库单
             </div>
-
             <div
               class="lodopFunClear"
               v-if="$route.params.type == 0"
@@ -395,7 +396,16 @@ export default {
       insertExcelData({
         ids: this.multipleSelection[0].id,
       }).then((res) => {
-        console.log(res);
+        let str = res.headers["Content-Disposition"];
+        let fileName = str.substring(str.indexOf("filename") + 9, str.length);
+        fileName = decodeURIComponent(fileName);
+        let type = res.headers["content-type"].split(";")[0];
+        let blob = new Blob([res.data], { type: type });
+        const blobUrl = window.URL.createObjectURL(blob);
+        URL.revokeObjectURL(blobUrl);
+        let rukudan = document.getElementById("rukudanExcel");
+        rukudan.download = fileName;
+        rukudan.href = blobUrl;
       });
     },
     //创建入库单
