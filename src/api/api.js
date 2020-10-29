@@ -666,13 +666,13 @@ export const getfindOrgProductPage = function (data) {
  * 入库单详情/打印入库单、打印收货单等
  * @param {*} datas  http://localhost:8902/wbs-warehouse-manage/v1/putWarehouse/findRecord
  */
-export const getFindRecord = function (ids) {
+export const getFindRecord = function (id) {
     return new Promise((res, rej) => {
         service.request({
             url: "/wbs-warehouse-manage/v1/putWarehouse/findRecord",
             method: "post",
             data: {
-                ids
+                id
             }
         }).then((ok) => {
             res(ok.data)
@@ -839,8 +839,128 @@ export const getpOutWarehouseSaveRecord = function (data) {
         })
     })
 }
-
+/**
+ * 出库管理删除出库单
+ * /wbs-warehouse-manage/v1/pOutWarehouse/delRecord
+ * @param {*} data 
+ */
+export const getpOutWarehouseDelRecord = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOutWarehouse/delRecord",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 出库确认导出为excel
+ *   //wbs-warehouse-manage/v1/pOutWarehouse/exprotExcel
+ * @param {*} data 
+ */
+export const getpOutWarehouseExprotExcel = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOutWarehouse/exprotExcel",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
 // =================出库管理 end ==============
+//=====================================采购管理 start ==============================================
+
+/**
+ * 出库管理首页 分页and条件查询
+ * /wbs-warehouse-manage/v1/pPurchaseOrder/findRecordPageByOrgAndPurcNo
+ * @param {*} datas 
+ */
+export const getpPurchaseOrderFindRecordPageByOrgAndPurcNo = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pPurchaseOrder/findRecordPageByOrgAndPurcNo",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 分页点击查询详情
+ * /wbs-warehouse-manage/v1/pPurchaseOrder/findRecord
+ * @param {*} datas 
+ */
+export const getppPurchaseOrderFindRecord = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pPurchaseOrder/findRecord",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 新增/修改采购单
+ * /wbs-warehouse-manage/v1/pPurchaseOrder/saveRecord
+ */
+export const getpPurchaseOrdersaveRecord = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pPurchaseOrder/saveRecord",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+
+/**
+ * 采购管理获取委托公司 
+ * @param {*} datas 
+ * /wbs-warehouse-manage/v1/pCommon/findOrgByWareId
+ */
+export const getpCommonFindOrgByWareId = function () {
+    if (!getCookie("X-Auth-wareId")) return Message("该管理员没有仓库")
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pCommon/findOrgByWareId",
+            method: "post",
+            data: {
+                wareId: getCookie("X-Auth-wareId")
+            }
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 采购管理获取采购产品
+ * @param {*} datas /wbs-warehouse-manage/v1/pWareOrgProd/findRecordPage
+ */
+
+
+
+//=========================================采购管理 end ========================================
 export function post(datas) {
     let { url, data } = datas
     return new Promise((resolve, reject) => {

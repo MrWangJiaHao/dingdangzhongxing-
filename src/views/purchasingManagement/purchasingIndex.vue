@@ -1,41 +1,24 @@
 <template>
-  <div>
+  <div id="purchasingIndex">
     <div class="manualBox">
       <div>
         <manualHeader @getParasJson="getParasJson" :tableData="tableData" />
       </div>
       <div class="btnArr">
         <div style="background-color: #fff">
-          <div class="meiyiyetitle">入库管理</div>
+          <div class="meiyiyetitle">采购管理</div>
           <div class="btnClick">
-            <div class="setUser" @click="warehousingConfirmation">入库确认</div>
-            <div class="bianjiUser" @click="printstockinlist">打印入库单</div>
-            <div class="bianjiUser" @click="printReceipt">打印收货单</div>
-            <div class="bianjiUser" @click="parintBatchNumber">打印批次号</div>
             <a class="lodopFunClear disinb" id="rukudanExcel" @click="ExportArr"
-              >导出</a
+              >提交</a
             >
             <div
               class="goOn"
-              v-if="$route.params.type == 0"
-              @click="CreateStockInOrder"
+              @click="$router.push('/purchasingManagement/createPurchasing')"
             >
-              创建入库单
+              创建
             </div>
-            <div
-              class="lodopFunClear"
-              v-if="$route.params.type == 0"
-              @click="editBtn"
-            >
-              编辑
-            </div>
-            <div
-              class="remove"
-              v-if="$route.params.type == 0"
-              @click="clearBtn"
-            >
-              删除
-            </div>
+            <div class="lodopFunClear" @click="editBtn">编辑</div>
+            <div class="remove" @click="clearBtn">删除</div>
           </div>
         </div>
         <!-- but按钮 -->
@@ -53,12 +36,78 @@
               @selection-change="handleSelectionChange"
             >
               <el-table-column type="selection" width="82"></el-table-column>
+              <el-table-column type="expand">
+                <el-table
+                  ref="femlei"
+                  :data="detailsData"
+                  tooltip-effect="dark"
+                  style="width: 100%"
+                  @selection-change="handleSelectionChange"
+                >
+                  <el-table-column
+                    type="index"
+                    label="序号"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="address"
+                    label="产品编码"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="address"
+                    label="产品名称"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="address"
+                    label="品牌"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="address"
+                    label="产品规格"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="address"
+                    label="销售仓可用库存"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="address"
+                    label="低库存预警值"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="address"
+                    label="高库存预警值"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="address"
+                    label="申请采购数量"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                </el-table>
+              </el-table-column>
+
               <el-table-column
                 label="序号"
                 type="index"
                 width="71"
                 show-overflow-tooltip
               />
+
               <el-table-column
                 label="委托公司"
                 width="119"
@@ -66,46 +115,52 @@
                 show-overflow-tooltip
               />
               <el-table-column
-                label="入库单号"
+                label="采购单号"
                 width="119"
                 property="putWareNo"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 width="119"
-                label="关联单号"
+                label="采购状态"
                 prop="orderNo"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                label="期望入库开始时间"
+                label="采购类型"
                 prop="expectedSendTime"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                label="入库状态"
+                label="申请采购数量"
                 width="119"
                 prop="putstatus"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                label="入库人"
+                label="期望到货时间"
                 width="119"
                 prop="putUser"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                label="入库开始时间"
+                label="实际到货数量"
                 prop="putStartTime"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                label="入库完成时间"
+                label="实际到货时间"
                 prop="putEndTime"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                label="入库批次"
+                label="创建人"
+                width="119"
+                prop="batchNo"
+                show-overflow-tooltip
+              ></el-table-column>
+              <el-table-column
+                label="创建日期"
                 width="119"
                 prop="batchNo"
                 show-overflow-tooltip
@@ -124,51 +179,36 @@
       </div>
       <!-- table-biaoge -->
     </div>
-    <!-- 头部组件 -->
-    <div v-if="WarehouseReceipt">
-      <div class="posFixCenter">
-        <WarehouseReceipt
-          :WarehousingType="
-            WarehousingTypeArr[$route.params.type].WarehousingTypeCenter
-          "
-        />
-      </div>
-    </div>
-    <!-- 入库单 -->
-    <div v-if="Receipt">
-      <div class="posFixCenter">
-        <Receipt
-          :WarehousingType="
-            WarehousingTypeArr[$route.params.type].WarehousingTypeCenter
-          "
-        />
-      </div>
-    </div>
-    <!-- 收货单 -->
-    <div v-if="BatchNumber">
-      <div class="posFixCenter">
-        <BatchNumber />
-      </div>
-    </div>
-    <!-- 批次号 -->
   </div>
 </template>
 <style>
 .cell {
   text-align: center;
 }
+#purchasingIndex .el-icon.el-icon-arrow-right::before {
+  content: "+";
+}
+#purchasingIndex .el-table__expand-icon--expanded {
+  transform: rotate(0deg);
+  transition: all 0.3s;
+}
+#purchasingIndex
+  .el-table__expand-icon--expanded
+  .el-icon.el-icon-arrow-right::before {
+  content: "-";
+}
 </style>
 <script>
+/*eslint-disable */
 import manualHeader from "../../components/manual/manualHeader";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import WarehouseReceipt from "../../components/manual/WarehouseReceipt"; //入库单
-import Receipt from "../../components/manual/Receipt"; //收货单
-import BatchNumber from "../../components/manual/BatchNumber"; //批次号
 import {
   getFindRecord,
   getFindWareHouseDetailByIds,
   insertExcelData,
   post,
+  getppPurchaseOrderFindRecord,
   delRecordByIdArrs,
 } from "../../api/api";
 import { Message } from "element-ui";
@@ -179,16 +219,11 @@ export default {
     manualHeader,
     pagecomponent,
     WarehouseReceipt,
-    Receipt,
-    BatchNumber,
   },
   data() {
     return {
-      WarehouseReceipt: false,
       WarehouseReceiptIds: "",
-      Receipt: false,
       ReceiptIds: "",
-      BatchNumber: false,
       BatchNumberIds: "",
       tableData: [
         {
@@ -208,6 +243,7 @@ export default {
           batchNo: "",
         },
       ],
+      detailsData: [],
       pageComponentsData: {
         pageNums: 0, //一共多少条 //默认一页10条
       },
@@ -236,48 +272,7 @@ export default {
       multipleSelection: [], //选择了那个
       thisOneShow: true,
       listArrs: {},
-      WarehousingTypeArr: [
-        {
-          WarehousingType: 0,
-          WarehousingTypeCenter: "手工创建入库",
-        },
-        {
-          WarehousingType: 1,
-          WarehousingTypeCenter: "采购调拨入库",
-        },
-        {
-          WarehousingType: 2,
-          WarehousingTypeCenter: "预入库",
-        },
-        {
-          WarehousingType: 3,
-          WarehousingTypeCenter: "采购预入库",
-        },
-        {
-          WarehousingType: 4,
-          WarehousingTypeCenter: "调拨入库",
-        },
-        {
-          WarehousingType: 5,
-          WarehousingTypeCenter: "加工入库",
-        },
-        {
-          WarehousingType: 6,
-          WarehousingTypeCenter: "拆解入库",
-        },
-        {
-          WarehousingType: 7,
-          WarehousingTypeCenter: "退货入库",
-        },
-        {
-          WarehousingType: 8,
-          WarehousingTypeCenter: "盘盈入库",
-        },
-        {
-          WarehousingType: 9,
-          WarehousingTypeCenter: "其他入库",
-        },
-      ],
+      WarehousingTypeArr: [],
     };
   },
   created() {
@@ -334,52 +329,7 @@ export default {
         });
       }
     },
-    //打印入库单:
-    printstockinlist() {
-      if (!this.multipleSelection.length) {
-        return Message("请选择要打印的入库单");
-      } else if (this.multipleSelection.length > 1) {
-        return Message("只能选择打印一个入库单");
-      } else {
-        this.WarehouseReceiptIds = this.multipleSelection[0].id;
-        this._getFindRecord(this.multipleSelection[0].id, () => {
-          this.WarehouseReceipt = !this.WarehouseReceipt;
-        });
-      }
-    },
-    //打印收货单
-    printReceipt() {
-      if (!this.multipleSelection.length) {
-        return Message("请选择要打印的收货单");
-      } else if (this.multipleSelection.length > 1) {
-        return Message("只能选择打印一个收货单");
-      } else {
-        this.ReceiptIds = this.multipleSelection[0].id;
 
-        this._getFindRecord(this.multipleSelection[0].id, () => {
-          this.Receipt = !this.Receipt;
-        });
-      }
-    },
-    // 打印批次号
-    parintBatchNumber() {
-      if (!this.multipleSelection.length)
-        return Message("请选择需要打印的批次号");
-      let target = _getArrTarget(this.multipleSelection, "id");
-      getFindWareHouseDetailByIds({ ids: target }, (data) => {
-        data = JSON.parse(data);
-        console.log(data);
-        if (data.code === "10000") {
-          sessionStorage.setItem(
-            "parintBatchNumberArrs",
-            JSON.stringify(data.result)
-          );
-          this.BatchNumber = !this.BatchNumber;
-        } else {
-          Message(data.msg);
-        }
-      });
-    },
     async _getFindRecord(ids, fn) {
       let datas = await getFindRecord(ids);
       this.listArrs = datas.result[0];
@@ -396,12 +346,13 @@ export default {
       insertExcelData({
         ids: this.multipleSelection[0].id,
       }).then((res) => {
-        console.log(res, "excel");
-        let str = res.headers["content-disposition"];
+        let str = res.headers["Content-Disposition"];
         let fileName = str.substring(str.indexOf("filename") + 9, str.length);
         fileName = decodeURIComponent(fileName);
         let type = res.headers["content-type"].split(";")[0];
-        let blob = new Blob([res.data], { type: type });
+        let blob = new Blob([res.data], {
+          type: type,
+        });
         const blobUrl = window.URL.createObjectURL(blob);
         URL.revokeObjectURL(blobUrl);
         let rukudan = document.getElementById("rukudanExcel");
@@ -413,7 +364,9 @@ export default {
     CreateStockInOrder() {
       this.$router.push({
         path: "/warehousingManagement/createManagement",
-        query: { orderSource: this.sendOutDataJson.paras.orderSource },
+        query: {
+          orderSource: this.sendOutDataJson.paras.orderSource,
+        },
       });
     },
     //编辑
@@ -458,11 +411,7 @@ export default {
     },
     //获取table表格内容
     async getTableData(fn) {
-      let datas = await post({
-        url:
-          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/putWarehouse/findRecordPage",
-        data: this.sendOutDataJson,
-      });
+      let datas = await getppPurchaseOrderFindRecord(this.sendOutDataJson);
       this.changeDatas(datas.result);
       fn && fn();
       return datas;
@@ -482,6 +431,7 @@ export default {
 
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
+
 .posFixCenter {
   display: flex;
   align-self: center;
@@ -492,25 +442,31 @@ export default {
   border-top: 1px solid #d1d6e2;
   background-color: rgb(232, 233, 236);
 }
+
 .btnArr {
   padding: 0 10px;
+
   > div {
     border-bottom: 1px solid #d1d6e2;
     padding: 16px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     div {
       display: inline-block;
     }
   }
+
   .meiyiyetitle {
     display: flex;
     align-items: center;
   }
 }
+
 .tableBox {
   padding: 0 10px 0px 10px;
+
   .pageComponent {
     margin: 180px 10px 0 0;
     text-align: right;
@@ -524,17 +480,21 @@ export default {
   margin-right: 10px;
   @include BtnFunction("success");
 }
+
 .bianjiUser {
   margin-right: 10px;
   @include BtnFunction("success");
 }
+
 .remove {
   @include BtnFunction("error");
 }
+
 .goOn {
   margin-right: 10px;
   @include BtnFunction("success");
 }
+
 .lodopFunClear {
   margin-right: 10px;
   @include BtnFunction("success");

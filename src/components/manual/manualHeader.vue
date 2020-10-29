@@ -146,7 +146,7 @@
             <div class="noneIconTitle mr11">产品名称:</div>
             <div class="mr20">
               <el-autocomplete
-                v-model="paras.prodName"
+                v-model="paras.prodId"
                 :fetch-suggestions="ProductNameArr"
                 :placeholder="ProductNameJson.placeholder"
                 @select="ProductName"
@@ -237,7 +237,7 @@
               <div style="margin-right: 10px">
                 <dateTime
                   :dateTimeData="putStartTimeData"
-                  @getDateTime="getputStartTime"
+                  @getDateTime="outWareTimeStart"
                   ref="putStart"
                 />
               </div>
@@ -246,7 +246,7 @@
               <div>
                 <dateTime
                   :dateTimeData="putEndTimeData"
-                  @getDateTime="getputEndTime"
+                  @getDateTime="outWareTimeEnd"
                   ref="putEnd"
                 />
               </div>
@@ -263,7 +263,7 @@
               <div style="margin-right: 10px">
                 <dateTime
                   :dateTimeData="putStartTimeData"
-                  @getDateTime="getputStartTime"
+                  @getDateTime="pickTimeStartTime"
                   ref="putStart"
                 />
               </div>
@@ -272,7 +272,7 @@
               <div>
                 <dateTime
                   :dateTimeData="putEndTimeData"
-                  @getDateTime="getputEndTime"
+                  @getDateTime="pickTimeEnd"
                   ref="putEnd"
                 />
               </div>
@@ -289,7 +289,7 @@
               <div style="margin-right: 10px">
                 <dateTime
                   :dateTimeData="putStartTimeData"
-                  @getDateTime="getputStartTime"
+                  @getDateTime="checkTimeStart"
                   ref="putStart"
                 />
               </div>
@@ -298,7 +298,7 @@
               <div>
                 <dateTime
                   :dateTimeData="putEndTimeData"
-                  @getDateTime="getputEndTime"
+                  @getDateTime="checkTimeEnd"
                   ref="putEnd"
                 />
               </div>
@@ -528,6 +528,25 @@ export default {
     }
   },
   methods: {
+    outWareTimeStart(e) {
+      this.paras.outWareTimeStart = e;
+    },
+    outWareTimeEnd(e) {
+      this.paras.outWareTimeEnd = e;
+    },
+    checkTimeStart(e) {
+      this.paras.checkTimeStart = e;
+    },
+    checkTimeEnd(e) {
+      this.paras.checkTimeEnd = e;
+    },
+    pickTimeStartTime(e) {
+      this.paras.pickTimeStart = e;
+    },
+    pickTimeEnd(e) {
+      this.paras.pickTimeEnd = e;
+    },
+
     _isRuku() {
       let path = this.$route.path.includes("ing");
       return path;
