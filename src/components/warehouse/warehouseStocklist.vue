@@ -334,9 +334,9 @@ export default {
   mounted() {
     this.$nextTick(() => {
       let listArrs = JSON.parse(sessionStorage.getItem("listArrs"));
-      console.log(listArrs, "入库单");
+      console.log(listArrs, "出库单");
       this.listArrs = listArrs;
-      this.tableDatas = listArrs.detailList;
+      this.tableDatas = listArrs.tails.pOutWarehouseDetail;
       let cells = document
         .getElementById("printCenter")
         .getElementsByClassName("cell");

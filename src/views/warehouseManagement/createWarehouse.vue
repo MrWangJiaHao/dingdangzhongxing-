@@ -198,7 +198,7 @@
       <!-- 账号信息 -->
       <div class="displayCenter mb20">
         <div class="quxiaoBox mr20" @click="closeBtn">取消</div>
-        <div class="tijiaoBox" @click="goAJAXCreate">提交</div>
+        <div class="tijiaoBox" @click="goAJAXCreate">提交1</div>
       </div>
       <!-- btn -->
       <!-- 添加产品 start -->
@@ -235,6 +235,7 @@ import {
   getFindWareHouseDetailByIds,
   getSaveRecord,
   queryAreaOfWS,
+  getpOutWarehousefindOutWareDetailById,
   getpOutWarehouseSaveRecord,
   getRecommendSeatByBatchNoAndQualityDate,
 } from "../../api/api";
@@ -271,7 +272,7 @@ export default {
         disposeStatus: "0", //处理状态
         expectedSendTime: "", //期望入库时间
         operatorType: 1,
-        wareId: "",
+        wareId: getCookie("X-Auth-wareId"),
         childWareId: "",
         remark: "",
         wareAreaId: "",
@@ -303,21 +304,19 @@ export default {
   },
   async created() {
     if (this.$route.query.id) {
-      let EditData = JSON.parse(sessionStorage.getItem("manualManageMentEdit"));
+      let EditData = JSON.parse(sessionStorage.getItem("warehouseEdit"));
       this.companyJson.value = EditData.orgName;
       this.createUserData.childWareName = EditData.childWareName;
       this.createUserData.childWareId = EditData.childWareId;
       this.createUserData.orgId = EditData.orgId;
       this.createUserData.createUserData = EditData.createUserData;
+      this.createUserData.wareId = EditData.wareId;
+      this.createUserData.wareName = EditData.wareName;
       this.createUserData.expectedSendTime = EditData.expectedSendTime;
-      this._getFindWareHouseDetailByIds();
+      this._getpOutWarehousefindOutWareDetailById();
     }
     this.tables = eval(sessionStorage.getItem("_addTablesData"));
     if (this.tables) {
-      this.tables.forEach((item) => {
-        item.prodId = item.id;
-        item.id = item.id;
-      });
       this.tabledata = this.tables;
       this.createUserData.pOutWarehouseDetails = this.tables;
     }
@@ -331,9 +330,6 @@ export default {
       if (!n) {
         this.tables = eval(sessionStorage.getItem("_addTablesData"));
         if (this.tables) {
-          this.tables.forEach((item) => {
-            item.prodId = item.id;
-          });
           this.tabledata = this.tables;
           this.createUserData.pOutWarehouseDetails = this.tables;
         }
@@ -342,8 +338,8 @@ export default {
   },
   methods: {
     //获取产品明细
-    _getFindWareHouseDetailByIds() {
-      getFindWareHouseDetailByIds(
+    _getpOutWarehousefindOutWareDetailById() {
+      getpOutWarehousefindOutWareDetailById(
         {
           ids: this.$route.query.id,
         },
@@ -488,6 +484,7 @@ export default {
         this.ziCangJson.ziCangArr[e].id
       );
       this.createUserData.wareId = this.ziCangJson.ziCangArr[e].wareId; //仓库id
+      this.createUserData.wareName = this.ziCangJson.ziCangArr[e].wareName; //仓库id
       this.createUserData.childWareId = this.ziCangJson.ziCangArr[e].id; //子仓id
       this.createUserData.childWareName = this.ziCangJson.ziCangArr[
         e

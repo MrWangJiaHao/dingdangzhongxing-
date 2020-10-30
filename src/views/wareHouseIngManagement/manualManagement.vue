@@ -172,7 +172,7 @@ import {
   delRecordByIdArrs,
 } from "../../api/api";
 import { Message } from "element-ui";
-import { _getArrTarget } from "../../utils/validate";
+import { _getArrTarget, _getExportExcels } from "../../utils/validate";
 
 export default {
   components: {
@@ -396,19 +396,10 @@ export default {
       insertExcelData({
         ids: this.multipleSelection[0].id,
       }).then((res) => {
-        console.log(res, "excel");
-        let str = res.headers["content-disposition"];
-        let fileName = str.substring(str.indexOf("filename") + 9, str.length);
-        fileName = decodeURIComponent(fileName);
-        let type = res.headers["content-type"].split(";")[0];
-        let blob = new Blob([res.data], { type: type });
-        const blobUrl = window.URL.createObjectURL(blob);
-        URL.revokeObjectURL(blobUrl);
-        let rukudan = document.getElementById("rukudanExcel");
-        rukudan.download = fileName;
-        rukudan.href = blobUrl;
+        _getExportExcels(res);
       });
     },
+
     //创建入库单
     CreateStockInOrder() {
       this.$router.push({
