@@ -636,6 +636,20 @@ export function queryStorePhyDisCon(data) {
     })
 }
 
+// 查询委托公司运费模板
+export function queryEntrustComFee(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "http://139.196.176.227:8901/om/v1/pWareOrgExprFee/findRecordPageOrg",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
 
 
 
