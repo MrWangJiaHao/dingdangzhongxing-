@@ -1,11 +1,11 @@
+/*eslint-disable */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import {
-  getCookie
+	getCookie
 } from '../utils/validate'
 
 Vue.use(VueRouter)
-
 const routes = [{
     path: '/indexs',
     name: 'indexs',
@@ -352,29 +352,29 @@ const routes = [{
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+	mode: 'history',
+	base: process.env.BASE_URL,
+	routes
 })
 
 router.beforeEach((to, from, next) => {
-  let cookie = getCookie("userToken");
-  if (cookie == "") {
-    if (to.path === "/") {
-      next()
-    } else {
-      next({
-        path: "/"
-      })
-    }
-  } else {
-    next()
-  }
+	let cookie = getCookie("userToken");
+	if (cookie == "") {
+		if (to.path === "/") {
+			next()
+		} else {
+			next({
+				path: "/"
+			})
+		}
+	} else {
+		next()
+	}
 })
 export default router
 
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location, onResolve, onReject) {
-  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
-  return originalPush.call(this, location).catch(err => err)
+	if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+	return originalPush.call(this, location).catch(err => err)
 }

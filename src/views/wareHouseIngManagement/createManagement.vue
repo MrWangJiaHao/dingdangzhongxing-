@@ -320,10 +320,6 @@ export default {
     }
     this.tables = eval(sessionStorage.getItem("_addTablesData"));
     if (this.tables) {
-      this.tables.forEach((item) => {
-        item.prodId = item.id;
-        item.id = item.id;
-      });
       this.tabledata = this.tables;
       this.createUserData.detailList = this.tables;
     }
@@ -337,9 +333,6 @@ export default {
       if (!n) {
         this.tables = eval(sessionStorage.getItem("_addTablesData"));
         if (this.tables) {
-          this.tables.forEach((item) => {
-            item.prodId = item.id;
-          });
           this.tabledata = this.tables;
           this.createUserData.detailList = this.tables;
         }

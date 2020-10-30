@@ -107,10 +107,22 @@ export default {
           name: "",
           iconCls: require("@/assets/img/warehouse-config.png"),
           children: [
-            { title: "子仓管理", name: "/warehoseconfig/childWarehouseAdmin" },
-            { title: "区域管理", name: "/warehoseconfig/regionalManagements" },
-            { title: "库位管理", name: "/warehoseconfig/storageLocalAdmins" },
-            { title: "库位映射", name: "/warehoseconfig/storageLocalMap" },
+            {
+              title: "子仓管理",
+              name: "/warehoseconfig/childWarehouseAdmin",
+            },
+            {
+              title: "区域管理",
+              name: "/warehoseconfig/regionalManagements",
+            },
+            {
+              title: "库位管理",
+              name: "/warehoseconfig/storageLocalAdmins",
+            },
+            {
+              title: "库位映射",
+              name: "/warehoseconfig/storageLocalMap",
+            },
           ],
         },
         {
@@ -131,7 +143,12 @@ export default {
         {
           title: "采购管理",
           iconCls: require("@/assets/img/warehouse-procurementConfig.png"),
-          children: [],
+          children: [
+            {
+              title: "采购管理",
+              name: "/purchasingManagement/purchasingIndex",
+            },
+          ],
         },
         {
           title: "入库管理",
@@ -260,12 +277,30 @@ export default {
           title: "物料中心",
           iconCls: require("@/assets/img/warehouse-suppliesCenter.png"),
           children: [
-            { title: "供应商管理", name: "/suppliesCenter/supplierAdmin" },
-            { title: "品牌管理", name: "/suppliesCenter/brandAdmin" },
-            { title: "规格管理", name: "/suppliesCenter/specificationAdmin" },
-            { title: "物料管理", name: "/suppliesCenter/materialAdmin" },
-            { title: "物料库存", name: "/suppliesCenter/suppliesInventory" },
-            { title: "物料记录", name: "/suppliesCenter/suppliesRecord" },
+            {
+              title: "供应商管理",
+              name: "/suppliesCenter/supplierAdmin",
+            },
+            {
+              title: "品牌管理",
+              name: "/suppliesCenter/brandAdmin",
+            },
+            {
+              title: "规格管理",
+              name: "/suppliesCenter/specificationAdmin",
+            },
+            {
+              title: "物料管理",
+              name: "/suppliesCenter/materialAdmin",
+            },
+            {
+              title: "物料库存",
+              name: "/suppliesCenter/suppliesInventory",
+            },
+            {
+              title: "物料记录",
+              name: "/suppliesCenter/suppliesRecord",
+            },
           ],
         },
         {
@@ -302,8 +337,14 @@ export default {
           title: "系统管理",
           iconCls: require("@/assets/img/warehouse-systemManage.png"),
           children: [
-            { title: "用户管理", name: "/systemSetting/userSetting" },
-            { title: "角色管理", name: "/systemSetting/userControl" },
+            {
+              title: "用户管理",
+              name: "/systemSetting/userSetting",
+            },
+            {
+              title: "角色管理",
+              name: "/systemSetting/userControl",
+            },
           ],
         },
       ],
@@ -376,8 +417,6 @@ export default {
     },
     //点击选中
     handleTabsEdit() {
-      // console.log("点击选中，第二级的菜单栏");
-      // console.log(this.dataArr[+this.activeName], "this.dataArr");
       let router =
         this.dataArr[+this.activeName].children.length != 0
           ? this.dataArr[+this.activeName].children[0].name
@@ -448,41 +487,50 @@ export default {
   },
 };
 </script>
-<style lang='scss' >
+<style lang='scss'>
 .popper__arrow {
   left: 50% !important;
   transform: translate(-50%);
 }
+
 .has-gutter .el-table td,
 .el-table th.is-leaf {
   background: #e1eaf5;
 }
+
 .el-table td,
 .el-table th.is-leaf {
   border-right: 0.5px solid #d2d6e2;
   border-bottom: 0.5px solid #d2d6e2;
 }
+
 .cell {
   text-align: center;
 }
+
 .el-tabs__new-tab {
   display: none;
 }
+
 .el-table__body-wrapper .is-scrolling-right {
   overflow: auto;
 }
+
 .el-tabs__header {
   margin: 0 0 0;
 }
+
 .el-tabs {
   position: relative;
   top: 1px;
   left: 10px;
   z-index: 10;
 }
+
 .dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item {
   border: 1px solid #ced4de;
 }
+
 .el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
   border-bottom-color: #ced4de;
 }
@@ -490,16 +538,20 @@ export default {
 .mianbaoxie {
   padding: 20px 10px;
 }
+
 .dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item:first-child {
   border-left: 1px solid #ced4de !important;
 }
+
 .el-tabs__item.is-top.is-active.is-closable {
   color: #000 !important;
   border-bottom-color: #eef1f8 !important;
 }
+
 .el-breadcrumb__item {
   display: flex;
 }
+
 .el-breadcrumb .el-breadcrumb__item:first-child::before {
   content: "";
   display: inline-block;
@@ -508,12 +560,15 @@ export default {
   background: #5a9af4;
   margin-right: 10px;
 }
+
 .el-tabs--card > .el-tabs__header .el-tabs__nav {
   border: none;
 }
+
 .el-tabs__item.is-top.is-closable {
   margin-right: 18px;
 }
+
 .el-tabs__item:hover {
   color: #000;
   cursor: pointer;
@@ -522,6 +577,7 @@ export default {
 <style scoped lang="scss">
 #headerMain {
   position: relative;
+
   .tabContainer {
     width: 100%;
     height: 90px;
@@ -530,10 +586,12 @@ export default {
     display: flex;
     align-items: center;
     overflow: hidden;
+
     a {
       display: flex;
       align-items: center;
       color: white;
+
       img {
         margin: 0 8px 0 0;
         width: 18px;
@@ -541,20 +599,25 @@ export default {
       }
     }
   }
+
   .dianjiqiehuan {
     padding: 0 20px;
     background: #eef1f8;
     border-bottom: 1px solid #ced4de;
+
     .dianjiCenters {
       padding-top: 20px;
     }
   }
+
   .header-title {
     width: 139px;
     height: 90px;
+
     .header-title-img {
       width: 139px;
       height: 22px;
+
       img {
         margin: 34px 10px 34px 20px;
         cursor: pointer;
@@ -572,25 +635,31 @@ export default {
 .tabContainer .el-tabs--bottom .el-tabs__header.is-bottom {
   margin: 0;
 }
+
 .tabContainer .el-tabs__content {
   display: none;
 }
+
 .tabContainer .el-tabs--card > .el-tabs__header .el-tabs__nav {
   border: none;
 }
+
 .tabContainer .el-tabs--card > .el-tabs__header .el-tabs__item {
   border: none;
 }
+
 .tabContainer .el-tabs--card > .el-tabs__header {
   border: none;
   margin: 0;
 }
+
 .tabContainer .el-tabs__item {
   color: white;
   font-size: 16px;
   text-align: center;
   line-height: 34px;
 }
+
 .tabContainer .el-tabs__item.is-active {
   color: white;
   text-align: center;
@@ -606,6 +675,7 @@ export default {
   flex: 1;
   // overflow: hidden;
 }
+
 .el-lr {
   width: 70px;
   display: flex;
@@ -613,6 +683,7 @@ export default {
   font-size: 22px;
   color: #fff;
   justify-content: space-around;
+
   div {
     cursor: pointer;
   }
@@ -621,9 +692,11 @@ export default {
 .tabContainer .el-tabs__nav-scroll {
   position: absolute;
 }
+
 .tabContainer .el-tabs__nav-wrap.is-scrollable {
   padding: 0;
 }
+
 .tabContainer .el-tabs__nav-wrap {
   position: relative;
   height: 90px;
@@ -637,6 +710,7 @@ export default {
 .tabContainer .el-tabs__nav-wrap::-webkit-scrollbar {
   display: none;
 }
+
 .tabContainer .el-dropdown {
   font-size: 16px;
   color: white;

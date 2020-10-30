@@ -10,7 +10,7 @@
           <div class="btnClick">
             <div class="setUser" @click="warehousingConfirmation">出库确认</div>
             <div class="bianjiUser" @click="printstockinlist">打印出库单</div>
-            <div class="lodopFunClear" @click="ExportArr">导出</div>
+            <a class="lodopFunClear disinb" @click="ExportArr">导出</a>
             <div
               class="goOn"
               v-if="$route.params.type == 0"
@@ -140,7 +140,7 @@
       <!-- table-biaoge -->
     </div>
     <!-- 头部组件 -->
-    <div v-if="WarehouseReceipt">
+    <div v-if="WarehouseReceipts">
       <div class="posFixCenter">
         <WarehouseReceipt
           :WarehousingType="
@@ -150,44 +150,30 @@
       </div>
     </div>
     <!-- 入库单 -->
-    <div v-if="Receipt">
-      <div class="posFixCenter">
-        <Receipt
-          :WarehousingType="
-            WarehousingTypeArr[$route.params.type].WarehousingTypeCenter
-          "
-        />
-      </div>
-    </div>
-    <!-- 收货单 -->
-    <div v-if="BatchNumber">
-      <div class="posFixCenter">
-        <BatchNumber />
-      </div>
-    </div>
-    <!-- 批次号 -->
   </div>
 </template>
 
 <script>
+/*eslint-disable */
 import manualHeader from "../../components/manual/manualHeader";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import WarehouseReceipt from "../../components/manual/WarehouseReceipt"; //入库单
-import Receipt from "../../components/manual/Receipt"; //收货单
-import BatchNumber from "../../components/manual/BatchNumber"; //批次号
-import { getFindRecord, getPOutWarehouse } from "../../api/api";
+import WarehouseReceipt from "../../components/warehouse/warehouseStocklist"; //出库单
+import {
+  getFindRecord,
+  getPOutWarehouse,
+  getpOutWarehouseDelRecord,
+  getpOutWarehouseExprotExcel,
+} from "../../api/api";
 import { Message } from "element-ui";
 export default {
   components: {
     manualHeader,
     pagecomponent,
     WarehouseReceipt,
-    Receipt,
-    BatchNumber,
   },
   data() {
     return {
-      WarehouseReceipt: false,
+      WarehouseReceipts: false,
       WarehouseReceiptIds: "",
       Receipt: false,
       ReceiptIds: "",
@@ -295,13 +281,13 @@ export default {
     //打印出库单:
     printstockinlist() {
       if (!this.multipleSelection.length) {
-        return Message("请选择要打印的入库单");
+        return Message("请选择要打印的出库单");
       } else if (this.multipleSelection.length > 1) {
-        return Message("只能选择打印一个入库单");
+        return Message("只能选择打印一个出库单");
       } else {
         this.WarehouseReceiptIds = this.multipleSelection[0].id;
-        this._getFindRecord(this.multipleSelection[0].id, () => {
-          this.WarehouseReceipt = !this.WarehouseReceipt;
+        this._getFindRecord(this.multipleSelection[0].id, (datas) => {
+          this.WarehouseReceipts = !this.WarehouseReceipts;
         });
       }
     },
@@ -309,19 +295,33 @@ export default {
       let datas = await getFindRecord(ids);
       this.listArrs = datas.result[0];
       sessionStorage.setItem("listArrs", JSON.stringify(datas.result[0]));
-      fn && fn();
+      fn && fn(datas);
       return datas;
     },
     //导出
     ExportArr() {
       if (!this.multipleSelection.length || this.multipleSelection.length != 1)
         return Message("请选择要导出的出库单，只能选择一个导出出库单");
+      getpOutWarehouseExprotExcel(this.multipleSelection[0]).then((res) => {
+        let str = res.headers["Content-Disposition"];
+        let fileName = str.substring(str.indexOf("filename") + 9, str.length);
+        fileName = decodeURIComponent(fileName);
+        let type = res.headers["content-type"].split(";")[0];
+        let blob = new Blob([res.data], { type: type });
+        const blobUrl = window.URL.createObjectURL(blob);
+        URL.revokeObjectURL(blobUrl);
+        let rukudan = document.getElementById("rukudanExcel");
+        rukudan.download = fileName;
+        rukudan.href = blobUrl;
+      });
     },
     //创建出库单
     CreateStockInOrder() {
       this.$router.push({
         path: "/warehouseManagement/createWarehouse",
-        query: { outWareType: this.sendOutDataJson.paras.outWareType },
+        query: {
+          outWareType: this.sendOutDataJson.paras.outWareType,
+        },
       });
     },
     //编辑
@@ -340,6 +340,17 @@ export default {
     clearBtn() {
       if (!this.multipleSelection.length || this.multipleSelection.length != 1)
         return Message("请选择要删除的出库单，只能选择一个删除出库单");
+      // getpOutWarehouseDelRecord
+      getpOutWarehouseDelRecord({ id: this.multipleSelection[0].id }).then(
+        (res) => {
+          if (res.data.code == "10000") {
+            Message(res.msg);
+            this.getTableData();
+          } else {
+            Message(res.msg);
+          }
+        }
+      );
     },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {
@@ -383,25 +394,31 @@ export default {
   border-top: 1px solid #d1d6e2;
   background-color: rgb(232, 233, 236);
 }
+
 .btnArr {
   padding: 0 10px;
+
   > div {
     border-bottom: 1px solid #d1d6e2;
     padding: 16px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     div {
       display: inline-block;
     }
   }
+
   .meiyiyetitle {
     display: flex;
     align-items: center;
   }
 }
+
 .tableBox {
   padding: 0 10px 0px 10px;
+
   .pageComponent {
     margin: 180px 10px 0 0;
     text-align: right;
@@ -415,17 +432,21 @@ export default {
   margin-right: 10px;
   @include BtnFunction("success");
 }
+
 .bianjiUser {
   margin-right: 10px;
   @include BtnFunction("success");
 }
+
 .remove {
   @include BtnFunction("error");
 }
+
 .goOn {
   margin-right: 10px;
   @include BtnFunction("success");
 }
+
 .lodopFunClear {
   margin-right: 10px;
   @include BtnFunction("success");
