@@ -104,7 +104,7 @@
         <div class="formHeader">
           <div class="icon-title">
             <div class="icon-title-icon">
-              <img src="../../assets/img/home_page-icon-default@2x.png" />
+              <img src="../../assets/img/systemTitlemesa.png" />
             </div>
             <div class="icon-title-title">物料管理信息</div>
           </div>

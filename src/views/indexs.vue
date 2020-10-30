@@ -271,7 +271,17 @@ export default {
         {
           title: "物流公司信息",
           iconCls: require("@/assets/img/warehouse-logisticsInfor.png"),
-          children: [],
+          children: [
+            { title: "物流公司", name: "/phyDisComInfor/phyDisCom" },
+            {
+              title: "仓库物流信息模板",
+              name: "/phyDisComInfor/storePhyDisFreight",
+            },
+            {
+              title: "委托公司运费模板",
+              name: "/phyDisComInfor/entrustComFreight",
+            },
+          ],
         },
         {
           title: "客户信息",
@@ -333,36 +343,29 @@ export default {
   },
   methods: {
     leftMove() {
-      this.rightLock = true;
-      if (!this.leftLock) return;
-      let oDiv = document.querySelector(".el-tabs__nav-scroll");
-      let rightDiv = document.querySelector(".right");
-      console.log(oDiv);
-      oDiv.style.left = "0";
       a = 0;
-      this.leftLock = false;
+      let oDiv = document.querySelector(".el-tabs__nav-scroll");
+      oDiv.style.left = "0";
+      oDiv.style.transition = "0.5s";
     },
     rightMove() {
-      this.leftLock = true;
-      if (!this.rightLock) return;
       let oDiv = document.querySelector(".el-tabs__nav-scroll");
-      let rightDiv = document.querySelector(".right");
-      // a = a + 1020;
-      // oDiv.style.left = -a + "px";
-      // if (oDiv.offsetLeft === -1020) {
-      //   a = 0;
-      // }
-      let time = setInterval(() => {
-        let buchang = oDiv.offsetWidth / 50;
-
-        a += buchang;
-        oDiv.style.left = -a + "px";
-        if (oDiv.offsetLeft < -1020) {
-          clearInterval(time);
-          // rightDiv.attributes();
-        }
-        this.rightLock = false;
-      }, 1);
+      let oDiv1 = document.querySelector(".el-tabs__nav-wrap");
+      if (oDiv.offsetLeft <= -1020) {
+        a = 0;
+      }
+      a++;
+      oDiv.style.left = `${-1020 * a}px`;
+      oDiv.style.transition = "0.5s";
+      // let time = setInterval(() => {
+      //   let buchang = oDiv.offsetWidth / 50;
+      //   a += buchang;
+      //   oDiv.style.left = -a + "px";
+      //   if (oDiv.offsetLeft < -1020) {
+      //     clearInterval(time);
+      //   }
+      // }, 10);
+      // console.log(oDiv1.scrollHeight)
     },
     clickItemIdx(e) {
       console.log(e, "点击item");
@@ -601,6 +604,7 @@ export default {
 .el-nav {
   width: 89%;
   flex: 1;
+  // overflow: hidden;
 }
 .el-lr {
   width: 70px;
@@ -616,7 +620,6 @@ export default {
 
 .tabContainer .el-tabs__nav-scroll {
   position: absolute;
-  // transition: 0.5s;
 }
 .tabContainer .el-tabs__nav-wrap.is-scrollable {
   padding: 0;
@@ -626,6 +629,13 @@ export default {
   height: 90px;
   display: flex;
   align-items: center;
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  user-select: none;
+}
+.tabContainer .el-tabs__nav-wrap::-webkit-scrollbar {
+  display: none;
 }
 .tabContainer .el-dropdown {
   font-size: 16px;
