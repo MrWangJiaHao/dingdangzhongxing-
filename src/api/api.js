@@ -1,6 +1,11 @@
 import service from "@/utils/request.js"
-import { Message } from "element-ui"
-import { ajaxPost, getCookie } from "../utils/validate"
+import {
+    Message
+} from "element-ui"
+import {
+    ajaxPost,
+    getCookie
+} from "../utils/validate"
 export function login(data) {
     return new Promise((resolve, reject) => {
         service.request({
@@ -573,6 +578,63 @@ export function queryMateRecordCon(data) {
         })
     })
 }
+// 查询物流公司（分页查询）
+export function queryPhyDisCom(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pExpress/findRecordPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+// 查询物流公司（条件查询）
+export function queryPhyDisComCon(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pExpress/findRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+// 查询仓库物流运费模板（分页查询）
+export function queryStorePhyDis(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWareOrgExprFee/findRecordByWareOrOrg",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+// 查询物流公司（条件查询）
+export function queryStorePhyDisCon(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWareOrgExprFee/findExprInfo",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
 
 
 
@@ -626,7 +688,7 @@ export function getFindWareOrg() {
 /**
  *  根据委托公司查询子仓名称
  *  @param {*} orgId 委托公司ordId 
-*/
+ */
 export function getFindOrgChildWare(orgId) {
     return new Promise((res, rej) => {
         service.request({
@@ -962,7 +1024,10 @@ export const getpCommonFindOrgByWareId = function () {
 
 //=========================================采购管理 end ========================================
 export function post(datas) {
-    let { url, data } = datas
+    let {
+        url,
+        data
+    } = datas
     return new Promise((resolve, reject) => {
         service.request({
             url,
@@ -976,7 +1041,10 @@ export function post(datas) {
     })
 }
 export function get(datas) {
-    let { url, data } = datas
+    let {
+        url,
+        data
+    } = datas
     return new Promise((resolve, reject) => {
         service.request({
             url,
@@ -1046,4 +1114,3 @@ export function logins() {
         })
     })
 }
-
