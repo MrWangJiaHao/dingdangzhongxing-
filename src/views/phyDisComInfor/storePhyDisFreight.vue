@@ -266,7 +266,6 @@ export default {
         exprId: "", //物流公司
         wareId: "", //仓库id
         id: "", //模板id
-        exprFeeName: "",
         unTakeEffect: "", //是否生效
         enableStatus: "", //启用状态(1-启用 0-停用)
         exprType: 2, //物流模板类型（1-平台；2-仓库经营者；3-委托公司）
@@ -281,15 +280,23 @@ export default {
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result;
           this.allInfroDate = ok.data.result;
-          this.tableData.forEach((v, i) => {
+          this.tableData.forEach((v) => {
             this.templateNameData.push({
-              value: i,
+              value: v.id,
               label: v.exprFeeName,
             });
+
             this.phyComNameData.push({
-              value: i,
+              value: v.exprId,
               label: v.exprName,
             });
+            let testObj = {};
+            this.phyComNameData = this.phyComNameData.reduce((item, next) => {
+              testObj[next.value]
+                ? ""
+                : (testObj[next.value] = true && item.push(next));
+              return item;
+            }, []);
             if (v.unTakeEffect === 0) {
               v.unTakeEffect = "未生效";
             } else if (v.unTakeEffect === 1) {
@@ -301,6 +308,18 @@ export default {
               v.enableStatus = "停用";
             } else if (v.enableStatus === 1) {
               v.enableStatus = "启用";
+            }
+            if (+v.feeCargoType === 0) {
+              v.feeCargoType = "标准快递";
+            } else if (+v.feeCargoType === 1) {
+              v.feeCargoType = "冷运宅配";
+            }
+            if (+v.feeType === 0) {
+              v.feeType = "计重";
+            } else if (+v.feeType === 1) {
+              v.feeType = "计件";
+            } else if (+v.feeType === 2) {
+              v.feeType = "计体积";
             }
           });
         } else {
@@ -321,6 +340,7 @@ export default {
       //点击查询
       this.tableData = [];
       let pagingQueryData = this.pagingQueryData;
+      console.log(pagingQueryData)
       queryStorePhyDis(pagingQueryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
@@ -364,7 +384,7 @@ export default {
       this.idQueryData.id = this.multipleSelection[0].id;
       let idQueryData = this.idQueryData;
       queryStorePhyDisCon(idQueryData).then((ok) => {
-          console.log(ok)
+        // console.log(ok);
         let res = ok.data.result;
         res.exprFeeAreas.forEach((v) => {
           this.tableData1.push({
@@ -391,18 +411,18 @@ export default {
       });
     },
     templateNames(val) {
-      this.templateNameData.forEach((v) => {
-        if (val === v.value) {
-          this.templateName = v.label;
-          this.pagingQueryData.exprFeeName = v.label;
-          //   let label = v.label;
-          //   this.allInfroDate.forEach((vv) => {
-          // if (label === vv.exprFeeName) {
-          //   this.pagingQueryData.id = vv.id;
-          // }
-          //   });
-        }
-      });
+      // this.templateNameData.forEach((v) => {
+      // if (val === v.value) {
+      // this.templateName = v.label;
+      this.pagingQueryData.id = val;
+      //   let label = v.label;
+      //   this.allInfroDate.forEach((vv) => {
+      // if (label === vv.exprFeeName) {
+      //   this.pagingQueryData.id = vv.id;
+      // }
+      //   });
+      // }
+      // });
     },
     takeEffectStates(val) {
       this.takeEffectState = val;

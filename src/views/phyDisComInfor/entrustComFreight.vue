@@ -102,6 +102,7 @@
             @selection-change="handleSelectionChange"
             :stripe="true"
             tooltip-effect="dark"
+            :span-method="spanMethod"
           >
             <el-table-column type="selection" width="55"> </el-table-column>
             <el-table-column
@@ -113,7 +114,7 @@
             </el-table-column>
             <el-table-column prop="exprFeeCode" label="模板编号" align="center">
             </el-table-column>
-            <el-table-column prop="exprFeeCode" label="委托公司" align="center">
+            <el-table-column prop="orgName" label="委托公司" align="center">
             </el-table-column>
             <el-table-column prop="exprFeeName" label="模板名称" align="center">
             </el-table-column>
@@ -203,6 +204,7 @@ export default {
   },
   data() {
     return {
+      tableDataRes: [],
       phyComName: "",
       templateName: "",
       takeEffectState: "",
@@ -259,31 +261,32 @@ export default {
       pagingQueryData: {
         exprId: "", //物流公司
         wareId: "", //仓库id
+        orgId: "",
         id: "", //模板id
         exprFeeName: "",
         unTakeEffect: "", //是否生效
         enableStatus: "", //启用状态(1-启用 0-停用)
-        exprType: 2, //物流模板类型（1-平台；2-仓库经营者；3-委托公司）
+        exprType: 3, //物流模板类型（1-平台；2-仓库经营者；3-委托公司）
       },
+      OrderIndexArr:[],
+      // testQueryData: {
+      //   orderBy: "createTime desc",
+      //   pageNumber: 1,
+      //   pageSize: 10,
+      //   paras: {},
+      // },
     };
   },
   mounted() {
     this.queryFun = () => {
       let pagingQueryData = this.pagingQueryData;
       queryStorePhyDis(pagingQueryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result;
+          this.tableData.sort(this.creatCompare("orgName"));
           this.allInfroDate = ok.data.result;
-          this.tableData.forEach((v, i) => {
-            this.templateNameData.push({
-              value: i,
-              label: v.exprFeeName,
-            });
-            this.phyComNameData.push({
-              value: i,
-              label: v.exprName,
-            });
+          this.tableData.forEach((v) => {
             if (v.unTakeEffect === 0) {
               v.unTakeEffect = "未生效";
             } else if (v.unTakeEffect === 1) {
@@ -296,6 +299,21 @@ export default {
             } else if (v.enableStatus === 1) {
               v.enableStatus = "启用";
             }
+            this.templateNameData.push({
+              value: v.id,
+              label: v.exprFeeName,
+            });
+            this.phyComNameData.push({
+              value: v.orgId,
+              label: v.orgName,
+            });
+            let testObj = {};
+            this.phyComNameData = this.phyComNameData.reduce((item, next) => {
+              testObj[next.value]
+                ? ""
+                : (testObj[next.value] = true && item.push(next));
+              return item;
+            }, []);
           });
         } else {
           Message({
@@ -306,10 +324,75 @@ export default {
       });
     };
     this.queryFun();
+    this.getOrderNumber()
+    console.log(this.OrderIndexArr)
   },
   methods: {
+    creatCompare(propertyName) {
+      return function (obj1, obj2) {
+        var value1 = obj1[propertyName];
+        var value2 = obj2[propertyName];
+        if (value1 < value2) {
+          return -1;
+        } else if (value1 > value2) {
+          return 1;
+        } else {
+          return 0;
+        }
+      };
+    },
     handleSelectionChange(value) {
       this.multipleSelection = value;
+    },
+    getOrderNumber() {
+      let OrderObj = {};
+      this.tableData.forEach((element, index) => {
+        console.log(element,index)
+        if (OrderObj[element.orgName]) {
+          OrderObj[element.orgName].push(index);
+        } else {
+          OrderObj[element.orgName] = [];
+          OrderObj[element.orgName].push(index);
+        }
+      });
+      // console.log(OrderObj)
+
+      // 将数组长度大于1的值 存储到this.OrderIndexArr（也就是需要合并的项）
+      for (let k in OrderObj) {
+        if (OrderObj[k].length > 1) {
+          this.OrderIndexArr.push(OrderObj[k]);
+        }
+      }
+    },
+    spanMethod({ row, column, rowIndex, columnIndex }) {
+      console.log(row, column, rowIndex, columnIndex);
+      if ( columnIndex === 3) {
+          for (let i = 0; i < this.OrderIndexArr.length; i++) {
+            let element = this.OrderIndexArr[i]
+            for (let j = 0; j < element.length; j++) {
+              let item = element[j]
+              if (rowIndex == item) {
+                if (j == 0) {
+                  return {
+                    rowspan: element.length,
+                    colspan: 1
+                  }
+                } else if (j != 0) {
+                  return {
+                    rowspan: 0,
+                    colspan: 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      // console.log(column.rowSpan)
+      // if(columnIndex === 3){
+      //   if(row.orgName){
+
+      //   }
+      // }
     },
     clickQuery() {
       //点击查询
@@ -337,6 +420,7 @@ export default {
       this.phyComNameData = [];
       this.templateNameData = [];
       this.pagingQueryData.exprId = "";
+      this.pagingQueryData.orgId = "";
       this.pagingQueryData.exprFeeName = "";
       this.pagingQueryData.unTakeEffect = "";
       this.pagingQueryData.enableStatus = "";
@@ -371,31 +455,21 @@ export default {
       });
     },
     phyComNames(val) {
-      this.phyComNameData.forEach((v) => {
-        if (val === v.value) {
-          this.phyComName = v.label;
-          let label = v.label;
-          this.allInfroDate.forEach((vv) => {
-            if (label === vv.exprName) {
-              this.pagingQueryData.exprId = vv.exprId;
-            }
-          });
-        }
-      });
+      this.pagingQueryData.orgId = val;
     },
     templateNames(val) {
-      this.templateNameData.forEach((v) => {
-        if (val === v.value) {
-          this.templateName = v.label;
-          this.pagingQueryData.exprFeeName = v.label;
-          //   let label = v.label;
-          //   this.allInfroDate.forEach((vv) => {
-          // if (label === vv.exprFeeName) {
-          //   this.pagingQueryData.id = vv.id;
-          // }
-          //   });
-        }
-      });
+      // this.templateNameData.forEach((v) => {
+      // if (val === v.value) {
+      // this.templateName = v.label;
+      this.pagingQueryData.id = val;
+      //   let label = v.label;
+      //   this.allInfroDate.forEach((vv) => {
+      // if (label === vv.exprFeeName) {
+      //   this.pagingQueryData.id = vv.id;
+      // }
+      //   });
+      // }
+      // });
     },
     takeEffectStates(val) {
       this.takeEffectState = val;
