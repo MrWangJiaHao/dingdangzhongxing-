@@ -715,4 +715,7 @@ export default {
   font-size: 16px;
   color: white;
 }
+.footerCom{
+  height: 30px;
+}
 </style>

@@ -268,13 +268,10 @@ export default {
         enableStatus: "", //启用状态(1-启用 0-停用)
         exprType: 3, //物流模板类型（1-平台；2-仓库经营者；3-委托公司）
       },
-      OrderIndexArr:[],
-      // testQueryData: {
-      //   orderBy: "createTime desc",
-      //   pageNumber: 1,
-      //   pageSize: 10,
-      //   paras: {},
-      // },
+      spanArr: [],
+      spanCodeArr: [],
+      pos:0,
+      codePos:0
     };
   },
   mounted() {
@@ -324,8 +321,6 @@ export default {
       });
     };
     this.queryFun();
-    this.getOrderNumber()
-    console.log(this.OrderIndexArr)
   },
   methods: {
     creatCompare(propertyName) {
@@ -344,55 +339,11 @@ export default {
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
-    getOrderNumber() {
-      let OrderObj = {};
-      this.tableData.forEach((element, index) => {
-        console.log(element,index)
-        if (OrderObj[element.orgName]) {
-          OrderObj[element.orgName].push(index);
-        } else {
-          OrderObj[element.orgName] = [];
-          OrderObj[element.orgName].push(index);
-        }
-      });
-      // console.log(OrderObj)
-
-      // 将数组长度大于1的值 存储到this.OrderIndexArr（也就是需要合并的项）
-      for (let k in OrderObj) {
-        if (OrderObj[k].length > 1) {
-          this.OrderIndexArr.push(OrderObj[k]);
-        }
-      }
-    },
     spanMethod({ row, column, rowIndex, columnIndex }) {
       console.log(row, column, rowIndex, columnIndex);
-      if ( columnIndex === 3) {
-          for (let i = 0; i < this.OrderIndexArr.length; i++) {
-            let element = this.OrderIndexArr[i]
-            for (let j = 0; j < element.length; j++) {
-              let item = element[j]
-              if (rowIndex == item) {
-                if (j == 0) {
-                  return {
-                    rowspan: element.length,
-                    colspan: 1
-                  }
-                } else if (j != 0) {
-                  return {
-                    rowspan: 0,
-                    colspan: 0
-                  }
-                }
-              }
-            }
-          }
-        }
-      // console.log(column.rowSpan)
-      // if(columnIndex === 3){
-      //   if(row.orgName){
-
-      //   }
-      // }
+      if (column.property === 3) {
+        return[2,2]
+      }
     },
     clickQuery() {
       //点击查询

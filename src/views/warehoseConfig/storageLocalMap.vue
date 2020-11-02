@@ -188,7 +188,7 @@
               :storageArea="storageArea1"
               :storageShelf="storageShelf1"
               :storageTier="storageTier1"
-              :storageUnit="storageUnit1"
+              :wareSeatCode="storageUnit1"
               :tableData="tableData"
             ></MapForms>
           </el-tab-pane>
@@ -197,7 +197,7 @@
               :storageArea="storageArea2"
               :storageShelf="storageShelf2"
               :storageTier="storageTier2"
-              :storageUnit="storageUnit2"
+              :wareSeatCode="storageUnit2"
               :tableData="tableData1"
             ></MapForms>
           </el-tab-pane>
@@ -416,7 +416,7 @@ export default {
         pageNumber: 1,
         pageSize: 10,
         paras: {
-          orgId: "4C2F466B16E94451B942EBBD07BE0F8B", //委托公司id
+          orgId: "", //委托公司id
           prodName: this.productName, //产品名称
           prodCode: this.productCode, //产品编码
           childWareId: this.pagingQueryData.paras.childWareId, //子仓id
@@ -427,23 +427,29 @@ export default {
         console.log(ok);
         if (ok.data.code === "10000") {
           let resData = ok.data.result.list;
-          resData.forEach((v) => {
-            this.tableData.push({
-              delegaCompany: v.orgName,
-              productName: v.prodName,
-              productNumber: v.prodCode,
-              producTspecifica: v.specName + "ml",
-              brand: v.braName,
-              CHName: v.childWareName,
-              storageArea: v.wareAreaName,
-              storageShelf: v.wareSeatNo.split("-")[1],
-              storageTier: v.wareSeatNo.split("-")[3],
-              storageUnit: v.wareSeatNo,
-              createName: v.createUser,
-              createTime: v.createTime,
-              id: v.id,
-            });
+          this.tableData = ok.data.result.list;
+          this.tableData.forEach((v) => {
+            v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
+            v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
+            v.specName = v.specName + "ml";
           });
+          // resData.forEach((v) => {
+          //   this.tableData.push({
+          //     delegaCompany: v.orgName,
+          //     productName: v.prodName,
+          //     productNumber: v.prodCode,
+          //     producTspecifica: v.specName + "ml",
+          //     brand: v.braName,
+          //     CHName: v.childWareName,
+          //     storageArea: v.wareAreaName,
+          //     storageShelf: v.wareSeatNo.split("-")[1],
+          //     storageTier: v.wareSeatNo.split("-")[3],
+          //     storageUnit: v.wareSeatNo,
+          //     createName: v.createUser,
+          //     createTime: v.createTime,
+          //     id: v.id,
+          //   });
+          // });
           if (resData.length === 0) {
             Message({
               type: "error",
