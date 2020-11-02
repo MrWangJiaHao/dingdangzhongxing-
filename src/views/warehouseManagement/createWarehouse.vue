@@ -235,6 +235,7 @@ import {
   getFindWareHouseDetailByIds,
   getSaveRecord,
   queryAreaOfWS,
+  getpOutWarehousefindOutWareDetailById,
   getpOutWarehouseSaveRecord,
   getRecommendSeatByBatchNoAndQualityDate,
 } from "../../api/api";
@@ -271,7 +272,7 @@ export default {
         disposeStatus: "0", //处理状态
         expectedSendTime: "", //期望入库时间
         operatorType: 1,
-        wareId: "",
+        wareId: getCookie("X-Auth-wareId"),
         childWareId: "",
         remark: "",
         wareAreaId: "",
@@ -303,21 +304,21 @@ export default {
   },
   async created() {
     if (this.$route.query.id) {
-      let EditData = JSON.parse(sessionStorage.getItem("manualManageMentEdit"));
+      let EditData = JSON.parse(sessionStorage.getItem("warehouseEdit"));
       this.companyJson.value = EditData.orgName;
       this.createUserData.childWareName = EditData.childWareName;
       this.createUserData.childWareId = EditData.childWareId;
       this.createUserData.orgId = EditData.orgId;
       this.createUserData.createUserData = EditData.createUserData;
+      this.createUserData.wareId = EditData.wareId;
+      this.createUserData.wareName = EditData.wareName;
+      this.createUserData.wareAreaId = EditData.wareAreaId;
+      this.createUserData.wareAreaName = EditData.wareAreaName;
       this.createUserData.expectedSendTime = EditData.expectedSendTime;
-      this._getFindWareHouseDetailByIds();
+      this._getpOutWarehousefindOutWareDetailById();
     }
     this.tables = eval(sessionStorage.getItem("_addTablesData"));
     if (this.tables) {
-      this.tables.forEach((item) => {
-        item.prodId = item.id;
-        item.id = item.id;
-      });
       this.tabledata = this.tables;
       this.createUserData.pOutWarehouseDetails = this.tables;
     }
@@ -331,9 +332,6 @@ export default {
       if (!n) {
         this.tables = eval(sessionStorage.getItem("_addTablesData"));
         if (this.tables) {
-          this.tables.forEach((item) => {
-            item.prodId = item.id;
-          });
           this.tabledata = this.tables;
           this.createUserData.pOutWarehouseDetails = this.tables;
         }
@@ -342,14 +340,15 @@ export default {
   },
   methods: {
     //获取产品明细
-    _getFindWareHouseDetailByIds() {
-      getFindWareHouseDetailByIds(
-        {
-          ids: this.$route.query.id,
-        },
+    _getpOutWarehousefindOutWareDetailById() {
+      getpOutWarehousefindOutWareDetailById(this.$route.query.id).then(
         (data) => {
-          data = JSON.parse(data);
-          this._changeChangPinMinXi(data.result);
+          console.log(data.result);
+          this.createUserData.wareAreaId =
+            data.result.tails.pOutWarehouseDetail[0].wareAreaId;
+          this.createUserData.wareAreaName =
+            data.result.tails.pOutWarehouseDetail[1].wareAreaName;
+          this._changeChangPinMinXi(data.result.tails.pOutWarehouseDetail);
         }
       );
     },
@@ -358,10 +357,6 @@ export default {
     },
     //点击区域
     getquyuJsonAndArr() {
-      console.log(
-        this.createUserData.childWareId,
-        "this.createUserData点击区域"
-      );
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       if (!this.createUserData.childWareId) return Message("请选择子仓名称");
       // queryAreaOfWS
@@ -385,15 +380,25 @@ export default {
       );
     },
     getkuweimes(data) {
+      console.log(data.prodId);
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       this.targetRow = data;
       let datas = eval(sessionStorage.getItem("_addTablesData"));
-      this.createUserData.prodIds = _getArrTarget(datas, "prodId");
+      if (datas) {
+        this.createUserData.prodIds = _getArrTarget(datas, "prodId");
+      }
+      this.createUserData.prodIds = [data.prodId];
+
       this.$nextTick(() => {
         getRecommendSeatByBatchNoAndQualityDate({
           ...this.createUserData,
         }).then((res) => {
-          this._changeKuweiS(res.result, data);
+          console.log(res);
+          if (res.code == "10000") {
+            this._changeKuweiS(res.result, data);
+          } else {
+            Message(res.msg);
+          }
           this.$forceUpdate();
         });
       });
@@ -430,7 +435,7 @@ export default {
       ].manufTime = this.kueirArr[e].manufTime;
     },
     _changeKuweiS(arr, dataJson) {
-      console.log(arr);
+      console.log(arr, dataJson, 1);
       if (!arr.length) return Message("暂时并未有库位，尝试去创建？");
       this.$nextTick(() => {
         arr.forEach((item, idx) => {
@@ -466,6 +471,7 @@ export default {
     //点击了子仓名称
     async getZiCangJsonAndArr() {
       this.createUserData.wareAreaId = ""; //区域id
+      this.createUserData.wareAreaName = ""; //区域name
       this.createUserData.childWareId = ""; //子仓id
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       let datas = await getFindOrgChildWare(this.createUserData.orgId);
@@ -488,6 +494,7 @@ export default {
         this.ziCangJson.ziCangArr[e].id
       );
       this.createUserData.wareId = this.ziCangJson.ziCangArr[e].wareId; //仓库id
+      this.createUserData.wareName = this.ziCangJson.ziCangArr[e].wareName; //仓库id
       this.createUserData.childWareId = this.ziCangJson.ziCangArr[e].id; //子仓id
       this.createUserData.childWareName = this.ziCangJson.ziCangArr[
         e

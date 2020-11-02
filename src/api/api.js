@@ -834,7 +834,7 @@ export const insertExcelData = function (data) {
             url: "/wbs-warehouse-manage/v1/putWarehouse/insertExcelData",
             method: "post",
             data,
-            responseType: 'blob'
+            responseType: 'arraybuffer'
         }).then((ok) => {
             res(ok)
         }).catch(err => {
@@ -942,10 +942,47 @@ export const getpOutWarehouseExprotExcel = function (data) {
     return new Promise((res, rej) => {
         service.request({
             url: "/wbs-warehouse-manage/v1/pOutWarehouse/exprotExcel",
-            method: "post",
+            method: "get",
             data
         }).then((ok) => {
             res(ok)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+
+/**
+ * 出库单详情 
+ * @param {*} datas  http://localhost:8902/wbs-warehouse-manage/v1/pOutWarehouse/findOutWareDetailById
+ */
+export const getpOutWarehousefindOutWareDetailById = function (id) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOutWarehouse/findOutWareDetailById",
+            method: "post",
+            data: {
+                id
+            }
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 出库确认
+ * @param {*} data /wbs-warehouse-manage/v1/pOutWarehouse/confirmRecord
+ */
+export const getpOutWarehouseconfirmRecord = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOutWarehouse/confirmRecord",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
         }).catch((err) => {
             rej(err)
         })

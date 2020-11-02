@@ -34,7 +34,7 @@
                 <img
                   :src="
                     'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
-                    listArrs.putWareNo
+                    listArrs.outWareNo
                   "
                   width="300"
                   height="90"
@@ -89,7 +89,7 @@
                       margin-right: 50px;
                     "
                   >
-                    {{ listArrs.putWareNo }}
+                    {{ listArrs.outWareNo }}
                   </div>
                 </div>
                 <div style="display: inline-block">
@@ -235,7 +235,7 @@
                       line-height: 16px;
                     "
                   >
-                    基础信息
+                    明细
                   </div>
                 </div>
                 <div>
@@ -334,9 +334,9 @@ export default {
   mounted() {
     this.$nextTick(() => {
       let listArrs = JSON.parse(sessionStorage.getItem("listArrs"));
-      console.log(listArrs, "入库单");
+      console.log(listArrs, "出库单");
       this.listArrs = listArrs;
-      this.tableDatas = listArrs.detailList;
+      this.tableDatas = listArrs.tails.pOutWarehouseDetail;
       let cells = document
         .getElementById("printCenter")
         .getElementsByClassName("cell");

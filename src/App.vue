@@ -8,8 +8,6 @@
 export default {
   created() {
     this.$store.dispatch("getusertype");
-    this.$store.dispatch("getWarehoseConfig");
-
     if (localStorage.getItem("data")) {
       //replaceState替换数据 Object.assign合并对象
       this.$store.replaceState(
@@ -23,6 +21,24 @@ export default {
     window.addEventListener("beforeunload", () => {
       localStorage.setItem("data", JSON.stringify(this.$store.state));
     });
+    this.addHenxianTables();
+  },
+  methods: {
+    addHenxianTables() {
+      setTimeout(() => {
+        this.$nextTick(() => {
+          let tablesCenter = document.getElementsByTagName("td");
+          tablesCenter = Array.from(tablesCenter);
+          tablesCenter.forEach((item) => {
+            if (!item.children[0].children.length) {
+              item.children[0].innerHTML = item.children[0].innerHTML
+                ? item.children[0].innerHTML
+                : "———";
+            }
+          });
+        });
+      }, 700);
+    },
   },
 };
 </script>
@@ -46,7 +62,7 @@ a {
   display: block;
   clear: both;
 }
-#app{
+#app {
   height: 100%;
 }
 </style>

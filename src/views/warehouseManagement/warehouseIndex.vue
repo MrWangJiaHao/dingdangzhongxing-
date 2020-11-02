@@ -10,7 +10,11 @@
           <div class="btnClick">
             <div class="setUser" @click="warehousingConfirmation">出库确认</div>
             <div class="bianjiUser" @click="printstockinlist">打印出库单</div>
-            <a class="lodopFunClear disinb" @click="ExportArr">导出</a>
+            <a
+              class="lodopFunClear disinb"
+              href="http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOutWarehouse/exprotExcel"
+              >导出</a
+            >
             <div
               class="goOn"
               v-if="$route.params.type == 0"
@@ -64,9 +68,14 @@
               <el-table-column
                 label="出库单号"
                 width="119"
-                property="putWareNo"
                 show-overflow-tooltip
-              ></el-table-column>
+              >
+                <span slot-scope="scoped">
+                  <div @click="goToDetailOut(scoped.row)">
+                    {{ scoped.row.outWareNo }}
+                  </div>
+                </span>
+              </el-table-column>
               <el-table-column
                 width="119"
                 label="关联单号"
@@ -75,54 +84,53 @@
               ></el-table-column>
               <el-table-column
                 width="119"
-                label="出库状态1"
-                prop="orderNo"
+                label="出库状态"
+                prop="outWareStatus"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 width="119"
-                label="物流公司1"
-                prop="orderNo"
+                label="物流公司"
+                prop="exprName"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 width="119"
-                label="物流单号1"
-                prop="orderNo"
+                label="物流单号"
+                prop="exprNo"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                label="出库人1"
+                label="出库人"
+                width="110"
+                prop="outWareUser"
+              ></el-table-column>
+              <el-table-column
+                label="出库时间"
+                width="160"
+                prop="outWareTime"
+              ></el-table-column>
+              <el-table-column
+                label="拣货人"
                 width="119"
-                prop="putUser"
-                show-overflow-tooltip
-              ></el-table-column>
-              <el-table-column
-                label="出库时间1"
-                prop="putStartTime"
-                show-overflow-tooltip
-              ></el-table-column>
-              <el-table-column
-                label="拣货人1"
-                width="119"
-                prop="putUser"
+                prop="pickUser"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="拣货完成时间"
-                prop="putEndTime"
+                prop="pickTime"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                label="复核人1"
+                label="复核人"
                 width="119"
-                prop="putUser"
+                prop="checkUser"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="复核完成时间"
                 width="119"
-                prop="batchNo"
+                prop="checkTime"
                 show-overflow-tooltip
               ></el-table-column>
             </el-table>
@@ -143,9 +151,7 @@
     <div v-if="WarehouseReceipts">
       <div class="posFixCenter">
         <WarehouseReceipt
-          :WarehousingType="
-            WarehousingTypeArr[$route.params.type].WarehousingTypeCenter
-          "
+          :WarehousingType="WarehousingTypeArr[$route.params.type].title"
         />
       </div>
     </div>
@@ -159,12 +165,13 @@ import manualHeader from "../../components/manual/manualHeader";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import WarehouseReceipt from "../../components/warehouse/warehouseStocklist"; //出库单
 import {
-  getFindRecord,
+  getpOutWarehousefindOutWareDetailById,
   getPOutWarehouse,
   getpOutWarehouseDelRecord,
   getpOutWarehouseExprotExcel,
 } from "../../api/api";
 import { Message } from "element-ui";
+import { _getExportExcels } from "../../utils/validate";
 export default {
   components: {
     manualHeader,
@@ -179,24 +186,7 @@ export default {
       ReceiptIds: "",
       BatchNumber: false,
       BatchNumberIds: "",
-      tableData: [
-        {
-          orgName: "", //委托公司
-          orgId: "", //委托id
-          orderNo: "", //原定单号（关联单号）
-          putWareNo: "", //入库单号
-          putstatus: "", //入库状态
-          prodCode: "", //产品编码
-          prodName: "", //产品名称
-          specName: "", //规格名称
-          putStartTime: "", //入库时间开始时间
-          putEndTime: "", //入库时间结束时间
-          expectedSendStartTime: "", //期望入库开始时间
-          expectedSendEndTime: "", //期望入库时间结束时间
-          putUser: "", //入库人
-          batchNo: "",
-        },
-      ],
+      tableData: [],
       pageComponentsData: {
         pageNums: 0, //一共多少条 //默认一页10条
       },
@@ -205,18 +195,18 @@ export default {
           orgName: "",
           orgId: "",
           orderNo: "",
-          putWareNo: "",
-          putstatus: "",
           outWareType: (() => this.$route.params.type)(),
-          prodCode: "",
-          prodName: "",
+          prodId: "",
+          specId: "",
+          childWareId: "",
+          childWareName: "",
           specName: "",
-          putStartTime: "",
-          putEndTime: "",
-          expectedSendStartTime: "",
-          expectedSendEndTime: "",
-          putUser: "",
-          batchNo: "",
+          outWareTimeStart: "",
+          pickTimeStart: "",
+          checkTimeStart: "",
+          outWareTimeEnd: "",
+          pickTimeEnd: "",
+          checkTimeEnd: "",
         },
         orderBy: "createtime",
         pageNumber: 1, //当前页数
@@ -225,7 +215,44 @@ export default {
       multipleSelection: [], //选择了那个
       thisOneShow: true,
       listArrs: {},
-      WarehousingTypeArr: [],
+      WarehousingTypeArr: [
+        {
+          title: "手工创建出库",
+          name: "/warehouseManagement/warehouseIndex/0",
+        },
+        {
+          title: "调拨出库",
+          name: "/warehouseManagement/warehouseIndex/3",
+        },
+        {
+          title: "加工出库",
+          name: "/warehouseManagement/warehouseIndex/4",
+        },
+        {
+          title: "拆解出库",
+          name: "/warehouseManagement/warehouseIndex/5",
+        },
+        {
+          title: "自提出库",
+          name: "/warehouseManagement/warehouseIndex/2",
+        },
+        {
+          title: "销售出库",
+          name: "/warehouseManagement/warehouseIndex/1",
+        },
+        {
+          title: "报损出库",
+          name: "/warehouseManagement/warehouseIndex/6",
+        },
+        {
+          title: "盘亏出库",
+          name: "/warehouseManagement/warehouseIndex/7",
+        },
+        {
+          title: "其他出库",
+          name: "/warehouseManagement/warehouseIndex/8",
+        },
+      ],
     };
   },
   created() {
@@ -245,6 +272,15 @@ export default {
     },
   },
   methods: {
+    goToDetailOut(e) {
+      sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
+      this.$router.push({
+        path: "/warehouseManagement/warehouseSure",
+        query: {
+          warehouseDetails: true,
+        },
+      });
+    },
     getPageNum(e) {
       this.sendOutDataJson.pageNumber = e;
       this.getTableData();
@@ -259,22 +295,28 @@ export default {
     //入库确认
     warehousingConfirmation() {
       if (!this.multipleSelection.length) {
-        return Message("请选择入库确认的单号");
+        return Message("请选择出库确认的单号");
       } else if (this.multipleSelection.length > 1) {
-        return Message("只能选择一个入库单号");
+        return Message("只能选择一个出库单号");
       } else {
-        this._getFindRecord(this.multipleSelection[0].id).then(() => {
-          this.$router.push({
-            path: "/warehousingManagement/manageMentrukuSure",
-            query: {
-              id: this.multipleSelection[0].id,
-              WarehousingTypeArr: this.WarehousingTypeArr[
-                this.$route.params.type
-              ].WarehousingTypeCenter,
-              orderSource: this.sendOutDataJson.paras.outWareType,
-              childWareId: this.multipleSelection[0].childWareId,
-            },
-          });
+        this._getpOutWarehousefindOutWareDetailById(
+          this.multipleSelection[0].id
+        ).then((res) => {
+          if (res.code == "10000") {
+            sessionStorage.setItem(
+              "sarehouseChuKuSure",
+              JSON.stringify(res.result)
+            );
+            this.$router.push({
+              path: "/warehouseManagement/warehouseSure",
+              query: {
+                id: this.multipleSelection[0].id,
+                outWareType: this.sendOutDataJson.paras.outWareType,
+              },
+            });
+          } else {
+            Message("获取出库确认失败，请与管理员重现联系");
+          }
         });
       }
     },
@@ -286,34 +328,25 @@ export default {
         return Message("只能选择打印一个出库单");
       } else {
         this.WarehouseReceiptIds = this.multipleSelection[0].id;
-        this._getFindRecord(this.multipleSelection[0].id, (datas) => {
-          this.WarehouseReceipts = !this.WarehouseReceipts;
-        });
+        this._getpOutWarehousefindOutWareDetailById(
+          this.multipleSelection[0].id,
+          (datas) => {
+            if (datas.code == "10000") {
+              sessionStorage.setItem("listArrs", JSON.stringify(datas.result));
+              this.WarehouseReceipts = !this.WarehouseReceipts;
+            } else {
+              Message(datas.msg);
+            }
+          }
+        );
       }
     },
-    async _getFindRecord(ids, fn) {
-      let datas = await getFindRecord(ids);
+    async _getpOutWarehousefindOutWareDetailById(ids, fn) {
+      let datas = await getpOutWarehousefindOutWareDetailById(ids);
       this.listArrs = datas.result[0];
       sessionStorage.setItem("listArrs", JSON.stringify(datas.result[0]));
       fn && fn(datas);
       return datas;
-    },
-    //导出
-    ExportArr() {
-      if (!this.multipleSelection.length || this.multipleSelection.length != 1)
-        return Message("请选择要导出的出库单，只能选择一个导出出库单");
-      getpOutWarehouseExprotExcel(this.multipleSelection[0]).then((res) => {
-        let str = res.headers["Content-Disposition"];
-        let fileName = str.substring(str.indexOf("filename") + 9, str.length);
-        fileName = decodeURIComponent(fileName);
-        let type = res.headers["content-type"].split(";")[0];
-        let blob = new Blob([res.data], { type: type });
-        const blobUrl = window.URL.createObjectURL(blob);
-        URL.revokeObjectURL(blobUrl);
-        let rukudan = document.getElementById("rukudanExcel");
-        rukudan.download = fileName;
-        rukudan.href = blobUrl;
-      });
     },
     //创建出库单
     CreateStockInOrder() {
@@ -328,6 +361,10 @@ export default {
     editBtn() {
       if (!this.multipleSelection.length || this.multipleSelection.length != 1)
         return Message("请选择要编辑的出库单，只能选择一个编辑出库单");
+      sessionStorage.setItem(
+        "warehouseEdit",
+        JSON.stringify(this.multipleSelection[0])
+      );
       this.$router.push({
         path: "/warehouseManagement/createWarehouse",
         query: {
@@ -344,10 +381,10 @@ export default {
       getpOutWarehouseDelRecord({ id: this.multipleSelection[0].id }).then(
         (res) => {
           if (res.data.code == "10000") {
-            Message(res.msg);
+            Message(res.data.msg);
             this.getTableData();
           } else {
-            Message(res.msg);
+            Message(res.data.msg);
           }
         }
       );
@@ -372,7 +409,7 @@ export default {
     changeDatas(datas) {
       if (datas.list) {
         datas.list.forEach((item) => {
-          item.putstatus = item.putstatus ? "已入库" : "未入库";
+          item.outWareStatus = item.outWareStatus ? "已出库" : "未出库";
         });
       }
       this.tableData = datas.list;

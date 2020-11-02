@@ -11,6 +11,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import "./assets/css/Toast.css";
 import "./assets/css/index.css";
 import VueCookie from 'vue-cookie'
+
 import Lodop from './assets/js/LodopFuncs'
 import qrcode from './assets/js/qrcode'
 import "./assets/js/rem";

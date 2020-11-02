@@ -170,6 +170,27 @@ export const _getArrTarget = (arr, target) => {
   });
   return needArr;
 }
+/**
+ * 将后端发送的excel文件流导出为excel
+ * @param {*} res axios返回的文档
+ * @param {*} biaoti 因为有的字体为中文,会出现乱码，对中文进行修改
+ */
+export const _getExportExcels = (res, biaoti = "入库") => {
+  let str = res.headers["content-disposition"];
+  let fileName = str.substring(str.indexOf("filename") + 9, str.length);
+  fileName = biaoti + fileName.substring(6, fileName.length);
+  fileName = decodeURIComponent(fileName);
+  let type = res.headers["content-type"].split(";")[0];
+  let blob = new Blob([res.data], { type: type });
+  const blobUrl = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.download = fileName;
+  a.href = blobUrl;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(blobUrl);
+}
 
 /**
  * 根据数字 改变为"一" 

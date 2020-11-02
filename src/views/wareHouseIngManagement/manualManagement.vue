@@ -67,10 +67,16 @@
               />
               <el-table-column
                 label="入库单号"
-                width="119"
+                width="250"
                 property="putWareNo"
                 show-overflow-tooltip
-              ></el-table-column>
+              >
+                <span slot-scope="scoped" @click="gotoRuKudetails(scoped.row)">
+                  <div>
+                    {{ scoped.row.putWareNo }}
+                  </div>
+                </span>
+              </el-table-column>
               <el-table-column
                 width="119"
                 label="关联单号"
@@ -172,7 +178,7 @@ import {
   delRecordByIdArrs,
 } from "../../api/api";
 import { Message } from "element-ui";
-import { _getArrTarget } from "../../utils/validate";
+import { _getArrTarget, _getExportExcels } from "../../utils/validate";
 
 export default {
   components: {
@@ -297,6 +303,22 @@ export default {
     },
   },
   methods: {
+    gotoRuKudetails(row) {
+      this._getFindRecord(row.id).then(() => {
+        sessionStorage.setItem("manageMentrukuSureData", JSON.stringify(row));
+        this.$router.push({
+          path: "/warehousingManagement/manageMentrukuSure",
+          query: {
+            rukuDetails: true,
+            id: row.id,
+            WarehousingTypeArr: this.WarehousingTypeArr[this.$route.params.type]
+              .WarehousingTypeCenter,
+            orderSource: row.orderSource,
+            childWareId: row.childWareId,
+          },
+        });
+      });
+    },
     getPageNum(e) {
       this.sendOutDataJson.pageNumber = e;
       this.getTableData();
@@ -396,19 +418,10 @@ export default {
       insertExcelData({
         ids: this.multipleSelection[0].id,
       }).then((res) => {
-        console.log(res, "excel");
-        let str = res.headers["content-disposition"];
-        let fileName = str.substring(str.indexOf("filename") + 9, str.length);
-        fileName = decodeURIComponent(fileName);
-        let type = res.headers["content-type"].split(";")[0];
-        let blob = new Blob([res.data], { type: type });
-        const blobUrl = window.URL.createObjectURL(blob);
-        URL.revokeObjectURL(blobUrl);
-        let rukudan = document.getElementById("rukudanExcel");
-        rukudan.download = fileName;
-        rukudan.href = blobUrl;
+        _getExportExcels(res);
       });
     },
+
     //创建入库单
     CreateStockInOrder() {
       this.$router.push({

@@ -380,6 +380,8 @@ export default {
       title: "首页",
       name: "/index/indexFormJH",
     });
+    this.addHenxianTables();
+
     this.mianbaoxieArr.unshift();
   },
   methods: {
@@ -417,6 +419,7 @@ export default {
     },
     //点击选中
     handleTabsEdit() {
+      this.addHenxianTables();
       let router =
         this.dataArr[+this.activeName].children.length != 0
           ? this.dataArr[+this.activeName].children[0].name
@@ -432,9 +435,24 @@ export default {
       this.mianbaoxieArr = [];
       let mianbaoxieArrJson = this.dataArr[+this.activeName];
       if (!this.mianbaoxieArr.includes(mianbaoxieArrJson)) {
-        this.mianbaoxieArr.unshift(mianbaoxieArrJson);
+        this.mianbaoxieArr.unshift(mianbaoxieArrJson);               
       }
       this.mianbaoxieArr.splice(1, 1, dataArrJson);
+    },
+    addHenxianTables() {
+      setTimeout(() => {
+        this.$nextTick(() => {
+          let tablesCenter = document.getElementsByTagName("td");
+          tablesCenter = Array.from(tablesCenter);
+          tablesCenter.forEach((item) => {
+            if (!item.children[0].children.length) {
+              item.children[0].innerHTML = item.children[0].innerHTML
+                ? item.children[0].innerHTML
+                : "———";
+            }
+          });
+        });
+      }, 700);
     },
     //点击删除
     removeTab(e) {
@@ -443,9 +461,10 @@ export default {
       this.dropdownArr.splice(removeSrc, 1);
       this.mianbaoxieArr.splice(removeSrc, 1);
     },
-    handleClick() {
-      console.log("this.activeName", this.activeName);
 
+    handleClick() {
+      this.addHenxianTables();
+      console.log("this.activeName", this.activeName);
       if (
         !this.dataArr[+this.activeName].children.length &&
         this.dataArr[+this.activeName].title != "首页"
