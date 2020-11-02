@@ -67,10 +67,16 @@
               />
               <el-table-column
                 label="入库单号"
-                width="119"
+                width="250"
                 property="putWareNo"
                 show-overflow-tooltip
-              ></el-table-column>
+              >
+                <span slot-scope="scoped" @click="gotoRuKudetails(scoped.row)">
+                  <div>
+                    {{ scoped.row.putWareNo }}
+                  </div>
+                </span>
+              </el-table-column>
               <el-table-column
                 width="119"
                 label="关联单号"
@@ -297,6 +303,22 @@ export default {
     },
   },
   methods: {
+    gotoRuKudetails(row) {
+      this._getFindRecord(row.id).then(() => {
+        sessionStorage.setItem("manageMentrukuSureData", JSON.stringify(row));
+        this.$router.push({
+          path: "/warehousingManagement/manageMentrukuSure",
+          query: {
+            rukuDetails: true,
+            id: row.id,
+            WarehousingTypeArr: this.WarehousingTypeArr[this.$route.params.type]
+              .WarehousingTypeCenter,
+            orderSource: row.orderSource,
+            childWareId: row.childWareId,
+          },
+        });
+      });
+    },
     getPageNum(e) {
       this.sendOutDataJson.pageNumber = e;
       this.getTableData();

@@ -198,7 +198,7 @@
       <!-- 账号信息 -->
       <div class="displayCenter mb20">
         <div class="quxiaoBox mr20" @click="closeBtn">取消</div>
-        <div class="tijiaoBox" @click="goAJAXCreate">提交1</div>
+        <div class="tijiaoBox" @click="goAJAXCreate">提交</div>
       </div>
       <!-- btn -->
       <!-- 添加产品 start -->
@@ -312,6 +312,8 @@ export default {
       this.createUserData.createUserData = EditData.createUserData;
       this.createUserData.wareId = EditData.wareId;
       this.createUserData.wareName = EditData.wareName;
+      this.createUserData.wareAreaId = EditData.wareAreaId;
+      this.createUserData.wareAreaName = EditData.wareAreaName;
       this.createUserData.expectedSendTime = EditData.expectedSendTime;
       this._getpOutWarehousefindOutWareDetailById();
     }
@@ -339,13 +341,14 @@ export default {
   methods: {
     //获取产品明细
     _getpOutWarehousefindOutWareDetailById() {
-      getpOutWarehousefindOutWareDetailById(
-        {
-          ids: this.$route.query.id,
-        },
+      getpOutWarehousefindOutWareDetailById(this.$route.query.id).then(
         (data) => {
-          data = JSON.parse(data);
-          this._changeChangPinMinXi(data.result);
+          console.log(data.result);
+          this.createUserData.wareAreaId =
+            data.result.tails.pOutWarehouseDetail[0].wareAreaId;
+          this.createUserData.wareAreaName =
+            data.result.tails.pOutWarehouseDetail[1].wareAreaName;
+          this._changeChangPinMinXi(data.result.tails.pOutWarehouseDetail);
         }
       );
     },
@@ -354,10 +357,6 @@ export default {
     },
     //点击区域
     getquyuJsonAndArr() {
-      console.log(
-        this.createUserData.childWareId,
-        "this.createUserData点击区域"
-      );
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       if (!this.createUserData.childWareId) return Message("请选择子仓名称");
       // queryAreaOfWS
@@ -381,15 +380,25 @@ export default {
       );
     },
     getkuweimes(data) {
+      console.log(data.prodId);
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       this.targetRow = data;
       let datas = eval(sessionStorage.getItem("_addTablesData"));
-      this.createUserData.prodIds = _getArrTarget(datas, "prodId");
+      if (datas) {
+        this.createUserData.prodIds = _getArrTarget(datas, "prodId");
+      }
+      this.createUserData.prodIds = [data.prodId];
+
       this.$nextTick(() => {
         getRecommendSeatByBatchNoAndQualityDate({
           ...this.createUserData,
         }).then((res) => {
-          this._changeKuweiS(res.result, data);
+          console.log(res);
+          if (res.code == "10000") {
+            this._changeKuweiS(res.result, data);
+          } else {
+            Message(res.msg);
+          }
           this.$forceUpdate();
         });
       });
@@ -426,7 +435,7 @@ export default {
       ].manufTime = this.kueirArr[e].manufTime;
     },
     _changeKuweiS(arr, dataJson) {
-      console.log(arr);
+      console.log(arr, dataJson, 1);
       if (!arr.length) return Message("暂时并未有库位，尝试去创建？");
       this.$nextTick(() => {
         arr.forEach((item, idx) => {
@@ -462,6 +471,7 @@ export default {
     //点击了子仓名称
     async getZiCangJsonAndArr() {
       this.createUserData.wareAreaId = ""; //区域id
+      this.createUserData.wareAreaName = ""; //区域name
       this.createUserData.childWareId = ""; //子仓id
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       let datas = await getFindOrgChildWare(this.createUserData.orgId);

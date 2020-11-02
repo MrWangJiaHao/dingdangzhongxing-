@@ -2,17 +2,21 @@
   <div class="setUserIngBox" id="manageMenyrukuSure">
     <div class="setUserIngBoxCenter">
       <div class="headerBox">
-        <div class="closeTitle">入库确认</div>
+        <div class="closeTitle">
+          {{ !isrukuDetails ? "入库确认" : "入库详情" }}
+        </div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
 
       <div class="centerBox">
-        <div class="setTitle">入库确认</div>
+        <div class="setTitle">
+          {{ !isrukuDetails ? "入库确认" : "入库详情" }}
+        </div>
         <div class="gerxinxiBox">
           <div class="xinxiBitian">
             <div class="dispalywrap rukuquerenparent">
               <div
-                v-for="(key, item, idx) in rukuSure"
+                v-for="(key, item, idx) in rukuSureJsonFn"
                 :key="idx"
                 class="displayalign parentBox"
               >
@@ -50,7 +54,7 @@
       <!-- 个人信息 -->
       <div class="pd20">
         <div class="setTitle">产品明细</div>
-        <div class="mb20 tr">
+        <div v-if="!isrukuDetails" class="mb20 tr">
           <div class="tijiaoBox disinb mr20" @click="copyChanpin">复制产品</div>
           <div class="tijiaoBox disinb mr20" @click="addChanpin">添加产品</div>
           <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
@@ -130,7 +134,7 @@
               show-overflow-tooltip
               width="180"
             >
-              <div slot-scope="scoped">
+              <div v-if="!isrukuDetails" slot-scope="scoped">
                 <el-select
                   v-model="scoped.row.recommendSeatNo"
                   @focus="getkuweimes(scoped.row)"
@@ -152,7 +156,7 @@
               prop="actualNum"
               show-overflow-tooltip
             >
-              <div slot-scope="scope">
+              <div v-if="!isrukuDetails" slot-scope="scope">
                 <el-input
                   v-model="scope.row.actualNum"
                   placeholder="实际入库数量"
@@ -161,25 +165,25 @@
             </el-table-column>
             <el-table-column
               label="残次品数量"
-              prop="actualNum"
+              prop="damagedNum"
               show-overflow-tooltip
             >
-              <div slot-scope="scoped">
+              <div v-if="!isrukuDetails" slot-scope="scoped">
                 <el-input
-                  v-model="scoped.row.acyualNum"
+                  v-model="scoped.row.damagedNum"
                   placeholder="请输入残次品数量"
                 ></el-input>
               </div>
             </el-table-column>
             <el-table-column
               label="残次品库位"
-              prop="actualNum"
+              prop="damagedSeatNo"
               width="180"
               show-overflow-tooltip
             >
-              <div slot-scope="scoped">
+              <div v-if="!isrukuDetails" slot-scope="scoped">
                 <el-select
-                  v-model="scoped.row.damagedNum"
+                  v-model="scoped.row.damagedSeatNo"
                   placeholder="请选择残次品库位"
                 >
                   <el-option
@@ -194,11 +198,12 @@
             </el-table-column>
             <el-table-column
               label="生产日期"
-              prop="actualNum"
+              prop="manuTime"
               show-overflow-tooltip
               width="200"
             >
               <div
+                v-if="!isrukuDetails"
                 slot-scope="scoped"
                 @click="getDataSelentIndex(scoped.$index)"
               >
@@ -232,8 +237,12 @@
       <!-- 备注 -->
       <!-- 账号信息 -->
       <div class="displayCenter mb20">
-        <div class="quxiaoBox mr20" @click="closeBtn">取消</div>
-        <div class="tijiaoBox" @click="goAJAXCreate">提交</div>
+        <div class="quxiaoBox mr20" @click="closeBtn">
+          {{ !isrukuDetails ? "取消" : "返回" }}
+        </div>
+        <div v-if="!isrukuDetails" class="tijiaoBox" @click="goAJAXCreate">
+          提交
+        </div>
       </div>
       <!-- btn -->
       <!-- 添加产品 start -->
@@ -298,6 +307,23 @@ export default {
         "*批次号": "",
         关联单号: () => this.listJson.orderNo,
       },
+      rukuDetailJson: {
+        入库单号: () => this.listJson.putWareNo,
+        委托公司: () => this.listJson.orgName,
+        入库状态: () => (this.listJson.putstatus ? "已入库" : "未入库"),
+        期望到货时间: () =>
+          this.listJson.expectedSendTime
+            ? this.listJson.expectedSendTime
+            : "--",
+        实际到货时间: () =>
+          this.listJson.arrivalTime ? this.listJson.arrivalTime : "--",
+        入库批次号: () =>
+          this.listJson.batchNo ? this.listJson.batchNo : "--",
+        入库人: () =>
+          this.listJson.putStartTime ? this.listJson.putStartTime : "--",
+        入库时间: () =>
+          this.listJson.putStartTime ? this.$route.query.putStartTime : "--",
+      },
       multipleSelection: [],
       tabledata: [],
       addChanpins: false,
@@ -331,7 +357,17 @@ export default {
       listJson: JSON.parse(sessionStorage.getItem("listArrs")),
       chanpinCenter: {},
       rowTable: 0,
+      isrukuDetails: false,
     };
+  },
+  computed: {
+    rukuSureJsonFn() {
+      if (this.isrukuDetails) {
+        return this.rukuDetailJson;
+      } else {
+        return this.rukuSure;
+      }
+    },
   },
   async created() {
     let manageMentrukuSureData = JSON.parse(
@@ -344,15 +380,19 @@ export default {
       this.createUserData.childWareId = manageMentrukuSureData.childWareId;
       this.createUserData.orgId = manageMentrukuSureData.orgId;
     }
-    this._getFindWarehouseProduct(this.$route.query.id);
+    if (this.$route.query.rukuDetails) {
+      this.isrukuDetails = this.$route.query.rukuDetails;
+    }
     this.tabledata = this.listJson.detailList;
     this.tables = eval(sessionStorage.getItem("_addTablesData"));
     if (this.tables) {
-      this.tables.forEach((item) => {
-        item.prodId = item.id;
-      });
       this.tabledata = this.tabledata.concat(this.tables);
+      getfindOrgProductPage(this.createUserData).then((res) => {
+        this._changeKuweiS(res.result.list, data);
+        this.$forceUpdate();
+      });
     }
+    this._getFindWarehouseProduct(this.$route.query.id);
   },
   methods: {
     getDataSelentIndex(e) {

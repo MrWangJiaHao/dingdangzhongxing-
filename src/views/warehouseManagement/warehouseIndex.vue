@@ -68,9 +68,14 @@
               <el-table-column
                 label="出库单号"
                 width="119"
-                property="putWareNo"
                 show-overflow-tooltip
-              ></el-table-column>
+              >
+                <span slot-scope="scoped">
+                  <div @click="goToDetailOut(scoped.row)">
+                    {{ scoped.row.outWareNo }}
+                  </div>
+                </span>
+              </el-table-column>
               <el-table-column
                 width="119"
                 label="关联单号"
@@ -97,14 +102,13 @@
               ></el-table-column>
               <el-table-column
                 label="出库人"
-                width="outWareUser"
-                prop="putUser"
-                show-overflow-tooltip
+                width="110"
+                prop="outWareUser"
               ></el-table-column>
               <el-table-column
                 label="出库时间"
+                width="160"
                 prop="outWareTime"
-                show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="拣货人"
@@ -268,6 +272,15 @@ export default {
     },
   },
   methods: {
+    goToDetailOut(e) {
+      sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
+      this.$router.push({
+        path: "/warehouseManagement/warehouseSure",
+        query: {
+          warehouseDetails: true,
+        },
+      });
+    },
     getPageNum(e) {
       this.sendOutDataJson.pageNumber = e;
       this.getTableData();
