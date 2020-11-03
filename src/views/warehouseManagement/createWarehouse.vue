@@ -154,21 +154,22 @@
             </el-table-column>
             <el-table-column
               label="推荐库位"
-              prop="recommendSeatNo"
+              prop="wareSeatCode"
               show-overflow-tooltip
               width="180"
             >
               <el-select
                 slot-scope="scope"
-                v-model="scope.row.recommendSeatNo"
+                :multiple="true"
+                v-model="scope.row.wareSeatCode"
                 placeholder="请选择库位"
-                @focus="getkuweimes(scope.row)"
-                @change="kuweiChanges"
+                @focus="getkuweimes(scope.row, scope.$index)"
+                @change="kuweiChanges($event, scope.$index, scope.row)"
               >
                 <el-option
-                  v-for="(item, idx) in kueirArr"
+                  v-for="(item, idx) in scope.row.kueirArr"
                   :key="idx"
-                  :label="item.recommendSeatNo"
+                  :label="item.wareSeatCode"
                   :value="idx"
                 >
                 </el-option>
@@ -177,6 +178,7 @@
           </el-table>
         </div>
       </div>
+
       <div>
         <div class="dispalyFlex mb20">
           <div class="noneIconTitle mr11 fosi0">
@@ -298,7 +300,6 @@ export default {
       tables: [],
       rowTables: null,
       kueirArr: [],
-      targetRow: {},
       delistIndex: null,
     };
   },
@@ -310,10 +311,7 @@ export default {
       this.createUserData.childWareId = EditData.childWareId;
       this.createUserData.orgId = EditData.orgId;
       this.createUserData.createUserData = EditData.createUserData;
-      this.createUserData.wareId = EditData.wareId;
       this.createUserData.wareName = EditData.wareName;
-      this.createUserData.wareAreaId = EditData.wareAreaId;
-      this.createUserData.wareAreaName = EditData.wareAreaName;
       this.createUserData.expectedSendTime = EditData.expectedSendTime;
       this._getpOutWarehousefindOutWareDetailById();
     }
@@ -347,7 +345,7 @@ export default {
           this.createUserData.wareAreaId =
             data.result.tails.pOutWarehouseDetail[0].wareAreaId;
           this.createUserData.wareAreaName =
-            data.result.tails.pOutWarehouseDetail[1].wareAreaName;
+            data.result.tails.pOutWarehouseDetail[0].wareAreaName;
           this._changeChangPinMinXi(data.result.tails.pOutWarehouseDetail);
         }
       );
@@ -359,7 +357,6 @@ export default {
     getquyuJsonAndArr() {
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       if (!this.createUserData.childWareId) return Message("请选择子仓名称");
-      // queryAreaOfWS
       queryAreaOfWS(this.createUserData).then((res) => {
         if (res.data.code == "10000") {
           this._changequyuJsonArr(res.data.result);
@@ -379,74 +376,64 @@ export default {
         this.quyuJson.quyuArr[e].id
       );
     },
-    getkuweimes(data) {
-      console.log(data.prodId);
+    getkuweimes(data, e) {
       if (!this.createUserData.orgId) return Message("请选择委托公司");
-      this.targetRow = data;
       let datas = eval(sessionStorage.getItem("_addTablesData"));
       if (datas) {
         this.createUserData.prodIds = _getArrTarget(datas, "prodId");
       }
       this.createUserData.prodIds = [data.prodId];
-
-      this.$nextTick(() => {
-        getRecommendSeatByBatchNoAndQualityDate({
-          ...this.createUserData,
-        }).then((res) => {
-          console.log(res);
-          if (res.code == "10000") {
-            this._changeKuweiS(res.result, data);
-          } else {
-            Message(res.msg);
-          }
+      getRecommendSeatByBatchNoAndQualityDate({
+        ...this.createUserData,
+      }).then((res) => {
+        if (res.code == "10000") {
+          this._changeKuweiS(res.result, data, e);
           this.$forceUpdate();
-        });
+        } else {
+          Message(res.msg);
+        }
       });
-      this.$forceUpdate();
     },
-    kuweiChanges(e) {
+    kuweiChanges(e, idx, data) {
       if (!this.createUserData.orgId) return Message("请选择委托公司");
-      this.targetRow.minNum = this.kueirArr[e].minNum;
-
-      this.targetRow.currInventory = this.kueirArr[e].currInventory;
 
       this.createUserData.pOutWarehouseDetails[
         this.delistIndex
-      ].recommendSeatId = this.kueirArr[e].recommendSeatId;
+      ].recommendSeatId = data.recommendSeatId;
+
+      this.createUserData.pOutWarehouseDetails[this.delistIndex].batchNo =
+        data.batchNo;
+
+      this.createUserData.pOutWarehouseDetails[this.delistIndex].currInventory =
+        data.currInventory;
+
+      this.createUserData.pOutWarehouseDetails[this.delistIndex].minNum =
+        data.minNum;
 
       this.createUserData.pOutWarehouseDetails[
         this.delistIndex
-      ].recommendSeatNo = this.kueirArr[e].recommendSeatNo;
+      ].recommendAreaId = data.recommendAreaId;
+
+      this.createUserData.pOutWarehouseDetails[this.delistIndex].wareSeatCode =
+        data.wareSeatCode;
 
       this.createUserData.pOutWarehouseDetails[
         this.delistIndex
-      ].batchNo = this.kueirArr[e].batchNo;
+      ].recommendAreaName = data.recommendAreaName;
 
-      this.createUserData.pOutWarehouseDetails[
-        this.delistIndex
-      ].recommendAreaId = this.kueirArr[e].recommendAreaId;
-
-      this.createUserData.pOutWarehouseDetails[
-        this.delistIndex
-      ].recommendAreaName = this.kueirArr[e].recommendAreaName;
-
-      this.createUserData.pOutWarehouseDetails[
-        this.delistIndex
-      ].manufTime = this.kueirArr[e].manufTime;
+      this.createUserData.pOutWarehouseDetails[this.delistIndex].manufTime =
+        data.manufTime;
     },
-    _changeKuweiS(arr, dataJson) {
-      console.log(arr, dataJson, 1);
+    _changeKuweiS(arr, dataJson, e) {
       if (!arr.length) return Message("暂时并未有库位，尝试去创建？");
-      this.$nextTick(() => {
-        arr.forEach((item, idx) => {
-          if (item.prodCode == dataJson.prodCode) {
-            this.kueirArr = item.prodSeatList;
-            this.delistIndex = idx;
-            this.$forceUpdate();
-          }
-        });
-        this.$forceUpdate();
-      });
+      dataJson.kueirArr = [];
+      this.tabledata[e].kueirArr = arr;
+      var data = JSON.stringify(this.tabledata);
+      this.tabledata = [];
+      this.tabledata = JSON.parse(data);
+
+      this.delistIndex = e;
+      this.$forceUpdate();
     },
     //点击选择委托公司
     async getCompanyJsonAndArr() {
@@ -473,6 +460,7 @@ export default {
       this.createUserData.wareAreaId = ""; //区域id
       this.createUserData.wareAreaName = ""; //区域name
       this.createUserData.childWareId = ""; //子仓id
+      this.createUserData.wareName = "";
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       let datas = await getFindOrgChildWare(this.createUserData.orgId);
       this.ziCangJson.ziCangArr = datas.result;

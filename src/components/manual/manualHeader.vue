@@ -238,7 +238,7 @@
                 <dateTime
                   :dateTimeData="putStartTimeData"
                   @getDateTime="outWareTimeStart"
-                  ref="putStart"
+                  ref="chukuStart"
                 />
               </div>
               <!-- 开始时间 -->
@@ -247,7 +247,7 @@
                 <dateTime
                   :dateTimeData="putEndTimeData"
                   @getDateTime="outWareTimeEnd"
-                  ref="putEnd"
+                  ref="chukuEnd"
                 />
               </div>
               <!-- 结束时间 -->
@@ -264,7 +264,7 @@
                 <dateTime
                   :dateTimeData="putStartTimeData"
                   @getDateTime="pickTimeStartTime"
-                  ref="putStart"
+                  ref="jianhuoStart"
                 />
               </div>
               <!-- 开始时间 -->
@@ -273,7 +273,7 @@
                 <dateTime
                   :dateTimeData="putEndTimeData"
                   @getDateTime="pickTimeEnd"
-                  ref="putEnd"
+                  ref="jianhuoEnd"
                 />
               </div>
               <!-- 结束时间 -->
@@ -290,7 +290,7 @@
                 <dateTime
                   :dateTimeData="putStartTimeData"
                   @getDateTime="checkTimeStart"
-                  ref="putStart"
+                  ref="fuheStart"
                 />
               </div>
               <!-- 开始时间 -->
@@ -299,7 +299,7 @@
                 <dateTime
                   :dateTimeData="putEndTimeData"
                   @getDateTime="checkTimeEnd"
-                  ref="putEnd"
+                  ref="fuhetEnd"
                 />
               </div>
               <!-- 结束时间 -->
@@ -308,6 +308,7 @@
         </div>
         <!-- 复核完成时间 -->
       </div>
+
       <div class="tr" style="width: 100%">
         <div class="btns mb20">
           <div class="queryBtn zujianBox" @click="clickQueryUser">查询</div>
@@ -631,6 +632,12 @@ export default {
       this.$refs.expectedEnd.clear();
       this.$refs.putStart.clear();
       this.$refs.putEnd.clear();
+      this.$refs.chukuStart.clear();
+      this.$refs.chukuEnd.clear();
+      this.$refs.jianhuoStart.clear();
+      this.$refs.jianhuoEnd.clear();
+      this.$refs.fuheStart.clear();
+      this.$refs.fuhetEnd.clear();
     },
   },
 };

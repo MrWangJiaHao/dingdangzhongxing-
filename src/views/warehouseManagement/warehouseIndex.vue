@@ -261,6 +261,8 @@ export default {
       this.sendOutDataJson.paras.outWareType = type;
       this.thisOneShow = false;
     }
+    this.noraisingFn();
+
     this.getTableData();
   },
   watch: {
@@ -269,9 +271,17 @@ export default {
         ? to.params.type
         : from.params.type;
       this.getTableData();
+      this.noraisingFn();
     },
   },
   methods: {
+    noraisingFn() {
+      if (this.$route.params.type == "0") {
+        return (this.noraising = true);
+      } else {
+        return (this.noraising = false);
+      }
+    },
     goToDetailOut(e) {
       sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
       this.$router.push({
@@ -312,6 +322,7 @@ export default {
               query: {
                 id: this.multipleSelection[0].id,
                 outWareType: this.sendOutDataJson.paras.outWareType,
+                noRaising: this.noraising,
               },
             });
           } else {

@@ -193,6 +193,16 @@ export const _getExportExcels = (res, biaoti = "入库") => {
 }
 
 /**
+ * 这个函数用来解决table无法渲染的问题
+ * @param {*} i 
+ */
+export const _TableXuanRaRequest = (data) => {
+  var datas = JSON.stringify(this.tabledata);
+  data = [];
+  data = JSON.parse(datas);
+}
+
+/**
  * 根据数字 改变为"一" 
  * @param {*} i 
  */
