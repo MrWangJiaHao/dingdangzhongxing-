@@ -148,11 +148,11 @@
           <el-table-column type="selection" width="55"> </el-table-column>
           <el-table-column label="序号" align="center" type="index" width="55">
           </el-table-column>
-          <el-table-column prop="CWName" label="子仓名称" align="center">
+          <el-table-column prop="childWareName" label="子仓名称" align="center">
           </el-table-column>
-          <el-table-column prop="areaName" label="区域名称" align="center">
+          <el-table-column prop="wareAreaName" label="区域名称" align="center">
           </el-table-column>
-          <el-table-column prop="areaType" label="区域类型" align="center">
+          <el-table-column prop="wareAreaType" label="区域类型" align="center">
           </el-table-column>
           <el-table-column prop="areaNumber" label="区域编号" align="center">
           </el-table-column>
@@ -161,17 +161,17 @@
           <el-table-column prop="tierChoose" label="层" align="center">
           </el-table-column>
           <el-table-column
-            prop="storageLocalChoose"
+            prop="wareSeatCode"
             label="库位"
             align="center"
           ></el-table-column>
-          <el-table-column prop="isUsed" label="是否已使用" align="center">
+          <el-table-column prop="seatProdId" label="是否已使用" align="center">
             <template slot-scope="scope">
-              <div class="lookDetail">{{ scope.row.isUsed }}</div>
+              <div class="lookDetail">{{ scope.row.seatProdId }}</div>
             </template>
           </el-table-column>
           <el-table-column
-            prop="createName"
+            prop="createUser"
             label="创建人"
             align="center"
           ></el-table-column>
@@ -336,20 +336,13 @@ export default {
       querySLInfor(queryData).then((ok) => {
         console.log(ok);
         this.changeData(ok.data.result);
-        let res = ok.data.result.list;
-        res.forEach((v) => {
-          this.tableData.push({
-            CWName: v.childWareName,
-            areaName: v.wareAreaName,
-            areaType: v.wareAreaType === 1 ? "存储区" : "拣货区",
-            areaNumber: v.wareSeatCode.split("-")[0],
-            shelfName: v.wareSeatCode.split("-")[1],
-            tierChoose: v.wareSeatCode.split("-")[3],
-            storageLocalChoose: v.wareSeatCode,
-            isUsed: v.seatProdId === "" ? "否" : "是",
-            createName: v.createUser,
-            createTime: v.createTime,
-          });
+        this.tableData = ok.data.result.list;
+        this.tableData.forEach((v) => {
+          v.wareAreaType = v.wareAreaType === 1 ? "存储区" : "拣货区";
+          v.areaNumber = v.wareSeatCode.split("-")[1];
+          v.shelfName = v.wareSeatCode.split("-")[2];
+          v.tierChoose = v.wareSeatCode.split("-")[3];
+          v.seatProdId = v.seatProdId === "" ? "否" : "是";
         });
       });
       //查询子仓名称的请求
@@ -426,22 +419,9 @@ export default {
         if (ok.data.code === "10000") {
           // console.log(ok);
           let res = ok.data.result;
-          res.forEach((v) => {
-            this.tableData.push({
-              CWName: v.childWareName,
-              areaName: v.wareAreaName,
-              areaType: v.wareAreaType === 1 ? "存储区" : "拣货区",
-              areaNumber: v.wareSeatCode.split("-")[0],
-              shelfName: v.wareSeatCode.split("-")[1],
-              tierChoose: v.wareSeatCode.split("-")[3],
-              storageLocalChoose: v.wareSeatCode,
-              isUsed: v.seatProdId === "" ? "否" : "是",
-              createName: v.createUser,
-              createTime: v.createTime,
-            });
-            this.pagingQueryData.pageNumber = res.length;
-            this.pageComponentsData.pageNums = res.length;
-          });
+          this.tableData = ok.data.result;
+          this.pagingQueryData.pageNumber = res.length;
+          this.pageComponentsData.pageNums = res.length;
         } else {
           Message({
             type: "error",
@@ -458,6 +438,14 @@ export default {
       this.shelfNameValue = "";
       this.tierChooseValue = "";
       this.storageLocalChooseValue = "";
+      this.SLInforData.childWareId = "";
+      this.SLInforData.wareAreaId = "";
+      this.SLInforData.wareAreaType = "";
+      this.SLInforData.wareShelfId = "";
+      this.SLInforData.shelfLevelNum = "";
+      this.SLInforData.id = "";
+      this.tableData = [];
+      this.updateData();
     },
     printSLCode() {
       //打印条形码图片
@@ -583,8 +571,8 @@ export default {
       this.$router.push("/storageLocalMap/SLmapInfor");
     },
     lookDetail(row, column) {
-      if (column.property === "isUsed") {
-        if (row.isUsed === "否") {
+      if (column.property === "seatProdId") {
+        if (row.seatProdId === "否") {
           return Message({
             type: "error",
             message: "该库位还未绑定产品",
@@ -592,7 +580,7 @@ export default {
         } else {
           this.$router.push({
             path: "/storageLocalMap/SLmapInfor",
-            query: { isUsed: row ,type:"look"},
+            query: { isUsed: row, type: "look" },
           });
         }
       }

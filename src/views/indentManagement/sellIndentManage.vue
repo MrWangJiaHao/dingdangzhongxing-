@@ -1,129 +1,193 @@
 <template>
-  <div id="mateAdmin">
-    <!-- 这是物料记录页面 -->
+  <div id="mianPage">
+    <!-- 这是销售订单管理页面 -->
     <div class="roleName">
-      <div class="roleName-choose">
-        <div class="name_type">
-          <div class="nameBox">
-            <div class="roleName-text">物料类型：</div>
-            <div class="roleName-checkBox">
-              <el-select
-                v-model="mateTypeValue"
-                placeholder="请选择物料类型"
-                @change="mateTypeValues"
-                clearable
-              >
-                <el-option
-                  v-for="item in mateTypeValueData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+      <div class="headerHtml">
+        <div class="headerInput">
+          <div class="headerInput-one inputs">
+            <div class="el-inputBox">
+              <div class="el-inputBox-text">委托公司：</div>
+              <div class="el-inputBox-checkBox">
+                <el-select
+                  v-model="mateTypeValue"
+                  placeholder="请选择委托公司"
+                  @change="mateTypeValues"
+                  clearable
                 >
-                </el-option>
-              </el-select>
+                  <el-option
+                    v-for="item in mateTypeValueData"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
             </div>
-          </div>
-          <div class="nameBox">
-            <div class="roleName-text">物料名称：</div>
-            <div class="roleName-checkBox">
-              <el-select
-                v-model="mateNameValue"
-                placeholder="请选择物料名称"
-                @change="mateNameValues"
-                clearable
-              >
-                <el-option
-                  v-for="item in mateNameValueData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+            <div class="el-inputBox">
+              <div class="el-inputBox-text">渠道：</div>
+              <div class="el-inputBox-checkBox">
+                <el-select
+                  v-model="mateNameValue"
+                  placeholder="请选择渠道"
+                  @change="mateNameValues"
+                  clearable
                 >
-                </el-option>
-              </el-select>
+                  <el-option
+                    v-for="item in mateNameValueData"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
             </div>
-          </div>
-          <div class="nameBox">
-            <div class="roleName-text">供应商：</div>
-            <div class="roleName-checkBox">
-              <el-select
-                v-model="supNameValue"
-                placeholder="请选择供应商"
-                @change="supNameValues"
-                clearable
-              >
-                <el-option
-                  v-for="item in supNameValueData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+            <div class="el-inputBox">
+              <div class="el-inputBox-text">订单来源：</div>
+              <div class="el-inputBox-checkBox">
+                <el-select
+                  v-model="supNameValue"
+                  placeholder="请选择订单来源"
+                  @change="supNameValues"
+                  clearable
                 >
-                </el-option>
-              </el-select>
+                  <el-option
+                    v-for="item in supNameValueData"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
             </div>
-          </div>
-          <div class="nameBox">
-            <div class="roleName-text">品牌：</div>
-            <div class="roleName-checkBox">
-              <el-select
-                v-model="brandNameValue"
-                placeholder="请选择品牌"
-                @change="brandNameValues"
-                clearable
-              >
-                <el-option
-                  v-for="item in brandNameValueData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+            <div class="el-inputBox">
+              <div class="el-inputBox-text">订单号：</div>
+              <div class="el-inputBox-checkBox">
+                <el-select
+                  v-model="brandNameValue"
+                  placeholder="请选择订单号"
+                  @change="brandNameValues"
+                  clearable
                 >
-                </el-option>
-              </el-select>
+                  <el-option
+                    v-for="item in brandNameValueData"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
             </div>
           </div>
-          <div class="nameBox">
-            <div class="roleName-text">类型：</div>
-            <div class="roleName-checkBox">
-              <el-select
-                v-model="anyTypeValue"
-                placeholder="请选择类型"
-                @change="anyTypeValues"
-                clearable
-              >
-                <el-option
-                  v-for="item in anyTypeData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+          <div class="headerInput-one headerInput-two">
+            <div class="el-inputBox childrenIndent">
+              <div class="el-inputBox-text">子单号：</div>
+              <div class="el-inputBox-checkBox">
+                <el-select
+                  v-model="anyTypeValue"
+                  placeholder="请选择子单号"
+                  @change="anyTypeValues"
+                  clearable
                 >
-                </el-option>
-              </el-select>
+                  <el-option
+                    v-for="item in anyTypeData"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="timeChoose">
-          <div class="timeBox zujianBox">
-            <div style="margin-right: 10px">
-              <dateTime
-                :dateTimeData="datetimeDates"
-                @getDateTime="getStartTime"
-                ref="startTime"
-              />
+            <div class="el-inputBox childrenIndentState">
+              <div class="el-inputBox-text">子单状态：</div>
+              <div class="el-inputBox-checkBox">
+                <el-select
+                  v-model="anyTypeValue"
+                  placeholder="请选择子单状态"
+                  @change="anyTypeValues"
+                  clearable
+                >
+                  <el-option
+                    v-for="item in anyTypeData"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
             </div>
-            <!-- 开始时间 -->
-            <div class="line"></div>
-            <div>
-              <dateTime
-                :dateTimeData="datetimeDate"
-                @getDateTime="getEndTime"
-                ref="endTime"
-              />
+            <div class="el-inputBox stateChoose">
+              <div class="el-inputBox-checkBox">
+                <el-select
+                  v-model="anyTypeValue"
+                  @change="anyTypeValues"
+                  clearable
+                >
+                  <el-option
+                    v-for="item in anyTypeData"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
             </div>
-            <!-- 结束时间 -->
-          </div>
-          <!-- 创建时间 -->
-          <div class="roleName-botton">
-            <div class="queryBtn" @click="clickQuery">查询</div>
-            <div class="clearBtn" @click="clearInput">清空</div>
+            <div class="timeChoose">
+              <div class="timeBox zujianBox">
+                <div style="margin-right: 10px">
+                  <dateTime
+                    :dateTimeData="datetimeDates"
+                    @getDateTime="getStartTime"
+                    ref="startTime"
+                  />
+                </div>
+                <!-- 开始时间 -->
+                <div class="line"></div>
+                <div>
+                  <dateTime
+                    :dateTimeData="datetimeDate"
+                    @getDateTime="getEndTime"
+                    ref="endTime"
+                  />
+                </div>
+                <!-- 结束时间 -->
+              </div>
+            </div>
+            <div class="el-inputBox consignee">
+              <div class="el-inputBox-text">收货人：</div>
+              <div class="el-inputBox-checkBox">
+                <el-input v-model="anyTypeValue" placeholder="请输入收货人">
+                </el-input>
+              </div>
+            </div>
+            <div class="el-inputBox block_hidden telphone">
+              <div class="el-inputBox-text">联系电话：</div>
+              <div class="el-inputBox-checkBox">
+                <el-input v-model="anyTypeValue" placeholder="请输入联系电话">
+                </el-input>
+              </div>
+            </div>
+            <div class="el-inputBox block_hidden address">
+              <div class="el-inputBox-text">收货地址：</div>
+              <div class="el-inputBox-checkBox">
+                <el-input v-model="anyTypeValue" placeholder="请输入收货地址">
+                </el-input>
+              </div>
+            </div>
+            <div class="header-botton">
+              <div class="showBtn" @click="clickShow">
+                <span>{{ stateChoose }}</span
+                ><span class="el-icon-caret-bottom caret"></span>
+              </div>
+              <div class="queryBtn" @click="clickQuery">查询</div>
+              <div class="clearBtn" @click="clearInput">清空</div>
+            </div>
           </div>
         </div>
       </div>
@@ -133,13 +197,10 @@
             <div class="icon-title-icon">
               <img src="../../assets/img/systemTitlemesa.png" />
             </div>
-            <div class="icon-title-title">物料记录信息</div>
+            <div class="icon-title-title">销售订单查询结果</div>
           </div>
           <div class="someBtn">
-            <div class="setUser" @click="createChildWarehouse">创建</div>
-            <div class="bianjiUser" @click="editChildWarehouse">编辑</div>
             <div class="setUser" @click="educe">导出</div>
-            <div class="remove" @click="delChildWarehouse">删除</div>
           </div>
         </div>
         <div class="resultForm">
@@ -160,52 +221,128 @@
               width="60"
             >
             </el-table-column>
-            <el-table-column prop="orgName" label="所属公司" align="center">
+            <el-table-column prop="orgName" label="委托公司" align="center">
             </el-table-column>
-            <el-table-column
-              prop="materielName"
-              label="物料名称"
-              align="center"
-            >
+            <el-table-column prop="materielName" label="渠道" align="center">
             </el-table-column>
             <el-table-column
               prop="materielCode"
-              label="物料编号"
+              label="订单来源"
               align="center"
             >
             </el-table-column>
-            <el-table-column prop="specName" label="规格" align="center">
+            <el-table-column prop="specName" label="订单号" align="center">
             </el-table-column>
             <el-table-column
               prop="materielType"
-              label="物料类型"
+              label="子订单号"
               align="center"
             >
             </el-table-column>
-            <el-table-column prop="braName" label="品牌" align="center">
+            <el-table-column prop="braName" label="子订单状态" align="center">
             </el-table-column>
-            <el-table-column prop="supName" label="供应商" align="center">
+            <el-table-column prop="supName" label="体积(m³)" align="center">
             </el-table-column>
-            <el-table-column prop="type" label="类型" align="center">
+            <el-table-column prop="type" label="重量(KG)" align="center">
             </el-table-column>
-            <el-table-column prop="num" label="数量" align="center">
+            <el-table-column prop="num" label="推荐用箱" align="center">
             </el-table-column>
             <el-table-column
               prop="actualInventory"
-              label="实际库存"
+              label="物流公司"
               align="center"
             >
             </el-table-column>
-            <el-table-column prop="" label="领取人" align="center">
+            <el-table-column prop="" label="物流单号" align="center">
             </el-table-column>
             <el-table-column
               prop="createUser"
-              label="创建人"
+              label="仓库运费模板编号"
               align="center"
             ></el-table-column>
             <el-table-column
               prop="createTime"
-              label="创建时间"
+              label="仓库运费模板名称"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="委托公司运费模板编号"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="委托公司运费模板名称"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="预估运费（元）"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="下发时间"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="集计开始时间"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="集计完成时间"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="打印时间"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="打印人"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="拣货开始时间"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="拣货完成时间"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="拣货人"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="复核开始时间"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="复核完成时间"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="复核人"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="复核照片"
+              align="center"
+            ></el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="复核结果"
               align="center"
             ></el-table-column>
           </el-table>
@@ -219,103 +356,6 @@
         </div>
       </div>
     </div>
-
-    <!-- 弹框 -->
-    <el-dialog :title="title" :visible.sync="dialogFormVisible">
-      <div class="dialogBox">
-        <div class="boxTitle">
-          <span>物料记录信息</span>
-        </div>
-        <div class="boxContent">
-          <div class="content_one">
-            <div class="name_con">
-              <div class="name_con_title addStar">所属公司</div>
-              <el-select
-                v-model="dialogBelongCompany"
-                clearable
-                placeholder="请选择所属公司"
-                @change="dialogBelongCompanys"
-              >
-                <el-option
-                  v-for="item in dialogBelongCompanyData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </div>
-
-            <div class="name_con">
-              <div class="name_con_title addStar">物料名称</div>
-              <el-select
-                v-model="dialogMateName"
-                clearable
-                placeholder="请选择物料名称"
-                @change="dialogMateNames"
-              >
-                <el-option
-                  v-for="item in dialogMateNameData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </div>
-            <div class="name_con">
-              <div class="name_con_title addStar">物料编号</div>
-              <el-input v-model="dialogMateCode" :disabled="true"></el-input>
-            </div>
-          </div>
-          <div class="content_one">
-            <div class="name_con">
-              <div class="name_con_title">供应商</div>
-              <el-input v-model="dialogSupValue" :disabled="true"></el-input>
-            </div>
-            <div class="name_con">
-              <div class="name_con_title addStar1">规格</div>
-              <el-input v-model="dialogSpecValue" :disabled="true"></el-input>
-            </div>
-
-            <div class="name_con">
-              <div class="name_con_title">品牌</div>
-              <el-input v-model="dialogBrandValue" :disabled="true"></el-input>
-            </div>
-          </div>
-          <div class="content_one">
-            <div class="name_con">
-              <div class="name_con_title addStar1">数量</div>
-              <el-input
-                v-model="dialogQuantity"
-                placeholder="请输入数量"
-              ></el-input>
-            </div>
-            <div class="name_con">
-              <div class="name_con_title addStar1">类型</div>
-              <el-select
-                v-model="dialogTypeValue"
-                clearable
-                placeholder="请选择类型"
-                @change="dialogTypeValues"
-              >
-                <el-option
-                  v-for="item in dialogTypeValueData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="okBtn">确 定</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -340,11 +380,13 @@ export default {
   },
   data() {
     return {
+      index: 0,
+      stateChoose: "展开",
       datetimeDate: {
         placeholder: "请选择结束时间",
       },
       datetimeDates: {
-        title: "创建时间",
+        title: "",
         placeholder: "请选择开始时间",
       },
       title: "",
@@ -742,28 +784,6 @@ export default {
     clickQuery() {
       //点击查询
       this.tableData = [];
-      // let idQueryData = {
-      // id: "",
-      // wareId: "",
-      // supId: this.allQueryInfor.supId,
-      // braId: this.allQueryInfor.braId,
-      // type: this.allQueryInfor.type,
-      // startTime: this.allQueryInfor.startTime,
-      // endTime: this.allQueryInfor.endTime,
-      // };
-      // console.log(idQueryData);
-
-      // queryMateRecordCon(idQueryData).then((ok) => {
-      //   console.log(ok);
-      //   if (ok.data.code === "10000") {
-      //     this.tableData = ok.data.result;
-      //   } else {
-      //     Message({
-      //       message: "未知错误",
-      //       type: "error",
-      //     });
-      //   }
-      // });
       this.pageQueryFun();
     },
     clearInput() {
@@ -911,6 +931,25 @@ export default {
         }
       });
     },
+    clickShow() {
+      this.index++;
+      let showDiv = document.querySelectorAll(".block_hidden");
+      let caret = document.querySelector(".caret");
+
+      if (this.index % 2 !== 0) {
+        this.stateChoose = "收起";
+        showDiv.forEach((v) => {
+          v.style.display = "flex";
+        });
+        caret.style.transform = "rotateZ(180deg)";
+      } else {
+        this.stateChoose = "展开";
+        showDiv.forEach((v) => {
+          v.style.display = "none";
+        });
+        caret.style.transform = "rotateZ(0)";
+      }
+    },
 
     getPageNum(e) {
       this.pagingQueryData.pageNumber = e;
@@ -952,43 +991,99 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/scss/btn.scss";
-#mateAdmin {
+#mianPage {
   background: #e6e7ea;
   padding: 16px;
 }
-.roleName-choose {
-  // display: flex;
-  // justify-content: space-between;
-  .name_type {
-    display: flex;
-    .nameBox {
+.headerHtml {
+  .headerInput {
+    .headerInput-one {
+      width: 100%;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
-      margin: 0 16px 0 0;
-      .roleName-text {
-        font-size: 16px;
-        white-space: nowrap;
-      }
-      .roleName {
-        height: 76px;
+      .el-inputBox {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid #d1d6e2;
-        .roleName-choose {
-          width: 360px;
-          display: flex;
-          align-items: center;
-          .roleName-text {
-            margin: 0 10px 0 30px;
-            font-size: 16px;
-          }
+        font-size: 16px;
+        margin-right: 20px;
+        .el-inputBox-text {
+          white-space: nowrap;
         }
+      }
+      .address {
+      transition: 0.3s;
+
+        margin-top: 16px;
+        width: 25.7%;
+        .el-inputBox-checkBox {
+          width: 100%;
+        }
+      }
+      .telphone {
+      transition: 0.3s;
+
+        width: 12.6%;
+        .el-inputBox-checkBox {
+          width: 100%;
+        }
+      }
+      .block_hidden {
+        display: none;
+      }
+      .childrenIndent {
+        width: 21.8%;
+        .el-inputBox-checkBox {
+          width: 100%;
+        }
+      }
+      .childrenIndentState {
+        width: 18.2%;
+        .el-inputBox-checkBox {
+          width: 100%;
+        }
+      }
+      .stateChoose {
+        width: 6.5%;
+      }
+      .consignee {
+        width: 11.3%;
+        .el-inputBox-checkBox {
+          width: 100%;
+        }
+      }
+    }
+    .headerInput-two {
+      flex-wrap: wrap;
+    }
+    .inputs {
+      .el-inputBox {
+        width: 24%;
+      }
+      .el-inputBox-checkBox {
+        width: 100%;
       }
     }
   }
 
-  .roleName-botton {
+  .header-botton {
+    width: 12%;
+    .caret {
+      transition: 0.3s;
+    }
+    .showBtn {
+      width: 50px;
+      display: flex;
+      white-space: nowrap;
+      color: #888;
+      position: relative;
+      cursor: pointer;
+      .caret {
+        font-size: 16px;
+        position: absolute;
+        left: 25px;
+      }
+    }
     display: flex;
     align-items: center;
     .queryBtn {
@@ -997,14 +1092,14 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 30px 0 10px;
+      margin: 0 14px 0 10px;
     }
   }
   .timeChoose {
+    width: 23.4%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 16px;
     .titleBox {
       font-size: 16px;
     }
@@ -1075,124 +1170,36 @@ export default {
   }
 }
 </style>
-
 <style lang="scss">
-#mateAdmin {
-  .titleBox {
-    font-size: 16px;
+.headerInput {
+  .el-select {
+    width: 100%;
   }
-
-  .el-dialog__wrapper {
-    // background: #eef1f8;
+  .childrenIndent {
+    .el-select {
+      width: 100%;
+    }
   }
-  .el-dialog {
-    width: 900px;
-    height: 466px;
-    // box-shadow: 0 0 5px 3px #e1e2e5;
-    border-radius: 4px;
-    .el-dialog__header {
-      padding: 0 20px;
-      font-weight: 600;
-      height: 50px;
+  .childrenIndentState {
+    .el-select {
       width: 100%;
-      line-height: 50px;
-      background: #ecf1f7;
-      .el-dialog__headerbtn {
-        top: 0;
-      }
     }
-    .el-dialog__body {
+  }
+  .consignee {
+    .el-select {
       width: 100%;
-      height: 336px;
-      border-top: 1px solid #d1d6e2;
-      border-bottom: 1px solid #d1d6e2;
-      padding: 0 20px;
-      .dialogBox {
-        .boxTitle span {
-          line-height: 56px;
-          font-size: 16px;
-          color: #5bb2fe;
-          font-weight: 600;
-          margin-left: 10px;
-          position: relative;
-        }
-        .boxTitle span::before {
-          content: "";
-          width: 3px;
-          height: 100%;
-          background: #5bb2fe;
-          position: absolute;
-          left: -10px;
-          top: 0px;
-        }
-        .boxContent {
-          .content_one {
-            display: flex;
-            .name_con {
-              display: flex;
-              margin-bottom: 16px;
-              border: 1px solid #d1d6e2;
-              border-radius: 3px;
-              margin-right: 20px;
-              .name_con_title {
-                width: 104px;
-                background: #ecf1f7;
-                border-right: 1px solid #d1d6e2;
-                line-height: 36px;
-                color: #000;
-                text-align: center;
-              }
-              .el-input {
-                width: 167px;
-                .el-input__inner {
-                  border: none;
-                  color: #666;
-                }
-              }
-            }
-          }
-
-          .addStar {
-            position: relative;
-          }
-          .addStar::before {
-            content: "*";
-            color: red;
-            position: absolute;
-            left: 15px;
-            top: 3px;
-          }
-
-          .addStar1 {
-            position: relative;
-          }
-          .addStar1::before {
-            content: "*";
-            color: red;
-            position: absolute;
-            left: 30px;
-            top: 3px;
-          }
-
-          .addStar2 {
-            position: relative;
-          }
-          .addStar2::before {
-            content: "*";
-            color: red;
-            position: absolute;
-            left: 10px;
-            top: 3px;
-          }
-        }
-      }
     }
-    .el-dialog__footer {
+  }
+  .address {
+    .el-select {
       width: 100%;
-      height: 76px;
-      padding: 0 20px;
-      margin: 19px 0 0 0;
+    }
+  }
+  .telphone {
+    .el-select {
+      width: 100%;
     }
   }
 }
 </style>
+

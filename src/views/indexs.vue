@@ -126,6 +126,33 @@ export default {
           ],
         },
         {
+          title: "订单管理",
+          name: "",
+          iconCls: require("@/assets/img/warehouse-inventoryAdmin.png"),
+          children: [
+            {
+              title: "销售订单管理",
+              name: "/indentManagement/sellIndentManage",
+            },
+            {
+              title: "自提订单管理",
+              name: "/indentManagement/zitiIndentManage",
+            },
+            {
+              title: "缺货订单管理",
+              name: "/indentManagement/resalesIndentManage",
+            },
+            {
+              title: "无物流单号管理",
+              name: "/indentManagement/notLogisticsIndentManage",
+            },
+            {
+              title: "退货订单管理",
+              name: "/indentManagement/stockoutIndentManage",
+            },
+          ],
+        },
+        {
           title: "发货规则配置",
           iconCls: require("@/assets/img/warehouse-shipmentsRuleConfig.png"),
           children: [],
@@ -394,12 +421,12 @@ export default {
     rightMove() {
       let oDiv = document.querySelector(".el-tabs__nav-scroll");
       let oDiv1 = document.querySelector(".el-tabs__nav-wrap");
-      if (oDiv.offsetLeft <= -1020) {
+      oDiv.style.transition = "0.5s";
+      a++;
+      oDiv.style.left = `${-1140 * a}px`;
+      if (oDiv.offsetLeft <= -1140) {
         a = 0;
       }
-      a++;
-      oDiv.style.left = `${-1020 * a}px`;
-      oDiv.style.transition = "0.5s";
       // let time = setInterval(() => {
       //   let buchang = oDiv.offsetWidth / 50;
       //   a += buchang;
@@ -435,7 +462,7 @@ export default {
       this.mianbaoxieArr = [];
       let mianbaoxieArrJson = this.dataArr[+this.activeName];
       if (!this.mianbaoxieArr.includes(mianbaoxieArrJson)) {
-        this.mianbaoxieArr.unshift(mianbaoxieArrJson);               
+        this.mianbaoxieArr.unshift(mianbaoxieArrJson);
       }
       this.mianbaoxieArr.splice(1, 1, dataArrJson);
     },
@@ -734,7 +761,7 @@ export default {
   font-size: 16px;
   color: white;
 }
-.footerCom{
+.footerCom {
   height: 30px;
 }
 </style>

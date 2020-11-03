@@ -274,6 +274,56 @@ const routes = [{
     }
   },
     //===========================采购管理 end===============
+  //----------------------------------------------------------订单管理开始-------------------------------------------------------------------------------------
+  {
+    // 订单管理=>无物流单号管理
+    path: "/indentManagement/notLogisticsIndentManage",
+    name: "/indentManagement/notLogisticsIndentManage",
+    component: () => import("../views/indentManagement/notLogisticsIndentManage"),
+    meta: {
+      Breadcrumb: "无物流单号管理",
+      title: "无物流单号管理"
+    }
+  },
+  {
+    // 订单管理=>退货订单管理
+    path: "/indentManagement/resalesIndentManage",
+    name: "/indentManagement/resalesIndentManage",
+    component: () => import("../views/indentManagement/resalesIndentManage"),
+    meta: {
+      Breadcrumb: "无物流单号管理",
+      title: "无物流单号管理"
+    }
+  },
+  {
+    // 订单管理=>自提订单管理
+    path: "/indentManagement/zitiIndentManage",
+    name: "/indentManagement/zitiIndentManage",
+    component: () => import("../views/indentManagement/zitiIndentManage"),
+    
+  },
+  {
+    // 订单管理=>销售订单管理
+    path: "/indentManagement/sellIndentManage",
+    name: "/indentManagement/sellIndentManage",
+    component: () => import("../views/indentManagement/sellIndentManage"),
+    meta: {
+      Breadcrumb: "销售订单管理",
+      title: "销售订单管理"
+    }
+  },
+  {
+    // 订单管理=>缺货订单管理
+    path: "/indentManagement/stockoutIndentManage",
+    name: "/indentManagement/stockoutIndentManage",
+    component: () => import("../views/indentManagement/stockoutIndentManage"),
+    meta: {
+      Breadcrumb: "缺货订单管理",
+      title: "缺货订单管理"
+    }
+  },
+  //----------------------------------------------------------订单管理结束-------------------------------------------------------------------------------------
+
   ]
 },
 {

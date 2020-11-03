@@ -314,14 +314,34 @@ import {
   prodStoreMap,
   queryAreaOfWS,
   areaShelfQuery,
+  storeMapRelation,
 } from "../../api/api";
 import { Message } from "element-ui";
 export default {
   beforeRouteEnter(to, from, next) {
     if (from.name === "/warehoseconfig/storageLocalAdmins") {
-      next(vm=>{
-        if(vm.$route.query.type === "look"){
-          console.log(vm.$route.query.isUsed)
+      next((vm) => {
+        if (vm.$route.query.type === "look") {
+          // console.log(vm.$route.query.isUsed);
+          let wareSeatCodeQuery = {
+            //分页查询
+            pageNumber: 1,
+            pageSize: 10,
+            paras: {
+              wareSeatCode: vm.$route.query.isUsed.wareSeatCode
+            },
+          }
+          storeMapRelation(wareSeatCodeQuery).then((ok) => {
+            // console.log(ok)
+            if (ok.data.code === "10000") {
+              let res = ok.data.result.list[0];
+              vm.delegaCompanyValue = res.orgName;
+              vm.productNameValue = res.prodFullName;
+              vm.productCodeValue = res.prodCode;
+              vm.specificationValue = res.specName + "ml";
+              vm.ProdBrandName = res.braName;
+            }
+          });
         }
       });
     } else {
@@ -423,6 +443,10 @@ export default {
       ],
     };
   },
+
+  destroyed() {
+    this.inputEmpty();
+  },
   mounted() {
     this.setintervalFun();
     let data = {
@@ -493,11 +517,18 @@ export default {
     });
   },
   methods: {
+    inputEmpty() {
+      this.delegaCompanyValue = "";
+      this.productNameValue = "";
+      this.productCodeValue = "";
+      this.specificationValue = "";
+      this.ProdBrandName = "";
+    },
     getTableData() {
       this.choosedKuWeiData = this.$store.state.PFSRequest.PFSqueryData;
       // console.log(this.choosedKuWeiData);
     },
-     getTableData1() {
+    getTableData1() {
       this.choosedKuWeiData = this.$store.state.PFSRequest1.PFSqueryData1;
       // console.log(this.choosedKuWeiData);
     },

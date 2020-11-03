@@ -51,10 +51,10 @@
             <td class="tdInfor">{{ data.childWareName }}</td>
             <td class="tdName">子仓类型</td>
             <td class="tdInfor">
-              
+              {{ data.wareType === 1 ? "销售仓" : data.wareType === 2 ? "售后仓" :data.wareType === 3 ? "残次品仓" : "——"}}
             </td>
             <td class="tdName">区域类型</td>
-            <td class="tdInfor">{{ data.wareType === 1 ? "存储区" : "拣货区" }}</td>
+            <td class="tdInfor"></td>
           </tr>
           <tr>
             <td class="tdName">区域名称</td>
