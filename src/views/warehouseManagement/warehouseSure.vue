@@ -158,7 +158,7 @@
             </el-table-column>
             <el-table-column
               label="推荐库位"
-              prop="recommendSeatNo"
+              prop="actualSeatNo"
               width="180"
               show-overflow-tooltip
             ></el-table-column>
@@ -189,6 +189,7 @@
                 @click="manufTimeClick(scope.row)"
               >
                 <dateTime
+                  :valueDataStart="scope.row.manufTime"
                   :dateTimeData="dateTimeData"
                   @getDateTime="getManufTimeClickSendTime"
                 />
@@ -196,13 +197,13 @@
             </el-table-column>
             <el-table-column
               label="实际出库库位"
-              prop="acyualNum"
+              prop="actualSeatNo"
               show-overflow-tooltip
               width="200"
             >
               <div v-if="!isDetails" slot-scope="scoped">
                 <el-input
-                  v-model="scoped.row.acyualNum"
+                  v-model="scoped.row.actualSeatNo"
                   placeholder="请输入实际出库库位"
                 ></el-input>
               </div>
@@ -302,6 +303,30 @@ export default {
             ? this.createUserData.outWareTime
             : "- -",
       },
+      feizhitiJson: {
+        出库单号: () =>
+          this.createUserData.outWareNo ? this.createUserData.outWareNo : "- -",
+        委托公司: () =>
+          this.createUserData.orgName ? this.createUserData.orgName : "- -",
+        出库状态: () =>
+          this.createUserData.outWareStatus ? "已出库" : "未出库",
+        出库类型: () =>
+          this.$route.query.outWareType
+            ? this.createUserData.outWareType
+            : "- -",
+        "&nbsp;收货人": () =>
+          this.$route.query.takeUser ? this.createUserData.takeUser : "- -",
+        收货人联系电话: () =>
+          this.$route.query.takePhone ? this.createUserData.takePhone : "- -",
+        "*出库人": () =>
+          this.createUserData.outWareUser
+            ? this.createUserData.outWareUser
+            : "- -",
+        "*出库时间": () =>
+          this.createUserData.outWareTime
+            ? this.createUserData.outWareTime
+            : "- -",
+      },
       detailChuKu: {
         出库单号: () =>
           this.createUserData.outWareNo ? this.createUserData.outWareNo : "- -",
@@ -359,6 +384,7 @@ export default {
       chanpinCenter: {},
       rowTable: 0,
       manufTimeClickData: {},
+      detailsArr: [],
       sureTakePhone: false,
       isDetails: false,
     };
@@ -371,6 +397,7 @@ export default {
     let warehouseDetails = JSON.parse(
       sessionStorage.getItem("warehouseDetails")
     ); //详情页
+    console.log(warehouseDetails);
     if (warehouseDetails) {
       this.createUserData.putWareId = warehouseDetails.id;
       this.createUserData.recommendSeatId = warehouseDetails.recommendSeatId;
@@ -389,7 +416,9 @@ export default {
       this.createUserData.takeTime = warehouseDetails.takeTime;
       this.createUserData.takeUser = warehouseDetails.takeUser;
       this.tabledata = warehouseDetails.tails.pOutWarehouseDetail;
+
       getpOutWarehousefindOutWareDetailById(warehouseDetails.id).then((res) => {
+        console.log(res);
         this.tabledata = res.result.tails.pOutWarehouseDetail;
       });
     }
@@ -442,6 +471,9 @@ export default {
   },
   methods: {
     isDetailsFn() {
+      if (!this.isDetails && !eval(this.$route.query.noRaising))
+        return this.feizhitiJson;
+
       if (this.isDetails) {
         return this.detailChuKu;
       } else {
@@ -490,13 +522,11 @@ export default {
         this.tabledata.splice(idxs, 0, copyIdxs);
         this.$refs.multipleTable.toggleRowSelection(this.tabledata[idxs + 1]);
       }
-      console.log("this.tabledata", this.tabledata);
     },
     select(e, row) {
       console.log(e, row, "select");
     },
     getDateSelectTime(e) {
-      console.log(this.rowTable, "el-input");
       this.tabledata[+this.rowTable].manuTime = e;
     },
     shezhizitiwiered(item) {
@@ -617,7 +647,6 @@ export default {
     },
     async _getFindWarehouseProduct(id) {
       let datas = await getFindWarehouseProduct(id);
-      console.log(datas);
       return (this.chanpinCenter = datas.result);
     },
   },
