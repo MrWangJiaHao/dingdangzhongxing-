@@ -310,10 +310,7 @@ export default {
       this.createUserData.childWareId = EditData.childWareId;
       this.createUserData.orgId = EditData.orgId;
       this.createUserData.createUserData = EditData.createUserData;
-      this.createUserData.wareId = EditData.wareId;
       this.createUserData.wareName = EditData.wareName;
-      this.createUserData.wareAreaId = EditData.wareAreaId;
-      this.createUserData.wareAreaName = EditData.wareAreaName;
       this.createUserData.expectedSendTime = EditData.expectedSendTime;
       this._getpOutWarehousefindOutWareDetailById();
     }
@@ -347,7 +344,7 @@ export default {
           this.createUserData.wareAreaId =
             data.result.tails.pOutWarehouseDetail[0].wareAreaId;
           this.createUserData.wareAreaName =
-            data.result.tails.pOutWarehouseDetail[1].wareAreaName;
+            data.result.tails.pOutWarehouseDetail[0].wareAreaName;
           this._changeChangPinMinXi(data.result.tails.pOutWarehouseDetail);
         }
       );
@@ -359,7 +356,6 @@ export default {
     getquyuJsonAndArr() {
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       if (!this.createUserData.childWareId) return Message("请选择子仓名称");
-      // queryAreaOfWS
       queryAreaOfWS(this.createUserData).then((res) => {
         if (res.data.code == "10000") {
           this._changequyuJsonArr(res.data.result);
@@ -393,7 +389,6 @@ export default {
         getRecommendSeatByBatchNoAndQualityDate({
           ...this.createUserData,
         }).then((res) => {
-          console.log(res);
           if (res.code == "10000") {
             this._changeKuweiS(res.result, data);
           } else {
@@ -402,6 +397,7 @@ export default {
           this.$forceUpdate();
         });
       });
+
       this.$forceUpdate();
     },
     kuweiChanges(e) {
@@ -435,7 +431,6 @@ export default {
       ].manufTime = this.kueirArr[e].manufTime;
     },
     _changeKuweiS(arr, dataJson) {
-      console.log(arr, dataJson, 1);
       if (!arr.length) return Message("暂时并未有库位，尝试去创建？");
       this.$nextTick(() => {
         arr.forEach((item, idx) => {
@@ -473,6 +468,7 @@ export default {
       this.createUserData.wareAreaId = ""; //区域id
       this.createUserData.wareAreaName = ""; //区域name
       this.createUserData.childWareId = ""; //子仓id
+      this.createUserData.wareName = "";
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       let datas = await getFindOrgChildWare(this.createUserData.orgId);
       this.ziCangJson.ziCangArr = datas.result;
