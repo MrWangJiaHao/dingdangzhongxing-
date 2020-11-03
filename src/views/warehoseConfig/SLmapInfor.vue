@@ -319,7 +319,11 @@ import { Message } from "element-ui";
 export default {
   beforeRouteEnter(to, from, next) {
     if (from.name === "/warehoseconfig/storageLocalAdmins") {
-      next();
+      next(vm=>{
+        if(vm.$route.query.type === "look"){
+          console.log(vm.$route.query.isUsed)
+        }
+      });
     } else {
       next();
     }

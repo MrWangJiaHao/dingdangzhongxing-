@@ -251,7 +251,7 @@ export default {
             let tableDataItem = {
               CWName: resultList[indexs].childWareName, //子仓名称
               CWnumber: resultList[indexs].childWareCode, //子仓编号
-              CWtype: resultList[indexs].wareType, //子仓类型
+              CWtype: resultList[indexs].wareType === 1?"销售仓":resultList[indexs].wareType===2?"售后仓":resultList[indexs].wareType===1?"残次品":"暂未定义", //子仓类型
               CWWidth: resultList[indexs].wareLength, //子仓长度
               CWHeight: resultList[indexs].wareWidth, //子仓宽度
               Ndistance: resultList[indexs].northDistance, //距北距离

@@ -143,6 +143,7 @@
           :stripe="true"
           tooltip-effect="dark"
           max-height="570"
+          @cell-click="lookDetail"
         >
           <el-table-column type="selection" width="55"> </el-table-column>
           <el-table-column label="序号" align="center" type="index" width="55">
@@ -164,11 +165,11 @@
             label="库位"
             align="center"
           ></el-table-column>
-          <el-table-column
-            prop="isUsed"
-            label="是否已使用"
-            align="center"
-          ></el-table-column>
+          <el-table-column prop="isUsed" label="是否已使用" align="center">
+            <template slot-scope="scope">
+              <div class="lookDetail">{{ scope.row.isUsed }}</div>
+            </template>
+          </el-table-column>
           <el-table-column
             prop="createName"
             label="创建人"
@@ -333,7 +334,7 @@ export default {
     this.updateData = () => {
       let queryData = this.pagingQueryData;
       querySLInfor(queryData).then((ok) => {
-        // console.log(ok);
+        console.log(ok);
         this.changeData(ok.data.result);
         let res = ok.data.result.list;
         res.forEach((v) => {
@@ -581,6 +582,21 @@ export default {
       //库位映射
       this.$router.push("/storageLocalMap/SLmapInfor");
     },
+    lookDetail(row, column) {
+      if (column.property === "isUsed") {
+        if (row.isUsed === "否") {
+          return Message({
+            type: "error",
+            message: "该库位还未绑定产品",
+          });
+        } else {
+          this.$router.push({
+            path: "/storageLocalMap/SLmapInfor",
+            query: { isUsed: row ,type:"look"},
+          });
+        }
+      }
+    },
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
@@ -729,6 +745,11 @@ export default {
   }
   .resultForm {
     padding: 20px;
+    .lookDetail {
+      color: rgb(117, 117, 241);
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
   .pageComponent {
     margin: 20px 10px 0 0;

@@ -7,25 +7,25 @@
         <div class="inputDiv">
           <div class="text_box">
             <div>委托公司：</div>
-            <div></div>
+            <div>{{ data.orgName }}</div>
           </div>
           <div class="text_box">
             <div>产品编号：</div>
-            <div></div>
+            <div>{{ data.prodCode }}</div>
           </div>
           <div class="text_box">
             <div>产品名称：</div>
-            <div></div>
+            <div>{{ data.prodFullName }}</div>
           </div>
           <div class="text_box">
             <div>规格：</div>
-            <div></div>
+            <div>{{ data.specName }}</div>
           </div>
         </div>
         <div class="inputDiv">
           <div class="text_box">
             <div>品牌：</div>
-            <div></div>
+            <div>{{ data.braName }}</div>
           </div>
           <div class="text_box">
             <div>长：</div>
@@ -48,33 +48,41 @@
         <table>
           <tr>
             <td class="tdName">子仓名称</td>
-            <td class="tdInfor"></td>
+            <td class="tdInfor">{{ data.childWareName }}</td>
             <td class="tdName">子仓类型</td>
-            <td class="tdInfor"></td>
+            <td class="tdInfor">
+              
+            </td>
             <td class="tdName">区域类型</td>
-            <td class="tdInfor"></td>
+            <td class="tdInfor">{{ data.wareType === 1 ? "存储区" : "拣货区" }}</td>
           </tr>
           <tr>
             <td class="tdName">区域名称</td>
-            <td class="tdInfor"></td>
+            <td class="tdInfor">{{ data.wareAreaName }}</td>
             <td class="tdName">区域编号</td>
-            <td class="tdInfor"></td>
+            <td class="tdInfor">
+              {{ (data.wareSeatCode || "").split("-")[0] }}
+            </td>
             <td class="tdName">存放单位</td>
-            <td class="tdInfor"></td>
+            <td class="tdInfor">{{data.prodUnit}}</td>
           </tr>
           <tr>
             <td class="tdName">最大存放数</td>
-            <td class="tdInfor"></td>
+            <td class="tdInfor">{{ data.maxNum }}</td>
             <td class="tdName">补货预警值</td>
-            <td class="tdInfor"></td>
+            <td class="tdInfor">{{ data.inventoryFloor }}</td>
             <td class="tdName">货架编码</td>
-            <td class="tdInfor"></td>
+            <td class="tdInfor">
+              {{ (data.wareSeatCode || "").split("-")[2] }}
+            </td>
           </tr>
           <tr>
             <td class="tdName">层</td>
-            <td class="tdInfor"></td>
+            <td class="tdInfor">
+              {{ (data.wareSeatCode || "").split("-")[3] }}
+            </td>
             <td class="tdName">库位</td>
-            <td class="tdInfor"></td>
+            <td class="tdInfor">{{ data.wareSeatCode }}</td>
             <td class="tdName"></td>
             <td class="tdInfor"></td>
           </tr>
@@ -89,8 +97,24 @@
 
 <script>
 export default {
+  beforeRouteEnter(to, form, next) {
+    if (form.name === "/warehoseconfig/storageLocalMap") {
+      next((vm) => {
+        vm.data = vm.$route.query.kuwei;
+      });
+    } else {
+      next((vm) => {
+        vm.$router.push("/warehoseconfig/storageLocalMap");
+      });
+    }
+  },
   data() {
-    return {};
+    return {
+      data: {},
+    };
+  },
+  mounted() {
+    console.log(this.data);
   },
   methods: {
     clickBack() {
@@ -128,6 +152,9 @@ export default {
       align-items: center;
       font-size: 16px;
       margin-right: 16px;
+      div:nth-of-type(1) {
+        white-space: nowrap;
+      }
       div:nth-of-type(2) {
         display: inline-block;
         width: 190px;
@@ -152,10 +179,13 @@ export default {
       border-collapse: collapse;
       font-size: 16px;
       tr {
-        border: 1px solid #ebeef5;
+        border: 1px solid rgb(61, 60, 60);
         td {
-          border: 1px solid #ebeef5;
+          border: 1px solid rgb(170, 166, 166);
           padding: 10px 40px;
+        }
+        td:nth-of-type(even) {
+          background: #eeeeee;
         }
       }
     }

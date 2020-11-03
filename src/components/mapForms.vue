@@ -21,48 +21,49 @@
         @selection-change="handleSelectionChange"
         :stripe="true"
         tooltip-effect="dark"
+        @cell-click="lookDetail"
       >
         <el-table-column type="selection" width="55"> </el-table-column>
         <el-table-column label="序号" align="center" type="index" width="55">
         </el-table-column>
-        <el-table-column prop="delegaCompany" label="委托公司" align="center">
+        <el-table-column prop="orgName" label="委托公司" align="center">
         </el-table-column>
-        <el-table-column prop="productName" label="产品名称" align="center">
+        <el-table-column prop="prodFullName" label="产品名称" align="center">
         </el-table-column>
-        <el-table-column prop="productNumber" label="产品编号" align="center">
+        <el-table-column prop="prodCode" label="产品编号" align="center">
         </el-table-column>
         <el-table-column
-          prop="producTspecifica"
+          prop="specName"
           label="产品规格"
           align="center"
         >
         </el-table-column>
-        <el-table-column prop="brand" label="品牌" align="center">
+        <el-table-column prop="braName" label="品牌" align="center">
         </el-table-column>
-        <el-table-column prop="CHName" label="子仓名称" align="center">
+        <el-table-column prop="childWareName" label="子仓名称" align="center">
         </el-table-column>
         <el-table-column
-          prop="storageArea"
+          prop="wareAreaName"
           :label="storageArea"
           align="center"
         ></el-table-column>
         <el-table-column
-          prop="storageShelf"
+          prop="wareSeatCode1"
           :label="storageShelf"
           align="center"
         ></el-table-column>
         <el-table-column
-          prop="storageTier"
+          prop="wareSeatCode2"
           :label="storageTier"
           align="center"
         ></el-table-column>
+        <el-table-column prop="wareSeatCode" :label="wareSeatCode" align="center">
+          <template slot-scope="scope">
+            <div class="lookDetail">{{ scope.row.wareSeatCode }}</div>
+          </template>
+        </el-table-column>
         <el-table-column
-          prop="storageUnit"
-          :label="storageUnit"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          prop="createName"
+          prop="createUser"
           label="创建人"
           align="center"
         ></el-table-column>
@@ -96,7 +97,7 @@ export default {
     storageArea: String,
     storageShelf: String,
     storageTier: String,
-    storageUnit: String,
+    wareSeatCode: String,
     tableData: Array,
   },
   data() {
@@ -111,7 +112,10 @@ export default {
   methods: {
     create() {
       //创建库位
-      this.$router.push({path:"/storageLocalMap/SLmapInfor",query:{datas:this.multipleSelection,type:"create"}});
+      this.$router.push({
+        path: "/storageLocalMap/SLmapInfor",
+        query: { datas: this.multipleSelection, type: "create" },
+      });
     },
     edit() {
       //编辑操作
@@ -121,7 +125,10 @@ export default {
           message: "每次只能编辑一条库位信息，请重新选择",
           type: "warning",
         });
-      this.$router.push({path:'/storageLocalMap/SLmapInfor',query:{datas:this.multipleSelection,type:"edit"}})
+      this.$router.push({
+        path: "/storageLocalMap/SLmapInfor",
+        query: { datas: this.multipleSelection, type: "edit" },
+      });
     },
     del() {
       //删除操作
@@ -160,6 +167,14 @@ export default {
           });
         }
       });
+    },
+    lookDetail(row, column) {
+      if (column.property === "wareSeatCode") {
+        this.$router.push({
+          path: "/storageLocalMap/storageLocalDetail",
+          query: { kuwei: row },
+        });
+      }
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
@@ -231,6 +246,11 @@ export default {
   }
   .resultForm {
     padding: 20px;
+    .lookDetail {
+      color: rgb(117, 117, 241);
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
   .pageComponent {
     margin: 20px 10px 0 0;
