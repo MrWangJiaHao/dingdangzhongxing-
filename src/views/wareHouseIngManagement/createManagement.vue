@@ -209,8 +209,15 @@
       </div>
       <!-- btn -->
       <!-- 添加产品 start -->
-      <transition name="fade">
-        <div v-show="addChanpins" ref="parentSelect" class="addChanpinClass">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div
+          v-show="addChanpins"
+          ref="parentSelect"
+          class="addChanpinClass animate__animated"
+        >
           <choiceSelect ref="childSelect" />
         </div>
       </transition>
@@ -483,13 +490,6 @@ export default {
 
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
-.fade-enter-active,
-.fade-leave-active {
-  transition: transform 1s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  transform: scale(0);
-}
 .setUserIngBox {
   background: rgb(232, 233, 236);
   padding: 0 10px;

@@ -399,7 +399,7 @@ export default {
 @import "../../assets/scss/btn.scss";
 
 .setUserIngBox {
-  background: rgb(232, 233, 236);
+  background: rgba(0, 0, 0, 0.4);
   padding: 0 10px;
   width: 100%;
   position: absolute;

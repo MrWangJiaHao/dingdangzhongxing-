@@ -131,15 +131,20 @@
       <!-- table-biaoge -->
     </div>
     <!-- 头部组件 -->
-    <div v-if="WarehouseReceipt">
-      <div class="posFixCenter">
-        <WarehouseReceipt
-          :WarehousingType="
-            WarehousingTypeArr[$route.params.type].WarehousingTypeCenter
-          "
-        />
+    <transition
+      enter-active-class="animate__animated animate__zoomIn"
+      leave-active-class="animate__animated animate__zoomOut"
+    >
+      <div v-show="WarehouseReceipt">
+        <div class="posFixCenter">
+          <WarehouseReceipt
+            :WarehousingType="
+              WarehousingTypeArr[$route.params.type].WarehousingTypeCenter
+            "
+          />
+        </div>
       </div>
-    </div>
+    </transition>
     <!-- 入库单 -->
     <div v-if="Receipt">
       <div class="posFixCenter">

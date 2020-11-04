@@ -273,7 +273,7 @@ const routes = [{
       title: "采购管理"
     }
   },
-    //===========================采购管理 end===============
+  //===========================采购管理 end===============
   //----------------------------------------------------------订单管理开始-------------------------------------------------------------------------------------
   {
     // 订单管理=>无物流单号管理
@@ -300,7 +300,7 @@ const routes = [{
     path: "/indentManagement/zitiIndentManage",
     name: "/indentManagement/zitiIndentManage",
     component: () => import("../views/indentManagement/zitiIndentManage"),
-    
+
   },
   {
     // 订单管理=>销售订单管理
@@ -322,7 +322,7 @@ const routes = [{
       title: "缺货订单管理"
     }
   },
-  //----------------------------------------------------------订单管理结束-------------------------------------------------------------------------------------
+    //----------------------------------------------------------订单管理结束-------------------------------------------------------------------------------------
 
   ]
 },
@@ -346,6 +346,16 @@ const routes = [{
   meta: {
     Breadcrumb: "入库确认",
     title: "入库确认"
+  }
+},
+///purchasingManagement/createPurchasing
+{
+  path: "/purchasingManagement/createPurchasing",
+  name: "/purchasingManagement/createPurchasing",
+  component: () => import("../views/purchasingManagement/createPurchasing"),
+  meta: {
+    Breadcrumb: "创建采购单",
+    title: "创建采购单"
   }
 },
 //设置权限页面
