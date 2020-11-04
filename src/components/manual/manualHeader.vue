@@ -22,7 +22,7 @@
           </div>
         </div>
         <!-- 委托公司 -->
-        <div v-if="!_isRuku()" class="zujianBox mb20">
+        <div v-show="!_isRuku()" class="zujianBox mb20">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">出库单号:</div>
             <div class="mr20">
@@ -104,7 +104,7 @@
           </div>
         </div>
         <!-- 入库类型 在路径上获取 -->
-        <div v-if="!_isRuku()" class="displayalign mb20 zujianBox">
+        <div v-show="!_isRuku()" class="displayalign mb20 zujianBox">
           <div class="noneIconTitle mr11">出库状态:</div>
           <div class="mr20">
             <el-select
@@ -179,7 +179,7 @@
         </div> -->
         <!-- 产品规格 ProductSpecificationsJson -->
 
-        <div v-if="_isRuku()" class="zujianBox mb20">
+        <div v-show="_isRuku()" class="zujianBox mb20">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">期望入库时间:</div>
             <div class="mr20 displayalign">
@@ -204,7 +204,7 @@
           </div>
         </div>
         <!-- 期望入库时间 -->
-        <div v-if="_isRuku()" class="zujianBox mb20">
+        <div v-show="_isRuku()" class="zujianBox mb20">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">入库开始时间:</div>
             <div class="mr20 displayalign">
@@ -230,7 +230,7 @@
         </div>
         <!-- 入库开始时间 -->
 
-        <div v-if="!_isRuku()" class="zujianBox mb20">
+        <div v-show="!_isRuku()" class="zujianBox mb20">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">出库时间:</div>
             <div class="mr20 displayalign">
@@ -256,7 +256,7 @@
         </div>
         <!-- 出库时间 -->
 
-        <div v-if="!_isRuku()" class="zujianBox mb20">
+        <div v-show="!_isRuku()" class="zujianBox mb20">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">拣货完成时间:</div>
             <div class="mr20 displayalign">
@@ -282,7 +282,7 @@
         </div>
         <!-- 拣货完成时间 -->
 
-        <div v-if="!_isRuku()" class="zujianBox mb20">
+        <div v-show="!_isRuku()" class="zujianBox mb20">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">复核完成时间:</div>
             <div class="mr20 displayalign">

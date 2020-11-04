@@ -1012,7 +1012,7 @@ export const getpOutWarehouseconfirmRecord = function (data) {
 export const getpPurchaseOrderFindRecordPageByOrgAndPurcNo = function (data) {
     return new Promise((res, rej) => {
         service.request({
-            url: "/wbs-warehouse-manage/v1/pPurchaseOrder/findRecordPageByOrgAndPurcNo",
+            url: "/wbs-warehouse-manage/v1/pPurchaseOrder/findRecordPage",
             method: "post",
             data
         }).then((ok) => {
@@ -1083,7 +1083,19 @@ export const getpCommonFindOrgByWareId = function () {
  * 采购管理获取采购产品
  * @param {*} datas /wbs-warehouse-manage/v1/pWareOrgProd/findRecordPage
  */
-
+export const getpWareOrgProdfindRecordPage = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWareOrgProd/findRecordPage",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
 
 
 //=========================================采购管理 end ========================================

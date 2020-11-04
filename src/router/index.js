@@ -408,6 +408,8 @@ const routes = [{
       title: "出库确认"
     }
   },
+  //===========================采购管理 end===============
+  //----------------------------------------------------------订单管理开始-------------------------------------------------------------------------------------
   {
     path: "/systemSetting/editUserIng",
     name: 'systemSetting/editUserIng',
@@ -420,9 +422,11 @@ const routes = [{
     component: () => import("../views/systemSetting/lookUser.vue")
   },
   {
-    path: '*',
-    name: 'notfount',
-    component: () => import('../views/404.vue')
+    // 订单管理=>自提订单管理
+    path: "/indentManagement/zitiIndentManage",
+    name: "/indentManagement/zitiIndentManage",
+    component: () => import("../views/indentManagement/zitiIndentManage"),
+
   },
   {
     //仓库配置=>区域管理=>创建子仓

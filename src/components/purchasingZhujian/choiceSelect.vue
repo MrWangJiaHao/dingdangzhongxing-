@@ -38,6 +38,7 @@
           </div>
         </div>
         <!-- 产品名称 -->
+
         <div>
           <div class="displayalign ellipsis">
             <div class="noneIconTitle mr11">产品规格:</div>
@@ -54,6 +55,23 @@
           </div>
         </div>
         <!-- 产品规格 -->
+
+        <div>
+          <div class="displayalign ellipsis">
+            <div class="noneIconTitle mr11">品牌:</div>
+            <div class="mr20">
+              <el-autocomplete
+                class="inline-input"
+                v-model="sendoutDatas.paras.braId"
+                :fetch-suggestions="specNameQuerySearch"
+                placeholder="请输入产品规格"
+                :trigger-on-focus="false"
+                @select="specNameHandleSelect"
+              ></el-autocomplete>
+            </div>
+          </div>
+        </div>
+        <!-- 品牌 -->
         <div class="displayalign">
           <div class="disinb tijiaoBox mr11" @click="sendoutDataAsync">
             查询
@@ -64,14 +82,14 @@
       <div class="btn tr mb20 pd20">
         <div class="disinb quxiaoBox" @click="clearRemovetable">删除</div>
       </div>
-      <div class="mb20 pd20">
+      <div class="mb20 pd20 displayCenter" style="height: 350px">
         <el-table
           ref="multipleTable"
           :data="tabledata"
           :stripe="true"
           :border="true"
           tooltip-effect="dark"
-          style="width: 100%"
+          style="width: 100%; height: 100%; overflow-y: auto"
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="82"></el-table-column>
@@ -113,7 +131,7 @@
           <el-table-column
             label="销售仓可用库存"
             width="119"
-            prop="braName"
+            prop="outOfProdNum"
             show-overflow-tooltip
           ></el-table-column>
           <el-table-column
@@ -131,11 +149,12 @@
           <el-table-column
             label="申请采购数量*"
             width="119"
-            prop="braName"
+            prop="prodNum"
             show-overflow-tooltip
           >
             <el-input
-              v-model="scope.row.braName"
+              slot-scope="scope"
+              v-model="scope.row.prodNum"
               placeholder="请输入采购数量"
             ></el-input>
           </el-table-column>
@@ -157,13 +176,13 @@
 </template>
 
 <script>
+/*eslint-disable */
 import {
-  getfindOrgProductPage,
+  getpWareOrgProdfindRecordPage,
   queryProductInfor,
   getSaveRecord,
 } from "../../api/api";
 import { getCookie } from "../../utils/validate";
-/*eslint-disable */
 import pageComponent from "../commin/pageComponent";
 export default {
   data() {
@@ -196,7 +215,6 @@ export default {
     this.sendoutDataAsync();
   },
   components: {
-    // searchBox,
     pageComponent,
   },
   methods: {
@@ -233,7 +251,6 @@ export default {
       });
     },
     prodNameHandleSelect(e) {
-      console.log(e, "选择了产品名称");
       if (!e) this.sendoutDatas.paras.braId = "";
       this.sendoutDatas.paras.braId = e.braId;
       this.tabledata = [e];
@@ -303,7 +320,7 @@ export default {
     },
     //发生请求
     async _sendOutAsync() {
-      let datas = await getfindOrgProductPage(this.sendoutDatas);
+      let datas = await getpWareOrgProdfindRecordPage(this.sendoutDatas);
       return datas.result;
     },
     //改变数据
@@ -325,7 +342,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
-
+.choiceSelectBox {
+  background: #f8f8f8;
+}
 .headerBox {
   width: 100%;
   height: 50px;

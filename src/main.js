@@ -15,7 +15,8 @@ import VueCookie from 'vue-cookie'
 import Lodop from './assets/js/LodopFuncs'
 import qrcode from './assets/js/qrcode'
 import "./assets/js/rem";
-
+import animated from 'animate.css';
+Vue.use(animated)
 
 // import $ from 'jquery'
 // Vue.prototype.$ = $

@@ -42,7 +42,10 @@
                   期望到货时间<span style="color: red">*</span> :
                 </div>
                 <div class="mr20">
-                  <dateTime :dateTimeData="datetimeDate" />
+                  <dateTime
+                    :dateTimeData="datetimeDate"
+                    @getDateTime="getexpectedArrivalTime"
+                  />
                 </div>
               </div>
             </div>
@@ -72,14 +75,14 @@
           <div class="tijiaoBox disinb mr20" @click="addChanpin">添加产品</div>
           <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
         </div>
-        <div class="mb20">
+        <div class="mb20" style="height: 200px">
           <el-table
             ref="multipleTable"
             :data="tabledata"
             :stripe="true"
             :border="true"
             tooltip-effect="dark"
-            style="width: 100%"
+            style="width: 100%; height: 100%; overflow-y: auto"
             @selection-change="handleSelectionChange"
           >
             <el-table-column type="selection" width="82"></el-table-column>
@@ -135,7 +138,7 @@
             <el-table-column
               label="申请采购数量**"
               width="119"
-              prop="actualProdNum"
+              prop="prodNum"
               show-overflow-tooltip
             >
               <el-input slot-scope="scope" v-model="scope.row.prodNum">
@@ -147,11 +150,8 @@
               show-overflow-tooltip
               width="180"
             >
-              <div slot-scope="scope">
-                <dateTime
-                  :dateTimeData="datetimeDate"
-                  v-model="scope.row.recommendSeatNo"
-                />
+              <div slot-scope="scope" @click="tablesClickDatas(scope.row)">
+                <dateTime :dateTimeData="datetimeDate" />
               </div>
             </el-table-column>
           </el-table>
@@ -159,16 +159,21 @@
       </div>
       <!-- 账号信息 -->
       <div class="displayCenter mb20">
-        <div class="quxiaoBox mr20" @click="closeBtn">取消</div>
-        <div class="tijiaoBox" @click="goAJAXCreate">提交</div>
+        <div class="quxiaoBox mb20 mr20" @click="closeBtn">取消</div>
+        <div class="tijiaoBox mb20" @click="goAJAXCreate">提交</div>
       </div>
       <!-- btn -->
       <!-- 添加产品 start -->
-      <transition name="fade">
-        <div v-if="addChanpins" ref="parentSelect" class="addChanpinClass">
-          <choiceSelect ref="childSelect" />
-        </div>
-      </transition>
+      <div v-show="addChanpins" class="bjBox">
+        <transition
+          enter-active-class="animate__animated animate__zoomIn"
+          leave-active-class="animate__animated animate__zoomOut"
+        >
+          <div v-show="addChanpins">
+            <choiceSelect />
+          </div>
+        </transition>
+      </div>
       <!-- 添加产品 end -->
     </div>
   </div>
@@ -185,11 +190,8 @@ import { Message } from "element-ui";
 import { _getArrTarget } from "../../utils/validate";
 import {
   getFindWareOrg,
-  getFindOrgChildWare,
-  queryAreaOfWS,
-  getpOutWarehouseSaveRecord,
   getpPurchaseOrdersaveRecord,
-  getRecommendSeatByBatchNoAndQualityDate,
+  getpWareOrgProdfindRecordPage,
 } from "../../api/api";
 import choiceSelect from "../../components/purchasingZhujian/choiceSelect";
 export default {
@@ -218,14 +220,11 @@ export default {
         ziCangArr: [],
       },
       createUserData: {
-        pageNumber: 1,
-        pageSize: 10,
         putstatus: "0",
         disposeStatus: "0", //处理状态
         expectedSendTime: "", //期望入库时间
         operatorType: 1,
         wareId: "",
-        childWareId: "",
         remark: "",
         wareAreaId: "",
         wareAreaName: "",
@@ -233,12 +232,11 @@ export default {
         orgName: "",
         childWareName: "",
         pOutWarehouseDetails: [],
-        prodIds: [],
+        expectedArrivalTime: "", //期望到货时间
         recommendSeatNo: [],
-        outWareType: (() => this.$route.query.outWareType)(),
         id: (() => {
           return this.$route.query.id ? this.$route.query.id : "";
-        })(),
+        })(), //编辑
       },
       getProvinceData: {
         parentCode: 0,
@@ -293,6 +291,7 @@ export default {
     },
   },
   methods: {
+    tablesClickDatas(e) {},
     kuweiChanges(e) {
       if (!this.createUserData.orgId) return Message("请选择委托公司");
       this.targetRow.minNum = this.kueirArr[e].minNum;
@@ -332,9 +331,13 @@ export default {
       let datas = await getFindWareOrg();
       this.companyJson.companyArr = datas.result;
     },
+
     getDateTimeExpectedSendTime(e) {
       this.tabledata[+this.rowTables].expectedSendTime = e;
       this.tabledata[+this.rowTables].manuTime = e;
+    },
+    getexpectedArrivalTime(e) {
+      this.createUserData.expectedArrivalTime = e;
     },
     getDateTimeIndex(e) {
       this.rowTables = e;
@@ -354,16 +357,15 @@ export default {
         );
       });
     },
-
     //点击了添加产品
     addChanpin() {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.expectedArrivalTime)
+        return Message("请选择期望到货时间");
       this.addChanpins = true;
-      sessionStorage.setItem("orgId", this.createUserData.orgId);
     },
     //关闭
     closeBtn() {
-      this.$router.go(-1);
+      this.$parent._data.isCreatePurchasing = false;
     },
     handleSelectionChange(e) {
       this.multipleSelection = e;
@@ -393,29 +395,7 @@ export default {
 
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: transform 1s;
-}
-
-.fade-enter,
-	.fade-leave-to
-
-	/* .fade-leave-active below version 2.1.8 */ {
-  transform: scale(0);
-}
-
 .setUserIngBox {
-  background: rgb(232, 233, 236);
-  padding: 0 10px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-
   .headerBox {
     height: 50px;
     border-radius: 3px;
