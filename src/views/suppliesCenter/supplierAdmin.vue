@@ -69,7 +69,11 @@
             </el-table-column>
             <el-table-column prop="supContact" label="联系人" align="center">
             </el-table-column>
-            <el-table-column prop="companyAddress" label="公司地址" align="center">
+            <el-table-column
+              prop="companyAddress"
+              label="公司地址"
+              align="center"
+            >
             </el-table-column>
             <el-table-column
               prop="remark"
@@ -125,6 +129,7 @@
               <el-input
                 v-model="telPeoplePhone"
                 placeholder="请输入联系电话"
+                type="number"
                 @blur="testIsMobile"
               ></el-input>
             </div>
