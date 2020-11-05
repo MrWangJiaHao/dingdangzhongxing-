@@ -9,13 +9,13 @@
               <div class="el-inputBox-text">委托公司：</div>
               <div class="el-inputBox-checkBox">
                 <el-select
-                  v-model="mateTypeValue"
+                  v-model="entrustCompany"
                   placeholder="请选择委托公司"
-                  @change="mateTypeValues"
+                  @change="entrustCompanys"
                   clearable
                 >
                   <el-option
-                    v-for="item in mateTypeValueData"
+                    v-for="item in entrustCompanyData"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -28,13 +28,13 @@
               <div class="el-inputBox-text">渠道：</div>
               <div class="el-inputBox-checkBox">
                 <el-select
-                  v-model="mateNameValue"
+                  v-model="channelValue"
                   placeholder="请选择渠道"
-                  @change="mateNameValues"
+                  @change="channelValues"
                   clearable
                 >
                   <el-option
-                    v-for="item in mateNameValueData"
+                    v-for="item in channelValueData"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -47,13 +47,13 @@
               <div class="el-inputBox-text">订单来源：</div>
               <div class="el-inputBox-checkBox">
                 <el-select
-                  v-model="supNameValue"
+                  v-model="indentSourceValue"
                   placeholder="请选择订单来源"
-                  @change="supNameValues"
+                  @change="indentSourceValues"
                   clearable
                 >
                   <el-option
-                    v-for="item in supNameValueData"
+                    v-for="item in indentSourceValueData"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -65,20 +65,8 @@
             <div class="el-inputBox">
               <div class="el-inputBox-text">订单号：</div>
               <div class="el-inputBox-checkBox">
-                <el-select
-                  v-model="brandNameValue"
-                  placeholder="请选择订单号"
-                  @change="brandNameValues"
-                  clearable
-                >
-                  <el-option
-                    v-for="item in brandNameValueData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
+                <el-input v-model="orderNumberValue" placeholder="模糊检索">
+                </el-input>
               </div>
             </div>
           </div>
@@ -86,33 +74,24 @@
             <div class="el-inputBox childrenIndent">
               <div class="el-inputBox-text">子单号：</div>
               <div class="el-inputBox-checkBox">
-                <el-select
-                  v-model="anyTypeValue"
-                  placeholder="请选择子单号"
-                  @change="anyTypeValues"
-                  clearable
+                <el-input
+                  v-model="ChildOrderNumberValue"
+                  placeholder="模糊检索"
                 >
-                  <el-option
-                    v-for="item in anyTypeData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
+                </el-input>
               </div>
             </div>
             <div class="el-inputBox childrenIndentState">
               <div class="el-inputBox-text">子单状态：</div>
               <div class="el-inputBox-checkBox">
                 <el-select
-                  v-model="anyTypeValue"
+                  v-model="ChildOrderState"
                   placeholder="请选择子单状态"
-                  @change="anyTypeValues"
+                  @change="ChildOrderStates"
                   clearable
                 >
                   <el-option
-                    v-for="item in anyTypeData"
+                    v-for="item in ChildOrderStateData"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -124,12 +103,12 @@
             <div class="el-inputBox stateChoose">
               <div class="el-inputBox-checkBox">
                 <el-select
-                  v-model="anyTypeValue"
-                  @change="anyTypeValues"
+                  v-model="stateChooseValue"
+                  @change="stateChooseValues"
                   clearable
                 >
                   <el-option
-                    v-for="item in anyTypeData"
+                    v-for="item in stateChooseValueData"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -162,21 +141,26 @@
             <div class="el-inputBox consignee">
               <div class="el-inputBox-text">收货人：</div>
               <div class="el-inputBox-checkBox">
-                <el-input v-model="anyTypeValue" placeholder="请输入收货人">
+                <el-input v-model="consigneeValue" placeholder="请输入收货人">
                 </el-input>
               </div>
             </div>
             <div class="el-inputBox block_hidden telphone">
               <div class="el-inputBox-text">联系电话：</div>
               <div class="el-inputBox-checkBox">
-                <el-input v-model="anyTypeValue" placeholder="请输入联系电话">
+                <el-input
+                  v-model="telPhoneValue"
+                  placeholder="请输入联系电话"
+                  type="number"
+                  @blur="testIsMobile"
+                >
                 </el-input>
               </div>
             </div>
             <div class="el-inputBox block_hidden address">
               <div class="el-inputBox-text">收货地址：</div>
               <div class="el-inputBox-checkBox">
-                <el-input v-model="anyTypeValue" placeholder="请输入收货地址">
+                <el-input v-model="addressValue" placeholder="请输入收货地址">
                 </el-input>
               </div>
             </div>
@@ -197,7 +181,7 @@
             <div class="icon-title-icon">
               <img src="../../assets/img/systemTitlemesa.png" />
             </div>
-            <div class="icon-title-title">销售订单查询结果</div>
+            <div class="icon-title-title">销售订单信息</div>
           </div>
           <div class="someBtn">
             <div class="setUser" @click="educe">导出</div>
@@ -210,8 +194,8 @@
             style="width: 100%"
             @selection-change="handleSelectionChange"
             :stripe="true"
-            empty-text="加载中请稍等"
             tooltip-effect="dark"
+            @cell-click="lookDetailEvent"
           >
             <el-table-column type="selection" width="55"> </el-table-column>
             <el-table-column
@@ -223,131 +207,146 @@
             </el-table-column>
             <el-table-column prop="orgName" label="委托公司" align="center">
             </el-table-column>
-            <el-table-column prop="materielName" label="渠道" align="center">
+            <el-table-column prop="channelName" label="渠道" align="center">
             </el-table-column>
             <el-table-column
-              prop="materielCode"
+              prop="orderSourceName"
               label="订单来源"
               align="center"
             >
             </el-table-column>
-            <el-table-column prop="specName" label="订单号" align="center">
+            <el-table-column prop="orderNo" label="订单号" align="center">
+              <template slot-scope="scope">
+                <div class="lookDeatil">
+                  {{ scope.row.orderNo }}
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="subOrderNo" label="子订单号" align="center">
+              <template slot-scope="scope">
+                <div class="lookDeatil">
+                  {{ scope.row.subOrderNo }}
+                </div>
+              </template>
             </el-table-column>
             <el-table-column
-              prop="materielType"
-              label="子订单号"
+              prop="subOrderStatus"
+              label="子订单状态"
               align="center"
             >
+              <template slot-scope="scope">
+                <div class="lookDeatil">
+                  {{ scope.row.subOrderStatus }}
+                </div>
+              </template>
             </el-table-column>
-            <el-table-column prop="braName" label="子订单状态" align="center">
+            <el-table-column prop="volume" label="体积(m³)" align="center">
             </el-table-column>
-            <el-table-column prop="supName" label="体积(m³)" align="center">
+            <el-table-column prop="weight" label="重量(KG)" align="center">
             </el-table-column>
-            <el-table-column prop="type" label="重量(KG)" align="center">
+            <el-table-column prop="commendBox" label="推荐用箱" align="center">
             </el-table-column>
-            <el-table-column prop="num" label="推荐用箱" align="center">
+            <el-table-column prop="exprName" label="物流公司" align="center">
+            </el-table-column>
+            <el-table-column prop="exprNo" label="物流单号" align="center">
             </el-table-column>
             <el-table-column
-              prop="actualInventory"
-              label="物流公司"
-              align="center"
-            >
-            </el-table-column>
-            <el-table-column prop="" label="物流单号" align="center">
-            </el-table-column>
-            <el-table-column
-              prop="createUser"
+              prop="wareExprFeeCode"
               label="仓库运费模板编号"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="wareExprFeeName"
               label="仓库运费模板名称"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="orgExprFeeCode"
               label="委托公司运费模板编号"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="orgExprFeeName"
               label="委托公司运费模板名称"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="exprFee"
               label="预估运费（元）"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="printUser"
               label="下发时间"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="mergeStartTime"
               label="集计开始时间"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="mergeEndTime"
               label="集计完成时间"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="printTime"
               label="打印时间"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="printUser"
               label="打印人"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="pickStartTime"
               label="拣货开始时间"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="pickEndTime"
               label="拣货完成时间"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="pickUser"
               label="拣货人"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="reCheckStartTime"
               label="复核开始时间"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="reCheckEndTime"
               label="复核完成时间"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="reCheckUser"
               label="复核人"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="reCheckImageData"
               label="复核照片"
               align="center"
-            ></el-table-column>
+            >
+              <template slot-scope="scope">
+                <div class="lookDetail">{{ scope.row.reCheckImageData }}</div>
+              </template>
+            </el-table-column>
             <el-table-column
-              prop="createTime"
+              prop="reCheckResult"
               label="复核结果"
               align="center"
             ></el-table-column>
           </el-table>
         </div>
-        <div class="pageComponent" v-if="this.tableData.length >= 10">
+        <div class="pageComponent">
           <pagecomponent
             :pageComponentsData="pageComponentsData"
             @getPageNum="getPageNum"
@@ -360,19 +359,12 @@
 </template>
 
 <script>
+/*eslint-disable */
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { Message } from "element-ui";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
-import {
-  createMateRecord,
-  delMateRecord,
-  queryMateRecord,
-  queryMateAdmin,
-  querySupplier,
-  queryBrand,
-  querySpec,
-  getFindWareOrg,
-} from "../../api/api";
+import { queryOrderInfor } from "../../api/api";
+import { isMobile } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -381,6 +373,7 @@ export default {
   data() {
     return {
       index: 0,
+      tableData: [],
       stateChoose: "展开",
       datetimeDate: {
         placeholder: "请选择结束时间",
@@ -389,427 +382,274 @@ export default {
         title: "",
         placeholder: "请选择开始时间",
       },
-      title: "",
-      anyTypeValue: "",
-      mateNameValue: "",
+      ChildOrderNumberValue: "",
+      channelValue: "",
       mateNumValue: "",
-      mateTypeValue: "",
-      supNameValue: "",
-      brandNameValue: "",
-      mateNameValueData: [],
+      entrustCompany: "",
+      indentSourceValue: "",
+      orderNumberValue: "",
+      ChildOrderState: "",
+      channelValueData: [],
       mateNumValueData: [],
-      mateTypeValueData: [
+      entrustCompanyData: [],
+      indentSourceValueData: [],
+      ChildOrderNumberData: [],
+      ChildOrderStateData: [
+        {
+          value: "0",
+          label: "拉取/手工",
+        },
         {
           value: "1",
-          label: "纸箱",
+          label: "拆分",
         },
         {
           value: "2",
-          label: "胶带",
+          label: "下发中",
         },
         {
           value: "3",
-          label: "打印纸",
+          label: "待审核",
+        },
+        {
+          value: "5",
+          label: "待合并",
+        },
+        {
+          value: "6",
+          label: "待打印",
+        },
+        {
+          value: "7",
+          label: "待拣货",
+        },
+        {
+          value: "8",
+          label: "待复核",
+        },
+        {
+          value: "9",
+          label: "重新拣货",
+        },
+        {
+          value: "10",
+          label: "已发货",
+        },
+        {
+          value: "11",
+          label: "已退单",
         },
       ],
-      supNameValueData: [],
-      brandNameValueData: [],
-      anyTypeData: [
+      stateChooseValue: "下发时间",
+      stateChooseValueData: [
         {
-          value: "1",
-          label: "入库",
+          value: "下发时间",
+          label: "下发时间",
         },
         {
-          value: "2",
-          label: "出库",
+          value: "集计时间",
+          label: "集计时间",
         },
         {
-          value: "3",
-          label: "残次品",
-        },
-      ],
-
-      //----------弹窗里面的select选择框和输入框开始---------------
-      dialogBelongCompanyData: [],
-      dialogBelongCompany: "",
-      dialogMateName: "",
-      dialogMateCode: "",
-      dialogQuantity: "",
-      dialogSupValue: "",
-      dialogSupData: [],
-      dialogSpecData: [],
-      dialogMateNameData: [],
-      dialogTypeValueData: [
-        {
-          value: "1",
-          label: "入库",
+          value: "拣货时间",
+          label: "拣货时间",
         },
         {
-          value: "2",
-          label: "出库",
+          value: "复核时间",
+          label: "复核时间",
         },
         {
-          value: "3",
-          label: "残次品",
+          value: "揽件时间",
+          label: "揽件时间",
         },
       ],
-      dialogTypeValue: "",
-      dialogSpecValue: "",
-      dialogBrandValue: "",
-      //----------弹窗里面的select选择框和输入框结束---------------
-      tableData: [],
-      tableData1: [],
+      consigneeValue: "",
+      telPhoneValue: "",
+      addressValue: "",
       multipleSelection: [],
-      pagingQueryData: {
-        //分页查询
+      queryData: {
         orderBy: "createTime",
-        pageNumber: 1,
-        pageSize: 10,
+        pageNumber: "1",
+        pageSize: "10",
         paras: {
-          materielName: "",
-          materielType: "",
-          supId: "",
-          braId: "",
-          type: "",
-          startTime: "",
-          endTime: "",
+          orgId: "",
+          channelId: "",
+          orderSourceId: "", //订单来源id
+          orderNo: "", //订单号
+          subOrderNo: "",
+          subOrderStatus: "",
+          orderContact: "",
+          orderContactPhone: "",
+          orderAddr: "",
+          offLineMark: "",
+          pushStartTime: "",
+          pushEndTime: "",
+          megerStartTime: "",
+          megerEndTime: "",
+          pickStartTime: "",
+          pickEndTime: "",
+          checkStartTime: "",
+          checkEndTime: "",
+          sendStartTime: "",
+          sendEndTime: "",
+          hasExpr: "",
         },
       },
       pageComponentsData: {
         pageNums: 0, //一共多少条 //默认一页10条
       },
-
-      dialogFormVisible: false,
-
-      mateId: "",
-
-      allBrandData: [],
-      allSupData: [],
-      allSpecData: [],
-
-      allBrandId: "",
-      allSupId: "",
-      allSpecId: "",
-
-      queryData: {
-        orderBy: "createTime",
-        pageNumber: 1,
-        pageSize: 10,
-        paras: {
-          unReach: "",
-          materielType: "",
-          id: "",
-          specId: "",
-          supId: "",
-          braId: "",
-        },
-      },
-      mateNameData: [], //用来存储查询物料名称等相关信息
-      allQueryInfor: {
-        id: "",
-        supId: "",
-        braId: "",
-        type: "",
-        startTime: "",
-        endTime: "",
-      },
       // 导出文件名称
-      filename: "物料记录信息",
+      filename: "销售订单信息",
       // 导出表格宽度是否auto
       autoWidth: true,
       // 导出文件格式
       bookType: "xlsx",
-      pageQueryFun: "",
-      queryComRes: [],
-      orgId: "",
     };
   },
   mounted() {
-    //查村委托公司
-    // let queryComData = {
-    //   wareId: "2A8B48391F4F4EB5BDEDF9EBA0B6BAE7",
-    // };
-    getFindWareOrg().then((ok) => {
-      // console.log(ok);
-      if (ok.code === "10000") {
-        this.queryComRes = ok.result;
-        this.queryComRes.forEach((v) => {
-          this.dialogBelongCompanyData.push({
-            value: v.orgName,
-            label: v.orgName,
-          });
-        });
-      }
-    });
-
-    //查询物料名称的请求
-    let queryData = this.queryData;
-    queryMateAdmin(queryData).then((ok) => {
-      if (ok.data.code === "10000") {
-        this.mateNameData = ok.data.result.list;
-        let res = ok.data.result.list;
-        res.forEach((v) => {
-          this.dialogMateNameData.push({
-            value: v.materielName,
-            label: v.materielName,
-          });
-          this.mateNameValueData.push({
-            value: v.materielName,
-            label: v.materielName,
-          });
-        });
-      }
-    });
-
-    let OtherQueryData = {
-      orderBy: "createTime",
-      pageNumber: 1,
-      pageSize: 10,
-      paras: {
-        id: "",
-      },
-    };
-    //查询供应商
-    querySupplier(OtherQueryData).then((ok) => {
-      // console.log(ok);
-      if (ok.data.code === "10000") {
-        this.allSupData = ok.data.result.list;
-        this.allSupData.forEach((v) => {
-          this.supNameValueData.push({
-            value: v.supName,
-            label: v.supName,
-          });
-        });
-      } else {
-        Message({
-          message: "查询供应商失败",
-          type: "error",
-        });
-      }
-    });
-    //查询品牌
-    queryBrand(OtherQueryData).then((ok) => {
-      // console.log(ok);
-      if (ok.data.code === "10000") {
-        this.allBrandData = ok.data.result.list;
-        this.allBrandData.forEach((v) => {
-          this.brandNameValueData.push({
-            value: v.braFullName,
-            label: v.braFullName,
-          });
-        });
-      } else {
-        Message({
-          message: "查询品牌失败",
-          type: "error",
-        });
-      }
-    });
-    //查询规格
-    querySpec(OtherQueryData).then((ok) => {
-      // console.log(ok);
-      if (ok.data.code === "10000") {
-        this.allSpecData = ok.data.result.list;
-      } else {
-        Message({
-          message: "查询规格失败",
-          type: "error",
-        });
-      }
-    });
-    this.pageQueryFun = () => {
-      let pagingQueryData = this.pagingQueryData;
-      queryMateRecord(pagingQueryData).then((ok) => {
-        // console.log(ok);
-        if (ok.data.code === "10000") {
-          this.tableData = ok.data.result.list;
-          this.tableData.forEach((v) => {
-            this.anyTypeData.forEach((vv) => {
-              if (v.type === +vv.value) {
-                v.type = vv.label;
-              }
-            });
-            this.mateTypeValueData.forEach((vvv) => {
-              if (v.materielType === vvv.value) {
-                v.materielType = vvv.label;
-              }
-            });
-          });
-        }
-      });
-    };
     this.pageQueryFun();
   },
   watch: {},
   methods: {
-    handleSelectionChange(value) {
-      this.multipleSelection = value;
-    },
-    mateNameValues(val) {
-      this.mateNameValue = val;
-      // this.mateNameData.forEach((v) => {
-      //   if (val === v.materielName) {
-      //     this.allQueryInfor.id = v.id;
-      //   }
-      // });
-      this.pagingQueryData.paras.materielName = val;
-    },
-    mateNumValues(val) {
-      this.mateNameValue = val;
-    },
-    mateTypeValues(val) {
-      this.mateTypeValue = val;
-      this.pagingQueryData.paras.materielType = val;
-    },
-    supNameValues(val) {
-      this.supNameValue = val;
-      this.allSupData.forEach((v) => {
-        if (val === v.supName) {
-          this.allQueryInfor.supId = v.id;
-          this.pagingQueryData.paras.supId = v.id;
-        }
-      });
-    },
-    brandNameValues(val) {
-      this.brandNameValue = val;
-      this.allBrandData.forEach((v) => {
-        if (val === v.barName) {
-          this.allQueryInfor.braId = v.id;
-          this.pagingQueryData.paras.braId = v.id;
-        }
-      });
-    },
-
-    dialogBelongCompanys(val) {
-      this.dialogBelongCompany = val;
-      this.queryComRes.forEach((v) => {
-        if (val === v.orgName) {
-          this.orgId = v.id;
-          console.log(this.orgId);
-        }
-      });
-    },
-    dialogMateNames(val) {
-      this.dialogMateName = val;
-      this.mateNameData.forEach((v) => {
-        if (val === v.materielName) {
-          this.queryData.paras.id = v.id;
-        }
-      });
-      //选择物料名称后自动将相关信息填入到对应框内
-      this.tableData = [];
+    pageQueryFun() {
       let queryData = this.queryData;
-      queryMateAdmin(queryData).then((ok) => {
-        // console.log(ok);
+      queryOrderInfor(queryData).then((ok) => {
+        console.log(ok);
         if (ok.data.code === "10000") {
-          // this.tableData = ok.data.result.list;
-          let res = ok.data.result.list[0];
-          this.dialogMateCode = res.materielCode;
-          this.dialogSpecValue = res.specName;
-          this.dialogBrandValue = res.braName;
-          this.dialogSupValue = res.supName;
-          this.allSupData.forEach((v) => {
-            if (this.dialogSupValue === v.supName) {
-              this.allSupId = v.id;
-            }
-          });
-          this.allBrandData.forEach((v) => {
-            if (this.dialogBrandValue === v.braFullName) {
-              this.allBrandId = v.id;
-            }
-          });
-          this.allSpecData.forEach((v) => {
-            if (this.dialogSpecValue === v.specValue) {
-              this.allSpecId = v.id;
-            }
-          });
-        }
-      });
-    },
-    dialogTypeValues(val) {
-      this.dialogTypeValue = val;
-    },
-    anyTypeValues(val) {
-      this.anyTypeValue = val;
-      this.allQueryInfor.type = val;
-      this.pagingQueryData.paras.type = val;
-    },
-    okBtn() {
-      this.dialogFormVisible = false;
+          this.tableData = ok.data.result.list;
+          this.changeData(ok.data.result);
+          this.tableData.forEach((v) => {
+            v.subOrderStatus =
+              v.subOrderStatus === 0
+                ? "拉取/手工"
+                : v.subOrderStatus === 1
+                ? "拆分"
+                : v.subOrderStatus === 2
+                ? "下发中"
+                : v.subOrderStatus === 3
+                ? "待审核"
+                : v.subOrderStatus === 5
+                ? "待合并"
+                : v.subOrderStatus === 6
+                ? "待打印"
+                : v.subOrderStatus === 7
+                ? "待拣货"
+                : v.subOrderStatus === 8
+                ? "待复核"
+                : v.subOrderStatus === 9
+                ? "重新拣货"
+                : v.subOrderStatus === 10
+                ? "已发货"
+                : v.subOrderStatus === 11
+                ? "已退单"
+                : "未查询到";
 
-      let createData = {
-        wareId: "3B31612A55EE4EB09363A6E3805A3F6D", //仓库ID
-        wareName: "", //仓库名称
-        materielCode: this.dialogMateCode, //物料编码
-        supId: this.allSupId, //供应商Id
-        supName: this.dialogSupValue, //供应商名称
-        braId: this.allBrandId, //品牌Id
-        braName: this.dialogBrandValue, //品牌名称
-        specId: this.allSpecId, //规格Id
-        specName: this.dialogSpecValue, //规格名称(eg.10ml/瓶)
-        type: +this.dialogTypeValue, //materielRecordType 物料入库类型（1-入库；2-出库；3-残废）
-        num: this.dialogQuantity, //物料数量
-        id: "", //修改时id为必须自动
-        materielName: this.dialogMateName, //物料名称
-        materielId: this.queryData.paras.id, //物料id
-        orgId: this.orgId, //委托公司id
-        orgName: this.dialogBelongCompany, //委托公司
-      };
-      // console.log(createData);
-      createMateRecord(createData).then((ok) => {
-        // console.log(ok);
-        if (ok.data.code === "10000") {
-          Message({
-            message: "创建成功",
-            type: "success",
+            this.entrustCompanyData.push({
+              value: v.orgId,
+              label: v.orgName,
+            });
+            this.entrustCompanyData = this.reduceFun(this.entrustCompanyData);
+            this.channelValueData.push({
+              value: v.channelId,
+              label: v.channelName,
+            });
+            this.channelValueData = this.reduceFun(this.channelValueData);
+            this.indentSourceValueData.push({
+              value: v.orderSourceName,
+              label: v.orderSourceName,
+            });
+            this.indentSourceValueData = this.reduceFun(
+              this.indentSourceValueData
+            );
           });
-          this.pageQueryFun();
-          this.dialogBelongCompany = "";
-          this.dialogMateName = "";
-          this.dialogMateCode = "";
-          this.dialogSupValue = "";
-          this.dialogSpecValue = "";
-          this.dialogBrandValue = "";
-          this.dialogQuantity = "";
-          this.dialogTypeValue = "";
         } else {
           Message({
-            message: ok.data.msg,
+            message: "未知错误",
             type: "error",
           });
         }
       });
-      this.title = "";
+    },
+    handleSelectionChange(value) {
+      this.multipleSelection = value;
+    },
+    reduceFun(arr) {
+      let testObj = {};
+      let res = arr.reduce((item, next) => {
+        testObj[next.value]
+          ? ""
+          : (testObj[next.value] = true && item.push(next));
+        return item;
+      }, []);
+      return res;
+    },
+    channelValues(val) {
+      this.channelValue = val;
+      this.queryData.paras.channelId = val;
+    },
+    entrustCompanys(val) {
+      this.entrustCompany = val;
+      this.queryData.paras.orgId = val;
+    },
+    indentSourceValues(val) {
+      this.indentSourceValue = val;
+      this.queryData.paras.orderSourceId = val;
+    },
+    ChildOrderStates(val) {
+      this.ChildOrderState = val;
+      this.queryData.paras.subOrderStatus = val;
+    },
+    stateChooseValues(val) {
+      this.stateChooseValue = val;
     },
     clickQuery() {
       //点击查询
+      this.queryData.paras.orderNo = this.orderNumberValue;
+      this.queryData.paras.subOrderNo = this.ChildOrderNumberValue;
+      this.queryData.paras.orderContact = this.consigneeValue;
+      this.queryData.paras.orderContactPhone = this.telPhoneValue;
+      this.queryData.paras.orderAddr = this.addressValue;
       this.tableData = [];
+      console.log(this.queryData);
       this.pageQueryFun();
     },
     clearInput() {
       //点击清空输入框
-      this.mateTypeValue = "";
-      this.mateNameValue = "";
-      this.supNameValue = "";
-      this.brandNameValue = "";
-      this.anyTypeValue = "";
+      this.entrustCompany = "";
+      this.channelValue = "";
+      this.indentSourceValue = "";
+      this.orderNumberValue = "";
+      this.ChildOrderNumberValue = "";
+      this.ChildOrderState = "";
+      this.stateChooseValue = "下发时间";
+      this.consigneeValue = "";
+      this.telPhoneValue = "";
+      this.addressValue = "";
       this.clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
       this.tableData = [];
-      this.pagingQueryData.paras.materielName = "";
-      this.pagingQueryData.paras.materielType = "";
-      this.pagingQueryData.paras.supId = "";
-      this.pagingQueryData.paras.braId = "";
-      this.pagingQueryData.paras.type = "";
-      this.pagingQueryData.paras.startTime = "";
-      this.pagingQueryData.paras.endTime = "";
+      this.queryData.paras.orgId = "";
+      this.queryData.paras.channelId = "";
+      this.queryData.paras.orderSourceId = "";
+      this.queryData.paras.orderNo = "";
+      this.queryData.paras.subOrderNo = "";
+      this.queryData.paras.subOrderStatus = "";
+      this.queryData.paras.orderContactPhone = "";
+      this.queryData.paras.orderAddr = "";
+      this.queryData.paras.offLineMark = "";
+      this.queryData.paras.pushStartTime = "";
+      this.queryData.paras.pushEndTime = "";
+      this.queryData.paras.megerStartTime = "";
+      this.queryData.paras.megerEndTime = "";
+      this.queryData.paras.pickStartTime = "";
+      this.queryData.paras.pickEndTime = "";
+      this.queryData.paras.checkStartTime = "";
+      this.queryData.paras.checkEndTime = "";
+      this.queryData.paras.sendStartTime = "";
+      this.queryData.paras.sendEndTime = "";
+      this.queryData.paras.hasExpr = "";
       this.pageQueryFun();
-    },
-    createChildWarehouse() {
-      //创建
-      this.title = "添加物料记录";
-      this.dialogFormVisible = true;
     },
     educe() {
       //导出表格
@@ -879,83 +719,64 @@ export default {
         })
       );
     },
-    editChildWarehouse() {
-      //编辑
-      this.title = "编辑物料记录";
-      if (!this.multipleSelection.length) return Message("请选择要查看的账号");
-      if (this.multipleSelection.length !== 1)
-        return Message({
-          message: "每次只能编辑一个物料记录信息，请重新选择",
-          type: "warning",
-        });
-      this.dialogFormVisible = true;
-
-      // let res = this.multipleSelection[0];
-    },
-
-    delChildWarehouse() {
-      //删除
-      let arr = [];
-      this.multipleSelection.forEach((item) => {
-        if (!arr.includes(item.id)) {
-          arr.push(item.id);
-        }
-      });
-      if (!arr.length) return Message("请选择要删除的物料信息");
-      this.$confirm("确定要删除该物料信息？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          this.delRequest({ ids: arr });
-        })
-        .catch(() => {
-          Message("已取消删除");
-        });
-    },
-    //删除的请求
-    delRequest(data) {
-      delMateRecord(data).then((ok) => {
-        if (ok.data.code === "10000") {
-          Message({
-            type: "success",
-            message: "删除成功",
-          });
-          this.pageQueryFun();
-        } else {
-          Message({
-            type: "error",
-            message: ok.data.msg ? ok.data.msg : "删除失败",
-          });
-        }
-      });
-    },
     clickShow() {
       this.index++;
       let showDiv = document.querySelectorAll(".block_hidden");
       let caret = document.querySelector(".caret");
-
+      let headerBtn = document.querySelector(".header-botton");
+      let headerHtml = document.querySelector(".headerHtml");
       if (this.index % 2 !== 0) {
         this.stateChoose = "收起";
         showDiv.forEach((v) => {
           v.style.display = "flex";
         });
         caret.style.transform = "rotateZ(180deg)";
+        headerBtn.style.position = "absolute";
+        headerBtn.style.top = "116px";
+        headerHtml.style.height = "152px";
       } else {
         this.stateChoose = "展开";
         showDiv.forEach((v) => {
           v.style.display = "none";
         });
         caret.style.transform = "rotateZ(0)";
+        headerBtn.style.position = "absolute";
+        headerBtn.style.top = "60px";
+        headerBtn.style.right = "0";
+        headerHtml.style.height = "96px";
       }
     },
-
+    testIsMobile() {
+      let telPhoneValue = this.telPhoneValue;
+      if (!isMobile(telPhoneValue)) {
+        return this.$message.error("请输入正确的手机号");
+      }
+    },
+    lookDetailEvent(row, column) {
+      if (column.property === "orderNo") {
+        this.$router.push({
+          path: "/indentManagement/orderDetail",
+          query: {
+            orderNo: row,
+            type: "orderNo",
+          },
+        });
+      }
+      if (column.property === "subOrderStatus") {
+        this.$router.push({
+          path: "/indentManagement/orderLog",
+          query: {
+            subOrderStatus: row,
+            type: "subOrderStatus",
+          },
+        });
+      }
+    },
     getPageNum(e) {
-      this.pagingQueryData.pageNumber = e;
+      this.queryData.pageNumber = e;
     },
     sureSuccssBtn(e) {
-      this.pagingQueryData.pageNumber = e;
+      this.queryData.pageNumber = e;
     },
     changeData(data) {
       this.changePageData(data); //用来改变分页器的条数
@@ -966,12 +787,30 @@ export default {
       this.pageComponentsData.pageNums = totalRow;
     },
     getStartTime(e) {
-      this.allQueryInfor.startTime = e;
-      this.pagingQueryData.paras.startTime = e;
+      if (this.stateChooseValue === "下发时间") {
+        this.queryData.paras.pushStartTime = e;
+      } else if (this.stateChooseValue === "集计时间") {
+        this.queryData.paras.megerStartTime = e;
+      } else if (this.stateChooseValue === "拣货时间") {
+        this.queryData.paras.pickStartTime = e;
+      } else if (this.stateChooseValue === "复核时间") {
+        this.queryData.paras.checkStartTime = e;
+      } else if (this.stateChooseValue === "揽件时间") {
+        this.queryData.paras.sendStartTime = e;
+      }
     },
     getEndTime(e) {
-      this.allQueryInfor.endTime = e;
-      this.pagingQueryData.paras.endTime = e;
+      if (this.stateChooseValue === "下发时间") {
+        this.queryData.paras.pushEndTime = e;
+      } else if (this.stateChooseValue === "集计时间") {
+        this.queryData.paras.megerEndTime = e;
+      } else if (this.stateChooseValue === "拣货时间") {
+        this.queryData.paras.pickEndTime = e;
+      } else if (this.stateChooseValue === "复核时间") {
+        this.queryData.paras.checkEndTime = e;
+      } else if (this.stateChooseValue === "揽件时间") {
+        this.queryData.paras.sendEndTime = e;
+      }
     },
     clearTimeInput() {
       let input = document.getElementsByClassName("ivu-input");
@@ -989,13 +828,17 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
+
 #mianPage {
   background: #e6e7ea;
   padding: 16px;
 }
 .headerHtml {
+  position: relative;
+  height: 96px;
+  transition: 0.3s;
   .headerInput {
     .headerInput-one {
       width: 100%;
@@ -1012,18 +855,16 @@ export default {
         }
       }
       .address {
-      transition: 0.3s;
-
         margin-top: 16px;
         width: 25.7%;
+        transition: 0.3s;
         .el-inputBox-checkBox {
           width: 100%;
         }
       }
       .telphone {
-      transition: 0.3s;
-
         width: 12.6%;
+        transition: 0.3s;
         .el-inputBox-checkBox {
           width: 100%;
         }
@@ -1039,12 +880,14 @@ export default {
       }
       .childrenIndentState {
         width: 18.2%;
+
         .el-inputBox-checkBox {
           width: 100%;
         }
       }
       .stateChoose {
         width: 6.5%;
+        margin-right: 10px;
       }
       .consignee {
         width: 11.3%;
@@ -1065,11 +908,14 @@ export default {
       }
     }
   }
-
   .header-botton {
     width: 12%;
+    transition: 0.3s;
+    position: absolute;
+    right: 0;
+    top: 60px;
     .caret {
-      transition: 0.3s;
+      transition: 0.5s;
     }
     .showBtn {
       width: 50px;
@@ -1081,7 +927,7 @@ export default {
       .caret {
         font-size: 16px;
         position: absolute;
-        left: 25px;
+        left: 50%;
       }
     }
     display: flex;
@@ -1107,9 +953,9 @@ export default {
       display: flex;
       align-items: center;
       .line {
-        width: 20px;
+        width: 10px;
         height: 2px;
-        background: #000;
+        background: #d1d6e2;
         margin-right: 10px;
       }
     }
@@ -1129,6 +975,7 @@ export default {
         width: 14px;
         height: 14px;
         margin: 0 0 0 20px;
+
         img {
           width: 100%;
           height: 100%;
@@ -1159,9 +1006,16 @@ export default {
       }
     }
   }
+
   .resultForm {
     padding: 20px;
+    .lookDeatil {
+      color: #599af3;
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
+
   .pageComponent {
     margin: 20px 10px 0 0;
     text-align: right;
@@ -1169,32 +1023,36 @@ export default {
     background: #ffffff;
   }
 }
-</style>
-<style lang="scss">
+</style><style lang="scss">
 .headerInput {
   .el-select {
     width: 100%;
   }
+
   .childrenIndent {
     .el-select {
       width: 100%;
     }
   }
+
   .childrenIndentState {
     .el-select {
       width: 100%;
     }
   }
+
   .consignee {
     .el-select {
       width: 100%;
     }
   }
+
   .address {
     .el-select {
       width: 100%;
     }
   }
+
   .telphone {
     .el-select {
       width: 100%;
@@ -1202,4 +1060,3 @@ export default {
   }
 }
 </style>
-

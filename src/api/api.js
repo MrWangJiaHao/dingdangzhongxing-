@@ -640,7 +640,7 @@ export function queryStorePhyDisCon(data) {
 export function queryEntrustComFee(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "http://139.196.176.227:8901/om/v1/pWareOrgExprFee/findRecordPageOrg",
+            url: "/om/v1/pWareOrgExprFee/findRecordPageOrg",
             method: "post",
             data,
         }).then((ok) => {
@@ -651,7 +651,20 @@ export function queryEntrustComFee(data) {
     })
 }
 
-
+//分页查询订单信息(自提,无物流)
+export function queryOrderInfor(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgSubOrder/findRecordPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
 
 
 
