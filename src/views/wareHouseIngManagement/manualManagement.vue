@@ -131,35 +131,45 @@
       <!-- table-biaoge -->
     </div>
     <!-- 头部组件 -->
-    <transition
-      enter-active-class="animate__animated animate__zoomIn"
-      leave-active-class="animate__animated animate__zoomOut"
-    >
-      <div v-show="WarehouseReceipt">
-        <div class="posFixCenter">
+    <div v-show="WarehouseReceipt" class="bjBox">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div v-if="WarehouseReceipt">
           <WarehouseReceipt
             :WarehousingType="
               WarehousingTypeArr[$route.params.type].WarehousingTypeCenter
             "
           />
         </div>
-      </div>
-    </transition>
+      </transition>
+    </div>
     <!-- 入库单 -->
-    <div v-if="Receipt">
-      <div class="posFixCenter">
-        <Receipt
-          :WarehousingType="
-            WarehousingTypeArr[$route.params.type].WarehousingTypeCenter
-          "
-        />
-      </div>
+    <div v-show="Receipt" class="bjBox">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div v-if="Receipt" class="posFixCenter">
+          <Receipt
+            :WarehousingType="
+              WarehousingTypeArr[$route.params.type].WarehousingTypeCenter
+            "
+          />
+        </div>
+      </transition>
     </div>
     <!-- 收货单 -->
-    <div v-if="BatchNumber">
-      <div class="posFixCenter">
-        <BatchNumber />
-      </div>
+    <div v-show="BatchNumber" class="bjBox">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div v-if="BatchNumber" class="posFixCenter">
+          <BatchNumber />
+        </div>
+      </transition>
     </div>
     <!-- 批次号 -->
   </div>

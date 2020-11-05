@@ -1,5 +1,5 @@
 <template>
-  <div id="purchasingIndex">
+  <div id="purchasingIndexss">
     <div class="manualBox">
       <div>
         <manualHeader @getParasJson="getParasJson" :tableData="tableData" />
@@ -11,9 +11,7 @@
             <a class="lodopFunClear disinb" id="rukudanExcel" @click="ExportArr"
               >提交</a
             >
-            <div class="goOn" @click="isCreatePurchasing = !isCreatePurchasing">
-              创建
-            </div>
+            <div class="goOn" @click="isCreatePurchasingFn">创建</div>
             <div class="lodopFunClear" @click="editBtn">编辑</div>
             <div class="remove" @click="clearBtn">删除</div>
           </div>
@@ -22,86 +20,87 @@
       </div>
       <div class="tableBox">
         <div style="background-color: #fff; padding: 20px 20px 0 20px">
-          <div class="center">
+          <div id="tableBox" class="center">
             <el-table
               ref="multipleTable"
               :data="tableData"
               :stripe="true"
               :border="true"
               tooltip-effect="dark"
+              row-key="id"
               style="width: 100%"
               @selection-change="handleSelectionChange"
             >
               <el-table-column type="selection" width="82"></el-table-column>
               <el-table-column type="expand">
                 <template slot-scope="scope">
-                  <div
-                    v-show="detailArr.length"
-                    @click="changeDetail(scope.row)"
+                  <el-table
+                    border
+                    :data="detailsData"
+                    tooltip-effect="dark"
+                    style="width: 100%"
+                    :load="changeDetail(scope.row, scope.$index)"
+                    default-expand-all
+                    :tree-props="{
+                      children: 'children',
+                      hasChildren: 'hasChildren',
+                    }"
                   >
-                    <el-table
-                      ref="femlei"
-                      :data="detailsData"
-                      tooltip-effect="dark"
-                      style="width: 100%"
-                      @selection-change="detailArr"
+                    <el-table-column
+                      type="index"
+                      label="序号"
+                      show-overflow-tooltip
                     >
-                      <el-table-column
-                        type="index"
-                        label="序号"
-                        show-overflow-tooltip
-                      >
-                      </el-table-column>
-                      <el-table-column
-                        prop="address"
-                        label="产品编码"
-                        show-overflow-tooltip
-                      >
-                      </el-table-column>
-                      <el-table-column
-                        prop="address"
-                        label="产品名称"
-                        show-overflow-tooltip
-                      >
-                      </el-table-column>
-                      <el-table-column
-                        prop="address"
-                        label="品牌"
-                        show-overflow-tooltip
-                      >
-                      </el-table-column>
-                      <el-table-column
-                        prop="address"
-                        label="产品规格"
-                        show-overflow-tooltip
-                      >
-                      </el-table-column>
-                      <el-table-column
-                        prop="address"
-                        label="销售仓可用库存"
-                        show-overflow-tooltip
-                      >
-                      </el-table-column>
-                      <el-table-column
-                        prop="address"
-                        label="低库存预警值"
-                        show-overflow-tooltip
-                      >
-                      </el-table-column>
-                      <el-table-column
-                        prop="address"
-                        label="高库存预警值"
-                        show-overflow-tooltip
-                      >
-                      </el-table-column>
-                      <el-table-column
-                        prop="address"
-                        label="申请采购数量"
-                        show-overflow-tooltip
-                      >
-                      </el-table-column>
-                    </el-table>
-                  </div>
+                    </el-table-column>
+                    <el-table-column
+                      prop="address"
+                      label="产品编码"
+                      show-overflow-tooltip
+                    >
+                    </el-table-column>
+                    <el-table-column
+                      prop="address"
+                      label="产品名称"
+                      show-overflow-tooltip
+                    >
+                    </el-table-column>
+                    <el-table-column
+                      prop="address"
+                      label="品牌"
+                      show-overflow-tooltip
+                    >
+                    </el-table-column>
+                    <el-table-column
+                      prop="address"
+                      label="产品规格"
+                      show-overflow-tooltip
+                    >
+                    </el-table-column>
+                    <el-table-column
+                      prop="address"
+                      label="销售仓可用库存"
+                      show-overflow-tooltip
+                    >
+                    </el-table-column>
+                    <el-table-column
+                      prop="address"
+                      label="低库存预警值"
+                      show-overflow-tooltip
+                    >
+                    </el-table-column>
+                    <el-table-column
+                      prop="address"
+                      label="高库存预警值"
+                      show-overflow-tooltip
+                    >
+                    </el-table-column>
+                    <el-table-column
+                      prop="address"
+                      label="申请采购数量"
+                      show-overflow-tooltip
+                    >
+                    </el-table-column>
+                  </el-table>
                 </template>
               </el-table-column>
 
@@ -120,21 +119,33 @@
               />
               <el-table-column
                 label="采购单号"
-                width="119"
-                property="putWareNo"
+                width="250"
+                property="purcNo"
                 show-overflow-tooltip
-              ></el-table-column>
+              >
+                <div slot-scope="scope" @click="showCaigoudanDetail(scope.row)">
+                  {{ scope.row.purcNo }}
+                </div>
+              </el-table-column>
               <el-table-column
                 width="119"
                 label="采购状态"
-                prop="orderNo"
+                prop=""
                 show-overflow-tooltip
-              ></el-table-column>
+              >
+                <div slot-scope="scope">
+                  {{ dindanzhuantai(scope.row.disposeStatus) }}
+                </div>
+              </el-table-column>
               <el-table-column
                 label="采购类型"
-                prop="expectedSendTime"
+                prop="orderSource"
                 show-overflow-tooltip
-              ></el-table-column>
+              >
+                <div slot-scope="scope">
+                  {{ caigouleixing(scope.row.orderSource) }}
+                </div>
+              </el-table-column>
               <el-table-column
                 label="申请采购数量"
                 width="119"
@@ -144,7 +155,7 @@
               <el-table-column
                 label="期望到货时间"
                 width="119"
-                prop="putUser"
+                prop="expectedArrivalTime"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
@@ -154,19 +165,19 @@
               ></el-table-column>
               <el-table-column
                 label="实际到货时间"
-                prop="putEndTime"
+                prop="arrivalTime"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="创建人"
                 width="119"
-                prop="batchNo"
+                prop="createUser"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="创建日期"
                 width="119"
-                prop="batchNo"
+                prop="createTime"
                 show-overflow-tooltip
               ></el-table-column>
             </el-table>
@@ -184,31 +195,48 @@
       <!-- table-biaoge -->
     </div>
     <!-- 创建 && 编辑 start -->
-    <div v-show="isCreatePurchasing" class="bjBox">
+    <div v-if="isCreatePurchasing" class="bjBox">
       <transition
         enter-active-class="animate__animated animate__zoomIn"
         leave-active-class="animate__animated animate__zoomOut"
       >
-        <div v-show="isCreatePurchasing">
-          <createPurchasing />
+        <div v-if="isCreatePurchasing">
+          <createPurchasing :editDataJson="editDataJson" />
         </div>
       </transition>
     </div>
     <!-- 创建 && 编辑 end -->
+
+    <!-- 采购单详情页 start -->
+    <div v-show="iscaigoudanDetail" class="bjBox">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div v-if="iscaigoudanDetail">
+          <caigoudanDetail
+            @getiscaigoudanDetail="getiscaigoudanDetail"
+            :caigoudanDetailJson="caigoudanDetailJson"
+          />
+        </div>
+      </transition>
+    </div>
+    <!--  采购单详情页 end -->
   </div>
 </template>
 <style>
 .cell {
   text-align: center;
 }
-#purchasingIndex .el-icon.el-icon-arrow-right::before {
+#purchasingIndexss #tableBox .el-icon.el-icon-arrow-right::before {
   content: "+";
 }
-#purchasingIndex .el-table__expand-icon--expanded {
+#purchasingIndexss #tableBox .el-table__expand-icon--expanded {
   transform: rotate(0deg);
   transition: all 0.3s;
 }
-#purchasingIndex
+#purchasingIndexss
+  #tableBox
   .el-table__expand-icon--expanded
   .el-icon.el-icon-arrow-right::before {
   content: "-";
@@ -220,10 +248,12 @@ import manualHeader from "../../components/purchasingZhujian/purchHeader"; //采
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import WarehouseReceipt from "../../components/manual/WarehouseReceipt"; //入库单
 import createPurchasing from "./createPurchasing"; //创建
+import caigoudanDetail from "./caigoudanDetail"; //采购单详情
 import {
   getppPurchaseOrderFindRecord,
   delRecordByIdArrs,
   getpPurchaseOrderFindRecordPageByOrgAndPurcNo,
+  subpPurchaseOrderSubmitRecord,
 } from "../../api/api";
 import { Message } from "element-ui";
 import { _getArrTarget } from "../../utils/validate";
@@ -234,10 +264,19 @@ export default {
     pagecomponent,
     WarehouseReceipt,
     createPurchasing,
+    caigoudanDetail,
+  },
+  watch: {
+    isCreatePurchasing(n) {
+      if (n) {
+        this.getTableData();
+      }
+    },
   },
   data() {
     return {
       isCreatePurchasing: false, //显示创建弹框
+      iscaigoudanDetail: false, // 显示采购详情
       WarehouseReceiptIds: "",
       ReceiptIds: "",
       BatchNumberIds: "",
@@ -263,55 +302,66 @@ export default {
         pageNumber: 1, //当前页数
         pageSize: 10, //每页记录数
       },
-      detailArr: [], //点击的那个详情
+      iSLoad: true,
       multipleSelection: [], //点击了那个
       thisOneShow: true,
-      listArrs: {},
-      WarehousingTypeArr: [],
+      sureIdx: null,
+      detailsDataJson: {},
+      editDataJson: {},
+      caigoudanDetailJson: {},
     };
   },
   created() {
-    if (this.thisOneShow) {
-      let type = this.$route.params.type;
-      this.sendOutDataJson.paras.orderSource = type;
-      this.thisOneShow = false;
-    }
     this.getTableData();
   },
-  watch: {
-    $route(to, from) {
-      this.sendOutDataJson.paras.orderSource = to.params.type
-        ? to.params.type
-        : from.params.type;
-      this.getTableData();
+  methods: {
+    isCreatePurchasingFn() {
+      this.editDataJson = {};
+      this.isCreatePurchasing = true;
     },
-  },
-  computed: {
-    //审核状态
+    getiscaigoudanDetail(e) {
+      this.iscaigoudanDetail = e;
+    },
+    showCaigoudanDetail(data) {
+      console.log(data, "点击了采购单详情");
+      this.caigoudanDetailJson = data;
+      this.iscaigoudanDetail = true;
+    },
     dindanzhuantai(data) {
       switch (data) {
-        case "0":
+        case 0:
           return "待审核";
           break;
-        case "1":
+        case 1:
           return "审核通过";
           break;
 
-        case "2":
+        case 2:
           return "拒绝";
           break;
 
-        case "3":
+        case 3:
           return "待到货确认";
           break;
 
-        case "4":
+        case 4:
           return "已完成";
           break;
       }
     },
-  },
-  methods: {
+    caigouleixing(data) {
+      switch (data) {
+        case 0:
+          return "手工采购";
+          break;
+        case 1:
+          return "-渠道采购";
+          break;
+        case 2:
+          return "缺货采购";
+          break;
+      }
+    },
     getPageNum(e) {
       this.sendOutDataJson.pageNumber = e;
       this.getTableData();
@@ -323,33 +373,37 @@ export default {
     handleSelectionChange(e) {
       this.multipleSelection = e;
     },
-    changeDetail(data) {
-      console.log(data, "发送ajax获取详情");
+    changeDetail(data, idx) {
+      if (this.sureIdx != idx) this.iSLoad = true;
+      if (!this.iSLoad) return;
+      this.getDetailsArrFn(data);
+      this.sureIdx = idx;
+    },
+    async getDetailsArrFn(data) {
+      let detailData = {
+        purcNo: data.purcNo,
+        orgId: data.orgId,
+        wareId: data.wareId,
+      };
+      let arr = await getppPurchaseOrderFindRecord(detailData);
+      if (arr.code == "10000") {
+        arr = arr.result;
+        this.detailsData = arr;
+        return (this.iSLoad = false);
+      }
     },
     //提交
     ExportArr() {
-      if (!this.multipleSelection.length)
-        return Message("请选择要提交的采购单");
-      if (this.multipleSelection.length != 1)
-        return Message("一次只能选择一个采购单");
+      if (!this.multipleSelection.length && this.multipleSelection.length != 1)
+        return Message("请选择要提交的采购单，并且一次只能提交一个采购单");
+      console.log(this.multipleSelection[0].disposeStatus);
     },
     //编辑
     editBtn() {
-      if (!this.multipleSelection.length)
-        return Message("请选择要编辑的采购单");
-      if (this.multipleSelection.length != 1)
-        return Message("一次只能编辑一个采购单");
-      sessionStorage.setItem(
-        "manualManageMentEdit",
-        JSON.stringify(this.multipleSelection[0])
-      );
-      this.$router.push({
-        path: "/warehousingManagement/createManagement",
-        query: {
-          orderSource: this.sendOutDataJson.paras.orderSource,
-          id: this.multipleSelection[0].id,
-        },
-      });
+      if (!this.multipleSelection.length && this.multipleSelection.length != 1)
+        return Message("请选择要编辑的采购单，并且一次只能编辑一个采购单");
+      this.editDataJson = this.multipleSelection[0];
+      this.isCreatePurchasing = true;
     },
     //删除
     clearBtn() {
@@ -382,11 +436,6 @@ export default {
       return datas;
     },
     changeDatas(datas) {
-      if (datas.list) {
-        datas.list.forEach((item) => {
-          item.putstatus = item.putstatus ? "已入库" : "未入库";
-        });
-      }
       this.tableData = datas.list;
       this.pageComponentsData.pageNums = datas.totalRow;
     },

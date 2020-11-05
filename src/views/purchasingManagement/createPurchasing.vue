@@ -3,14 +3,14 @@
     <div class="setUserIngBoxCenter">
       <div class="headerBox">
         <div class="closeTitle">
-          {{ this.$route.query.id ? "编辑采购单" : "创建采购单" }}
+          {{ !edif ? "编辑采购单" : "创建采购单" }}
         </div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
 
       <div class="centerBox">
         <div class="setTitle">
-          {{ this.$route.query.id ? "编辑采购单" : "创建采购单" }}
+          {{ !edif ? "编辑采购单" : "创建采购单" }}
         </div>
         <div class="gerxinxiBox">
           <div class="xinxiBitian">
@@ -164,12 +164,12 @@
       </div>
       <!-- btn -->
       <!-- 添加产品 start -->
-      <div v-show="addChanpins" class="bjBox">
+      <div v-if="addChanpins" class="bjBox">
         <transition
           enter-active-class="animate__animated animate__zoomIn"
           leave-active-class="animate__animated animate__zoomOut"
         >
-          <div v-show="addChanpins">
+          <div v-if="addChanpins">
             <choiceSelect />
           </div>
         </transition>
@@ -181,25 +181,17 @@
 
 <script>
 /*eslint-disable */
-import searchBox from "../../components/commin/searchBox"; //搜索框
-import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
-import dropDownUserType from "../../components/commin/dropDownUserType"; //用户管理下拉框
 import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
-import { mapState } from "vuex";
 import { Message } from "element-ui";
-import { _getArrTarget } from "../../utils/validate";
+import { getCookie, _isJsonEmit } from "../../utils/validate";
 import {
-  getFindWareOrg,
+  getpCommonFindOrgByWareId,
   getpPurchaseOrdersaveRecord,
-  getpWareOrgProdfindRecordPage,
 } from "../../api/api";
 import choiceSelect from "../../components/purchasingZhujian/choiceSelect";
 export default {
   name: "createUsering",
   components: {
-    dropDowbox,
-    searchBox,
-    dropDownUserType,
     choiceSelect,
     dateTime,
   },
@@ -224,7 +216,7 @@ export default {
         disposeStatus: "0", //处理状态
         expectedSendTime: "", //期望入库时间
         operatorType: 1,
-        wareId: "",
+        wareId: getCookie("X-Auth-wareId"),
         remark: "",
         wareAreaId: "",
         wareAreaName: "",
@@ -238,43 +230,21 @@ export default {
           return this.$route.query.id ? this.$route.query.id : "";
         })(), //编辑
       },
-      getProvinceData: {
-        parentCode: 0,
-      },
-      quyuJson: {
-        quyuArr: [],
-      },
-      prodUnitData: [],
       tables: [],
-      rowTables: null,
-      kueirArr: [],
-      targetRow: {},
-      delistIndex: null,
+      edif: false,
     };
   },
-  async created() {
-    if (this.$route.query.id) {
-      let EditData = JSON.parse(sessionStorage.getItem("manualManageMentEdit"));
-      this.companyJson.value = EditData.orgName;
-      this.createUserData.childWareName = EditData.childWareName;
-      this.createUserData.childWareId = EditData.childWareId;
-      this.createUserData.orgId = EditData.orgId;
-      this.createUserData.createUserData = EditData.createUserData;
-      this.createUserData.expectedSendTime = EditData.expectedSendTime;
-    }
-    this.tables = eval(sessionStorage.getItem("_addTablesData"));
-    if (this.tables) {
-      this.tables.forEach((item) => {
-        item.prodId = item.id;
-        item.id = item.id;
-      });
-      this.tabledata = this.tables;
-      this.createUserData.pOutWarehouseDetails = this.tables;
-    }
+  props: {
+    editDataJson: {
+      type: Object,
+      default: () => {},
+    },
   },
-  destroyed() {
-    sessionStorage.removeItem("manualManageMentEdit");
-    sessionStorage.removeItem("_addTablesData");
+  async created() {
+    this.edif = _isJsonEmit(this.editDataJson);
+    if (this.edif) {
+      this.changeEditData();
+    }
   },
   watch: {
     addChanpins(n) {
@@ -291,36 +261,11 @@ export default {
     },
   },
   methods: {
-    tablesClickDatas(e) {},
-    kuweiChanges(e) {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
-      this.targetRow.minNum = this.kueirArr[e].minNum;
-
-      this.targetRow.currInventory = this.kueirArr[e].currInventory;
-
-      this.createUserData.pOutWarehouseDetails[
-        this.delistIndex
-      ].recommendSeatId = this.kueirArr[e].recommendSeatId;
-
-      this.createUserData.pOutWarehouseDetails[
-        this.delistIndex
-      ].recommendSeatNo = this.kueirArr[e].recommendSeatNo;
-
-      this.createUserData.pOutWarehouseDetails[
-        this.delistIndex
-      ].batchNo = this.kueirArr[e].batchNo;
-
-      this.createUserData.pOutWarehouseDetails[
-        this.delistIndex
-      ].recommendAreaId = this.kueirArr[e].recommendAreaId;
-
-      this.createUserData.pOutWarehouseDetails[
-        this.delistIndex
-      ].recommendAreaName = this.kueirArr[e].recommendAreaName;
-
-      this.createUserData.pOutWarehouseDetails[
-        this.delistIndex
-      ].manufTime = this.kueirArr[e].manufTime;
+    changeEditData() {
+      console.log(this.editDataJson);
+    },
+    tablesClickDatas(e) {
+      console.log(e);
     },
 
     //点击选择委托公司
@@ -328,19 +273,11 @@ export default {
       console.log(this.createUserData, "this.createUserData点击委托公司");
       this.createUserData.wareAreaId = "";
       this.createUserData.childWareId = "";
-      let datas = await getFindWareOrg();
+      let datas = await getpCommonFindOrgByWareId();
       this.companyJson.companyArr = datas.result;
-    },
-
-    getDateTimeExpectedSendTime(e) {
-      this.tabledata[+this.rowTables].expectedSendTime = e;
-      this.tabledata[+this.rowTables].manuTime = e;
     },
     getexpectedArrivalTime(e) {
       this.createUserData.expectedArrivalTime = e;
-    },
-    getDateTimeIndex(e) {
-      this.rowTables = e;
     },
     //改变委托公司
     changeCompany(e) {
@@ -373,14 +310,15 @@ export default {
     //点击了提交
     async goAJAXCreate() {
       if (!this.createUserData.orgId) return Message("请选择委托公司");
-      if (!this.createUserData.childWareId) return Message("请选择子仓名称");
       if (!this.multipleSelection.length)
         return Message("请选择要创建的产品明细");
-      this.createUserData.pOutWarehouseDetails = this.multipleSelection;
+      this.createUserData.detail = this.multipleSelection;
       let datas = await getpPurchaseOrdersaveRecord(this.createUserData);
       if (datas.code == "10000") {
+        Message(datas.msg);
         sessionStorage.removeItem("_addTablesData");
         sessionStorage.removeItem("createManagementChildWareId");
+        this.$parent.getTableData();
         this.closeBtn();
       }
     },

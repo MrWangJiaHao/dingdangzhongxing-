@@ -5,8 +5,8 @@
         <div class="closeTitle">选择产品</div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
-      <div class="displayalign mb20 pd20">
-        <div>
+      <div class="dispalywrap mb20 pd20">
+        <div class="mb20">
           <div class="displayalign ellipsis">
             <div class="noneIconTitle mr11">产品名称:</div>
             <div class="mr20">
@@ -22,7 +22,7 @@
           </div>
         </div>
         <!-- 产品名称 -->
-        <div>
+        <div class="mb20">
           <div class="displayalign ellipsis">
             <div class="noneIconTitle mr11">产品编码:</div>
             <div class="mr20">
@@ -39,7 +39,7 @@
         </div>
         <!-- 产品名称 -->
 
-        <div>
+        <div class="mb20">
           <div class="displayalign ellipsis">
             <div class="noneIconTitle mr11">产品规格:</div>
             <div class="mr20">
@@ -58,13 +58,15 @@
 
         <div>
           <div class="displayalign ellipsis">
-            <div class="noneIconTitle mr11">品牌:</div>
+            <div class="noneIconTitle mr11">
+              品牌<span style="visibility: hidden">你好</span>:
+            </div>
             <div class="mr20">
               <el-autocomplete
                 class="inline-input"
                 v-model="sendoutDatas.paras.braId"
                 :fetch-suggestions="specNameQuerySearch"
-                placeholder="请输入产品规格"
+                placeholder="请输入品牌"
                 :trigger-on-focus="false"
                 @select="specNameHandleSelect"
               ></el-autocomplete>
@@ -72,12 +74,11 @@
           </div>
         </div>
         <!-- 品牌 -->
-        <div class="displayalign">
-          <div class="disinb tijiaoBox mr11" @click="sendoutDataAsync">
-            查询
-          </div>
-          <div class="disinb quxiaoBox" @click="clearChanPinMinChen">清空</div>
-        </div>
+      </div>
+      
+      <div class="tr mb20 pd20">
+        <div class="disinb tijiaoBox mr11" @click="sendoutDataAsync">查询</div>
+        <div class="disinb quxiaoBox" @click="clearChanPinMinChen">清空</div>
       </div>
       <div class="btn tr mb20 pd20">
         <div class="disinb quxiaoBox" @click="clearRemovetable">删除</div>

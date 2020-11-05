@@ -1139,7 +1139,40 @@ export const getpWareOrgProdfindRecordPage = function (data) {
         })
     })
 }
-
+/**
+ * 提交采购单
+ * @param {*} datas /wbs-warehouse-manage/v1/pPurchaseOrder/submitRecord
+ */
+export const subpPurchaseOrderSubmitRecord = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pPurchaseOrder/submitRecord",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * /wbs-warehouse-manage/v1/pSubPurchaseOrder/findRecord
+ * @param {*} datas  /wbs-warehouse-manage/v1/pSubPurchaseOrder/findRecord
+ */
+export const pSubPurchaseOrderFindRecord = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pSubPurchaseOrder/findRecord",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
 
 //=========================================采购管理 end ========================================
 export function post(datas) {
