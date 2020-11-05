@@ -235,6 +235,14 @@ export default {
     WarehouseReceipt,
     createPurchasing,
   },
+  watch: {
+    isCreatePurchasing(n) {
+      console.log(n, "创建弹框");
+      if (n) {
+        this.getTableData();
+      }
+    },
+  },
   data() {
     return {
       isCreatePurchasing: false, //显示创建弹框
