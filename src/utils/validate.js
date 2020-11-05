@@ -201,6 +201,17 @@ export const _TableXuanRaRequest = (data) => {
   data = [];
   data = JSON.parse(datas);
 }
+/**
+ * 
+ * @param {*} i 判断json是否为空 
+ */
+
+export const _isJsonEmit = (json) => {
+  var str = "{}";
+  json = JSON.stringify(json)
+  return json === str ? true : false;
+}
+
 
 /**
  * 根据数字 改变为"一" 

@@ -1130,15 +1130,7 @@ export const pSubPurchaseOrderFindRecord = function (data) {
         })
     })
 }
-/**
- * 打印批次号
- * /wbs-warehouse-manage//v1/putWarehouse/findWareHouseDetailByIds
- * @param {*} datas 
- * ajaxPost
- */
-export const getFindWareHouseDetailByIds = function (data, fn) {
-    ajaxPost("http://139.196.176.227:8902/wbs-warehouse-manage/v1/putWarehouse/findWareHouseDetailByIds", data, fn)
-}
+
 //=========================================采购管理 end ========================================
 export function post(datas) {
     let {

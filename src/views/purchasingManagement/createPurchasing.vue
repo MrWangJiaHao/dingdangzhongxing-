@@ -3,14 +3,14 @@
     <div class="setUserIngBoxCenter">
       <div class="headerBox">
         <div class="closeTitle">
-          {{ this.$route.query.id ? "编辑采购单" : "创建采购单" }}
+          {{ !edif ? "编辑采购单" : "创建采购单" }}
         </div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
 
       <div class="centerBox">
         <div class="setTitle">
-          {{ this.$route.query.id ? "编辑采购单" : "创建采购单" }}
+          {{ !edif ? "编辑采购单" : "创建采购单" }}
         </div>
         <div class="gerxinxiBox">
           <div class="xinxiBitian">
@@ -164,12 +164,12 @@
       </div>
       <!-- btn -->
       <!-- 添加产品 start -->
-      <div v-show="addChanpins" class="bjBox">
+      <div v-if="addChanpins" class="bjBox">
         <transition
           enter-active-class="animate__animated animate__zoomIn"
           leave-active-class="animate__animated animate__zoomOut"
         >
-          <div v-show="addChanpins">
+          <div v-if="addChanpins">
             <choiceSelect />
           </div>
         </transition>
@@ -181,25 +181,17 @@
 
 <script>
 /*eslint-disable */
-import searchBox from "../../components/commin/searchBox"; //搜索框
-import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
-import dropDownUserType from "../../components/commin/dropDownUserType"; //用户管理下拉框
 import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
-import { mapState } from "vuex";
 import { Message } from "element-ui";
-import { getCookie, _getArrTarget } from "../../utils/validate";
+import { getCookie, _isJsonEmit } from "../../utils/validate";
 import {
-  getFindWareOrg,
+  getpCommonFindOrgByWareId,
   getpPurchaseOrdersaveRecord,
-  getpWareOrgProdfindRecordPage,
 } from "../../api/api";
 import choiceSelect from "../../components/purchasingZhujian/choiceSelect";
 export default {
   name: "createUsering",
   components: {
-    dropDowbox,
-    searchBox,
-    dropDownUserType,
     choiceSelect,
     dateTime,
   },
@@ -238,24 +230,21 @@ export default {
           return this.$route.query.id ? this.$route.query.id : "";
         })(), //编辑
       },
-      getProvinceData: {
-        parentCode: 0,
-      },
-      quyuJson: {
-        quyuArr: [],
-      },
-      prodUnitData: [],
       tables: [],
-      rowTables: null,
-      kueirArr: [],
-      targetRow: {},
-      delistIndex: null,
+      edif: false,
     };
   },
-  async created() {},
-  destroyed() {
-    sessionStorage.removeItem("manualManageMentEdit");
-    sessionStorage.removeItem("_addTablesData");
+  props: {
+    editDataJson: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  async created() {
+    this.edif = _isJsonEmit(this.editDataJson);
+    if (this.edif) {
+      this.changeEditData();
+    }
   },
   watch: {
     addChanpins(n) {
@@ -272,8 +261,11 @@ export default {
     },
   },
   methods: {
+    changeEditData() {
+      console.log(this.editDataJson);
+    },
     tablesClickDatas(e) {
-      console.log(e)
+      console.log(e);
     },
 
     //点击选择委托公司
@@ -281,14 +273,12 @@ export default {
       console.log(this.createUserData, "this.createUserData点击委托公司");
       this.createUserData.wareAreaId = "";
       this.createUserData.childWareId = "";
-      let datas = await getFindWareOrg();
+      let datas = await getpCommonFindOrgByWareId();
       this.companyJson.companyArr = datas.result;
     },
-
     getexpectedArrivalTime(e) {
       this.createUserData.expectedArrivalTime = e;
     },
-
     //改变委托公司
     changeCompany(e) {
       this.createUserData.orgId = this.companyJson.companyArr[e].id;

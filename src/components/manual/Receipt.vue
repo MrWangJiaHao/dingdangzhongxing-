@@ -229,6 +229,7 @@
                   打印时间：{{ Newtime }}
                 </div>
                 <div
+                  v-if="tableDatas.length >= 5"
                   style="
                     display: inline-block;
                     font-size: 14px;
@@ -236,7 +237,7 @@
                     font-weight: normal;
                   "
                 >
-                  1/3
+                  1/{{ tableDatas.length / 5 }}
                 </div>
               </div>
               <!-- 入库尾部 -->
@@ -336,15 +337,6 @@ export default {
 @import "../../assets/scss/btn.scss";
 
 .setUserIngBox {
-  background: rgba(0, 0, 0, 0.4);
-  padding: 0 10px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 1000;
-  left: 0;
   .headerBox {
     height: 50px;
     border-radius: 3px;
