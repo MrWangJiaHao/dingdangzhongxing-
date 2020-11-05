@@ -1096,8 +1096,49 @@ export const getpWareOrgProdfindRecordPage = function (data) {
         })
     })
 }
-
-
+/**
+ * 提交采购单
+ * @param {*} datas /wbs-warehouse-manage/v1/pPurchaseOrder/submitRecord
+ */
+export const subpPurchaseOrderSubmitRecord = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pPurchaseOrder/submitRecord",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * /wbs-warehouse-manage/v1/pSubPurchaseOrder/findRecord
+ * @param {*} datas  /wbs-warehouse-manage/v1/pSubPurchaseOrder/findRecord
+ */
+export const pSubPurchaseOrderFindRecord = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pSubPurchaseOrder/findRecord",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 打印批次号
+ * /wbs-warehouse-manage//v1/putWarehouse/findWareHouseDetailByIds
+ * @param {*} datas 
+ * ajaxPost
+ */
+export const getFindWareHouseDetailByIds = function (data, fn) {
+    ajaxPost("http://139.196.176.227:8902/wbs-warehouse-manage/v1/putWarehouse/findWareHouseDetailByIds", data, fn)
+}
 //=========================================采购管理 end ========================================
 export function post(datas) {
     let {
