@@ -363,7 +363,7 @@
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { Message } from "element-ui";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
-import { queryOrderInfor } from "../../api/api";
+import { queryOrderInfor,educeExcel } from "../../api/api";
 import { isMobile } from "../../utils/validate";
 export default {
   components: {
@@ -498,12 +498,6 @@ export default {
       pageComponentsData: {
         pageNums: 0, //一共多少条 //默认一页10条
       },
-      // 导出文件名称
-      filename: "销售订单信息",
-      // 导出表格宽度是否auto
-      autoWidth: true,
-      // 导出文件格式
-      bookType: "xlsx",
     };
   },
   mounted() {
@@ -610,7 +604,7 @@ export default {
       this.queryData.paras.orderContactPhone = this.telPhoneValue;
       this.queryData.paras.orderAddr = this.addressValue;
       this.tableData = [];
-      console.log(this.queryData);
+      // console.log(this.queryData);
       this.pageQueryFun();
     },
     clearInput() {
@@ -653,71 +647,14 @@ export default {
     },
     educe() {
       //导出表格
-      if (this.tableData.length === 0) {
-        return Message({
-          message: "表格为空不能导出",
-          type: "error",
-        });
+      let data = {
+        lotNo:"",
+        orgId:"",
+        channelId:"",
       }
-
-      import("../../js-xlsx/Export2Excel").then((excel) => {
-        // 设置导出表格的头部
-        const tHeader = [
-          "所属公司",
-          "物料名称",
-          "物料编号",
-          "规格",
-          "物料类型",
-          "品牌",
-          "供应商",
-          "类型",
-          "数量",
-          "实际库存",
-          "领取人",
-          "创建人",
-          "创建时间",
-        ];
-        // 设置要导出的属性
-        const filterVal = [
-          "orgName",
-          "materielName",
-          "materielCode",
-          "specName",
-          "materielType",
-          "braName",
-          "supName",
-          "type",
-          "num",
-          "actualInventory",
-          "",
-          "createUser",
-          "createTime",
-        ];
-        // 获取当前展示的表格数据
-        const list = this.tableData;
-        // 将要导出的数据进行一个过滤
-        const data = this.formatJson(filterVal, list);
-        // 调用我们封装好的方法进行导出Excel
-        excel.export_json_to_excel({
-          // 导出的头部
-          header: tHeader,
-          // 导出的内容
-          data,
-          // 导出的文件名称
-          filename: this.filename,
-          // 导出的表格宽度是否自动
-          autoWidth: this.autoWidth,
-          // 导出文件的后缀类型
-          bookType: this.bookType,
-        });
-      });
-    },
-    formatJson(filterVal, jsonData) {
-      return jsonData.map((v) =>
-        filterVal.map((j) => {
-          return v[j];
-        })
-      );
+      educeExcel(data).then((ok)=>{
+        console.log(ok)
+      })
     },
     clickShow() {
       this.index++;
@@ -768,6 +705,15 @@ export default {
           query: {
             subOrderStatus: row,
             type: "subOrderStatus",
+          },
+        });
+      }
+      if (column.property === "subOrderNo") {
+        this.$router.push({
+          path: "/indentManagement/childOrderDetail",
+          query: {
+            subOrderNos: row,
+            type: "subOrderNos",
           },
         });
       }

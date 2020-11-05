@@ -666,7 +666,50 @@ export function queryOrderInfor(data) {
     })
 }
 
+//销售订单管理导出
+export function educeExcel(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgSubOrder/getExcel",
+            method: "get",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
 
+//查询子订单的履历信息
+export function childOrderInfor(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "wbs-warehouse-manage/v1/orderOperation/findRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//查询销售订单详情信息
+export function sellOrderInfor(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "wbs-warehouse-manage/v1/pOrgSubOrderDetail/findProdByOrderId",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
 
 
 

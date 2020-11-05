@@ -327,20 +327,18 @@ const routes = [{
         path: "/indentManagement/orderDetail",
         name: "/indentManagement/orderDetail",
         component: () => import("../views/indentManagement/orderDetail"),
-        meta: {
-          Breadcrumb: "订单详情页",
-          title: "订单详情页"
-        }
       },
       {
         // 订单管理=>订单日志
         path: "/indentManagement/orderLog",
         name: "/indentManagement/orderLog",
         component: () => import("../views/indentManagement/orderLog"),
-        meta: {
-          Breadcrumb: "订单日志",
-          title: "订单日志"
-        }
+      },
+      {
+        // 订单管理=>子单详情
+        path: "/indentManagement/childOrderDetail",
+        name: "/indentManagement/childOrderDetail",
+        component: () => import("../views/indentManagement/childOrderDetail"),
       },
       //----------------------------------------------------------订单管理结束-------------------------------------------------------------------------------------
 
@@ -409,7 +407,6 @@ const routes = [{
     }
   },
   //===========================采购管理 end===============
-  //----------------------------------------------------------订单管理开始-------------------------------------------------------------------------------------
   {
     path: "/systemSetting/editUserIng",
     name: 'systemSetting/editUserIng',
@@ -420,13 +417,6 @@ const routes = [{
     path: "/systemSetting/lookUser",
     name: 'systemSetting/lookUser',
     component: () => import("../views/systemSetting/lookUser.vue")
-  },
-  {
-    // 订单管理=>自提订单管理
-    path: "/indentManagement/zitiIndentManage",
-    name: "/indentManagement/zitiIndentManage",
-    component: () => import("../views/indentManagement/zitiIndentManage"),
-
   },
   {
     //仓库配置=>区域管理=>创建子仓

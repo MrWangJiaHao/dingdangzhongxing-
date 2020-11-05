@@ -6,25 +6,25 @@
         <table>
           <tr>
             <td>订单号</td>
-            <td></td>
+            <td>{{orderNo}}</td>
             <td>订单状态</td>
-            <td></td>
+            <td>{{orderState}}</td>
             <td>支付时间</td>
-            <td></td>
+            <td>{{payTime}}</td>
           </tr>
           <tr>
             <td>委托公司</td>
-            <td></td>
+            <td>{{orgName}}</td>
             <td>渠道</td>
-            <td></td>
+            <td>{{channelName}}</td>
             <td>订单来源</td>
-            <td></td>
+            <td>{{orderSourceName}}</td>
           </tr>
           <tr>
             <td>发货时间</td>
-            <td></td>
+            <td>{{pushTime}}</td>
             <td>物流公司</td>
-            <td></td>
+            <td>{{exprName}}</td>
             <td>备注</td>
             <td></td>
           </tr>
@@ -59,39 +59,39 @@
           <el-table-column label="序号" align="center" type="index" width="60">
           </el-table-column>
           <el-table-column
-            prop="orderSourceName"
+            prop=""
             label="渠道商品编码"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="orderSourceName"
+            prop=""
             label="渠道商品名称"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="orderSourceName"
+            prop="prodCode"
             label="产品编码"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="orderSourceName"
+            prop="prodFullName"
             label="产品名称"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="orderSourceName"
+            prop="specName"
             label="产品规格"
             align="center"
           >
           </el-table-column>
-          <el-table-column prop="orderSourceName" label="品牌" align="center">
+          <el-table-column prop="braName" label="品牌" align="center">
           </el-table-column>
           <el-table-column
-            prop="orderSourceName"
+            prop="prodNum"
             label="购买数量"
             align="center"
           >
@@ -106,12 +106,24 @@
 </template>
 
 <script>
+import { childOrderInfor ,sellOrderInfor} from "../../api/api";
 export default {
   beforeRouteEnter(to, from, next) {
     if (from.name === "/indentManagement/sellIndentManage") {
       next((vm) => {
         if (vm.$route.query.type === "orderNo") {
-          console.log(vm.$route.query.orderNo);
+          let data = vm.$route.query.orderNo;
+          vm.subOrderNo = data.subOrderNo;
+          vm.id = data.id;
+          vm.orderNo = data.orderNo;
+          vm.orderState = data.orderState;//订单状态
+          // vm.payTime = data.orderNo;
+          vm.orgName = data.orgName;
+          vm.channelName = data.channelName;
+          vm.orderSourceName = data.orderSourceName;
+          vm.pushTime = data.pushTime;
+          vm.exprName = data.exprName;
+
         }
       });
     } else {
@@ -123,7 +135,33 @@ export default {
   data() {
     return {
       tableData: [],
+      orderNo: "", //订单号
+      orderState: "", //订单状态
+      payTime: "", //支付时间
+      orgName: "",
+      channelName: "", //渠道
+      orderSourceName: "", //订单来源名称
+      pushTime: "", //下发时间
+      exprName: "", //物流公司
+      subOrderNo: "", //子订单ID
+      id:"",//销售订单id
     };
+  },
+  mounted() {
+    let childOrderQuery = {
+      subOrderNo: this.subOrderNo,
+    };
+    childOrderInfor(childOrderQuery).then((ok) => {
+      console.log(ok);
+    });
+    let sellOrderQuery = {
+      id : this.id
+    }
+    sellOrderInfor(sellOrderQuery).then((ok)=>{
+      if(ok.data.code === "10000"){
+        this.tableData = ok.data.result
+      }
+    })
   },
   methods: {
     back() {
