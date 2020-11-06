@@ -287,7 +287,7 @@ export default {
   methods: {
     //关闭
     closeBtn() {
-      this.$router.go(-1);
+      this.$parent._data.isSetUserIng = false;
     },
     //取消编辑
     closeEdit() {
@@ -298,11 +298,9 @@ export default {
       })
         .then(() => {
           this.$store.dispatch("clearEditUser");
-          this.$router.go(-1);
+          this.closeBtn();
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => err);
     },
     getUserName(e) {
       if (!e) return Message("请输入用户姓名");
@@ -411,15 +409,6 @@ export default {
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .setUserIngBox {
-  background: rgb(232, 233, 236);
-  padding: 0 10px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-
   .headerBox {
     height: 50px;
     border-radius: 3px;

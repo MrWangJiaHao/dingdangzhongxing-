@@ -230,6 +230,12 @@ export default {
   components: {
     dropDownUserType,
   },
+  props: {
+    editUserIngJson: {
+      type: Object,
+      default: () => {},
+    },
+  },
   computed: {
     ...mapState(["editUser", "userTypeArr"]),
   },
@@ -312,8 +318,7 @@ export default {
     };
   },
   created() {
-    console.log(this.editUser, "编辑");
-    console.log(this.userTypeArr);
+    console.log(this.editUserIngJson);
 
     let probinceData = this.fasonCodeAjax(this.getProvinceData);
     probinceData.then((data) => {
@@ -346,7 +351,7 @@ export default {
         loginPwdOriginal,
         id,
         orgId,
-      } = this.editUser;
+      } = this.editUserIngJson;
       this.createUserData.orgId = orgId;
       this.createUserData.userName = userName;
       this.createUserData.userPhone = userPhone;
@@ -380,7 +385,7 @@ export default {
       })
         .then(() => {
           this.$store.dispatch("clearEditUser");
-          this.$router.go(-1);
+          this.$parent._data.iseditUserIng = false;
         })
         .catch((err) => {
           console.log(err);
@@ -491,15 +496,6 @@ export default {
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .setUserIngBox {
-  background: rgb(232, 233, 236);
-  padding: 0 10px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-
   .headerBox {
     height: 50px;
     border-radius: 3px;

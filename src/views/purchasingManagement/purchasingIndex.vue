@@ -8,9 +8,7 @@
         <div style="background-color: #fff">
           <div class="meiyiyetitle">采购管理</div>
           <div class="btnClick">
-            <a class="lodopFunClear disinb" id="rukudanExcel" @click="ExportArr"
-              >提交</a
-            >
+            <a class="lodopFunClear disinb" @click="ExportArr">提交</a>
             <div class="goOn" @click="isCreatePurchasingFn">创建</div>
             <div class="lodopFunClear" @click="editBtn">编辑</div>
             <div class="remove" @click="clearBtn">删除</div>
@@ -251,12 +249,13 @@ import createPurchasing from "./createPurchasing"; //创建
 import caigoudanDetail from "./caigoudanDetail"; //采购单详情
 import {
   getppPurchaseOrderFindRecord,
-  delRecordByIdArrs,
+  pPurchaseOrderDeleteBatch,
   getpPurchaseOrderFindRecordPageByOrgAndPurcNo,
+  pPurchaseOrderSubmitRecord,
   subpPurchaseOrderSubmitRecord,
 } from "../../api/api";
 import { Message } from "element-ui";
-import { _getArrTarget } from "../../utils/validate";
+import { getCookie, _getArrTarget } from "../../utils/validate";
 
 export default {
   components: {
@@ -316,6 +315,7 @@ export default {
   },
   methods: {
     isCreatePurchasingFn() {
+      if (!getCookie("X-Auth-wareId")) return Message("该登入员没有创建权限");
       this.editDataJson = {};
       this.isCreatePurchasing = true;
     },
@@ -323,7 +323,6 @@ export default {
       this.iscaigoudanDetail = e;
     },
     showCaigoudanDetail(data) {
-      console.log(data, "点击了采购单详情");
       this.caigoudanDetailJson = data;
       this.iscaigoudanDetail = true;
     },
@@ -396,7 +395,17 @@ export default {
     ExportArr() {
       if (!this.multipleSelection.length && this.multipleSelection.length != 1)
         return Message("请选择要提交的采购单，并且一次只能提交一个采购单");
-      console.log(this.multipleSelection[0].disposeStatus);
+      subpPurchaseOrderSubmitRecord({
+        id: this.multipleSelection[0].id,
+        disposeStatus: this.multipleSelection[0].disposeStatus,
+      }).then((res) => {
+        if (res.code == "10000") {
+          Message(res.msg);
+          this.getTableData();
+        } else {
+          Message(res.msg);
+        }
+      });
     },
     //编辑
     editBtn() {
@@ -409,17 +418,18 @@ export default {
     clearBtn() {
       if (!this.multipleSelection.length)
         return Message("请选择要删除的采购单");
-      _getArrTarget(this.multipleSelection, "id");
-      delRecordByIdArrs({
-        ids: _getArrTarget(this.multipleSelection, "id"),
-      }).then((res) => {
-        if (res.data.code == "10000") {
-          this.getTableData();
-          return Message("删除成功");
-        } else {
-          return Message(res.data.msgdfs);
+      pPurchaseOrderDeleteBatch(
+        _getArrTarget(this.multipleSelection, "purcNo"),
+        (res) => {
+          console.log(res);
+          if (res.code == "10000") {
+            Message("删除成功");
+            this.getTableData();
+          } else {
+            return Message(res.msg);
+          }
         }
-      });
+      );
     },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {

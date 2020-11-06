@@ -2,7 +2,7 @@
   <div class="setUserIngBox">
     <div class="setUserIngBoxCenter">
       <div class="headerBox">
-        <div class="closeTitle">创建用户</div>
+        <div class="closeTitle">查看用户</div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
 
@@ -253,14 +253,19 @@ export default {
   created() {
     this.changeDataLookerUser();
   },
+  props: {
+    editUserIngJson: {
+      type: Object,
+      default: () => {},
+    },
+  },
 
   methods: {
     //关闭
     closeBtn() {
-      this.$router.go(-1);
+      this.$parent._data.islookUser = false;
     },
     changeDataLookerUser() {
-      console.log(this.editUser, "查看");
       let {
         userName,
         userPhone,
@@ -274,7 +279,7 @@ export default {
         loginPwdOriginal,
         remark,
         createUser,
-      } = this.editUser;
+      } = this.editUserIngJson;
       this.createUserData.userName = userName;
       this.createUserData.userPhone = userPhone;
       this.createUserData.provinceName = provinceName;
@@ -315,7 +320,6 @@ export default {
       this.getProvinceData.parentCode = areaCode;
     },
     getAreaCode(e) {
-      console.log(e);
       let { areaCode, areaName } = e;
       this.createUserData.areaCode = areaCode;
       this.createUserData.areaName = areaName;
@@ -327,15 +331,6 @@ export default {
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .setUserIngBox {
-  background: rgb(232, 233, 236);
-  padding: 0 10px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-
   .headerBox {
     height: 50px;
     border-radius: 3px;

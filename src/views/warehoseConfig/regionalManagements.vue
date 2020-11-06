@@ -1,4 +1,3 @@
-  /*eslint-disable*/
 <template>
   <div class="userSettingBox">
     <div class="fuzzyQueryBox">
@@ -86,8 +85,11 @@
     </div>
     <!-- but按钮 -->
 
-    <div v-if="quyuLook" class="pofixCenter">
-      <div class="pofixCenter displayCenter">
+    <div v-if="quyuLook">
+      <div
+        class="pofixCenter displayCenter"
+        style="background: rgba(0, 0, 0, 0.4)"
+      >
         <div class="quyupinmianBoxMsg">
           <div class="heiderBoxs p20">
             <div class="closeTitle">区域平面图</div>
@@ -152,22 +154,27 @@
       <!-- 关闭部分 -->
     </div>
     <!-- 区域平面图 -->
-    <div v-if="kuwieLook" class="pofixCenter">
-      <div class="pofixCenter displayCenter">
-        <div class="quyupinmianBoxMsg">
-          <div class="heiderBoxs p20">
-            <div class="closeTitle">库位平面图</div>
-            <div class="closeIcon" @click="kuwieLook = !kuwieLook"></div>
-          </div>
-          <div class="bkf p20 botD1">
-            <div class="setTitle mb20">库位编号</div>
-            <div>
-              <kuwieLooker :kuwieLookerDataJson="kuwieDatas" />
+    <div v-show="kuwieLook" style="background: rgba(0, 0, 0, 0.4)">
+      <div v-if="kuwieLook">
+        <div
+          class="pofixCenter displayCenter"
+          style="background: rgba(0, 0, 0, 0.4)"
+        >
+          <div class="quyupinmianBoxMsg">
+            <div class="heiderBoxs p20">
+              <div class="closeTitle">库位平面图</div>
+              <div class="closeIcon" @click="kuwieLook = !kuwieLook"></div>
             </div>
-          </div>
-          <div class="p20 bkf tc">
-            <div class="bianjiUser tr disinb" @click="kuwieLook = !kuwieLook">
-              关闭
+            <div class="bkf p20 botD1">
+              <div class="setTitle mb20">库位编号</div>
+              <div>
+                <kuwieLooker :kuwieLookerDataJson="kuwieDatas" />
+              </div>
+            </div>
+            <div class="p20 bkf tc">
+              <div class="bianjiUser tr disinb" @click="kuwieLook = !kuwieLook">
+                关闭
+              </div>
             </div>
           </div>
         </div>

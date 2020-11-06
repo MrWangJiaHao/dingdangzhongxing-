@@ -172,6 +172,40 @@
       </transition>
     </div>
     <!-- 批次号 -->
+    <!-- 创建&&编辑 start -->
+    <div v-show="iscreateManagement" class="bjBox">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div v-if="iscreateManagement">
+          <createManagement
+            :orderSources="sendOutDataJson.paras.orderSource"
+            @closeCreate="closeCreate"
+            :edifManageMent="edifManageMent"
+          />
+        </div>
+      </transition>
+    </div>
+    <!-- 创建&&编辑 end -->
+
+    <!-- 入库确认&&入库详情 start -->
+    <div v-show="ismanageMentrukuSure" class="bjBox">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div v-if="ismanageMentrukuSure">
+          <manageMentrukuSure
+            :orderSources="sendOutDataJson.paras.orderSource"
+            :WarehousingTypeArr="
+              WarehousingTypeArr[$route.params.type].WarehousingTypeCenter
+            "
+          />
+        </div>
+      </transition>
+    </div>
+    <!-- 入库确认&&入库详情 end -->
   </div>
 </template>
 <style>
@@ -185,6 +219,8 @@ import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import WarehouseReceipt from "../../components/manual/WarehouseReceipt"; //入库单
 import Receipt from "../../components/manual/Receipt"; //收货单
 import BatchNumber from "../../components/manual/BatchNumber"; //批次号
+import createManagement from "./createManagement"; //创建和编辑
+import manageMentrukuSure from "./manageMentrukuSure"; //入库确认和入库详情
 import {
   getFindRecord,
   getFindWareHouseDetailByIds,
@@ -202,9 +238,13 @@ export default {
     WarehouseReceipt,
     Receipt,
     BatchNumber,
+    createManagement,
+    manageMentrukuSure,
   },
   data() {
     return {
+      ismanageMentrukuSure: false, //入库确认和入库详情
+      iscreateManagement: false, //创建&&删除
       WarehouseReceipt: false,
       WarehouseReceiptIds: "",
       Receipt: false,
@@ -257,6 +297,7 @@ export default {
       multipleSelection: [], //选择了那个
       thisOneShow: true,
       listArrs: {},
+      edifManageMent: false,
       WarehousingTypeArr: [
         {
           WarehousingType: 0,
@@ -318,6 +359,11 @@ export default {
     },
   },
   methods: {
+    closeCreate(e) {
+      if (e) {
+        this.getTableData();
+      }
+    },
     gotoRuKudetails(row) {
       this._getFindRecord(row.id).then(() => {
         sessionStorage.setItem("manageMentrukuSureData", JSON.stringify(row));
@@ -357,17 +403,7 @@ export default {
             "manageMentrukuSureData",
             JSON.stringify(this.multipleSelection[0])
           );
-          this.$router.push({
-            path: "/warehousingManagement/manageMentrukuSure",
-            query: {
-              id: this.multipleSelection[0].id,
-              WarehousingTypeArr: this.WarehousingTypeArr[
-                this.$route.params.type
-              ].WarehousingTypeCenter,
-              orderSource: this.sendOutDataJson.paras.orderSource,
-              childWareId: this.multipleSelection[0].childWareId,
-            },
-          });
+          this.ismanageMentrukuSure = true;
         });
       }
     },
@@ -439,10 +475,7 @@ export default {
 
     //创建入库单
     CreateStockInOrder() {
-      this.$router.push({
-        path: "/warehousingManagement/createManagement",
-        query: { orderSource: this.sendOutDataJson.paras.orderSource },
-      });
+      this.iscreateManagement = true;
     },
     //编辑
     editBtn() {
@@ -454,13 +487,8 @@ export default {
         "manualManageMentEdit",
         JSON.stringify(this.multipleSelection[0])
       );
-      this.$router.push({
-        path: "/warehousingManagement/createManagement",
-        query: {
-          orderSource: this.sendOutDataJson.paras.orderSource,
-          id: this.multipleSelection[0].id,
-        },
-      });
+      this.edifManageMent = true;
+      this.iscreateManagement = true;
     },
     //删除
     clearBtn() {

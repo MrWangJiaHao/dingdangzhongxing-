@@ -75,7 +75,7 @@
         </div>
         <!-- 品牌 -->
       </div>
-      
+
       <div class="tr mb20 pd20">
         <div class="disinb tijiaoBox mr11" @click="sendoutDataAsync">查询</div>
         <div class="disinb quxiaoBox" @click="clearChanPinMinChen">清空</div>
@@ -83,7 +83,7 @@
       <div class="btn tr mb20 pd20">
         <div class="disinb quxiaoBox" @click="clearRemovetable">删除</div>
       </div>
-      <div class="mb20 pd20 displayCenter" style="height: 350px">
+      <div class="mb20 pd20 displayCenter" style="height: 330px">
         <el-table
           ref="multipleTable"
           :data="tabledata"
@@ -164,6 +164,7 @@
       <div class="tr mb20 pd20">
         <pageComponent
           @handleSizeChange="handleSizeChange"
+          @getPageNum="getPageNum"
           :pageComponentsData="pageComponentsData"
         />
       </div>
@@ -208,6 +209,7 @@ export default {
           prodName: "", //产品名称
           prodCode: "", //产品编码
           specName: "", //产品规格
+          
         },
       },
     };
@@ -331,6 +333,11 @@ export default {
     },
     handleSizeChange(e) {
       this.sendoutDatas.pageSize = e;
+      this.sendoutDataAsync();
+    },
+    getPageNum(e) {
+      this.sendoutDatas.pageSize = e;
+      this.sendoutDataAsync();
     },
   },
 };
