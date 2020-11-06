@@ -59,14 +59,14 @@
           <div class="tijiaoBox disinb mr20" @click="addChanpin">添加产品</div>
           <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
         </div>
-        <div class="mb20">
+        <div class="mb20" style="height: 200px">
           <el-table
             ref="multipleTable"
             :data="tabledata"
             :stripe="true"
             :border="true"
             tooltip-effect="dark"
-            style="width: 100%; overflow: auto"
+            style="width: 100%; height: 200px; overflow: auto"
             @selection-change="handleSelectionChange"
           >
             <el-table-column type="selection" width="82"></el-table-column>
@@ -74,7 +74,6 @@
               label="序号"
               type="index"
               width="71"
-              :index="indexMethod"
               show-overflow-tooltip
             />
             <el-table-column
@@ -137,15 +136,15 @@
               <div v-if="!isrukuDetails" slot-scope="scoped">
                 <el-select
                   v-model="scoped.row.recommendSeatNo"
-                  @focus="getkuweimes(scoped.row)"
+                  @focus="getkuweimes(scoped.row, scoped.$index)"
                   @change="kuweiChanges"
                   placeholder="请选择实际入库库位"
                 >
                   <el-option
-                    v-for="item in kueirArr"
-                    :key="item"
+                    v-for="(item, idx) in scoped.row.kueirArr"
+                    :key="idx"
                     :label="item.recommendSeatNo"
-                    :value="item"
+                    :value="idx"
                   >
                   </el-option>
                 </el-select>
@@ -301,7 +300,7 @@ export default {
         入库单号: () => this.listJson.putWareNo,
         委托公司: () => this.listJson.orgName,
         入库状态: () => (this.listJson.putstatus ? "已入库" : "未入库"),
-        入库类型: () => this.$route.query.WarehousingTypeArr,
+        入库类型: () => this.WarehousingTypeArr,
         "*入库人": "",
         "*入库时间": "",
         "*批次号": "",
@@ -333,9 +332,8 @@ export default {
       },
       kueirArr: [],
       createUserData: {
-        userType: 4,
-        expectedSendTime: "", //expectedSendTime
-        orderSource: "", //订单类型(0-手工创建；1-渠道创建 2-预入库 3-采购 4-库建调拨 5-加工作业 6-分解作业 7-退货 8-盘盈 9-其他）
+        expectedSendTime: "",
+        orderSource: (() => this.orderSources)(), //订单类型(0-手工创建；1-渠道创建 2-预入库 3-采购 4-库建调拨 5-加工作业 6-分解作业 7-退货 8-盘盈 9-其他）
         orgName: "",
         orgId: "",
         remark: "",
@@ -359,6 +357,20 @@ export default {
       rowTable: 0,
       isrukuDetails: false,
     };
+  },
+  props: {
+    WarehousingTypeArr: {
+      type: String,
+      default: "",
+    },
+    orderSources: {
+      type: String,
+      default: "0",
+    },
+    detailManageMent: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     rukuSureJsonFn() {
@@ -397,14 +409,9 @@ export default {
   methods: {
     getDataSelentIndex(e) {
       this.rowTable = e;
-      console.log(e, "index");
-    },
-    indexMethod(e) {
-      return e;
     },
     //删除产品
     goClearRemove() {
-      console.log(this.multipleSelection, "点击了删除");
       this.multipleSelection.forEach((item) => {
         let idxs = this.tabledata.indexOf(item);
         this.tabledata.splice(idxs, 1);
@@ -424,9 +431,7 @@ export default {
       }
       console.log("this.tabledata", this.tabledata);
     },
-    select(e, row) {
-      console.log(e, row, "select");
-    },
+
     getDateSelectTime(e) {
       console.log(this.rowTable, "el-input");
       this.tabledata[+this.rowTable].manuTime = e;
@@ -440,46 +445,51 @@ export default {
       }
       return item;
     },
-    getkuweimes(data) {
+    getkuweimes(data, idx) {
       this.targetRow = data;
       this.$nextTick(() => {
         getfindOrgProductPage(this.createUserData).then((res) => {
-          this._changeKuweiS(res.result.list, data);
+          this._changeKuweiS(res.result.list, data, idx);
           this.$forceUpdate();
         });
       });
       this.$forceUpdate();
     },
-    _changeKuweiS(arr, dataJson) {
-      this.$nextTick(() => {
-        arr.forEach((item, idx) => {
-          if (item.prodCode == dataJson.prodCode) {
-            console.log(item.prodSeatList);
-            this.kueirArr = item.prodSeatList;
-            this.delistIndex = idx;
-            this.$forceUpdate();
-          }
-        });
-        this.$forceUpdate();
-      });
+    _changeKuweiS(arr, dataJson, e) {
+      dataJson.kueirArr = [];
+      this.delistIndex = e;
+      this.tabledata[e].kueirArr = arr[e].prodSeatList;
+      var data = JSON.stringify(this.tabledata);
+      this.tabledata = [];
+      this.tabledata = JSON.parse(data);
+      this.$forceUpdate();
     },
     //库位点击
     kuweiChanges(e) {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
-      this.targetRow.maxNum = this.kueirArr[e].maxNum;
-      this.targetRow.currInventory = this.kueirArr[e].currInventory;
+      console.log(
+        this.createUserData.detailList[this.delistIndex].recommendSeatId,
+        this.tabledata[this.delistIndex].kueirArr[e].recommendSeatId
+      );
+      this.targetRow.maxNum = this.tabledata[this.delistIndex].kueirArr[
+        e
+      ].maxNum;
+      this.targetRow.currInventory = this.tabledata[this.delistIndex].kueirArr[
+        e
+      ].currInventory;
+      this.createUserData.detailList[this.delistIndex][
+        "recommendSeatId"
+      ] = this.tabledata[this.delistIndex].kueirArr[e].recommendSeatId;
+      this.createUserData.detailList[this.delistIndex][
+        "recommendSeatNo"
+      ] = this.tabledata[this.delistIndex].kueirArr[e].recommendSeatNo;
       this.createUserData.detailList[
         this.delistIndex
-      ].recommendSeatId = this.kueirArr[e].recommendSeatId;
-      this.createUserData.detailList[
-        this.delistIndex
-      ].recommendSeatNo = this.kueirArr[e].recommendSeatNo;
-      this.createUserData.detailList[
-        this.delistIndex
-      ].recommendAreaId = this.kueirArr[e].recommendAreaId;
-      this.createUserData.detailList[
-        this.delistIndex
-      ].recommendAreaName = this.kueirArr[e].recommendAreaName;
+      ].recommendAreaId = this.tabledata[this.delistIndex].kueirArr[e][
+        "recommendAreaId"
+      ];
+      this.createUserData.detailList[this.delistIndex][
+        "recommendAreaName"
+      ] = this.tabledata[this.delistIndex].kueirArr[e].recommendAreaName;
     },
 
     //点击选择委托公司
@@ -509,7 +519,7 @@ export default {
     },
     //关闭
     closeBtn() {
-      this.$router.go(-1);
+      this.$parent._data.ismanageMentrukuSure = false;
     },
     handleSelectionChange(e) {
       this.multipleSelection = e;
@@ -603,14 +613,6 @@ export default {
   }
 }
 .setUserIngBox {
-  background: rgb(232, 233, 236);
-  padding: 0 10px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
   .headerBox {
     height: 50px;
     border-radius: 3px;

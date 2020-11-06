@@ -16,7 +16,9 @@
           <div class="xinxiBitian">
             <div>
               <div class="displayalign ellipsis">
-                <div class="noneIconTitle mr11">委托公司:</div>
+                <div class="noneIconTitle mr11">
+                  委托公司<span style="color: red">*</span> :
+                </div>
                 <div class="mr20">
                   <el-select
                     v-model="companyJson.value"
@@ -45,6 +47,7 @@
                   <dateTime
                     :dateTimeData="datetimeDate"
                     @getDateTime="getexpectedArrivalTime"
+                    :valueDataStart="createUserData.expectedArrivalTime"
                   />
                 </div>
               </div>
@@ -85,7 +88,11 @@
             style="width: 100%; height: 100%; overflow-y: auto"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="82"></el-table-column>
+            <el-table-column
+              type="selection"
+              width="82"
+              fixed="left"
+            ></el-table-column>
             <el-table-column
               label="序号"
               type="index"
@@ -136,7 +143,7 @@
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
-              label="申请采购数量**"
+              label="申请采购数量*"
               width="119"
               prop="prodNum"
               show-overflow-tooltip
@@ -148,10 +155,14 @@
               label="期望到货时间*"
               prop="recommendSeatNo"
               show-overflow-tooltip
-              width="180"
+              width="220"
             >
-              <div slot-scope="scope" @click="tablesClickDatas(scope.row)">
-                <dateTime :dateTimeData="datetimeDate" />
+              <div slot-scope="scope" @click="tablesClickDatas(scope.$index)">
+                <dateTime
+                  :dateTimeData="datetimeDate"
+                  @getDateTime="getQiWanDaoHuoshijian"
+                  :valueDataStart="scope.row.expectedArrivalTime"
+                />
               </div>
             </el-table-column>
           </el-table>
@@ -170,7 +181,7 @@
           leave-active-class="animate__animated animate__zoomOut"
         >
           <div v-if="addChanpins">
-            <choiceSelect />
+            <choiceSelect @tables="GETtables" />
           </div>
         </transition>
       </div>
@@ -183,10 +194,11 @@
 /*eslint-disable */
 import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
 import { Message } from "element-ui";
-import { getCookie, _isJsonEmit } from "../../utils/validate";
+import { getCookie, _isJsonEmpty } from "../../utils/validate";
 import {
-  getpCommonFindOrgByWareId,
+  getFindWareOrg,
   getpPurchaseOrdersaveRecord,
+  getppPurchaseOrderFindRecord,
 } from "../../api/api";
 import choiceSelect from "../../components/purchasingZhujian/choiceSelect";
 export default {
@@ -213,9 +225,7 @@ export default {
       },
       createUserData: {
         putstatus: "0",
-        disposeStatus: "0", //处理状态
-        expectedSendTime: "", //期望入库时间
-        operatorType: 1,
+        disposeStatus: "0", //采购状态
         wareId: getCookie("X-Auth-wareId"),
         remark: "",
         wareAreaId: "",
@@ -223,15 +233,15 @@ export default {
         orgId: "",
         orgName: "",
         childWareName: "",
-        pOutWarehouseDetails: [],
         expectedArrivalTime: "", //期望到货时间
         recommendSeatNo: [],
         id: (() => {
-          return this.$route.query.id ? this.$route.query.id : "";
+          return !this.edif ? this.editDataJson.id : "";
         })(), //编辑
       },
       tables: [],
       edif: false,
+      tableIdx: null,
     };
   },
   props: {
@@ -241,39 +251,46 @@ export default {
     },
   },
   async created() {
-    this.edif = _isJsonEmit(this.editDataJson);
-    if (this.edif) {
+    this.edif = _isJsonEmpty(this.editDataJson);
+    if (!this.edif) {
       this.changeEditData();
     }
   },
-  watch: {
-    addChanpins(n) {
-      if (!n) {
-        this.tables = eval(sessionStorage.getItem("_addTablesData"));
-        if (this.tables) {
-          this.tables.forEach((item) => {
-            item.prodId = item.id;
-          });
-          this.tabledata = this.tables;
-          this.createUserData.pOutWarehouseDetails = this.tables;
-        }
+
+  methods: {
+    _addTablesData() {
+      this.tables = eval(sessionStorage.getItem("_addTablesData"));
+      if (this.tables) {
+        this.tabledata = this.tabledata.concat(this.tables);
+        this.createUserData.detailList = this.tables;
       }
     },
-  },
-  methods: {
     changeEditData() {
-      console.log(this.editDataJson);
+      this.companyJson.value = this.editDataJson.orgName;
+      this.createUserData = { ...this.editDataJson };
+      this._getgetppPurchaseOrderFindRecord();
+    },
+    GETtables(e) {
+      this.tabledata = this.tabledata.concat(e);
+    },
+    async _getgetppPurchaseOrderFindRecord() {
+      let data = await getppPurchaseOrderFindRecord(this.createUserData);
+      if (data.result[0]) {
+        return (this.tabledata = data.result[0].detailList);
+      }
     },
     tablesClickDatas(e) {
-      console.log(e);
+      this.tableIdx = e;
     },
-
+    //点击table的期望到货时间
+    getQiWanDaoHuoshijian(e) {
+      this.tabledata[this.tableIdx].expectedArrivalTime = e;
+    },
     //点击选择委托公司
     async getCompanyJsonAndArr() {
-      console.log(this.createUserData, "this.createUserData点击委托公司");
       this.createUserData.wareAreaId = "";
       this.createUserData.childWareId = "";
-      let datas = await getpCommonFindOrgByWareId();
+      let datas = await getFindWareOrg();
       this.companyJson.companyArr = datas.result;
     },
     getexpectedArrivalTime(e) {
@@ -303,6 +320,7 @@ export default {
     //关闭
     closeBtn() {
       this.$parent._data.isCreatePurchasing = false;
+      sessionStorage.removeItem("_addTablesData");
     },
     handleSelectionChange(e) {
       this.multipleSelection = e;
@@ -310,9 +328,11 @@ export default {
     //点击了提交
     async goAJAXCreate() {
       if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.expectedArrivalTime)
+        return Message("请选择期望到货时间");
       if (!this.multipleSelection.length)
         return Message("请选择要创建的产品明细");
-      this.createUserData.detail = this.multipleSelection;
+      this.createUserData.detailList = this.multipleSelection;
       let datas = await getpPurchaseOrdersaveRecord(this.createUserData);
       if (datas.code == "10000") {
         Message(datas.msg);
@@ -321,11 +341,6 @@ export default {
         this.$parent.getTableData();
         this.closeBtn();
       }
-    },
-    getUserType(e) {
-      //获取创建的用户类型
-      this.createUserData.codeValue = e.codeValue;
-      this.createUserData.roleId = e.roleId;
     },
   },
 };

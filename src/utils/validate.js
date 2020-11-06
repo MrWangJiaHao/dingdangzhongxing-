@@ -62,7 +62,6 @@ export const ajaxPost = (url, data, fn) => {
     }
   };
   let str = ''
-  // let str = arrStr(data)
   console.log(typeof data)
   if (typeof data == 'array') {
     str = arrStr(data)
@@ -108,7 +107,7 @@ export const getCookie = function (sessionKey) {
 /**
  * removeCookie
  */
-export const removeCookie = function (sessionKey) {
+export const removeCookie = function () {
   var exp = new Date();
   exp.setTime(exp.getTime() - 1);
   var cval = getCookie(name);
@@ -205,8 +204,7 @@ export const _TableXuanRaRequest = (data) => {
  * 
  * @param {*} i 判断json是否为空 
  */
-
-export const _isJsonEmit = (json) => {
+export const _isJsonEmpty = (json) => {
   var str = "{}";
   json = JSON.stringify(json)
   return json === str ? true : false;

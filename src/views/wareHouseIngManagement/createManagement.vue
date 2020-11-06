@@ -81,14 +81,14 @@
           <div class="tijiaoBox disinb mr20" @click="addChanpin">添加产品</div>
           <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
         </div>
-        <div class="mb20">
+        <div class="mb20" style="height: 300px">
           <el-table
             ref="multipleTable"
             :data="tabledata"
             :stripe="true"
             :border="true"
             tooltip-effect="dark"
-            style="width: 100%"
+            style="width: 100%; height: 100%; overflow-y: auto"
             @selection-change="handleSelectionChange"
           >
             <el-table-column type="selection" width="82"></el-table-column>
@@ -140,7 +140,11 @@
               prop="prodNum"
               show-overflow-tooltip
             >
-              <el-input slot-scope="scope" v-model="scope.row.prodNum">
+              <el-input
+                type="number"
+                slot-scope="scope"
+                v-model="scope.row.prodNum"
+              >
               </el-input>
             </el-table-column>
             <el-table-column
@@ -204,24 +208,26 @@
       <!-- 备注 -->
       <!-- 账号信息 -->
       <div class="displayCenter mb20">
-        <div class="quxiaoBox mr20" @click="closeBtn">取消</div>
-        <div class="tijiaoBox" @click="goAJAXCreate">提交</div>
+        <div class="quxiaoBox mr20 mb20" @click="closeBtn">取消</div>
+        <div class="tijiaoBox mb20" @click="goAJAXCreate">提交</div>
       </div>
       <!-- btn -->
       <!-- 添加产品 start -->
-      <transition
-        enter-active-class="animate__animated animate__zoomIn"
-        leave-active-class="animate__animated animate__zoomOut"
-      >
-        <div
-          v-show="addChanpins"
-          ref="parentSelect"
-          class="addChanpinClass animate__animated"
+      <div v-show="addChanpins" class="bjBox">
+        <transition
+          enter-active-class="animate__animated animate__zoomIn"
+          leave-active-class="animate__animated animate__zoomOut"
         >
-          <choiceSelect ref="childSelect" />
-        </div>
-      </transition>
-      <!-- 添加产品 end -->
+          <div
+            v-if="addChanpins"
+            ref="parentSelect"
+            class="addChanpinClass animate__animated"
+          >
+            <choiceSelect ref="childSelect" />
+          </div>
+        </transition>
+        <!-- 添加产品 end -->
+      </div>
     </div>
   </div>
 </template>
@@ -236,7 +242,6 @@ import { mapState } from "vuex";
 import { Message } from "element-ui";
 import { isMobile, isEmail, getCookie } from "../../utils/validate";
 import {
-  post,
   getFindWareOrg,
   getFindOrgChildWare,
   getfindOrgProductPage,
@@ -282,7 +287,7 @@ export default {
         orgName: "",
         childWareName: "",
         detailList: [],
-        orderSource: (() => this.$route.query.orderSource)(),
+        orderSource: (() => this.orderSources)(),
         id: (() => {
           return this.$route.query.id ? this.$route.query.id : "";
         })(),
@@ -296,7 +301,7 @@ export default {
           return sessionStorage.getItem("createManagementChildWareId");
         })(),
         orgId: sessionStorage.getItem("orgId"),
-        orderSource: (() => this.$route.query.orderSource)(),
+        orderSource: (() => this.orderSources)(),
         paras: {
           prodName: "", //产品名称
           prodCode: "", //产品编码
@@ -314,8 +319,18 @@ export default {
       delistIndex: null,
     };
   },
+  props: {
+    orderSources: {
+      type: String,
+      default: "0",
+    },
+    edifManageMent: {
+      Type: Boolean,
+      default: false,
+    },
+  },
   async created() {
-    if (this.$route.query.id) {
+    if (this.edifManageMent) {
       let EditData = JSON.parse(sessionStorage.getItem("manualManageMentEdit"));
       this.companyJson.value = EditData.orgName;
       this.createUserData.childWareName = EditData.childWareName;
@@ -323,7 +338,7 @@ export default {
       this.createUserData.orgId = EditData.orgId;
       this.createUserData.createUserData = EditData.createUserData;
       this.createUserData.expectedSendTime = EditData.expectedSendTime;
-      this._getFindWareHouseDetailByIds();
+      this._getFindWareHouseDetailByIds(EditData);
     }
     this.tables = eval(sessionStorage.getItem("_addTablesData"));
     if (this.tables) {
@@ -348,8 +363,8 @@ export default {
   },
   methods: {
     //获取产品明细
-    _getFindWareHouseDetailByIds() {
-      getFindWareHouseDetailByIds({ ids: this.$route.query.id }, (data) => {
+    _getFindWareHouseDetailByIds(Json) {
+      getFindWareHouseDetailByIds({ ids: Json.id }, (data) => {
         data = JSON.parse(data);
         this._changeChangPinMinXi(data.result);
       });
@@ -456,7 +471,7 @@ export default {
     },
     //关闭
     closeBtn() {
-      this.$router.go(-1);
+      this.$parent._data.iscreateManagement = false;
     },
     handleSelectionChange(e) {
       this.multipleSelection = e;
@@ -476,6 +491,7 @@ export default {
       if (datas.code == "10000") {
         sessionStorage.removeItem("_addTablesData");
         sessionStorage.removeItem("createManagementChildWareId");
+        this.$emit("closeCreate", true);
         this.closeBtn();
       }
     },
@@ -491,14 +507,6 @@ export default {
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .setUserIngBox {
-  background: rgb(232, 233, 236);
-  padding: 0 10px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
   .headerBox {
     height: 50px;
     border-radius: 3px;

@@ -437,7 +437,7 @@ export default {
     },
     //点击选择委托公司
     async getCompanyJsonAndArr() {
-      console.log(this.createUserData, "this.createUserData点击委托公司");
+      // console.log(this.createUserData, "this.createUserData点击委托公司");
       this.createUserData.wareAreaId = "";
       this.createUserData.childWareId = "";
       let datas = await getFindWareOrg();

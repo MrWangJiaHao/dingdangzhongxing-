@@ -1173,6 +1173,14 @@ export const pSubPurchaseOrderFindRecord = function (data) {
         })
     })
 }
+/**
+ * 删除 采购单
+ * @param {*} datas 
+ */
+
+export const pPurchaseOrderDeleteBatch = function (data, fn) {
+    ajaxPost("http://139.196.176.227:8902/wbs-warehouse-manage/v1/pPurchaseOrder/deleteBatch", data, fn)
+}
 
 //=========================================采购管理 end ========================================
 export function post(datas) {

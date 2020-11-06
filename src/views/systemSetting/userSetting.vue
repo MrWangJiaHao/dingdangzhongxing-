@@ -161,6 +161,45 @@
     <div class="lineBox">
       <div class="line"></div>
     </div>
+    <!-- 创建 start -->
+    <!-- 采购单详情页 start -->
+    <div v-show="isSetUserIng" class="bjBox">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div v-if="isSetUserIng">
+          <setUserIng />
+        </div>
+      </transition>
+    </div>
+    <!-- 创建 end -->
+
+    <!-- 编辑 start -->
+    <div v-show="iseditUserIng" class="bjBox">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div v-if="iseditUserIng">
+          <editUserIng :editUserIngJson="editUserIngJson" />
+        </div>
+      </transition>
+    </div>
+    <!-- 编辑 end -->
+    <!-- 查看 start -->
+    <div v-show="islookUser" class="bjBox">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div v-if="islookUser">
+          <lookUser :editUserIngJson="editUserIngJson" />
+        </div>
+      </transition>
+    </div>
+
+    <!-- 查看 end -->
   </div>
 </template>
 
@@ -174,18 +213,27 @@ import { post, logins } from "../../api/api";
 import { mapState } from "vuex";
 import { ajaxPost } from "../../utils/validate";
 import getEwmRes from "../../components/getEwmRes";
+import setUserIng from "./setUserIng"; //创建
+import editUserIng from "./editUserIng"; //编辑
+import lookUser from "./lookUser";
 export default {
   components: {
     dateTime,
     pagecomponent,
     EWM,
     getEwmRes,
+    setUserIng,
+    editUserIng,
+    lookUser,
   },
   computed: {
     ...mapState(["editUser", "userTypeArr"]),
   },
   data() {
     return {
+      isSetUserIng: false,
+      iseditUserIng: false, // 编辑
+      islookUser: false, //查看
       ewms: false,
       tableData: [
         {
@@ -239,6 +287,7 @@ export default {
           wareId: "",
         },
       },
+      editUserIngJson: {},
     };
   },
   async created() {
@@ -248,7 +297,6 @@ export default {
     }, 0);
   },
   methods: {
-    //点击打印二维码
     locotpUserEWM() {
       if (this.multipleSelection.length == 0)
         return Message("请选择要打印的二维码");
@@ -271,27 +319,6 @@ export default {
       // this.LODOP.PRINTA(); //不需要进入查看页面 直接打印
       this.LODOP.PREVIEW(); //需要进入页面查看
     },
-    CheckIsInstall() {
-      //查看是否存在有打印控件
-      try {
-        var LODOP = getLodop();
-        if (LODOP.VERSION) {
-          if (LODOP.CVERSION)
-            console.log(
-              "当前有WEB打印服务C-Lodop可用!\n C-Lodop版本:" +
-                LODOP.CVERSION +
-                "(内含Lodop" +
-                LODOP.VERSION +
-                ")"
-            );
-          else
-            console.log(
-              "本机已成功安装了Lodop控件！\n 版本号:" + LODOP.VERSION
-            );
-        }
-        return LODOP;
-      } catch (err) {}
-    },
     //点击查看角色
     lookUser() {
       if (!this.multipleSelection.length) return Message("请选择要查看的账号");
@@ -301,8 +328,7 @@ export default {
           type: "warning",
         });
       let id = this.multipleSelection[0].id;
-      console.log("点击了查看");
-      this.fasonEdit({ id }, "/systemSetting/lookUser");
+      this.fasonEdit({ id }, "islookUser");
     },
     //点击删除角色
     clearUser() {
@@ -355,14 +381,10 @@ export default {
     },
     //点击编辑按钮
     editBtn() {
-      if (!this.multipleSelection.length) return Message("请选择要编辑的账号");
-      if (this.multipleSelection.length !== 1)
-        return Message({
-          message: "每次只能编辑一条账号，请重新选择",
-          type: "warning",
-        });
+      if (!this.multipleSelection.length && this.multipleSelection.length != 1)
+        return Message("请选择要编辑的账号,每次自能选择一条账号进行编辑");
       let id = this.multipleSelection[0].id;
-      this.fasonEdit({ id }, "/systemSetting/editUserIng");
+      this.fasonEdit({ id }, "iseditUserIng");
     },
     async fasonEdit(data, path) {
       let datas = await post({
@@ -370,10 +392,8 @@ export default {
         data,
       });
       if (datas.code === "10000") {
-        this.$store.dispatch("editUser", datas.result[0]);
-        this.$router.push({
-          path,
-        });
+        this[path] = true;
+        this.editUserIngJson = datas.result[0];
       } else {
         Message(datas.msg);
       }
@@ -418,9 +438,7 @@ export default {
     },
     //点击创建按钮
     gotoRouterSetUserIng() {
-      this.$router.push({
-        path: "/systemSetting/setUserIng",
-      });
+      this.isSetUserIng = true;
     },
     //搜索框改变后的数据
     getChangeInput(e) {

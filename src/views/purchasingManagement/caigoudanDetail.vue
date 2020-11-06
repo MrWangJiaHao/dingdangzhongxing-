@@ -51,21 +51,21 @@
       <div class="pd20">
         <div class="setTitle">采购详情</div>
         <div v-if="!isrukuDetails" class="mb20 tr"></div>
-        <div class="mb20" id="tableBox">
+        <div class="mb20" style="height: 220px" id="tableBox">
           <el-table
             ref="multipleTable"
             :data="tabledata"
             :stripe="true"
             :border="true"
             tooltip-effect="dark"
-            style="width: 100%; overflow: auto"
+            style="width: 100%; height: 100%; overflow: auto"
             @selection-change="handleSelectionChange"
           >
             <el-table-column type="expand" width="82">
               <template slot-scope="scope">
                 <el-table
                   border
-                  :data="scope.row.details"
+                  :data="scope.row.detailList"
                   tooltip-effect="dark"
                   style="width: 100%"
                   default-expand-all
@@ -203,7 +203,7 @@
             <textarea
               disabled
               placeholder="请输入备注"
-              v-model="createUserData.remark"
+              v-model="caigoudanDetailJson.remark"
               maxlength="200"
             ></textarea>
           </div>
@@ -226,7 +226,7 @@ import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
 import { mapState } from "vuex";
 import { Message } from "element-ui";
 import { isMobile, isEmail } from "../../utils/validate";
-import { pSubPurchaseOrderFindRecord } from "../../api/api";
+import { getppPurchaseOrderFindRecord } from "../../api/api";
 export default {
   name: "createUsering",
   components: {
@@ -266,7 +266,7 @@ export default {
       },
 
       multipleSelection: [],
-      tabledata: [{}],
+      tabledata: [],
       ziCangJson: {
         value: "",
         ziCangArr: [],
@@ -277,7 +277,6 @@ export default {
         orderSource: "",
         orgName: "",
         orgId: "",
-        remark: "",
         waerId: "",
         detailList: [],
         batchNo: "",
@@ -301,7 +300,7 @@ export default {
 
   async created() {
     console.log(this.caigoudanDetailJson, "caigoudanDetailJson");
-    this._pSubPurchaseOrderFindRecord();
+    this._getppPurchaseOrderFindRecord();
   },
   methods: {
     //关闭
@@ -313,10 +312,10 @@ export default {
       this.multipleSelection = e;
     },
 
-    async _pSubPurchaseOrderFindRecord(id) {
-      let datas = await pSubPurchaseOrderFindRecord(this.caigoudanDetailJson);
+    async _getppPurchaseOrderFindRecord(id) {
+      let datas = await getppPurchaseOrderFindRecord(this.caigoudanDetailJson);
       console.log(datas, "detail");
-      return (this.chanpinCenter = datas.result);
+      return (this.tabledata = datas.result);
     },
   },
 };
@@ -382,6 +381,9 @@ export default {
       border-right: 1px solid #d1d6e2;
       background-color: #ecf1f7;
       text-align: right;
+    }
+    .centersBox {
+      padding-left: 10px;
     }
   }
 }
