@@ -184,7 +184,7 @@
             <div class="icon-title-title">销售订单信息</div>
           </div>
           <div class="someBtn">
-            <div class="setUser" @click="educe">导出</div>
+            <a class="setUser" @click="educe" target="_blank">导出</a>
           </div>
         </div>
         <div class="resultForm">
@@ -359,11 +359,10 @@
 </template>
 
 <script>
-/*eslint-disable */
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { Message } from "element-ui";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
-import { queryOrderInfor,educeExcel } from "../../api/api";
+import { queryOrderInfor, childOrderInfor } from "../../api/api";
 import { isMobile } from "../../utils/validate";
 export default {
   components: {
@@ -373,6 +372,9 @@ export default {
   data() {
     return {
       index: 0,
+      lotNo: "",
+      getExcelUrl:
+        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubOrder/getExcel?lotNo=",
       tableData: [],
       stateChoose: "展开",
       datetimeDate: {
@@ -410,6 +412,10 @@ export default {
         {
           value: "3",
           label: "待审核",
+        },
+        {
+          value: "4",
+          label: "待分配",
         },
         {
           value: "5",
@@ -564,9 +570,7 @@ export default {
         }
       });
     },
-    handleSelectionChange(value) {
-      this.multipleSelection = value;
-    },
+
     reduceFun(arr) {
       let testObj = {};
       let res = arr.reduce((item, next) => {
@@ -645,16 +649,26 @@ export default {
       this.queryData.paras.hasExpr = "";
       this.pageQueryFun();
     },
+    handleSelectionChange(value) {
+      this.multipleSelection = value;
+      let data = {
+        subOrderNo: "",
+      };
+      data.subOrderNo = value[0].subOrderNo;
+      childOrderInfor(data).then((ok) => {
+        if (ok.data.code === "10000") {
+          this.lotNo = ok.data.result[0].lotNo;
+        }
+      });
+    },
     educe() {
       //导出表格
-      let data = {
-        lotNo:"",
-        orgId:"",
-        channelId:"",
-      }
-      educeExcel(data).then((ok)=>{
-        console.log(ok)
-      })
+      if (!this.multipleSelection.length) return Message("请选择要导出的订单");
+      if (this.multipleSelection.length != 1)
+        return Message("一次只能选择一个订单");
+      if (this.lotNo === "") return Message("请稍等片刻");
+      let oA = document.querySelector(".setUser");
+      oA.setAttribute("href", this.getExcelUrl + this.lotNo);
     },
     clickShow() {
       this.index++;

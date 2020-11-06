@@ -10,7 +10,7 @@
             <td>子单号</td>
             <td>{{ subOrderNo }}</td>
             <td>子单状态</td>
-            <td>{{ orderState }}</td>
+            <td>{{ subOrderStatus }}</td>
           </tr>
           <tr>
             <td>委托公司</td>
@@ -82,43 +82,19 @@
         >
           <el-table-column label="序号" align="center" type="index" width="60">
           </el-table-column>
-          <el-table-column
-            prop=""
-            label="渠道商品编码"
-            align="center"
-          >
+          <el-table-column prop="" label="渠道商品编码" align="center">
           </el-table-column>
-          <el-table-column
-            prop=""
-            label="渠道商品名称"
-            align="center"
-          >
+          <el-table-column prop="" label="渠道商品名称" align="center">
           </el-table-column>
-          <el-table-column
-            prop="prodCode"
-            label="产品编码"
-            align="center"
-          >
+          <el-table-column prop="prodCode" label="产品编码" align="center">
           </el-table-column>
-          <el-table-column
-            prop="prodFullName"
-            label="产品名称"
-            align="center"
-          >
+          <el-table-column prop="prodFullName" label="产品名称" align="center">
           </el-table-column>
-          <el-table-column
-            prop="specName"
-            label="产品规格"
-            align="center"
-          >
+          <el-table-column prop="specName" label="产品规格" align="center">
           </el-table-column>
           <el-table-column prop="braName" label="品牌" align="center">
           </el-table-column>
-          <el-table-column
-            prop="prodNum"
-            label="购买数量"
-            align="center"
-          >
+          <el-table-column prop="prodNum" label="购买数量" align="center">
           </el-table-column>
         </el-table>
       </div>
@@ -142,7 +118,7 @@
           </ul>
         </div>
         <el-table
-          :data="tableData"
+          :data="tableData1"
           border
           style="width: 100%"
           :stripe="true"
@@ -150,15 +126,11 @@
         >
           <el-table-column label="序号" align="center" type="index" width="60">
           </el-table-column>
-          <el-table-column prop="orderSourceName" label="操作" align="center">
+          <el-table-column prop="operateType" label="操作" align="center">
           </el-table-column>
-          <el-table-column prop="orderSourceName" label="操作人" align="center">
+          <el-table-column prop="operateUser" label="操作人" align="center">
           </el-table-column>
-          <el-table-column
-            prop="orderSourceName"
-            label="操作时间"
-            align="center"
-          >
+          <el-table-column prop="operateTime" label="操作时间" align="center">
           </el-table-column>
         </el-table>
       </div>
@@ -170,7 +142,8 @@
 </template>
 
 <script>
-import { childOrderInfor ,sellOrderInfor} from "../../api/api";
+import { childOrderInfor, sellOrderInfor } from "../../api/api";
+import { Message } from "element-ui";
 
 let willBackgroundColor = "#ddd";
 let beforBackgroundColor = "#b0cff9";
@@ -184,7 +157,7 @@ export default {
           vm.subOrderNo = data.subOrderNo;
           vm.id = data.id;
           vm.orderNo = data.orderNo;
-          vm.orderState = data.orderState;//订单状态
+          vm.subOrderStatus = data.subOrderStatus; //订单状态
           vm.orgName = data.orgName;
           vm.channelName = data.channelName;
           vm.orderSourceName = data.orderSourceName;
@@ -210,7 +183,7 @@ export default {
   data() {
     return {
       orderNo: "", //订单号
-      orderState: "", //订单状态
+      subOrderStatus: "", //订单状态
       subOrderNo: "", //子订单号
       orgName: "",
       channelName: "", //渠道
@@ -227,8 +200,9 @@ export default {
       exprFee: "", //运费(元)
       commendBox: "", //推荐用箱
       remark: "", //备注
-      id:"",//销售订单id
+      id: "", //销售订单id
       tableData: [],
+      tableData1: [],
       timeLineArr: [
         {
           number: 1,
@@ -266,36 +240,85 @@ export default {
           background: willBackgroundColor,
         },
       ],
+      val: 0,
     };
   },
   mounted() {
-    let val = 6;
-    this.timeLineArr.forEach((v) => {
-      if (val === v.number) {
-        v.background = nowBackgroundColor;
-      }
-      if (val > v.number) {
-        v.background = beforBackgroundColor;
-      }
-      if (val < v.number) {
-        v.background = willBackgroundColor;
-      }
-    });
-
     let childOrderQuery = {
       subOrderNo: this.subOrderNo,
     };
     childOrderInfor(childOrderQuery).then((ok) => {
-      console.log(ok);
+      // console.log(ok);
+      if (ok.data.code === "10000") {
+        this.tableData1 = ok.data.result;
+        let type = this.tableData1[this.tableData1.length - 1].operateType;
+        if (type <= 3 || type === 4) {
+          this.val = 1;
+        } else if (type > 4 && type === 8) {
+          this.val = type;
+        } else if (type === 9) {
+          this.val = 4;
+        } else if (type === 10) {
+          this.val = 6;
+        }
+        let val = this.val;
+        this.timeLineArr.forEach((v) => {
+          if (val === v.number) {
+            v.background = nowBackgroundColor;
+          }
+          if (val > v.number) {
+            v.background = beforBackgroundColor;
+          }
+          if (val < v.number) {
+            v.background = willBackgroundColor;
+          }
+        });
+        this.tableData1.forEach((v) => {
+          v.operateType =
+            v.operateType === 0
+              ? "拉取/手工"
+              : v.operateType === 1
+              ? "拆分"
+              : v.operateType === 2
+              ? "下发中"
+              : v.operateType === 3
+              ? "待审核"
+              : v.operateType === 4
+              ? "待分配"
+              : v.operateType === 5
+              ? "待合并"
+              : v.operateType === 6
+              ? "待打印"
+              : v.operateType === 7
+              ? "待拣货"
+              : v.operateType === 8
+              ? "待复核"
+              : v.operateType === 9
+              ? "重新拣货"
+              : v.operateType === 10
+              ? "已发货"
+              : v.operateType === 11
+              ? "已退单"
+              : "";
+        });
+      } else {
+        Message({
+          message: "网络异常",
+          type: "error",
+        });
+      }
     });
     let sellOrderQuery = {
-      id : this.id
-    }
-    sellOrderInfor(sellOrderQuery).then((ok)=>{
-      if(ok.data.code === "10000"){
-        this.tableData = ok.data.result
+      id: this.id,
+    };
+    sellOrderInfor(sellOrderQuery).then((ok) => {
+      if (ok.data.code === "10000") {
+        this.tableData = ok.data.result;
+        this.tableData.forEach((v) => {
+          v.specName = v.specName + "ml";
+        });
       }
-    })
+    });
   },
   methods: {
     back() {

@@ -300,27 +300,24 @@ const routes = [{
         path: "/indentManagement/zitiIndentManage",
         name: "/indentManagement/zitiIndentManage",
         component: () => import("../views/indentManagement/zitiIndentManage"),
-
+      },
+      {
+        // 订单管理=>自提订单管理=>取货确认
+        path: "/indentManagement/takeGoodsVerity",
+        name: "/indentManagement/takeGoodsVerity",
+        component: () => import("../views/indentManagement/takeGoodsVerity"),
       },
       {
         // 订单管理=>销售订单管理
         path: "/indentManagement/sellIndentManage",
         name: "/indentManagement/sellIndentManage",
         component: () => import("../views/indentManagement/sellIndentManage"),
-        meta: {
-          Breadcrumb: "销售订单管理",
-          title: "销售订单管理"
-        }
       },
       {
         // 订单管理=>缺货订单管理
         path: "/indentManagement/stockoutIndentManage",
         name: "/indentManagement/stockoutIndentManage",
         component: () => import("../views/indentManagement/stockoutIndentManage"),
-        meta: {
-          Breadcrumb: "缺货订单管理",
-          title: "缺货订单管理"
-        }
       },
       {
         // 订单管理=>订单详情页

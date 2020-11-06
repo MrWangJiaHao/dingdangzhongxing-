@@ -2,50 +2,32 @@
   <div class="mian">
     <div class="orderDetaiPage">
       <div class="orderDetailBox">
-        <div class="orderDetail-title">订单详情</div>
-        <table>
-          <tr>
-            <td>订单号</td>
-            <td>{{ orderNo }}</td>
-            <td>订单状态</td>
-            <td>{{ subOrderStatus }}</td>
-            <td>支付时间</td>
-            <td>{{ payTime }}</td>
-          </tr>
-          <tr>
-            <td>委托公司</td>
-            <td>{{ orgName }}</td>
-            <td>渠道</td>
-            <td>{{ channelName }}</td>
-            <td>订单来源</td>
-            <td>{{ orderSourceName }}</td>
-          </tr>
-          <tr>
-            <td>发货时间</td>
-            <td>{{ pushTime }}</td>
-            <td>物流公司</td>
-            <td>{{ exprName }}</td>
-            <td>备注</td>
-            <td></td>
-          </tr>
-        </table>
+        <div class="orderDetail-title">取货信息</div>
+        <div class="orderDetail-input">
+          <div class="nameBox">
+            <div class="roleName-text">取货人：</div>
+            <div class="roleName-checkBox">
+              <el-input v-model="takeGoodsPeople" placeholder="请输入取货人">
+              </el-input>
+            </div>
+          </div>
+          <div class="nameBox">
+            <div class="roleName-text">取货时间：</div>
+            <div class="roleName-checkBox">
+              <dateTime
+                :dateTimeData="datetimeDates"
+                @getDateTime="getStartTime"
+                ref="startTime"
+              />
+            </div>
+          </div>
+        </div>
       </div>
       <div class="orderDetailBox userInfor">
+        <div class="orderDetail-title">订单详情</div>
+      </div>
+      <div class="orderDetailBox">
         <div class="orderDetail-title">收货信息</div>
-        <table>
-          <tr>
-            <td>用户昵称</td>
-            <td></td>
-            <td>联系电话</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>收货人</td>
-            <td></td>
-            <td>收货地址</td>
-            <td></td>
-          </tr>
-        </table>
       </div>
       <div class="orderDetailBox">
         <div class="orderDetail-title">商品明细</div>
@@ -76,79 +58,39 @@
       </div>
       <div class="backBtnBox">
         <div class="backBtn" @click="back">返回</div>
+        <div class="submitBtn" @click="submit">提交</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { childOrderInfor, sellOrderInfor } from "../../api/api";
-import { Message } from "element-ui";
-
+// import { Message } from "element-ui";
+import dateTime from "../../components/commin/dateTime.vue"; //时间
 export default {
-  beforeRouteEnter(to, from, next) {
-    if (from.name === "/indentManagement/sellIndentManage") {
-      next((vm) => {
-        if (vm.$route.query.type === "orderNo") {
-          let data = vm.$route.query.orderNo;
-          vm.subOrderNo = data.subOrderNo;
-          vm.id = data.id;
-          vm.orderNo = data.orderNo;
-          vm.subOrderStatus = data.subOrderStatus; //订单状态
-          // vm.payTime = data.orderNo;
-          vm.orgName = data.orgName;
-          vm.channelName = data.channelName;
-          vm.orderSourceName = data.orderSourceName;
-          vm.pushTime = data.pushTime;
-          vm.exprName = data.exprName;
-        }
-      });
-    } else {
-      next((vm) => {
-        vm.$router.go(-1);
-      });
-    }
+  components: {
+    dateTime,
   },
   data() {
     return {
+      datetimeDates: {
+        placeholder: "请选择时间",
+      },
       tableData: [],
-      orderNo: "", //订单号
-      subOrderStatus: "", //订单状态
-      payTime: "", //支付时间
-      orgName: "",
-      channelName: "", //渠道
-      orderSourceName: "", //订单来源名称
-      pushTime: "", //下发时间
-      exprName: "", //物流公司
-      subOrderNo: "", //子订单ID
-      id: "", //销售订单id
+      takeGoodsPeople: "",
     };
-  },
-  mounted() {
-    let childOrderQuery = {
-      subOrderNo: this.subOrderNo,
-    };
-    childOrderInfor(childOrderQuery).then((ok) => {
-      console.log(ok);
-    });
-    let sellOrderQuery = {
-      id: this.id,
-    };
-    sellOrderInfor(sellOrderQuery).then((ok) => {
-      if (ok.data.code === "10000") {
-        this.tableData = ok.data.result;
-      }
-    });
   },
   methods: {
-    back() {
-      this.$router.go(-1);
+    getStartTime(e) {
+      console.log(e);
     },
+    back(){},
+    submit(){},
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 @import "../../assets/scss/btn.scss";
 .mian {
   background: #e3e4e8;
@@ -172,11 +114,23 @@ export default {
         left: -25px;
         top: 3px;
       }
+      .orderDetail-input {
+        display: flex;
+        font-size: 16px;
+        .nameBox {
+          display: flex;
+          align-items: center;
+          margin-right: 20px;
+        }
+      }
     }
     .backBtnBox {
       width: 100%;
+      display: flex;
       .backBtn {
-        margin: 0 auto;
+        @include BtnFunction("success");
+      }
+      .submitBtn {
         @include BtnFunction("success");
       }
     }

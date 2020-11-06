@@ -8,7 +8,7 @@
         </div>
         <div class="titleText">子仓区域</div>
         <div class="titleDistance">
-          （<span>长：10m 宽：10m 上北、下南、左西、右东</span>）
+          （<span>长：200m 宽：100m 上北、下南、左西、右东</span>）
         </div>
       </div>
       <div class="setArea">
@@ -25,7 +25,7 @@
       <div class="someInput">
         <div class="input1">
           <span>子仓名称：</span>
-          <el-input v-model="input1" placeholder="请输入内容"></el-input>
+          <el-input v-model="input1" placeholder="请输入子仓名称"></el-input>
         </div>
         <div class="input2">
           <span>子仓编号：</span>
@@ -419,13 +419,13 @@ export default {
     }
     .setArea {
       width: 100%;
-      height: 470px;
+      height: 930px;
       background: #eef1f8;
       border: 1px #d8dce7 dotted;
       border-radius: 10px;
       .temporarily_no {
         text-align: center;
-        line-height: 470px;
+        line-height: 930px;
         font-size: 22px;
         position: relative;
       }

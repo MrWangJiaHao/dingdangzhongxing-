@@ -235,15 +235,15 @@ export default {
       childWarehouseType: [
         {
           value: "1",
-          label: "1",
+          label: "销售",
         },
         {
           value: "2",
-          label: "2",
+          label: "售后",
         },
         {
           value: "3",
-          label: "3",
+          label: "残次品",
         },
       ],
       value2: "",
@@ -461,7 +461,7 @@ export default {
     }
     .setArea {
       width: 100%;
-      height: 470px;
+      height: 930px;
       background: #eef1f8;
       border: 1px #d8dce7 dotted;
       border-radius: 10px;
