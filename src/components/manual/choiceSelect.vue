@@ -253,7 +253,6 @@ export default {
       this.sendoutDataAsync();
     },
     closeBtn() {
-
       this.$parent._data.addChanpins = false;
     },
     handleSelectionChange(e) {
@@ -269,7 +268,6 @@ export default {
     //点击了提交
     clickSubmit() {
       this.$emit("tables", this.mutalisArr);
-      console.log(this.mutalisArr, "this.mutalisArr");
       sessionStorage.setItem("_addTablesData", JSON.stringify(this.mutalisArr));
       this.closeBtn();
     },

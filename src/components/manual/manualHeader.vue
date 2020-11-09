@@ -558,7 +558,11 @@ export default {
       return (this.EntrustedCompany.entrustedCompanyArr = datas.result);
     },
     //委托公司
-    getOrdName() {},
+    getOrdName(e) {
+      this.sendOutDataJson.paras.orgId = this.EntrustedCompany.entrustedCompanyArr[
+        e
+      ].id;
+    },
     //关联单号
     associatedArr(queryString, cb) {
       this.paras.orderNo = queryString;

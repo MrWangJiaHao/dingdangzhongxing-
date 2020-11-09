@@ -366,18 +366,11 @@ export default {
     },
     gotoRuKudetails(row) {
       this._getFindRecord(row.id).then(() => {
-        sessionStorage.setItem("manageMentrukuSureData", JSON.stringify(row));
-        this.$router.push({
-          path: "/warehousingManagement/manageMentrukuSure",
-          query: {
-            rukuDetails: true,
-            id: row.id,
-            WarehousingTypeArr: this.WarehousingTypeArr[this.$route.params.type]
-              .WarehousingTypeCenter,
-            orderSource: row.orderSource,
-            childWareId: row.childWareId,
-          },
-        });
+        sessionStorage.setItem(
+          "manageMentrukuSureData",
+          JSON.stringify({ rukuDetails: true, ...row })
+        );
+        this.ismanageMentrukuSure = true;
       });
     },
     getPageNum(e) {
@@ -403,6 +396,7 @@ export default {
             "manageMentrukuSureData",
             JSON.stringify(this.multipleSelection[0])
           );
+
           this.ismanageMentrukuSure = true;
         });
       }
@@ -475,6 +469,7 @@ export default {
 
     //创建入库单
     CreateStockInOrder() {
+      this.edifManageMent = false;
       this.iscreateManagement = true;
     },
     //编辑

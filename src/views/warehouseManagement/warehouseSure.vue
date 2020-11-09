@@ -213,10 +213,10 @@
       </div>
       <!-- 账号信息 -->
       <div class="displayCenter mb20">
-        <div class="quxiaoBox mr20" @click="closeBtn">
+        <div class="quxiaoBox mb20 mr20" @click="closeBtn">
           {{ !isDetails ? "取消" : "返回" }}
         </div>
-        <div v-if="!isDetails" class="tijiaoBox" @click="goAJAXCreate">
+        <div v-if="!isDetails" class="tijiaoBox mb20" @click="goAJAXCreate">
           提交
         </div>
       </div>
@@ -332,8 +332,7 @@ export default {
           this.createUserData.outWareNo ? this.createUserData.outWareNo : "- -",
         委托公司: () =>
           this.createUserData.orgName ? this.createUserData.orgName : "- -",
-        订单状态: () =>
-          this.createUserData.outWareStatus ? "已出库" : "未出库",
+        订单状态: () => this.createUserData.outWareStatus,
         创建时间: () =>
           this.$route.query.takeUser ? this.createUserData.takeUser : "- -",
         创建人: () =>
@@ -389,6 +388,12 @@ export default {
       isDetails: false,
     };
   },
+  props: {
+    isWarehouseSureDetails: {
+      type: Boolean,
+      default: false,
+    },
+  },
   beforeDestroy() {
     sessionStorage.removeItem("sarehouseChuKuSure");
     sessionStorage.removeItem("warehouseDetails");
@@ -416,14 +421,15 @@ export default {
       this.createUserData.takeTime = warehouseDetails.takeTime;
       this.createUserData.takeUser = warehouseDetails.takeUser;
       this.tabledata = warehouseDetails.tails.pOutWarehouseDetail;
+      this._getFindWarehouseProduct(warehouseDetails.id);
 
       getpOutWarehousefindOutWareDetailById(warehouseDetails.id).then((res) => {
         console.log(res);
         this.tabledata = res.result.tails.pOutWarehouseDetail;
       });
     }
-    if (this.$route.query.warehouseDetails) {
-      this.isDetails = this.$route.query.warehouseDetails;
+    if (this.isWarehouseSureDetails) {
+      this.isDetails = this.isWarehouseSureDetails;
     }
     let manageMentrukuSureData = JSON.parse(
       sessionStorage.getItem("sarehouseChuKuSure")
@@ -448,9 +454,6 @@ export default {
       this.createUserData.takeUser = manageMentrukuSureData.takeUser;
       this.tabledata = manageMentrukuSureData.tails.pOutWarehouseDetail;
     }
-    if (this.$route.query.id) {
-      this._getFindWarehouseProduct(this.$route.query.id);
-    }
 
     this.tables = eval(sessionStorage.getItem("_addTablesData"));
     if (this.tables) {
@@ -460,20 +463,10 @@ export default {
       this.tabledata = this.tabledata.concat(this.tables);
     }
   },
-  Computed: {
-    isDetailsFn() {
-      if (this.isDetails) {
-        return this.detailChuKu;
-      } else {
-        return this.rukuSure;
-      }
-    },
-  },
   methods: {
     isDetailsFn() {
-      if (!this.isDetails && !eval(this.$route.query.noRaising))
+      if (!this.isDetails && !eval(this.isWarehouseSureDetails))
         return this.feizhitiJson;
-
       if (this.isDetails) {
         return this.detailChuKu;
       } else {
@@ -608,7 +601,9 @@ export default {
     },
     //关闭
     closeBtn() {
-      this.$router.go(-1);
+      sessionStorage.removeItem("sarehouseChuKuSure");
+      sessionStorage.removeItem("warehouseDetails");
+      this.$emit("closeDetails", false);
     },
     handleSelectionChange(e) {
       this.multipleSelection = e;
@@ -707,14 +702,6 @@ export default {
   }
 }
 .setUserIngBox {
-  background: rgb(232, 233, 236);
-  padding: 0 10px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
   .headerBox {
     height: 50px;
     border-radius: 3px;

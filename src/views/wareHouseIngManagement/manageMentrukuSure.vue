@@ -123,7 +123,7 @@
             ></el-table-column>
             <el-table-column
               label="推荐入库库位"
-              prop="recommendSeatNo"
+              prop="recommendedLocation"
               width="180"
               show-overflow-tooltip
             ></el-table-column>
@@ -236,10 +236,10 @@
       <!-- 备注 -->
       <!-- 账号信息 -->
       <div class="displayCenter mb20">
-        <div class="quxiaoBox mr20" @click="closeBtn">
+        <div class="quxiaoBox mb20 mr20" @click="closeBtn">
           {{ !isrukuDetails ? "取消" : "返回" }}
         </div>
-        <div v-if="!isrukuDetails" class="tijiaoBox" @click="goAJAXCreate">
+        <div v-if="!isrukuDetails" class="tijiaoBox mb20" @click="goAJAXCreate">
           提交
         </div>
       </div>
@@ -247,7 +247,7 @@
       <!-- 添加产品 start -->
       <transition name="fade">
         <div v-show="addChanpins" ref="parentSelect" class="addChanpinClass">
-          <choiceSelect ref="childSelect" />
+          <choiceSelect ref="childSelect" @tables="tablesArr" />
         </div>
       </transition>
       <!-- 添加产品 end -->
@@ -353,9 +353,9 @@ export default {
       prodUnitData: [],
       tables: [],
       listJson: JSON.parse(sessionStorage.getItem("listArrs")),
-      chanpinCenter: {},
       rowTable: 0,
       isrukuDetails: false,
+      Index: null,
     };
   },
   props: {
@@ -387,26 +387,40 @@ export default {
     );
     if (manageMentrukuSureData) {
       this.createUserData.putWareId = manageMentrukuSureData.id;
-      this.createUserData.recommendSeatId =
-        manageMentrukuSureData.recommendSeatId;
       this.createUserData.childWareId = manageMentrukuSureData.childWareId;
       this.createUserData.orgId = manageMentrukuSureData.orgId;
     }
-    if (this.$route.query.rukuDetails) {
-      this.isrukuDetails = this.$route.query.rukuDetails;
+    if (manageMentrukuSureData.rukuDetails) {
+      this.isrukuDetails = manageMentrukuSureData.rukuDetails;
     }
+    this._changeRecommedLocation(this.listJson.detailList);
     this.tabledata = this.listJson.detailList;
     this.tables = eval(sessionStorage.getItem("_addTablesData"));
     if (this.tables) {
-      this.tabledata = this.tabledata.concat(this.tables);
-      getfindOrgProductPage(this.createUserData).then((res) => {
-        this._changeKuweiS(res.result.list, data);
+      this.tabledata = this.tables;
+      getfindOrgProductPage(this.createUserData).then((data) => {
+        this._changeKuweiS(data.result.list, data);
         this.$forceUpdate();
       });
     }
-    this._getFindWarehouseProduct(this.$route.query.id);
   },
   methods: {
+    tablesArr(arr) {
+      arr.forEach((item, idx) => {
+        console.log(this.tabledata.includes(item));
+        if (!this.tabledata.includes(item)) {
+          this.tabledata.push(item);
+        }
+      });
+    },
+    _changeRecommedLocation(data) {
+      data.forEach((item) => {
+        let recommendedLocation = item.recommendSeatNo;
+        item.recommendedLocation = recommendedLocation;
+        console.log(item.recommendedLocation);
+      });
+    },
+
     getDataSelentIndex(e) {
       this.rowTable = e;
     },
@@ -415,6 +429,10 @@ export default {
       this.multipleSelection.forEach((item) => {
         let idxs = this.tabledata.indexOf(item);
         this.tabledata.splice(idxs, 1);
+        sessionStorage.setItem(
+          "_addTablesData",
+          JSON.stringify(this.tabledata)
+        );
       });
     },
     //copy产品
@@ -429,11 +447,9 @@ export default {
         this.tabledata.splice(idxs, 0, copyIdxs);
         this.$refs.multipleTable.toggleRowSelection(this.tabledata[idxs + 1]);
       }
-      console.log("this.tabledata", this.tabledata);
     },
 
     getDateSelectTime(e) {
-      console.log(this.rowTable, "el-input");
       this.tabledata[+this.rowTable].manuTime = e;
     },
     shezhizitiwiered(item) {
@@ -445,31 +461,35 @@ export default {
       }
       return item;
     },
+    /*获取库位 start */
     getkuweimes(data, idx) {
       this.targetRow = data;
       this.$nextTick(() => {
         getfindOrgProductPage(this.createUserData).then((res) => {
           this._changeKuweiS(res.result.list, data, idx);
-          this.$forceUpdate();
         });
       });
       this.$forceUpdate();
     },
-    _changeKuweiS(arr, dataJson, e) {
+    _changeKuweiS(arr, dataJson, e = 0) {
       dataJson.kueirArr = [];
       this.delistIndex = e;
-      this.tabledata[e].kueirArr = arr[e].prodSeatList;
-      var data = JSON.stringify(this.tabledata);
-      this.tabledata = [];
-      this.tabledata = JSON.parse(data);
-      this.$forceUpdate();
+      console.log(arr[e]);
+      if (arr[e]) {
+        this.tabledata[e].kueirArr = arr[e].prodSeatList;
+        var data = JSON.stringify(this.tabledata);
+        this.tabledata = [];
+        this.tabledata = JSON.parse(data);
+        this.$forceUpdate();
+      }
     },
+    /*获取库位 end  */
+
     //库位点击
     kuweiChanges(e) {
-      console.log(
-        this.createUserData.detailList[this.delistIndex].recommendSeatId,
-        this.tabledata[this.delistIndex].kueirArr[e].recommendSeatId
-      );
+      if (this.Index != this.delistIndex) {
+        this.createUserData.detailList.push({});
+      }
       this.targetRow.maxNum = this.tabledata[this.delistIndex].kueirArr[
         e
       ].maxNum;
@@ -490,6 +510,7 @@ export default {
       this.createUserData.detailList[this.delistIndex][
         "recommendAreaName"
       ] = this.tabledata[this.delistIndex].kueirArr[e].recommendAreaName;
+      this.Index = this.delistIndex;
     },
 
     //点击选择委托公司
@@ -499,12 +520,6 @@ export default {
     },
     getDateTimeExpectedSendTime(e) {
       this.createUserData.expectedSendTime = e;
-    },
-    //改变委托公司
-    changeCompany(e) {
-      console.log(e, this.companyJson.companyArr[e]);
-      this.createUserData.orgId = this.companyJson.companyArr[e].id;
-      this.createUserData.orgName = this.companyJson.companyArr[e].orgName;
     },
     //点击了子仓名称
     async getZiCangJsonAndArr() {
@@ -553,10 +568,6 @@ export default {
     async _getChanping() {
       let datas = await getfindOrgProductPage(this.createUserData);
       console.log(datas);
-    },
-    async _getFindWarehouseProduct(id) {
-      let datas = await getFindWarehouseProduct(id);
-      return (this.chanpinCenter = datas.result);
     },
   },
 };

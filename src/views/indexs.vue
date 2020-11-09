@@ -155,7 +155,12 @@ export default {
         {
           title: "发货规则配置",
           iconCls: require("@/assets/img/warehouse-shipmentsRuleConfig.png"),
-          children: [],
+          children: [
+            {
+              title: "发货规则配置",
+              name: "/pWarehouseRule/findRecordPage",
+            },
+          ],
         },
         {
           title: "发货管理",
@@ -719,7 +724,6 @@ export default {
 .el-nav {
   width: 89%;
   flex: 1;
-  // overflow: hidden;
 }
 
 .el-lr {

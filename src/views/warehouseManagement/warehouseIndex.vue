@@ -148,14 +148,56 @@
       <!-- table-biaoge -->
     </div>
     <!-- 头部组件 -->
-    <div v-if="WarehouseReceipts">
-      <div class="posFixCenter">
-        <WarehouseReceipt
-          :WarehousingType="WarehousingTypeArr[$route.params.type].title"
-        />
-      </div>
+    <div v-show="WarehouseReceipts" class="bjBox">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div v-if="WarehouseReceipts">
+          <div>
+            <WarehouseReceipt
+              :WarehousingType="WarehousingTypeArr[$route.params.type].title"
+            />
+          </div>
+        </div>
+      </transition>
     </div>
-    <!-- 入库单 -->
+    <!-- 出库单 -->
+    <!-- 创建 && 编辑 start  -->
+    <div v-show="isCreateWarehouse" class="bjBox">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div v-if="isCreateWarehouse">
+          <div>
+            <createWarehouse
+              :outWareType="sendOutDataJson.paras.outWareType"
+              @closeBtns="closeBtns"
+              :editCreateWarehouse="editCreateWarehouse"
+            />
+          </div>
+        </div>
+      </transition>
+    </div>
+    <!-- 创建 && 编辑 end  -->
+    <!-- 出库确认 && 出库详情 start  -->
+    <div v-show="isWarehouseSure" class="bjBox">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div v-if="isWarehouseSure">
+          <div>
+            <warehouseSure
+              :isWarehouseSureDetails="isWarehouseSureDetails"
+              @closeDetails="closeDetails"
+            />
+          </div>
+        </div>
+      </transition>
+    </div>
+    <!-- 出库确认 && 出库详情 end  -->
   </div>
 </template>
 
@@ -164,6 +206,8 @@
 import manualHeader from "../../components/manual/manualHeader";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import WarehouseReceipt from "../../components/warehouse/warehouseStocklist"; //出库单
+import createWarehouse from "./createWarehouse"; //创建 && 编辑
+import warehouseSure from "./warehouseSure"; //出库确认 && 出库详情
 import {
   getpOutWarehousefindOutWareDetailById,
   getPOutWarehouse,
@@ -177,9 +221,15 @@ export default {
     manualHeader,
     pagecomponent,
     WarehouseReceipt,
+    createWarehouse,
+    warehouseSure,
   },
   data() {
     return {
+      editCreateWarehouse: false, // 编辑
+      isCreateWarehouse: false, //创建
+      isWarehouseSure: false, //出库确认
+      isWarehouseSureDetails: false, //出库详情
       WarehouseReceipts: false,
       WarehouseReceiptIds: "",
       Receipt: false,
@@ -275,6 +325,12 @@ export default {
     },
   },
   methods: {
+    closeDetails(e) {
+      this.isWarehouseSure = e;
+    },
+    closeBtns(e) {
+      this.isCreateWarehouse = e;
+    },
     noraisingFn() {
       if (this.$route.params.type == "0") {
         return (this.noraising = true);
@@ -284,12 +340,8 @@ export default {
     },
     goToDetailOut(e) {
       sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
-      this.$router.push({
-        path: "/warehouseManagement/warehouseSure",
-        query: {
-          warehouseDetails: true,
-        },
-      });
+      this.isWarehouseSure = true;
+      this.isWarehouseSureDetails = true;
     },
     getPageNum(e) {
       this.sendOutDataJson.pageNumber = e;
@@ -317,14 +369,8 @@ export default {
               "sarehouseChuKuSure",
               JSON.stringify(res.result)
             );
-            this.$router.push({
-              path: "/warehouseManagement/warehouseSure",
-              query: {
-                id: this.multipleSelection[0].id,
-                outWareType: this.sendOutDataJson.paras.outWareType,
-                noRaising: this.noraising,
-              },
-            });
+            this.isWarehouseSure = true;
+            this.isWarehouseSureDetails = false;
           } else {
             Message("获取出库确认失败，请与管理员重现联系");
           }
@@ -361,12 +407,8 @@ export default {
     },
     //创建出库单
     CreateStockInOrder() {
-      this.$router.push({
-        path: "/warehouseManagement/createWarehouse",
-        query: {
-          outWareType: this.sendOutDataJson.paras.outWareType,
-        },
-      });
+      this.isCreateWarehouse = true;
+      this.editCreateWarehouse = false;
     },
     //编辑
     editBtn() {
@@ -376,13 +418,8 @@ export default {
         "warehouseEdit",
         JSON.stringify(this.multipleSelection[0])
       );
-      this.$router.push({
-        path: "/warehouseManagement/createWarehouse",
-        query: {
-          outWareType: this.sendOutDataJson.paras.outWareType,
-          id: this.multipleSelection[0].id,
-        },
-      });
+      this.isCreateWarehouse = true;
+      this.editCreateWarehouse = true;
     },
     //删除
     clearBtn() {

@@ -739,7 +739,7 @@ export function getEntrustedcompany() {
  * @param {*} getFindWareOrg 
  */
 export function getFindWareOrg() {
-    if (!getCookie("X-Auth-wareId")) return Message("该管理员没有委托公司")
+    if (!getCookie("X-Auth-wareId")) return Message("该管理员没有委托公司权限")
     return new Promise((res, rej) => {
         service.request({
             url: "/wbs-warehouse-manage/v1/pWarehouseOrg/findWareOrg",
@@ -1107,7 +1107,7 @@ export const getpPurchaseOrdersaveRecord = function (data) {
  * /wbs-warehouse-manage/v1/pCommon/findOrgByWareId
  */
 export const getpCommonFindOrgByWareId = function () {
-    if (!getCookie("X-Auth-wareId")) return Message("该管理员没有仓库")
+    if (!getCookie("X-Auth-wareId")) return Message("该管理员委托公司权限")
     return new Promise((res, rej) => {
         service.request({
             url: "/wbs-warehouse-manage/v1/pCommon/findOrgByWareId",
@@ -1183,6 +1183,59 @@ export const pPurchaseOrderDeleteBatch = function (data, fn) {
 }
 
 //=========================================采购管理 end ========================================
+//=========================================发货规则配置 start ========================================
+/**
+ * 分页查询发货规则配置
+ * @param {*} datas 
+ */
+export const pWarehouseRuleFindRecordPage = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWarehouseRule/findRecordPage",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 创建/修改发货规则信息
+ * @param {*} datas 
+ */
+export const pWarehouseRuleSaveRecord = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWarehouseRule/saveRecord",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 
+ * @param {*} data 删除发货规则
+ */
+export const pWarehouseRuleDelRecord = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWarehouseRule/delRecord",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+//=========================================发货规则配置 end ========================================
 export function post(datas) {
     let {
         url,

@@ -3,14 +3,14 @@
     <div class="setUserIngBoxCenter">
       <div class="headerBox">
         <div class="closeTitle">
-          {{ this.$route.query.id ? "编辑出库单" : "创建出库单" }}
+          {{ editCreateWarehouse ? "编辑出库单" : "创建出库单" }}
         </div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
 
       <div class="centerBox">
         <div class="setTitle">
-          {{ this.$route.query.id ? "编辑出库单" : "创建出库单" }}
+          {{ editCreateWarehouse ? "编辑出库单" : "创建出库单" }}
         </div>
         <div class="gerxinxiBox">
           <div class="xinxiBitian">
@@ -199,16 +199,21 @@
       <!-- 备注 -->
       <!-- 账号信息 -->
       <div class="displayCenter mb20">
-        <div class="quxiaoBox mr20" @click="closeBtn">取消</div>
-        <div class="tijiaoBox" @click="goAJAXCreate">提交</div>
+        <div class="quxiaoBox mb20 mr20" @click="closeBtn">取消</div>
+        <div class="tijiaoBox mb20" @click="goAJAXCreate">提交</div>
       </div>
       <!-- btn -->
       <!-- 添加产品 start -->
-      <transition name="fade">
-        <div v-if="addChanpins" ref="parentSelect" class="addChanpinClass">
-          <choiceSelect ref="childSelect" />
-        </div>
-      </transition>
+      <div v-show="addChanpins" class="bjBox">
+        <transition
+          enter-active-class="animate__animated animate__zoomIn"
+          leave-active-class="animate__animated animate__zoomOut"
+        >
+          <div v-if="addChanpins" ref="parentSelect" class="addChanpinClass">
+            <choiceSelect ref="childSelect" />
+          </div>
+        </transition>
+      </div>
       <!-- 添加产品 end -->
     </div>
   </div>
@@ -285,10 +290,7 @@ export default {
         pOutWarehouseDetails: [],
         prodIds: [],
         recommendSeatNo: [],
-        outWareType: (() => this.$route.query.outWareType)(),
-        id: (() => {
-          return this.$route.query.id ? this.$route.query.id : "";
-        })(),
+        outWareType: (() => this.outWareType)(),
       },
       getProvinceData: {
         parentCode: 0,
@@ -303,17 +305,29 @@ export default {
       delistIndex: null,
     };
   },
+  props: {
+    outWareType: {
+      type: String,
+      default: "",
+    },
+    editCreateWarehouse: {
+      type: Boolean,
+      default: false,
+    },
+  },
   async created() {
-    if (this.$route.query.id) {
+    if (this.editCreateWarehouse) {
       let EditData = JSON.parse(sessionStorage.getItem("warehouseEdit"));
+      console.log(EditData.wareAreaName);
       this.companyJson.value = EditData.orgName;
       this.createUserData.childWareName = EditData.childWareName;
       this.createUserData.childWareId = EditData.childWareId;
+      this.createUserData.id = EditData.id;
       this.createUserData.orgId = EditData.orgId;
       this.createUserData.createUserData = EditData.createUserData;
       this.createUserData.wareName = EditData.wareName;
       this.createUserData.expectedSendTime = EditData.expectedSendTime;
-      this._getpOutWarehousefindOutWareDetailById();
+      this._getpOutWarehousefindOutWareDetailById(EditData.id);
     }
     this.tables = eval(sessionStorage.getItem("_addTablesData"));
     if (this.tables) {
@@ -338,17 +352,14 @@ export default {
   },
   methods: {
     //获取产品明细
-    _getpOutWarehousefindOutWareDetailById() {
-      getpOutWarehousefindOutWareDetailById(this.$route.query.id).then(
-        (data) => {
-          console.log(data.result);
-          this.createUserData.wareAreaId =
-            data.result.tails.pOutWarehouseDetail[0].wareAreaId;
-          this.createUserData.wareAreaName =
-            data.result.tails.pOutWarehouseDetail[0].wareAreaName;
-          this._changeChangPinMinXi(data.result.tails.pOutWarehouseDetail);
-        }
-      );
+    _getpOutWarehousefindOutWareDetailById(id) {
+      getpOutWarehousefindOutWareDetailById(id).then((data) => {
+        this.createUserData.wareAreaId =
+          data.result.tails.pOutWarehouseDetail[0].wareAreaId;
+        this.createUserData.wareAreaName =
+          data.result.tails.pOutWarehouseDetail[0].wareAreaName;
+        this._changeChangPinMinXi(data.result.tails.pOutWarehouseDetail);
+      });
     },
     _changeChangPinMinXi(data) {
       this.tabledata = data;
@@ -371,6 +382,7 @@ export default {
     //点击区域select
     changequyu(e) {
       this.createUserData.wareAreaId = this.quyuJson.quyuArr[e].id;
+      this.createUserData.wareAreaName = this.quyuJson.quyuArr[e].wareAreaName;
       sessionStorage.setItem(
         "createNabagenentWarehousewareAreaId",
         this.quyuJson.quyuArr[e].id
@@ -498,7 +510,7 @@ export default {
     },
     //关闭
     closeBtn() {
-      this.$router.go(-1);
+      this.$emit("closeBtns", false);
     },
     handleSelectionChange(e) {
       this.multipleSelection = e;
@@ -512,9 +524,15 @@ export default {
       this.createUserData.pOutWarehouseDetails = this.multipleSelection;
       let datas = await getpOutWarehouseSaveRecord(this.createUserData);
       if (datas.code == "10000") {
-        sessionStorage.removeItem("_addTablesData");
-        sessionStorage.removeItem("createManagementChildWareId");
-        this.closeBtn();
+        Message({
+          message: datas.msg,
+          onClose: () => {
+            sessionStorage.removeItem("_addTablesData");
+            sessionStorage.removeItem("createManagementChildWareId");
+            this.$parent.getTableData();
+            this.closeBtn();
+          },
+        });
       }
     },
     getUserType(e) {
@@ -529,28 +547,7 @@ export default {
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: transform 1s;
-}
-
-.fade-enter,
-	.fade-leave-to
-
-	/* .fade-leave-active below version 2.1.8 */ {
-  transform: scale(0);
-}
-
 .setUserIngBox {
-  background: rgb(232, 233, 236);
-  padding: 0 10px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-
   .headerBox {
     height: 50px;
     border-radius: 3px;
