@@ -23,11 +23,45 @@
           </div>
         </div>
       </div>
-      <div class="orderDetailBox userInfor">
-        <div class="orderDetail-title">订单详情</div>
-      </div>
       <div class="orderDetailBox">
+        <div class="orderDetail-title">订单详情</div>
+        <table>
+          <tr>
+            <td>订单号</td>
+            <td>{{ orderNo }}</td>
+            <td>订单状态</td>
+            <td>{{ subOrderStatus }}</td>
+            <td>支付时间</td>
+            <td>{{ payTime }}</td>
+          </tr>
+          <tr>
+            <td>委托公司</td>
+            <td>{{ orgName }}</td>
+            <td>渠道</td>
+            <td>{{ channelName }}</td>
+            <td>订单来源</td>
+            <td>{{ orderSourceName }}</td>
+          </tr>
+          <tr>
+            <td>备注</td>
+            <td>{{ remark }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+      <div class="orderDetailBox userInfor">
         <div class="orderDetail-title">收货信息</div>
+        <table>
+          <tr>
+            <td>收货人</td>
+            <td></td>
+            <td>联系电话</td>
+            <td></td>
+          </tr>
+        </table>
       </div>
       <div class="orderDetailBox">
         <div class="orderDetail-title">商品明细</div>
@@ -65,8 +99,9 @@
 </template>
 
 <script>
-// import { Message } from "element-ui";
+import { Message } from "element-ui";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
+
 export default {
   components: {
     dateTime,
@@ -78,14 +113,30 @@ export default {
       },
       tableData: [],
       takeGoodsPeople: "",
+      orderNo: "", //订单号
+      subOrderStatus: "", //订单状态
+      payTime: "", //支付时间
+      orgName: "",
+      channelName: "", //渠道
+      orderSourceName: "", //订单来源名称
+      remark: "",
     };
+  },
+  mounted() {
+    Message({
+      message: "该模块功能暂未开发",
+      type: "error",
+    });
+    
   },
   methods: {
     getStartTime(e) {
       console.log(e);
     },
-    back(){},
-    submit(){},
+    back() {
+      this.$router.go(-1);
+    },
+    submit() {},
   },
 };
 </script>
@@ -125,10 +176,12 @@ export default {
       }
     }
     .backBtnBox {
-      width: 100%;
+      width: 180px;
+      margin: 0 auto;
       display: flex;
       .backBtn {
         @include BtnFunction("success");
+        margin-right: 16px;
       }
       .submitBtn {
         @include BtnFunction("success");

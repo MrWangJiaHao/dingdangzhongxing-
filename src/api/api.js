@@ -666,12 +666,12 @@ export function queryOrderInfor(data) {
     })
 }
 
-//销售订单管理导出
-export function educeExcel(data) {
+//给无物流单号的订单分配物流单号
+export function getExprNo(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "/wbs-warehouse-manage/v1/pOrgSubOrder/getExcel",
-            method: "get",
+            url: "/wbs-warehouse-manage/v1/pOrgSubOrder/getExprNo",
+            method: "post",
             data,
         }).then((ok) => {
             resolve(ok)
@@ -711,7 +711,49 @@ export function sellOrderInfor(data) {
     })
 }
 
+//分页查询缺货产品信息
+export function findFailProdData(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "wbs-warehouse-manage/v1/pOrgSubOrder/findFailProdData",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//分页查询缺货订单信息
+export function findFailOrderData(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "wbs-warehouse-manage/v1/pOrgSubOrder/findFailOrderData",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//分页查询缺货产品关联的缺货订单信息
 
+export function findFailProdDetail(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "wbs-warehouse-manage/v1/pOrgSubOrder/findFailProdDetail",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
 
 
 /**
