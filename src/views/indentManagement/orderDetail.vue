@@ -82,12 +82,16 @@
 </template>
 
 <script>
-import { childOrderInfor, sellOrderInfor } from "../../api/api";
-import { Message } from "element-ui";
+import { sellOrderInfor } from "../../api/api";
+// import { Message } from "element-ui";
 
 export default {
   beforeRouteEnter(to, from, next) {
-    if (from.name === "/indentManagement/sellIndentManage") {
+    if (
+      from.name === "/indentManagement/sellIndentManage" ||
+      from.name === "/indentManagement/zitiIndentManage" ||
+      from.name === "/indentManagement/notLogisticsIndentManage"
+    ) {
       next((vm) => {
         if (vm.$route.query.type === "orderNo") {
           let data = vm.$route.query.orderNo;
@@ -95,7 +99,7 @@ export default {
           vm.id = data.id;
           vm.orderNo = data.orderNo;
           vm.subOrderStatus = data.subOrderStatus; //订单状态
-          // vm.payTime = data.orderNo;
+          // vm.payTime = data.orderNo;//支付时间
           vm.orgName = data.orgName;
           vm.channelName = data.channelName;
           vm.orderSourceName = data.orderSourceName;
@@ -125,12 +129,7 @@ export default {
     };
   },
   mounted() {
-    let childOrderQuery = {
-      subOrderNo: this.subOrderNo,
-    };
-    childOrderInfor(childOrderQuery).then((ok) => {
-      console.log(ok);
-    });
+    console.log(this.id)
     let sellOrderQuery = {
       id: this.id,
     };

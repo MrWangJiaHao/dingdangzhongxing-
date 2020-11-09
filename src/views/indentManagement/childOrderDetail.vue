@@ -150,7 +150,11 @@ let beforBackgroundColor = "#b0cff9";
 let nowBackgroundColor = "#62a0f4";
 export default {
   beforeRouteEnter(to, from, next) {
-    if (from.name === "/indentManagement/sellIndentManage") {
+    if (
+      from.name === "/indentManagement/sellIndentManage" ||
+      from.name === "/indentManagement/zitiIndentManage"||
+      from.name === "/indentManagement/notLogisticsIndentManage"
+    ) {
       next((vm) => {
         if (vm.$route.query.type === "subOrderNos") {
           let data = vm.$route.query.subOrderNos;

@@ -1,0 +1,867 @@
+<template>
+  <div id="mianPage">
+    <!-- 这是缺货订单管理页面 -->
+    <div class="roleName">
+      <div class="headerHtml">
+        <div class="headerInput">
+          <div class="headerInput-one inputs">
+            <div class="el-inputBox">
+              <div class="el-inputBox-text">委托公司：</div>
+              <div class="el-inputBox-checkBox">
+                <el-select
+                  v-model="entrustCompany"
+                  placeholder="请选择委托公司"
+                  @change="entrustCompanys"
+                  clearable
+                >
+                  <el-option
+                    v-for="item in entrustCompanyData"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+            </div>
+            <div class="el-inputBox">
+              <div class="el-inputBox-text">渠道：</div>
+              <div class="el-inputBox-checkBox">
+                <el-select
+                  v-model="channelValue"
+                  placeholder="请选择渠道"
+                  @change="channelValues"
+                  clearable
+                >
+                  <el-option
+                    v-for="item in channelValueData"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+            </div>
+            <div class="el-inputBox">
+              <div class="el-inputBox-text">订单来源：</div>
+              <div class="el-inputBox-checkBox">
+                <el-select
+                  v-model="indentSourceValue"
+                  placeholder="请选择订单来源"
+                  @change="indentSourceValues"
+                  clearable
+                >
+                  <el-option
+                    v-for="item in indentSourceValueData"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+            </div>
+            <div class="el-inputBox">
+              <div class="el-inputBox-text">订单号：</div>
+              <div class="el-inputBox-checkBox">
+                <el-input v-model="orderNumberValue" placeholder="模糊检索">
+                </el-input>
+              </div>
+            </div>
+            <div class="el-inputBox">
+              <div class="el-inputBox-text">子单号：</div>
+              <div class="el-inputBox-checkBox">
+                <el-input
+                  v-model="ChildOrderNumberValue"
+                  placeholder="模糊检索"
+                >
+                </el-input>
+              </div>
+            </div>
+          </div>
+          <div class="headerInput-one headerInput-two">
+            <div class="el-inputBox childrenIndent">
+              <div class="el-inputBox-text">产品名称：</div>
+              <div class="el-inputBox-checkBox">
+                <el-input v-model="prodNameValue" placeholder="模糊检索">
+                </el-input>
+              </div>
+            </div>
+            <div class="el-inputBox childrenIndent">
+              <div class="el-inputBox-text">产品编码：</div>
+              <div class="el-inputBox-checkBox">
+                <el-input v-model="prodCodeValue" placeholder="模糊检索">
+                </el-input>
+              </div>
+            </div>
+            <div class="el-inputBox childrenIndent">
+              <div class="el-inputBox-text">产品规格：</div>
+              <div class="el-inputBox-checkBox">
+                <el-select
+                  v-model="prodSpecValue"
+                  placeholder="请选择产品规格"
+                  @change="prodSpecValues"
+                  clearable
+                >
+                  <el-option
+                    v-for="item in prodSpecValueData"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+            </div>
+            <div class="timeChoose">
+              <div class="el-inputBox-text titleBox">下发时间：</div>
+              <div class="timeBox zujianBox">
+                <div style="margin-right: 10px">
+                  <dateTime
+                    :dateTimeData="datetimeDates"
+                    @getDateTime="getStartTime"
+                    ref="startTime"
+                  />
+                </div>
+                <!-- 开始时间 -->
+                <div class="line"></div>
+                <div>
+                  <dateTime
+                    :dateTimeData="datetimeDate"
+                    @getDateTime="getEndTime"
+                    ref="endTime"
+                  />
+                </div>
+                <!-- 结束时间 -->
+              </div>
+            </div>
+            <div class="header-botton">
+              <div class="queryBtn" @click="clickQuery">查询</div>
+              <div class="clearBtn" @click="clearInput">清空</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="formBox">
+        <div class="formTabs">
+          <el-tabs type="card" @tab-click="prodAndOrder">
+            <el-tab-pane label="缺货产品">
+              <div class="formHeader">
+                <div class="icon-title">
+                  <div class="icon-title-icon">
+                    <img src="../../assets/img/systemTitlemesa.png" />
+                  </div>
+                  <div class="icon-title-title">{{ title }}</div>
+                </div>
+                <div class="someBtn">
+                  <div class="takeOrdersDiv" @click="prodGoPurchase">
+                    转采购
+                  </div>
+                  <a class="setUser" @click="educe" target="_blank">导出</a>
+                </div>
+              </div>
+              <el-table
+                :data="productData"
+                border
+                style="width: 100%"
+                @selection-change="handleSelectionChange"
+                :stripe="true"
+                tooltip-effect="dark"
+                @cell-click="lookDetailEvent"
+              >
+                <el-table-column type="selection" width="55"> </el-table-column>
+                <el-table-column
+                  label="序号"
+                  align="center"
+                  type="index"
+                  width="60"
+                >
+                </el-table-column>
+                <el-table-column prop="orgName" label="委托公司" align="center">
+                </el-table-column>
+                <el-table-column
+                  prop="channelName"
+                  label="产品编码"
+                  align="center"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="channelName"
+                  label="产品编码"
+                  align="center"
+                >
+                </el-table-column
+                ><el-table-column
+                  prop="channelName"
+                  label="产品名称"
+                  align="center"
+                >
+                </el-table-column
+                ><el-table-column
+                  prop="channelName"
+                  label="产品规格"
+                  align="center"
+                >
+                </el-table-column
+                ><el-table-column
+                  prop="channelName"
+                  label="品牌"
+                  align="center"
+                >
+                </el-table-column
+                ><el-table-column
+                  prop="channelName"
+                  label="高库存预警值"
+                  align="center"
+                >
+                </el-table-column
+                ><el-table-column
+                  prop="channelName"
+                  label="低库存预警值"
+                  align="center"
+                >
+                </el-table-column
+                ><el-table-column
+                  prop="channelName"
+                  label="销售仓可用库存数量"
+                  align="center"
+                >
+                </el-table-column
+                ><el-table-column
+                  prop="channelName"
+                  label="缺货数量"
+                  align="center"
+                >
+                </el-table-column
+                ><el-table-column
+                  prop="channelName"
+                  label="缺货订单数"
+                  align="center"
+                >
+                </el-table-column>
+              </el-table>
+              <div class="pageComponent">
+                <pagecomponent
+                  :pageComponentsData="pageComponentsData"
+                  @getPageNum="getPageNum"
+                  @sureSuccssBtn="sureSuccssBtn"
+                ></pagecomponent>
+              </div>
+            </el-tab-pane>
+            <el-tab-pane label="缺货订单">
+              <div class="formHeader">
+                <div class="icon-title">
+                  <div class="icon-title-icon">
+                    <img src="../../assets/img/systemTitlemesa.png" />
+                  </div>
+                  <div class="icon-title-title">{{ title }}</div>
+                </div>
+                <div class="someBtn">
+                  <div class="takeOrdersDiv" @click="orderGoPurchase">
+                    转采购
+                  </div>
+                  <a class="setUser" @click="educe" target="_blank">导出</a>
+                </div>
+              </div>
+              <el-table
+                :data="orderData"
+                border
+                style="width: 100%"
+                @selection-change="handleSelectionChange"
+                :stripe="true"
+                tooltip-effect="dark"
+                @cell-click="lookDetailEvent"
+              >
+                <el-table-column type="selection" width="55"> </el-table-column>
+                <el-table-column
+                  label="序号"
+                  align="center"
+                  type="index"
+                  width="60"
+                >
+                </el-table-column>
+                <el-table-column prop="orgName" label="委托公司" align="center">
+                </el-table-column>
+                <el-table-column prop="channelName" label="渠道" align="center">
+                </el-table-column>
+                <el-table-column
+                  prop="orderSourceName"
+                  label="订单来源"
+                  align="center"
+                >
+                </el-table-column>
+                <el-table-column prop="orderNo" label="订单号" align="center">
+                  <template slot-scope="scope">
+                    <div class="lookDeatil">
+                      {{ scope.row.orderNo }}
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="subOrderNo"
+                  label="子订单号"
+                  align="center"
+                >
+                  <template slot-scope="scope">
+                    <div class="lookDeatil">
+                      {{ scope.row.subOrderNo }}
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="volume" label="物流公司" align="center">
+                </el-table-column>
+                <el-table-column prop="volume" label="物流单号" align="center">
+                </el-table-column>
+                <el-table-column
+                  prop="pushTime"
+                  label="失败原因"
+                  align="center"
+                >
+                  <template slot-scope="scope">
+                    <div class="failCause">
+                      {{ scope.row.subOrderNo }}
+                    </div>
+                  </template> </el-table-column
+                ><el-table-column
+                  prop="pushTime"
+                  label="下发时间"
+                  align="center"
+                ></el-table-column>
+              </el-table>
+              <div class="pageComponent">
+                <pagecomponent
+                  :pageComponentsData="pageComponentsData1"
+                  @getPageNum="getPageNum1"
+                  @sureSuccssBtn="sureSuccssBtn1"
+                ></pagecomponent>
+              </div>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import pagecomponent from "../../components/commin/pageComponent"; //分页器
+import { Message } from "element-ui";
+import dateTime from "../../components/commin/dateTime.vue"; //时间
+import { queryOrderInfor, childOrderInfor } from "../../api/api";
+export default {
+  components: {
+    pagecomponent,
+    dateTime,
+  },
+  data() {
+    return {
+      index: 0,
+      title: "缺货产品信息",
+      lotNo: "",
+      getExcelUrl:
+        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubOrder/getExcel?lotNo=",
+      productData: [],
+      orderData: [],
+      datetimeDate: {
+        placeholder: "请选择结束时间",
+      },
+      datetimeDates: {
+        title: "",
+        placeholder: "请选择开始时间",
+      },
+      ChildOrderNumberValue: "",
+      channelValue: "",
+      mateNumValue: "",
+      entrustCompany: "",
+      indentSourceValue: "",
+      orderNumberValue: "",
+      ChildOrderState: "",
+      prodNameValue: "",
+      prodCodeValue: "",
+      prodSpecValue: "",
+      channelValueData: [],
+      mateNumValueData: [],
+      entrustCompanyData: [],
+      indentSourceValueData: [],
+      ChildOrderNumberData: [],
+      prodSpecValueData:[],
+      consigneeValue: "",
+      telPhoneValue: "",
+      addressValue: "",
+      multipleSelection: [],
+      ProdQueryData: {
+        orderBy: "createTime",
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          wareId: "",
+          prodName: "",
+          orgId: "",
+          channelId: "",
+          orderSourceId: "", //订单来源id
+          orderNo: "", //订单号
+          subOrderNo: "",
+          pushStartTime: "",
+          pushEndTime: "",
+          prodCode: "",
+          specName: "",
+        },
+      },
+      orderQueryData: {
+        orderBy: "createTime",
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          wareId: "",
+          prodName: "",
+          orgId: "",
+          channelId: "",
+          orderSourceId: "", //订单来源id
+          orderNo: "", //订单号
+          subOrderNo: "",
+          pushStartTime: "",
+          pushEndTime: "",
+          prodCode: "",
+          specName: "",
+        },
+      },
+      pageComponentsData: {
+        pageNums: 0, //一共多少条 //默认一页10条
+      },
+      pageComponentsData1: {
+        pageNums: 0, //一共多少条 //默认一页10条
+      },
+    };
+  },
+  mounted() {
+    this.pageQueryFun();
+  },
+  watch: {},
+  methods: {
+    pageQueryFun() {
+      let ProdQueryData = this.ProdQueryData;
+      queryOrderInfor(ProdQueryData).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.tableData = ok.data.result.list;
+          this.changeData(ok.data.result);
+          this.tableData.forEach((v) => {
+            this.entrustCompanyData.push({
+              value: v.orgId,
+              label: v.orgName,
+            });
+            this.entrustCompanyData = this.reduceFun(this.entrustCompanyData);
+            this.channelValueData.push({
+              value: v.channelId,
+              label: v.channelName,
+            });
+            this.channelValueData = this.reduceFun(this.channelValueData);
+            this.indentSourceValueData.push({
+              value: v.orderSourceName,
+              label: v.orderSourceName,
+            });
+            this.indentSourceValueData = this.reduceFun(
+              this.indentSourceValueData
+            );
+          });
+        } else {
+          Message({
+            message: "未知错误",
+            type: "error",
+          });
+        }
+      });
+    },
+
+    reduceFun(arr) {
+      let testObj = {};
+      let res = arr.reduce((item, next) => {
+        testObj[next.value]
+          ? ""
+          : (testObj[next.value] = true && item.push(next));
+        return item;
+      }, []);
+      return res;
+    },
+    channelValues(val) {
+      this.channelValue = val;
+      this.ProdQueryData.paras.channelId = val;
+    },
+    entrustCompanys(val) {
+      this.entrustCompany = val;
+      this.ProdQueryData.paras.orgId = val;
+    },
+    indentSourceValues(val) {
+      this.indentSourceValue = val;
+      this.ProdQueryData.paras.orderSourceId = val;
+    },
+    stateChooseValues(val) {
+      this.stateChooseValue = val;
+    },
+    prodSpecValues(val) {
+      this.prodSpecValue = val;
+    },
+    clickQuery() {
+      //点击查询
+      this.ProdQueryData.paras.orderNo = this.orderNumberValue;
+      this.ProdQueryData.paras.subOrderNo = this.ChildOrderNumberValue;
+      this.ProdQueryData.paras.orderContact = this.consigneeValue;
+      this.ProdQueryData.paras.orderContactPhone = this.telPhoneValue;
+      this.ProdQueryData.paras.orderAddr = this.addressValue;
+      this.tableData = [];
+      // console.log(this.ProdQueryData);
+      this.pageQueryFun();
+    },
+    clearInput() {
+      //点击清空输入框
+      this.entrustCompany = "";
+      this.channelValue = "";
+      this.indentSourceValue = "";
+      this.orderNumberValue = "";
+      this.ChildOrderNumberValue = "";
+      this.ChildOrderState = "";
+      this.stateChooseValue = "下发时间";
+      this.consigneeValue = "";
+      this.telPhoneValue = "";
+      this.addressValue = "";
+      this.clearTimeInput();
+      this.$refs.startTime.clear();
+      this.$refs.endTime.clear();
+      this.tableData = [];
+      this.ProdQueryData.paras.orgId = "";
+      this.ProdQueryData.paras.channelId = "";
+      this.ProdQueryData.paras.orderSourceId = "";
+      this.ProdQueryData.paras.orderNo = "";
+      this.ProdQueryData.paras.subOrderNo = "";
+      this.ProdQueryData.paras.subOrderStatus = "";
+      this.ProdQueryData.paras.orderContactPhone = "";
+      this.ProdQueryData.paras.orderAddr = "";
+      this.ProdQueryData.paras.pushStartTime = "";
+      this.ProdQueryData.paras.pushEndTime = "";
+      this.ProdQueryData.paras.megerStartTime = "";
+      this.ProdQueryData.paras.megerEndTime = "";
+      this.ProdQueryData.paras.pickStartTime = "";
+      this.ProdQueryData.paras.pickEndTime = "";
+      this.ProdQueryData.paras.checkStartTime = "";
+      this.ProdQueryData.paras.checkEndTime = "";
+      this.ProdQueryData.paras.sendStartTime = "";
+      this.ProdQueryData.paras.sendEndTime = "";
+      this.pageQueryFun();
+    },
+    handleSelectionChange(value) {
+      this.multipleSelection = value;
+      let data = {
+        subOrderNo: "",
+      };
+      if (this.multipleSelection.length > 0) {
+        data.subOrderNo = value[0].subOrderNo;
+        childOrderInfor(data).then((ok) => {
+          if (ok.data.code === "10000") {
+            this.lotNo = ok.data.result[0].lotNo;
+          }
+        });
+      }
+    },
+    educe() {
+      //导出表格
+      if (!this.multipleSelection.length) return Message("请选择要导出的订单");
+      if (this.multipleSelection.length != 1)
+        return Message("一次只能选择一个订单");
+      if (this.lotNo === "") return Message("请稍等片刻");
+      let oA = document.querySelector(".setUser");
+      oA.setAttribute("href", this.getExcelUrl + this.lotNo);
+    },
+    prodGoPurchase() {},
+    orderGoPurchase() {},
+    lookDetailEvent(row, column) {
+      if (column.property === "orderNo") {
+        this.$router.push({
+          path: "/indentManagement/orderDetail",
+          query: {
+            orderNo: row,
+            type: "orderNo",
+          },
+        });
+      }
+    },
+    prodAndOrder(item) {
+      this.title = item.label + "信息";
+    },
+    getPageNum(e) {
+      this.ProdQueryData.pageNumber = e;
+    },
+    sureSuccssBtn(e) {
+      this.productData = [];
+      this.ProdQueryData.pageNumber = e;
+    },
+    getPageNum1(e) {
+      this.ProdQueryData.pageNumber = e;
+    },
+    sureSuccssBtn1(e) {
+      this.orderData = [];
+      this.ProdQueryData.pageNumber = e;
+    },
+    changeData(data) {
+      this.changePageData(data);
+    },
+    changePageData(data) {
+      let { totalRow } = data;
+      this.pageComponentsData.pageNums = totalRow;
+    },
+    changeData1(data) {
+      this.changePageData1(data);
+    },
+    changePageData1(data) {
+      let { totalRow } = data;
+      this.pageComponentsData1.pageNums = totalRow;
+    },
+    getStartTime(e) {
+      this.ProdQueryData.paras.pushStartTime = e;
+    },
+    getEndTime(e) {
+      this.ProdQueryData.paras.pushEndTime = e;
+    },
+    clearTimeInput() {
+      let input = document.getElementsByClassName("ivu-input");
+      for (let i = 0; i < input.length; i++) {
+        input[i].value = "";
+      }
+      let elInput = document.querySelectorAll(
+        ".el-input--suffix .el-input__inner"
+      );
+      for (let i = 0; i < elInput.length; i++) {
+        elInput[i].value = "";
+      }
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+@import "../../assets/scss/btn.scss";
+
+#mianPage {
+  background: #e6e7ea;
+  padding: 16px;
+}
+.headerHtml {
+  position: relative;
+  height: 96px;
+  transition: 0.3s;
+  .headerInput {
+    .headerInput-one {
+      width: 100%;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      .el-inputBox {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        margin-right: 20px;
+        .el-inputBox-text {
+          white-space: nowrap;
+        }
+      }
+      .block_hidden {
+        display: none;
+      }
+      .childrenIndent {
+        width: 19%;
+        .el-inputBox-checkBox {
+          width: 100%;
+        }
+      }
+      .childrenIndentState {
+        width: 18.2%;
+        .el-inputBox-checkBox {
+          width: 100%;
+        }
+      }
+      .stateChoose {
+        width: 6.5%;
+        margin-right: 10px;
+      }
+      .consignee {
+        width: 14%;
+        .el-inputBox-checkBox {
+          width: 100%;
+        }
+      }
+    }
+    .headerInput-two {
+      flex-wrap: wrap;
+    }
+    .inputs {
+      .el-inputBox {
+        width: 20%;
+      }
+      .el-inputBox-checkBox {
+        width: 100%;
+      }
+    }
+  }
+  .header-botton {
+    width: 12%;
+    position: absolute;
+    right: -30px;
+    top: 60px;
+    .showBtn {
+      width: 50px;
+      display: flex;
+      white-space: nowrap;
+      color: #888;
+      position: relative;
+      cursor: pointer;
+      .caret {
+        font-size: 16px;
+        position: absolute;
+        left: 50%;
+      }
+    }
+    display: flex;
+    align-items: center;
+    .queryBtn {
+      @include BtnFunction("success");
+    }
+    .clearBtn {
+      @include BtnFunction();
+      background: #fff;
+      margin: 0 14px 0 10px;
+    }
+  }
+  .timeChoose {
+    width: 25%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .titleBox {
+      font-size: 16px;
+      white-space: nowrap;
+    }
+    .timeBox {
+      display: flex;
+      align-items: center;
+      .line {
+        width: 10px;
+        height: 2px;
+        background: #d1d6e2;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+.formBox {
+  margin: 16px 0;
+  .formHeader {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #d1d6e2;
+    background: white;
+    margin-top: 10px;
+    .icon-title {
+      display: flex;
+      margin: 24px 0 0 0;
+      .icon-title-icon {
+        width: 14px;
+        height: 14px;
+        margin: 0 0 0 20px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .icon-title-title {
+        margin: -1px 0 0 8px;
+        font-size: 16px;
+      }
+    }
+    .someBtn {
+      display: flex;
+      margin: 16px 20px 16px 0;
+      .setUser {
+        margin-right: 10px;
+        @include BtnFunction("success");
+      }
+      .takeOrdersDiv {
+        margin-right: 10px;
+        @include BtnFunction("success");
+      }
+    }
+  }
+  .formTabs {
+    padding: 0 10px;
+  }
+  .lookDeatil {
+    color: #599af3;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .failCause {
+    color: red;
+  }
+}
+.pageComponent {
+  text-align: right;
+  background: #ffffff;
+}
+</style>
+<style lang="scss">
+.headerInput {
+  .el-select {
+    width: 100%;
+  }
+
+  .childrenIndent {
+    .el-select {
+      width: 100%;
+    }
+  }
+
+  .childrenIndentState {
+    .el-select {
+      width: 100%;
+    }
+  }
+
+  .consignee {
+    .el-select {
+      width: 100%;
+    }
+  }
+
+  .address {
+    .el-select {
+      width: 100%;
+    }
+  }
+
+  .telphone {
+    .el-select {
+      width: 100%;
+    }
+  }
+}
+#mianPage {
+  .el-tabs {
+    left: 0;
+  }
+  .el-table {
+    background: white;
+    padding: 20px;
+  }
+  .el-tabs--card > .el-tabs__header {
+    border: none;
+  }
+  .el-tabs__item.is-active {
+    font-size: 16px;
+  }
+  .el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
+    border-bottom: 2px solid #409eff;
+  }
+  .el-tabs__header {
+    margin: 0;
+  }
+}
+</style>

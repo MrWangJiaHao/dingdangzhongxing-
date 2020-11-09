@@ -33,7 +33,10 @@ import { Message } from "element-ui";
 
 export default {
   beforeRouteEnter(to, from, next) {
-    if (from.name === "/indentManagement/sellIndentManage") {
+    if (
+      from.name === "/indentManagement/sellIndentManage" ||
+      from.name === "/indentManagement/zitiIndentManage"
+    ) {
       next((vm) => {
         if (vm.$route.query.type === "subOrderStatus") {
           let data = vm.$route.query.subOrderStatus;
@@ -88,12 +91,12 @@ export default {
               ? "已退单"
               : "";
         });
-      }else {
-          Message({
-            message: "网络异常",
-            type: "error",
-          });
-        }
+      } else {
+        Message({
+          message: "网络异常",
+          type: "error",
+        });
+      }
     });
   },
   methods: {

@@ -181,7 +181,7 @@
             <div class="icon-title-icon">
               <img src="../../assets/img/systemTitlemesa.png" />
             </div>
-            <div class="icon-title-title">销售订单信息</div>
+            <div class="icon-title-title">自提订单信息</div>
           </div>
           <div class="someBtn">
             <div class="takeGoodsDiv" @click="takeGoods">取货确认</div>
@@ -249,7 +249,7 @@
             </el-table-column>
 
             <el-table-column
-              prop="printUser"
+              prop="pushTime"
               label="下发时间"
               align="center"
             ></el-table-column>
@@ -318,12 +318,12 @@
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="reCheckResult"
+              prop=""
               label="取货时间"
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="reCheckResult"
+              prop=""
               label="取货人"
               align="center"
             ></el-table-column>
@@ -470,7 +470,7 @@ export default {
           orderContact: "",
           orderContactPhone: "",
           orderAddr: "",
-          offLineMark: 1,
+          offLineMark: 1, //发货方式 (0-物流发货 1-自提)
           pushStartTime: "",
           pushEndTime: "",
           megerStartTime: "",
@@ -497,7 +497,7 @@ export default {
     pageQueryFun() {
       let queryData = this.queryData;
       queryOrderInfor(queryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
@@ -525,7 +525,7 @@ export default {
                 ? "已发货"
                 : v.subOrderStatus === 11
                 ? "已退单"
-                : "未查询到";
+                : "";
 
             this.entrustCompanyData.push({
               value: v.orgId,
@@ -618,7 +618,6 @@ export default {
       this.queryData.paras.subOrderStatus = "";
       this.queryData.paras.orderContactPhone = "";
       this.queryData.paras.orderAddr = "";
-      this.queryData.paras.offLineMark = "";
       this.queryData.paras.pushStartTime = "";
       this.queryData.paras.pushEndTime = "";
       this.queryData.paras.megerStartTime = "";
@@ -629,7 +628,6 @@ export default {
       this.queryData.paras.checkEndTime = "";
       this.queryData.paras.sendStartTime = "";
       this.queryData.paras.sendEndTime = "";
-      this.queryData.paras.hasExpr = "";
       this.pageQueryFun();
     },
     handleSelectionChange(value) {
@@ -637,12 +635,14 @@ export default {
       let data = {
         subOrderNo: "",
       };
-      data.subOrderNo = value[0].subOrderNo;
-      childOrderInfor(data).then((ok) => {
-        if (ok.data.code === "10000") {
-          this.lotNo = ok.data.result[0].lotNo;
-        }
-      });
+      if (this.multipleSelection.length > 0) {
+        data.subOrderNo = value[0].subOrderNo;
+        childOrderInfor(data).then((ok) => {
+          if (ok.data.code === "10000") {
+            this.lotNo = ok.data.result[0].lotNo;
+          }
+        });
+      }
     },
     educe() {
       //导出表格
@@ -662,7 +662,9 @@ export default {
       if (this.index % 2 !== 0) {
         this.stateChoose = "收起";
         showDiv.forEach((v) => {
-          v.style.display = "flex";
+          setTimeout(() => {
+            v.style.display = "flex";
+          }, 300);
         });
         caret.style.transform = "rotateZ(180deg)";
         headerBtn.style.position = "absolute";

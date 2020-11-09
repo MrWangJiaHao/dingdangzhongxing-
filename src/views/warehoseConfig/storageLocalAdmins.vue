@@ -508,7 +508,6 @@ export default {
           this.areaShelfQueryData.wareAreaId = v.id;
         }
       });
-
       let areaShelfQueryData = this.areaShelfQueryData;
       areaShelfQuery(areaShelfQueryData).then((ok) => {
         if (ok.data.code === "10000") {
