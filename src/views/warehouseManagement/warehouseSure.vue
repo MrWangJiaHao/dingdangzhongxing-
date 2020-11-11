@@ -48,10 +48,16 @@
                     />
                   </div>
                   <div v-else-if="item == '*出库时间'">
-                    <dateTime
-                      :dateTimeData="dateTimeData"
-                      @getDateTime="getDateTimeExpectedSendTime"
-                    />
+                    <div v-if="!isDetails">
+                      <dateTime
+                        :valueDataStart="createUserData.outWareTime"
+                        :dateTimeData="dateTimeData"
+                        @getDateTime="getDateTimeExpectedSendTime"
+                      />
+                    </div>
+                    <div v-else>
+                      {{ createUserData.outWareTime }}
+                    </div>
                   </div>
                   <div v-else>
                     {{ key() }}
@@ -315,9 +321,9 @@ export default {
             ? this.createUserData.outWareType
             : "- -",
         "&nbsp;收货人": () =>
-          this.$route.query.takeUser ? this.createUserData.takeUser : "- -",
+          this.createUserData.takeUser ? this.createUserData.takeUser : "- -",
         收货人联系电话: () =>
-          this.$route.query.takePhone ? this.createUserData.takePhone : "- -",
+          this.createUserData.takePhone ? this.createUserData.takePhone : "- -",
         "*出库人": () =>
           this.createUserData.outWareUser
             ? this.createUserData.outWareUser
@@ -402,7 +408,6 @@ export default {
     let warehouseDetails = JSON.parse(
       sessionStorage.getItem("warehouseDetails")
     ); //详情页
-    console.log(warehouseDetails);
     if (warehouseDetails) {
       this.createUserData.putWareId = warehouseDetails.id;
       this.createUserData.recommendSeatId = warehouseDetails.recommendSeatId;
@@ -420,11 +425,11 @@ export default {
       this.createUserData.takePhone = warehouseDetails.takePhone;
       this.createUserData.takeTime = warehouseDetails.takeTime;
       this.createUserData.takeUser = warehouseDetails.takeUser;
+      this.createUserData.outWareTime = warehouseDetails.outWareTime;
+      this.createUserData.outWareUser = warehouseDetails.outWareUser;
       this.tabledata = warehouseDetails.tails.pOutWarehouseDetail;
       this._getFindWarehouseProduct(warehouseDetails.id);
-
       getpOutWarehousefindOutWareDetailById(warehouseDetails.id).then((res) => {
-        console.log(res);
         this.tabledata = res.result.tails.pOutWarehouseDetail;
       });
     }
@@ -441,6 +446,7 @@ export default {
       this.createUserData.childWareId = manageMentrukuSureData.childWareId;
       this.createUserData.orgId = manageMentrukuSureData.orgId;
       this.createUserData.orgName = manageMentrukuSureData.orgName;
+      this.createUserData.outWareTime = manageMentrukuSureData.outWareTime;
       this.createUserData.childWareId = manageMentrukuSureData.childWareId;
       this.createUserData.childWareName = manageMentrukuSureData.childWareName;
       this.createUserData.outWareNo = manageMentrukuSureData.outWareNo;
