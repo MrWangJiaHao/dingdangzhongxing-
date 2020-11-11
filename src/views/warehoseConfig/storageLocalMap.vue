@@ -217,6 +217,7 @@ import {
 } from "../../api/api";
 import MapForms from "../../components/mapForms";
 import { Message } from "element-ui";
+import {getCookie} from "../../utils/validate"
 export default {
   components: { MapForms },
   data() {
@@ -320,7 +321,7 @@ export default {
       }
     });
     let EntrustCompanyData = {
-      wareId: "2A8B48391F4F4EB5BDEDF9EBA0B6BAE7",
+      wareId: getCookie("X-Auth-wareId"),
     };
     queryEntrustCompany(EntrustCompanyData).then((ok) => {
       // console.log(ok);
@@ -407,7 +408,7 @@ export default {
       //点击查询
       this.tableData = [];
       let queryData = {
-        //分页查询
+        orderBy:"createTime",
         pageNumber: 1,
         pageSize: 10,
         paras: {
@@ -419,7 +420,7 @@ export default {
         },
       };
       storeMapRelation(queryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           let resData = ok.data.result.list;
           this.tableData = ok.data.result.list;
@@ -428,23 +429,6 @@ export default {
             v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
             v.specName = v.specName + "ml";
           });
-          // resData.forEach((v) => {
-          //   this.tableData.push({
-          //     delegaCompany: v.orgName,
-          //     productName: v.prodName,
-          //     productNumber: v.prodCode,
-          //     producTspecifica: v.specName + "ml",
-          //     brand: v.braName,
-          //     CHName: v.childWareName,
-          //     storageArea: v.wareAreaName,
-          //     storageShelf: v.wareSeatNo.split("-")[1],
-          //     storageTier: v.wareSeatNo.split("-")[3],
-          //     storageUnit: v.wareSeatNo,
-          //     createName: v.createUser,
-          //     createTime: v.createTime,
-          //     id: v.id,
-          //   });
-          // });
           if (resData.length === 0) {
             Message({
               type: "error",

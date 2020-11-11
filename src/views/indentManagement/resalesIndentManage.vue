@@ -572,8 +572,8 @@ export default {
   methods: {
     pageQueryFun() {
       //缺货产品查询
-      let ProdQueryData = this.ProdQueryData;
-      findReturnOrderPage(ProdQueryData).then((ok) => {
+      let QueryData = this.QueryData;
+      findReturnOrderPage(QueryData).then((ok) => {
         console.log(ok);
         if (ok.data.code === "10000") {
           this.productData = ok.data.result.list;
@@ -604,7 +604,7 @@ export default {
           });
         }
       });
-      findBackOrderPage(ProdQueryData).then((ok) => {
+      findBackOrderPage(QueryData).then((ok) => {
         console.log(ok);
         if (ok.data.code === "10000") {
           this.orderData = ok.data.result.list;

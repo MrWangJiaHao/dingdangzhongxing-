@@ -23,11 +23,11 @@
         <div class="newChildWarehouseText">新建子仓</div>
       </div>
       <div class="someInput">
-        <div class="input1">
+        <div class="input1 addStar">
           <span>子仓名称：</span>
           <el-input v-model="input1" placeholder="请输入子仓名称"></el-input>
         </div>
-        <div class="input2">
+        <div class="input2 addStar">
           <span>子仓编号：</span>
           <el-select v-model="value1" filterable placeholder="请选择子仓编号">
             <el-option
@@ -39,9 +39,9 @@
             </el-option>
           </el-select>
         </div>
-        <div class="input8">
+        <div class="input8 addStar">
           <el-checkbox v-model="checked" @change="clickNumber"
-            >数字</el-checkbox
+            >数字：</el-checkbox
           >
           <el-select v-model="value3" filterable placeholder="">
             <el-option
@@ -53,25 +53,27 @@
             </el-option>
           </el-select>
         </div>
-        <div class="input3">
+        <div class="input3 addStar">
           <span>子仓长：</span>
           <el-input
             v-model="input2"
             placeholder="请输入长度"
             type="number"
+            @blur="childWarehouseViewEvent"
           ></el-input>
           <span>m</span>
         </div>
-        <div class="input4">
+        <div class="input4 addStar">
           <span>子仓宽：</span>
           <el-input
             v-model="input3"
             placeholder="请输入宽度"
             type="number"
+            @blur="childWarehouseViewEvent"
           ></el-input>
           <span>m</span>
         </div>
-        <div class="input5">
+        <div class="input5 addStar">
           <span>子仓类型：</span>
           <el-select
             v-model="value2"
@@ -88,21 +90,23 @@
             </el-option>
           </el-select>
         </div>
-        <div class="input6">
+        <div class="input6 addStar">
           <span>距北距离：</span>
           <el-input
             v-model="input4"
             placeholder="请输入长度"
             type="number"
+            @blur="childWarehouseViewEvent"
           ></el-input>
           <span>m</span>
         </div>
-        <div class="input7">
+        <div class="input7 addStar">
           <span>距西距离：</span>
           <el-input
             v-model="input5"
             placeholder="请输入长度"
             type="number"
+            @blur="childWarehouseViewEvent"
           ></el-input>
           <span>m</span>
         </div>
@@ -310,7 +314,6 @@ export default {
   mounted() {
     //获取平面图的div
     let oDiv = document.querySelector(".temporarily_no");
-    console.log(oDiv.offsetWidth);
     this.childWarehouseList = this.$store.state.CWAdminRequest.queryData.list;
     let childWarehouseList = this.childWarehouseList;
     for (let i = 0; i < childWarehouseList.length; i++) {
@@ -332,7 +335,7 @@ export default {
         childWarehouseList[i].wareLength * 0.2 + "px";
       childDiv.style.lineHeight =
         (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
-      childDiv.style.fontSize = "14px";
+      childDiv.style.fontSize = "10px";
       childDiv.innerHTML = childWarehouseList[i].childWareName;
       childDiv.className = "childViewDiv";
       oDiv.append(childDiv);
@@ -343,6 +346,17 @@ export default {
       this.$router.replace("/warehoseconfig/childWarehouseAdmin");
     },
     submitData() {
+      if (this.input1 === "") {
+        return Message({
+          type: "error",
+          message: "请输入子仓名称",
+        });
+      } else if (this.value1 === "" || this.value3 === "") {
+        return Message({
+          type: "error",
+          message: "请选择子仓编号",
+        });
+      }
       let data = {
         childWareCode: this.value1 + this.value3, //子仓编号
         childWareName: this.input1, //子仓名称
@@ -355,10 +369,9 @@ export default {
         remark: this.textarea, //备注
         createUser: this.$store.state.loginRequest.loginData.user.loginName,
       };
-      // console.log(data);
       //新增修改子仓信息,当传参带有ID时为修改,不带ID时则为新增
       add_edit_WH_Request(data).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           Message({
             type: "success",
@@ -377,15 +390,62 @@ export default {
       let input8 = document.querySelector(".input8");
       let input8_input = document.querySelector(".input8 .el-input");
       if (v) {
-        input8.style.width = "150px";
+        input8.style.width = "8%";
         input8_input.style.display = "block";
       } else {
-        input8.style.width = "70px";
+        input8.style.width = "4%";
         input8_input.style.display = "none";
       }
     },
     value2Event(val) {
       this.value2 = val;
+    },
+    childWarehouseViewEvent() {
+      if (
+        this.input4 !== "" &&
+        this.input5 !== "" &&
+        this.input2 !== "" &&
+        this.input3 !== ""
+      ) {
+        // document.documentElement.scrollTop = 230;
+        const ScrollTop = (number = 0, time) => {
+          if (!time) {
+            document.body.scrollTop = document.documentElement.scrollTop = number;
+            return number;
+          }
+          const spacingTime = 5; // 设置循环的间隔时间  值越小消耗性能越高
+          let spacingInex = time / spacingTime; // 计算循环的次数
+          let nowTop =
+            document.body.scrollTop + document.documentElement.scrollTop; // 获取当前滚动条位置
+          let everTop = (number - nowTop) / spacingInex; // 计算每次滑动的距离
+          let scrollTimer = setInterval(() => {
+            if (spacingInex > 0) {
+              spacingInex--;
+              ScrollTop((nowTop += everTop));
+            } else {
+              clearInterval(scrollTimer); // 清除计时器
+            }
+          }, spacingTime);
+        };
+        ScrollTop(230, 300);
+        let oDiv = document.querySelector(".temporarily_no");
+        let childDiv = document.createElement("div");
+        childDiv.style.width = (this.input2 * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.height = (this.input3 * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.background = "#ddd";
+        childDiv.style.position = "absolute";
+        childDiv.style.left = (this.input5 * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.top = (this.input4 * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.textAlign = "center";
+        childDiv.style.border = "1px solid #ddd";
+        childDiv.style.borderRadius = this.input2 * 0.2 + "px";
+        childDiv.style.lineHeight =
+          (this.input3 * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.fontSize = "10px";
+        childDiv.innerHTML = this.input1;
+        childDiv.className = "childViewDiv";
+        oDiv.append(childDiv);
+      }
     },
   },
 };
@@ -405,8 +465,7 @@ export default {
       display: flex;
       align-items: center;
       margin-bottom: 20px;
-      .titleImg {
-      }
+
       .titleText {
         font-size: 16px;
         margin: 0 10px;
@@ -447,88 +506,56 @@ export default {
       .input1 {
         display: flex;
         align-items: center;
-        width: 206px;
-        span {
-          flex-shrink: 0;
-        }
+        width: 15%;
+        margin-right: 16px;
       }
       .input2 {
         display: flex;
         align-items: center;
-        width: 252px;
-        span {
-          flex-shrink: 0;
-        }
+        width: 10%;
+        margin-right: 16px;
       }
       .input3 {
         display: flex;
         align-items: center;
-        width: 244px;
-        span {
-          flex-shrink: 0;
-        }
-        span:nth-of-type(2) {
-          font-size: 16px;
-        }
+        width: 12.5%;
+        margin-right: 16px;
       }
       .input4 {
         display: flex;
         align-items: center;
-        width: 244px;
-        span {
-          flex-shrink: 0;
-        }
-        span:nth-of-type(2) {
-          font-size: 16px;
-        }
+        width: 12.5%;
+        margin-right: 16px;
       }
       .input5 {
         display: flex;
         align-items: center;
-        width: 276px;
-        span {
-          flex-shrink: 0;
-        }
+        width: 12.5%;
+        margin-right: 16px;
       }
       .input6 {
         display: flex;
         align-items: center;
-        width: 244px;
-        margin-right: 20px;
-        span {
-          flex-shrink: 0;
-        }
-        span:nth-of-type(2) {
-          font-size: 16px;
-        }
+        width: 12.5%;
+        margin-right: 16px;
       }
       .input7 {
         display: flex;
         align-items: center;
-        width: 244px;
-        span {
-          flex-shrink: 0;
-        }
-        span:nth-of-type(2) {
-          font-size: 16px;
-        }
+        width: 12.5%;
+        margin-right: 16px;
       }
       .input8 {
         display: flex;
         align-items: center;
         transition: 0.5s;
-        width: 70px;
-        span {
-          flex-shrink: 0;
-        }
+        width: 4%;
+        margin-right: 16px;
       }
     }
     .setRemark {
       display: flex;
       align-items: center;
-      span {
-        flex-shrink: 0;
-      }
     }
   }
   .submitBtn {
@@ -544,57 +571,63 @@ export default {
       bottom: 20px;
     }
   }
+  span {
+    white-space: nowrap;
+  }
+  .addStar {
+    position: relative;
+  }
+  .addStar::before {
+    content: "*";
+    font-size: 20px;
+    color: red;
+    position: absolute;
+    left: -8px;
+  }
 }
 </style>
 <style lang="scss">
 .input1 {
   .el-input__inner {
-    width: 134px;
+    width: 100%;
   }
 }
 .input2 {
   .el-input {
-    width: 184px;
+    width: 100%;
   }
   .el-checkbox__inner {
     border-radius: 50%;
-    margin-left: 10px;
   }
 }
 .input3 {
   .el-input {
-    width: 163px;
-    margin-right: 10px;
+    width: 100%;
   }
 }
 .input4 {
   .el-input {
-    width: 163px;
-    margin-right: 10px;
+    width: 100%;
   }
 }
 .input5 {
   .el-input {
-    width: 204px;
+    width: 100%;
   }
 }
 .input6 {
   .el-input {
-    margin-right: 10px;
-    width: 164px;
+    width: 100%;
   }
 }
 .input7 {
   .el-input {
-    margin-right: 10px;
-    width: 164px;
+    width: 100%;
   }
 }
 .input8 {
   .el-input {
-    margin-right: 10px;
-    width: 80px;
-    margin: 0 10px;
+    width: 100%;
     display: none;
   }
   .el-checkbox__inner {

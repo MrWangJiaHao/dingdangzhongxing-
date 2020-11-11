@@ -431,19 +431,43 @@ export default {
     };
   },
   mounted() {
-    this.pageQueryFun();
+    this.pageQueryProdFun();
+    this.pageQueryOrderFun();
   },
   watch: {},
   methods: {
-    pageQueryFun() {
+    pageQueryProdFun() {
       //缺货产品查询
       let ProdQueryData = this.ProdQueryData;
       findFailProdData(ProdQueryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.productData = ok.data.result.list;
           this.changeData(ok.data.result);
           this.productData.forEach((v) => {
+            v.specName = v.specName + "ml";
+            this.prodSpecValueData.push({
+              value: v.specName,
+              label: v.specName,
+            });
+            this.prodSpecValueData = this.reduceFun(this.prodSpecValueData);
+          });
+        } else {
+          Message({
+            message: "未知错误",
+            type: "error",
+          });
+        }
+      });
+    },
+    pageQueryOrderFun() {
+      let orderQueryData = this.orderQueryData;
+      findFailOrderData(orderQueryData).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.orderData = ok.data.result.list;
+          this.changeData1(ok.data.result);
+          this.orderData.forEach((v) => {
             this.entrustCompanyData.push({
               value: v.orgId,
               label: v.orgName,
@@ -469,18 +493,6 @@ export default {
           });
         }
       });
-      let orderData = this.orderData;
-      findFailOrderData(orderData).then((ok) => {
-        console.log(ok);
-        if (ok.data.code === "10000") {
-          this.orderData = ok.data.result.list;
-        } else {
-          Message({
-            message: "未知错误",
-            type: "error",
-          });
-        }
-      });
     },
     reduceFun(arr) {
       let testObj = {};
@@ -495,31 +507,39 @@ export default {
     channelValues(val) {
       this.channelValue = val;
       this.ProdQueryData.paras.channelId = val;
+      this.orderQueryData.paras.channelId = val;
     },
     entrustCompanys(val) {
       this.entrustCompany = val;
       this.ProdQueryData.paras.orgId = val;
+      this.orderQueryData.paras.orgId = val;
     },
     indentSourceValues(val) {
       this.indentSourceValue = val;
       this.ProdQueryData.paras.orderSourceId = val;
-    },
-    stateChooseValues(val) {
-      this.stateChooseValue = val;
+      this.orderQueryData.paras.orderSourceId = val;
     },
     prodSpecValues(val) {
       this.prodSpecValue = val;
+      this.ProdQueryData.paras.specName = val;
+      this.orderQueryData.paras.specName = val;
     },
     clickQuery() {
       //点击查询
       this.ProdQueryData.paras.orderNo = this.orderNumberValue;
       this.ProdQueryData.paras.subOrderNo = this.ChildOrderNumberValue;
-      this.ProdQueryData.paras.orderContact = this.consigneeValue;
-      this.ProdQueryData.paras.orderContactPhone = this.telPhoneValue;
-      this.ProdQueryData.paras.orderAddr = this.addressValue;
-      this.tableData = [];
-      // console.log(this.ProdQueryData);
-      this.pageQueryFun();
+      this.ProdQueryData.paras.prodName = this.prodNameValue;
+      this.ProdQueryData.paras.prodCode = this.prodCodeValue;
+
+      this.orderQueryData.paras.orderNo = this.orderNumberValue;
+      this.orderQueryData.paras.subOrderNo = this.ChildOrderNumberValue;
+      this.orderQueryData.paras.prodName = this.prodNameValue;
+      this.orderQueryData.paras.prodCode = this.prodCodeValue;
+
+      this.productData = [];
+      this.orderData = [];
+      this.pageQueryProdFun();
+      this.pageQueryOrderFun();
     },
     clearInput() {
       //点击清空输入框
@@ -534,7 +554,8 @@ export default {
       this.clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
-      this.tableData = [];
+      this.productData = [];
+      this.orderData = [];
       this.ProdQueryData.paras.orgId = "";
       this.ProdQueryData.paras.channelId = "";
       this.ProdQueryData.paras.orderSourceId = "";
@@ -546,7 +567,8 @@ export default {
       this.ProdQueryData.paras.prodCode = "";
       this.ProdQueryData.paras.specName = "";
       this.ProdQueryData.paras.pushTime = "";
-      this.pageQueryFun();
+      this.pageQueryProdFun();
+      this.pageQueryOrderFun();
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
@@ -572,7 +594,7 @@ export default {
     prodLookDetailEvent(row, column) {
       if (column.property === "orderNum") {
         this.$router.push({
-          path: "/indentManagement/orderDetail",
+          path: "/indentManagement/stockoutOrderInfor",
           query: {
             orderNum: row,
             type: "orderNum",
@@ -608,14 +630,17 @@ export default {
     },
     sureSuccssBtn(e) {
       this.productData = [];
+      this.pageQueryProdFun();
       this.ProdQueryData.pageNumber = e;
     },
     getPageNum1(e) {
-      this.ProdQueryData.pageNumber = e;
+      this.orderQueryData.pageNumber = e;
     },
     sureSuccssBtn1(e) {
+      console.log(e);
       this.orderData = [];
-      this.ProdQueryData.pageNumber = e;
+      this.pageQueryOrderFun();
+      this.orderQueryData.pageNumber = e;
     },
     changeData(data) {
       this.changePageData(data);

@@ -450,7 +450,7 @@ export default {
     printSLCode() {
       //打印条形码图片
       if (!this.multipleSelection.length)
-        return Message("请选择要打印的条形码");
+        return Message("请选择要打印条形码的库位");
       // storageLocalChoose
       let codeArr = [];
       this.multipleSelection.forEach((item) => {
