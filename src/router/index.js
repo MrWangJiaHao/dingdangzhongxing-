@@ -332,6 +332,12 @@ const routes = [{
     component: () => import("../views/indentManagement/stockoutIndentManage"),
   },
   {
+    // 订单管理=>缺货订单管理=>缺货订单详情
+    path: "/indentManagement/stockoutOrderInfor",
+    name: "/indentManagement/stockoutOrderInfor",
+    component: () => import("../views/indentManagement/stockoutOrderInfor"),
+  },
+  {
     // 订单管理=>订单详情页
     path: "/indentManagement/orderDetail",
     name: "/indentManagement/orderDetail",

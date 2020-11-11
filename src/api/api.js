@@ -725,6 +725,7 @@ export function findFailProdData(data) {
         })
     })
 }
+
 //分页查询缺货订单信息
 export function findFailOrderData(data) {
     return new Promise((resolve, reject) => {
@@ -739,12 +740,42 @@ export function findFailOrderData(data) {
         })
     })
 }
-//分页查询缺货产品关联的缺货订单信息
 
+//分页查询缺货产品关联的缺货订单信息
 export function findFailProdDetail(data) {
     return new Promise((resolve, reject) => {
         service.request({
             url: "wbs-warehouse-manage/v1/pOrgSubOrder/findFailProdDetail",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//分页查询未出库退货订单信息
+export function findBackOrderPage(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "wbs-warehouse-manage/v1/pOrgSubBackOrder/findBackOrderPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//分页查询已出库退货订单信息
+export function findReturnOrderPage(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "wbs-warehouse-manage/v1/pOrgSubBackOrder/findReturnOrderPage",
             method: "post",
             data,
         }).then((ok) => {

@@ -153,7 +153,8 @@ export default {
     if (
       from.name === "/indentManagement/sellIndentManage" ||
       from.name === "/indentManagement/zitiIndentManage"||
-      from.name === "/indentManagement/notLogisticsIndentManage"
+      from.name === "/indentManagement/notLogisticsIndentManage"||
+       from.name === "/indentManagement/stockoutIndentManage"
     ) {
       next((vm) => {
         if (vm.$route.query.type === "subOrderNos") {
