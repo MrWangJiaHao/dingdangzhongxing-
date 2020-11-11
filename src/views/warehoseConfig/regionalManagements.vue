@@ -202,18 +202,15 @@
             />
             <el-table-column
               label="子仓名称"
-              width="119"
               prop="childWareName"
               show-overflow-tooltip
             />
             <el-table-column
               label="区域类型"
-              width="119"
               property="wareAreaType"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
-              width="119"
               label="区域名称"
               prop="wareAreaName"
               show-overflow-tooltip
@@ -367,7 +364,6 @@ export default {
         nameOfSubwareHouseData: [],
       },
       nameOfSubwareHouseDataArr: [],
-
       quyuzicanNameOfSubWareHouse: {
         placeholdes: "请选择子仓名称",
         nameOfSubwareHouseData: [],

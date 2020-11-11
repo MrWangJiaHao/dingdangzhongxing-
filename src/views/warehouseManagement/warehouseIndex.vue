@@ -312,7 +312,6 @@ export default {
       this.thisOneShow = false;
     }
     this.noraisingFn();
-
     this.getTableData();
   },
   watch: {
@@ -354,7 +353,7 @@ export default {
     handleSelectionChange(e) {
       this.multipleSelection = e;
     },
-    //入库确认
+    //出库确认
     warehousingConfirmation() {
       if (!this.multipleSelection.length) {
         return Message("请选择出库确认的单号");
@@ -372,7 +371,7 @@ export default {
             this.isWarehouseSure = true;
             this.isWarehouseSureDetails = false;
           } else {
-            Message("获取出库确认失败，请与管理员重现联系");
+            Message("获取出库确认失败，请与管理员联系");
           }
         });
       }

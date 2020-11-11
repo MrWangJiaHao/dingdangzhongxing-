@@ -857,9 +857,7 @@ export const getFindRecord = function (id) {
 }
 
 /**
- * 
  * @param {*} datas /wbs-warehouse-manage/v1/putWarehouse/findWarehouseProduct
- *  
  */
 export const getFindWarehouseProduct = function (id) {
     return new Promise((res, rej) => {
@@ -935,6 +933,24 @@ export const insertExcelData = function (data) {
             responseType: 'arraybuffer'
         }).then((ok) => {
             res(ok)
+        }).catch(err => {
+            rej(err)
+        })
+    })
+}
+
+/**
+ *  wbs-warehouse-manage/v1/putWarehouse/findRecordPage
+ * @param {*} data 
+ */
+export const putWarehouseFindRecordPage = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "wbs-warehouse-manage/v1/putWarehouse/findRecordPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            res(ok.data)
         }).catch(err => {
             rej(err)
         })

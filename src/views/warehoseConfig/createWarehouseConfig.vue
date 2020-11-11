@@ -22,6 +22,7 @@
         暂未划分区域
       </div>
       <!-- 暂无子仓 -->
+
       <div
         v-if="createSetting.length"
         class="wareHouseCenter noneZican"
@@ -46,6 +47,7 @@
         </div>
       </div>
       <!-- 有子仓 -->
+
       <!-- 子仓图区域 -->
       <div>
         <div class="createTitle noUser">
@@ -63,7 +65,9 @@
             </div>
             <div class="mr20">
               <el-input
+                maxlength="30"
                 placeholder="请输入区域名称"
+                @input="createDomTestWareName"
                 v-model="createWarehouseJson.wareAreaName"
                 clearable
               ></el-input>
@@ -154,6 +158,7 @@
                 type="number"
                 v-model="createWarehouseJson.wareAreaLength"
                 clearable
+                @input="createDomTestwareAreaLength"
               ></el-input>
               <span class="ml11 M">m</span>
             </div>
@@ -169,6 +174,7 @@
                 placeholder="请输入子仓宽度"
                 type="number"
                 v-model="createWarehouseJson.wareAreaWidth"
+                @input="createDomTestwareAreaWidth"
                 clearable
               ></el-input>
               <span class="ml11 M">m</span>
@@ -185,12 +191,13 @@
                 placeholder="请输入据北距离"
                 v-model="createWarehouseJson.y"
                 type="number"
+                @input="createDomTesty"
                 clearable
               ></el-input>
               <span class="ml11 M">m</span>
             </div>
           </div>
-          <!-- 据北距离 m createWarehouseJson.y-->
+          <!-- 据北距离 m createWarehouseJson.y -->
           <div class="displayalign mb20">
             <div class="noneIconTitle mr11">
               据西距离
@@ -201,6 +208,7 @@
                 placeholder="请输入据西距离"
                 type="number"
                 v-model="createWarehouseJson.x"
+                @input="createDomTestX"
                 clearable
               ></el-input>
               <span class="ml11 M">m</span>
@@ -260,12 +268,12 @@ export default {
       wareAreaLength: "",
       wareAreaWidth: "",
       wareName: "",
+      createDomTest: {},
     };
   },
   created() {
     let datas = JSON.parse(localStorage.getItem("warseHouseData"));
     this.createSetting = datas.childDatas;
-    console.log(datas);
     this.wareAreaWidth = datas.wareAreaWidth;
     this.wareAreaLength = datas.wareAreaLength;
     this.wareName = datas.wareName;
@@ -275,6 +283,28 @@ export default {
     sessionStorage.removeItem("warseHouseData");
   },
   methods: {
+    createDomTestWareName() {
+      this.createDomTest.wareAreaName = this.createWarehouseJson.wareAreaName;
+      this.createDomTest.back = false;
+      this.createSetting.push(this.createDomTest);
+    },
+
+    createDomTestwareAreaLength() {
+      this.createDomTest.wareAreaLength = this.createWarehouseJson.wareAreaLength;
+      this.createSetting.push(this.createDomTest);
+    },
+    createDomTestwareAreaWidth() {
+      this.createDomTest.wareAreaWidth = this.createWarehouseJson.wareAreaWidth;
+      this.createSetting.push(this.createDomTest);
+    },
+    createDomTesty() {
+      this.createDomTest.y = this.createWarehouseJson.y;
+      this.createSetting.push(this.createDomTest);
+    },
+    createDomTestX() {
+      this.createDomTest.x = this.createWarehouseJson.x;
+      this.createSetting.push(this.createDomTest);
+    },
     //是否跳入编辑页
     ISEditQuYu(item, idx) {
       this.activeNum = idx;
@@ -315,6 +345,8 @@ export default {
       this.createWarehouseJson.wareAreaType = this.wareAreaTypeJson[
         e
       ].wareAreaCode;
+      this.createDomTest.wareAreaName = this.wareAreaCodeChange.wareAreaName;
+      this.createSetting.push(this.createDomTest);
     },
     //改变数字框是否显示
     changeISNum() {

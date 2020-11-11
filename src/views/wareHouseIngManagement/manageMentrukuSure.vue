@@ -32,6 +32,7 @@
                   <div v-else-if="item == '*入库时间'">
                     <dateTime
                       :dateTimeData="dateTimeData"
+                      :valueDataStart="createUserData.expectedSendTime"
                       @getDateTime="getDateTimeExpectedSendTime"
                     />
                   </div>
@@ -318,8 +319,7 @@ export default {
           this.listJson.arrivalTime ? this.listJson.arrivalTime : "--",
         入库批次号: () =>
           this.listJson.batchNo ? this.listJson.batchNo : "--",
-        入库人: () =>
-          this.listJson.putStartTime ? this.listJson.putStartTime : "--",
+        入库人: () => (this.listJson.putUser ? this.listJson.putUser : "--"),
         入库时间: () =>
           this.listJson.putStartTime ? this.$route.query.putStartTime : "--",
       },
@@ -342,7 +342,7 @@ export default {
         batchNo: "",
         putWareId: "",
         recommendSeatId: "",
-        id: (() => this.$route.query.id)(),
+        id: "",
         operatorType: 3,
         childWareId: "",
         wareId: this.$cookie.get("X-Auth-wareId"),
@@ -389,6 +389,11 @@ export default {
       this.createUserData.putWareId = manageMentrukuSureData.id;
       this.createUserData.childWareId = manageMentrukuSureData.childWareId;
       this.createUserData.orgId = manageMentrukuSureData.orgId;
+      this.createUserData.id = manageMentrukuSureData.id;
+      this.createUserData.batchNo = manageMentrukuSureData.batchNo;
+      this.createUserData.expectedSendTime =
+        manageMentrukuSureData.expectedSendTime;
+      this.createUserData.putUser = manageMentrukuSureData.putUser;
     }
     if (manageMentrukuSureData.rukuDetails) {
       this.isrukuDetails = manageMentrukuSureData.rukuDetails;
@@ -417,7 +422,6 @@ export default {
       data.forEach((item) => {
         let recommendedLocation = item.recommendSeatNo;
         item.recommendedLocation = recommendedLocation;
-        console.log(item.recommendedLocation);
       });
     },
 
@@ -474,7 +478,6 @@ export default {
     _changeKuweiS(arr, dataJson, e = 0) {
       dataJson.kueirArr = [];
       this.delistIndex = e;
-      console.log(arr[e]);
       if (arr[e]) {
         this.tabledata[e].kueirArr = arr[e].prodSeatList;
         var data = JSON.stringify(this.tabledata);
@@ -535,6 +538,8 @@ export default {
     //关闭
     closeBtn() {
       this.$parent._data.ismanageMentrukuSure = false;
+      this.$parent.getTableData();
+      sessionStorage.removeItem("manageMentrukuSureData");
     },
     handleSelectionChange(e) {
       this.multipleSelection = e;
@@ -548,6 +553,8 @@ export default {
       if (!this.createUserData.batchNo) return Message("请输入批次号");
       this._getSaveRecord(this.createUserData).then((res) => {
         if (res.code == "10000") {
+          this.$parent.getTableData();
+          sessionStorage.removeItem("manageMentrukuSureData");
           Message(res.msg);
           this.closeBtn();
         } else {

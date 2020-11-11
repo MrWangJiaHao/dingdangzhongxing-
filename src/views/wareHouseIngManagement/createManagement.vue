@@ -397,6 +397,7 @@ export default {
       this.tabledata.currInventory = this.tabledata[this.delistIndex].kueirArr[
         e
       ].currInventory;
+
       this.createUserData.detailList[this.delistIndex][
         "recommendSeatId"
       ] = this.tabledata[this.delistIndex].kueirArr[e].recommendSeatId;
@@ -482,6 +483,7 @@ export default {
     //关闭
     closeBtn() {
       this.$parent._data.iscreateManagement = false;
+      this.$parent.getTableData();
     },
     handleSelectionChange(e) {
       this.multipleSelection = e;
@@ -501,10 +503,15 @@ export default {
       this.createUserData.detailList = this.multipleSelection;
       let datas = await getSaveRecord(this.createUserData);
       if (datas.code == "10000") {
-        sessionStorage.removeItem("_addTablesData");
-        sessionStorage.removeItem("createManagementChildWareId");
-        this.$emit("closeCreate", true);
-        this.closeBtn();
+        Message({
+          message: datas.msg,
+          onClose: () => {
+            sessionStorage.removeItem("_addTablesData");
+            sessionStorage.removeItem("createManagementChildWareId");
+            this.$emit("closeCreate", true);
+            this.closeBtn();
+          },
+        });
       }
     },
     getUserType(e) {

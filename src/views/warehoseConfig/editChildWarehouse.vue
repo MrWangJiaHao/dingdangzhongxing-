@@ -109,7 +109,6 @@
 
 <script>
 // import { query_WH_Request } from "../../api/api";
-
 // import $ from "jquery";
 import { add_edit_WH_Request } from "../../api/api";
 import { Message } from "element-ui";
@@ -331,9 +330,9 @@ export default {
       childDiv.className = "childViewDiv";
       oDiv.append(childDiv);
     }
-    let childViewDiv = document.querySelectorAll('.childViewDiv')
-    childViewDiv.forEach((v,i)=>{
-      v.onclick = ()=>{
+    let childViewDiv = document.querySelectorAll(".childViewDiv");
+    childViewDiv.forEach((v, i) => {
+      v.onclick = () => {
         this.input1 = childWarehouseList[i].childWareName; //子仓名称
         this.input4 = childWarehouseList[i].northDistance; //距北距离
         this.input5 = childWarehouseList[i].westDistance; //距西距离
@@ -348,8 +347,8 @@ export default {
         // v.style.background = "#367fff"
         // v.style.border = "1px solid #0555c2"
         // v.style.color = "white"
-      }
-    })
+      };
+    });
     // $(".childViewDiv").each((v, i) => {
     //   $(i).click(() => {
     //     this.input1 = childWarehouseList[v].childWareName; //子仓名称
@@ -598,10 +597,10 @@ export default {
       bottom: 20px;
     }
   }
-  .childViewDiv.active{
-    background : "#367fff";
-    border : "1px solid #0555c2";
-    color : "white";
+  .childViewDiv.active {
+    background: "#367fff";
+    border: "1px solid #0555c2";
+    color: "white";
   }
 }
 </style>

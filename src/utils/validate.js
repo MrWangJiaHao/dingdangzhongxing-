@@ -122,12 +122,12 @@ export const removeCookie = function () {
  */
 export const getConversionPx = (item) => {
   return {
-    width: item.wareAreaLength * (10000 / 85) + "px",
-    height: item.wareAreaWidth * (10000 / 85) + "px",
+    width: item.wareAreaLength ? item.wareAreaLength * (10000 / 85) + "px" : 0 + 'px',
+    height: item.wareAreaWidth ? item.wareAreaWidth * (10000 / 85) + "px" : 0 + "px",
     position: "absolute",
-    top: item.y * (10000 / 85) + "px",
-    left: item.x * (10000 / 85) + "px",
-    background: "#fff",
+    top: item.y ? item.y * (10000 / 85) + "px" : 0 + "px",
+    left: item.x ? item.x * (10000 / 85) + "px" : 0 + "px",
+    background: !item.back ? "#fff" : "rgba(221, 211, 88, 0.4)",
     cursor: "pointer",
   };
 }

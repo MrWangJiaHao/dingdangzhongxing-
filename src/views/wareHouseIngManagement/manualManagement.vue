@@ -225,7 +225,7 @@ import {
   getFindRecord,
   getFindWareHouseDetailByIds,
   insertExcelData,
-  post,
+  putWarehouseFindRecordPage,
   delRecordByIdArrs,
 } from "../../api/api";
 import { Message } from "element-ui";
@@ -396,7 +396,6 @@ export default {
             "manageMentrukuSureData",
             JSON.stringify(this.multipleSelection[0])
           );
-
           this.ismanageMentrukuSure = true;
         });
       }
@@ -509,11 +508,7 @@ export default {
     },
     //获取table表格内容
     async getTableData(fn) {
-      let datas = await post({
-        url:
-          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/putWarehouse/findRecordPage",
-        data: this.sendOutDataJson,
-      });
+      let datas = await putWarehouseFindRecordPage(this.sendOutDataJson);
       this.changeDatas(datas.result);
       fn && fn();
       return datas;
