@@ -140,7 +140,7 @@ export default {
             },
             {
               title: "缺货订单管理",
-              name: "/indentManagement/resalesIndentManage",
+              name: "/indentManagement/stockoutIndentManage",
             },
             {
               title: "无物流单号管理",
@@ -148,7 +148,7 @@ export default {
             },
             {
               title: "退货订单管理",
-              name: "/indentManagement/stockoutIndentManage",
+              name: "/indentManagement/resalesIndentManage",
             },
           ],
         },

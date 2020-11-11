@@ -2,53 +2,69 @@
   <div class="mian">
     <div class="orderDetaiPage">
       <div class="orderDetailBox">
-        <div class="orderDetail-title">订单详情</div>
+        <div class="orderDetail-title">退货单详情</div>
         <table>
           <tr>
-            <td>订单号</td>
-            <td>{{ orderNo }}</td>
-            <td>订单状态</td>
-            <td>{{ subOrderStatus }}</td>
-            <td>支付时间</td>
-            <td>{{ payTime }}</td>
+            <td>退单号</td>
+            <td>{{}}</td>
+            <td>退单状态</td>
+            <td>{{}}</td>
+            <td>退货时间</td>
+            <td>{{}}</td>
           </tr>
           <tr>
             <td>委托公司</td>
-            <td>{{ orgName }}</td>
+            <td>{{}}</td>
             <td>渠道</td>
-            <td>{{ channelName }}</td>
+            <td>{{}}</td>
             <td>订单来源</td>
-            <td>{{ orderSourceName }}</td>
+            <td>{{}}</td>
           </tr>
           <tr>
-            <td>发货时间</td>
-            <td>{{ pushTime }}</td>
-            <td>物流公司</td>
-            <td>{{ exprName }}</td>
-            <td>备注</td>
-            <td></td>
+            <td>主单号</td>
+            <td>{{}}</td>
+            <td>子单号</td>
+            <td>{{}}</td>
+            <td>订单状态</td>
+            <td>{{}}</td>
+          </tr>
+          <tr>
+            <td>收件人</td>
+            <td>{{}}</td>
+            <td>收件人电话</td>
+            <td>{{}}</td>
+            <td>收件人地址</td>
+            <td>{{}}</td>
+          </tr>
+          <tr>
+            <td>退货类型</td>
+            <td>{{}}</td>
+            <td>退货物流公司</td>
+            <td>{{}}</td>
+            <td>退货物流单号</td>
+            <td>{{}}</td>
           </tr>
         </table>
       </div>
       <div class="orderDetailBox userInfor">
-        <div class="orderDetail-title">收货信息</div>
+        <div class="orderDetail-title">发货信息</div>
         <table>
           <tr>
             <td>用户昵称</td>
-            <td></td>
+            <td>{{}}</td>
             <td>联系电话</td>
-            <td></td>
+            <td>{{}}</td>
           </tr>
           <tr>
             <td>收货人</td>
-            <td></td>
+            <td>{{}}</td>
             <td>收货地址</td>
-            <td></td>
+            <td>{{}}</td>
           </tr>
         </table>
       </div>
       <div class="orderDetailBox">
-        <div class="orderDetail-title">商品明细</div>
+        <div class="orderDetail-title">退货商品明细</div>
         <el-table
           :data="tableData"
           border
@@ -70,43 +86,30 @@
           </el-table-column>
           <el-table-column prop="braName" label="品牌" align="center">
           </el-table-column>
-          <el-table-column prop="prodNum" label="购买数量" align="center">
+          <el-table-column prop="prodNum" :label="whatLabel" align="center">
           </el-table-column>
         </el-table>
       </div>
       <div class="backBtnBox">
         <div class="backBtn" @click="back">返回</div>
+        <div class="submitBtn" @click="submit">提交</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-/*eslint-disable */
-import { childOrderInfor, sellOrderInfor } from "../../api/api";
-import { Message } from "element-ui";
+// import {  } from "../../api/api";
+// import { Message } from "element-ui";
 
 export default {
   beforeRouteEnter(to, from, next) {
-    if (
-      from.name === "/indentManagement/sellIndentManage" ||
-      from.name === "/indentManagement/zitiIndentManage" ||
-      from.name === "/indentManagement/notLogisticsIndentManage"||
-      from.name === "/indentManagement/stockoutIndentManage"
-    ) {
+    if (from.name === "/indentManagement/resalesIndentManage") {
       next((vm) => {
-        if (vm.$route.query.type === "orderNo") {
-          let data = vm.$route.query.orderNo;
-          vm.subOrderNo = data.subOrderNo;
-          vm.id = data.id;
-          vm.orderNo = data.orderNo;
-          vm.subOrderStatus = data.subOrderStatus; //订单状态
-          // vm.payTime = data.orderNo;//支付时间
-          vm.orgName = data.orgName;
-          vm.channelName = data.channelName;
-          vm.orderSourceName = data.orderSourceName;
-          vm.pushTime = data.pushTime;
-          vm.exprName = data.exprName;
+        if (vm.$route.query.type === "") {
+          vm.whatLabel = "";
+        } else if (vm.$route.query.type === "") {
+          vm.whatLabel = "";
         }
       });
     } else {
@@ -117,6 +120,7 @@ export default {
   },
   data() {
     return {
+      whatLabel: "实际退货数量",
       tableData: [],
       orderNo: "", //订单号
       subOrderStatus: "", //订单状态
@@ -130,21 +134,12 @@ export default {
       id: "", //销售订单id
     };
   },
-  mounted() {
-    console.log(this.id);
-    let sellOrderQuery = {
-      id: this.id,
-    };
-    sellOrderInfor(sellOrderQuery).then((ok) => {
-      if (ok.data.code === "10000") {
-        this.tableData = ok.data.result;
-      }
-    });
-  },
+  mounted() {},
   methods: {
     back() {
       this.$router.go(-1);
     },
+    submit() {},
   },
 };
 </script>
@@ -177,7 +172,10 @@ export default {
     .backBtnBox {
       width: 100%;
       .backBtn {
-        margin: 0 auto;
+        margin: 0 16px 0 0;
+        @include BtnFunction("success");
+      }
+      .submitBtn {
         @include BtnFunction("success");
       }
     }
