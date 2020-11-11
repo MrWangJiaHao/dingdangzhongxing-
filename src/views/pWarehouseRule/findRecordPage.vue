@@ -153,7 +153,6 @@
 
 <script>
 /*eslint-disable */
-
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import WarehouseReceipt from "../../components/warehouse/warehouseStocklist"; //出库单
 import saveRecord from "./saveRecord"; //创建 && 编辑

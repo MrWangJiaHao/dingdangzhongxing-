@@ -17,8 +17,8 @@
             <el-input placeholder="请输入发货规则" maxlength="20"> </el-input>
           </div>
         </div>
+        <div></div>
       </div>
-      <!-- 账号信息 -->
       <div class="displayCenter mb20">
         <div class="quxiaoBox mb20 mr20" @click="closeBtn">取消</div>
         <div class="tijiaoBox mb20" @click="goAJAXCreate">提交</div>
