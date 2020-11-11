@@ -65,13 +65,9 @@
                 prop="orgName"
                 show-overflow-tooltip
               />
-              <el-table-column
-                label="出库单号"
-                width="119"
-                show-overflow-tooltip
-              >
+              <el-table-column label="出库单号" show-overflow-tooltip>
                 <span slot-scope="scoped">
-                  <div @click="goToDetailOut(scoped.row)">
+                  <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
                     {{ scoped.row.outWareNo }}
                   </div>
                 </span>

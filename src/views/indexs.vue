@@ -456,10 +456,10 @@ export default {
         this.dataArr[+this.activeName].children.length != 0
           ? this.dataArr[+this.activeName].children[0].name
           : this.dataArr[+this.activeName].name;
-      // console.log(router);
       if (!router) return Message("该模块在开发中请耐心等候稍后");
 
       this.$router.push(router);
+      // mianbaoxieArrJson = this.dataArr[0];
       let dataArrJson =
         this.dataArr[+this.activeName].children.length != 0
           ? this.dataArr[+this.activeName].children[0]
