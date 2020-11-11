@@ -121,7 +121,11 @@
                 property="purcNo"
                 show-overflow-tooltip
               >
-                <div slot-scope="scope" @click="showCaigoudanDetail(scope.row)">
+                <div
+                  slot-scope="scope"
+                  class="lookDeatil"
+                  @click="showCaigoudanDetail(scope.row)"
+                >
                   {{ scope.row.purcNo }}
                 </div>
               </el-table-column>

@@ -71,7 +71,11 @@
                 property="putWareNo"
                 show-overflow-tooltip
               >
-                <span slot-scope="scoped" @click="gotoRuKudetails(scoped.row)">
+                <span
+                  slot-scope="scoped"
+                  class="lookDeatil"
+                  @click="gotoRuKudetails(scoped.row)"
+                >
                   <div>
                     {{ scoped.row.putWareNo }}
                   </div>

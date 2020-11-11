@@ -7,21 +7,119 @@
         </div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
-      <div style="margin: 20px">
-        <div class="displayalign">
-          <div class="mr20">
-            发货规则
-            <span style="color: red">*</span>
+
+      <div
+        v-for="(item, idx) in CenterJson"
+        :key="idx"
+        style="margin: 20px; border-bottom: 1px solid #d1d6e2"
+      >
+        <div>
+          <div v-if="item.title" class="setTitle">
+            {{ item.title }}
           </div>
-          <div>
-            <el-input placeholder="请输入发货规则" maxlength="20"> </el-input>
+          <div v-if="item.ruleUsers">
+            <div
+              v-for="(items, idxs) in item.ruleUsers"
+              :key="idxs"
+              class="displayalign"
+            >
+              <div class="noneIconTitle mr20">
+                {{ items.title }}
+                <span v-if="items.isImportant" style="color: red">*</span>
+              </div>
+              <div v-if="items.placeholder">
+                <el-input
+                  v-model="sendDataJson.ruleName"
+                  :placeholder="items.placeholder"
+                  :maxlength="items.maxlength"
+                >
+                </el-input>
+              </div>
+              <div v-else-if="items.ruleUsers">
+                <div class="displayalign mb20 mt20">
+                  <el-checkbox
+                    style="margin-right: 20px"
+                    :indeterminate="isIndeterminate"
+                    v-model="itemsRuleUsers"
+                    @change="handleCheckAllChange"
+                    >全选</el-checkbox
+                  >
+                  <el-checkbox-group
+                    v-model="sendDataJson.orgIds"
+                    @change="handleCheckedCitiesChange"
+                  >
+                    <el-checkbox
+                      v-for="(city, idx) in items.ruleUsers"
+                      :label="city.id"
+                      :key="idx"
+                    >
+                      {{ city.orgFullName }}
+                    </el-checkbox>
+                  </el-checkbox-group>
+                </div>
+              </div>
+            </div>
+            <div v-if="item.ruleUsers[0].titleName">
+              <div class="mt20 mb20 ml11">
+                <el-checkbox-group
+                  v-model="sendDataJson.laiyuanArr"
+                  @change="handleCheckedlaiyuanArr"
+                >
+                  <el-checkbox
+                    style="display: block"
+                    v-for="(city, idx) in item.ruleUsers"
+                    :label="city.id"
+                    :key="idx"
+                  >
+                    {{ city.titleName }}
+                  </el-checkbox>
+                </el-checkbox-group>
+              </div>
+            </div>
+            <div v-if="item.ruleUsers[0].jijiguizheCenter">
+              <div class="mt20 mb20 ml11">
+                <el-checkbox-group
+                  v-model="sendDataJson.guizheArr"
+                  @change="handleCheckedguizheArr"
+                >
+                  <el-checkbox
+                    style="display: block"
+                    v-for="(city, idx) in item.ruleUsers"
+                    :label="city.id"
+                    :key="idx"
+                  >
+                    <div v-html="changeInput(city.jijiguizheCenter)"></div>
+                  </el-checkbox>
+                </el-checkbox-group>
+              </div>
+            </div>
+          </div>
+          <div v-if="item.placeholder" class="displayalign mb20">
+            <div class="noneIconTitle mr20">
+              {{ item.title }}
+              <span v-if="item.isImportant" style="color: red">*</span>
+            </div>
+            <div v-if="item.placeholder">
+              <el-input
+                v-model="sendDataJson.orderNum"
+                :placeholder="item.placeholder + '1'"
+                :maxlength="item.maxlength"
+                type="number"
+                @input="orderNumChange(item.maxlength)"
+              >
+              </el-input>
+            </div>
           </div>
         </div>
       </div>
-      <!-- 账号信息 -->
+
       <div class="displayCenter mb20">
-        <div class="quxiaoBox mb20 mr20" @click="closeBtn">取消</div>
-        <div class="tijiaoBox mb20" @click="goAJAXCreate">提交</div>
+        <div class="quxiaoBox mb20 mr20" @click="closeBtn">
+          {{ lookerRecord ? "返回" : "取消" }}
+        </div>
+        <div v-if="!lookerRecord" class="tijiaoBox mb20" @click="goAJAXCreate">
+          提交
+        </div>
       </div>
       <!-- btn -->
     </div>
@@ -31,31 +129,104 @@
 <script>
 /*eslint-disable */
 import { getCookie } from "../../utils/validate";
-import {} from "../../api/api";
+import { pWarehouseRuleSaveRecord } from "../../api/api";
+import { Message } from "element-ui";
 export default {
   name: "createUsering",
   components: {},
   data() {
     return {
+      prodNumIndex: 5, //产品订单种类大于 多少的订单 集计规则
       sendDataJson: {
         id: "", //发货规则id
-
         orderNum: "", //订单合并数量
-
         orderSource: "", //订单来源合并规则
-
         orgIds: [], //发货规则应用委托公司id集合
-
+        guizheArr: [], //订单集计规则
+        laiyuanArr: [], //订单来源
         prodMeger: 0, //订单产品重合度集计(按照订单中商品交集最大数集计)
-
         prodNum: 0, // 订单中产品种类大于x的订单，分出单独发货
-
         wareId: getCookie("X-Auth-wareId"),
-
-        prodTypeNum: 0, //订单中产品种类只有一种
-
+        prodTypeNum: 0, //订单中产品种类只有一种4
         ruleName: "", //发货规则名称
       },
+      isIndeterminate: false,
+      itemsRuleUsers: false,
+      CenterJson: [
+        {
+          title: "",
+          isImportant: false,
+          ruleUsers: [
+            {
+              title: "发货规则",
+              isImportant: true,
+              placeholder: "请输入发货规则",
+              maxlength: 60,
+            },
+            {
+              title: "规则使用者:",
+              isImportant: false,
+              ruleUsers: [
+                {
+                  orgFullName: "巨子生物",
+                  id: "4C2F466B16E94451B942EBBD07BE0F8B",
+                },
+                {
+                  orgFullName: "test2",
+                  id: "88FC4C8DD7954A7F8220C8AEA3B70C32",
+                },
+              ],
+            },
+          ],
+        },
+        // 规则使用者
+        {
+          title: "订单来源",
+          isImportant: false,
+          isHuanhang: true,
+          ruleUsers: [
+            {
+              id: "按渠道1",
+              titleName: "按渠道",
+            },
+            {
+              id: "2按订单来源",
+              titleName: "按订单来源",
+            },
+          ],
+        },
+        // 订单来源
+        {
+          title: "订单集计规则",
+          isImportant: false,
+          isHuanhang: true,
+          ruleUsers: [
+            {
+              id: 1,
+              jijiguizheCenter:
+                "订单产品重合度集计(按照订单中商品交集最大数集计)",
+            },
+            {
+              id: 2,
+              jijiguizheCenter:
+                "订单中产品种类大于   &nbsp; 的订单，分为单独发货",
+            },
+            {
+              id: 3,
+              jijiguizheCenter: "订单中产品种类只有一种",
+            },
+          ],
+        },
+        //订单集计规则
+        {
+          isImportant: true,
+          title: "订单数量",
+          placeholder: "请输入订单数量",
+          type: "number",
+          maxlength: 2,
+        },
+        //订单数量
+      ],
     };
   },
   props: {
@@ -63,18 +234,97 @@ export default {
       type: Boolean,
       default: false,
     },
+    lookerRecord: {
+      type: Boolean,
+      default: false,
+    },
   },
-  created() {},
+  mounted() {
+    let input = document.getElementById("input");
+    input.oninput = (e) => {
+      let res = e.target.value.substring(0, this.prodNumIndex);
+      e.target.value = res;
+      this.sendDataJson.prodNum = res;
+    };
+  },
   methods: {
+    orderNumChange(idx) {
+      this.sendDataJson.orderNum = this.sendDataJson.orderNum.substring(0, idx);
+    },
+    changeInput(e) {
+      let src = e.indexOf("&nbsp;");
+      e = e.replace(
+        /&nbsp;/g,
+        '<input id="input" maxlength="2" type="number" placeholder="请输入订单数量" />'
+      );
+      return e;
+    },
+    //订单来源
+    handleCheckedlaiyuanArr(e) {
+      this.sendDataJson.laiyuanArr = e;
+    },
+    //订单规则
+    handleCheckedguizheArr(e) {
+      this.sendDataJson.guizheArr = e;
+    },
+    //全选的change
+    handleCheckAllChange(val) {
+      let arr = [];
+      this.CenterJson[0].ruleUsers[1].ruleUsers.forEach((item) => {
+        if (!arr.includes(item.id)) {
+          arr.push(item.id);
+        }
+      });
+      this.sendDataJson.orgIds = val ? arr : [];
+      this.isIndeterminate = false;
+    },
+    //应该全选的
+    handleCheckedCitiesChange(val) {
+      let checkedCount = val.length;
+      this.itemsRuleUsers =
+        checkedCount === this.CenterJson[0].ruleUsers[1].ruleUsers.length;
+      this.isIndeterminate =
+        checkedCount > 0 &&
+        checkedCount < this.CenterJson[0].ruleUsers[1].ruleUsers.length;
+    },
     closeBtn() {
       this.$emit("closeBtns", false);
     },
     //点击了提交
-    goAJAXCreate() {},
+    async goAJAXCreate() {
+      let { ruleName, prodNum, guizheArr } = this.sendDataJson;
+      if (!ruleName) return Message("请输入发货规则");
+      guizheArr.forEach((item) => {
+        if (item == 2 && !prodNum)
+          return Message("请输入订单集计规则的订单数量");
+      });
+      if (!prodNum) return Message("请输入订单数量");
+      pWarehouseRuleSaveRecord(this.sendDataJson)
+        .then((res) => {
+          console.log(res);
+          if (res.code == "10000") {
+            Message({
+              message: res.msg,
+              onClose: () => {
+                this.closeBtn();
+              },
+            });
+          } else {
+            Message(res.msg);
+          }
+        })
+        .catch((err) => Message(err.msg));
+    },
   },
 };
 </script>
-
+<style >
+input {
+  border: 1px solid #000;
+  height: 30px;
+  width: 80px;
+}
+</style>
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .setUserIngBox {

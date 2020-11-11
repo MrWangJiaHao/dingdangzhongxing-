@@ -44,7 +44,7 @@
         <div class="inline mb20 bianjiUser mr20" @click="getParasJson">
           查询
         </div>
-        <div class="inline remove mb20">清空</div>
+        <div class="inline remove mb20" @click="clearChaxun">清空</div>
       </div>
       <div class="btnArr">
         <div style="background-color: #fff">
@@ -153,7 +153,6 @@
 
 <script>
 /*eslint-disable */
-
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import WarehouseReceipt from "../../components/warehouse/warehouseStocklist"; //出库单
 import saveRecord from "./saveRecord"; //创建 && 编辑
@@ -206,6 +205,19 @@ export default {
     this.getTableData();
   },
   methods: {
+    clearChaxun() {
+      this.sendOutDataJson = {
+        pageNumber: 1, //当前页数
+        pageSize: 10, //每页记录数
+        paras: {
+          orgid: "", //委托公司
+          orgName: "", //委托公司
+          ruleName: "", //规则名称
+          ruleid: "", //规则名称
+        },
+      };
+      this.getTableData();
+    },
     changeWareOrgName(e) {
       this.sendOutDataJson.paras.orgId = this.orgNameJson[e].id;
     },
@@ -248,8 +260,10 @@ export default {
     },
     //编辑
     editBtn() {
-      if (!this.multipleSelection.length || this.multipleSelection.length != 1)
-        return Message("请选择要编辑的出库单，只能选择一个编辑出库单");
+      if (!this.multipleSelection.length)
+        return Message("请选择要编辑的发货规则配置");
+      if (this.multipleSelection.length != 1)
+        return Message("并且只能选择一个发货规则配置");
       sessionStorage.setItem(
         "warehouseEdit",
         JSON.stringify(this.multipleSelection[0])
@@ -259,8 +273,10 @@ export default {
     },
     //删除
     clearBtn() {
-      if (!this.multipleSelection.length || this.multipleSelection.length != 1)
-        return Message("请选择要删除的出库单，只能选择一个删除出库单");
+      if (!this.multipleSelection.length)
+        return Message("请选择要删除的发货规则配置");
+      if (this.multipleSelection.length != 1)
+        return Message("只能选择一个删除发货规则配置");
       // getpOutWarehouseDelRecord
       getpOutWarehouseDelRecord({ id: this.multipleSelection[0].id }).then(
         (res) => {
