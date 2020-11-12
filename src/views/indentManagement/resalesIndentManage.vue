@@ -1,5 +1,5 @@
 <template>
-  <div id="mianPage">
+  <div id="resalesMianPage">
     <!-- 这是退货订单管理页面 -->
     <div class="roleName">
       <div class="headerHtml">
@@ -214,129 +214,149 @@
                   >
                 </div>
               </div>
-              <el-table
-                :data="productData"
-                border
-                style="width: 100%"
-                @selection-change="handleSelectionChange"
-                :stripe="true"
-                tooltip-effect="dark"
-                @cell-click="prodLookDetailEvent"
-              >
-                <el-table-column type="selection" width="55"> </el-table-column>
-                <el-table-column
-                  label="序号"
-                  align="center"
-                  type="index"
-                  width="60"
+              <div class="formTable">
+                <el-table
+                  :data="storeOutData"
+                  border
+                  style="width: 100%"
+                  @selection-change="handleSelectionChange"
+                  :stripe="true"
+                  tooltip-effect="dark"
+                  @cell-click="prodLookDetailEvent"
                 >
-                </el-table-column>
-                <el-table-column prop="orgName" label="委托公司" align="center">
-                </el-table-column>
-                <el-table-column
-                  prop="orderSourceName"
-                  label="订单来源"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="backOrderNo"
-                  label="退单号"
-                  align="center"
-                >
-                  <template slot-scope="scope">
-                    <div class="lookDetail">
-                      {{ scope.row.backOrderNo }}
-                    </div>
-                  </template> </el-table-column
-                ><el-table-column prop="orderNo" label="订单号" align="center">
-                  <template slot-scope="scope">
-                    <div class="lookDetail">
-                      {{ scope.row.orderNo }}
-                    </div>
-                  </template> </el-table-column
-                ><el-table-column prop="braName" label="子单号" align="center">
-                  <template slot-scope="scope">
-                    <div class="lookDetail">
-                      {{ scope.row.braName }}
-                    </div>
-                    <div class="lookDetail">
-                      {{ scope.row.braName }}
-                    </div>
-                  </template> </el-table-column
-                ><el-table-column
-                  prop="disposeStatus"
-                  label="退单状态"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="disposeStatus"
-                  label="退货类型"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="exprName"
-                  label="退货物流公司"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="exprNo"
-                  label="退货物流单号"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column prop="" label="用户昵称" align="center">
-                </el-table-column>
-                <el-table-column
-                  prop="sendContact"
-                  label="发货人"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="sendContactPhone"
-                  label="发货人电话"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="sendAddr"
-                  label="发货地址"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="orderContact"
-                  label="收货人"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="orderContactPhone"
-                  label="收货人电话"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="orderAddr"
-                  label="收货地址"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="returnMoneyTime"
-                  label="退货时间"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column prop="" label="确认时间" align="center">
-                </el-table-column>
-                <el-table-column prop="" label="入库时间" align="center">
-                </el-table-column>
-              </el-table>
+                  <el-table-column type="selection" width="55">
+                  </el-table-column>
+                  <el-table-column
+                    label="序号"
+                    align="center"
+                    type="index"
+                    width="60"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orgName"
+                    label="委托公司"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderSourceName"
+                    label="订单来源"
+                    align="center"
+                    min-width="120"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="backOrderNo"
+                    label="退单号"
+                    align="center"
+                    min-width="120"
+                  >
+                    <template slot-scope="scope">
+                      <div class="lookDetail">
+                        {{ scope.row.backOrderNo }}
+                      </div>
+                    </template> </el-table-column
+                  ><el-table-column
+                    prop="orderNo"
+                    label="订单号"
+                    align="center"
+                  >
+                    <template slot-scope="scope">
+                      <div class="lookDetail">
+                        {{ scope.row.orderNo }}
+                      </div>
+                    </template> </el-table-column
+                  ><el-table-column
+                    prop="braName"
+                    label="子单号"
+                    align="center"
+                  >
+                    <template slot-scope="scope">
+                      <div class="lookDetail">
+                        {{ scope.row.braName }}
+                      </div>
+                      <div class="lookDetail">
+                        {{ scope.row.braName }}
+                      </div>
+                    </template> </el-table-column
+                  ><el-table-column
+                    prop="disposeStatus"
+                    label="退单状态"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="disposeStatus"
+                    label="退货类型"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="exprName"
+                    label="退货物流公司"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="exprNo"
+                    label="退货物流单号"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column prop="" label="用户昵称" align="center">
+                  </el-table-column>
+                  <el-table-column
+                    prop="sendContact"
+                    label="发货人"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="sendContactPhone"
+                    label="发货人电话"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="sendAddr"
+                    label="发货地址"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderContact"
+                    label="收货人"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderContactPhone"
+                    label="收货人电话"
+                    align="center"
+                    min-width="120"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderAddr"
+                    label="收货地址"
+                    align="center"
+                    min-width="300"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="returnMoneyTime"
+                    label="退货时间"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column prop="" label="确认时间" align="center">
+                  </el-table-column>
+                  <el-table-column prop="" label="入库时间" align="center">
+                  </el-table-column>
+                </el-table>
+              </div>
+
               <div class="pageComponent">
                 <pagecomponent
                   :pageComponentsData="pageComponentsData"
@@ -360,107 +380,131 @@
                   >
                 </div>
               </div>
-              <el-table
-                :data="productData"
-                border
-                style="width: 100%"
-                @selection-change="handleSelectionChange"
-                :stripe="true"
-                tooltip-effect="dark"
-                @cell-click="prodLookDetailEvent"
-              >
-                <el-table-column type="selection" width="55"> </el-table-column>
-                <el-table-column
-                  label="序号"
-                  align="center"
-                  type="index"
-                  width="60"
+              <div class="formTable">
+                <el-table
+                  :data="unStoreOutData"
+                  border
+                  style="width: 100%"
+                  @selection-change="handleSelectionChange"
+                  :stripe="true"
+                  tooltip-effect="dark"
+                  @cell-click="prodLookDetailEvent"
                 >
-                </el-table-column>
-                <el-table-column prop="orgName" label="委托公司" align="center">
-                </el-table-column>
-                <el-table-column
-                  prop="orderSourceName"
-                  label="订单来源"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="backOrderNo"
-                  label="退单号"
-                  align="center"
-                >
-                  <template slot-scope="scope">
-                    <div class="lookDetail">
-                      {{ scope.row.backOrderNo }}
-                    </div>
-                  </template> </el-table-column
-                ><el-table-column prop="orderNo" label="订单号" align="center">
-                  <template slot-scope="scope">
-                    <div class="lookDetail">
-                      {{ scope.row.orderNo }}
-                    </div>
-                  </template> </el-table-column
-                ><el-table-column prop="braName" label="子单号" align="center">
-                  <template slot-scope="scope">
-                    <div class="lookDetail">
-                      {{ scope.row.braName }}
-                    </div>
-                    <div class="lookDetail">
-                      {{ scope.row.braName }}
-                    </div>
-                  </template> </el-table-column
-                ><el-table-column
-                  prop="disposeStatus"
-                  label="退单状态"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="disposeStatus"
-                  label="退货类型"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="exprName"
-                  label="物流公司"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column prop="exprNo" label="物流单号" align="center">
-                </el-table-column
-                ><el-table-column prop="" label="用户昵称" align="center">
-                </el-table-column>
-                <el-table-column
-                  prop="orderContact"
-                  label="收货人"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="orderContactPhone"
-                  label="联系电话"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="orderAddr"
-                  label="收货地址"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="returnMoneyTime"
-                  label="退货时间"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column prop="" label="确认时间" align="center">
-                </el-table-column>
-                <el-table-column prop="" label="入库时间" align="center">
-                </el-table-column>
-              </el-table>
+                  <el-table-column type="selection" width="55">
+                  </el-table-column>
+                  <el-table-column
+                    label="序号"
+                    align="center"
+                    type="index"
+                    width="60"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orgName"
+                    label="委托公司"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderSourceName"
+                    label="订单来源"
+                    align="center"
+                    min-width="120"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="backOrderNo"
+                    label="退单号"
+                    align="center"
+                    min-width="120"
+                  >
+                    <template slot-scope="scope">
+                      <div class="lookDetail">
+                        {{ scope.row.backOrderNo }}
+                      </div>
+                    </template> </el-table-column
+                  ><el-table-column
+                    prop="orderNo"
+                    label="订单号"
+                    align="center"
+                  >
+                    <template slot-scope="scope">
+                      <div class="lookDetail">
+                        {{ scope.row.orderNo }}
+                      </div>
+                    </template> </el-table-column
+                  ><el-table-column
+                    prop="braName"
+                    label="子单号"
+                    align="center"
+                  >
+                    <template slot-scope="scope">
+                      <div class="lookDetail">
+                        {{ scope.row.braName }}
+                      </div>
+                      <div class="lookDetail">
+                        {{ scope.row.braName }}
+                      </div>
+                    </template> </el-table-column
+                  ><el-table-column
+                    prop="disposeStatus"
+                    label="退单状态"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="disposeStatus"
+                    label="退货类型"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="exprName"
+                    label="物流公司"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="exprNo"
+                    label="物流单号"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column prop="" label="用户昵称" align="center">
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderContact"
+                    label="收货人"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderContactPhone"
+                    label="联系电话"
+                    align="center"
+                    min-width="120"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderAddr"
+                    label="收货地址"
+                    align="center"
+                    min-width="300"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="returnMoneyTime"
+                    label="退货时间"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column prop="" label="确认时间" align="center">
+                  </el-table-column>
+                  <el-table-column prop="" label="入库时间" align="center">
+                  </el-table-column>
+                </el-table>
+              </div>
+
               <div class="pageComponent">
                 <pagecomponent
                   :pageComponentsData="pageComponentsData1"
@@ -490,12 +534,12 @@ export default {
   data() {
     return {
       index: 0,
-      title: "未出库",
+      title: "已出库信息",
       lotNo: "",
       getExcelUrl:
         "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubOrder/getExcel?lotNo=",
-      productData: [],
-      orderData: [],
+      storeOutData: [],
+      unStoreOutData: [],
       datetimeDate: {
         placeholder: "请选择结束时间",
       },
@@ -572,13 +616,13 @@ export default {
   methods: {
     pageQueryFun() {
       //缺货产品查询
-      let ProdQueryData = this.ProdQueryData;
-      findReturnOrderPage(ProdQueryData).then((ok) => {
-        console.log(ok);
+      let QueryData = this.QueryData;
+      findReturnOrderPage(QueryData).then((ok) => {
+        // console.log(ok);
         if (ok.data.code === "10000") {
-          this.productData = ok.data.result.list;
+          this.storeOutData = ok.data.result.list;
           this.changeData(ok.data.result);
-          this.productData.forEach((v) => {
+          this.storeOutData.forEach((v) => {
             this.entrustCompanyData.push({
               value: v.orgId,
               label: v.orgName,
@@ -604,10 +648,10 @@ export default {
           });
         }
       });
-      findBackOrderPage(ProdQueryData).then((ok) => {
+      findBackOrderPage(QueryData).then((ok) => {
         console.log(ok);
         if (ok.data.code === "10000") {
-          this.orderData = ok.data.result.list;
+          this.unStoreOutData = ok.data.result.list;
         } else {
           Message({
             message: "未知错误",
@@ -799,7 +843,7 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
 
-#mianPage {
+#resalesMianPage {
   background: #e6e7ea;
   padding: 16px;
 }
@@ -942,10 +986,14 @@ export default {
       }
     }
   }
+  .formTable {
+    background: white;
+    padding: 20px;
+  }
   .formTabs {
     padding: 0 10px;
   }
-  .lookDeatil {
+  .lookDetail {
     color: #599af3;
     text-decoration: underline;
     cursor: pointer;
@@ -995,13 +1043,9 @@ export default {
     }
   }
 }
-#mianPage {
+#resalesMianPage {
   .el-tabs {
     left: 0;
-  }
-  .el-table {
-    background: white;
-    padding: 20px;
   }
   .el-tabs--card > .el-tabs__header {
     border: none;

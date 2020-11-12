@@ -261,6 +261,20 @@ import { Message } from "element-ui";
 import { getCookie, _getArrTarget } from "../../utils/validate";
 
 export default {
+  beforeRouteEnter(to, from, next) {
+    if (from.name === "/indentManagement/stockoutIndentManage") {
+      next((vm) => {
+        if (vm.$route.query.fromPage === "stockoutIndentManage") {
+          let allProduct = vm.$route.query.product;
+          sessionStorage.setItem("allProduct", JSON.stringify(allProduct));
+          sessionStorage.setItem("fromPage", vm.$route.query.fromPage);
+          vm.isCreatePurchasing = true;
+        }
+      });
+    } else {
+      next();
+    }
+  },
   components: {
     manualHeader,
     pagecomponent,

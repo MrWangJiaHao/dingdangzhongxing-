@@ -255,7 +255,12 @@ export default {
       this.changeEditData();
     }
   },
-
+  mounted() {
+    this.tabledata = JSON.parse(sessionStorage.getItem("allProduct"));
+  },
+  beforeDestroy() {
+    sessionStorage.removeItem("allProduct");
+  },
   methods: {
     _addTablesData() {
       this.tables = eval(sessionStorage.getItem("_addTablesData"));
@@ -318,6 +323,15 @@ export default {
     },
     //关闭
     closeBtn() {
+      console.log(sessionStorage.getItem("fromPage"));
+      if (sessionStorage.getItem("fromPage") === "stockoutIndentManage") {
+        this.$router.push({
+          path: "/indentManagement/stockoutIndentManage",
+          query: { cancel: "cancel" },
+        });
+      }
+      sessionStorage.removeItem("fromPage");
+
       this.$parent._data.isCreatePurchasing = false;
       sessionStorage.removeItem("_addTablesData");
     },

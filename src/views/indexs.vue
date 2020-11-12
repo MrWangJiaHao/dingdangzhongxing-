@@ -79,8 +79,9 @@
       </div>
     </div>
     <!-- 面包屑导航 -->
-
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
     <div class="footerCom">
       <Footer></Footer>
     </div>
