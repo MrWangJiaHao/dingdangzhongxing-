@@ -493,16 +493,26 @@ export default {
       if (!this.multipleSelection.length)
         return Message("请选择要删除的入库单");
       _getArrTarget(this.multipleSelection, "id");
-      delRecordByIdArrs({
-        ids: _getArrTarget(this.multipleSelection, "id"),
-      }).then((res) => {
-        if (res.data.code == "10000") {
-          this.getTableData();
-          return Message("删除成功");
-        } else {
-          return Message(res.data.msgdfs);
-        }
-      });
+      this.$confirm("确定要删除该入库单号？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          delRecordByIdArrs({
+            ids: _getArrTarget(this.multipleSelection, "id"),
+          }).then((res) => {
+            if (res.data.code == "10000") {
+              this.getTableData();
+              return Message("删除成功");
+            } else {
+              return Message(res.data.msgdfs);
+            }
+          });
+        })
+        .catch(() => {
+          Message("已经取消");
+        });
     },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {

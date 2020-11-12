@@ -69,7 +69,7 @@
         </div>
       </div>
       <!-- 个人信息 -->
-      <div class="pd20">
+      <div id="bjTableWraper " class="pd20">
         <div class="setTitle">产品明细</div>
         <div class="mb20 tr">
           <div
@@ -240,30 +240,21 @@
 
 <script>
 /*eslint-disable */
-import searchBox from "../../components/commin/searchBox"; //搜索框
-import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
-import dropDownUserType from "../../components/commin/dropDownUserType"; //用户管理下拉框
 import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
-import { mapState } from "vuex";
 import { Message } from "element-ui";
-import { isMobile, isEmail } from "../../utils/validate";
+import { isMobile } from "../../utils/validate";
 import {
-  post,
   getFindWareOrg,
   getFindOrgChildWare,
   getfindOrgProductPage,
   getFindWarehouseProduct,
   getpOutWarehouseconfirmRecord,
-  getSaveRecord,
   getpOutWarehousefindOutWareDetailById,
 } from "../../api/api";
 import choiceSelect from "../../components/manual/choiceSelect";
 export default {
   name: "createUsering",
   components: {
-    dropDowbox,
-    searchBox,
-    dropDownUserType,
     choiceSelect,
     dateTime,
   },
@@ -293,7 +284,7 @@ export default {
             ? this.createUserData.outWareType
             : "- -",
         "&nbsp;收货人": () =>
-          this.$route.query.takeUser ? this.createUserData.takeUser : "- -",
+          this.createUserData.takeUser ? this.createUserData.takeUser : "- -",
         收货人联系电话: () =>
           this.$route.query.takePhone ? this.createUserData.takePhone : "- -",
         "*取货人": () =>
@@ -399,6 +390,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isWarehouseSure: {
+      type: Boolean,
+      default: false,
+    },
   },
   beforeDestroy() {
     sessionStorage.removeItem("sarehouseChuKuSure");
@@ -471,8 +466,6 @@ export default {
   },
   methods: {
     isDetailsFn() {
-      if (!this.isDetails && !eval(this.isWarehouseSureDetails))
-        return this.feizhitiJson;
       if (this.isDetails) {
         return this.detailChuKu;
       } else {
@@ -485,7 +478,7 @@ export default {
     getManufTimeClickSendTime(e) {
       this.manufTimeClickData.manufTime = e;
     },
-    takePhoneChange(e) {
+    takePhoneChange() {
       this.createUserData.takePhone = this.createUserData.takePhone.substring(
         0,
         11

@@ -77,8 +77,8 @@
               />
               <el-table-column label="发货规则" show-overflow-tooltip>
                 <span slot-scope="scoped">
-                  <div @click="goToDetailOut(scoped.row)">
-                    {{ scoped.row.id }}
+                  <div class="lookDeatil" @click="goToDetailOut(scoped.row)">
+                    {{ scoped.row.ruleName }}
                   </div>
                 </span>
               </el-table-column>
@@ -125,42 +125,27 @@
               :outWareType="sendOutDataJson.paras.outWareType"
               @closeBtns="closeBtns"
               :editSavaRecord="editSavaRecord"
+              :lookerRecord="lookerRecord"
+              :editAndLookdata="editAndLookdata"
             />
           </div>
         </div>
       </transition>
     </div>
     <!-- 创建 && 编辑 end  -->
-    <!-- 出库确认 && 出库详情 start  -->
-    <div v-show="isWarehouseSure" class="bjBox">
-      <transition
-        enter-active-class="animate__animated animate__zoomIn"
-        leave-active-class="animate__animated animate__zoomOut"
-      >
-        <div v-if="isWarehouseSure">
-          <div>
-            <findRecordPage
-              :isWarehouseSureDetails="isWarehouseSureDetails"
-              @closeDetails="closeDetails"
-            />
-          </div>
-        </div>
-      </transition>
-    </div>
-    <!-- 出库确认 && 出库详情 end  -->
   </div>
 </template>
 
 <script>
 /*eslint-disable */
+
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import WarehouseReceipt from "../../components/warehouse/warehouseStocklist"; //出库单
 import saveRecord from "./saveRecord"; //创建 && 编辑
-import findRecordPage from "./findRecordPage"; //出库确认 && 出库详情
 import {
   pWarehouseRuleFindRecordPage,
   getFindWareOrg,
-  getpOutWarehouseDelRecord,
+  pWarehouseRuleDelRecord,
 } from "../../api/api";
 import { Message } from "element-ui";
 import { _getExportExcels } from "../../utils/validate";
@@ -169,10 +154,10 @@ export default {
     pagecomponent,
     WarehouseReceipt,
     saveRecord,
-    findRecordPage,
   },
   data() {
     return {
+      lookerRecord: false, //查看
       editSavaRecord: false, // 编辑
       isCreateWarehouse: false, //创建
       isWarehouseSure: false, //出库确认
@@ -180,7 +165,23 @@ export default {
       WarehouseReceipts: false,
       WarehouseReceiptIds: "",
       BatchNumberIds: "",
-      tableData: [],
+      editAndLookdata: {},
+      tableData: [
+        {
+          orgName: "阿达",
+          ruleName: "哦吼吼吼吼吼",
+          createUser: "达瓦",
+          createTime: "2020-11-12 10:05",
+          id: 1,
+        },
+        {
+          id: 2,
+          orgName: "阿达",
+          ruleName: "哦吼吼吼吼吼",
+          createUser: "达瓦",
+          createTime: "2020-11-12 10:05",
+        },
+      ],
       pageComponentsData: {
         pageNums: 0, //一共多少条 //默认一页10条
       },
@@ -237,10 +238,13 @@ export default {
     closeBtns(e) {
       this.isCreateWarehouse = e;
     },
+    //查看详情
     goToDetailOut(e) {
-      sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
-      this.isWarehouseSure = true;
-      this.isWarehouseSureDetails = true;
+      sessionStorage.setItem("lookDetail", JSON.stringify(e));
+      this.editAndLookdata = e;
+      this.isCreateWarehouse = true;
+      this.editSavaRecord = false;
+      this.lookerRecord = true;
     },
     getPageNum(e) {
       this.sendOutDataJson.pageNumber = e;
@@ -255,39 +259,50 @@ export default {
     },
     //创建出库单
     CreateStockInOrder() {
+      this.editAndLookdata = {};
       this.isCreateWarehouse = true;
-      this.editCreateWarehouse = false;
+      this.editSavaRecord = false;
+      this.lookerRecord = false;
     },
     //编辑
     editBtn() {
       if (!this.multipleSelection.length)
         return Message("请选择要编辑的发货规则配置");
       if (this.multipleSelection.length != 1)
-        return Message("并且只能选择一个发货规则配置");
+        return Message("只能选择一个发货规则配置");
       sessionStorage.setItem(
-        "warehouseEdit",
+        "recordPageEdit",
         JSON.stringify(this.multipleSelection[0])
       );
+      this.editAndLookdata = this.multipleSelection[0];
       this.isCreateWarehouse = true;
-      this.editCreateWarehouse = true;
+      this.editSavaRecord = true;
+      this.lookerRecord = false;
     },
     //删除
     clearBtn() {
       if (!this.multipleSelection.length)
         return Message("请选择要删除的发货规则配置");
-      if (this.multipleSelection.length != 1)
-        return Message("只能选择一个删除发货规则配置");
-      // getpOutWarehouseDelRecord
-      getpOutWarehouseDelRecord({ id: this.multipleSelection[0].id }).then(
-        (res) => {
-          if (res.data.code == "10000") {
-            Message(res.data.msg);
-            this.getTableData();
-          } else {
-            Message(res.data.msg);
-          }
-        }
-      );
+      this.$confirm("确定要删除该入库单号？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          pWarehouseRuleDelRecord({
+            id: this.multipleSelection[0].id,
+          })
+            .then((res) => {
+              if (res.code == "10000") {
+                Message(res.msg);
+                this.getTableData();
+              } else {
+                Message(res.msg);
+              }
+            })
+            .catch((err) => console.log(err + "---出错了"));
+        })
+        .catch(() => err);
     },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {
