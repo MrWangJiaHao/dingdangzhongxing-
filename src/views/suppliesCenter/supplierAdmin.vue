@@ -345,7 +345,7 @@ export default {
     editChildWarehouse() {
       //编辑
       if (!this.multipleSelection.length)
-        return Message("请选择要查看的供应商");
+        return Message("请选择要编辑的供应商");
       if (this.multipleSelection.length !== 1)
         return Message({
           message: "每次只能编辑一个供应商信息，请重新选择",

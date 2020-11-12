@@ -152,13 +152,14 @@ export default {
   beforeRouteEnter(to, from, next) {
     if (
       from.name === "/indentManagement/sellIndentManage" ||
-      from.name === "/indentManagement/zitiIndentManage"||
-      from.name === "/indentManagement/notLogisticsIndentManage"||
-       from.name === "/indentManagement/stockoutIndentManage"
+      from.name === "/indentManagement/zitiIndentManage" ||
+      from.name === "/indentManagement/notLogisticsIndentManage" ||
+      from.name === "/indentManagement/stockoutIndentManage"
     ) {
       next((vm) => {
         if (vm.$route.query.type === "subOrderNos") {
           let data = vm.$route.query.subOrderNos;
+          console.log(data);
           vm.subOrderNo = data.subOrderNo;
           vm.id = data.id;
           vm.orderNo = data.orderNo;
@@ -253,59 +254,61 @@ export default {
       subOrderNo: this.subOrderNo,
     };
     childOrderInfor(childOrderQuery).then((ok) => {
-      // console.log(ok);
+      console.log(ok);
       if (ok.data.code === "10000") {
-        this.tableData1 = ok.data.result;
-        let type = this.tableData1[this.tableData1.length - 1].operateType;
-        if (type <= 3 || type === 4) {
-          this.val = 1;
-        } else if (type > 4 && type === 8) {
-          this.val = type;
-        } else if (type === 9) {
-          this.val = 4;
-        } else if (type === 10) {
-          this.val = 6;
+        if (ok.data.result.length > 0) {
+          this.tableData1 = ok.data.result;
+          let type = this.tableData1[this.tableData1.length - 1].operateType;
+          if (type <= 3 || type === 4) {
+            this.val = 1;
+          } else if (type > 4 && type === 8) {
+            this.val = type;
+          } else if (type === 9) {
+            this.val = 4;
+          } else if (type === 10) {
+            this.val = 6;
+          }
+          let val = this.val;
+          this.timeLineArr.forEach((v) => {
+            if (val === v.number) {
+              v.background = nowBackgroundColor;
+            }
+            if (val > v.number) {
+              v.background = beforBackgroundColor;
+            }
+            if (val < v.number) {
+              v.background = willBackgroundColor;
+            }
+          });
+          this.tableData1.forEach((v) => {
+            v.operateType =
+              v.operateType === 0
+                ? "拉取/手工"
+                : v.operateType === 1
+                ? "拆分"
+                : v.operateType === 2
+                ? "下发中"
+                : v.operateType === 3
+                ? "待审核"
+                : v.operateType === 4
+                ? "待分配"
+                : v.operateType === 5
+                ? "待合并"
+                : v.operateType === 6
+                ? "待打印"
+                : v.operateType === 7
+                ? "待拣货"
+                : v.operateType === 8
+                ? "待复核"
+                : v.operateType === 9
+                ? "重新拣货"
+                : v.operateType === 10
+                ? "已发货"
+                : v.operateType === 11
+                ? "已退单"
+                : "";
+          });
         }
-        let val = this.val;
-        this.timeLineArr.forEach((v) => {
-          if (val === v.number) {
-            v.background = nowBackgroundColor;
-          }
-          if (val > v.number) {
-            v.background = beforBackgroundColor;
-          }
-          if (val < v.number) {
-            v.background = willBackgroundColor;
-          }
-        });
-        this.tableData1.forEach((v) => {
-          v.operateType =
-            v.operateType === 0
-              ? "拉取/手工"
-              : v.operateType === 1
-              ? "拆分"
-              : v.operateType === 2
-              ? "下发中"
-              : v.operateType === 3
-              ? "待审核"
-              : v.operateType === 4
-              ? "待分配"
-              : v.operateType === 5
-              ? "待合并"
-              : v.operateType === 6
-              ? "待打印"
-              : v.operateType === 7
-              ? "待拣货"
-              : v.operateType === 8
-              ? "待复核"
-              : v.operateType === 9
-              ? "重新拣货"
-              : v.operateType === 10
-              ? "已发货"
-              : v.operateType === 11
-              ? "已退单"
-              : "";
-        });
       } else {
         Message({
           message: "网络异常",

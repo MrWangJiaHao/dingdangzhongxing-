@@ -1,5 +1,5 @@
 <template>
-  <div id="mianPage">
+  <div id="stockoutMianPage">
     <!-- 这是缺货订单管理页面 -->
     <div class="roleName">
       <div class="headerHtml">
@@ -158,82 +158,94 @@
                   <div class="takeOrdersDiv" @click="prodGoPurchase">
                     转采购
                   </div>
-                  <a class="setUser" @click="prodEduce" target="_blank">导出</a>
+                  <a
+                    class="setUser prodEduce"
+                    @click="prodEduce"
+                    target="_blank"
+                    >导出</a
+                  >
                 </div>
               </div>
-              <el-table
-                :data="productData"
-                border
-                style="width: 100%"
-                @selection-change="handleSelectionChange"
-                :stripe="true"
-                tooltip-effect="dark"
-                @cell-click="prodLookDetailEvent"
-              >
-                <el-table-column type="selection" width="55"> </el-table-column>
-                <el-table-column
-                  label="序号"
-                  align="center"
-                  type="index"
-                  width="60"
+              <div class="formTable">
+                <el-table
+                  :data="productData"
+                  border
+                  style="width: 100%"
+                  @selection-change="prodHandleSelectionChange"
+                  :stripe="true"
+                  tooltip-effect="dark"
+                  @cell-click="prodLookDetailEvent"
                 >
-                </el-table-column>
-                <el-table-column prop="orgName" label="委托公司" align="center">
-                </el-table-column>
-                <el-table-column
-                  prop="prodCode"
-                  label="产品编码"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="prodName"
-                  label="产品名称"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="specName"
-                  label="产品规格"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column prop="braName" label="品牌" align="center">
-                </el-table-column
-                ><el-table-column
-                  prop="inventoryUpper"
-                  label="高库存预警值"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="inventoryFloor"
-                  label="低库存预警值"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="prodNum"
-                  label="销售仓可用库存数量"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="orderProdNum"
-                  label="缺货数量"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="orderNum"
-                  label="缺货订单数"
-                  align="center"
-                >
-                  <template slot-scope="scope">
-                    <div class="lookDeatil">{{ scope.row.orderNum }}</div>
-                  </template>
-                </el-table-column>
-              </el-table>
+                  <el-table-column type="selection" width="55">
+                  </el-table-column>
+                  <el-table-column
+                    label="序号"
+                    align="center"
+                    type="index"
+                    width="60"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orgName"
+                    label="委托公司"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="prodCode"
+                    label="产品编码"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="prodName"
+                    label="产品名称"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="specName"
+                    label="产品规格"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column prop="braName" label="品牌" align="center">
+                  </el-table-column
+                  ><el-table-column
+                    prop="inventoryUpper"
+                    label="高库存预警值"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="inventoryFloor"
+                    label="低库存预警值"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="prodNum"
+                    label="销售仓可用库存数量"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="orderProdNum"
+                    label="缺货数量"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="orderNum"
+                    label="缺货订单数"
+                    align="center"
+                  >
+                    <template slot-scope="scope">
+                      <div class="lookDeatil">{{ scope.row.orderNum }}</div>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
               <div class="pageComponent">
                 <pagecomponent
                   :pageComponentsData="pageComponentsData"
@@ -251,79 +263,101 @@
                   <div class="icon-title-title">{{ title }}</div>
                 </div>
                 <div class="someBtn">
-                  <div class="takeOrdersDiv" @click="orderGoPurchase">
+                  <!-- <div class="takeOrdersDiv" @click="orderGoPurchase">
                     转采购
-                  </div>
-                  <a class="setUser" @click="orderEduce" target="_blank"
+                  </div> -->
+                  <a
+                    class="setUser orderEduce"
+                    @click="orderEduce"
+                    target="_blank"
                     >导出</a
                   >
                 </div>
               </div>
-              <el-table
-                :data="orderData"
-                border
-                style="width: 100%"
-                @selection-change="handleSelectionChange"
-                :stripe="true"
-                tooltip-effect="dark"
-                @cell-click="orderLookDetailEvent"
-              >
-                <el-table-column type="selection" width="55"> </el-table-column>
-                <el-table-column
-                  label="序号"
-                  align="center"
-                  type="index"
-                  width="60"
+              <div class="formTable">
+                <el-table
+                  :data="orderData"
+                  border
+                  style="width: 100%"
+                  @selection-change="orderHandleSelectionChange"
+                  :stripe="true"
+                  tooltip-effect="dark"
+                  @cell-click="orderLookDetailEvent"
                 >
-                </el-table-column>
-                <el-table-column prop="orgName" label="委托公司" align="center">
-                </el-table-column>
-                <el-table-column prop="channelName" label="渠道" align="center">
-                </el-table-column>
-                <el-table-column
-                  prop="orderSourceName"
-                  label="订单来源"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column prop="orderNo" label="订单号" align="center">
-                  <template slot-scope="scope">
-                    <div class="lookDeatil">
-                      {{ scope.row.orderNo }}
-                    </div>
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="subOrderNo"
-                  label="子订单号"
-                  align="center"
-                >
-                  <template slot-scope="scope">
-                    <div class="lookDeatil">
-                      {{ scope.row.subOrderNo }}
-                    </div>
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  prop="exprName"
-                  label="物流公司"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column prop="exprNo" label="物流单号" align="center">
-                </el-table-column>
-                <el-table-column prop="reason" label="失败原因" align="center">
-                  <template slot-scope="scope">
-                    <div class="failCause">
-                      {{ scope.row.reason }}
-                    </div>
-                  </template> </el-table-column
-                ><el-table-column
-                  prop="pullTime"
-                  label="下发时间"
-                  align="center"
-                ></el-table-column>
-              </el-table>
+                  <el-table-column type="selection" width="55">
+                  </el-table-column>
+                  <el-table-column
+                    label="序号"
+                    align="center"
+                    type="index"
+                    width="60"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orgName"
+                    label="委托公司"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="channelName"
+                    label="渠道"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderSourceName"
+                    label="订单来源"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column prop="orderNo" label="订单号" align="center">
+                    <template slot-scope="scope">
+                      <div class="lookDeatil">
+                        {{ scope.row.orderNo }}
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    prop="subOrderNo"
+                    label="子订单号"
+                    align="center"
+                  >
+                    <template slot-scope="scope">
+                      <div class="lookDeatil">
+                        {{ scope.row.subOrderNo }}
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    prop="exprName"
+                    label="物流公司"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="exprNo"
+                    label="物流单号"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="reason"
+                    label="失败原因"
+                    align="center"
+                  >
+                    <template slot-scope="scope">
+                      <div class="failCause">
+                        {{ scope.row.reason }}
+                      </div>
+                    </template> </el-table-column
+                  ><el-table-column
+                    prop="pullTime"
+                    label="下发时间"
+                    align="center"
+                  ></el-table-column>
+                </el-table>
+              </div>
               <div class="pageComponent">
                 <pagecomponent
                   :pageComponentsData="pageComponentsData1"
@@ -354,9 +388,25 @@ export default {
     return {
       index: 0,
       title: "缺货产品信息",
-      lotNo: "",
-      getExcelUrl:
-        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubOrder/getExcel?lotNo=",
+      getProdExcelUrl: {
+        url:
+          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubOrder/getProdExcel",
+        wareId: getCookie("X-Auth-wareId"),
+        orderNo: "",
+        subOrderNo: "",
+        channelId: "",
+        orderSourceId: "",
+      },
+      getOrderExcelUrl: {
+        url:
+          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubOrder/getOrderExcel",
+        wareId: getCookie("X-Auth-wareId"),
+        orderNo: "",
+        subOrderNo: "",
+        orgId: "",
+        channelId: "",
+        orderSourceId: "",
+      },
       productData: [],
       orderData: [],
       datetimeDate: {
@@ -385,7 +435,8 @@ export default {
       consigneeValue: "",
       telPhoneValue: "",
       addressValue: "",
-      multipleSelection: [],
+      prodMultipleSelection: [],
+      orderMultipleSelection: [],
       ProdQueryData: {
         orderBy: "createTime",
         pageNumber: 1,
@@ -435,6 +486,17 @@ export default {
     this.pageQueryOrderFun();
   },
   watch: {},
+  beforeRouteEnter(to, from, next) {
+    if (from.name === "/purchasingManagement/purchasingIndex") {
+      next((vm) => {
+        if (vm.$route.query.cancel === "cancel") {
+          Message("已取消");
+        }
+      });
+    } else {
+      next();
+    }
+  },
   methods: {
     pageQueryProdFun() {
       //缺货产品查询
@@ -521,8 +583,8 @@ export default {
     },
     prodSpecValues(val) {
       this.prodSpecValue = val;
-      this.ProdQueryData.paras.specName = val;
-      this.orderQueryData.paras.specName = val;
+      this.ProdQueryData.paras.specName = val.slice(0, val.length - 2);
+      this.orderQueryData.paras.specName = val.slice(0, val.length - 2);
     },
     clickQuery() {
       //点击查询
@@ -556,37 +618,69 @@ export default {
       this.$refs.endTime.clear();
       this.productData = [];
       this.orderData = [];
-      this.ProdQueryData.paras.orgId = "";
-      this.ProdQueryData.paras.channelId = "";
-      this.ProdQueryData.paras.orderSourceId = "";
-      this.ProdQueryData.paras.orderNo = "";
-      this.ProdQueryData.paras.subOrderNo = "";
-      this.ProdQueryData.paras.prodName = "";
-      this.ProdQueryData.paras.pushStartTime = "";
-      this.ProdQueryData.paras.pushEndTime = "";
-      this.ProdQueryData.paras.prodCode = "";
-      this.ProdQueryData.paras.specName = "";
-      this.ProdQueryData.paras.pushTime = "";
+      let ProdQueryData = this.ProdQueryData.paras;
+      Object.keys(ProdQueryData).forEach((v) => {
+        ProdQueryData[v] = "";
+      });
+      ProdQueryData.wareId = getCookie("X-Auth-wareId");
+      let orderQueryData = this.orderQueryData.paras;
+      Object.keys(orderQueryData).forEach((v) => {
+        orderQueryData[v] = "";
+      });
+      orderQueryData.wareId = getCookie("X-Auth-wareId");
       this.pageQueryProdFun();
       this.pageQueryOrderFun();
     },
-    handleSelectionChange(value) {
-      this.multipleSelection = value;
+    prodHandleSelectionChange(value) {
+      this.prodMultipleSelection = value;
+      this.getProdExcelUrl.orderNo = value[0].orderNo;
+      this.getProdExcelUrl.subOrderNo = value[0].subOrderNo;
+      this.getProdExcelUrl.channelId = value[0].channelId;
+      this.getProdExcelUrl.orderSourceId = value[0].orderSourceId;
+    },
+    orderHandleSelectionChange(value) {
+      this.orderMultipleSelection = value;
+      // this.getOrderExcelUrl.orderNo = value[0].orderNo;
+      // this.getOrderExcelUrl.subOrderNo = value[0].subOrderNo;
+      // this.getOrderExcelUrl.orgId = value[0].orgId;
+      // this.getOrderExcelUrl.channelId = value[0].channelId;
+      // this.getOrderExcelUrl.orderSourceId = value[0].orderSourceId;
     },
     prodEduce() {
       //缺货产品导出表格
-      if (!this.multipleSelection.length) return Message("请选择要导出的订单");
-      if (this.multipleSelection.length != 1)
+      if (!this.prodMultipleSelection.length)
+        return Message("请选择要导出的订单");
+      if (this.prodMultipleSelection.length != 1)
         return Message("一次只能选择一个订单");
-      if (this.lotNo === "") return Message("请稍等片刻");
-      let oA = document.querySelector(".setUser");
-      oA.setAttribute("href", this.getExcelUrl + this.lotNo);
+      let oA = document.querySelector(".prodEduce");
+      oA.setAttribute(
+        "href",
+        `${this.getProdExcelUrl.url}?wareId=${this.getProdExcelUrl.wareId}&orderNo=${this.getProdExcelUrl.orderNo}&subOrderNo=${this.getProdExcelUrl.subOrderNo}&channelId=${this.getProdExcelUrl.channelId}&orderSourceId=${this.getProdExcelUrl.channelId}`
+      );
     },
     orderEduce() {
       //缺货订单导出表格
+      if (!this.orderMultipleSelection.length)
+        return Message("请选择要导出的订单");
+      if (this.orderMultipleSelection.length != 1)
+        return Message("一次只能选择一个订单");
+      let oA = document.querySelector(".orderEduce");
+      oA.setAttribute(
+        "href",
+        `${this.getOrderExcelUrl.url}?wareId=${this.getOrderExcelUrl.wareId}&orderNo=${this.getOrderExcelUrl.orderNo}&subOrderNo=${this.getOrderExcelUrl.subOrderNo}&channelId=${this.getOrderExcelUrl.channelId}&orderSourceId=${this.getOrderExcelUrl.channelId}&orgId=${this.getOrderExcelUrl.orgId}`
+      );
     },
     prodGoPurchase() {
       //缺货产品转采购
+      if (!this.prodMultipleSelection.length)
+        return Message("请选择需采购的产品");
+      this.$router.push({
+        path: "/purchasingManagement/purchasingIndex",
+        query: {
+          product: this.prodMultipleSelection,
+          fromPage: "stockoutIndentManage",
+        },
+      });
     },
     orderGoPurchase() {
       //缺货订单转采购
@@ -616,8 +710,8 @@ export default {
         this.$router.push({
           path: "/indentManagement/childOrderDetail",
           query: {
-            subOrderNo: row,
-            type: "subOrderNo",
+            subOrderNos: row,
+            type: "subOrderNos",
           },
         });
       }
@@ -681,7 +775,7 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
 
-#mianPage {
+#stockoutMianPage {
   background: #e6e7ea;
   padding: 16px;
 }
@@ -743,9 +837,9 @@ export default {
     }
   }
   .header-botton {
-    width: 12%;
+    width: 9%;
     position: absolute;
-    right: -30px;
+    right: 10px;
     top: 60px;
     .showBtn {
       width: 50px;
@@ -797,7 +891,7 @@ export default {
   .formHeader {
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #d1d6e2;
+    border-bottom: 1px solid #d2d6e2;
     background: white;
     margin-top: 10px;
     .icon-title {
@@ -829,6 +923,10 @@ export default {
         @include BtnFunction("success");
       }
     }
+  }
+  .formTable {
+    background: white;
+    padding: 20px;
   }
   .formTabs {
     padding: 0 10px;
@@ -883,13 +981,9 @@ export default {
     }
   }
 }
-#mianPage {
+#stockoutMianPage {
   .el-tabs {
     left: 0;
-  }
-  .el-table {
-    background: white;
-    padding: 20px;
   }
   .el-tabs--card > .el-tabs__header {
     border: none;

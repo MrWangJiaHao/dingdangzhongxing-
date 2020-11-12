@@ -97,6 +97,7 @@ export default {
       next((vm) => {
         if (vm.$route.query.type === "orderNo") {
           let data = vm.$route.query.orderNo;
+          // console.log(data)
           vm.subOrderNo = data.subOrderNo;
           vm.id = data.id;
           vm.orderNo = data.orderNo;
@@ -131,7 +132,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.id);
+    // console.log(this.id);
     let sellOrderQuery = {
       id: this.id,
     };

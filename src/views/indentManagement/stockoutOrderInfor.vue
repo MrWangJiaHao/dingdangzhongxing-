@@ -69,7 +69,7 @@ export default {
           let rowres = vm.$route.query.orderNum;
           vm.orgName = rowres.orgName;
           vm.prodName = rowres.prodName;
-          vm.specName = rowres.specName + "ml";
+          vm.specName = rowres.specName;
           vm.allorderNum = rowres.orderNum;
         }
       });
