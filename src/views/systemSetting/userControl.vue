@@ -157,7 +157,6 @@
 </template>
 
 <script>
-import { Message } from "element-ui";
 import { post, delRole, jurisdicRequest } from "../../api/api";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 
@@ -287,7 +286,7 @@ export default {
           });
         });
       } else {
-        Message(datas.msg);
+        this.$messageSelf.message(datas.msg);
       }
     },
     changeData(data) {
@@ -324,7 +323,7 @@ export default {
           });
         });
       } else {
-        Message(datas.msg);
+        this.$messageSelf.message(datas.msg);
       }
     },
     clearInputAll() {
@@ -339,9 +338,10 @@ export default {
     },
     editBtn() {
       //编辑角色
-      if (!this.multipleSelection.length) return Message("请选择要编辑的账号");
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message("请选择要编辑的账号");
       if (this.multipleSelection.length !== 1)
-        return Message({
+        return this.$messageSelf.message({
           message: "每次只能编辑一条账号，请重新选择",
           type: "warning",
         });
@@ -352,9 +352,10 @@ export default {
       this.textareaContent = this.multipleSelection[0].remark;
     },
     goOn() {
-      if (!this.multipleSelection.length) return Message("请选择要查看的账号");
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message("请选择要查看的账号");
       if (this.multipleSelection.length !== 1)
-        return Message({
+        return this.$messageSelf.message({
           message: "每次只能查看一条账号，请重新选择",
           type: "warning",
         });
@@ -363,17 +364,18 @@ export default {
     //点击删除角色
     clearUser() {
       let arr = this._getIDArr();
-      if (!arr.length) return Message("请选择要删除的用户");
-      this.$confirm("确定要删除改用户？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      if (!arr.length) return this.$messageSelf.message("请选择要删除的用户");
+      this.$messageSelf
+        .confirms("确定要删除改用户？", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
         .then(() => {
           this._clearAjax({ id: arr[0] });
         })
         .catch((err) => {
-          Message("已取消删除");
+          this.$messageSelf.message("已取消删除");
           console.log(err);
         });
     },
@@ -390,12 +392,12 @@ export default {
     _clearAjax(data) {
       delRole(data).then((ok) => {
         if (ok.data.code === "10000") {
-          Message({
+          this.$messageSelf.message({
             type: "success",
             message: "删除成功",
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: "删除失败",
           });
@@ -405,7 +407,7 @@ export default {
     //创建角色
     async pupopBox() {
       if (this.inputContent === "") {
-        return Message({
+        return this.$messageSelf.message({
           type: "error",
           message: "角色名称不能为空",
         });
@@ -429,9 +431,9 @@ export default {
         data: pupopBoxInfor,
       });
       if (createRoleData.code === "10000") {
-        Message("创建成功");
+        this.$messageSelf.message("创建成功");
       } else {
-        Message(createRoleData.msg);
+        this.$messageSelf.message(createRoleData.msg);
       }
 
       this.centerDialogVisible = false;

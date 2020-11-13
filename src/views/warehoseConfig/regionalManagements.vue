@@ -288,7 +288,7 @@
 <script>
 /*eslint-disable*/
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { Message } from "element-ui";
+
 import { post, logins } from "../../api/api";
 import { mapState } from "vuex";
 import quyuLooker from "../../components/quyuLooker";
@@ -453,9 +453,9 @@ export default {
     //点击查看库位平面图
     warehousePlan() {
       if (!this.multipleSelection.length)
-        return Message("请选择看那个库位的平面图");
+        return this.$messageSelf.message("请选择看那个库位的平面图");
       if (this.multipleSelection.length !== 1)
-        return Message("只能选择一个库位查看库位图");
+        return this.$messageSelf.message("只能选择一个库位查看库位图");
 
       this.kuwieDatas.quyu.wareAreaLength = this.multipleSelection[0].wareAreaLength;
       this.kuwieDatas.quyu.wareAreaWidth = this.multipleSelection[0].wareAreaWidth;
@@ -482,17 +482,18 @@ export default {
     //点击删除子仓
     clearWarehouseplan() {
       let arr = this._getIDArr();
-      if (!arr.length) return Message("请选择要删除的用户");
-      this.$confirm("确定要删除该区域管理？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      if (!arr.length) return this.$messageSelf.message("请选择要删除的用户");
+      this.$messageSelf
+        .confirms("确定要删除该区域管理？", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
         .then(() => {
           this._clearAjax({ ids: arr });
         })
         .catch((err) => {
-          Message("已取消删除");
+          this.$messageSelf.message("已取消删除");
         });
     },
     //发送删除的ajax
@@ -502,7 +503,7 @@ export default {
         data,
       });
       if (res.code === "10000") {
-        Message({
+        this.$messageSelf.message({
           type: "success",
           message: res.msg,
           duration: 1000,
@@ -511,7 +512,7 @@ export default {
           },
         });
       } else {
-        Message(res.msg);
+        this.$messageSelf.message(res.msg);
       }
     },
     //获取要删除的区域管理
@@ -538,9 +539,9 @@ export default {
     //点击创建按钮
     createSubWarehouse() {
       if (this.multipleSelection.length == 0)
-        return Message("请选择在那个子仓下创建区域");
+        return this.$messageSelf.message("请选择在那个子仓下创建区域");
       if (this.multipleSelection.length > 1)
-        return Message("每次只能在一个子仓下创建区域");
+        return this.$messageSelf.message("每次只能在一个子仓下创建区域");
       this._getChildWidth({
         wareId: getCookie("X-Auth-wareId"),
         id: this.multipleSelection[0].childWareId,
@@ -559,7 +560,8 @@ export default {
         url: "/wbs-warehouse-manage/v1/pWarehouseArea/findRecord",
         data,
       });
-      if (this.zicandaixao.length == 0) return Message("网络较慢，请稍后重试");
+      if (this.zicandaixao.length == 0)
+        return this.$messageSelf.message("网络较慢，请稍后重试");
       console.log(this.zicandaixao, "his.zicandaixao");
       if (datas.code === "10000") {
         localStorage.setItem(
@@ -576,15 +578,15 @@ export default {
           path,
         });
       } else {
-        Message(datas.result);
+        this.$messageSelf.message(datas.result);
       }
     },
     //点击编辑按钮
     async editBtn() {
       if (this.multipleSelection.length == 0)
-        return Message("请选择在哪一个区域下编辑");
+        return this.$messageSelf.message("请选择在哪一个区域下编辑");
       if (this.multipleSelection.length > 1)
-        return Message("每次只能编辑一个区域，请重新选择");
+        return this.$messageSelf.message("每次只能编辑一个区域，请重新选择");
 
       let datas = await this._getChildWidth({
         wareId: getCookie("X-Auth-wareId"),
@@ -616,7 +618,7 @@ export default {
           path,
         });
       } else {
-        Message(datas.msg);
+        this.$messageSelf.message(datas.msg);
       }
     },
     //发送获取列表的消息
@@ -628,7 +630,7 @@ export default {
       if (datas.code === "10000") {
         this.changeData(datas.result);
       } else {
-        Message(datas.msg);
+        this.$messageSelf.message(datas.msg);
       }
     },
     changeData(data) {

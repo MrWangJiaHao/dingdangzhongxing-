@@ -241,7 +241,6 @@
 <script>
 /*eslint-disable */
 import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
-import { Message } from "element-ui";
 import { isMobile } from "../../utils/validate";
 import {
   getFindWareOrg,
@@ -487,7 +486,10 @@ export default {
     blurTakePhone(e) {
       let Moble = isMobile(e.target.value);
       if (!Moble)
-        return Message({ message: "请输入正确的手机号", duration: 1000 });
+        return this.$messageSelf.message({
+          message: "请输入正确的手机号",
+          duration: 1000,
+        });
       else {
         this.sureTakePhone = true;
       }
@@ -505,9 +507,9 @@ export default {
     //copy产品
     copyChanpin() {
       if (this.multipleSelection.length == 0) {
-        return Message("请选择要复制的产品");
+        return this.$messageSelf.message("请选择要复制的产品");
       } else if (this.multipleSelection.length != 1) {
-        return Message("每次只能复制一个产品");
+        return this.$messageSelf.message("每次只能复制一个产品");
       } else {
         let idxs = this.tabledata.indexOf(this.multipleSelection[0]);
         let copyIdxs = this.multipleSelection[0];
@@ -555,7 +557,8 @@ export default {
     },
     //库位点击
     kuweiChanges(e) {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.this.$messageSelf.message("请选择委托公司");
       this.targetRow.maxNum = this.kueirArr[e].maxNum;
       if (this.createUserData.detailList) {
         this.targetRow.currInventory = this.kueirArr[e].currInventory;
@@ -589,7 +592,8 @@ export default {
     },
     //点击了子仓名称
     async getZiCangJsonAndArr() {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.this.$messageSelf.message("请选择委托公司");
       let datas = await getFindOrgChildWare(this.createUserData.orgId);
       this.ziCangJson.ziCangArr = datas.result;
     },
@@ -610,19 +614,24 @@ export default {
     //点击了提交
     goAJAXCreate() {
       this.createUserData.pOutWarehouseDetails = this.multipleSelection;
-      if (!this.createUserData.takeUser) return Message("请输入取货人");
-      if (!this.multipleSelection) return Message("请选择要确认的产品明细");
+      if (!this.createUserData.takeUser)
+        return this.$messageSelf.message("请输入取货人");
+      if (!this.multipleSelection)
+        return this.$messageSelf.message("请选择要确认的产品明细");
       if (!this.createUserData.takePhone)
-        return Message("请输入取货人联系电话");
-      if (!this.sureTakePhone) return Message("请输入正确的手机号码");
-      if (!this.createUserData.outWareUser) return Message("请输入出货人");
-      if (!this.createUserData.outWareTime) return Message("请输入出库时间");
+        return this.$messageSelf.message("请输入取货人联系电话");
+      if (!this.sureTakePhone)
+        return this.$messageSelf.message("请输入正确的手机号码");
+      if (!this.createUserData.outWareUser)
+        return this.$messageSelf.message("请输入出货人");
+      if (!this.createUserData.outWareTime)
+        return this.$messageSelf.message("请输入出库时间");
       this._getpOutWarehouseconfirmRecord(this.createUserData).then((res) => {
         if (res.code == "10000") {
-          Message(res.msg);
+          this.$messageSelf.message(res.msg);
           this.closeBtn();
         } else {
-          Message(res.msg);
+          this.$messageSelf.message(res.msg);
         }
       });
     },

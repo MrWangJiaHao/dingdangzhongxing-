@@ -108,7 +108,6 @@
 </template>
 <script>
 import { add_edit_WH_Request } from "../../api/api";
-import { Message } from "element-ui";
 export default {
   data() {
     return {
@@ -339,10 +338,9 @@ export default {
         this.value3 = childWarehouseList[i].childWareCode.substring(1); //子仓编号数字
         this.editId = childWarehouseList[i].id; //选中子仓的id
         this.divChecked = true;
-        v.style.background = "#367fff"
-        v.style.border = "1px solid #0555c2"
-        v.style.color = "white"
-       
+        v.style.background = "#367fff";
+        v.style.border = "1px solid #0555c2";
+        v.style.color = "white";
       };
     });
     // $(".childViewDiv").each((v, i) => {
@@ -379,7 +377,7 @@ export default {
     },
     submitData() {
       if (this.divChecked === false) {
-        Message({
+        this.$messageSelf.message({
           type: "error",
           message: "请先选中一个子仓",
         });
@@ -399,13 +397,13 @@ export default {
         add_edit_WH_Request(data).then((ok) => {
           console.log(ok);
           if (ok.data.code === "10000") {
-            Message({
+            this.$messageSelf.message({
               type: "success",
               message: "修改成功",
             });
             this.$router.push("/warehoseconfig/childWarehouseAdmin");
           } else {
-            Message({
+            this.$messageSelf.message({
               type: "error",
               message: ok.data.msg,
             });

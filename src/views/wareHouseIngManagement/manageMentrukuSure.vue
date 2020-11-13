@@ -263,7 +263,7 @@ import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
 import dropDownUserType from "../../components/commin/dropDownUserType"; //用户管理下拉框
 import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
 import { mapState } from "vuex";
-import { Message } from "element-ui";
+
 import { isMobile, isEmail } from "../../utils/validate";
 import {
   post,
@@ -442,9 +442,9 @@ export default {
     //copy产品
     copyChanpin() {
       if (this.multipleSelection.length == 0) {
-        return Message("请选择要复制的产品");
+        return this.$messageSelf.message("请选择要复制的产品");
       } else if (this.multipleSelection.length != 1) {
-        return Message("每次只能复制一个产品");
+        return this.$messageSelf.message("每次只能复制一个产品");
       } else {
         let idxs = this.tabledata.indexOf(this.multipleSelection[0]);
         let copyIdxs = this.multipleSelection[0];
@@ -526,7 +526,8 @@ export default {
     },
     //点击了子仓名称
     async getZiCangJsonAndArr() {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.message("请选择委托公司");
       let datas = await getFindOrgChildWare(this.createUserData.orgId);
       this.ziCangJson.ziCangArr = datas.result;
     },
@@ -547,18 +548,20 @@ export default {
     //点击了提交
     goAJAXCreate() {
       this.createUserData.detailList = this.multipleSelection;
-      if (!this.createUserData.putUser) return Message("请输入入库人");
+      if (!this.createUserData.putUser)
+        return this.$messageSelf.message("请输入入库人");
       if (!this.createUserData.expectedSendTime)
-        return Message("请输入入库时间");
-      if (!this.createUserData.batchNo) return Message("请输入批次号");
+        return this.$messageSelf.message("请输入入库时间");
+      if (!this.createUserData.batchNo)
+        return this.$messageSelf.message("请输入批次号");
       this._getSaveRecord(this.createUserData).then((res) => {
         if (res.code == "10000") {
           this.$parent.getTableData();
           sessionStorage.removeItem("manageMentrukuSureData");
-          Message(res.msg);
+          this.$messageSelf.message(res.msg);
           this.closeBtn();
         } else {
-          Message(res.msg);
+          this.$messageSelf.message(res.msg);
         }
       });
     },
@@ -571,10 +574,6 @@ export default {
       //获取创建的用户类型
       this.createUserData.codeValue = e.codeValue;
       this.createUserData.roleId = e.roleId;
-    },
-    async _getChanping() {
-      let datas = await getfindOrgProductPage(this.createUserData);
-      console.log(datas);
     },
   },
 };

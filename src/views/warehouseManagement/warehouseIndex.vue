@@ -210,7 +210,6 @@ import {
   getpOutWarehouseDelRecord,
   getpOutWarehouseExprotExcel,
 } from "../../api/api";
-import { Message } from "element-ui";
 import { _getExportExcels } from "../../utils/validate";
 export default {
   components: {
@@ -352,9 +351,9 @@ export default {
     //出库确认
     warehousingConfirmation() {
       if (!this.multipleSelection.length) {
-        return Message("请选择出库确认的单号");
+        return this.$messageSelf.message("请选择出库确认的单号");
       } else if (this.multipleSelection.length > 1) {
-        return Message("只能选择一个出库单号");
+        return this.$messageSelf.message("只能选择一个出库单号");
       } else {
         this._getpOutWarehousefindOutWareDetailById(
           this.multipleSelection[0].id
@@ -367,7 +366,7 @@ export default {
             this.isWarehouseSure = true;
             this.isWarehouseSureDetails = false;
           } else {
-            Message("获取出库确认失败，请与管理员联系");
+            this.$messageSelf.message("获取出库确认失败，请与管理员联系");
           }
         });
       }
@@ -375,9 +374,9 @@ export default {
     //打印出库单:
     printstockinlist() {
       if (!this.multipleSelection.length) {
-        return Message("请选择要打印的出库单");
+        return this.$messageSelf.message("请选择要打印的出库单");
       } else if (this.multipleSelection.length > 1) {
-        return Message("只能选择打印一个出库单");
+        return this.$messageSelf.message("只能选择打印一个出库单");
       } else {
         this.WarehouseReceiptIds = this.multipleSelection[0].id;
         this._getpOutWarehousefindOutWareDetailById(
@@ -387,7 +386,7 @@ export default {
               sessionStorage.setItem("listArrs", JSON.stringify(datas.result));
               this.WarehouseReceipts = !this.WarehouseReceipts;
             } else {
-              Message(datas.msg);
+              this.$messageSelf.message(datas.msg);
             }
           }
         );
@@ -408,7 +407,9 @@ export default {
     //编辑
     editBtn() {
       if (!this.multipleSelection.length || this.multipleSelection.length != 1)
-        return Message("请选择要编辑的出库单，只能选择一个编辑出库单");
+        return this.$messageSelf.message(
+          "请选择要编辑的出库单，只能选择一个编辑出库单"
+        );
       sessionStorage.setItem(
         "warehouseEdit",
         JSON.stringify(this.multipleSelection[0])
@@ -419,27 +420,30 @@ export default {
     //删除
     clearBtn() {
       if (!this.multipleSelection.length || this.multipleSelection.length != 1)
-        return Message("请选择要删除的出库单，只能选择一个删除出库单");
+        return this.$messageSelf.message(
+          "请选择要删除的出库单，只能选择一个删除出库单"
+        );
       // getpOutWarehouseDelRecord
-      this.$confirm("确定要删除该出库单号？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      this.$messageSelf
+        .confirms("确定要删除该出库单号？", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
         .then(() => {
           getpOutWarehouseDelRecord({ id: this.multipleSelection[0].id }).then(
             (res) => {
               if (res.data.code == "10000") {
-                Message(res.data.msg);
+                this.$messageSelf.message(res.data.msg);
                 this.getTableData();
               } else {
-                Message(res.data.msg);
+                this.$messageSelf.message(res.data.msg);
               }
             }
           );
         })
         .catch(() => {
-          Message("已经取消删除");
+          this.$messageSelf.message("已经取消删除");
         });
     },
     //表格发生了变化以及点击了查询按钮
@@ -454,7 +458,7 @@ export default {
       if (datas.code == "10000") {
         this.changeDatas(datas.result);
       } else {
-        Message(datas.msg);
+        this.$messageSelf.message(datas.msg);
       }
       fn && fn();
       return datas;

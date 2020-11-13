@@ -228,7 +228,6 @@
 </template>
 
 <script>
-import { Message } from "element-ui";
 import { post } from "../../api/api";
 import { getConversionPx } from "../../utils/validate";
 export default {
@@ -308,7 +307,7 @@ export default {
     //是否跳入编辑页
     ISEditQuYu(item, idx) {
       this.activeNum = idx;
-      this.$confirm(`确定修改${this.wareName}的仓库配置`, "提示", {
+       this.$messageSelf.confirms(`确定修改${this.wareName}的仓库配置`, "提示", {
         type: "info",
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -329,8 +328,7 @@ export default {
           });
         })
         .catch(() => {
-          console.log("嗯咯取消");
-          this.$message({
+          this.$messageSelf.message({
             type: "info",
             message: "已取消修改",
           });
@@ -377,10 +375,10 @@ export default {
         data: createWarehouseJson,
       });
       if (datas.code === "10000") {
-        Message(datas.msg);
+        this.$messageSelf.message(datas.msg);
         return this.$router.go(-1);
       } else {
-        Message({ message: datas.msg, type: "error" });
+        this.$messageSelf.message({ message: datas.msg, type: "error" });
       }
     },
   },
