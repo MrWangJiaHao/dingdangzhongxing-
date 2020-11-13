@@ -43,7 +43,6 @@
                 v-model="nameValue"
                 placeholder="请选择子仓名称"
                 @change="nameValues"
-                @visible-change="chooseItem"
               >
                 <el-option
                   v-for="item in childWarehouseName"
@@ -257,12 +256,18 @@ export default {
       ],
       pickAreaData: [],
       pickShelfData: [],
-      pickTierfData: [],
-
+      pickTierfData: [
+        { value: 1, label: 1 },
+        { value: 2, label: 2 },
+        { value: 3, label: 3 },
+        { value: 4, label: 4 },
+      ],
       multipleSelection: [],
       pageComponentsData: {
-        //这是分页器需要的json
-        pageNums: 0, //一共多少条 //默认一页10条
+        pageNums: 0,
+      },
+      pageComponentsData1: {
+        pageNums: 0,
       },
       childStoreData: [],
       pagingQueryData: {
@@ -339,6 +344,8 @@ export default {
   },
   methods: {
     fenyeQuery() {
+      this.storeTableData = [];
+      this.pickTableData = [];
       let queryData = {
         orderBy: "createTime",
         pageNumber: 1,
@@ -352,7 +359,7 @@ export default {
         },
       };
       storeMapRelation(queryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           let res = ok.data.result.list;
           res.forEach((v) => {
@@ -367,11 +374,31 @@ export default {
               this.pickTableData.forEach((v) => {
                 v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
                 v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
+                this.pickAreaData.push({
+                  value: v.wareAreaId,
+                  label: v.wareAreaName,
+                });
+                this.pickAreaData = this.reduceFun(this.pickAreaData);
+                this.pickShelfData.push({
+                  value: v.wareSeatId,
+                  label: v.wareSeatName,
+                });
+                this.pickShelfData = this.reduceFun(this.pickShelfData);
               });
             }
           });
         }
       });
+    },
+    reduceFun(arr) {
+      let testObj = {};
+      let res = arr.reduce((item, next) => {
+        testObj[next.value]
+          ? ""
+          : (testObj[next.value] = true && item.push(next));
+        return item;
+      }, []);
+      return res;
     },
     delegaCompanyValues(value) {
       this.orgId = value;
@@ -416,11 +443,6 @@ export default {
       });
     },
 
-    chooseItem(event) {
-      if (event) {
-        this.placeAreaData = [];
-      }
-    },
     placeShelfValues(value) {
       this.placeShelfValue = value;
     },
@@ -455,19 +477,18 @@ export default {
       storeMapRelation(queryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
-          let resData = ok.data.result.list;
-          this.storeTableData = ok.data.result.list;
-          this.storeTableData.forEach((v) => {
-            v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
-            v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
-            v.specName = v.specName + "ml";
+          let res = ok.data.result.list;
+          res.forEach((v) => {
+            if (v.seatType === 1) {
+              this.storeTableData.push(v);
+              v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
+              v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
+            } else if (v.seatType === 2) {
+              this.pickTableData.push(v);
+              v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
+              v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
+            }
           });
-          if (resData.length === 0) {
-            Message({
-              type: "error",
-              message: "查询失败",
-            });
-          }
         } else {
           Message({
             type: "error",
@@ -489,6 +510,7 @@ export default {
       this.pickShelfValue = "";
       this.pickTierValue = "";
       this.pickSL = "";
+      this.fenyeQuery();
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
