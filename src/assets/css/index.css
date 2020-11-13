@@ -188,6 +188,10 @@ textarea {
   font-weight: normal;
   color: #454545;
 }
+#bjTableWraper .el-table__body-wrapper.is-scrolling-left{
+  max-height:200px;
+  overflow: auto;
+}
 .displayBlock{
   display: block;
 }

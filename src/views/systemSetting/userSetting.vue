@@ -335,7 +335,7 @@ export default {
       let arr = this._getIDArr();
       if (!arr.length) return Message("请选择要删除的用户");
       if (arr.length !== 1) return Message("一次只能删除一个用户");
-      this.$confirm("确定要删除改用户？", "提示", {
+      this.$confirm("确定要删除该用户？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",

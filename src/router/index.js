@@ -286,6 +286,7 @@ const routes = [{
     }
   },
   // =================发货规则配置 end =============
+
   //----------------------------------------------------------订单管理开始-------------------------------------------------------------------------------------
   {
     // 订单管理=>无物流单号管理
@@ -355,8 +356,59 @@ const routes = [{
     name: "/indentManagement/childOrderDetail",
     component: () => import("../views/indentManagement/childOrderDetail"),
   },
-    //----------------------------------------------------------订单管理结束-------------------------------------------------------------------------------------
-
+  //----------------------------------------------------------订单管理结束-------------------------------------------------------------------------------------
+  //----------------------------------------------------------发货管理 start-------------------------------------------------------------------------------------
+  {
+    // 发货管理=>正常发货
+    path: "/deliveryManagement/abnormalDelibery",
+    name: "/deliveryManagement/abnormalDelibery",
+    component: () => import("../views/deliveryManagement/abnormalDelibery"),
+    meta: {
+      Breadcrumb: "发货异常管理",
+      title: "发货异常管理"
+    }
+  },
+  {
+    // 发货管理=>发货单打印
+    path: "/deliveryManagement/delivetyNotePrint",
+    name: "/deliveryManagement/delivetyNotePrint",
+    component: () => import("../views/deliveryManagement/delivetyNotePrint"),
+    meta: {
+      Breadcrumb: "发货单打印",
+      title: "发货单打印"
+    }
+  },
+  {
+    // 发货管理=>发货单打印
+    path: "/deliveryManagement/normalDelivery",
+    name: "/deliveryManagement/normalDelivery",
+    component: () => import("../views/deliveryManagement/normalDelivery"),
+    meta: {
+      Breadcrumb: "正常发货",
+      title: "正常发货"
+    }
+  },
+  {
+    // 发货管理=>发货单打印
+    path: "/deliveryManagement/pickingList",
+    name: "/deliveryManagement/pickingList",
+    component: () => import("../views/deliveryManagement/pickingList"),
+    meta: {
+      Breadcrumb: "拣货单管理",
+      title: "拣货单管理"
+    }
+  },
+  {
+    // 发货管理=>发货单打印
+    path: "/deliveryManagement/quetyNormal",
+    name: "/deliveryManagement/quetyNormal",
+    component: () => import("../views/deliveryManagement/quetyNormal"),
+    meta: {
+      Breadcrumb: "快速发货",
+      title: "快速发货"
+    }
+  },
+    //----------------------------------------------------------发货管理 end-------------------------------------------------------------------------------------
   ]
 },
 {
@@ -387,7 +439,6 @@ const routes = [{
   name: 'systemSetting/setAuthority',
   component: () => import("../views/systemSetting/setAuthority.vue")
 },
-
 {
   path: "/footerDemo",
   name: 'footerDemo',
@@ -422,6 +473,7 @@ const routes = [{
   }
 },
 //===========================采购管理 end===============
+
 {
   path: "/systemSetting/editUserIng",
   name: 'systemSetting/editUserIng',

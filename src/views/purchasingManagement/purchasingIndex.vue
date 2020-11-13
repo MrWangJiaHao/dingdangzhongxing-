@@ -36,7 +36,6 @@
                     border
                     :data="detailsData"
                     tooltip-effect="dark"
-                    style="width: 100%"
                     :load="changeDetail(scope.row, scope.$index)"
                     default-expand-all
                     :tree-props="{
@@ -436,18 +435,28 @@ export default {
     clearBtn() {
       if (!this.multipleSelection.length)
         return Message("请选择要删除的采购单");
-      pPurchaseOrderDeleteBatch(
-        _getArrTarget(this.multipleSelection, "purcNo"),
-        (res) => {
-          console.log(res);
-          if (res.code == "10000") {
-            Message("删除成功");
-            this.getTableData();
-          } else {
-            return Message(res.msg);
-          }
-        }
-      );
+      this.$confirm("确定要删除该条采购管理？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          pPurchaseOrderDeleteBatch(
+            _getArrTarget(this.multipleSelection, "purcNo"),
+            (res) => {
+              res = JSON.parse(res);
+              if (res.code == "10000") {
+                Message("删除成功");
+                this.getTableData();
+              } else {
+                return Message(res.msg);
+              }
+            }
+          );
+        })
+        .catch(() => {
+          Message("已取消删除");
+        });
     },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {

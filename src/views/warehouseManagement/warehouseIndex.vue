@@ -421,16 +421,26 @@ export default {
       if (!this.multipleSelection.length || this.multipleSelection.length != 1)
         return Message("请选择要删除的出库单，只能选择一个删除出库单");
       // getpOutWarehouseDelRecord
-      getpOutWarehouseDelRecord({ id: this.multipleSelection[0].id }).then(
-        (res) => {
-          if (res.data.code == "10000") {
-            Message(res.data.msg);
-            this.getTableData();
-          } else {
-            Message(res.data.msg);
-          }
-        }
-      );
+      this.$confirm("确定要删除该出库单号？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          getpOutWarehouseDelRecord({ id: this.multipleSelection[0].id }).then(
+            (res) => {
+              if (res.data.code == "10000") {
+                Message(res.data.msg);
+                this.getTableData();
+              } else {
+                Message(res.data.msg);
+              }
+            }
+          );
+        })
+        .catch(() => {
+          Message("已经取消删除");
+        });
     },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {

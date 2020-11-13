@@ -31,6 +31,7 @@
                 <el-input
                   v-model="sendDataJson.ruleName"
                   :placeholder="items.placeholder"
+                  :disabled="lookerRecord ? true : false"
                   :maxlength="items.maxlength"
                 >
                 </el-input>
@@ -57,6 +58,7 @@
                     </el-checkbox>
                   </el-checkbox-group>
                 </div>
+                <!-- 规则使用者 -->
               </div>
             </div>
             <div v-if="item.ruleUsers[0].titleName">
@@ -75,6 +77,7 @@
                   </el-checkbox>
                 </el-checkbox-group>
               </div>
+              <!-- 订单来源 -->
             </div>
             <div v-if="item.ruleUsers[0].jijiguizheCenter">
               <div class="mt20 mb20 ml11">
@@ -93,6 +96,7 @@
                 </el-checkbox-group>
               </div>
             </div>
+            <!-- 订单集计规则 -->
           </div>
           <div v-if="item.placeholder" class="displayalign mb20">
             <div class="noneIconTitle mr20">
@@ -102,13 +106,15 @@
             <div v-if="item.placeholder">
               <el-input
                 v-model="sendDataJson.orderNum"
-                :placeholder="item.placeholder + '1'"
+                :placeholder="item.placeholder"
                 :maxlength="item.maxlength"
+                :disabled="lookerRecord ? true : false"
                 type="number"
                 @input="orderNumChange(item.maxlength)"
               >
               </el-input>
             </div>
+            <!-- 订单数量 -->
           </div>
         </div>
       </div>
@@ -230,24 +236,45 @@ export default {
     };
   },
   props: {
+    //来编辑
     editSavaRecord: {
       type: Boolean,
       default: false,
     },
+    //来查看
     lookerRecord: {
       type: Boolean,
       default: false,
     },
+    editAndLookdata: {
+      type: Object,
+      default: () => {},
+    },
   },
   mounted() {
-    let input = document.getElementById("input");
-    input.oninput = (e) => {
-      let res = e.target.value.substring(0, this.prodNumIndex);
-      e.target.value = res;
-      this.sendDataJson.prodNum = res;
-    };
+    this.$nextTick(() => {
+      let inputs = document.getElementById("input");
+      inputs.addEventListener(
+        "input",
+        (e) => {
+          let res = e.target.value.substring(0, this.prodNumIndex);
+          e.target.value = res;
+          console.log(e.target.value.substring(0, this.prodNumIndex));
+          this.sendDataJson.prodNum = res;
+        },
+        false
+      );
+      this.$forceUpdate();
+    });
+  },
+  created() {
+    this._changeCreateJson();
   },
   methods: {
+    //改变传送过来的数据
+    _changeCreateJson() {
+      console.log(this.editAndLookdata);
+    },
     orderNumChange(idx) {
       this.sendDataJson.orderNum = this.sendDataJson.orderNum.substring(0, idx);
     },
@@ -255,7 +282,13 @@ export default {
       let src = e.indexOf("&nbsp;");
       e = e.replace(
         /&nbsp;/g,
-        '<input id="input" maxlength="2" type="number" placeholder="请输入订单数量" />'
+        `<input id="input" ${
+          this.lookerRecord ? "disabled" : ""
+        } maxlength="2" class="el-input__inner ${
+          this.lookerRecord ? "is-disabled" : ""
+        }" type="number" value='${
+          this.sendDataJson.prodNum
+        }' placeholder="请输入订单数量" />`
       );
       return e;
     },
@@ -301,7 +334,6 @@ export default {
       if (!prodNum) return Message("请输入订单数量");
       pWarehouseRuleSaveRecord(this.sendDataJson)
         .then((res) => {
-          console.log(res);
           if (res.code == "10000") {
             Message({
               message: res.msg,
@@ -318,11 +350,17 @@ export default {
   },
 };
 </script>
-<style >
-input {
-  border: 1px solid #000;
+<style>
+#input {
   height: 30px;
-  width: 80px;
+  width: 130px;
+  margin: 0 5px;
+}
+.is-disabled {
+  background-color: #F5F7FA;
+  border-color: #E4E7ED;
+  color: #C0C4CC;
+  cursor: not-allowed;
 }
 </style>
 <style lang='scss' scoped>
