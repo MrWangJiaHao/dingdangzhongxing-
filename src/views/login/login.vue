@@ -130,10 +130,7 @@ export default {
                 this.$cookie.delete("X-Auth-user");
               }, 14400000);
             } else {
-              this.$messageSelf.confirms({
-                type: "error",
-                message: "账号或者密码有误",
-              });
+              this.$messageSelf.confirms("账号或者密码有误");
             }
           });
         }
