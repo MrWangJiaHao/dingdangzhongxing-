@@ -65,6 +65,14 @@ a {
 #app {
   height: 100%;
 }
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
 /*隐藏滚动条 
 ::-webkit-scrollbar {
   width: 0 !important;

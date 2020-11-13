@@ -182,14 +182,14 @@
     </div>
     <div class="formBox">
       <div class="formTabs">
-        <el-tabs type="card" @tab-click="pickStoreQuery">
+        <el-tabs type="card">
           <el-tab-pane label="存储区库位">
             <MapForms
               :storageArea="storageArea1"
               :storageShelf="storageShelf1"
               :storageTier="storageTier1"
               :wareSeatCode="storageUnit1"
-              :tableData="tableData"
+              :tableData="storeTableData"
             ></MapForms>
           </el-tab-pane>
           <el-tab-pane label="拣货区库位">
@@ -198,7 +198,7 @@
               :storageShelf="storageShelf2"
               :storageTier="storageTier2"
               :wareSeatCode="storageUnit2"
-              :tableData="tableData1"
+              :tableData="pickTableData"
             ></MapForms>
           </el-tab-pane>
         </el-tabs>
@@ -217,13 +217,13 @@ import {
 } from "../../api/api";
 import MapForms from "../../components/mapForms";
 import { Message } from "element-ui";
-import {getCookie} from "../../utils/validate"
+import { getCookie } from "../../utils/validate";
 export default {
   components: { MapForms },
   data() {
     return {
-      tableData: [],
-      tableData1: [],
+      storeTableData: [],
+      pickTableData: [],
       storageArea1: "存储区",
       storageShelf1: "存储货架",
       storageTier1: "存储层",
@@ -289,11 +289,12 @@ export default {
         wareAreaId: "",
       },
       shelfResList: [],
+      orgId: "",
     };
   },
   mounted() {
     //查询库位映射关系
-    this.clickQuery();
+    this.fenyeQuery();
     //查询子仓名称的请求
     let queryData = this.pagingQueryData;
     query_WH_Request(queryData).then((ok) => {
@@ -329,7 +330,7 @@ export default {
         let res = ok.result;
         res.forEach((v) => {
           this.delegaCompanyData.push({
-            value: v.orgName,
+            value: v.orgId,
             label: v.orgName,
           });
         });
@@ -337,8 +338,43 @@ export default {
     });
   },
   methods: {
+    fenyeQuery() {
+      let queryData = {
+        orderBy: "createTime",
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          orgId: "", //委托公司id
+          prodName: "", //产品名称
+          prodCode: "", //产品编码
+          childWareId: "", //子仓id
+          wareAreaId: "", //区域id
+        },
+      };
+      storeMapRelation(queryData).then((ok) => {
+        console.log(ok);
+        if (ok.data.code === "10000") {
+          let res = ok.data.result.list;
+          res.forEach((v) => {
+            if (v.seatType === 1) {
+              this.storeTableData.push(v);
+              this.storeTableData.forEach((v) => {
+                v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
+                v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
+              });
+            } else if (v.seatType === 2) {
+              this.pickTableData.push(v);
+              this.pickTableData.forEach((v) => {
+                v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
+                v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
+              });
+            }
+          });
+        }
+      });
+    },
     delegaCompanyValues(value) {
-      this.delegaCompanyValue = value;
+      this.orgId = value;
     },
     nameValues(value) {
       this.nameValue = value;
@@ -347,7 +383,6 @@ export default {
           this.pagingQueryData.paras.childWareId = v.id;
         }
       });
-
       this.CSandareaData.forEach((v) => {
         if (value === v.childWareName) {
           this.placeAreaData.push({
@@ -385,9 +420,6 @@ export default {
       if (event) {
         this.placeAreaData = [];
       }
-      // if(event === false){
-      //   console.log(this.SLInforData)
-      // }
     },
     placeShelfValues(value) {
       this.placeShelfValue = value;
@@ -406,13 +438,14 @@ export default {
     },
     clickQuery() {
       //点击查询
-      this.tableData = [];
+      this.storeTableData = [];
+      this.pickTableData = [];
       let queryData = {
-        orderBy:"createTime",
+        orderBy: "createTime",
         pageNumber: 1,
         pageSize: 10,
         paras: {
-          orgId: "", //委托公司id
+          orgId: this.orgId, //委托公司id
           prodName: this.productName, //产品名称
           prodCode: this.productCode, //产品编码
           childWareId: this.pagingQueryData.paras.childWareId, //子仓id
@@ -423,8 +456,8 @@ export default {
         // console.log(ok);
         if (ok.data.code === "10000") {
           let resData = ok.data.result.list;
-          this.tableData = ok.data.result.list;
-          this.tableData.forEach((v) => {
+          this.storeTableData = ok.data.result.list;
+          this.storeTableData.forEach((v) => {
             v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
             v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
             v.specName = v.specName + "ml";
@@ -442,11 +475,6 @@ export default {
           });
         }
       });
-    },
-    pickStoreQuery(a) {
-      if (a.label === "拣货区库位") {
-        console.log(123);
-      }
     },
     clearInput() {
       //点击清空

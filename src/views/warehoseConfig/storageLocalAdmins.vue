@@ -181,6 +181,9 @@
             align="center"
           ></el-table-column>
         </el-table>
+        <transition>
+          <Loading v-if="isLoading"></Loading>
+        </transition>
       </div>
       <div class="pageComponent">
         <pagecomponent
@@ -221,6 +224,7 @@
 </template>
 
 <script>
+import Loading from "@/components/loading/loading";
 import {
   querySLInfor,
   query_WH_Request,
@@ -233,9 +237,11 @@ import pagecomponent from "../../components/commin/pageComponent";
 export default {
   components: {
     pagecomponent,
+    Loading,
   },
   data() {
     return {
+      isLoading: true,
       showTizoxinma: false,
       tiaoxinmaSrc:
         "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=",
@@ -334,9 +340,13 @@ export default {
     this.updateData = () => {
       let queryData = this.pagingQueryData;
       querySLInfor(queryData).then((ok) => {
-        console.log(ok);
-        this.changeData(ok.data.result);
+        // console.log(ok);
+
         this.tableData = ok.data.result.list;
+        this.changeData(ok.data.result);
+        if (this.tableData.length > 0) {
+          this.isLoading = false;
+        }
         this.tableData.forEach((v) => {
           v.wareAreaType = v.wareAreaType === 1 ? "存储区" : "拣货区";
           v.areaNumber = v.wareSeatCode.split("-")[1];

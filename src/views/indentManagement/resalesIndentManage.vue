@@ -649,7 +649,7 @@ export default {
         }
       });
       findBackOrderPage(QueryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.unStoreOutData = ok.data.result.list;
         } else {
