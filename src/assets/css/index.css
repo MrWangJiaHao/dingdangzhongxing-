@@ -195,6 +195,20 @@ textarea {
 .displayBlock{
   display: block;
 }
+.el-message__closeBtn {
+  top: 0;
+  transform: translate(-50%,80%);
+
+}
+.el-message__closeBtn::before {
+  content:"";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: url(../../assets/img/close.png) center center;
+  background-size: cover;
+}
+
 .bjBox{
   background: rgba(0, 0, 0, 0.4)!important;
   padding: 0 10px;

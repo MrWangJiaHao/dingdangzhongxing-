@@ -381,7 +381,7 @@ const routes = [{
   {
     // 发货管理=>发货单打印
     path: "/deliveryManagement/normalDelivery",
-    name: "/deliveryManagement/normalDelivery",
+    name: "deliveryManagement/normalDelivery",
     component: () => import("../views/deliveryManagement/normalDelivery"),
     meta: {
       Breadcrumb: "正常发货",
@@ -391,7 +391,7 @@ const routes = [{
   {
     // 发货管理=>发货单打印
     path: "/deliveryManagement/pickingList",
-    name: "/deliveryManagement/pickingList",
+    name: "deliveryManagement/pickingList",
     component: () => import("../views/deliveryManagement/pickingList"),
     meta: {
       Breadcrumb: "拣货单管理",
@@ -401,7 +401,7 @@ const routes = [{
   {
     // 发货管理=>发货单打印
     path: "/deliveryManagement/quetyNormal",
-    name: "/deliveryManagement/quetyNormal",
+    name: "deliveryManagement/quetyNormal",
     component: () => import("../views/deliveryManagement/quetyNormal"),
     meta: {
       Breadcrumb: "快速发货",

@@ -1,10 +1,295 @@
 <template>
-  <div>正常发货</div>
+  <div>
+    <div class="manualBox">
+      <div>
+        <manualHeader @getParasJson="getParasJson" :tableData="tableData" />
+      </div>
+      <div class="btnArr">
+        <div style="background-color: #fff">
+          <div class="meiyiyetitle">正常发货</div>
+          <div class="btnClick">
+            <div class="setUser" @click="warehousingConfirmation">集计</div>
+          </div>
+        </div>
+        <!-- but按钮 -->
+      </div>
+      <div class="tableBox">
+        <div style="background-color: #fff; padding: 20px 20px 0 20px">
+          <div class="center">
+            <el-table
+              ref="multipleTable"
+              :data="tableData"
+              :stripe="true"
+              :border="true"
+              tooltip-effect="dark"
+              style="width: 100%"
+              @selection-change="handleSelectionChange"
+            >
+              <el-table-column type="selection" width="82"></el-table-column>
+              <el-table-column
+                label="序号"
+                type="index"
+                width="71"
+                show-overflow-tooltip
+              />
+              <el-table-column
+                label="委托公司"
+                width="119"
+                prop="orgName"
+                show-overflow-tooltip
+              />
+              <el-table-column
+                width="119"
+                label="渠道"
+                prop="channelName"
+                show-overflow-tooltip
+              ></el-table-column>
+              <el-table-column
+                width="119"
+                label="订单来源"
+                prop="orderSourceName"
+                show-overflow-tooltip
+              ></el-table-column>
+              <el-table-column
+                label="订单号"
+                prop="channelOrderNo"
+                show-overflow-tooltip
+              >
+                <span slot-scope="scoped">
+                  <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
+                    {{ scoped.row.channelOrderNo }}
+                  </div>
+                </span></el-table-column
+              >
+              <el-table-column
+                label="子订单号"
+                prop="subOrderNo"
+                show-overflow-tooltip
+              >
+                <span slot-scope="scoped">
+                  <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
+                    {{ scoped.row.subOrderNo }}
+                  </div>
+                </span></el-table-column
+              >
+              <el-table-column
+                width="119"
+                label="物流公司"
+                prop="exprName"
+                show-overflow-tooltip
+              ></el-table-column>
+              <el-table-column
+                label="物流单号"
+                width="110"
+                prop="exprNo"
+              ></el-table-column>
+              <el-table-column
+                label="推荐用箱"
+                width="160"
+                prop="commendBox"
+              ></el-table-column>
+              <el-table-column
+                label="下发时间"
+                width="250"
+                prop="pushStartTime"
+                show-overflow-tooltip
+              ></el-table-column>
+              <el-table-column
+                label="支付时间"
+                prop="payTime"
+                width="250"
+                show-overflow-tooltip
+              ></el-table-column>
+            </el-table>
+          </div>
+          <!-- 表格主体 -->
+          <div class="pageComponent">
+            <pagecomponent
+              :pageComponentsData="pageComponentsData"
+              @getPageNum="getPageNum"
+              @sureSuccssBtn="sureSuccssBtn"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- table-biaoge -->
+    </div>
+  </div>
 </template>
 
 <script>
-export default {};
+/*eslint-disable */
+import manualHeader from "../../components/deliveryManagement/deliveryManagementhHeader";
+import pagecomponent from "../../components/commin/pageComponent"; //分页器
+import {
+  getpOutWarehousefindOutWareDetailById,
+  getPOutWarehouse,
+  getpOutWarehouseDelRecord,
+  getpOutWarehouseExprotExcel,
+} from "../../api/api";
+import { _getExportExcels } from "../../utils/validate";
+export default {
+  components: {
+    manualHeader,
+    pagecomponent,
+  },
+  data() {
+    return {
+      WarehouseReceiptIds: "",
+      Receipt: false,
+      ReceiptIds: "",
+      BatchNumber: false,
+      BatchNumberIds: "",
+      tableData: [],
+      pageComponentsData: {
+        pageNums: 0, //一共多少条 //默认一页10条
+      },
+      sendOutDataJson: {
+        paras: {
+          orgName: "",
+          orgId: "",
+          orderNo: "",
+          outWareType: (() => this.$route.params.type)(),
+          prodId: "",
+          specId: "",
+          childWareId: "",
+          childWareName: "",
+          specName: "",
+          outWareTimeStart: "",
+          pickTimeStart: "",
+          checkTimeStart: "",
+          outWareTimeEnd: "",
+          pickTimeEnd: "",
+          checkTimeEnd: "",
+        },
+        pageNumber: 1, //当前页数
+        pageSize: 10, //每页记录数
+      },
+      multipleSelection: [], //选择了那个
+      listArrs: {},
+    };
+  },
+  created() {
+    this.noraisingFn();
+    this.getTableData();
+  },
+
+  methods: {
+    goToDetailOut(e) {
+      sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
+    },
+    getPageNum(e) {
+      this.sendOutDataJson.pageNumber = e;
+      this.getTableData();
+    },
+    sureSuccssBtn(e) {
+      this.sendOutDataJson.pageNumber = e;
+      this.getTableData();
+    },
+    handleSelectionChange(e) {
+      this.multipleSelection = e;
+    },
+    //集计
+    warehousingConfirmation() {
+      this.$messageSelf.confirms("此操作将永久删除该文件, 是否继续?", "提示", {
+        showClose: true,
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      });
+    },
+    //表格发生了变化以及点击了查询按钮
+    getParasJson(data) {
+      console.log(data);
+      this.sendOutDataJson.paras = { ...data };
+      this.getTableData();
+    },
+    //获取table表格内容
+    async getTableData(fn) {
+      let datas = await getPOutWarehouse(this.sendOutDataJson);
+      if (datas.code == "10000") {
+        this._changeDatas(datas.result);
+      } else {
+        this.$messageSelf.confirms(datas.msg);
+      }
+      fn && fn();
+      return datas;
+    },
+    _changeDatas(datas) {
+      this.tableData = datas.list;
+      this.pageComponentsData.pageNums = datas.totalRow;
+    },
+  },
+};
 </script>
 
-<style>
+<style lang='scss' scoped>
+@import "../../assets/scss/btn.scss";
+.posFixCenter {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+}
+
+.manualBox {
+  border-top: 1px solid #d1d6e2;
+  background-color: rgb(232, 233, 236);
+}
+
+.btnArr {
+  padding: 0 10px;
+
+  > div {
+    border-bottom: 1px solid #d1d6e2;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    div {
+      display: inline-block;
+    }
+  }
+
+  .meiyiyetitle {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.tableBox {
+  padding: 0 10px 0px 10px;
+
+  .pageComponent {
+    margin: 180px 10px 0 0;
+    text-align: right;
+    height: 36px;
+    background: #ffffff;
+    border: 1px solid #d1d6e2;
+  }
+}
+
+.setUser {
+  margin-right: 10px;
+  @include BtnFunction("success");
+}
+
+.bianjiUser {
+  margin-right: 10px;
+  @include BtnFunction("success");
+}
+
+.remove {
+  @include BtnFunction("error");
+}
+
+.goOn {
+  margin-right: 10px;
+  @include BtnFunction("success");
+}
+
+.lodopFunClear {
+  margin-right: 10px;
+  @include BtnFunction("success");
+}
 </style>

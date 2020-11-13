@@ -17,6 +17,7 @@ import qrcode from './assets/js/qrcode'
 import "./assets/js/rem";
 import animated from 'animate.css';
 Vue.use(animated)
+import messageSelf from "./assets/js/toast"; //自定义弹框
 
 // import $ from 'jquery'
 // Vue.prototype.$ = $
@@ -31,6 +32,7 @@ Vue.prototype.$axios = axios
 // 引入echarts
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
+Vue.prototype.$messageSelf = messageSelf
 
 Vue.config.productionTip = false
 new Vue({

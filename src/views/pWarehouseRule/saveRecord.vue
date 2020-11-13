@@ -136,7 +136,6 @@
 /*eslint-disable */
 import { getCookie } from "../../utils/validate";
 import { pWarehouseRuleSaveRecord } from "../../api/api";
-import { Message } from "element-ui";
 export default {
   name: "createUsering",
   components: {},
@@ -326,26 +325,26 @@ export default {
     //点击了提交
     async goAJAXCreate() {
       let { ruleName, prodNum, guizheArr } = this.sendDataJson;
-      if (!ruleName) return Message("请输入发货规则");
+      if (!ruleName) return this.$messageSelf.message("请输入发货规则");
       guizheArr.forEach((item) => {
         if (item == 2 && !prodNum)
-          return Message("请输入订单集计规则的订单数量");
+          return this.$messageSelf.message("请输入订单集计规则的订单数量");
       });
-      if (!prodNum) return Message("请输入订单数量");
+      if (!prodNum) return this.$messageSelf.message("请输入订单数量");
       pWarehouseRuleSaveRecord(this.sendDataJson)
         .then((res) => {
           if (res.code == "10000") {
-            Message({
+            this.$messageSelf.message({
               message: res.msg,
               onClose: () => {
                 this.closeBtn();
               },
             });
           } else {
-            Message(res.msg);
+            this.$messageSelf.message(res.msg);
           }
         })
-        .catch((err) => Message(err.msg));
+        .catch((err) => this.$messageSelf.message(err.msg));
     },
   },
 };

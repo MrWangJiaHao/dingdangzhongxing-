@@ -1324,6 +1324,27 @@ export const pWarehouseRuleDelRecord = function (data) {
     })
 }
 //=========================================发货规则配置 end ========================================
+//=========================================发货管里 start ========================================
+/**
+ * //正常发货分页查询 
+ * @param {*} datas 
+ */
+export const pDeliverGoodsFindNormalRecordPage = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pDeliverGoods/findNormalRecordPage",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+
+//=========================================发货管里 end ========================================
+
 export function post(datas) {
     let {
         url,

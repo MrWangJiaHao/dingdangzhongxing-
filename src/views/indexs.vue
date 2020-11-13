@@ -94,7 +94,6 @@
 let a = 0;
 import Footer from "../components/footer";
 import { jurisdicRequest } from "../api/api";
-import { Message } from "element-ui";
 export default {
   components: {
     Footer,
@@ -166,7 +165,28 @@ export default {
         {
           title: "发货管理",
           iconCls: require("@/assets/img/warehouse-shipments.png"),
-          children: [],
+          children: [
+            {
+              title: "正常发货",
+              name: "/deliveryManagement/normalDelivery",
+            },
+            {
+              title: "快速发货",
+              name: "/deliveryManagement/quetyNormal",
+            },
+            {
+              title: "拣货单管理",
+              name: "/deliveryManagement/pickingList",
+            },
+            {
+              title: "发货单打印",
+              name: "/deliveryManagement/delivetyNotePrint",
+            },
+            {
+              title: "发货异常管理",
+              name: "/deliveryManagement/abnormalDelibery",
+            },
+          ],
         },
         {
           title: "复核配置",
@@ -457,7 +477,10 @@ export default {
         this.dataArr[+this.activeName].children.length != 0
           ? this.dataArr[+this.activeName].children[0].name
           : this.dataArr[+this.activeName].name;
-      if (!router) return Message("该模块在开发中请耐心等候稍后");
+      if (!router)
+        return this.$messageSelf.message({
+          message: "该模块在开发中请耐心等候稍后",
+        });
 
       this.$router.push(router);
       // mianbaoxieArrJson = this.dataArr[0];
@@ -497,14 +520,12 @@ export default {
 
     handleClick() {
       this.addHenxianTables();
-      console.log("this.activeName", this.activeName);
       if (
         !this.dataArr[+this.activeName].children.length &&
         this.dataArr[+this.activeName].title != "首页"
       )
-        return Message({
-          message: "该模块在开发中，请耐心等候",
-          duration: 500,
+        return this.$messageSelf.message({
+          message: "该模块在开发中请耐心等候稍后",
         });
       if (this.dataArr[+this.activeName].title == "首页")
         return this.$router.push("/index/indexFormJH");

@@ -242,7 +242,6 @@
 </template>
 
 <script>
-import { Message } from "element-ui";
 import { getCookie } from "../../utils/validate";
 import { post } from "../../api/api";
 /*eslint-disable */
@@ -344,16 +343,17 @@ export default {
     },
     //返回上一页
     gotoSanYiye() {
-      this.$confirm("确认返回上一页", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "info",
-      })
+      this.$messageSelf
+        .confirms("确认返回上一页", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "info",
+        })
         .then(() => {
           this.$router.go(-1);
         })
         .catch(() => {
-          Message("已取消返回");
+          this.$messageSelf.message("已取消返回");
         });
     },
     //获取货架名称
@@ -399,25 +399,26 @@ export default {
           fn(datas.result);
         }
       } else {
-        return Message(datas.msg);
+        return this.$messageSelf.message(datas.msg);
       }
     },
     //点击了移除
     removeData(item, index) {
-      this.$confirm("确定移除该排货架？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      this.$messageSelf
+        .confirms("确定移除该排货架？", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
         .then(() => {
           this.sendOutData.rowData.splice(index, 1);
           this.isRemove = false;
           setTimeout(() => {
-            Message("移除成功");
+            this.$messageSelf.message("移除成功");
           }, 0);
         })
         .catch(() => {
-          Message("已取消移除");
+          this.$messageSelf.message("已取消移除");
         });
     },
     //点击了复制一组
@@ -449,7 +450,7 @@ export default {
     //货架组数失去焦点事件
     async createDomZu(parent, index) {
       let rowNum = +parent;
-      if (+parent === NaN) return Message("请输入数字");
+      if (+parent === NaN) return this.$messageSelf.message("请输入数字");
       let arr = this._createDom(rowNum, index);
       this.sendOutData.rowData[index].groupData = arr;
     },
@@ -495,23 +496,24 @@ export default {
     //删除的是那个下面的第几个
     removeHuoJia(item, index, idx, idxs) {
       if (this.sendOutData.rowData[index].groupData[idx].shelfData.length == 1)
-        return Message("最少剩下一排货架");
-      this.$confirm("确定删除该排货架？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+        return this.$messageSelf.message("最少剩下一排货架");
+      this.$messageSelf
+        .confirms("确定删除该排货架？", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
         .then(() => {
           this.sendOutData.rowData[index].groupData[idx].shelfData.splice(
             idxs,
             1
           );
           setTimeout(() => {
-            Message("删除成功");
+            this.$messageSelf.message("删除成功");
           }, 0);
         })
         .catch(() => {
-          Message("已取消删除");
+          this.$messageSelf.message("已取消删除");
         });
     },
     //获取子仓名称
@@ -581,27 +583,29 @@ export default {
     //点击了提交
     shelfSubmit() {
       let show = true;
-      if (!this.sendOutData.childWareId) return Message("请选择子仓名称");
-      if (!this.sendOutData.wareAreaId) return Message("请选择区域名称");
+      if (!this.sendOutData.childWareId)
+        return this.$messageSelf.message("请选择子仓名称");
+      if (!this.sendOutData.wareAreaId)
+        return this.$messageSelf.message("请选择区域名称");
       this.sendOutData.rowData.forEach((item, idx) => {
         console.log(this.sendOutData.rowData);
         if (this.sendOutData.rowData.length >= 2 && !item.distance) {
           show = false;
-          Message(
+          this.$messageSelf.message(
             `请输入第${this.isNums(idx)}/${this.isNums(idx + 1)}排货架间距`
           );
         }
         item.groupData.forEach((groupData, idxs) => {
           if (item.groupData.length >= 2 && groupData.distance === undefined) {
             show = false;
-            Message(
+            this.$messageSelf.message(
               `请输入第${this.isNums(idxs)}/${this.isNums(idxs + 1)}组货架间距`
             );
           }
           groupData.shelfData.forEach((shelfData) => {
             if (shelfData.shelfNum == "") {
               show = false;
-              Message(`请输入货架数量`);
+              this.$messageSelf.message(`请输入货架数量`);
             }
           });
         });
@@ -617,10 +621,10 @@ export default {
         data,
       });
       if (datas.code == "10000") {
-        Message(datas.msg);
+        this.$messageSelf.message(datas.msg);
         this.$router.go(-1);
       } else {
-        Message(datas.msg);
+        this.$messageSelf.message(datas.msg);
       }
     },
   },

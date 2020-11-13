@@ -147,7 +147,6 @@ import {
   getFindWareOrg,
   pWarehouseRuleDelRecord,
 } from "../../api/api";
-import { Message } from "element-ui";
 import { _getExportExcels } from "../../utils/validate";
 export default {
   components: {
@@ -228,7 +227,7 @@ export default {
           let { result } = res;
           this.orgNameJson = result;
         } else {
-          Message(res.msg);
+          this.$messageSelf.message(res.msg);
         }
       });
     },
@@ -267,9 +266,9 @@ export default {
     //编辑
     editBtn() {
       if (!this.multipleSelection.length)
-        return Message("请选择要编辑的发货规则配置");
+        return this.$messageSelf.message("请选择要编辑的发货规则配置");
       if (this.multipleSelection.length != 1)
-        return Message("只能选择一个发货规则配置");
+        return this.$messageSelf.message("只能选择一个发货规则配置");
       sessionStorage.setItem(
         "recordPageEdit",
         JSON.stringify(this.multipleSelection[0])
@@ -282,7 +281,7 @@ export default {
     //删除
     clearBtn() {
       if (!this.multipleSelection.length)
-        return Message("请选择要删除的发货规则配置");
+        return this.$messageSelf.message("请选择要删除的发货规则配置");
       this.$confirm("确定要删除该入库单号？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -294,10 +293,10 @@ export default {
           })
             .then((res) => {
               if (res.code == "10000") {
-                Message(res.msg);
+                this.$messageSelf.message(res.msg);
                 this.getTableData();
               } else {
-                Message(res.msg);
+                this.$messageSelf.message(res.msg);
               }
             })
             .catch((err) => console.log(err + "---出错了"));
@@ -315,7 +314,7 @@ export default {
       if (datas.code == "10000") {
         this.changeDatas(datas.result);
       } else {
-        Message(datas.msg);
+        this.$messageSelf.message(datas.msg);
       }
       fn && fn();
       return datas;

@@ -215,7 +215,7 @@
 
 <script>
 /*eslint-disable */
-import { Message } from "element-ui";
+
 import { post } from "../../api/api";
 import { getConversionPx } from "../../utils/validate";
 export default {
@@ -303,7 +303,7 @@ export default {
           this.$router.go(-1);
         })
         .catch(() => {
-          this.$message({
+          this.$this.$messageSelf.message({
             type: "info",
             message: "已取消返回上一页",
           });
@@ -396,12 +396,12 @@ export default {
         data: createWarehouseJson,
       });
       if (datas.code === "10000") {
-        Message(datas.msg);
+        this.$messageSelf.message(datas.msg);
         return this.$router.push({
           path: "/warehoseconfig/regionalManagements",
         });
       } else {
-        Message({ message: datas.msg, type: "error" });
+        this.$messageSelf.message({ message: datas.msg, type: "error" });
       }
     },
   },
