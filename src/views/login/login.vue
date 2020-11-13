@@ -49,14 +49,23 @@
         </div>
       </div>
     </div>
+    <transition>
+      <Loading v-if="isLoading"></Loading>
+    </transition>
   </div>
 </template>
 
 <script>
 import { login } from "@/api/api.js";
+import Loading from "@/components/loading/loading";
+
 export default {
+  components: {
+    Loading,
+  },
   data() {
     return {
+      isLoading: false,
       dataForm: {
         userName: "",
         password: "",
@@ -107,7 +116,10 @@ export default {
               this.$cookie.set("X-Auth-wareId", ok.data.result.user.wareId);
               this.$cookie.set("orgId", ok.data.result.user.orgId);
               this.$cookie.set("X-Auth-user", ok.data.result.user.id);
-              this.$router.push('/index')
+              this.isLoading = true;
+              setTimeout(() => {
+                this.$router.push("/index");
+              }, 2000);
               //四个小时后清除用户名和密码
               setTimeout(() => {
                 this.$cookie.delete("userName");
@@ -118,9 +130,9 @@ export default {
                 this.$cookie.delete("X-Auth-user");
               }, 14400000);
             } else {
-              this.$message({
+              this.$messageSelf.confirms({
                 type: "error",
-                message: ok.data.msg,
+                message: "账号或者密码有误",
               });
             }
           });

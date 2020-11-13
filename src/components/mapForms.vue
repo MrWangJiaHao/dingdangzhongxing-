@@ -247,7 +247,7 @@ export default {
   .resultForm {
     padding: 20px;
     .lookDetail {
-      color: rgb(117, 117, 241);
+      color: #599af3;
       text-decoration: underline;
       cursor: pointer;
     }
