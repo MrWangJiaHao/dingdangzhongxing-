@@ -1324,7 +1324,7 @@ export const pWarehouseRuleDelRecord = function (data) {
     })
 }
 //=========================================发货规则配置 end ========================================
-//=========================================发货管里 start ========================================
+//=========================================发货管理 start ========================================
 /**
  * //正常发货分页查询 
  * @param {*} datas 
@@ -1342,9 +1342,26 @@ export const pDeliverGoodsFindNormalRecordPage = function (data) {
         })
     })
 }
+/**
+ * 订单集计 需要ids
+ * 
+ * @param {*} datas /wbs-warehouse-manage/v1/pOrgSubOrder/megerOrder
+ */
+export const pOrgSubOrderMegerOrder = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgSubOrder/megerOrder",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
 
-//=========================================发货管里 end ========================================
-
+//=========================================发货管理 end ========================================
 export function post(datas) {
     let {
         url,

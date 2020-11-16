@@ -284,7 +284,7 @@ export default {
   methods: {
     createDomTestWareName() {
       this.createDomTest.wareAreaName = this.createWarehouseJson.wareAreaName;
-      this.createDomTest.back = false;
+      this.createDomTest.back = true;
       this.createSetting.push(this.createDomTest);
     },
 
@@ -307,11 +307,13 @@ export default {
     //是否跳入编辑页
     ISEditQuYu(item, idx) {
       this.activeNum = idx;
-       this.$messageSelf.confirms(`确定修改${this.wareName}的仓库配置`, "提示", {
-        type: "info",
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-      })
+      if (item.back) return;
+      this.$messageSelf
+        .confirms(`确定修改${this.wareName}的仓库配置`, "提示", {
+          type: "info",
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+        })
         .then(() => {
           window.sessionStorage.setItem(
             "createWareHuseData",

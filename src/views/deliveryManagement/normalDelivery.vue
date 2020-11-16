@@ -121,13 +121,7 @@
 /*eslint-disable */
 import manualHeader from "../../components/deliveryManagement/deliveryManagementhHeader";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import {
-  getpOutWarehousefindOutWareDetailById,
-  getPOutWarehouse,
-  getpOutWarehouseDelRecord,
-  getpOutWarehouseExprotExcel,
-} from "../../api/api";
-import { _getExportExcels } from "../../utils/validate";
+import { getPOutWarehouse } from "../../api/api";
 export default {
   components: {
     manualHeader,
@@ -135,21 +129,15 @@ export default {
   },
   data() {
     return {
-      WarehouseReceiptIds: "",
-      Receipt: false,
-      ReceiptIds: "",
-      BatchNumber: false,
-      BatchNumberIds: "",
       tableData: [],
       pageComponentsData: {
-        pageNums: 0, //一共多少条 //默认一页10条
+        pageNums: 0, //一共多少条 //默认一页10
       },
       sendOutDataJson: {
         paras: {
           orgName: "",
           orgId: "",
           orderNo: "",
-          outWareType: (() => this.$route.params.type)(),
           prodId: "",
           specId: "",
           childWareId: "",
@@ -166,14 +154,11 @@ export default {
         pageSize: 10, //每页记录数
       },
       multipleSelection: [], //选择了那个
-      listArrs: {},
     };
   },
   created() {
-    this.noraisingFn();
     this.getTableData();
   },
-
   methods: {
     goToDetailOut(e) {
       sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
@@ -191,12 +176,16 @@ export default {
     },
     //集计
     warehousingConfirmation() {
-      this.$messageSelf.confirms("此操作将永久删除该文件, 是否继续?", "提示", {
-        showClose: true,
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      });
+      this.$messageSelf.confirms(
+        "共集计30个订单，可生成N张拣货单，确认集计吗？<div> <input type='checkbox' /> 打印集计单</div>",
+        "集计确认",
+        {
+          showClose: true,
+          confirmButtonText: "确定",
+          dangerouslyUseHTMLString: true,
+          cancelButtonText: "取消",
+        }
+      );
     },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {

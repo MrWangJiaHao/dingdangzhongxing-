@@ -279,7 +279,7 @@ export default {
         出库状态: () =>
           this.createUserData.outWareStatus ? "已出库" : "未出库",
         出库类型: () =>
-          this.$route.query.outWareType
+          his.createUserData.outWareType
             ? this.createUserData.outWareType
             : "- -",
         "&nbsp;收货人": () =>
@@ -307,7 +307,7 @@ export default {
         出库状态: () =>
           this.createUserData.outWareStatus ? "已出库" : "未出库",
         出库类型: () =>
-          this.$route.query.outWareType
+          his.createUserData.outWareType
             ? this.createUserData.outWareType
             : "- -",
         "&nbsp;收货人": () =>
