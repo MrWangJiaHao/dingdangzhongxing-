@@ -685,7 +685,7 @@ export function getExprNo(data) {
 export function childOrderInfor(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "wbs-warehouse-manage/v1/orderOperation/findRecord",
+            url: "/wbs-warehouse-manage/v1/orderOperation/findRecord",
             method: "post",
             data,
         }).then((ok) => {
@@ -700,7 +700,7 @@ export function childOrderInfor(data) {
 export function sellOrderInfor(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "wbs-warehouse-manage/v1/pOrgSubOrderDetail/findProdByOrderId",
+            url: "/wbs-warehouse-manage/v1/pOrgSubOrderDetail/findProdByOrderId",
             method: "post",
             data,
         }).then((ok) => {
@@ -715,7 +715,7 @@ export function sellOrderInfor(data) {
 export function findFailProdData(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "wbs-warehouse-manage/v1/pOrgSubOrder/findFailProdData",
+            url: "/wbs-warehouse-manage/v1/pOrgSubOrder/findFailProdData",
             method: "post",
             data,
         }).then((ok) => {
@@ -730,7 +730,7 @@ export function findFailProdData(data) {
 export function findFailOrderData(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "wbs-warehouse-manage/v1/pOrgSubOrder/findFailOrderData",
+            url: "/wbs-warehouse-manage/v1/pOrgSubOrder/findFailOrderData",
             method: "post",
             data,
         }).then((ok) => {
@@ -745,7 +745,7 @@ export function findFailOrderData(data) {
 export function findFailProdDetail(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "wbs-warehouse-manage/v1/pOrgSubOrder/findFailProdDetail",
+            url: "/wbs-warehouse-manage/v1/pOrgSubOrder/findFailProdDetail",
             method: "post",
             data,
         }).then((ok) => {
@@ -760,7 +760,7 @@ export function findFailProdDetail(data) {
 export function findBackOrderPage(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "wbs-warehouse-manage/v1/pOrgSubBackOrder/findBackOrderPage",
+            url: "/wbs-warehouse-manage/v1/pOrgSubBackOrder/findBackOrderPage",
             method: "post",
             data,
         }).then((ok) => {
@@ -775,7 +775,7 @@ export function findBackOrderPage(data) {
 export function findReturnOrderPage(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "wbs-warehouse-manage/v1/pOrgSubBackOrder/findReturnOrderPage",
+            url: "/wbs-warehouse-manage/v1/pOrgSubBackOrder/findReturnOrderPage",
             method: "post",
             data,
         }).then((ok) => {

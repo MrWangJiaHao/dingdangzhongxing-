@@ -222,7 +222,7 @@
                   @selection-change="handleSelectionChange"
                   :stripe="true"
                   tooltip-effect="dark"
-                  @cell-click="prodLookDetailEvent"
+                  @cell-click="outLookDetailEvent"
                 >
                   <el-table-column type="selection" width="55">
                   </el-table-column>
@@ -266,28 +266,35 @@
                       <div class="lookDetail">
                         {{ scope.row.orderNo }}
                       </div>
-                    </template> </el-table-column
-                  ><el-table-column
-                    prop="braName"
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column
+                    prop="subOrderNos"
                     label="子单号"
                     align="center"
                   >
                     <template slot-scope="scope">
-                      <div class="lookDetail">
-                        {{ scope.row.braName }}
+                      <div class="subOrderNosList">
+                        <div
+                          class="lookDetail subOrderNosStyle"
+                          v-for="(v, i) in scope.row.subOrderNos"
+                          :key="i"
+                        >
+                          {{ v }}
+                        </div>
                       </div>
-                      <div class="lookDetail">
-                        {{ scope.row.braName }}
-                      </div>
-                    </template> </el-table-column
-                  ><el-table-column
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column
                     prop="disposeStatus"
                     label="退单状态"
                     align="center"
                   >
                   </el-table-column
                   ><el-table-column
-                    prop="disposeStatus"
+                    prop="returnType"
                     label="退货类型"
                     align="center"
                   >
@@ -388,7 +395,7 @@
                   @selection-change="handleSelectionChange"
                   :stripe="true"
                   tooltip-effect="dark"
-                  @cell-click="prodLookDetailEvent"
+                  @cell-click="unOutLookDetailEvent"
                 >
                   <el-table-column type="selection" width="55">
                   </el-table-column>
@@ -453,7 +460,7 @@
                   >
                   </el-table-column
                   ><el-table-column
-                    prop="disposeStatus"
+                    prop="returnType"
                     label="退货类型"
                     align="center"
                   >
@@ -538,7 +545,32 @@ export default {
       lotNo: "",
       getExcelUrl:
         "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubOrder/getExcel?lotNo=",
-      storeOutData: [],
+      storeOutData: [
+        {
+          backOrderNo: "TH20200305092516647298284",
+          channelBackOrderNo: "",
+          disposeStatus: 1,
+          exprName: "",
+          exprNo: "",
+          id: "da148d24db0043c2b5325e72e0b6fcf5",
+          orderAddr: "硅谷街道硅谷大街益田枫露小区1期3栋",
+          orderCityName: "长春市",
+          orderContact: "周秋影",
+          orderContactPhone: "18686456695",
+          orderCountyName: "",
+          orderId: "37E6E46AAECF440883DC10C66A7D31DA",
+          orderNo: "XS_20200303142834448_769705",
+          orderProName: "吉林省",
+          orderSourceId: "7CBF78FF05034EDC855CF4A9C877B477",
+          orderSourceName: "创客淘宝订单来源",
+          orgId: "2B82213FE3764E9E96691B70BE5281CD",
+          orgName: "xxxxxckc委托公司",
+          returnMoneyTime: null,
+          returnType: 4,
+          subOrder: [],
+          subOrderNos: ["871195073869320914-1", "771696073865320114-1"],
+        },
+      ],
       unStoreOutData: [],
       datetimeDate: {
         placeholder: "请选择结束时间",
@@ -594,7 +626,7 @@ export default {
       addressValue: "",
       multipleSelection: [],
       QueryData: {
-        orderBy: "createTime",
+        // orderBy: "createTime",
         pageNumber: 1,
         pageSize: 10,
         paras: {
@@ -620,7 +652,16 @@ export default {
       findReturnOrderPage(QueryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
-          this.storeOutData = ok.data.result.list;
+          // this.storeOutData = ok.data.result.list;
+          let oDiv = document.querySelectorAll(".subOrderNosStyle");
+          let oList = document.querySelector(".subOrderNosList");
+          oDiv.forEach((v) => {
+            v.style.borderBottom = "1px solid #d2d6e2";
+            v.style.padding = "10px";
+            v.parentNode.parentNode.style.padding = "0";
+            v.parentNode.parentNode.parentNode.style.padding = "0";
+          });
+          oList.lastChild.style.borderBottom = "0";
           this.changeData(ok.data.result);
           this.storeOutData.forEach((v) => {
             this.entrustCompanyData.push({
@@ -640,6 +681,8 @@ export default {
             this.indentSourceValueData = this.reduceFun(
               this.indentSourceValueData
             );
+            v.disposeStatus = this.disposeStatus(v.disposeStatus);
+            v.returnType = this.returnType(v.returnType);
           });
         } else {
           Message({
@@ -648,10 +691,15 @@ export default {
           });
         }
       });
+      //缺货订单查询
       findBackOrderPage(QueryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
           this.unStoreOutData = ok.data.result.list;
+          this.unStoreOutData.forEach((v) => {
+            v.disposeStatus = this.disposeStatus(v.disposeStatus);
+            v.returnType = this.returnType(v.returnType);
+          });
         } else {
           Message({
             message: "未知错误",
@@ -659,6 +707,53 @@ export default {
           });
         }
       });
+    },
+    disposeStatus(state) {
+      //退单状态
+      let data = state;
+      switch (state) {
+        case 0:
+          data = "初始";
+          break;
+        case 1:
+          data = "已取消";
+          break;
+        case 2:
+          data = "待确认";
+          break;
+        case 3:
+          data = "已完成";
+          break;
+        default:
+          data = "未知";
+          break;
+      }
+      return data;
+    },
+    returnType(state) {
+      //退货类型
+      let data = state;
+      switch (data) {
+        case 1:
+          data = "部分退货";
+          break;
+        case 2:
+          data = "全部退货";
+          break;
+        case 3:
+          data = "取消订单";
+          break;
+        case 4:
+          data = "部分退货中";
+          break;
+        case 5:
+          data = "全部退货中";
+          break;
+        default:
+          data = "未知";
+          break;
+      }
+      return data;
     },
     reduceFun(arr) {
       let testObj = {};
@@ -738,7 +833,7 @@ export default {
     chukuEduce() {
       //缺货产品导出表格
       if (!this.multipleSelection.length) return Message("请选择要导出的订单");
-      if (this.multipleSelection.length != 1)
+      if (this.multipleSelection.length !== 1)
         return Message("一次只能选择一个订单");
       if (this.lotNo === "") return Message("请稍等片刻");
       let oA = document.querySelector(".setUser");
@@ -755,38 +850,26 @@ export default {
     },
     affirmResales() {
       //确认退货
+      this.$router.replace({
+        path: "/indentManagement/resalesOrderInfor",
+        query: {
+          sureBtn: "取货确认",
+          type: "sureBtn",
+        },
+      });
     },
-    prodLookDetailEvent(row, column) {
-      if (column.property === "orderNum") {
-        this.$router.push({
-          path: "/indentManagement/orderDetail",
+    outLookDetailEvent(row, column) {
+      if (column.property === "backOrderNo") {
+        this.$router.replace({
+          path: "/indentManagement/resalesOrderInfor",
           query: {
-            orderNum: row,
-            type: "orderNum",
+            backOrderNo: row,
+            type: "backOrderNo",
           },
         });
       }
     },
-    orderLookDetailEvent(row, column) {
-      if (column.property === "orderNo") {
-        this.$router.push({
-          path: "/indentManagement/orderDetail",
-          query: {
-            orderNo: row,
-            type: "orderNo",
-          },
-        });
-      }
-      if (column.property === "subOrderNo") {
-        this.$router.push({
-          path: "/indentManagement/childOrderDetail",
-          query: {
-            subOrderNo: row,
-            type: "subOrderNo",
-          },
-        });
-      }
-    },
+    unOutLookDetailEvent() {},
     prodAndOrder(item) {
       this.title = item.label + "信息";
     },
@@ -998,6 +1081,7 @@ export default {
     text-decoration: underline;
     cursor: pointer;
   }
+
   .failCause {
     color: red;
   }

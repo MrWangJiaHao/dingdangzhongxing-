@@ -112,9 +112,11 @@ export default {
   },
   updated() {
     this.$store.dispatch("PFSRequestAct", this.emptyArr);
+    this.$store.dispatch("PFSRequestAct1", this.emptyArr);
   },
   beforeDestroy() {
     this.$store.dispatch("PFSRequestAct", this.emptyArr);
+    this.$store.dispatch("PFSRequestAct1", this.emptyArr);
   },
 };
 </script>

@@ -352,11 +352,12 @@ export default {
       next((vm) => {
         if (vm.$route.query.type === "edit") {
           vm.recepData = vm.$route.query.datas;
-          vm.delegaCompanyValue = vm.recepData[0].delegaCompany;
-          vm.productNameValue = vm.recepData[0].productName;
-          vm.productCodeValue = vm.recepData[0].productNumber;
-          vm.specificationValue = vm.recepData[0].producTspecifica;
-          vm.ProdBrandName = vm.recepData[0].brand;
+          // console.log(vm.recepData)
+          vm.delegaCompanyValue = vm.recepData[0].orgName;
+          vm.productNameValue = vm.recepData[0].prodName;
+          vm.productCodeValue = vm.recepData[0].prodCode;
+          vm.specificationValue = vm.recepData[0].specName;
+          vm.ProdBrandName = vm.recepData[0].braName;
           vm.ProdLength = vm.recepData[0].ProdLength;
           vm.ProdWidth = vm.recepData[0].ProdWidth;
           vm.ProdHeight = vm.recepData[0].ProdHeight;
@@ -572,10 +573,12 @@ export default {
       });
       this.CSandareaData.forEach((v) => {
         if (value === v.childWareName) {
-          this.storeAreaData.push({
-            value: v.wareAreaName,
-            label: v.wareAreaName,
-          });
+          if (v.wareAreaType === 1) {
+            this.storeAreaData.push({
+              value: v.wareAreaName,
+              label: v.wareAreaName,
+            });
+          }
         }
       });
     },
@@ -653,10 +656,12 @@ export default {
       });
       this.CSandareaData.forEach((v) => {
         if (value === v.childWareName) {
-          this.pickAreaData.push({
-            value: v.wareAreaName,
-            label: v.wareAreaName,
-          });
+          if (v.wareAreaType === 2) {
+            this.pickAreaData.push({
+              value: v.wareAreaName,
+              label: v.wareAreaName,
+            });
+          }
         }
       });
     },

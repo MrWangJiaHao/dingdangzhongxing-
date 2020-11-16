@@ -106,16 +106,14 @@ export default {
   beforeRouteEnter(to, from, next) {
     if (from.name === "/indentManagement/resalesIndentManage") {
       next((vm) => {
-        if (vm.$route.query.type === "") {
-          vm.whatLabel = "";
-        } else if (vm.$route.query.type === "") {
-          vm.whatLabel = "";
+        if (vm.$route.query.type === "backOrderNo") {
+          vm.whatLabel = "退货数量";
+        }else if(vm.$route.query.type === "sureBtn"){
+          vm.whatLabel = "实际退货数量";
         }
       });
     } else {
-      next((vm) => {
-        vm.$router.go(-1);
-      });
+      next();
     }
   },
   data() {

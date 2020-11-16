@@ -731,7 +731,6 @@ export default {
       this.orderQueryData.pageNumber = e;
     },
     sureSuccssBtn1(e) {
-      console.log(e);
       this.orderData = [];
       this.pageQueryOrderFun();
       this.orderQueryData.pageNumber = e;
