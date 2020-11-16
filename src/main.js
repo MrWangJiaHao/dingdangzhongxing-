@@ -3,7 +3,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import axios from 'axios'
+import service from './utils/request'
 import { DatePicker } from 'iview';
 import 'iview/dist/styles/iview.css';
 import ElementUI from 'element-ui';
@@ -26,7 +26,7 @@ Vue.use(Lodop)
 Vue.use(VueCookie)
 
 Vue.use(ElementUI).use(qrcode)
-Vue.prototype.$axios = axios
+Vue.prototype.$service = service
 
 // import 'lib-flexible'
 // 引入echarts

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="fahuoguanli">
     <div class="manualBox">
       <div>
         <manualHeader @getParasJson="getParasJson" :tableData="tableData" />
@@ -114,6 +114,20 @@
       </div>
       <!-- table-biaoge -->
     </div>
+    <!-- 拣货单 start -->
+    <div v-show="isJianHuoDanShow" class="bjBox">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div v-if="isJianHuoDanShow">
+          <div>
+            <pickingList @getiscaigoudanDetail="getiscaigoudanDetail" />
+          </div>
+        </div>
+      </transition>
+    </div>
+    <!-- 拣货单 end -->
   </div>
 </template>
 
@@ -121,14 +135,21 @@
 /*eslint-disable */
 import manualHeader from "../../components/deliveryManagement/deliveryManagementhHeader";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { getPOutWarehouse } from "../../api/api";
+import pickingList from "../../components/deliveryManagement/pickingList"; //拣货单
+import {
+  pDeliverGoodsFindNormalRecordPage,
+  pOrgSubOrderMegerOrder,
+} from "../../api/api";
+import { _getArrTarget } from "../../utils/validate";
 export default {
   components: {
     manualHeader,
+    pickingList,
     pagecomponent,
   },
   data() {
     return {
+      isJianHuoDanShow: false,
       tableData: [],
       pageComponentsData: {
         pageNums: 0, //一共多少条 //默认一页10
@@ -159,7 +180,49 @@ export default {
   created() {
     this.getTableData();
   },
+  mounted() {},
   methods: {
+    getiscaigoudanDetail(e) {
+      this.isJianHuoDanShow = e;
+    },
+    iSJianHuoDan() {
+      //打印拣货单
+      this.$nextTick(() => {
+        if (document.getElementById("checkboxID").checked) {
+          console.log(1);
+          this.isJianHuoDanShow = true;
+        }
+      });
+    },
+    //订单集计==
+    _jijiJianhuodan() {
+      pOrgSubOrderMegerOrder({
+        id: _getArrTarget(this.multipleSelection, "id"),
+      })
+        .then((res) => {
+          if (res.code == "10000") {
+            this.$messageSelf.message(res.msg);
+          }
+        })
+        .catch((err) => this.$messageSelf.message("出错拉~~"));
+    },
+    huoqujijiSure() {
+      this.$nextTick(() => {
+        let message = document.querySelectorAll(".el-message-box")[0];
+        let box__header = message.getElementsByClassName(
+          "el-message-box__header"
+        )[0];
+        let box__content = message.getElementsByClassName(
+          "el-message-box__content"
+        )[0];
+        let box__message = message.querySelector(
+          ".el-message-box .el-message-box__content .el-message-box__message"
+        );
+        box__header.style = `background: #ECF1F7; border-bottom: 1px solid#D1D6E2;`;
+        box__content.style = `display: inline-block;margin-top: 40px;margin-left: 60px;`;
+        box__message.style = "text-align:left;";
+      });
+    },
     goToDetailOut(e) {
       sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
     },
@@ -176,16 +239,26 @@ export default {
     },
     //集计
     warehousingConfirmation() {
-      this.$messageSelf.confirms(
-        "共集计30个订单，可生成N张拣货单，确认集计吗？<div> <input type='checkbox' /> 打印集计单</div>",
-        "集计确认",
-        {
-          showClose: true,
-          confirmButtonText: "确定",
-          dangerouslyUseHTMLString: true,
-          cancelButtonText: "取消",
-        }
-      );
+      // if(!this.multipleSelection.length ) return this.$messageSelf.message("请选择要集计的拣货单单")
+      this.huoqujijiSure();
+      this.$messageSelf
+        .confirms(
+          ` 共集计${this.multipleSelection.length}个订单，可生成${this.multipleSelection.length}张拣货单，确认集计吗？<div > <input checked id='checkboxID' type='checkbox' /> 打印集计单</div>`,
+          "集计确认",
+          {
+            showClose: true,
+            confirmButtonText: "确定",
+            dangerouslyUseHTMLString: true,
+            cancelButtonText: "取消",
+          }
+        )
+        .then(() => {
+          this.iSJianHuoDan();
+          this._jijiJianhuodan();
+        })
+        .catch(() => {
+          this.$messageSelf.message("已经取消集计");
+        });
     },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {
@@ -195,7 +268,7 @@ export default {
     },
     //获取table表格内容
     async getTableData(fn) {
-      let datas = await getPOutWarehouse(this.sendOutDataJson);
+      let datas = await pDeliverGoodsFindNormalRecordPage(this.sendOutDataJson);
       if (datas.code == "10000") {
         this._changeDatas(datas.result);
       } else {
@@ -212,6 +285,8 @@ export default {
 };
 </script>
 
+<style>
+</style>
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .posFixCenter {

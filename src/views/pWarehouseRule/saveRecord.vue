@@ -135,7 +135,8 @@
 <script>
 /*eslint-disable */
 import { getCookie } from "../../utils/validate";
-import { pWarehouseRuleSaveRecord } from "../../api/api";
+import { pWarehouseRuleSaveRecord, getFindWareOrg } from "../../api/api";
+import { Container } from "element-ui";
 export default {
   name: "createUsering",
   components: {},
@@ -150,9 +151,9 @@ export default {
         guizheArr: [], //订单集计规则
         laiyuanArr: [], //订单来源
         prodMeger: 0, //订单产品重合度集计(按照订单中商品交集最大数集计)
-        prodNum: 0, // 订单中产品种类大于x的订单，分出单独发货
+        prodNum: null, // 订单中产品种类大于x的订单，分出单独发货
         wareId: getCookie("X-Auth-wareId"),
-        prodTypeNum: 0, //订单中产品种类只有一种4
+        prodTypeNum: 0, //订单中产品种类只有一种
         ruleName: "", //发货规则名称
       },
       isIndeterminate: false,
@@ -191,11 +192,11 @@ export default {
           isHuanhang: true,
           ruleUsers: [
             {
-              id: "按渠道1",
+              id: "1",
               titleName: "按渠道",
             },
             {
-              id: "2按订单来源",
+              id: "2",
               titleName: "按订单来源",
             },
           ],
@@ -207,17 +208,17 @@ export default {
           isHuanhang: true,
           ruleUsers: [
             {
-              id: 1,
+              id: "prodMeger",
               jijiguizheCenter:
                 "订单产品重合度集计(按照订单中商品交集最大数集计)",
             },
             {
-              id: 2,
+              id: "prodNum",
               jijiguizheCenter:
-                "订单中产品种类大于   &nbsp; 的订单，分为单独发货",
+                "订单中产品种类大于 &nbsp; 的订单，分为单独发货",
             },
             {
-              id: 3,
+              id: "prodTypeNum",
               jijiguizheCenter: "订单中产品种类只有一种",
             },
           ],
@@ -250,29 +251,57 @@ export default {
       default: () => {},
     },
   },
+
   mounted() {
     this.$nextTick(() => {
       let inputs = document.getElementById("input");
-      inputs.addEventListener(
-        "input",
-        (e) => {
-          let res = e.target.value.substring(0, this.prodNumIndex);
-          e.target.value = res;
-          console.log(e.target.value.substring(0, this.prodNumIndex));
-          this.sendDataJson.prodNum = res;
-        },
-        false
-      );
+      inputs.oninput = (e) => {
+        if (e.target.value) {
+          this.sendDataJson.guizheArr.push("prodNum");
+        } else {
+          this.sendDataJson.guizheArr.pop();
+        }
+        e.target.value = e.target.value.substring(0, this.prodNumIndex);
+        this.sendDataJson.prodNum = e.target.value.substring(
+          0,
+          this.prodNumIndex
+        );
+      };
       this.$forceUpdate();
     });
   },
   created() {
-    this._changeCreateJson();
+    this._changeRulesPeople();
+    if (this.editSavaRecord || this.lookerRecord) {
+      this._changeCreateJson();
+    }
   },
   methods: {
+    //获取规则使用者
+    _changeRulesPeople() {
+      getFindWareOrg().then((res) => {
+        this.CenterJson[0].ruleUsers[1].ruleUsers = res.result;
+      });
+      this.$forceUpdate();
+    },
     //改变传送过来的数据
     _changeCreateJson() {
-      console.log(this.editAndLookdata);
+      this.sendDataJson = Object.assign(
+        {},
+        this.sendDataJson,
+        this.editAndLookdata
+      );
+      this.sendDataJson.orgIds = this.editAndLookdata.orgIds;
+      this.sendDataJson.laiyuanArr.push(`${this.editAndLookdata.orderSource}`);
+      this._changeDindanJIji();
+    },
+    _changeDindanJIji() {
+      let arrJIjiGuizhe = ["prodMeger", "prodNum", "prodTypeNum"];
+      arrJIjiGuizhe.forEach((item) => {
+        if (this.editAndLookdata[item]) {
+          this.sendDataJson.guizheArr.push(`${item}`);
+        }
+      });
     },
     orderNumChange(idx) {
       this.sendDataJson.orderNum = this.sendDataJson.orderNum.substring(0, idx);
@@ -293,11 +322,24 @@ export default {
     },
     //订单来源
     handleCheckedlaiyuanArr(e) {
+      if (this.sendDataJson.laiyuanArr.length > 1) {
+        this.sendDataJson.laiyuanArr.shift();
+      }
       this.sendDataJson.laiyuanArr = e;
+      this.sendDataJson.orderSource = e[0];
     },
     //订单规则
     handleCheckedguizheArr(e) {
       this.sendDataJson.guizheArr = e;
+      this._seveich(e);
+    },
+    _seveich(e) {
+      e.includes("prodMeger")
+        ? (this.sendDataJson.prodMeger = 1)
+        : (this.sendDataJson.prodMeger = 0);
+      e.includes("prodTypeNum")
+        ? (this.sendDataJson.prodTypeNum = 1)
+        : (this.sendDataJson.prodTypeNum = 0);
     },
     //全选的change
     handleCheckAllChange(val) {
@@ -326,6 +368,7 @@ export default {
     async goAJAXCreate() {
       let { ruleName, prodNum, guizheArr } = this.sendDataJson;
       if (!ruleName) return this.$messageSelf.message("请输入发货规则");
+
       guizheArr.forEach((item) => {
         if (item == 2 && !prodNum)
           return this.$messageSelf.message("请输入订单集计规则的订单数量");
@@ -337,6 +380,7 @@ export default {
             this.$messageSelf.message({
               message: res.msg,
               onClose: () => {
+                this.$parent.getTableData();
                 this.closeBtn();
               },
             });
