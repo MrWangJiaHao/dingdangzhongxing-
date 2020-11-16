@@ -531,7 +531,7 @@ export default {
     },
     getTableData1() {
       this.choosedKuWeiData1 = this.$store.state.PFSRequest1.PFSqueryData1;
-      // console.log(this.choosedKuWeiData);
+      // console.log(this.choosedKuWeiData1);
     },
     setintervalFun() {
       setInterval(() => {
@@ -768,10 +768,10 @@ export default {
             seatType: "1",
           });
           // console.log(this.requestData.seatDatas);
-          if (v.prodUnit === "" || v.MaxNumberInput === "" || v.repleNum) {
+          if (v.prodUnit === "" || v.MaxNumberInput === "") {
             return Message({
               type: "error",
-              message: "请选择存放单位或输入最大存放数，补货预警值",
+              message: "请选择存放单位或输入最大存放数",
             });
           }
         });
