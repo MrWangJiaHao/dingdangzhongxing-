@@ -25,14 +25,15 @@
           <div class="titleBox">发货规则：</div>
           <div class="mr20">
             <el-select
-              v-model="sendOutDataJson.paras.orgFullName"
+              v-model="sendOutDataJson.paras.ruleName"
               placeholder="请选择发货规则"
+              @focus="rulesFun"
             >
               <el-option
                 v-for="(item, idx) in ruleNameJson"
                 :key="idx"
                 :label="item"
-                :value="idx"
+                :value="item"
               >
               </el-option>
             </el-select>
@@ -147,7 +148,7 @@ import {
   getFindWareOrg,
   pWarehouseRuleDelRecord,
 } from "../../api/api";
-import { _getExportExcels } from "../../utils/validate";
+import { _getArrTarget } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -165,31 +166,16 @@ export default {
       WarehouseReceiptIds: "",
       BatchNumberIds: "",
       editAndLookdata: {},
-      tableData: [
-        {
-          orgName: "阿达",
-          ruleName: "哦吼吼吼吼吼",
-          createUser: "达瓦",
-          createTime: "2020-11-12 10:05",
-          id: 1,
-        },
-        {
-          id: 2,
-          orgName: "阿达",
-          ruleName: "哦吼吼吼吼吼",
-          createUser: "达瓦",
-          createTime: "2020-11-12 10:05",
-        },
-      ],
+      tableData: [],
       pageComponentsData: {
         pageNums: 0, //一共多少条 //默认一页10条
       },
       sendOutDataJson: {
         paras: {
-          orgid: "", //委托公司
+          orgId: "", //委托公司
           orgName: "", //委托公司
           ruleName: "", //规则名称
-          ruleid: "", //规则名称
+          ruleId: "", //规则名称
         },
         pageNumber: 1, //当前页数
         pageSize: 10, //每页记录数
@@ -205,6 +191,22 @@ export default {
     this.getTableData();
   },
   methods: {
+    rulesFun() {
+      this.sendOutDataJson = {
+        pageNumber: 1, //当前页数
+        pageSize: 10, //每页记录数
+        paras: {
+          orgid: "", //委托公司
+          orgName: "", //委托公司
+          ruleName: "", //规则名称
+          ruleid: "", //规则名称
+        },
+      };
+      this.getTableData((res) => {
+        let { list } = res;
+        this.ruleNameJson = _getArrTarget(list, "ruleName");
+      });
+    },
     clearChaxun() {
       this.sendOutDataJson = {
         pageNumber: 1, //当前页数
@@ -282,30 +284,34 @@ export default {
     clearBtn() {
       if (!this.multipleSelection.length)
         return this.$messageSelf.message("请选择要删除的发货规则配置");
-      this.$confirm("确定要删除该入库单号？", "提示", {
+      this.$confirm("确定要删除该发货规则配置？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
-      })
-        .then(() => {
-          pWarehouseRuleDelRecord({
-            id: this.multipleSelection[0].id,
-          })
-            .then((res) => {
-              if (res.code == "10000") {
-                this.$messageSelf.message(res.msg);
-                this.getTableData();
-              } else {
-                this.$messageSelf.message(res.msg);
-              }
-            })
-            .catch((err) => console.log(err + "---出错了"));
-        })
-        .catch(() => err);
+      }).then(() => {
+        let arrJson = this._getArrJsonTarget(this.multipleSelection, "id");
+        pWarehouseRuleDelRecord(arrJson, (res) => {
+          res = JSON.parse(res);
+          if (res.code == "10000") {
+            this.$messageSelf.message(res.msg);
+            this.getTableData();
+          } else {
+            this.$messageSelf.message(res.msg);
+          }
+        });
+      });
+    },
+    _getArrJsonTarget(arr, target) {
+      let arrs = [];
+      arr.forEach((item) => {
+        let json = {};
+        json[target] = item[target];
+        arrs.push(json);
+      });
+      return arrs;
     },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {
-      this.sendOutDataJson.paras = { ...data };
       this.getTableData();
     },
     //获取table表格内容
@@ -316,7 +322,7 @@ export default {
       } else {
         this.$messageSelf.message(datas.msg);
       }
-      fn && fn();
+      fn && fn(datas.result);
       return datas;
     },
     changeDatas(datas) {

@@ -6,6 +6,16 @@ import {
     ajaxPost,
     getCookie
 } from "../utils/validate"
+const getHref = function () {
+    let href = window.location.href
+    if (href.includes("systemSetting")) {
+        return "http://139.196.176.227:8801"
+    } else {
+        return "http://139.196.176.227:8902"
+    }
+}
+let basurl = getHref()
+
 export function login(data) {
     return new Promise((resolve, reject) => {
         service.request({
@@ -930,7 +940,7 @@ export const getSaveRecord = function (data) {
  * ajaxPost
  */
 export const getFindWareHouseDetailByIds = function (data, fn) {
-    ajaxPost("http://139.196.176.227:8902/wbs-warehouse-manage/v1/putWarehouse/findWareHouseDetailByIds", data, fn)
+    ajaxPost("" + basurl + "/wbs-warehouse-manage/v1/putWarehouse/findWareHouseDetailByIds", data, fn)
 }
 
 /**
@@ -1267,7 +1277,7 @@ export const pSubPurchaseOrderFindRecord = function (data) {
  */
 
 export const pPurchaseOrderDeleteBatch = function (data, fn) {
-    ajaxPost("http://139.196.176.227:8902/wbs-warehouse-manage/v1/pPurchaseOrder/deleteBatch", data, fn)
+    ajaxPost("" + basurl + "/wbs-warehouse-manage/v1/pPurchaseOrder/deleteBatch", data, fn)
 }
 
 //=========================================采购管理 end ========================================
@@ -1310,18 +1320,8 @@ export const pWarehouseRuleSaveRecord = function (data) {
  * 
  * @param {*} data 删除发货规则
  */
-export const pWarehouseRuleDelRecord = function (data) {
-    return new Promise((res, rej) => {
-        service.request({
-            url: "/wbs-warehouse-manage/v1/pWarehouseRule/delRecord",
-            method: "post",
-            data
-        }).then((ok) => {
-            res(ok.data)
-        }).catch((err) => {
-            rej(err)
-        })
-    })
+export const pWarehouseRuleDelRecord = function (data, fn) {
+    return ajaxPost("" + basurl + "/wbs-warehouse-manage/v1/pWarehouseRule/delRecord", data, fn)
 }
 //=========================================发货规则配置 end ========================================
 //=========================================发货管理 start ========================================
@@ -1361,6 +1361,23 @@ export const pOrgSubOrderMegerOrder = function (data) {
     })
 }
 
+/**
+ * 打印拣货单
+ * @param {*} datas 
+ */
+export const pOrgPickOrderprintPick = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgPickOrder/printPick",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
 //=========================================发货管理 end ========================================
 export function post(datas) {
     let {
