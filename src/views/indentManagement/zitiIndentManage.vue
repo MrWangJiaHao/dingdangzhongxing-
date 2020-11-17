@@ -688,33 +688,45 @@ export default {
         return this.$message.error("请输入正确的手机号");
       }
     },
-    lookDetailEvent(row, column) {
+    lookDetailEvent(row, column, cell) {
       if (column.property === "orderNo") {
-        this.$router.push({
-          path: "/indentManagement/orderDetail",
-          query: {
-            orderNo: row,
-            type: "orderNo",
-          },
-        });
+        cell.childNodes[0].childNodes[0].onclick = () => {
+          if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+            this.$router.push({
+              path: "/indentManagement/orderDetail",
+              query: {
+                orderNo: row,
+                type: "orderNo",
+              },
+            });
+          }
+        };
       }
       if (column.property === "subOrderStatus") {
-        this.$router.push({
-          path: "/indentManagement/orderLog",
-          query: {
-            subOrderStatus: row,
-            type: "subOrderStatus",
-          },
-        });
+        cell.childNodes[0].childNodes[0].onclick = () => {
+          if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+            this.$router.push({
+              path: "/indentManagement/orderLog",
+              query: {
+                subOrderStatus: row,
+                type: "subOrderStatus",
+              },
+            });
+          }
+        };
       }
       if (column.property === "subOrderNo") {
-        this.$router.push({
-          path: "/indentManagement/childOrderDetail",
-          query: {
-            subOrderNos: row,
-            type: "subOrderNos",
-          },
-        });
+        cell.childNodes[0].childNodes[0].onclick = () => {
+          if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+            this.$router.push({
+              path: "/indentManagement/childOrderDetail",
+              query: {
+                subOrderNos: row,
+                type: "subOrderNos",
+              },
+            });
+          }
+        };
       }
     },
     takeGoods() {

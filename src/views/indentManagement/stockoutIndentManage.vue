@@ -685,35 +685,47 @@ export default {
     orderGoPurchase() {
       //缺货订单转采购
     },
-    prodLookDetailEvent(row, column) {
+    prodLookDetailEvent(row, column,cell) {
       if (column.property === "orderNum") {
-        this.$router.push({
-          path: "/indentManagement/stockoutOrderInfor",
-          query: {
-            orderNum: row,
-            type: "orderNum",
-          },
-        });
+        cell.childNodes[0].childNodes[0].onclick = () => {
+          if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+            this.$router.push({
+              path: "/indentManagement/stockoutOrderInfor",
+              query: {
+                orderNum: row,
+                type: "orderNum",
+              },
+            });
+          }
+        };
       }
     },
-    orderLookDetailEvent(row, column) {
+    orderLookDetailEvent(row, column,cell) {
       if (column.property === "orderNo") {
-        this.$router.push({
-          path: "/indentManagement/orderDetail",
-          query: {
-            orderNo: row,
-            type: "orderNo",
-          },
-        });
+        cell.childNodes[0].childNodes[0].onclick = () => {
+          if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+            this.$router.push({
+              path: "/indentManagement/orderDetail",
+              query: {
+                orderNo: row,
+                type: "orderNo",
+              },
+            });
+          }
+        };
       }
       if (column.property === "subOrderNo") {
-        this.$router.push({
-          path: "/indentManagement/childOrderDetail",
-          query: {
-            subOrderNos: row,
-            type: "subOrderNos",
-          },
-        });
+        cell.childNodes[0].childNodes[0].onclick = () => {
+          if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+            this.$router.push({
+              path: "/indentManagement/childOrderDetail",
+              query: {
+                subOrderNos: row,
+                type: "subOrderNos",
+              },
+            });
+          }
+        };
       }
     },
     prodAndOrder(item) {

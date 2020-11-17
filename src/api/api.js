@@ -796,6 +796,21 @@ export function findReturnOrderPage(data) {
     })
 }
 
+//退货入库,记录实际退货数量并生成入库单
+export function finishBackOrder(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgSubBackOrder/finishBackOrder",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
 
 /**
  * 
