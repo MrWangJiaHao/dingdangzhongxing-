@@ -142,7 +142,7 @@ textarea {
   flex-direction: column;
 }
 .cell {
-  text-align: center;
+  text-align: left;
   text-overflow: ellipsis;
 }
 
@@ -181,6 +181,15 @@ textarea {
 }
 .line40{
   line-height: 40px;
+}
+.el-message-box__header{
+  background: #ECF1F7; border-bottom: 1px solid#D1D6E2;
+}
+.el-message-box .el-message-box__content .el-message-box__message #checkboxID{
+  width:48%;
+}
+.el-message-box__content{
+padding: 0;
 }
 .meiyiyetitle{
   font-size: 14px;

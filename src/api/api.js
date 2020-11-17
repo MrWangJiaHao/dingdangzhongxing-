@@ -1342,6 +1342,24 @@ export const pDeliverGoodsFindNormalRecordPage = function (data) {
         })
     })
 }
+
+/**
+ * 快速发货特殊商品分页查询
+ * @param {*} data `/wbs-warehouse-manage/v1/pDeliverGoods/findFastRecordPage
+ */
+export const pDeliverGoodsFindFastRecordPage = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pDeliverGoods/findFastRecordPage",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
 /**
  * 订单集计 需要ids
  * 
@@ -1369,6 +1387,23 @@ export const pOrgPickOrderprintPick = function (data) {
     return new Promise((res, rej) => {
         service.request({
             url: "/wbs-warehouse-manage/v1/pOrgPickOrder/printPick",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 拣货单列表
+ * @param {*} datas /wbs-warehouse-manage/v1/pOrgPickOrder/findRecordPage
+ */
+export const pOrgPickOrderfindRecordPage = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgPickOrder/findRecordPage",
             method: "post",
             data
         }).then((ok) => {

@@ -2,29 +2,24 @@
   <div>
     <div class="fuzzyQueryBox">
       <div class="biaogeBox">
-        <div class="displayalign mb20 zujianBox">
-          <div class="noneIconTitle mr11">委托公司:</div>
-          <div class="mr20">
-            <el-select
-              v-model="paras.orgName"
-              slot="prepend"
-              :placeholder="EntrustedCompany.placeholder"
-              @input="getOrdName"
-              @focus="getOrderArr"
-            >
-              <el-option
-                v-for="(item, idx) in EntrustedCompany.entrustedCompanyArr"
-                :key="idx"
-                :label="item.orgFullName"
-                :value="idx"
-              ></el-option>
-            </el-select>
-          </div>
-        </div>
-        <!-- 委托公司 -->
         <div class="zujianBox mb20">
           <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">渠道:</div>
+            <div class="noneIconTitle mr11">拣货单号:</div>
+            <div class="mr20">
+              <el-autocomplete
+                v-model="paras.orderNoCenter"
+                :fetch-suggestions="orderNoArr"
+                placeholder="请输入拣货单号"
+                @select="orderNoSelect"
+              ></el-autocomplete>
+            </div>
+          </div>
+        </div>
+        <!-- 拣货单号 -->
+
+        <div class="zujianBox mb20">
+          <div class="displayalign zujianBox">
+            <div class="noneIconTitle mr11">拣货单状态:</div>
             <div class="mr20">
               <el-select
                 v-model="paras.channelName"
@@ -43,44 +38,7 @@
             </div>
           </div>
         </div>
-        <!-- 渠道 -->
-        <div class="zujianBox mb20">
-          <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">订单来源:</div>
-            <div class="mr20">
-              <el-select
-                v-model="paras.orderSourceName"
-                slot="prepend"
-                placeholder="请选择订单来源"
-                @focus="getOrderSourceName"
-                @input="changeOrderSourceName"
-              >
-                <el-option
-                  v-for="(item, idx) in orderSourceNameJson.orderSourceName"
-                  :key="idx"
-                  :label="item.orderSourceName"
-                  :value="idx"
-                ></el-option>
-              </el-select>
-            </div>
-          </div>
-        </div>
-        <!-- 订单来源 -->
-
-        <div class="zujianBox mb20">
-          <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">订单号:</div>
-            <div class="mr20">
-              <el-autocomplete
-                v-model="paras.orderNoCenter"
-                :fetch-suggestions="orderNoArr"
-                placeholder="请输入订单号"
-                @select="orderNoSelect"
-              ></el-autocomplete>
-            </div>
-          </div>
-        </div>
-        <!-- 订单号 -->
+        <!-- 拣货单状态 -->
 
         <div class="zujianBox mb20">
           <div class="displayalign zujianBox">
@@ -97,140 +55,9 @@
         </div>
         <!-- 子单号 -->
 
-        <div class="displayalign mb20 zujianBox">
-          <div class="noneIconTitle mr11">物流公司:</div>
-          <div class="mr20">
-            <el-select
-              v-model="paras.exprName"
-              slot="prepend"
-              placeholder="请选择物流公司"
-              @input="changeExprName"
-              @focus="getexprName"
-            >
-              <el-option
-                v-for="(item, idx) in exprNameJson.exprNameArr"
-                :key="idx"
-                :label="item.exprName"
-                :value="idx"
-              ></el-option>
-            </el-select>
-          </div>
-        </div>
-        <!-- 物流公司 -->
-
         <div class="zujianBox mb20">
           <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">收货人:</div>
-            <div class="mr20">
-              <el-autocomplete
-                v-model="paras.orderContactCenter"
-                :fetch-suggestions="orderContactArr"
-                placeholder="请输入收货人"
-                @select="orderContactSelect"
-              ></el-autocomplete>
-            </div>
-          </div>
-        </div>
-        <!-- 收货人 -->
-
-        <div class="zujianBox mb20">
-          <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">联系电话:</div>
-            <div class="mr20">
-              <el-autocomplete
-                v-model="orderContactPhone.orderContactPhoneCenter"
-                :fetch-suggestions="orderContactPhoneArr"
-                placeholder="请输入收货人"
-                @select="orderContactPhoneSelect"
-              ></el-autocomplete>
-            </div>
-          </div>
-        </div>
-        <!-- 联系电话 -->
-
-        <div class="zujianBox mb20">
-          <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">收货地址:</div>
-            <div class="mr20">
-              <el-autocomplete
-                v-model="orderAddr.orderAddrCenter"
-                :fetch-suggestions="orderAddrArr"
-                placeholder="请输入收货地址"
-                @select="orderAddrSelect"
-              ></el-autocomplete>
-
-              <el-select
-                v-model="paras.orderAddr"
-                slot="prepend"
-                placeholder="请选择收货地址"
-                @input="changeorderAddr"
-              >
-                <el-option
-                  v-for="(item, idx) in addressJson.orderAddrArr"
-                  :key="idx"
-                  :label="item.orderAddr"
-                  :value="idx"
-                ></el-option>
-              </el-select>
-              <!--address 收货地址  -->
-            </div>
-          </div>
-        </div>
-        <!-- 收货地址 -->
-
-        <div class="zujianBox mb20">
-          <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">产品名称:</div>
-            <div class="mr20">
-              <el-autocomplete
-                v-model="paras.prodNameLike"
-                :fetch-suggestions="addressJsonArr"
-                placeholder="请输入产品名称"
-                @select="addressJsonSelect"
-              ></el-autocomplete>
-
-              <el-select
-                v-model="paras.systemProdName"
-                slot="prepend"
-                placeholder="请选择产品名称"
-                @input="changeaddress"
-                @focus="getaddress"
-              >
-                <el-option
-                  v-for="(item, idx) in systemProdName.systemProdNameArr"
-                  :key="idx"
-                  :label="item.systemProdName"
-                  :value="idx"
-                ></el-option>
-              </el-select>
-              <!--address 产品名称  -->
-            </div>
-          </div>
-        </div>
-        <!-- 产品名称 -->
-
-        <div v-if="fastFahuo" class="displayalign mb20 zujianBox">
-          <div class="noneIconTitle mr11">物流打印状态:</div>
-          <div class="mr20">
-            <el-select
-              v-model="paras.printExprStatus"
-              slot="prepend"
-              placeholder="请选择物物流打印状态"
-              @input="changewiliudayarr"
-            >
-              <el-option
-                v-for="(item, idx) in wiliudayarr"
-                :key="idx"
-                :label="item.title"
-                :value="item.id"
-              ></el-option>
-            </el-select>
-          </div>
-        </div>
-        <!-- 物流公司 -->
-        <div class="zujianBox mb20">
-          <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">支付时间:</div>
+            <div class="noneIconTitle mr11">创建时间:</div>
             <div class="mr20 displayalign">
               <div style="margin-right: 10px">
                 <dateTime
@@ -256,7 +83,33 @@
 
         <div class="zujianBox mb20">
           <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">下发时间:</div>
+            <div class="noneIconTitle mr11">打印时间:</div>
+            <div class="mr20 displayalign">
+              <div style="margin-right: 10px">
+                <dateTime
+                  :dateTimeData="pushStartTime"
+                  @getDateTime="getpushStartTime"
+                  ref="putStart"
+                />
+              </div>
+              <!-- 开始时间 -->
+              <div class="line"></div>
+              <div>
+                <dateTime
+                  :dateTimeData="pushEndTime"
+                  @getDateTime="getpushEndTime"
+                  ref="putEnd"
+                />
+              </div>
+              <!-- 结束时间 -->
+            </div>
+          </div>
+        </div>
+        <!-- 下发时间 -->
+
+        <div class="zujianBox mb20">
+          <div class="displayalign zujianBox">
+            <div class="noneIconTitle mr11">拣货开始时间:</div>
             <div class="mr20 displayalign">
               <div style="margin-right: 10px">
                 <dateTime
