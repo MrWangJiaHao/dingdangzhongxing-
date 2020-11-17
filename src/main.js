@@ -11,11 +11,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 import "./assets/css/Toast.css";
 import "./assets/css/index.css";
 import VueCookie from 'vue-cookie'
-
 import Lodop from './assets/js/LodopFuncs'
 import qrcode from './assets/js/qrcode'
 import "./assets/js/rem";
 import animated from 'animate.css';
+
 Vue.use(animated)
 import messageSelf from "./assets/js/toast"; //自定义弹框
 

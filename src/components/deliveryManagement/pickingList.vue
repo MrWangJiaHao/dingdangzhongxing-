@@ -2,7 +2,9 @@
   <div class="setUserIngBox">
     <div class="setUserIngBoxCenter">
       <div class="headerBox mb10">
-        <div class="closeTitle">手动发货拣货单</div>
+        <div class="closeTitle">
+          {{ OneOrAddMes ? "订单含一种产品订单" : "手动发货拣货单" }}
+        </div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
       <div style="border-bottom: 1px solid #d2d6e2; padding: 0 0 10px 0">
@@ -31,7 +33,7 @@
                 >
                   XXX拣货单
                 </div>
-                <div style="position: absolute; top: 10px; right: 50px">
+                <div style="position: absolute; top: 5px; right: 50px">
                   <img
                     :src="'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=123123'"
                     width="300"
@@ -190,20 +192,21 @@
                     <el-table
                       style="width: 980px"
                       ref="singleTable"
+                      :span-method="arraySpanMethod"
                       :data="tableDatas"
                       border
                       highlight-current-row
                     >
                       <el-table-column
-                        property="prodCode"
+                        property="abes"
                         label="库位"
-                        style="text-align: center; width: 80px"
+                        style="color: #4796e3"
                       >
                       </el-table-column>
                       <el-table-column
-                        property="prodCode"
+                        property="ads"
                         label="产品编码"
-                        style="text-align: center; width: 80px"
+                        style="width: 80px; color: #4796e3"
                       >
                       </el-table-column>
                       <el-table-column
@@ -216,7 +219,7 @@
                       </el-table-column>
                       <el-table-column property="prodNum" label="申请入库数量">
                       </el-table-column>
-                      <el-table-column property="shijishulian" label="产品规格">
+                      <el-table-column property="abess" label="产品规格">
                       </el-table-column>
                       <el-table-column property="recommendSeatNo" label="数量">
                       </el-table-column>
@@ -224,9 +227,68 @@
                       </el-table-column>
                     </el-table>
                   </div>
-                  <!-- 表格title -->
                 </div>
                 <!-- 入库单表格 -->
+                <div v-if="OneOrAddMes">
+                  <div style="padding: 20px 0">
+                    <div
+                      style="
+                        display: inline-block;
+                        background: #4897e4;
+                        width: 3px;
+                        height: 16px;
+                        margin-right: 10px;
+                      "
+                    ></div>
+                    <div
+                      style="
+                        display: inline-block;
+                        color: #4897e4;
+                        font-size: 16px;
+                        line-height: 16px;
+                      "
+                    >
+                      发货详情
+                    </div>
+                  </div>
+                  <div>
+                    <el-table
+                      style="width: 980px"
+                      ref="singleTable"
+                      :data="detailsTable"
+                      border
+                      highlight-current-row
+                    >
+                      <el-table-column
+                        property="abes"
+                        label="订单号"
+                        style="color: #4796e3"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        property="ads"
+                        label="子单号"
+                        style="width: 80px; color: #4796e3"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        property="prodName"
+                        label="推荐用箱 "
+                        width="120"
+                      >
+                      </el-table-column>
+                      <el-table-column property="specName" label="订单编号">
+                      </el-table-column>
+                      <el-table-column property="prodNum" label="发货条码">
+                        <div slot-scope="scoped">
+                          <img class="barcode" width="150" height="40" />
+                          {{ getLodopS(scoped.row, scoped.$index) }}
+                        </div>
+                      </el-table-column>
+                    </el-table>
+                  </div>
+                </div>
+                <!-- 发货详情 -->
                 <div style="padding: 20px 30px 20px 0; text-align: right">
                   <div
                     style="
@@ -248,7 +310,7 @@
                       font-weight: normal;
                     "
                   >
-                    1/ tableDatas.length / 5
+                    1/ {{ Math.ceil(tableDatas.length / 5) }}
                   </div>
                 </div>
                 <!-- 入库尾部 -->
@@ -268,10 +330,25 @@
 </template>
 
 <script>
+/*
+ eslint-disable
+ */
+import JsBarcode from "jsbarcode";
 export default {
   data() {
     return {
-      tableDatas: [],
+      tableDatas: [
+        {
+          tiaoxianma: "adsadsadsa",
+        },
+      ],
+      detailsTable: [
+        {
+          prodName: "asd",
+          abes: "asd",
+          tiaoxianma: "123123",
+        },
+      ],
       Newtime: "",
       parintBatchNumberArrs: [],
     };
@@ -285,8 +362,37 @@ export default {
       this.parintBatchNumberArrs = parintBatchNumberArrs;
     }
   },
+  props: {
+    OneOrAddMes: {
+      type: Boolean,
+      default: false,
+    },
+  },
 
   methods: {
+    getLodopS(datas, idx) {
+      this.$nextTick(() => {
+        let json = document.getElementsByClassName("barcode")[idx];
+        JsBarcode(json, datas.tiaoxianma, {
+          format: "CODE39",
+          lineColor: "#000",
+          background: "#EBEEF5",
+          width: 160,
+          height: 50,
+          displayValue: false,
+        });
+      });
+    },
+    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+      // console.log(row, column, rowIndex, columnIndex);
+      if (row["abes"]) {
+        if (columnIndex === 0) {
+          return [1, 8];
+        } else if (columnIndex === 1) {
+          return [0, 0];
+        }
+      }
+    },
     closeBtn() {
       this.$emit("getiscaigoudanDetail", false);
     },
@@ -302,8 +408,8 @@ export default {
       });
     },
     _createEwm() {
-      this.LODOP.ADD_PRINT_HTM(
-        40,
+      this.LODOP.ADD_PRINT_BARCODE(
+        20,
         20,
         2970,
         2100,
@@ -351,6 +457,8 @@ export default {
     transform: translateX(-50%);
     background: #fff;
     width: 1140px;
+    height: 750px;
+    overflow: auto;
     .centerBox {
       padding: 30px 20px;
     }
