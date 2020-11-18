@@ -69,7 +69,7 @@
                 </el-input>
               </div>
             </div>
-            <div class="el-inputBox">
+            <div class="el-inputBox setMargin">
               <div class="el-inputBox-text">子单号：</div>
               <div class="el-inputBox-checkBox">
                 <el-input
@@ -121,7 +121,7 @@
                 </el-input>
               </div>
             </div>
-            <div class="el-inputBox childrenIndent">
+            <div class="el-inputBox childrenIndent setMargin">
               <div class="el-inputBox-text">退单状态：</div>
               <div class="el-inputBox-checkBox">
                 <el-select
@@ -565,30 +565,30 @@ export default {
       unOutGetExcelUrl:
         "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubBackOrder/getBackOrderExcel",
       storeOutData: [
-        // {
-        //   backOrderNo: "TH20200305092516647298284",
-        //   channelBackOrderNo: "",
-        //   disposeStatus: 1,
-        //   exprName: "",
-        //   exprNo: "",
-        //   id: "da148d24db0043c2b5325e72e0b6fcf5",
-        //   orderAddr: "硅谷街道硅谷大街益田枫露小区1期3栋",
-        //   orderCityName: "长春市",
-        //   orderContact: "周秋影",
-        //   orderContactPhone: "18686456695",
-        //   orderCountyName: "",
-        //   orderId: "37E6E46AAECF440883DC10C66A7D31DA",
-        //   orderNo: "XS_20200303142834448_769705",
-        //   orderProName: "吉林省",
-        //   orderSourceId: "7CBF78FF05034EDC855CF4A9C877B477",
-        //   orderSourceName: "创客淘宝订单来源",
-        //   orgId: "2B82213FE3764E9E96691B70BE5281CD",
-        //   orgName: "xxxxxckc委托公司",
-        //   returnMoneyTime: null,
-        //   returnType: 4,
-        //   subOrder: [],
-        //   subOrderNos: ["871195073869320914-1", "771696073865320114-1"],
-        // },
+        {
+          backOrderNo: "TH20200305092516647298284",
+          channelBackOrderNo: "",
+          disposeStatus: 1,
+          exprName: "",
+          exprNo: "",
+          id: "da148d24db0043c2b5325e72e0b6fcf5",
+          orderAddr: "硅谷街道硅谷大街益田枫露小区1期3栋",
+          orderCityName: "长春市",
+          orderContact: "周秋影",
+          orderContactPhone: "18686456695",
+          orderCountyName: "",
+          orderId: "37E6E46AAECF440883DC10C66A7D31DA",
+          orderNo: "XS_20200303142834448_769705",
+          orderProName: "吉林省",
+          orderSourceId: "7CBF78FF05034EDC855CF4A9C877B477",
+          orderSourceName: "创客淘宝订单来源",
+          orgId: "2B82213FE3764E9E96691B70BE5281CD",
+          orgName: "xxxxxckc委托公司",
+          returnMoneyTime: null,
+          returnType: 4,
+          subOrder: [],
+          subOrderNos: ["871195073869320914-1", "771696073865320114-1"],
+        },
       ],
       unStoreOutData: [],
       datetimeDate: {
@@ -691,7 +691,7 @@ export default {
       findReturnOrderPage(QueryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
-          this.storeOutData = ok.data.result.list;
+          // this.storeOutData = ok.data.result.list;
           let oDiv = document.querySelectorAll(".subOrderNosStyle");
           let oList = document.querySelector(".subOrderNosList");
           oDiv.forEach((v) => {
@@ -886,17 +886,6 @@ export default {
     },
     clearInput() {
       //点击清空输入框
-      this.entrustCompany = "";
-      this.channelValue = "";
-      this.indentSourceValue = "";
-      this.orderNumberValue = "";
-      this.ChildOrderNumberValue = "";
-      this.prodNameValue = "";
-      this.prodCodeValue = "";
-      this.prodSpecValue = "";
-      this.returnOrderValue = "";
-      this.resalesOrderStateValue = "";
-      this.resalesTypeValue = "";
       this.clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
@@ -913,10 +902,10 @@ export default {
     },
     chukuEduce() {
       //已出库导出表格
-      if (!this.outMultipleSelection.length)
-        return Message("请选择要导出的订单");
-      if (this.outMultipleSelection.length !== 1)
-        return Message("一次只能选择一个订单");
+      // if (!this.outMultipleSelection.length)
+      //   return Message("请选择要导出的订单");
+      // if (this.outMultipleSelection.length !== 1)
+      //   return Message("一次只能选择一个订单");
       let oA = document.querySelector(".outEduce");
       oA.setAttribute(
         "href",
@@ -925,10 +914,10 @@ export default {
     },
     weichuEduce() {
       //未出库导出按钮
-      if (!this.unOutMultipleSelection.length)
-        return Message("请选择要导出的订单");
-      if (this.unOutMultipleSelection.length !== 1)
-        return Message("一次只能选择一个订单");
+      // if (!this.unOutMultipleSelection.length)
+      //   return Message("请选择要导出的订单");
+      // if (this.unOutMultipleSelection.length !== 1)
+      //   return Message("一次只能选择一个订单");
       let oA = document.querySelector(".unOutEduce");
       oA.setAttribute(
         "href",
@@ -985,71 +974,72 @@ export default {
     },
     outLookDetailEvent(row, column, cell) {
       if (column.property === "backOrderNo") {
-        cell.childNodes[0].childNodes[0].onclick = () => {
-          if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
-            this.$router.push({
-              path: "/indentManagement/resalesOrderInfor",
-              query: {
-                backOrderNo: row,
-                type: "backOrderNo",
-              },
-            });
-          }
-        };
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/resalesOrderInfor",
+            query: {
+              backOrderNo: row,
+              type: "backOrderNo",
+            },
+          });
+        }
       }
       if (column.property === "orderNo") {
-        cell.childNodes[0].childNodes[0].onclick = () => {
-          if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
-            this.$router.push({
-              path: "/indentManagement/orderDetail",
-              query: {
-                orderNo: row,
-                type: "orderNo",
-              },
-            });
-          }
-        };
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/orderDetail",
+            query: {
+              orderNo: row,
+              type: "orderNo",
+            },
+          });
+        }
       }
       if (column.property === "subOrderNos") {
-        cell.childNodes[0].childNodes[0].onclick = () => {
-          if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
-            this.$router.push({
-              path: "/indentManagement/childOrderDetail",
-              query: {
-                subOrderNos: row,
-                type: "subOrderNos",
-              },
-            });
-          }
-        };
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/childOrderDetail",
+            query: {
+              subOrderNos: row,
+              type: "subOrderNos",
+            },
+          });
+        }
       }
     },
     unOutLookDetailEvent(row, column, cell) {
+      if (column.property === "backOrderNo") {
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/resalesOrderInfor",
+            query: {
+              backOrderNo: row,
+              type: "backOrderNo",
+            },
+          });
+        }
+      }
       if (column.property === "orderNo") {
-        cell.childNodes[0].childNodes[0].onclick = () => {
-          if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
-            this.$router.push({
-              path: "/indentManagement/orderDetail",
-              query: {
-                orderNo: row,
-                type: "orderNo",
-              },
-            });
-          }
-        };
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/orderDetail",
+            query: {
+              orderNo: row,
+              type: "orderNo",
+            },
+          });
+        }
       }
       if (column.property === "subOrderNos") {
-        cell.childNodes[0].childNodes[0].onclick = () => {
-          if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
-            this.$router.push({
-              path: "/indentManagement/childOrderDetail",
-              query: {
-                subOrderNos: row,
-                type: "subOrderNos",
-              },
-            });
-          }
-        };
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/childOrderDetail",
+            query: {
+              subOrderNos: row,
+              type: "subOrderNos",
+            },
+          });
+        }
       }
     },
     prodAndOrder(item) {
@@ -1157,7 +1147,7 @@ export default {
         display: flex;
         align-items: center;
         font-size: 16px;
-        margin-right: 20px;
+        margin-right: 1.05%;
         .el-inputBox-text {
           white-space: nowrap;
         }
@@ -1166,7 +1156,7 @@ export default {
         display: none;
       }
       .childrenIndent {
-        width: 19%;
+        width: 20%;
         .el-inputBox-checkBox {
           width: 100%;
         }
@@ -1186,6 +1176,9 @@ export default {
         .el-inputBox-checkBox {
           width: 100%;
         }
+      }
+      .setMargin {
+        margin-right: 0;
       }
     }
     .headerInput-three {
@@ -1221,6 +1214,9 @@ export default {
       .el-inputBox {
         width: 20%;
       }
+      .setMargin {
+        margin-right: 0;
+      }
       .el-inputBox-checkBox {
         width: 100%;
       }
@@ -1242,7 +1238,7 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 22px 0 10px;
+      margin: 0 0 0 10px;
     }
   }
 }
@@ -1275,7 +1271,6 @@ export default {
       display: flex;
       margin: 16px 20px 16px 0;
       .setUser {
-        margin-right: 10px;
         @include BtnFunction("success");
       }
       .takeOrdersDiv {
@@ -1288,9 +1283,7 @@ export default {
     background: white;
     padding: 20px;
   }
-  .formTabs {
-    padding: 0 10px;
-  }
+
   .lookDetail {
     color: #599af3;
     text-decoration: underline;

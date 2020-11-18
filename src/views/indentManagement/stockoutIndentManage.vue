@@ -62,14 +62,14 @@
                 </el-select>
               </div>
             </div>
-            <div class="el-inputBox">
+            <div class="el-inputBox ">
               <div class="el-inputBox-text">订单号：</div>
               <div class="el-inputBox-checkBox">
                 <el-input v-model="orderNumberValue" placeholder="模糊检索">
                 </el-input>
               </div>
             </div>
-            <div class="el-inputBox">
+            <div class="el-inputBox setMargin">
               <div class="el-inputBox-text">子单号：</div>
               <div class="el-inputBox-checkBox">
                 <el-input
@@ -523,9 +523,10 @@ export default {
       });
     },
     pageQueryOrderFun() {
+      //缺货订单查询
       let orderQueryData = this.orderQueryData;
       findFailOrderData(orderQueryData).then((ok) => {
-        // console.log(ok);
+        console.log(ok);
         if (ok.data.code === "10000") {
           this.orderData = ok.data.result.list;
           this.changeData1(ok.data.result);
@@ -605,14 +606,6 @@ export default {
     },
     clearInput() {
       //点击清空输入框
-      this.entrustCompany = "";
-      this.channelValue = "";
-      this.indentSourceValue = "";
-      this.orderNumberValue = "";
-      this.ChildOrderNumberValue = "";
-      this.prodNameValue = "";
-      this.prodCodeValue = "";
-      this.prodSpecValue = "";
       this.clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
@@ -648,10 +641,10 @@ export default {
     },
     prodEduce() {
       //缺货产品导出表格
-      if (!this.prodMultipleSelection.length)
-        return Message("请选择要导出的订单");
-      if (this.prodMultipleSelection.length != 1)
-        return Message("一次只能选择一个订单");
+      // if (!this.prodMultipleSelection.length)
+      //   return Message("请选择要导出的订单");
+      // if (this.prodMultipleSelection.length != 1)
+      //   return Message("一次只能选择一个订单");
       let oA = document.querySelector(".prodEduce");
       oA.setAttribute(
         "href",
@@ -660,10 +653,10 @@ export default {
     },
     orderEduce() {
       //缺货订单导出表格
-      if (!this.orderMultipleSelection.length)
-        return Message("请选择要导出的订单");
-      if (this.orderMultipleSelection.length != 1)
-        return Message("一次只能选择一个订单");
+      // if (!this.orderMultipleSelection.length)
+      //   return Message("请选择要导出的订单");
+      // if (this.orderMultipleSelection.length != 1)
+      //   return Message("一次只能选择一个订单");
       let oA = document.querySelector(".orderEduce");
       oA.setAttribute(
         "href",
@@ -687,7 +680,6 @@ export default {
     },
     prodLookDetailEvent(row, column,cell) {
       if (column.property === "orderNum") {
-        cell.childNodes[0].childNodes[0].onclick = () => {
           if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
             this.$router.push({
               path: "/indentManagement/stockoutOrderInfor",
@@ -697,12 +689,10 @@ export default {
               },
             });
           }
-        };
       }
     },
     orderLookDetailEvent(row, column,cell) {
       if (column.property === "orderNo") {
-        cell.childNodes[0].childNodes[0].onclick = () => {
           if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
             this.$router.push({
               path: "/indentManagement/orderDetail",
@@ -712,10 +702,8 @@ export default {
               },
             });
           }
-        };
       }
       if (column.property === "subOrderNo") {
-        cell.childNodes[0].childNodes[0].onclick = () => {
           if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
             this.$router.push({
               path: "/indentManagement/childOrderDetail",
@@ -725,7 +713,6 @@ export default {
               },
             });
           }
-        };
       }
     },
     prodAndOrder(item) {
@@ -842,6 +829,9 @@ export default {
       .el-inputBox {
         width: 20%;
       }
+      .setMargin {
+        margin-right: 0;
+      }
       .el-inputBox-checkBox {
         width: 100%;
       }
@@ -850,7 +840,7 @@ export default {
   .header-botton {
     width: 9%;
     position: absolute;
-    right: 10px;
+    right: 0;
     top: 60px;
     .showBtn {
       width: 50px;
@@ -873,7 +863,7 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 14px 0 10px;
+      margin: 0 0 0 10px;
     }
   }
   .timeChoose {
@@ -926,7 +916,6 @@ export default {
       display: flex;
       margin: 16px 20px 16px 0;
       .setUser {
-        margin-right: 10px;
         @include BtnFunction("success");
       }
       .takeOrdersDiv {
@@ -939,9 +928,7 @@ export default {
     background: white;
     padding: 20px;
   }
-  .formTabs {
-    padding: 0 10px;
-  }
+  
   .lookDeatil {
     color: #599af3;
     text-decoration: underline;

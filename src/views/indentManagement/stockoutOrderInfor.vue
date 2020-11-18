@@ -71,6 +71,7 @@ export default {
           vm.prodName = rowres.prodName;
           vm.specName = rowres.specName;
           vm.allorderNum = rowres.orderNum;
+          vm.queryFun();
         }
       });
     } else {
@@ -99,14 +100,14 @@ export default {
           prodId: "",
         },
       },
-      queryFun: "",
+      queryFun: ()=>{},
     };
   },
   mounted() {
     this.queryFun = () => {
       let prodReleOrderQueryData = this.prodReleOrderQueryData;
       findFailProdDetail(prodReleOrderQueryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
