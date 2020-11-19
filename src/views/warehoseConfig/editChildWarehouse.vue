@@ -395,7 +395,7 @@ export default {
           id: this.editId, //仓库id
         };
         add_edit_WH_Request(data).then((ok) => {
-          console.log(ok);
+          // console.log(ok);
           if (ok.data.code === "10000") {
             this.$messageSelf.message({
               type: "success",
@@ -459,16 +459,16 @@ export default {
       border-radius: 10px;
       .temporarily_no {
         position: relative;
-        div {
-          width: 300px;
-          height: 150px;
-          background: white;
-          position: absolute;
-          left: 20px;
-          top: 20px;
-          cursor: pointer;
-          border-radius: 10px;
-        }
+        // div {
+        //   width: 300px;
+        //   height: 150px;
+        //   background: white;
+        //   position: absolute;
+        //   left: 20px;
+        //   top: 20px;
+        //   cursor: pointer;
+        //   border-radius: 10px;
+        // }
       }
     }
     .newChildWarehouse {

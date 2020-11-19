@@ -299,7 +299,12 @@ export default {
         {
           title: "报损管理",
           iconCls: require("@/assets/img/warehouse-breakageConfig.png"),
-          children: [],
+          children: [
+            {
+              title: "报损管理",
+              name: "/breakageManagement/breakageMain",
+            },
+          ],
         },
         {
           title: "仓库作业",
