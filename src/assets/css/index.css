@@ -113,7 +113,9 @@ textarea {
   white-space: nowrap;
   transition: all .5s;
 }
-
+.el-input__inner:hover{
+  border-color: #409EFF;
+}
 .nowrap {
   text-overflow: ellipsis;
   white-space: nowrap;

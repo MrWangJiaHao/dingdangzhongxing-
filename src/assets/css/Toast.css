@@ -109,3 +109,9 @@
 .el-table__row--striped{
   background-color: #D1D6E2;
 }
+.el-input__inner{
+  height: 34px;
+}
+.ivu-input{
+  height: 34px!important;
+}

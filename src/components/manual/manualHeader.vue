@@ -155,7 +155,6 @@
           </div>
         </div>
         <!-- 产品名称 -->
-
         <!-- <div class="zujianBox mb20">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">产品规格:</div>
@@ -178,7 +177,7 @@
           </div>
         </div> -->
         <!-- 产品规格 ProductSpecificationsJson -->
-
+        <br />
         <div v-show="_isRuku()" class="zujianBox mb20">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">期望入库时间:</div>
@@ -307,12 +306,11 @@
           </div>
         </div>
         <!-- 复核完成时间 -->
-      </div>
-
-      <div class="tr" style="width: 100%">
-        <div class="btns mb20">
-          <div class="queryBtn zujianBox" @click="clickQueryUser">查询</div>
-          <div class="clearBtn" @click="clearInputAll">清空</div>
+        <div class="tr" style="width: 100%">
+          <div class="btns mb20">
+            <div class="queryBtn zujianBox" @click="clickQueryUser">查询</div>
+            <div class="clearBtn" @click="clearInputAll">清空</div>
+          </div>
         </div>
       </div>
     </div>

@@ -10,6 +10,7 @@ button{
 @mixin BtnFunction($msg:'Usual') {
     padding: 0 10px;
     min-width: 62px;
+    max-width: 102px;
     height: 36px;
     border-radius: $border;
     font-weight: 400;

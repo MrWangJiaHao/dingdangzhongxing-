@@ -101,7 +101,7 @@ export default {
           login(data).then((ok) => {
             // console.log(ok.data);
             if (ok.data.code === "10000") {
-              this.$message({
+              this.$messageSelf.message({
                 type: "success",
                 message: "登录成功",
               });
@@ -146,7 +146,7 @@ export default {
       (autoUserName === null && autoUserPwd === null) ||
       (autoUserName === undefined && autoUserPwd === undefined)
     ) {
-      this.$message({
+      this.$messageSelf.message({
         type: "error",
         message: "请重新登录",
       });

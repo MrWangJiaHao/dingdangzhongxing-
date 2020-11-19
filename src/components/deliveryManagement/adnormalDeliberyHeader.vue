@@ -281,11 +281,9 @@ export default {
   methods: {
     changeorderAddr(e) {
       this.paras.orderAddr = addressJson.orderAddrArr[e].orderAddr;
-      this.$emit("getParasJson", this.paras);
     },
     changewiliudayarr(e) {
       this.paras.printExprStatus = e;
-      this.$emit("getParasJson", this.paras);
     },
     //获取数组
     async _getMes() {
@@ -335,19 +333,16 @@ export default {
     //改变收货地址
     changeaddress(e) {
       this.paras.orderAddr = this.systemProdName.systemProdNameArr[e].orderAddr;
-      this.$emit("getParasJson", this.paras);
     },
     //收货联系电话
     orderContactPhoneArr(e) {
       this.paras.orderContactPhone = e;
-      this.$emit("getParasJson", this.paras);
     },
     //选择了那个收货联系电话
     orderContactPhoneSelect() {},
     //点击收货人
     orderContactArr(e) {
       this.paras.orderContact = e;
-      this.$emit("getParasJson", this.paras);
     },
     //选择了那个收货人
     orderContactSelect() {},
@@ -360,7 +355,6 @@ export default {
     //订单号数组
     orderNoArr(e) {
       this.paras.orderNo = e;
-      this.$emit("getParasJson", this.paras);
     },
     //选择那个订单数组
     orderNoSelect() {},
@@ -370,12 +364,10 @@ export default {
     changeOrderSourceName(e) {
       this.paras.orderSourceId =
         channelNameJson.channelNameArr[e].orderSourceId;
-      this.$emit("getParasJson", this.paras);
     },
     //改变渠道
     getchannelName(e) {
       this.paras.channelId = channelNameJson.channelNameArr[e].channelId;
-      this.$emit("getParasJson", this.paras);
     },
     //点击渠道
     changeChannelName() {},

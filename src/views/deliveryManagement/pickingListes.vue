@@ -223,6 +223,8 @@ export default {
         .then((res) => {
           if (res.code == "10000") {
             this.$messageSelf.message(res.msg);
+          } else {
+            this.$messageSelf.message(res.msg);
           }
         })
         .catch((err) => err);
@@ -234,14 +236,15 @@ export default {
     _jijiJianhuodan() {
       pDeliverGoodsUpdatePrintExprStatus({
         id: _getArrTarget(this.multipleSelection, "id"),
-      }).then((res) => {
-        if (res.code == "10000") {
-          this.$messageSelf.message(res.msg);
-        } else {
-          this.$messageSelf.message(res.msg);
-        }
-      });
-      //   .catch((err) => this.$messageSelf.message("出错拉~~"));
+      })
+        .then((res) => {
+          if (res.code == "10000") {
+            this.$messageSelf.message(res.msg);
+          } else {
+            this.$messageSelf.message(res.msg);
+          }
+        })
+        .catch((err) => this.$messageSelf.message("出错拉~~"));
       console.log("打印拣货单");
     },
     goToDetailOut(e) {
@@ -260,8 +263,8 @@ export default {
     },
     //打印拣货单
     printPicking() {
-      // if (!this.multipleSelection.length)
-      //   return this.$messageSelf.message("请选择要打印的拣货单~~");
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message("请选择要打印的拣货单~~");
       this.$messageSelf
         .confirms(
           `共选中${this.multipleSelection.length}笔拣货单，${this.multipleSelection.length}笔订单，确认打印吗？`,
@@ -274,7 +277,7 @@ export default {
           this._jijiJianhuodan();
         })
         .catch(() => {
-          this.$messageSelf.message("已经取消打印~~");
+          this.$messageSelf.message("已经取消打印拣货单~~");
         });
     },
     //表格发生了变化以及点击了查询按钮
