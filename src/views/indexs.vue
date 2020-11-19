@@ -602,6 +602,7 @@ export default {
 
 .dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item {
   border: 1px solid #ced4de;
+  border-bottom: none;
 }
 
 .el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
@@ -675,11 +676,12 @@ export default {
 
   .dianjiqiehuan {
     padding: 0 20px;
-    background: #eef1f8;
+    background: #e6e7ea;
     border-bottom: 1px solid #ced4de;
 
     .dianjiCenters {
       padding-top: 20px;
+      border-bottom: 1px solid #ced4de;
     }
   }
 

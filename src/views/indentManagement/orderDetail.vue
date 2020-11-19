@@ -91,8 +91,9 @@ export default {
     if (
       from.name === "/indentManagement/sellIndentManage" ||
       from.name === "/indentManagement/zitiIndentManage" ||
-      from.name === "/indentManagement/notLogisticsIndentManage"||
-      from.name === "/indentManagement/stockoutIndentManage"
+      from.name === "/indentManagement/notLogisticsIndentManage" ||
+      from.name === "/indentManagement/stockoutIndentManage" ||
+      from.name === "/indentManagement/resalesIndentManage"
     ) {
       next((vm) => {
         if (vm.$route.query.type === "orderNo") {
@@ -108,6 +109,7 @@ export default {
           vm.orderSourceName = data.orderSourceName;
           vm.pushTime = data.pushTime;
           vm.exprName = data.exprName;
+          vm.queryFun();
         }
       });
     } else {
@@ -129,18 +131,21 @@ export default {
       exprName: "", //物流公司
       subOrderNo: "", //子订单ID
       id: "", //销售订单id
+      queryFun: () => {},
     };
   },
   mounted() {
-    // console.log(this.id);
-    let sellOrderQuery = {
-      id: this.id,
+    this.queryFun = () => {
+      let sellOrderQuery = {
+        id: this.id,
+      };
+      sellOrderInfor(sellOrderQuery).then((ok) => {
+        if (ok.data.code === "10000") {
+          this.tableData = ok.data.result;
+        }
+      });
     };
-    sellOrderInfor(sellOrderQuery).then((ok) => {
-      if (ok.data.code === "10000") {
-        this.tableData = ok.data.result;
-      }
-    });
+    this.queryFun();
   },
   methods: {
     back() {

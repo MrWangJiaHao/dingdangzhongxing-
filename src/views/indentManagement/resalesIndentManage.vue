@@ -69,7 +69,7 @@
                 </el-input>
               </div>
             </div>
-            <div class="el-inputBox">
+            <div class="el-inputBox setMargin">
               <div class="el-inputBox-text">子单号：</div>
               <div class="el-inputBox-checkBox">
                 <el-input
@@ -117,11 +117,11 @@
             <div class="el-inputBox childrenIndent">
               <div class="el-inputBox-text">退单号：</div>
               <div class="el-inputBox-checkBox">
-                <el-input v-model="prodCodeValue" placeholder="模糊检索">
+                <el-input v-model="returnOrderValue" placeholder="模糊检索">
                 </el-input>
               </div>
             </div>
-            <div class="el-inputBox childrenIndent">
+            <div class="el-inputBox childrenIndent setMargin">
               <div class="el-inputBox-text">退单状态：</div>
               <div class="el-inputBox-checkBox">
                 <el-select
@@ -148,7 +148,7 @@
                 <div class="el-inputBox-checkBox">
                   <el-select
                     v-model="resalesTypeValue"
-                    placeholder="请选择产品规格"
+                    placeholder="请选择退货类型"
                     @change="resalesTypeValues"
                     clearable
                   >
@@ -205,11 +205,14 @@
                   <div class="icon-title-title">{{ title }}</div>
                 </div>
                 <div class="someBtn">
-                  <div class="takeOrdersDiv" @click="yiChuHuoSure">完成</div>
+                  <div class="takeOrdersDiv" @click="yichukuSure">完成</div>
                   <div class="takeOrdersDiv" @click="affirmResales">
                     确认退货
                   </div>
-                  <a class="setUser" @click="chukuEduce" target="_blank"
+                  <a
+                    class="setUser outEduce"
+                    @click="chukuEduce"
+                    target="_blank"
                     >导出</a
                   >
                 </div>
@@ -219,7 +222,7 @@
                   :data="storeOutData"
                   border
                   style="width: 100%"
-                  @selection-change="handleSelectionChange"
+                  @selection-change="outHandleSelectionChange"
                   :stripe="true"
                   tooltip-effect="dark"
                   @cell-click="outLookDetailEvent"
@@ -311,7 +314,11 @@
                     align="center"
                   >
                   </el-table-column
-                  ><el-table-column prop="" label="用户昵称" align="center">
+                  ><el-table-column
+                    prop="nickName"
+                    label="用户昵称"
+                    align="center"
+                  >
                   </el-table-column>
                   <el-table-column
                     prop="sendContact"
@@ -382,7 +389,10 @@
                 </div>
                 <div class="someBtn">
                   <div class="takeOrdersDiv" @click="weichukuSure">完成</div>
-                  <a class="setUser" @click="weichuEduce" target="_blank"
+                  <a
+                    class="setUser unOutEduce"
+                    @click="weichuEduce"
+                    target="_blank"
                     >导出</a
                   >
                 </div>
@@ -392,7 +402,7 @@
                   :data="unStoreOutData"
                   border
                   style="width: 100%"
-                  @selection-change="handleSelectionChange"
+                  @selection-change="unOutHandleSelectionChange"
                   :stripe="true"
                   tooltip-effect="dark"
                   @cell-click="unOutLookDetailEvent"
@@ -441,16 +451,19 @@
                       </div>
                     </template> </el-table-column
                   ><el-table-column
-                    prop="braName"
+                    prop="subOrderNos"
                     label="子单号"
                     align="center"
                   >
                     <template slot-scope="scope">
-                      <div class="lookDetail">
-                        {{ scope.row.braName }}
-                      </div>
-                      <div class="lookDetail">
-                        {{ scope.row.braName }}
+                      <div class="subOrderNosList">
+                        <div
+                          class="lookDetail subOrderNosStyle"
+                          v-for="(v, i) in scope.row.subOrderNos"
+                          :key="i"
+                        >
+                          {{ v }}
+                        </div>
                       </div>
                     </template> </el-table-column
                   ><el-table-column
@@ -477,7 +490,11 @@
                     align="center"
                   >
                   </el-table-column
-                  ><el-table-column prop="" label="用户昵称" align="center">
+                  ><el-table-column
+                    prop="nickName"
+                    label="用户昵称"
+                    align="center"
+                  >
                   </el-table-column>
                   <el-table-column
                     prop="orderContact"
@@ -543,8 +560,10 @@ export default {
       index: 0,
       title: "已出库信息",
       lotNo: "",
-      getExcelUrl:
-        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubOrder/getExcel?lotNo=",
+      outGetExcelUrl:
+        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubBackOrder/getReturnOrderExcel",
+      unOutGetExcelUrl:
+        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubBackOrder/getBackOrderExcel",
       storeOutData: [
         {
           backOrderNo: "TH20200305092516647298284",
@@ -589,30 +608,47 @@ export default {
       prodNameValue: "",
       prodCodeValue: "",
       prodSpecValue: "",
+      returnOrderValue: "",
       resalesOrderStateValue: "",
       resalesTypeValue: "",
       resalesOrderStateData: [
         {
+          value: "0",
+          label: "初始",
+        },
+        {
           value: "1",
-          label: "待退货确认",
+          label: "已取消",
         },
         {
           value: "2",
-          label: "待入库",
+          label: "待确认",
         },
         {
           value: "3",
-          label: "已入库",
+          label: "已完成",
         },
       ],
       resalesTypeValueData: [
         {
           value: "1",
-          label: "全退",
+          label: "部分退货",
         },
         {
           value: "2",
-          label: "部分退",
+          label: "全部退货",
+        },
+        {
+          value: "3",
+          label: "取消订单",
+        },
+        {
+          value: "4",
+          label: "部分退货中",
+        },
+        {
+          value: "5",
+          label: "全部退货中",
         },
       ],
       channelValueData: [],
@@ -624,9 +660,9 @@ export default {
       consigneeValue: "",
       telPhoneValue: "",
       addressValue: "",
-      multipleSelection: [],
+      outMultipleSelection: [],
+      unOutMultipleSelection: [],
       QueryData: {
-        // orderBy: "createTime",
         pageNumber: 1,
         pageSize: 10,
         paras: {
@@ -634,20 +670,23 @@ export default {
         },
       },
       pageComponentsData: {
-        pageNums: 0, //一共多少条 //默认一页10条
+        pageNums: 0,
       },
       pageComponentsData1: {
-        pageNums: 0, //一共多少条 //默认一页10条
+        pageNums: 0,
       },
+      startTime: "",
+      endTime: "",
     };
   },
   mounted() {
-    this.pageQueryFun();
+    this.outPageQueryFun();
+    this.unOutPageQueryFun();
   },
   watch: {},
   methods: {
-    pageQueryFun() {
-      //缺货产品查询
+    outPageQueryFun() {
+      //已出库查询
       let QueryData = this.QueryData;
       findReturnOrderPage(QueryData).then((ok) => {
         // console.log(ok);
@@ -661,7 +700,9 @@ export default {
             v.parentNode.parentNode.style.padding = "0";
             v.parentNode.parentNode.parentNode.style.padding = "0";
           });
-          oList.lastChild.style.borderBottom = "0";
+          if (oDiv.length > 0) {
+            oList.lastChild.style.borderBottom = "0";
+          }
           this.changeData(ok.data.result);
           this.storeOutData.forEach((v) => {
             this.entrustCompanyData.push({
@@ -675,7 +716,7 @@ export default {
             });
             this.channelValueData = this.reduceFun(this.channelValueData);
             this.indentSourceValueData.push({
-              value: v.orderSourceName,
+              value: v.orderSourceId,
               label: v.orderSourceName,
             });
             this.indentSourceValueData = this.reduceFun(
@@ -691,11 +732,15 @@ export default {
           });
         }
       });
-      //缺货订单查询
+    },
+    unOutPageQueryFun() {
+      //未出库查询
+      let QueryData = this.QueryData;
       findBackOrderPage(QueryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
           this.unStoreOutData = ok.data.result.list;
+          this.changeData1(ok.data.result);
           this.unStoreOutData.forEach((v) => {
             v.disposeStatus = this.disposeStatus(v.disposeStatus);
             v.returnType = this.returnType(v.returnType);
@@ -767,15 +812,12 @@ export default {
     },
     channelValues(val) {
       this.channelValue = val;
-      this.ProdQueryData.paras.channelId = val;
     },
     entrustCompanys(val) {
       this.entrustCompany = val;
-      this.ProdQueryData.paras.orgId = val;
     },
     indentSourceValues(val) {
       this.indentSourceValue = val;
-      this.ProdQueryData.paras.orderSourceId = val;
     },
     stateChooseValues(val) {
       this.stateChooseValue = val;
@@ -791,101 +833,264 @@ export default {
     },
     clickQuery() {
       //点击查询
-      this.ProdQueryData.paras.orderNo = this.orderNumberValue;
-      this.ProdQueryData.paras.subOrderNo = this.ChildOrderNumberValue;
-      this.ProdQueryData.paras.orderContact = this.consigneeValue;
-      this.ProdQueryData.paras.orderContactPhone = this.telPhoneValue;
-      this.ProdQueryData.paras.orderAddr = this.addressValue;
-      this.tableData = [];
-      // console.log(this.ProdQueryData);
-      this.pageQueryFun();
+      let queryData = {
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          wareId: getCookie("X-Auth-wareId"),
+          orgId: this.entrustCompany,
+          channelId: this.channelValue,
+          orderSourceId: this.indentSourceValue,
+          orderNo: this.orderNumberValue,
+          subOrderNo: this.ChildOrderNumberValue,
+          backOrderNo: this.returnOrderValue,
+          disposeStatus: this.resalesOrderStateValue,
+          returnType: this.resalesTypeValue,
+        },
+      };
+      if (this.title === "已出库信息") {
+        findReturnOrderPage(queryData).then((ok) => {
+          // console.log(ok);
+          if (ok.data.code === "10000") {
+            this.storeOutData = ok.data.result.list;
+            this.changeData(ok.data.result);
+            this.storeOutData.forEach((v) => {
+              v.disposeStatus = this.disposeStatus(v.disposeStatus);
+              v.returnType = this.returnType(v.returnType);
+            });
+          } else {
+            Message({
+              message: "查询失败",
+              type: "error",
+            });
+          }
+        });
+      } else {
+        findBackOrderPage(queryData).then((ok) => {
+          // console.log(ok);
+          if (ok.data.code === "10000") {
+            this.unStoreOutData = ok.data.result.list;
+            this.changeData1(ok.data.result);
+            this.unStoreOutData.forEach((v) => {
+              v.disposeStatus = this.disposeStatus(v.disposeStatus);
+              v.returnType = this.returnType(v.returnType);
+            });
+          } else {
+            Message({
+              message: "查询失败",
+              type: "error",
+            });
+          }
+        });
+      }
     },
     clearInput() {
       //点击清空输入框
-      this.entrustCompany = "";
-      this.channelValue = "";
-      this.indentSourceValue = "";
-      this.orderNumberValue = "";
-      this.ChildOrderNumberValue = "";
-      this.prodNameValue = "";
-      this.prodCodeValue = "";
-      this.prodSpecValue = "";
       this.clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
-      this.tableData = [];
-      this.ProdQueryData.paras.orgId = "";
-      this.ProdQueryData.paras.channelId = "";
-      this.ProdQueryData.paras.orderSourceId = "";
-      this.ProdQueryData.paras.orderNo = "";
-      this.ProdQueryData.paras.subOrderNo = "";
-      this.ProdQueryData.paras.prodName = "";
-      this.ProdQueryData.paras.pushStartTime = "";
-      this.ProdQueryData.paras.pushEndTime = "";
-      this.ProdQueryData.paras.prodCode = "";
-      this.ProdQueryData.paras.specName = "";
-      this.ProdQueryData.paras.pushTime = "";
-      this.pageQueryFun();
+      this.storeOutData = [];
+      this.unStoreOutData = [];
+      this.outPageQueryFun();
+      this.unOutPageQueryFun();
     },
-    handleSelectionChange(value) {
-      this.multipleSelection = value;
+    outHandleSelectionChange(value) {
+      this.outMultipleSelection = value;
+    },
+    unOutHandleSelectionChange(value) {
+      this.unOutMultipleSelection = value;
     },
     chukuEduce() {
-      //缺货产品导出表格
-      if (!this.multipleSelection.length) return Message("请选择要导出的订单");
-      if (this.multipleSelection.length !== 1)
-        return Message("一次只能选择一个订单");
-      if (this.lotNo === "") return Message("请稍等片刻");
-      let oA = document.querySelector(".setUser");
-      oA.setAttribute("href", this.getExcelUrl + this.lotNo);
+      //已出库导出表格
+      // if (!this.outMultipleSelection.length)
+      //   return Message("请选择要导出的订单");
+      // if (this.outMultipleSelection.length !== 1)
+      //   return Message("一次只能选择一个订单");
+      let oA = document.querySelector(".outEduce");
+      oA.setAttribute(
+        "href",
+        `${this.outGetExcelUrl}?wareId=${getCookie("X-Auth-wareId")}`
+      );
     },
     weichuEduce() {
       //未出库导出按钮
+      // if (!this.unOutMultipleSelection.length)
+      //   return Message("请选择要导出的订单");
+      // if (this.unOutMultipleSelection.length !== 1)
+      //   return Message("一次只能选择一个订单");
+      let oA = document.querySelector(".unOutEduce");
+      oA.setAttribute(
+        "href",
+        `${this.unOutGetExcelUrl}?wareId=${getCookie("X-Auth-wareId")}`
+      );
     },
-    yiChuHuoSure() {
+    yichukuSure() {
       //已出库完成按钮
+      if (!this.outMultipleSelection.length)
+        return Message("请选择要强制完成的订单");
+      this.$messageSelf
+        .confirms(
+          `共选择${this.outMultipleSelection.length}个退货订单，确认强制完成吗？`,
+          "提示",
+          { type: "warning" }
+        )
+        .then(() => {
+          Message("该功能暂时没有");
+        })
+        .catch(() => {
+          Message("已取消");
+        });
     },
     weichukuSure() {
       //未出库完成按钮
+      if (!this.unOutMultipleSelection.length)
+        return Message("请选择要强制完成的订单");
+      this.$messageSelf
+        .confirms(
+          `共选择${this.unOutMultipleSelection.length}个退货订单，确认强制完成吗？`,
+          "提示",
+          { type: "warning" }
+        )
+        .then(() => {
+          Message("该功能暂时没有");
+        })
+        .catch(() => {
+          Message("已取消");
+        });
     },
     affirmResales() {
       //确认退货
-      this.$router.replace({
+      if (!this.outMultipleSelection.length)
+        return Message("请选择要确认退货的订单");
+      if (this.outMultipleSelection.length !== 1)
+        return Message("一次只能选择一个订单");
+      this.$router.push({
         path: "/indentManagement/resalesOrderInfor",
         query: {
-          sureBtn: "取货确认",
+          sureBtn: this.outMultipleSelection[0],
           type: "sureBtn",
         },
       });
     },
-    outLookDetailEvent(row, column) {
+    outLookDetailEvent(row, column, cell) {
       if (column.property === "backOrderNo") {
-        this.$router.replace({
-          path: "/indentManagement/resalesOrderInfor",
-          query: {
-            backOrderNo: row,
-            type: "backOrderNo",
-          },
-        });
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/resalesOrderInfor",
+            query: {
+              backOrderNo: row,
+              type: "backOrderNo",
+            },
+          });
+        }
+      }
+      if (column.property === "orderNo") {
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/orderDetail",
+            query: {
+              orderNo: row,
+              type: "orderNo",
+            },
+          });
+        }
+      }
+      if (column.property === "subOrderNos") {
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/childOrderDetail",
+            query: {
+              subOrderNos: row,
+              type: "subOrderNos",
+            },
+          });
+        }
       }
     },
-    unOutLookDetailEvent() {},
+    unOutLookDetailEvent(row, column, cell) {
+      if (column.property === "backOrderNo") {
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/resalesOrderInfor",
+            query: {
+              backOrderNo: row,
+              type: "backOrderNo",
+            },
+          });
+        }
+      }
+      if (column.property === "orderNo") {
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/orderDetail",
+            query: {
+              orderNo: row,
+              type: "orderNo",
+            },
+          });
+        }
+      }
+      if (column.property === "subOrderNos") {
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/childOrderDetail",
+            query: {
+              subOrderNos: row,
+              type: "subOrderNos",
+            },
+          });
+        }
+      }
+    },
     prodAndOrder(item) {
       this.title = item.label + "信息";
+      if (item.label === "未出库") {
+        this.resalesOrderStateData = [
+          {
+            value: "退货中",
+            label: "退货中",
+          },
+          {
+            value: "退货成功",
+            label: "退货成功",
+          },
+        ];
+      } else {
+        this.resalesOrderStateData = [
+          {
+            value: "0",
+            label: "初始",
+          },
+          {
+            value: "1",
+            label: "已取消",
+          },
+          {
+            value: "2",
+            label: "待确认",
+          },
+          {
+            value: "3",
+            label: "已完成",
+          },
+        ];
+      }
     },
     getPageNum(e) {
-      this.ProdQueryData.pageNumber = e;
+      this.QueryData.pageNumber = e;
     },
     sureSuccssBtn(e) {
-      this.productData = [];
-      this.ProdQueryData.pageNumber = e;
+      this.storeOutData = [];
+      this.outPageQueryFun();
+      this.QueryData.pageNumber = e;
     },
     getPageNum1(e) {
-      this.ProdQueryData.pageNumber = e;
+      this.QueryData.pageNumber = e;
     },
     sureSuccssBtn1(e) {
-      this.orderData = [];
-      this.ProdQueryData.pageNumber = e;
+      this.unStoreOutData = [];
+      this.unOutPageQueryFun();
+      this.QueryData.pageNumber = e;
     },
     changeData(data) {
       this.changePageData(data);
@@ -902,10 +1107,10 @@ export default {
       this.pageComponentsData1.pageNums = totalRow;
     },
     getStartTime(e) {
-      this.ProdQueryData.paras.pushStartTime = e;
+      this.startTime = e;
     },
     getEndTime(e) {
-      this.ProdQueryData.paras.pushEndTime = e;
+      this.endTime = e;
     },
     clearTimeInput() {
       let input = document.getElementsByClassName("ivu-input");
@@ -942,7 +1147,7 @@ export default {
         display: flex;
         align-items: center;
         font-size: 16px;
-        margin-right: 20px;
+        margin-right: 1.05%;
         .el-inputBox-text {
           white-space: nowrap;
         }
@@ -951,7 +1156,7 @@ export default {
         display: none;
       }
       .childrenIndent {
-        width: 19%;
+        width: 20%;
         .el-inputBox-checkBox {
           width: 100%;
         }
@@ -971,6 +1176,9 @@ export default {
         .el-inputBox-checkBox {
           width: 100%;
         }
+      }
+      .setMargin {
+        margin-right: 0;
       }
     }
     .headerInput-three {
@@ -1006,6 +1214,9 @@ export default {
       .el-inputBox {
         width: 20%;
       }
+      .setMargin {
+        margin-right: 0;
+      }
       .el-inputBox-checkBox {
         width: 100%;
       }
@@ -1027,7 +1238,7 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 22px 0 10px;
+      margin: 0 0 0 10px;
     }
   }
 }
@@ -1060,7 +1271,6 @@ export default {
       display: flex;
       margin: 16px 20px 16px 0;
       .setUser {
-        margin-right: 10px;
         @include BtnFunction("success");
       }
       .takeOrdersDiv {
@@ -1073,9 +1283,7 @@ export default {
     background: white;
     padding: 20px;
   }
-  .formTabs {
-    padding: 0 10px;
-  }
+
   .lookDetail {
     color: #599af3;
     text-decoration: underline;

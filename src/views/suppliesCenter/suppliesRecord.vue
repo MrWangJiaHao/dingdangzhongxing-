@@ -333,6 +333,7 @@ import {
   querySpec,
   getFindWareOrg,
 } from "../../api/api";
+import { getCookie } from '../../utils/validate';
 export default {
   components: {
     pagecomponent,
@@ -696,7 +697,7 @@ export default {
       this.dialogFormVisible = false;
 
       let createData = {
-        wareId: "3B31612A55EE4EB09363A6E3805A3F6D", //仓库ID
+        wareId: getCookie("X-Auth-wareId"), //仓库ID
         wareName: "", //仓库名称
         materielCode: this.dialogMateCode, //物料编码
         supId: this.allSupId, //供应商Id
@@ -768,11 +769,6 @@ export default {
     },
     clearInput() {
       //点击清空输入框
-      this.mateTypeValue = "";
-      this.mateNameValue = "";
-      this.supNameValue = "";
-      this.brandNameValue = "";
-      this.anyTypeValue = "";
       this.clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
@@ -862,7 +858,7 @@ export default {
     editChildWarehouse() {
       //编辑
       this.title = "编辑物料记录";
-      if (!this.multipleSelection.length) return Message("请选择要查看的账号");
+      if (!this.multipleSelection.length) return Message("请选择要编辑的物料记录");
       if (this.multipleSelection.length !== 1)
         return Message({
           message: "每次只能编辑一个物料记录信息，请重新选择",

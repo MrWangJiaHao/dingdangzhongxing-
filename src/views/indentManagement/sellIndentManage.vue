@@ -62,7 +62,7 @@
                 </el-select>
               </div>
             </div>
-            <div class="el-inputBox">
+            <div class="el-inputBox setMargin">
               <div class="el-inputBox-text">订单号：</div>
               <div class="el-inputBox-checkBox">
                 <el-input v-model="orderNumberValue" placeholder="模糊检索">
@@ -105,7 +105,6 @@
                 <el-select
                   v-model="stateChooseValue"
                   @change="stateChooseValues"
-                  clearable
                 >
                   <el-option
                     v-for="item in stateChooseValueData"
@@ -118,8 +117,8 @@
               </div>
             </div>
             <div class="timeChoose">
-              <div class="timeBox zujianBox">
-                <div style="margin-right: 10px">
+              <div class="timeBox">
+                <div style="">
                   <dateTime
                     :dateTimeData="datetimeDates"
                     @getDateTime="getStartTime"
@@ -153,6 +152,7 @@
                   placeholder="请输入联系电话"
                   type="number"
                   @blur="testIsMobile"
+                  @focus="focusEvent"
                 >
                 </el-input>
               </div>
@@ -362,7 +362,7 @@
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { Message } from "element-ui";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
-import { queryOrderInfor, childOrderInfor } from "../../api/api";
+import { queryOrderInfor } from "../../api/api";
 import { isMobile } from "../../utils/validate";
 export default {
   components: {
@@ -480,8 +480,8 @@ export default {
         paras: {
           orgId: "",
           channelId: "",
-          orderSourceId: "", //订单来源id
-          orderNo: "", //订单号
+          orderSourceId: "",
+          orderNo: "",
           subOrderNo: "",
           subOrderStatus: "",
           orderContact: "",
@@ -502,8 +502,9 @@ export default {
         },
       },
       pageComponentsData: {
-        pageNums: 0, //一共多少条 //默认一页10条
+        pageNums: 0,
       },
+      testPhone: true,
     };
   },
   mounted() {
@@ -514,36 +515,12 @@ export default {
     pageQueryFun() {
       let queryData = this.queryData;
       queryOrderInfor(queryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
           this.tableData.forEach((v) => {
-            v.subOrderStatus =
-              v.subOrderStatus === 0
-                ? "拉取/手工"
-                : v.subOrderStatus === 1
-                ? "拆分"
-                : v.subOrderStatus === 2
-                ? "下发中"
-                : v.subOrderStatus === 3
-                ? "待审核"
-                : v.subOrderStatus === 5
-                ? "待合并"
-                : v.subOrderStatus === 6
-                ? "待打印"
-                : v.subOrderStatus === 7
-                ? "待拣货"
-                : v.subOrderStatus === 8
-                ? "待复核"
-                : v.subOrderStatus === 9
-                ? "重新拣货"
-                : v.subOrderStatus === 10
-                ? "已发货"
-                : v.subOrderStatus === 11
-                ? "已退单"
-                : "未查询到";
-
+            v.subOrderStatus = this.subOrderStatusFun(v.subOrderStatus);
             this.entrustCompanyData.push({
               value: v.orgId,
               label: v.orgName,
@@ -570,7 +547,51 @@ export default {
         }
       });
     },
-
+    subOrderStatusFun(state) {
+      let data = state;
+      switch (data) {
+        case 0:
+          data = "拉取/手工";
+          break;
+        case 1:
+          data = "拆分";
+          break;
+        case 2:
+          data = "下发中";
+          break;
+        case 3:
+          data = "待审核";
+          break;
+        case 4:
+          data = "待分配";
+          break;
+        case 5:
+          data = "待合并";
+          break;
+        case 6:
+          data = "待打印";
+          break;
+        case 7:
+          data = "待拣货";
+          break;
+        case 8:
+          data = "待复核";
+          break;
+        case 9:
+          data = "重新拣货";
+          break;
+        case 10:
+          data = "已发货";
+          break;
+        case 11:
+          data = "已退单";
+          break;
+        default:
+          data = "未知";
+          break;
+      }
+      return data;
+    },
     reduceFun(arr) {
       let testObj = {};
       let res = arr.reduce((item, next) => {
@@ -602,27 +623,21 @@ export default {
     },
     clickQuery() {
       //点击查询
-      this.queryData.paras.orderNo = this.orderNumberValue;
-      this.queryData.paras.subOrderNo = this.ChildOrderNumberValue;
-      this.queryData.paras.orderContact = this.consigneeValue;
-      this.queryData.paras.orderContactPhone = this.telPhoneValue;
-      this.queryData.paras.orderAddr = this.addressValue;
-      this.tableData = [];
-      // console.log(this.queryData);
-      this.pageQueryFun();
+      if (this.testPhone) {
+        this.queryData.paras.orderNo = this.orderNumberValue;
+        this.queryData.paras.subOrderNo = this.ChildOrderNumberValue;
+        this.queryData.paras.orderContact = this.consigneeValue;
+        this.queryData.paras.orderContactPhone = this.telPhoneValue;
+        this.queryData.paras.orderAddr = this.addressValue;
+        this.tableData = [];
+        // console.log(this.queryData);
+        this.pageQueryFun();
+      } else {
+        return this.$message.error("请输入正确的手机号");
+      }
     },
     clearInput() {
       //点击清空输入框
-      this.entrustCompany = "";
-      this.channelValue = "";
-      this.indentSourceValue = "";
-      this.orderNumberValue = "";
-      this.ChildOrderNumberValue = "";
-      this.ChildOrderState = "";
-      this.stateChooseValue = "下发时间";
-      this.consigneeValue = "";
-      this.telPhoneValue = "";
-      this.addressValue = "";
       this.clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
@@ -645,30 +660,31 @@ export default {
       this.queryData.paras.checkEndTime = "";
       this.queryData.paras.sendStartTime = "";
       this.queryData.paras.sendEndTime = "";
+      this.stateChooseValue = "下发时间";
       this.pageQueryFun();
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
-      let data = {
-        subOrderNo: "",
-      };
-      if (this.multipleSelection.length > 0) {
-        data.subOrderNo = value[0].subOrderNo;
-        childOrderInfor(data).then((ok) => {
-          if (ok.data.code === "10000") {
-            this.lotNo = ok.data.result[0].lotNo;
-          }
-        });
-      }
+      // let data = {
+      //   subOrderNo: "",
+      // };
+      // if (value.length > 0) {
+      //   data.subOrderNo = value[0].subOrderNo;
+      //   childOrderInfor(data).then((ok) => {
+      //     if (ok.data.code === "10000") {
+      //       this.lotNo = ok.data.result[0].lotNo;
+      //     }
+      //   });
+      // }
     },
     educe() {
       //导出表格
-      if (!this.multipleSelection.length) return Message("请选择要导出的订单");
-      if (this.multipleSelection.length != 1)
-        return Message("一次只能选择一个订单");
-      if (this.lotNo === "") return Message("请稍等片刻");
+      // if (!this.multipleSelection.length) return Message("请选择要导出的订单");
+      // if (this.multipleSelection.length != 1)
+      //   return Message("一次只能选择一个订单");
+      // if (this.lotNo === "") return Message("请稍等片刻");
       let oA = document.querySelector(".setUser");
-      oA.setAttribute("href", this.getExcelUrl + this.lotNo);
+      oA.setAttribute("href", this.getExcelUrl);
     },
     clickShow() {
       this.index++;
@@ -701,37 +717,54 @@ export default {
     },
     testIsMobile() {
       let telPhoneValue = this.telPhoneValue;
-      if (!isMobile(telPhoneValue)) {
-        return this.$message.error("请输入正确的手机号");
+      let phoneInput = document.querySelector(".telphone .el-input__inner");
+      if (telPhoneValue !== "") {
+        if (!isMobile(telPhoneValue)) {
+          phoneInput.style.borderColor = "red";
+          this.testPhone = false;
+          return this.$message.error("请输入正确的手机号");
+        }
       }
+      phoneInput.style.borderColor = "#DCDFE6";
+      this.testPhone = true;
     },
-    lookDetailEvent(row, column) {
+    focusEvent() {
+      document.querySelector(".telphone .el-input__inner").style.borderColor =
+        "#409EFF";
+    },
+    lookDetailEvent(row, column, cell) {
       if (column.property === "orderNo") {
-        this.$router.push({
-          path: "/indentManagement/orderDetail",
-          query: {
-            orderNo: row,
-            type: "orderNo",
-          },
-        });
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/orderDetail",
+            query: {
+              orderNo: row,
+              type: "orderNo",
+            },
+          });
+        }
       }
       if (column.property === "subOrderStatus") {
-        this.$router.push({
-          path: "/indentManagement/orderLog",
-          query: {
-            subOrderStatus: row,
-            type: "subOrderStatus",
-          },
-        });
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/orderLog",
+            query: {
+              subOrderStatus: row,
+              type: "subOrderStatus",
+            },
+          });
+        }
       }
       if (column.property === "subOrderNo") {
-        this.$router.push({
-          path: "/indentManagement/childOrderDetail",
-          query: {
-            subOrderNos: row,
-            type: "subOrderNos",
-          },
-        });
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/childOrderDetail",
+            query: {
+              subOrderNos: row,
+              type: "subOrderNos",
+            },
+          });
+        }
       }
     },
     getPageNum(e) {
@@ -741,9 +774,8 @@ export default {
       this.queryData.pageNumber = e;
     },
     changeData(data) {
-      this.changePageData(data); //用来改变分页器的条数
+      this.changePageData(data);
     },
-    //用来改变分页器的条数
     changePageData(data) {
       let { totalRow } = data;
       this.pageComponentsData.pageNums = totalRow;
@@ -779,9 +811,7 @@ export default {
       for (let i = 0; i < input.length; i++) {
         input[i].value = "";
       }
-      let elInput = document.querySelectorAll(
-        ".el-input--suffix .el-input__inner"
-      );
+      let elInput = document.querySelectorAll(".el-input__inner");
       for (let i = 0; i < elInput.length; i++) {
         elInput[i].value = "";
       }
@@ -811,7 +841,7 @@ export default {
         display: flex;
         align-items: center;
         font-size: 16px;
-        margin-right: 20px;
+        margin-right: 1.05%;
         .el-inputBox-text {
           white-space: nowrap;
         }
@@ -825,8 +855,9 @@ export default {
         }
       }
       .telphone {
-        width: 12.6%;
+        width: 14%;
         transition: 0.3s;
+        margin-right: 0;
         .el-inputBox-checkBox {
           width: 100%;
         }
@@ -849,7 +880,7 @@ export default {
       }
       .stateChoose {
         width: 6.5%;
-        margin-right: 10px;
+        margin-right: 0.6%;
       }
       .consignee {
         width: 11.3%;
@@ -863,7 +894,10 @@ export default {
     }
     .inputs {
       .el-inputBox {
-        width: 24%;
+        width: 25%;
+      }
+      .setMargin {
+        margin-right: 0;
       }
       .el-inputBox-checkBox {
         width: 100%;
@@ -871,7 +905,7 @@ export default {
     }
   }
   .header-botton {
-    width: 12%;
+    width: 15%;
     transition: 0.3s;
     position: absolute;
     right: 0;
@@ -894,13 +928,14 @@ export default {
     }
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     .queryBtn {
       @include BtnFunction("success");
     }
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 14px 0 10px;
+      margin: 0 0 0 10px;
     }
   }
   .timeChoose {
@@ -908,6 +943,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-right: 1.05%;
     .titleBox {
       font-size: 16px;
     }
@@ -918,7 +954,7 @@ export default {
         width: 10px;
         height: 2px;
         background: #d1d6e2;
-        margin-right: 10px;
+        margin: 0 2.5%;
       }
     }
   }
@@ -952,18 +988,6 @@ export default {
       display: flex;
       margin: 16px 20px 16px 0;
       .setUser {
-        margin-right: 10px;
-        @include BtnFunction("success");
-      }
-      .bianjiUser {
-        margin-right: 10px;
-        @include BtnFunction("success");
-      }
-      .remove {
-        @include BtnFunction("error");
-      }
-      .goOn {
-        margin-right: 10px;
         @include BtnFunction("success");
       }
     }
@@ -977,7 +1001,6 @@ export default {
       cursor: pointer;
     }
   }
-
   .pageComponent {
     margin: 20px 10px 0 0;
     text-align: right;
