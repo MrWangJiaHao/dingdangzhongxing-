@@ -281,7 +281,7 @@ export default {
           payStartTime: "",
           pushStartTime: "",
           pushEndTime: "",
-          specialProd: 1,
+          specialProd: (() => (this.ischanpingOrOne ? 1 : 0))(),
           printExprStatus: "",
         },
       },
@@ -385,7 +385,11 @@ export default {
     },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {
-      this.sendOutDataJson.paras = { ...data };
+      this.sendOutDataJson.paras = Object.assign(
+        {},
+        this.sendOutDataJson.paras,
+        data
+      );
       this.getTableData();
     },
     //获取table表格内容
@@ -408,8 +412,6 @@ export default {
 };
 </script>
 
-<style>
-</style>
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .posFixCenter {

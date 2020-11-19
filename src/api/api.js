@@ -1344,7 +1344,7 @@ export const pDeliverGoodsFindNormalRecordPage = function (data) {
 }
 
 /**
- * 快速发货特殊商品分页查询
+ * 快速发货特殊单件商品分页查询
  * @param {*} data `/wbs-warehouse-manage/v1/pDeliverGoods/findFastRecordPage
  */
 export const pDeliverGoodsFindFastRecordPage = function (data) {
@@ -1360,6 +1360,7 @@ export const pDeliverGoodsFindFastRecordPage = function (data) {
         })
     })
 }
+
 /**
  * 订单集计 需要ids
  * 
@@ -1404,6 +1405,92 @@ export const pOrgPickOrderfindRecordPage = function (data) {
     return new Promise((res, rej) => {
         service.request({
             url: "/wbs-warehouse-manage/v1/pOrgPickOrder/findRecordPage",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+
+/**
+ * 打印拣货单 拣货单 { ids : }
+ * @param {*} datas /wbs-warehouse-manage/v1/pDeliverGoods/updatePrintExprStatus
+ */
+export const pDeliverGoodsUpdatePrintExprStatus = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pDeliverGoods/updatePrintExprStatus",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 作废拣货单
+ * @param {*} datas `/wbs-warehouse-manage/v1/pOrgPickOrder/pickCancle
+ */
+export const pOrgPickOrderPickCancle = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgPickOrder/pickCancle",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 拣货单管理
+ * @param {*} datas /wbs-warehouse-manage/v1/pOrgPickOrder/findOrderPage
+ */
+export const pOrgPickOrderfindOrderPage = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgPickOrder/findOrderPage",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 拣货单号查询子订单列表
+ * @param {*} datas /wbs-warehouse-manage/v1/pDeliverGoods/findSubOrderByPickOrderNo
+ */
+export const pDeliverGoodsfindSubOrderByPickOrderNo = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pDeliverGoods/findSubOrderByPickOrderNo",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 打印发货单
+ * @param {*} datas /wbs-warehouse-manage/v1/pDeliverGoods/printDeliverGoods
+ */
+export const pDeliverGoodsprintDeliverGoods = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pDeliverGoods/printDeliverGoods",
             method: "post",
             data
         }).then((ok) => {

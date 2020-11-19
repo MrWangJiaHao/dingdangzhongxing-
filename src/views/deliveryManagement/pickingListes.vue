@@ -8,10 +8,8 @@
         <div style="background-color: #fff">
           <div class="meiyiyetitle">拣货单管理</div>
           <div class="btnClick">
-            <div class="setUser" @click="warehousingConfirmation">作废</div>
-            <div class="setUser" @click="warehousingConfirmation">
-              打印拣货单
-            </div>
+            <div class="setUser" @click="TovoidClick">作废</div>
+            <div class="setUser" @click="printPicking">打印拣货单</div>
           </div>
         </div>
         <!-- but按钮 -->
@@ -152,7 +150,8 @@ import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import pickingList from "../../components/deliveryManagement/pickingList"; //拣货单
 import {
   pDeliverGoodsFindNormalRecordPage,
-  pOrgSubOrderMegerOrder,
+  pDeliverGoodsUpdatePrintExprStatus,
+  pOrgPickOrderPickCancle,
 } from "../../api/api";
 import { _getArrTarget } from "../../utils/validate";
 export default {
@@ -194,35 +193,57 @@ export default {
   created() {
     this.getTableData();
   },
-  mounted() {},
   methods: {
-    getiscaigoudanDetail(e) {
-      this.isJianHuoDanShow = e;
+    //拣货单 作废
+    TovoidClick(e) {
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message("请选择要作废的拣货单");
+      this.$messageSelf
+        .confirms(
+          `是否要作废，拣货单号WAV20180927001？</br> 作废后，订单要重新集计处理!`,
+          "作废",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            dangerouslyUseHTMLString: true,
+            type: "info",
+          }
+        )
+        .then(() => {
+          this._TovoidClick();
+        })
+        .catch(() => {
+          this.$messageSelf.message("已取消作废");
+        });
     },
-    iSJianHuoDan() {
-      //打印拣货单
-      this.$nextTick(() => {
-        if (document.getElementById("checkbox").checked) {
-          console.log(1);
-          this.isJianHuoDanShow = true;
-        }
-      });
-    },
-    //订单集计==
-    _jijiJianhuodan() {
-      pOrgSubOrderMegerOrder({
+    _TovoidClick() {
+      pOrgPickOrderPickCancle({
         id: _getArrTarget(this.multipleSelection, "id"),
       })
         .then((res) => {
           if (res.code == "10000") {
             this.$messageSelf.message(res.msg);
-          } else {
-            this.$messageSelf.message(res.msg);
           }
         })
-        .catch((err) => this.$messageSelf.message("出错拉~~"));
+        .catch((err) => err);
     },
-
+    getiscaigoudanDetail(e) {
+      this.isJianHuoDanShow = e;
+    },
+    //打印拣货单
+    _jijiJianhuodan() {
+      pDeliverGoodsUpdatePrintExprStatus({
+        id: _getArrTarget(this.multipleSelection, "id"),
+      }).then((res) => {
+        if (res.code == "10000") {
+          this.$messageSelf.message(res.msg);
+        } else {
+          this.$messageSelf.message(res.msg);
+        }
+      });
+      //   .catch((err) => this.$messageSelf.message("出错拉~~"));
+      console.log("打印拣货单");
+    },
     goToDetailOut(e) {
       sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
     },
@@ -237,27 +258,23 @@ export default {
     handleSelectionChange(e) {
       this.multipleSelection = e;
     },
-    //集计
-    warehousingConfirmation() {
-      // if(!this.multipleSelection.length ) return this.$messageSelf.message("请选择要集计的拣货单单")
+    //打印拣货单
+    printPicking() {
+      // if (!this.multipleSelection.length)
+      //   return this.$messageSelf.message("请选择要打印的拣货单~~");
       this.$messageSelf
         .confirms(
-          ` 共集计${this.multipleSelection.length}个订单，可生成${this.multipleSelection.length}张拣货单，确认集计吗？<div id='checkboxID'> <input checked  id='checkbox' type='checkbox' /> 打印集计单</div>`,
-          "集计确认",
+          `共选中${this.multipleSelection.length}笔拣货单，${this.multipleSelection.length}笔订单，确认打印吗？`,
+          "确认打印",
           {
-            showClose: true,
-            confirmButtonText: "确定",
-            dangerouslyUseHTMLString: true,
-            cancelButtonText: "取消",
             type: "info",
           }
         )
         .then(() => {
-          this.iSJianHuoDan();
           this._jijiJianhuodan();
         })
         .catch(() => {
-          this.$messageSelf.message("已经取消集计");
+          this.$messageSelf.message("已经取消打印~~");
         });
     },
     //表格发生了变化以及点击了查询按钮

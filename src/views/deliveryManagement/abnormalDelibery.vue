@@ -107,7 +107,7 @@
 
 <script>
 /*eslint-disable */
-import manualHeader from "../../components/deliveryManagement/deliveryManagementhHeader";
+import manualHeader from "../../components/deliveryManagement/adnormalDeliberyHeader";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import pickingList from "../../components/deliveryManagement/pickingList"; //拣货单
 import {
@@ -154,35 +154,10 @@ export default {
   created() {
     this.getTableData();
   },
-  mounted() {},
   methods: {
     getiscaigoudanDetail(e) {
       this.isJianHuoDanShow = e;
     },
-    iSJianHuoDan() {
-      //打印拣货单
-      this.$nextTick(() => {
-        if (document.getElementById("checkbox").checked) {
-          console.log(1);
-          this.isJianHuoDanShow = true;
-        }
-      });
-    },
-    //订单集计==
-    _jijiJianhuodan() {
-      pOrgSubOrderMegerOrder({
-        id: _getArrTarget(this.multipleSelection, "id"),
-      })
-        .then((res) => {
-          if (res.code == "10000") {
-            this.$messageSelf.message(res.msg);
-          } else {
-            this.$messageSelf.message(res.msg);
-          }
-        })
-        .catch((err) => this.$messageSelf.message("出错拉~~"));
-    },
-
     goToDetailOut(e) {
       sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
     },
@@ -197,28 +172,19 @@ export default {
     handleSelectionChange(e) {
       this.multipleSelection = e;
     },
-    //集计
+    //产品库位映射
     warehousingConfirmation() {
-      // if(!this.multipleSelection.length ) return this.$messageSelf.message("请选择要集计的拣货单单")
-      this.$messageSelf
-        .confirms(
-          ` 共集计${this.multipleSelection.length}个订单，可生成${this.multipleSelection.length}张拣货单，确认集计吗？<div id='checkboxID'> <input checked  id='checkbox' type='checkbox' /> 打印集计单</div>`,
-          "集计确认",
-          {
-            showClose: true,
-            confirmButtonText: "确定",
-            dangerouslyUseHTMLString: true,
-            cancelButtonText: "取消",
-            type: "info",
-          }
-        )
-        .then(() => {
-          this.iSJianHuoDan();
-          this._jijiJianhuodan();
-        })
-        .catch(() => {
-          this.$messageSelf.message("已经取消集计");
-        });
+      if (!this.multipleSelection.length || this.multipleSelection.length != 1)
+        return this.$messageSelf.message(
+          "请选择产品库位映射的产品,并且只能选择一个产品"
+        );
+      this.$router.push({
+        path: "/storageLocalMap/SLmapInfor",
+        query: {
+          datas: this.multipleSelection[0],
+          type: "edit",
+        },
+      });
     },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {
@@ -229,7 +195,7 @@ export default {
     async getTableData(fn) {
       let datas = await pDeliverGoodsFindNormalRecordPage(this.sendOutDataJson);
       if (datas.code == "10000") {
-        this._changeDatas(datas.result);
+        datas.result && this._changeDatas(datas.result);
       } else {
         this.$messageSelf.message(datas.msg);
       }

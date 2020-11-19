@@ -15,7 +15,7 @@ import Lodop from './assets/js/LodopFuncs'
 import qrcode from './assets/js/qrcode'
 import "./assets/js/rem";
 import animated from 'animate.css';
-
+import { _isEmpty } from "./utils/validate"; //判断是否为空4  
 Vue.use(animated)
 import messageSelf from "./assets/js/toast"; //自定义弹框
 
@@ -27,6 +27,7 @@ Vue.use(VueCookie)
 
 Vue.use(ElementUI).use(qrcode)
 Vue.prototype.$service = service
+Vue.prototype.$isEmpty = _isEmpty
 
 // import 'lib-flexible'
 // 引入echarts
