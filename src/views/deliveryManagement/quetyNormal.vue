@@ -14,7 +14,7 @@
             <div class="mr20 meiyiyetitle">快速发货</div>
             <div>
               <span
-                class="disinb mr20 setUser"
+                class="disinb mr20 setUser nowrap"
                 :style="
                   !ischanpingOrOne
                     ? {
@@ -31,7 +31,7 @@
                 >特殊产品</span
               >
               <span
-                class="disinb zhengcxhang"
+                class="disinb zhengcxhang nowrap"
                 :style="
                   ischanpingOrOne
                     ? {
