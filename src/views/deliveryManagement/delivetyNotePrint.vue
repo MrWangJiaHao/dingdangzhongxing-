@@ -6,7 +6,10 @@
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">拣货单号:</div>
             <div class="mr20">
-              <el-input placeholder="扫描拣货单号/输入查询"></el-input>
+              <el-input
+                v-model="pickOrderNo"
+                placeholder="扫描拣货单号/输入查询"
+              ></el-input>
             </div>
           </div>
         </div>
@@ -15,8 +18,8 @@
 
       <div class="tr pd20" style="width: 100%">
         <div class="btns mb20">
-          <div class="bianjiUser disinb zujianBox">查询</div>
-          <div class="remove disinb">清空</div>
+          <div class="bianjiUser disinb zujianBox" @click="queryBtns">查询</div>
+          <div class="remove disinb" @click="clearBtns">清空</div>
         </div>
       </div>
       <!-- 查询 && 清空 -->
@@ -105,7 +108,7 @@
       >
         <div v-if="isJianHuoDanShow">
           <div>
-            <pickingList @getiscaigoudanDetail="getiscaigoudanDetail" />
+            <delivetyNote @getiswuliudanOne="getiswuliudanOne" />
           </div>
         </div>
       </transition>
@@ -117,15 +120,16 @@
 <script>
 /*eslint-disable */
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import pickingList from "../../components/deliveryManagement/pickingList"; //拣货单
+import delivetyNote from "../../components/deliveryManagement/delivetyNote"; //发货单
 import {
-  pDeliverGoodsFindNormalRecordPage,
-  pOrgSubOrderMegerOrder,
+  pOrgPickOrderfindOrderPage,
+  pDeliverGoodsprintDeliverGoods,
+  pDeliverGoodsfindSubOrderByPickOrderNo,
 } from "../../api/api";
 import { _getArrTarget } from "../../utils/validate";
 export default {
   components: {
-    pickingList,
+    delivetyNote,
     pagecomponent,
   },
   data() {
@@ -136,60 +140,47 @@ export default {
         pageNums: 0, //一共多少条 //默认一页10
       },
       sendOutDataJson: {
-        paras: {
-          orgName: "",
-          orgId: "",
-          orderNo: "",
-          prodId: "",
-          specId: "",
-          childWareId: "",
-          childWareName: "",
-          specName: "",
-          outWareTimeStart: "",
-          pickTimeStart: "",
-          checkTimeStart: "",
-          outWareTimeEnd: "",
-          pickTimeEnd: "",
-          checkTimeEnd: "",
-        },
+        paras: {},
         pageNumber: 1, //当前页数
         pageSize: 10, //每页记录数
       },
+
+      pickOrderNo: "",
+
       multipleSelection: [], //选择了那个
     };
   },
   created() {
     this.getTableData();
   },
-  mounted() {},
   methods: {
-    getiscaigoudanDetail(e) {
-      this.isJianHuoDanShow = e;
-    },
-    iSJianHuoDan() {
-      //打印拣货单
-      this.$nextTick(() => {
-        if (document.getElementById("checkbox").checked) {
-          console.log(1);
-          this.isJianHuoDanShow = true;
+    queryBtns() {
+      pDeliverGoodsfindSubOrderByPickOrderNo({
+        pickOrderNo: this.pickOrderNo,
+      }).then((res) => {
+        if (res.code == "10000") {
+          res.list && this._changeDatas(res.list);
         }
       });
     },
-    //订单集计==
-    _jijiJianhuodan() {
-      pOrgSubOrderMegerOrder({
-        id: _getArrTarget(this.multipleSelection, "id"),
-      })
-        .then((res) => {
-          if (res.code == "10000") {
-            this.$messageSelf.message(res.msg);
-          } else {
-            this.$messageSelf.message(res.msg);
-          }
-        })
-        .catch((err) => this.$messageSelf.message("出错拉~~"));
+    clearBtns() {
+      this.pickOrderNo = "";
+      this.getTableData();
     },
-
+    getiswuliudanOne(e) {
+      this.isJianHuoDanShow = e;
+    },
+    //打印拣货单
+    iSJianHuoDan() {
+      this.isJianHuoDanShow = true;
+      // pDeliverGoodsprintDeliverGoods({ ids: this.multipleSelection }).then(
+      //   (res) => {
+      //     if (res.code == "10000") {
+      //       this.$messageSelf.message(res.msg);
+      //     }
+      //   }
+      // );
+    },
     goToDetailOut(e) {
       sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
     },
@@ -209,22 +200,17 @@ export default {
       // if(!this.multipleSelection.length ) return this.$messageSelf.message("请选择要集计的拣货单单")
       this.$messageSelf
         .confirms(
-          ` 共集计${this.multipleSelection.length}个订单，可生成${this.multipleSelection.length}张拣货单，确认集计吗？<div id='checkboxID'> <input checked  id='checkbox' type='checkbox' /> 打印集计单</div>`,
-          "集计确认",
+          `总共${this.multipleSelection.length}笔订单，请确认是否打印？`,
+          "确认打印",
           {
-            showClose: true,
-            confirmButtonText: "确定",
-            dangerouslyUseHTMLString: true,
-            cancelButtonText: "取消",
             type: "info",
           }
         )
         .then(() => {
           this.iSJianHuoDan();
-          this._jijiJianhuodan();
         })
         .catch(() => {
-          this.$messageSelf.message("已经取消集计");
+          this.$messageSelf.message("已经取消打印");
         });
     },
     //表格发生了变化以及点击了查询按钮
@@ -234,7 +220,7 @@ export default {
     },
     //获取table表格内容
     async getTableData(fn) {
-      let datas = await pDeliverGoodsFindNormalRecordPage(this.sendOutDataJson);
+      let datas = await pOrgPickOrderfindOrderPage(this.sendOutDataJson);
       if (datas.code == "10000") {
         this._changeDatas(datas.result);
       } else {

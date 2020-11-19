@@ -97,117 +97,31 @@
         </div>
         <!-- 子单号 -->
 
-        <div class="displayalign mb20 zujianBox">
-          <div class="noneIconTitle mr11">物流公司:</div>
-          <div class="mr20">
-            <el-select
-              v-model="paras.exprName"
-              slot="prepend"
-              placeholder="请选择物流公司"
-              @input="changeExprName"
-              @focus="getexprName"
-            >
-              <el-option
-                v-for="(item, idx) in exprNameJson.exprNameArr"
-                :key="idx"
-                :label="item.exprName"
-                :value="idx"
-              ></el-option>
-            </el-select>
-          </div>
-        </div>
-        <!-- 物流公司 -->
-
         <div class="zujianBox mb20">
           <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">收货人:</div>
+            <div class="noneIconTitle mr11">产品编号:</div>
             <div class="mr20">
               <el-autocomplete
-                v-model="paras.orderContactCenter"
-                :fetch-suggestions="orderContactArr"
-                placeholder="请输入收货人"
-                @select="orderContactSelect"
+                v-model="paras.prodNameLike"
+                :fetch-suggestions="addressJsonArr"
+                placeholder="请输入产品名称"
+                @select="addressJsonSelect"
               ></el-autocomplete>
             </div>
           </div>
         </div>
-        <!-- 收货人 -->
-
-        <div class="zujianBox mb20">
-          <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">联系电话:</div>
-            <div class="mr20">
-              <el-autocomplete
-                v-model="orderContactPhone.orderContactPhoneCenter"
-                :fetch-suggestions="orderContactPhoneArr"
-                placeholder="请输入收货人"
-                @select="orderContactPhoneSelect"
-              ></el-autocomplete>
-            </div>
-          </div>
-        </div>
-        <!-- 联系电话 -->
-
-        <div class="zujianBox mb20">
-          <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">收货地址:</div>
-            <div class="mr20">
-              <span class="mr11">
-                <el-autocomplete
-                  v-model="orderAddr.orderAddrCenter"
-                  :fetch-suggestions="orderAddrArr"
-                  placeholder="请输入收货地址"
-                  @select="orderAddrSelect"
-                ></el-autocomplete>
-              </span>
-
-              <el-select
-                v-model="paras.orderAddr"
-                slot="prepend"
-                placeholder="请选择收货地址"
-                @input="changeorderAddr"
-              >
-                <el-option
-                  v-for="(item, idx) in addressJson.orderAddrArr"
-                  :key="idx"
-                  :label="item.orderAddr"
-                  :value="idx"
-                ></el-option>
-              </el-select>
-              <!--address 收货地址  -->
-            </div>
-          </div>
-        </div>
-        <!-- 收货地址 -->
+        <!-- 产品名称 -->
 
         <div class="zujianBox mb20">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">产品名称:</div>
             <div class="mr20">
-              <span class="mr11">
-                <el-autocomplete
-                  v-model="paras.prodNameLike"
-                  :fetch-suggestions="addressJsonArr"
-                  placeholder="请输入产品名称"
-                  @select="addressJsonSelect"
-                ></el-autocomplete>
-              </span>
-
-              <el-select
-                v-model="paras.systemProdName"
-                slot="prepend"
-                placeholder="请选择产品名称"
-                @input="changeaddress"
-                @focus="getaddress"
-              >
-                <el-option
-                  v-for="(item, idx) in systemProdName.systemProdNameArr"
-                  :key="idx"
-                  :label="item.systemProdName"
-                  :value="idx"
-                ></el-option>
-              </el-select>
-              <!--address 产品名称  -->
+              <el-autocomplete
+                v-model="paras.prodNameLike"
+                :fetch-suggestions="addressJsonArr"
+                placeholder="请输入产品名称"
+                @select="addressJsonSelect"
+              ></el-autocomplete>
             </div>
           </div>
         </div>
@@ -232,31 +146,6 @@
           </div>
         </div>
         <!-- 物流公司 -->
-        <div class="zujianBox mb20">
-          <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">支付时间:</div>
-            <div class="mr20 displayalign">
-              <div style="margin-right: 10px">
-                <dateTime
-                  :dateTimeData="PayStartTime"
-                  @getDateTime="getPayStartTime"
-                  ref="expectedStart"
-                />
-              </div>
-              <!-- 开始时间 -->
-              <div class="line"></div>
-              <div>
-                <dateTime
-                  :dateTimeData="payEndTime"
-                  @getDateTime="getpayEndTime"
-                  ref="expectedEnd"
-                />
-              </div>
-              <!-- 结束时间 -->
-            </div>
-          </div>
-        </div>
-        <!-- 支付时间 -->
 
         <div class="zujianBox mb20">
           <div class="displayalign zujianBox">
@@ -369,6 +258,7 @@ export default {
         payEndTime: "",
         pushStartTime: "",
         pushEndTime: "",
+        specialProd: (() => (this.fastFahuo ? 1 : null))(),
         printExprStatus: null,
       },
       wiliudayarr: [
@@ -519,8 +409,6 @@ export default {
       this.orderContactPhone.orderContactPhoneCenter = "";
       this.orderAddr.orderAddrCenter = "";
       this.addressJson.addressJsonCenter = "";
-      this.$refs.expectedStart.clear();
-      this.$refs.expectedEnd.clear();
       this.$refs.putStart.clear();
       this.$refs.putEnd.clear();
       this.$emit("getParasJson", this.paras);

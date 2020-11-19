@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import { Message } from "element-ui";
 import { post } from "../api/api";
 import { getCookie } from "../utils/validate";
 export default {
@@ -70,7 +69,7 @@ export default {
         data: {},
       });
       if (datas.code == "10000") {
-        Message(datas.msg);
+        this.$messageSelf.message(datas.msg);
         console.log(1);
         this.$cookie.delete("userName");
         this.$cookie.delete("password");
@@ -83,7 +82,7 @@ export default {
           path: "/",
         });
       } else {
-        Message("退出登入" + datas.msg);
+        this.$messageSelf.message("退出登入" + datas.msg);
       }
     },
   },

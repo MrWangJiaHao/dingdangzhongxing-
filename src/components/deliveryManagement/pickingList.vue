@@ -7,10 +7,10 @@
         </div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
-      <div style="border-bottom: 1px solid #d2d6e2; padding: 0 0 10px 0">
-        <div style="border-bottom: 1px solid #d2d6e2; padding: 0 0 10px 0">
+      <div style="padding: 0 0 10px 0">
+        <div style="padding: 0 0 10px 0">
           <div id="printCenter" style="padding: 20px">
-            <div class="ptb20" style="border: 1px solid #d2d6e2; width: 1000px">
+            <div class="ptb20" style="width: 1000px">
               <div
                 style="
                   width: 1000px;
@@ -21,21 +21,24 @@
               >
                 <div
                   style="
-                    position: absolute;
                     font-size: 24px;
                     font-weight: bold;
-                    left: 50%;
-                    top: 30px;
                     transrom: translate(-50%);
                     color: #343434;
-                    line-height: 26px;
+                    line-height: 80px;
+                    text-align: center;
                   "
                 >
-                  XXX拣货单
+                  {{ pickOrderNo }}拣货单
                 </div>
-                <div style="position: absolute; top: 5px; right: 50px">
+                <div
+                  style="position: absolute; top: 5px; right: 50px; z-index: -1"
+                >
                   <img
-                    :src="'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=123123'"
+                    :src="
+                      'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
+                      pickOrderNo
+                    "
                     width="300"
                     height="90"
                   />
@@ -65,7 +68,7 @@
                         margin-right: 50px;
                       "
                     >
-                      listArrs.orgName
+                      {{ dataBack.orderCount }}
                     </div>
                   </div>
                   <div style="display: inline-block">
@@ -89,7 +92,7 @@
                         margin-right: 50px;
                       "
                     >
-                      listArrs.putWareNo
+                      {{ dataBack.prodTypeCount }}
                     </div>
                   </div>
                   <div style="display: inline-block">
@@ -113,7 +116,7 @@
                         margin-right: 50px;
                       "
                     >
-                      listArrs.orderNo
+                      {{ dataBack.prodCount }}
                     </div>
                   </div>
                   <div style="display: inline-block">
@@ -137,7 +140,7 @@
                         margin-right: 50px;
                       "
                     >
-                      listArrs.batchNo
+                      {{ dataBack.boxTypeCount }}
                     </div>
                   </div>
                   <div style="display: inline-block">
@@ -161,7 +164,7 @@
                         margin-right: 50px;
                       "
                     >
-                      WarehousingType
+                      暂无
                     </div>
                   </div>
                 </div>
@@ -198,19 +201,19 @@
                       highlight-current-row
                     >
                       <el-table-column
-                        property="abes"
+                        property="wareSeatCode"
                         label="库位"
                         style="color: #4796e3"
                       >
                       </el-table-column>
                       <el-table-column
-                        property="ads"
+                        property="prodCode"
                         label="产品编码"
                         style="width: 80px; color: #4796e3"
                       >
                       </el-table-column>
                       <el-table-column
-                        property="prodName"
+                        property="systemProdName"
                         label="产品名称"
                         width="120"
                       >
@@ -272,7 +275,7 @@
                       >
                       </el-table-column>
                       <el-table-column
-                        property="prodName"
+                        property="boxTypeCount"
                         label="推荐用箱 "
                         width="120"
                       >
@@ -330,46 +333,46 @@
 </template>
 
 <script>
-/*
- eslint-disable
- */
+/*eslint-disable*/
 import JsBarcode from "jsbarcode";
+import { pDeliverGoodsfindSubOrderByPickOrderNo } from "../../api/api";
+//
 export default {
   data() {
     return {
-      tableDatas: [
-        {
-          tiaoxianma: "adsadsadsa",
-        },
-      ],
-      detailsTable: [
-        {
-          prodName: "asd",
-          abes: "asd",
-          tiaoxianma: "123123",
-        },
-      ],
+      tableDatas: [],
+      detailsTable: [],
       Newtime: "",
-      parintBatchNumberArrs: [],
+      dataBack: { orderCount: 1, boxTypeCount: "啊实打实" },
     };
   },
   created() {
     this._changeTime();
-    let parintBatchNumberArrs = eval(
-      sessionStorage.getItem("parintBatchNumberArrs")
-    );
-    if (parintBatchNumberArrs) {
-      this.parintBatchNumberArrs = parintBatchNumberArrs;
-    }
+    this._pDeliverGoodsfindSubOrderByPickOrderNo();
   },
   props: {
     OneOrAddMes: {
       type: Boolean,
       default: false,
     },
+    pickOrderNo: {
+      type: String,
+      default: "12321dsad",
+    },
   },
-
   methods: {
+    _pDeliverGoodsfindSubOrderByPickOrderNo() {
+      pDeliverGoodsfindSubOrderByPickOrderNo({
+        pickOrderNo: this.pickOrderNo,
+      }).then((res) => {
+        if (res.code == "10000") {
+          this.dataBack = res.result;
+          this.tableDatas = res.result.detailList ? res.result.detailList : [];
+        } else {
+          this.$messageSelf.message(res.msg);
+        }
+      });
+    },
     getLodopS(datas, idx) {
       this.$nextTick(() => {
         let json = document.getElementsByClassName("barcode")[idx];

@@ -1,16 +1,38 @@
 <template>
   <div id="fahuoguanli">
     <div class="manualBox">
-      <div>
-        <manualHeader @getParasJson="getParasJson" :tableData="tableData" />
+      <div class="pd20 mtb20">
+        <div class="zujianBox mb20">
+          <div class="displayalign zujianBox">
+            <div class="noneIconTitle mr11">拣货单号:</div>
+            <div class="mr20">
+              <el-input
+                v-model="pickOrderNo"
+                placeholder="扫描拣货单号/输入查询"
+              ></el-input>
+            </div>
+          </div>
+        </div>
+        <!-- 拣货单号 -->
       </div>
+
+      <div class="tr pd20" style="width: 100%">
+        <div class="btns mb20">
+          <div class="bianjiUser disinb zujianBox" @click="queryBtns">查询</div>
+          <div class="remove disinb" @click="clearBtns">清空</div>
+        </div>
+      </div>
+      <!-- 查询 && 清空 -->
       <div class="btnArr">
         <div style="background-color: #fff">
-          <div class="meiyiyetitle">发货异常管理</div>
+          <div class="meiyiyetitle">补货作业</div>
           <div class="btnClick">
-            <div class="setUser" @click="warehousingConfirmation">
-              产品库位映射
-            </div>
+            <div class="setUser">待补货产品</div>
+            <div class="setUser">补货确认</div>
+            <div class="setUser">打印补货单</div>
+            <div class="setUser">创建</div>
+            <div class="setUser">编辑</div>
+            <div class="remove">删除</div>
           </div>
         </div>
         <!-- but按钮 -->
@@ -35,23 +57,8 @@
                 show-overflow-tooltip
               />
               <el-table-column
-                label="委托公司"
+                label="订单号"
                 prop="orgName"
-                show-overflow-tooltip
-              />
-              <el-table-column
-                label="产品编码"
-                prop="channelName"
-                show-overflow-tooltip
-              ></el-table-column>
-              <el-table-column
-                label="产品名称"
-                prop="orderSourceName"
-                show-overflow-tooltip
-              ></el-table-column>
-              <el-table-column
-                label="产品规格"
-                prop="channelOrderNo"
                 show-overflow-tooltip
               >
                 <span slot-scope="scoped">
@@ -61,21 +68,27 @@
                 </span>
               </el-table-column>
               <el-table-column
-                label="品牌"
-                prop="subOrderNo"
+                label="子单号"
+                prop="channelName"
                 show-overflow-tooltip
               >
                 <span slot-scope="scoped">
                   <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
-                    {{ scoped.row.subOrderNo }}
+                    {{ scoped.row.channelOrderNo }}
                   </div>
                 </span>
               </el-table-column>
               <el-table-column
-                label="关联订单数"
-                prop="exprName"
+                label="推荐用箱"
+                prop="orderSourceName"
                 show-overflow-tooltip
               ></el-table-column>
+              <el-table-column
+                label="订单编号"
+                prop="channelOrderNo"
+                show-overflow-tooltip
+              >
+              </el-table-column>
             </el-table>
           </div>
           <!-- 表格主体 -->
@@ -97,7 +110,9 @@
         leave-active-class="animate__animated animate__zoomOut"
       >
         <div v-if="isJianHuoDanShow">
-          <pickingList @getiscaigoudanDetail="getiscaigoudanDetail" />
+          <div>
+            <delivetyNote @getiswuliudanOne="getiswuliudanOne" />
+          </div>
         </div>
       </transition>
     </div>
@@ -107,18 +122,17 @@
 
 <script>
 /*eslint-disable */
-import manualHeader from "../../components/deliveryManagement/adnormalDeliberyHeader";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import pickingList from "../../components/deliveryManagement/pickingList"; //拣货单
+import delivetyNote from "../../components/deliveryManagement/delivetyNote"; //发货单
 import {
-  pDeliverGoodsFindNormalRecordPage,
-  pOrgSubOrderMegerOrder,
+  pOrgPickOrderfindOrderPage,
+  pDeliverGoodsprintDeliverGoods,
+  pDeliverGoodsfindSubOrderByPickOrderNo,
 } from "../../api/api";
 import { _getArrTarget } from "../../utils/validate";
 export default {
   components: {
-    manualHeader,
-    pickingList,
+    delivetyNote,
     pagecomponent,
   },
   data() {
@@ -129,25 +143,13 @@ export default {
         pageNums: 0, //一共多少条 //默认一页10
       },
       sendOutDataJson: {
-        paras: {
-          orgName: "",
-          orgId: "",
-          orderNo: "",
-          prodId: "",
-          specId: "",
-          childWareId: "",
-          childWareName: "",
-          specName: "",
-          outWareTimeStart: "",
-          pickTimeStart: "",
-          checkTimeStart: "",
-          outWareTimeEnd: "",
-          pickTimeEnd: "",
-          checkTimeEnd: "",
-        },
+        paras: {},
         pageNumber: 1, //当前页数
         pageSize: 10, //每页记录数
       },
+
+      pickOrderNo: "",
+
       multipleSelection: [], //选择了那个
     };
   },
@@ -155,7 +157,20 @@ export default {
     this.getTableData();
   },
   methods: {
-    getiscaigoudanDetail(e) {
+    queryBtns() {
+      pDeliverGoodsfindSubOrderByPickOrderNo({
+        pickOrderNo: this.pickOrderNo,
+      }).then((res) => {
+        if (res.code == "10000") {
+          res.list && this._changeDatas(res.list);
+        }
+      });
+    },
+    clearBtns() {
+      this.pickOrderNo = "";
+      this.getTableData();
+    },
+    getiswuliudanOne(e) {
       this.isJianHuoDanShow = e;
     },
     goToDetailOut(e) {
@@ -172,20 +187,7 @@ export default {
     handleSelectionChange(e) {
       this.multipleSelection = e;
     },
-    //产品库位映射
-    warehousingConfirmation() {
-      if (!this.multipleSelection.length || this.multipleSelection.length != 1)
-        return this.$messageSelf.message(
-          "请选择产品库位映射的产品,并且只能选择一个产品"
-        );
-      this.$router.push({
-        path: "/storageLocalMap/SLmapInfor",
-        query: {
-          datas: this.multipleSelection[0],
-          type: "edit",
-        },
-      });
-    },
+
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {
       this.sendOutDataJson.paras = { ...data };
@@ -193,9 +195,9 @@ export default {
     },
     //获取table表格内容
     async getTableData(fn) {
-      let datas = await pDeliverGoodsFindNormalRecordPage(this.sendOutDataJson);
+      let datas = await pOrgPickOrderfindOrderPage(this.sendOutDataJson);
       if (datas.code == "10000") {
-        datas.result && this._changeDatas(datas.result);
+        this._changeDatas(datas.result);
       } else {
         this.$messageSelf.message(datas.msg);
       }

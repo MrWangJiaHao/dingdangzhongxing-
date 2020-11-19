@@ -294,7 +294,16 @@ export default {
         {
           title: "货品移位",
           iconCls: require("@/assets/img/warehouse-goodsGression.png"),
-          children: [],
+          children: [
+            {
+              title: "补货作业",
+              name: "/goodsShifting/jobTask",
+            },
+            {
+              title: "库内移动",
+              name: "/goodsShifting/moveInLibrary",
+            },
+          ],
         },
         {
           title: "报损管理",

@@ -52,12 +52,12 @@
               ></el-table-column>
               <el-table-column
                 label="订单号"
-                prop="channelOrderNo"
+                prop="orderNo"
                 show-overflow-tooltip
               >
                 <span slot-scope="scoped">
                   <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
-                    {{ scoped.row.channelOrderNo }}
+                    {{ scoped.row.orderNo }}
                   </div>
                 </span></el-table-column
               >
@@ -67,7 +67,7 @@
                 show-overflow-tooltip
               >
                 <span slot-scope="scoped">
-                  <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
+                  <div @click="goToSubOrderNo(scoped.row)" class="lookDeatil">
                     {{ scoped.row.subOrderNo }}
                   </div>
                 </span></el-table-column
@@ -81,6 +81,7 @@
               <el-table-column
                 label="物流单号"
                 width="110"
+                sortable
                 prop="exprNo"
               ></el-table-column>
               <el-table-column
@@ -91,6 +92,7 @@
               <el-table-column
                 label="下发时间"
                 width="250"
+                sortable
                 prop="pushStartTime"
                 show-overflow-tooltip
               ></el-table-column>
@@ -98,6 +100,7 @@
                 label="支付时间"
                 prop="payTime"
                 width="250"
+                sortable
                 show-overflow-tooltip
               ></el-table-column>
             </el-table>
@@ -122,7 +125,10 @@
       >
         <div v-if="isJianHuoDanShow">
           <div>
-            <pickingList @getiscaigoudanDetail="getiscaigoudanDetail" />
+            <pickingList
+              :pickOrderNo="pickOrderNo"
+              @getiscaigoudanDetail="getiscaigoudanDetail"
+            />
           </div>
         </div>
       </transition>
@@ -139,6 +145,7 @@ import pickingList from "../../components/deliveryManagement/pickingList"; //拣
 import {
   pDeliverGoodsFindNormalRecordPage,
   pOrgSubOrderMegerOrder,
+  pOrgPickOrderprintPick,
 } from "../../api/api";
 import { _getArrTarget } from "../../utils/validate";
 export default {
@@ -150,6 +157,7 @@ export default {
   data() {
     return {
       isJianHuoDanShow: false,
+      pickOrderNo: "",
       tableData: [],
       pageComponentsData: {
         pageNums: 0, //一共多少条 //默认一页10
@@ -180,7 +188,6 @@ export default {
   created() {
     this.getTableData();
   },
-  mounted() {},
   methods: {
     getiscaigoudanDetail(e) {
       this.isJianHuoDanShow = e;
@@ -189,8 +196,13 @@ export default {
       //打印拣货单
       this.$nextTick(() => {
         if (document.getElementById("checkbox").checked) {
-          console.log(1);
-          this.isJianHuoDanShow = true;
+          pOrgPickOrderprintPick({
+            ids: _getArrTarget(this.multipleSelection, "id"),
+          }).then(() => {
+            // console.log(this.multipleSelection[0].pickOrderNo);
+            this.pickOrderNo = this.$isEmpty("151231511513156456d");
+            this.isJianHuoDanShow = true;
+          });
         }
       });
     },
@@ -210,7 +222,22 @@ export default {
     },
 
     goToDetailOut(e) {
-      sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
+      this.$router.push({
+        path: "/indentManagement/orderDetail",
+        query: {
+          orderNo: e,
+          type: "orderNo",
+        },
+      });
+    },
+    goToSubOrderNo(e) {
+      this.$router.push({
+        path: "/indentManagement/childOrderDetail",
+        query: {
+          subOrderNos: e,
+          type: "subOrderNos",
+        },
+      });
     },
     getPageNum(e) {
       this.sendOutDataJson.pageNumber = e;

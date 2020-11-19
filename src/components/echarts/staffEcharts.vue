@@ -179,7 +179,6 @@ export default {
           },
         ],
       };
-
       myEcharts.setOption(option);
     },
   },

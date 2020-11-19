@@ -210,6 +210,9 @@ export const _isJsonEmpty = (json) => {
   return json === str ? true : false;
 }
 
+export const _isEmpty = (res) => {
+  return res ? res : ""
+}
 
 /**
  * 根据数字 改变为"一" 

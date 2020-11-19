@@ -8,7 +8,9 @@ button{
     cursor: pointer;
 }
 @mixin BtnFunction($msg:'Usual') {
-    width: 82px;
+    padding: 0 10px;
+    min-width: 62px;
+    max-width: 102px;
     height: 36px;
     border-radius: $border;
     font-weight: 400;

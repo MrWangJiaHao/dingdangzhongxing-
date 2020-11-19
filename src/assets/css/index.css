@@ -113,7 +113,9 @@ textarea {
   white-space: nowrap;
   transition: all .5s;
 }
-
+.el-input__inner:hover{
+  border-color: #409EFF;
+}
 .nowrap {
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -182,6 +184,7 @@ textarea {
 .line40{
   line-height: 40px;
 }
+
 .el-message-box__header{
   background: #ECF1F7; border-bottom: 1px solid#D1D6E2;
 }
