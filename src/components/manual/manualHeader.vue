@@ -108,16 +108,16 @@
           <div class="noneIconTitle mr11">出库状态:</div>
           <div class="mr20">
             <el-select
-              v-model="paras.orgName"
+              v-model="paras.outWareStatus"
               slot="prepend"
-              :placeholder="EntrustedCompany.placeholder"
-              @input="getOrdName"
-              @focus="getOrderArr"
+              placeholder="请选择出库状态"
+              @input="changeWareStatus"
+              @focus="getoutWareStatus"
             >
               <el-option
-                v-for="(item, idx) in EntrustedCompany.entrustedCompanyArr"
+                v-for="(item, idx) in outWareStatusJson.outWareStatusArr"
                 :key="idx"
-                :label="item.orgFullName"
+                :label="item.outWareStatus"
                 :value="idx"
               ></el-option>
             </el-select>
@@ -349,6 +349,9 @@ export default {
       ProductNameJson: {
         placeholder: "请选择产品名称",
       },
+      outWareStatusJson: {
+        outWareStatusArr: [],
+      },
       putstatusJson: {
         placeholder: "请选择用户状态",
         putstatus: "",
@@ -477,6 +480,7 @@ export default {
         putstatus: "", //入库状态
         orderSource: "", //订单类型(0-手工创建；1-渠道创建 2-预入库 3-采购 4-库建调拨 5-加工作业 6-分解作业 7-退货 8-盘盈 9-其他）
         outWareType: "",
+        outWareStatus: "",
         prodCode: "", //产品编码
         prodName: "", //产品名称
         specName: "", //规格名称
@@ -529,6 +533,7 @@ export default {
     }
   },
   methods: {
+    getoutWareStatus() {},
     outWareTimeStart(e) {
       this.paras.outWareTimeStart = e;
     },
@@ -548,6 +553,11 @@ export default {
       this.paras.pickTimeEnd = e;
     },
 
+    changeWareStatus(e) {
+      this.paras.outWareStatus = this.outWareStatusJson.outWareStatusArr[
+        e
+      ].outWareStatus;
+    },
     _isRuku() {
       let path = this.$route.path.includes("ing");
       return path;
