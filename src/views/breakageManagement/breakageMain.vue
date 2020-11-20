@@ -164,25 +164,25 @@
           </el-table-column>
           <el-table-column prop="orgName" label="委托公司" align="center">
           </el-table-column>
-          <el-table-column prop="orderNo" label="报损单号" align="center">
+          <el-table-column prop="damageOrderNo" label="报损单号" align="center">
             <template slot-scope="scope">
               <div class="lookDeatil">
-                {{ scope.row.orderNo }}
+                {{ scope.row.damageOrderNo }}
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="volume" label="报损状态" align="center">
+          <el-table-column prop="disposeStatus" label="报损状态" align="center">
           </el-table-column>
-          <el-table-column prop="weight" label="报损类型" align="center">
+          <el-table-column prop="damageType" label="报损类型" align="center">
           </el-table-column>
-          <el-table-column prop="commendBox" label="创建人" align="center">
+          <el-table-column prop="createUser" label="创建人" align="center">
           </el-table-column>
-          <el-table-column prop="exprName" label="创建时间" align="center">
+          <el-table-column prop="createTime" label="创建时间" align="center">
           </el-table-column>
-          <el-table-column prop="exprNo" label="审核人" align="center">
+          <el-table-column prop="verifyUserName" label="审核人" align="center">
           </el-table-column>
           <el-table-column
-            prop="wareExprFeeCode"
+            prop="verifyTime"
             label="审核时间"
             align="center"
           ></el-table-column>
@@ -201,14 +201,25 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-// import { Message } from "element-ui";
+import { Message } from "element-ui";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
-import { findDamageProductPage, queryBreakageList } from "../../api/api";
-import { getCookie } from "../../utils/validate";
+import { queryBreakageList , delBreakageOrder} from "../../api/api";
+// import { getCookie } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
     dateTime,
+  },
+  beforeRouteEnter(to, from, next) {
+    if (from.name === "/breakageManagement/createBreakageOrder") {
+      next((vm) => {
+        if (vm.$route.query.type === "quxiao") {
+          Message("已取消");
+        }
+      });
+    } else {
+      next();
+    }
   },
   data() {
     return {
@@ -241,7 +252,7 @@ export default {
           damageOrderNo: "",
           orgId: "",
           orgName: "",
-          wareId: getCookie("X-Auth-wareId"),
+          wareId: "",
           wareName: "",
           childWareId: "",
           childWareName: "",
@@ -249,7 +260,6 @@ export default {
           createStartTime: "",
           createEndTime: "",
         },
-        orderBy: "",
         pageNumber: 1,
         pageSize: 10,
       },
@@ -264,16 +274,18 @@ export default {
   watch: {},
   methods: {
     pageQueryFun() {
-      let queryData = this.queryData;
-      findDamageProductPage(queryData).then((ok) => {
-        // console.log(ok)
+      // let queryData = this.queryData;
+      // findDamageProductPage(queryData).then((ok) => {
+      //   // console.log(ok)
+      //   if (ok.data.code === "10000") {
+      //     this.tableData = ok.data.result.list;
+      //   }
+      // });
+      let queryBreakageListData = this.queryBreakageListData;
+      queryBreakageList(queryBreakageListData).then((ok) => {
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result.list;
         }
-      });
-      let queryBreakageListData = this.queryBreakageListData;
-      queryBreakageList(queryBreakageListData).then((ok) => {
-        console.log(ok);
       });
     },
 
@@ -318,20 +330,55 @@ export default {
       });
     },
     edit() {},
-    del() {},
+    del() {
+      let arr = [];
+      this.multipleSelection.forEach((item) => {
+        if (!arr.includes(item.id)) {
+          arr.push(item.id);
+        }
+      });
+      if (!arr.length) return Message("请选择要删除的报损订单");
+      this.$confirm("确定要删除该订单？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.delRequest({ ids: arr });
+        })
+        .catch(() => {
+          this.Message("已取消删除");
+        });
+    },
+    delRequest(data) {
+      delBreakageOrder(data).then((ok) => {
+        if (ok.data.code === "10000") {
+          Message({
+            type: "success",
+            message: "删除成功",
+          });
+          this.queryBrandFun();
+        } else {
+          Message({
+            type: "error",
+            message: "删除失败",
+          });
+        }
+      });
+    },
     submit() {},
     point() {},
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
     lookDetailEvent(row, column, cell) {
-      if (column.property === "orderNo") {
+      if (column.property === "damageOrderNo") {
         if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
           this.$router.push({
-            path: "/indentManagement/orderDetail",
+            path: "/breakageManagement/breakageOrderDetail",
             query: {
-              orderNo: row,
-              type: "orderNo",
+              damageOrderNo: row,
+              type: "damageOrderNo",
             },
           });
         }

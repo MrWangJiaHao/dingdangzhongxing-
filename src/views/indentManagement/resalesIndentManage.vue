@@ -565,30 +565,30 @@ export default {
       unOutGetExcelUrl:
         "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubBackOrder/getBackOrderExcel",
       storeOutData: [
-        {
-          backOrderNo: "TH20200305092516647298284",
-          channelBackOrderNo: "",
-          disposeStatus: 1,
-          exprName: "",
-          exprNo: "",
-          id: "da148d24db0043c2b5325e72e0b6fcf5",
-          orderAddr: "硅谷街道硅谷大街益田枫露小区1期3栋",
-          orderCityName: "长春市",
-          orderContact: "周秋影",
-          orderContactPhone: "18686456695",
-          orderCountyName: "",
-          orderId: "37E6E46AAECF440883DC10C66A7D31DA",
-          orderNo: "XS_20200303142834448_769705",
-          orderProName: "吉林省",
-          orderSourceId: "7CBF78FF05034EDC855CF4A9C877B477",
-          orderSourceName: "创客淘宝订单来源",
-          orgId: "2B82213FE3764E9E96691B70BE5281CD",
-          orgName: "xxxxxckc委托公司",
-          returnMoneyTime: null,
-          returnType: 4,
-          subOrder: [],
-          subOrderNos: ["871195073869320914-1", "771696073865320114-1"],
-        },
+        // {
+        //   backOrderNo: "TH20200305092516647298284",
+        //   channelBackOrderNo: "",
+        //   disposeStatus: 1,
+        //   exprName: "",
+        //   exprNo: "",
+        //   id: "da148d24db0043c2b5325e72e0b6fcf5",
+        //   orderAddr: "硅谷街道硅谷大街益田枫露小区1期3栋",
+        //   orderCityName: "长春市",
+        //   orderContact: "周秋影",
+        //   orderContactPhone: "18686456695",
+        //   orderCountyName: "",
+        //   orderId: "37E6E46AAECF440883DC10C66A7D31DA",
+        //   orderNo: "XS_20200303142834448_769705",
+        //   orderProName: "吉林省",
+        //   orderSourceId: "7CBF78FF05034EDC855CF4A9C877B477",
+        //   orderSourceName: "创客淘宝订单来源",
+        //   orgId: "2B82213FE3764E9E96691B70BE5281CD",
+        //   orgName: "xxxxxckc委托公司",
+        //   returnMoneyTime: null,
+        //   returnType: 4,
+        //   subOrder: [],
+        //   subOrderNos: ["871195073869320914-1", "771696073865320114-1"],
+        // },
       ],
       unStoreOutData: [],
       datetimeDate: {
@@ -691,7 +691,7 @@ export default {
       findReturnOrderPage(QueryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
-          // this.storeOutData = ok.data.result.list;
+          this.storeOutData = ok.data.result.list;
           let oDiv = document.querySelectorAll(".subOrderNosStyle");
           let oList = document.querySelector(".subOrderNosList");
           oDiv.forEach((v) => {
