@@ -48,7 +48,7 @@
         <div class="tableBox-title">
           <div class="titleText">明细</div>
           <div class="titleBtn">
-            <div class="add" @clicl="add">添加产品</div>
+            <div class="add" @click="add">添加产品</div>
             <div class="del" @click="del">删除</div>
           </div>
         </div>
@@ -67,23 +67,27 @@
               width="60"
             >
             </el-table-column>
-            <el-table-column prop="" label="子仓名称" align="center">
-            </el-table-column>
-            <el-table-column prop="" label="区域类型" align="center">
-            </el-table-column>
-            <el-table-column prop="prodCode" label="区域名称" align="center">
-            </el-table-column>
             <el-table-column
-              prop="prodFullName"
-              label="产品编码"
+              prop="childWareName"
+              label="子仓名称"
               align="center"
             >
             </el-table-column>
-            <el-table-column prop="specName" label="产品名称" align="center">
+            <el-table-column prop="seatType" label="区域类型" align="center">
             </el-table-column>
-            <el-table-column prop="braName" label="产品规格" align="center">
+            <el-table-column
+              prop="wareAreaName"
+              label="区域名称"
+              align="center"
+            >
             </el-table-column>
-            <el-table-column prop="prodNum" label="品牌" align="center">
+            <el-table-column prop="prodCode" label="产品编码" align="center">
+            </el-table-column>
+            <el-table-column prop="prodName" label="产品名称" align="center">
+            </el-table-column>
+            <el-table-column prop="specName" label="产品规格" align="center">
+            </el-table-column>
+            <el-table-column prop="braName" label="品牌" align="center">
             </el-table-column>
             <el-table-column
               prop="prodNum"
@@ -156,12 +160,29 @@
           ></el-input>
         </div>
       </div>
+      <div class="backBtnBox">
+        <div class="backBtn" @click="back">返回</div>
+        <div class="submitBtn" @click="submit">提交</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { queryEntrustCompany, saveBreakageOrder } from "../../api/api";
+import { getCookie } from "../../utils/validate";
 export default {
+  beforeRouteEnter(to, from, next) {
+    if (from.name === "/breakageManagement/addProduct") {
+      next((vm) => {
+        if (vm.$route.query.type === "addProd") {
+          vm.tableData = vm.$route.query.val;
+        }
+      });
+    } else {
+      next();
+    }
+  },
   data() {
     return {
       breakageType: "",
@@ -189,7 +210,23 @@ export default {
       ],
     };
   },
-  mounted() {},
+  mounted() {
+    let data = {
+      wareId: getCookie("X-Auth-wareId"),
+      orgId: "",
+    };
+    queryEntrustCompany(data).then((ok) => {
+      // console.log(ok)
+      if (ok.code === "10000") {
+        ok.result.forEach((v) => {
+          this.entrustCompanyData.push({
+            value: v.id,
+            label: v.orgName,
+          });
+        });
+      }
+    });
+  },
   methods: {
     entrustCompanys(val) {
       this.entrustCompany = val;
@@ -203,8 +240,30 @@ export default {
     imperfectKuweis(val) {
       this.imperfectKuwei = val;
     },
-    add() {},
+    add() {
+      this.$router.push({
+        path: "/breakageManagement/addProduct",
+        query: { type: "add" },
+      });
+    },
     del() {},
+    back() {
+      this.$router.push({
+        path: "/breakageManagement/breakageMain",
+        query: { type: "quxiao" },
+      });
+    },
+    submit() {
+      if (this.entrustCompany === "" || this.breakageType === "") {
+        return this.$messageSelf.message({
+          message: "请选择委托公司或者报损类型",
+          type: "error",
+        });
+      }
+      saveBreakageOrder().then((ok) => {
+        console.log(ok);
+      });
+    },
   },
 };
 </script>
@@ -286,6 +345,19 @@ export default {
       .remark {
         font-size: 16px;
         margin-bottom: 10px;
+      }
+    }
+    .backBtnBox {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 16px;
+      .backBtn {
+        margin: 0 16px 0 0;
+        @include BtnFunction("success");
+      }
+      .submitBtn {
+        @include BtnFunction("success");
       }
     }
   }

@@ -505,8 +505,8 @@ export default {
       },
       shelfResList: [],
       orgId: "",
-      storePageNumber:"1",
-      pickPageNumber:"1",
+      storePageNumber: "1",
+      pickPageNumber: "1",
     };
   },
   mounted() {
@@ -710,7 +710,7 @@ export default {
           prodCode: this.productCode, //产品编码
           childWareId: this.pagingQueryData.paras.childWareId, //子仓id
           wareAreaId: this.pagingQueryData.paras.wareAreaId, //区域id
-          wareSeatCode:this.pickSL
+          wareSeatCode: this.pickSL,
         },
       };
       storeMapRelation(queryData).then((ok) => {
@@ -869,7 +869,7 @@ export default {
     sureSuccssBtn(e) {
       this.storeTableData = [];
       this.storefenyeQuery();
-       this.storePageNumber = e;
+      this.storePageNumber = e;
     },
     changeData(data) {
       this.changePageData(data);
@@ -906,7 +906,9 @@ export default {
     padding: 0 16px 16px 16px;
   }
   .formBox {
-    padding: 0 16px 16px 16px;
+    .formTabs {
+      padding: 0 20px;
+    }
     .childWarehouseForm {
       margin: 16px 0 0 0;
       background: white;
@@ -1057,5 +1059,10 @@ export default {
 }
 #storageLocalMap .el-tabs__header {
   margin: 0;
+}
+.formTabs {
+  .el-tabs {
+    left: 0;
+  }
 }
 </style>

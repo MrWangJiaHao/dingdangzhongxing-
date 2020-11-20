@@ -839,7 +839,34 @@ export function queryBreakageList(data) {
         })
     })
 }
-
+//保存/修改报损单
+export function saveBreakageOrder(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/pDamageOrder/saveRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//删除报损单
+export function delBreakageOrder(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/pDamageOrder/delRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
 
 /**
  * 
