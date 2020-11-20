@@ -1545,6 +1545,35 @@ export const pDeliverGoodsprintDeliverGoods = function (data) {
     })
 }
 //=========================================发货管理 end ========================================
+//=========================================货品移位 start ========================================
+
+/**
+ * 货品移位 =》 补货作业 => 分页查询补货单
+ * @param {*} datas /wbs-warehouse-manage/pReplenishOrder/findRecordPage
+ */
+export const pReplenishOrderfindRecordPage = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/pReplenishOrder/findRecordPage",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+
+
+//=========================================货品移位 end ========================================
+
+
+
+// 
+
+
+
 export function post(datas) {
     let {
         url,

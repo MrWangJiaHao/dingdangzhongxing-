@@ -27,7 +27,14 @@ import { isMaoHao } from "../../utils/validate";
 import { mapState } from "vuex";
 export default {
   props: {
-    dateTimeData: Object,
+    dateTimeData: {
+      type: Object,
+      default: () => {
+        return {
+          placeholder: "",
+        };
+      },
+    },
     transfer: {
       type: Boolean,
       default: true,
