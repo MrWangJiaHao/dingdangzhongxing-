@@ -142,7 +142,6 @@
           @selection-change="handleSelectionChange"
           :stripe="true"
           tooltip-effect="dark"
-          max-height="570"
           @cell-click="lookDetail"
         >
           <el-table-column type="selection" width="55"> </el-table-column>
@@ -318,7 +317,7 @@ export default {
       CSandareaData: [],
 
       codeData: {
-        code: "B2-C02-007-1-3",
+        code: "",
       },
       captchaPath: "",
       ImgsrcArr: [],
@@ -341,7 +340,6 @@ export default {
       let queryData = this.pagingQueryData;
       querySLInfor(queryData).then((ok) => {
         // console.log(ok);
-
         this.tableData = ok.data.result.list;
         this.changeData(ok.data.result);
         if (this.tableData.length > 0) {
@@ -375,27 +373,6 @@ export default {
       });
     };
     this.updateData();
-
-    // let SLInforData = this.SLInforData;
-    // querySLInforCon(SLInforData).then((ok) => {
-    //   if (ok.data.code === "10000") {
-    //     this.CSkuweiData = ok.data.result;
-    //     this.CSkuweiData.forEach((v) => {
-    //       this.areaNameData.push({
-    //         value: v.wareAreaName,
-    //         label: v.wareAreaName,
-    //       });
-    //     });
-    //     let testObj = {};
-    //     this.areaNameData = this.areaNameData.reduce((item, next) => {
-    //       testObj[next.value]
-    //         ? ""
-    //         : (testObj[next.value] = true && item.push(next));
-    //       return item;
-    //     }, []);
-    //   }
-    // });
-
     let data1 = this.areaData;
     queryAreaOfWS(data1).then((ok) => {
       // console.log(ok);
@@ -407,22 +384,6 @@ export default {
   methods: {
     clickQuery() {
       //点击查询
-      if (this.nameValue === "") {
-        return Message({
-          type: "error",
-          message: "请选择子仓名称",
-        });
-      } else if (this.areaNameValue === "") {
-        return Message({
-          type: "error",
-          message: "请选择区域名称",
-        });
-      } else if (this.areaTypeValue === "") {
-        return Message({
-          type: "error",
-          message: "请选择区域类型",
-        });
-      }
       this.tableData = [];
       let SLInforData = this.SLInforData;
       querySLInforCon(SLInforData).then((ok) => {
@@ -629,7 +590,7 @@ export default {
   display: flex;
   align-items: center;
   .roleName-text {
-    font-size: 16px;
+    font-size: 14px;
     white-space: nowrap;
   }
   .roleName {

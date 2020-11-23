@@ -72,9 +72,7 @@
 </template>
 
 <script>
-/*eslint-disable */
 import {} from "../../api/api";
-// import { Message } from "element-ui";
 
 export default {
   beforeRouteEnter(to, from, next) {

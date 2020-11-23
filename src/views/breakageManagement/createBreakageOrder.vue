@@ -59,7 +59,9 @@
             style="width: 100%"
             :stripe="true"
             tooltip-effect="dark"
+            @selection-change="handleSelectionChange"
           >
+            <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -115,11 +117,15 @@
                 <el-input v-model="scope.row.proNum"></el-input>
               </template>
             </el-table-column>
-            <el-table-column prop="prodNum" label="当前库位" align="center">
+            <el-table-column
+              prop="wareSeatCode"
+              label="当前库位"
+              align="center"
+            >
               <template slot-scope="scope">
                 <el-select v-model="currentKuwei" @change="currentKuweis">
                   <el-option
-                    v-for="item in scope.row.prodNum"
+                    v-for="item in scope.row.currentKuweiData"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -169,13 +175,22 @@
 </template>
 
 <script>
-import { queryEntrustCompany, saveBreakageOrder } from "../../api/api";
+import {
+  queryEntrustCompany,
+  saveBreakageOrder,
+  querySLInfor,
+} from "../../api/api";
 import { getCookie } from "../../utils/validate";
 export default {
   beforeRouteEnter(to, from, next) {
     if (from.name === "/breakageManagement/addProduct") {
       next((vm) => {
+        vm.tableData = [];
         if (vm.$route.query.type === "addProd") {
+          vm.tableData = vm.$route.query.val;
+          // console.log(vm.tableData)
+          // vm.currentKuwei = vm.$route.query.val.wareSeatCode;
+        } else if (vm.$route.query.type === "edit") {
           vm.tableData = vm.$route.query.val;
         }
       });
@@ -188,8 +203,11 @@ export default {
       breakageType: "",
       entrustCompany: "",
       textarea: "",
+      currentKuwei: "",
+      imperfectKuwei: [],
       tableData: [],
       entrustCompanyData: [],
+      multipleSelection: [],
       breakageTypeData: [
         {
           value: "1",
@@ -211,6 +229,30 @@ export default {
     };
   },
   mounted() {
+    //查询残次品库位
+    let queryData = {
+        orderBy: "createTime",
+        pageNumber: 1,
+        pageSize: 9999,
+        paras: {
+          childWareId: "", 
+          wareAreaId: "", 
+          wareAreaType: "", 
+          wareShelfId: "", 
+          shelfLevelNum: "", 
+          wareSeatCode: "", 
+          id: "", 
+        },
+      }
+    querySLInfor(queryData).then((ok) => {
+      console.log(ok)
+      // if (ok.data.code === "10000") {
+      //   ok.data.result.list.forEach((v) => {
+      //     this.imperfectKuwei.push({});
+      //   });
+      // }
+    });
+    //查询委托公司
     let data = {
       wareId: getCookie("X-Auth-wareId"),
       orgId: "",
@@ -246,7 +288,48 @@ export default {
         query: { type: "add" },
       });
     },
-    del() {},
+    del() {
+      if (!this.multipleSelection.length) {
+        return this.$messageSelf.message({
+          message: "请选择需要删除的产品",
+          type: "error",
+        });
+      } else {
+        return this.$messageSelf
+          .confirms(
+            `共选择了${this.multipleSelection.length}个产品,确定删除吗`,
+            "删除确认",
+            { type: "warning" }
+          )
+          .then(() => {
+            this.delHandObj(this.tableData, this.multipleSelection);
+            return this.$messageSelf.message({
+              message: "删除成功",
+              type: "success",
+            });
+          })
+          .catch(() => {
+            return this.$messageSelf.message({
+              message: "取消删除",
+              type: "error",
+            });
+          });
+      }
+    },
+    delHandObj(arr, delArr) {
+      for (var i = 0; i < arr.length; i++) {
+        for (var j = 0; j < delArr.length; j++) {
+          if (arr[i].id === delArr[j].id) {
+            arr.splice(i, 1);
+            delArr.splice(j, 1);
+            i--;
+          } else {
+            break;
+          }
+        }
+      }
+      return arr;
+    },
     back() {
       this.$router.push({
         path: "/breakageManagement/breakageMain",
@@ -260,9 +343,31 @@ export default {
           type: "error",
         });
       }
-      saveBreakageOrder().then((ok) => {
+      let submitData = {
+        createTime: "",
+        createUser: "",
+        damageOrderNo: "",
+        damageType: 0,
+        detailList: [],
+        disposeStatus: "",
+        id: "",
+        lastModifyTime: "",
+        lastModifyUser: "",
+        orgId: "",
+        orgName: "",
+        remark: "",
+        verifyTime: "",
+        verifyUserId: "",
+        verifyUserName: "",
+        version: 0,
+      };
+
+      saveBreakageOrder(submitData).then((ok) => {
         console.log(ok);
       });
+    },
+    handleSelectionChange(value) {
+      this.multipleSelection = value;
     },
   },
 };
@@ -293,7 +398,7 @@ export default {
       }
       .headerBox-input {
         display: flex;
-        font-size: 16px;
+        font-size: 14px;
         .el-inputBox {
           display: flex;
           align-items: center;

@@ -912,7 +912,7 @@ export default {
       .el-inputBox {
         display: flex;
         align-items: center;
-        font-size: 16px;
+        font-size: 14px;
         margin-right: 1.05%;
         .el-inputBox-text {
           white-space: nowrap;

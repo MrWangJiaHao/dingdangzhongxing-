@@ -1118,7 +1118,7 @@ export default {
         input[i].value = "";
       }
       let elInput = document.querySelectorAll(
-        ".el-input--suffix .el-input__inner"
+        ".el-input__inner"
       );
       for (let i = 0; i < elInput.length; i++) {
         elInput[i].value = "";
@@ -1146,7 +1146,7 @@ export default {
       .el-inputBox {
         display: flex;
         align-items: center;
-        font-size: 16px;
+        font-size: 14px;
         margin-right: 1.05%;
         .el-inputBox-text {
           white-space: nowrap;
@@ -1191,7 +1191,7 @@ export default {
           justify-content: space-between;
           align-items: center;
           .titleBox {
-            font-size: 16px;
+            font-size: 14px;
             white-space: nowrap;
           }
           .timeBox {

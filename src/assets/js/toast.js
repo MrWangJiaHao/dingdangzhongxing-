@@ -8,7 +8,7 @@ class messageSelf {
         this.jsonArr = {
             message: "",
             showClose: true,
-            duration: 1000
+            duration: 1500
         }
     }
     /**

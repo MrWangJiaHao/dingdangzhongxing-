@@ -169,14 +169,18 @@
               </el-input>
             </div>
           </div>
+          <div class="roleName-botton">
+            <div class="queryBtn" @click="clickQuery">查询</div>
+            <div class="clearBtn" @click="clearInput">清空</div>
+          </div>
         </div>
       </div>
-      <div class="queryBtns">
+      <!-- <div class="queryBtns">
         <div class="roleName-botton">
           <div class="queryBtn" @click="clickQuery">查询</div>
           <div class="clearBtn" @click="clearInput">清空</div>
         </div>
-      </div>
+      </div> -->
       <!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
     </div>
     <div class="formBox">
@@ -975,12 +979,13 @@ export default {
     align-items: center;
     margin: 10px 10px 0;
     .roleName-text {
-      font-size: 16px;
+      font-size: 14px;
     }
   }
   .roleName-choose {
     display: flex;
     .name_type {
+      position: relative;
       display: flex;
       flex-wrap: wrap;
       .delegaCompany {
@@ -1016,26 +1021,21 @@ export default {
       .pickSL {
         @extend .publicStyle;
       }
-    }
-  }
-  .queryBtns {
-    height: 36px;
-    position: relative;
-    // margin: 0 0 16px 0;
-    .roleName-botton {
-      position: absolute;
-      right: 16px;
-      // bottom: 16px;
-      margin: 16px 0 0 0;
-      display: flex;
-      align-items: center;
-      .queryBtn {
-        @include BtnFunction("success");
-      }
-      .clearBtn {
-        @include BtnFunction();
-        background: #fff;
-        margin: 0 30px 0 10px;
+      .roleName-botton {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        margin: 16px 0 0 0;
+        display: flex;
+        align-items: center;
+        .queryBtn {
+          @include BtnFunction("success");
+        }
+        .clearBtn {
+          @include BtnFunction();
+          background: #fff;
+          margin: 0 0 0 10px;
+        }
       }
     }
   }

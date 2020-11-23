@@ -196,15 +196,29 @@
         ></pagecomponent>
       </div>
     </div>
+    <div
+      v-show="popupBoxIsShow"
+      class="popupBox"
+    >
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div style="width: 300px; height: 300px; background: red"></div>
+      </transition>
+    </div>
   </div>
 </template>
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { Message } from "element-ui";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
-import { queryBreakageList , delBreakageOrder} from "../../api/api";
-// import { getCookie } from "../../utils/validate";
+import {
+  queryBreakageList,
+  delBreakageOrder,
+  pointBreakageOrder,
+} from "../../api/api";
+// import { _getExportExcels } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -214,7 +228,7 @@ export default {
     if (from.name === "/breakageManagement/createBreakageOrder") {
       next((vm) => {
         if (vm.$route.query.type === "quxiao") {
-          Message("已取消");
+          vm.$messageSelf.message("已取消");
         }
       });
     } else {
@@ -223,6 +237,7 @@ export default {
   },
   data() {
     return {
+      popupBoxIsShow: false,
       tableData: [],
       datetimeDate: {
         placeholder: "请选择结束时间",
@@ -274,30 +289,13 @@ export default {
   watch: {},
   methods: {
     pageQueryFun() {
-      // let queryData = this.queryData;
-      // findDamageProductPage(queryData).then((ok) => {
-      //   // console.log(ok)
-      //   if (ok.data.code === "10000") {
-      //     this.tableData = ok.data.result.list;
-      //   }
-      // });
       let queryBreakageListData = this.queryBreakageListData;
       queryBreakageList(queryBreakageListData).then((ok) => {
+        // console.log(ok)
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result.list;
         }
       });
-    },
-
-    reduceFun(arr) {
-      let testObj = {};
-      let res = arr.reduce((item, next) => {
-        testObj[next.value]
-          ? ""
-          : (testObj[next.value] = true && item.push(next));
-        return item;
-      }, []);
-      return res;
     },
     breakageOrders(val) {
       this.breakageOrder = val;
@@ -329,7 +327,24 @@ export default {
         query: { type: "create" },
       });
     },
-    edit() {},
+    edit() {
+      if (!this.multipleSelection.length) {
+        return this.$messageSelf.message({
+          message: "请选择需要删除的报损订单",
+          type: "warning",
+        });
+      } else if (this.multipleSelection.length > 1) {
+        return this.$messageSelf.message({
+          message: "只能选择一个报损订单进行编辑",
+          type: "warning",
+        });
+      } else {
+        this.$router.push({
+          path: "/breakageManagement/createBreakageOrder",
+          query: { val: this.multipleSelection[0], type: "edit" },
+        });
+      }
+    },
     del() {
       let arr = [];
       this.multipleSelection.forEach((item) => {
@@ -337,37 +352,57 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return Message("请选择要删除的报损订单");
-      this.$confirm("确定要删除该订单？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      if (!arr.length)
+        return this.$messageSelf.message("请选择要删除的报损订单");
+      this.$messageSelf
+        .confirms("确定要删除该订单？", "删除确认", {
+          type: "warning",
+        })
         .then(() => {
           this.delRequest({ ids: arr });
         })
         .catch(() => {
-          this.Message("已取消删除");
+          this.$messageSelf.message("取消删除");
         });
     },
     delRequest(data) {
       delBreakageOrder(data).then((ok) => {
         if (ok.data.code === "10000") {
-          Message({
+          this.$messageSelf.message({
             type: "success",
             message: "删除成功",
           });
-          this.queryBrandFun();
+          this.pageQueryFun();
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: "删除失败",
           });
         }
       });
     },
-    submit() {},
-    point() {},
+    submit() {
+      this.popupBoxIsShow = true;
+    },
+    point() {
+      let data = { id: "" };
+      if (!this.multipleSelection.length) {
+        return this.$messageSelf.message({
+          message: "请选择需要打印的单号",
+          type: "warning",
+        });
+      } else if (this.multipleSelection.length > 1) {
+        return this.$messageSelf.message({
+          message: "只能选择一个产品进行打印",
+          type: "warning",
+        });
+      } else {
+        data.id = this.multipleSelection[0].id;
+      }
+      pointBreakageOrder(data).then((ok) => {
+        console.log(ok);
+      });
+    },
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
@@ -439,7 +474,7 @@ export default {
       .el-inputBox {
         display: flex;
         align-items: center;
-        font-size: 16px;
+        font-size: 14px;
         margin-right: 16px;
         .el-inputBox-text {
           white-space: nowrap;
@@ -462,13 +497,13 @@ export default {
     }
   }
   .timeChoose {
-    width: 460px;
+    width: 524px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-right: 16px;
     .titleBox {
-      font-size: 16px;
+      font-size: 14px;
       white-space: nowrap;
     }
     .timeBox {

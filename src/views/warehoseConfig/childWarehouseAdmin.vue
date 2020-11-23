@@ -76,57 +76,61 @@
               width="60"
             >
             </el-table-column>
-            <el-table-column prop="CWName" label="子仓名称" align="center">
+            <el-table-column
+              prop="childWareName"
+              label="子仓名称"
+              align="center"
+            >
             </el-table-column>
             <el-table-column
-              prop="CWnumber"
+              prop="childWareCode"
               label="子仓编号"
               align="center"
               width="110"
             >
             </el-table-column>
             <el-table-column
-              prop="CWtype"
+              prop="wareType"
               label="子仓类型"
               align="center"
               width="110"
             >
             </el-table-column>
             <el-table-column
-              prop="CWWidth"
+              prop="wareLength"
               label="子仓长(m)"
               align="center"
               width="110"
             >
             </el-table-column>
             <el-table-column
-              prop="CWHeight"
+              prop="wareWidth"
               label="子仓宽(m)"
               align="center"
               width="110"
             >
             </el-table-column>
             <el-table-column
-              prop="Ndistance"
+              prop="northDistance"
               label="距北距离(m)"
               align="center"
               width="110"
             >
             </el-table-column>
             <el-table-column
-              prop="Wdistance"
+              prop="westDistance"
               label="距西距离(m)"
               align="center"
               width="110"
             ></el-table-column>
             <el-table-column
-              prop="divideArea"
+              prop="areaNum"
               label="是否划分区域"
               align="center"
               width="150"
             ></el-table-column>
             <el-table-column
-              prop="usedArea"
+              prop="size"
               label="已使用面积(㎡)"
               align="center"
               width="110"
@@ -143,7 +147,7 @@
               align="center"
             ></el-table-column>
             <el-table-column
-              prop="createName"
+              prop="createUser"
               label="创建人"
               align="center"
             ></el-table-column>
@@ -174,6 +178,7 @@ import {
   query_WH_Request,
   TJquery_WH_Request,
 } from "../../api/api";
+import { getCookie, reduceFun } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -225,69 +230,49 @@ export default {
         //这是分页器需要的json
         pageNums: 0, //一共多少条 //默认一页10条
       },
-      requestMethods: "",
+      requestMethods: () => {},
       tjQueryData: {
         id: "",
-        wareId: "2A8B48391F4F4EB5BDEDF9EBA0B6BAE7",
+        wareId: getCookie("X-Auth-wareId"),
       },
       queryRes: [],
     };
   },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.tableData = [];
+      vm.requestMethods();
+    });
+  },
   mounted() {
     this.requestMethods = () => {
       let queryData = this.pagingQueryData;
-      let tableData = this.tableData;
       query_WH_Request(queryData).then((ok) => {
+        // console.log(ok);
         if (ok.data.code === "10000") {
           // console.log(ok.data.result);
           this.queryRes = ok.data.result.list;
           this.changeData(ok.data.result);
-          // 将查询出来的数组进行循环，分别插入到表格中
-          let resultList = ok.data.result.list;
+          this.tableData = ok.data.result.list;
           //将查询出来的数据存储到vuex里面
           this.$store.dispatch("CWAdminRequest", ok.data.result);
           //将查询出来的数据赋值给子仓名称选择框
-          resultList.forEach((values, indexs) => {
-            let tableDataItem = {
-              CWName: resultList[indexs].childWareName, //子仓名称
-              CWnumber: resultList[indexs].childWareCode, //子仓编号
-              CWtype:
-                resultList[indexs].wareType === 1
-                  ? "销售仓"
-                  : resultList[indexs].wareType === 2
-                  ? "售后仓"
-                  : resultList[indexs].wareType === 1
-                  ? "残次品"
-                  : "——", //子仓类型
-              CWWidth: resultList[indexs].wareLength, //子仓长度
-              CWHeight: resultList[indexs].wareWidth, //子仓宽度
-              Ndistance: resultList[indexs].northDistance, //距北距离
-              Wdistance: resultList[indexs].westDistance, //距西距离
-              divideArea: resultList[indexs].enableStatus, //是否划分区域
-              usedArea: resultList[indexs].size, //已使用面积
-              unUsedArea:
-                resultList[indexs].wareLength * resultList[indexs].wareWidth -
-                resultList[indexs].size, //未使用面积
-              remark: resultList[indexs].remark, //备注
-              createName: resultList[indexs].createUser, //创建人
-              createTime: resultList[indexs].createTime, //创建时间
-              id: resultList[indexs].id,
-            };
-            tableData.push(tableDataItem); //将请求的数据插入到表格中
+          this.tableData.forEach((v) => {
+            v.wareType =
+              v.wareType === 1
+                ? "销售仓"
+                : v.wareType === 2
+                ? "售后仓"
+                : v.wareType === 3
+                ? "残次品仓"
+                : "——";
+            v.areaNum = v.areaNum > 0 ? "是" : "否";
+            v.unUsedArea = v.wareLength * v.wareWidth - v.size;
             this.childWarehouseName.push({
-              value: resultList[indexs].childWareName,
-              label: resultList[indexs].childWareName,
+              value: v.childWareName,
+              label: v.childWareName,
             });
-            let testObj = {};
-            this.childWarehouseName = this.childWarehouseName.reduce(
-              (item, next) => {
-                testObj[next.value]
-                  ? ""
-                  : (testObj[next.value] = true && item.push(next));
-                return item;
-              },
-              []
-            );
+            this.childWarehouseName = reduceFun(this.childWarehouseName);
           });
         }
       });
@@ -311,26 +296,23 @@ export default {
     },
     clickQuery() {
       //点击查询
-      this.tableData = [];
       let tjQueryData = this.tjQueryData;
       TJquery_WH_Request(tjQueryData).then((ok) => {
+        // console.log(ok);
         if (ok.data.code === "10000") {
-          let res = ok.data.result[0];
-          this.tableData.push({
-            CWName: res.childWareName, //子仓名称
-            CWnumber: res.childWareCode, //子仓编号
-            CWtype: res.wareType, //子仓类型
-            CWWidth: res.wareLength, //子仓长度
-            CWHeight: res.wareWidth, //子仓宽度
-            Ndistance: res.northDistance, //距北距离
-            Wdistance: res.westDistance, //距西距离
-            divideArea: res.enableStatus, //是否划分区域
-            usedArea: res.size, //已使用面积
-            unUsedArea: res.wareLength * res.wareWidth - res.size, //未使用面积
-            remark: res.remark, //备注
-            createName: res.createUser, //创建人
-            createTime: res.createTime, //创建时间
-            id: res.id,
+          this.tableData = [];
+          this.tableData = ok.data.result;
+          this.tableData.forEach((v) => {
+            v.wareType =
+              v.wareType === 1
+                ? "销售仓"
+                : v.wareType === 2
+                ? "售后仓"
+                : v.wareType === 3
+                ? "残次品仓"
+                : "——";
+            v.areaNum = v.areaNum > 0 ? "是" : "否";
+            v.unUsedArea = v.wareLength * v.wareWidth - v.size;
           });
         }
       });
@@ -341,6 +323,7 @@ export default {
       this.typeValue = "";
       this.tableData = [];
       this.queryRes = [];
+      this.tjQueryData.id = "";
       this.requestMethods();
     },
     createChildWarehouse() {
@@ -348,16 +331,8 @@ export default {
       this.$router.push({ path: "/warehoseConfig/addChildWarehouse" });
     },
     editChildWarehouse() {
-      //编辑
-      // if (!this.multipleSelection.length) return Message("请选择要查看的账号");
-      // if (this.multipleSelection.length !== 1)
-      //   return Message({
-      //     message: "每次只能查看一条账号，请重新选择",
-      //     type: "warning",
-      //   });
       this.$router.push({
-        path: "editChildWarehouse",
-        // query: {editArr:this.multipleSelection},
+        path: "/warehoseConfig/editChildWarehouse",
       });
     },
     delChildWarehouse() {
@@ -436,7 +411,7 @@ export default {
       display: flex;
       align-items: center;
       .roleName-text {
-        font-size: 16px;
+        font-size: 14px;
       }
       .roleName {
         // width: 100%;

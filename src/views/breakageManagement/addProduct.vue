@@ -254,7 +254,7 @@ export default {
   methods: {
     queryFun() {
       storeMapRelation(this.queryData).then((ok) => {
-        //   console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
@@ -268,6 +268,7 @@ export default {
       this.tableData = [];
       this.queryData.paras.prodCode = this.prodCode;
       this.queryData.paras.prodName = this.prodName;
+      this.queryData.paras.specName = this.prodSpec;
       this.queryFun();
     },
     clearInput() {
@@ -302,12 +303,12 @@ export default {
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
-    add() {
-      
+    add() {},
+    del() {
+      this.$messageSelf.message("该功能待定");
     },
-    del() {},
     back() {
-      this.$router.go(-1);
+      this.$router.push({ path: "/breakageManagement/createBreakageOrder" });
     },
     submit() {
       if (!this.multipleSelection.length) return Message("请选择报损的产品");
@@ -360,7 +361,7 @@ export default {
       }
       .headerBox-input {
         display: flex;
-        font-size: 16px;
+        font-size: 14px;
         .el-inputBox {
           display: flex;
           align-items: center;
