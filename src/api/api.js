@@ -868,6 +868,21 @@ export function delBreakageOrder(data) {
     })
 }
 
+//报损单明细(查看/编辑/打印报损单)
+export function pointBreakageOrder(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/pDamageOrder/findRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
 /**
  * 
  * @param {*}  获取查询仓库下的委托公司

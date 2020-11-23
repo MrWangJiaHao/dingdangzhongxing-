@@ -460,7 +460,7 @@ export default {
     },
     rightMove() {
       let oDiv = document.querySelector(".el-tabs__nav-scroll");
-      let oDiv1 = document.querySelector(".el-tabs__nav-wrap");
+      // let oDiv1 = document.querySelector(".el-tabs__nav-wrap");
       oDiv.style.transition = "0.5s";
       a++;
       oDiv.style.left = `${-1140 * a}px`;
