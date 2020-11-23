@@ -54,22 +54,12 @@
                 prop="channelOrderNo"
                 show-overflow-tooltip
               >
-                <span slot-scope="scoped">
-                  <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
-                    {{ scoped.row.channelOrderNo }}
-                  </div>
-                </span>
               </el-table-column>
               <el-table-column
                 label="品牌"
                 prop="subOrderNo"
                 show-overflow-tooltip
               >
-                <span slot-scope="scoped">
-                  <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
-                    {{ scoped.row.subOrderNo }}
-                  </div>
-                </span>
               </el-table-column>
               <el-table-column
                 label="关联订单数"
@@ -111,10 +101,10 @@ import manualHeader from "../../components/deliveryManagement/adnormalDeliberyHe
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import pickingList from "../../components/deliveryManagement/pickingList"; //拣货单
 import {
-  pDeliverGoodsFindNormalRecordPage,
+  pOrgFailSubOrderfindRecordPageGroupByProd,
   pOrgSubOrderMegerOrder,
 } from "../../api/api";
-import { _getArrTarget } from "../../utils/validate";
+import { getCookie, _getArrTarget } from "../../utils/validate";
 export default {
   components: {
     manualHeader,
@@ -158,9 +148,6 @@ export default {
     getiscaigoudanDetail(e) {
       this.isJianHuoDanShow = e;
     },
-    goToDetailOut(e) {
-      sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
-    },
     getPageNum(e) {
       this.sendOutDataJson.pageNumber = e;
       this.getTableData();
@@ -193,7 +180,9 @@ export default {
     },
     //获取table表格内容
     async getTableData(fn) {
-      let datas = await pDeliverGoodsFindNormalRecordPage(this.sendOutDataJson);
+      let datas = await pOrgFailSubOrderfindRecordPageGroupByProd(
+        this.sendOutDataJson
+      );
       if (datas.code == "10000") {
         datas.result && this._changeDatas(datas.result);
       } else {
@@ -210,8 +199,6 @@ export default {
 };
 </script>
 
-<style>
-</style>
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .posFixCenter {
@@ -259,25 +246,6 @@ export default {
 }
 
 .setUser {
-  margin-right: 10px;
-  @include BtnFunction("success");
-}
-
-.bianjiUser {
-  margin-right: 10px;
-  @include BtnFunction("success");
-}
-
-.remove {
-  @include BtnFunction("error");
-}
-
-.goOn {
-  margin-right: 10px;
-  @include BtnFunction("success");
-}
-
-.lodopFunClear {
   margin-right: 10px;
   @include BtnFunction("success");
 }

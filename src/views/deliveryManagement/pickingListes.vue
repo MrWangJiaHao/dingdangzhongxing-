@@ -36,13 +36,13 @@
               <el-table-column
                 label="拣货单号"
                 width="119"
-                prop="orgName"
+                prop="pickOrderNo"
                 show-overflow-tooltip
               />
               <el-table-column
                 width="119"
                 label="拣货单状态"
-                prop="channelName"
+                prop="printExprStatus"
                 show-overflow-tooltip
               >
                 <div slot-scope="scoped">
@@ -52,12 +52,12 @@
               <el-table-column
                 width="119"
                 label="打印次数"
-                prop="orderSourceName"
+                prop="orderCount"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="订单数量"
-                prop="channelOrderNo"
+                prop="orderCount"
                 show-overflow-tooltip
               >
               </el-table-column>
@@ -70,45 +70,45 @@
                   <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
                     {{ scoped.row.subOrderNo }}
                   </div>
-                </span></el-table-column
-              >
+                </span>
+              </el-table-column>
               <el-table-column
                 width="119"
                 label="产品数量"
-                prop="exprName"
+                prop="prodCount"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="创建时间"
                 width="110"
-                prop="exprNo"
+                prop="createTime"
               ></el-table-column>
               <el-table-column
                 label="打印时间"
                 width="160"
-                prop="commendBox"
+                prop="printTime"
               ></el-table-column>
               <el-table-column
                 label="打印人"
                 width="250"
-                prop="pushStartTime"
+                prop="pickUserName"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="拣货开始时间"
-                prop="payTime"
+                prop="pickStartTime"
                 width="250"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="拣货完成时间"
-                prop="payTime"
+                prop="pickEndTime"
                 width="250"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="拣货人员"
-                prop="payTime"
+                prop="pickUserName"
                 width="250"
                 show-overflow-tooltip
               ></el-table-column>
@@ -149,7 +149,7 @@ import manualHeader from "../../components/deliveryManagement/pickingListesHead"
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import pickingList from "../../components/deliveryManagement/pickingList"; //拣货单
 import {
-  pDeliverGoodsFindNormalRecordPage,
+  pOrgPickOrderfindRecordPage,
   pDeliverGoodsUpdatePrintExprStatus,
   pOrgPickOrderPickCancle,
 } from "../../api/api";
@@ -200,7 +200,7 @@ export default {
         return this.$messageSelf.message("请选择要作废的拣货单");
       this.$messageSelf
         .confirms(
-          `是否要作废，拣货单号WAV20180927001？</br> 作废后，订单要重新集计处理!`,
+          `是否要作废，拣货单号${this.multipleSelection[0].pickOrderNo}？</br> 作废后，订单要重新集计处理!`,
           "作废",
           {
             confirmButtonText: "确定",
@@ -217,12 +217,15 @@ export default {
         });
     },
     _TovoidClick() {
-      pOrgPickOrderPickCancle({
-        id: _getArrTarget(this.multipleSelection, "id"),
-      })
+      pOrgPickOrderPickCancle([
+        {
+          pickOrderNo: this.multipleSelection[0].pickOrderNo,
+        },
+      ])
         .then((res) => {
           if (res.code == "10000") {
             this.$messageSelf.message(res.msg);
+            this.getTableData();
           } else {
             this.$messageSelf.message(res.msg);
           }
@@ -234,18 +237,20 @@ export default {
     },
     //打印拣货单
     _jijiJianhuodan() {
-      pDeliverGoodsUpdatePrintExprStatus({
-        id: _getArrTarget(this.multipleSelection, "id"),
-      })
+      pDeliverGoodsUpdatePrintExprStatus([
+        {
+          ids: this.multipleSelection[0].id,
+        },
+      ])
         .then((res) => {
           if (res.code == "10000") {
             this.$messageSelf.message(res.msg);
+            this.getTableData();
           } else {
             this.$messageSelf.message(res.msg);
           }
         })
         .catch((err) => this.$messageSelf.message("出错拉~~"));
-      console.log("打印拣货单");
     },
     goToDetailOut(e) {
       sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
@@ -287,7 +292,8 @@ export default {
     },
     //获取table表格内容
     async getTableData(fn) {
-      let datas = await pDeliverGoodsFindNormalRecordPage(this.sendOutDataJson);
+      let datas = await pOrgPickOrderfindRecordPage(this.sendOutDataJson);
+      console.log(datas, "拣货单管理");
       if (datas.code == "10000") {
         this._changeDatas(datas.result);
       } else {

@@ -1,51 +1,52 @@
 <template>
   <div>
     <div class="manualBox">
-      <div class="dispalywrap" style="margin: 20px">
-        <div class="displayalign">
-          <div class="titleBox">委托公司：</div>
-          <div class="displayalign mr20">
-            <el-select
-              v-model="sendOutDataJson.paras.orgName"
-              @focus="getAsyncFindWareOrg"
-              @change="changeWareOrgName"
-              placeholder="请选择委托公司"
-            >
-              <el-option
-                v-for="(item, idx) in orgNameJson"
-                :key="idx"
-                :label="item.orgFullName"
-                :value="idx"
-              >
-              </el-option>
-            </el-select>
+      <div class="displayJucenMes">
+        <div>
+          <div class="dispalywrap" style="margin: 20px">
+            <div class="displayalign">
+              <div class="titleBox">委托公司：</div>
+              <div class="displayalign mr20">
+                <el-select
+                  v-model="sendOutDataJson.paras.orgName"
+                  @focus="getAsyncFindWareOrg"
+                  @change="changeWareOrgName"
+                  placeholder="请选择委托公司"
+                >
+                  <el-option
+                    v-for="(item, idx) in orgNameJson"
+                    :key="idx"
+                    :label="item.orgFullName"
+                    :value="idx"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+            </div>
+            <div class="displayalign">
+              <div class="titleBox">发货规则：</div>
+              <div class="mr20">
+                <el-select
+                  v-model="sendOutDataJson.paras.ruleName"
+                  placeholder="请选择发货规则"
+                  @focus="rulesFun"
+                >
+                  <el-option
+                    v-for="(item, idx) in ruleNameJson"
+                    :key="idx"
+                    :label="item"
+                    :value="item"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="displayalign">
-          <div class="titleBox">发货规则：</div>
-          <div class="mr20">
-            <el-select
-              v-model="sendOutDataJson.paras.ruleName"
-              placeholder="请选择发货规则"
-              @focus="rulesFun"
-            >
-              <el-option
-                v-for="(item, idx) in ruleNameJson"
-                :key="idx"
-                :label="item"
-                :value="item"
-              >
-              </el-option>
-            </el-select>
-          </div>
+        <div class="tr pd20">
+          <div class="inline bianjiUser mr20" @click="getParasJson">查询</div>
+          <div class="inline remove" @click="clearChaxun">清空</div>
         </div>
-      </div>
-
-      <div class="tr pd20">
-        <div class="inline mb20 bianjiUser mr20" @click="getParasJson">
-          查询
-        </div>
-        <div class="inline remove mb20" @click="clearChaxun">清空</div>
       </div>
       <div class="btnArr">
         <div style="background-color: #fff">

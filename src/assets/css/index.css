@@ -158,6 +158,11 @@ textarea {
   display: flex;
   align-items: center;
 }
+.displayJucenMes{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .dispalyFlex{
   display: flex;
 }
@@ -172,9 +177,7 @@ textarea {
   align-items: center;
   flex-wrap: wrap;
 }
-.zujianBox{
-  margin-right:19px ;
-}
+
 .tc{
   text-align: center;
 }

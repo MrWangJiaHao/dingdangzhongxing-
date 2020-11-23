@@ -405,7 +405,7 @@ const routes = [{
       {
         // 发货管理=>发货单打印
         path: "/deliveryManagement/normalDelivery",
-        name: "deliveryManagement/normalDelivery",
+        name: "/deliveryManagement/normalDelivery",
         component: () => import("../views/deliveryManagement/normalDelivery"),
         meta: {
           Breadcrumb: "正常发货",
@@ -415,7 +415,7 @@ const routes = [{
       {
         // 发货管理=>发货单打印
         path: "/deliveryManagement/pickingList",
-        name: "deliveryManagement/pickingList",
+        name: "/deliveryManagement/pickingList",
         component: () => import("../views/deliveryManagement/pickingListes"),
         meta: {
           Breadcrumb: "拣货单管理",
@@ -425,7 +425,7 @@ const routes = [{
       {
         // 发货管理=>发货单打印
         path: "/deliveryManagement/quetyNormal",
-        name: "deliveryManagement/quetyNormal",
+        name: "/deliveryManagement/quetyNormal",
         component: () => import("../views/deliveryManagement/quetyNormal"),
         meta: {
           Breadcrumb: "快速发货",
@@ -436,7 +436,7 @@ const routes = [{
       {
         // 货品移位=>补货作业
         path: "/goodsShifting/jobTask",
-        name: "goodsShifting/jobTask",
+        name: "/goodsShifting/jobTask",
         component: () => import("../views/goodsShifting/jobTask"),
         meta: {
           Breadcrumb: "货品移位",
@@ -446,7 +446,7 @@ const routes = [{
       {
         // 货品移位=>库内移动
         path: "/goodsShifting/moveInLibrary",
-        name: "goodsShifting/moveInLibrary",
+        name: "/goodsShifting/moveInLibrary",
         component: () => import("../views/goodsShifting/moveInLibrary"),
         meta: {
           Breadcrumb: "货品移位",

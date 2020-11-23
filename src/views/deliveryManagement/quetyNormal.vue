@@ -136,7 +136,7 @@
                 show-overflow-tooltip
               >
                 <span slot-scope="scoped">
-                  <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
+                  <div @click="goToSubOrderNo(scoped.row)" class="lookDeatil">
                     {{ scoped.row.subOrderNo }}
                   </div>
                 </span></el-table-column
@@ -209,8 +209,9 @@
         <div v-if="isJianHuoDanShow">
           <div>
             <pickingList
-              @getiscaigoudanDetail="getiscaigoudanDetail"
+              :dataBack="detailsJianHuoDan"
               :OneOrAddMes="true"
+              @getiscaigoudanDetail="getiscaigoudanDetail"
             />
           </div>
         </div>
@@ -225,7 +226,10 @@
       >
         <div v-if="iswuliudanOne">
           <div>
-            <logisticsList @getiswuliudanOne="getiswuliudanOne" />
+            <logisticsList
+              @getiswuliudanOne="getiswuliudanOne"
+              :logisticsListJson="logisticsListJson"
+            />
           </div>
         </div>
       </transition>
@@ -244,7 +248,7 @@ import {
   pDeliverGoodsFindFastRecordPage,
   pOrgSubOrderMegerOrder,
 } from "../../api/api";
-import { _getArrTarget } from "../../utils/validate";
+import { _getArrTarget, getCookie } from "../../utils/validate";
 export default {
   components: {
     manualHeader,
@@ -254,10 +258,12 @@ export default {
   },
   data() {
     return {
+      detailsJianHuoDan: {},
       isJianHuoDanShow: false,
       ischanpingOrOne: false,
       iswuliudanOne: false,
       tableData: [],
+      logisticsListJson: {},
       pageComponentsData: {
         pageNums: 0, //一共多少条 //默认一页10
       },
@@ -279,6 +285,7 @@ export default {
           systemProdName: "",
           prodNameLike: "",
           payStartTime: "",
+          wareId: getCookie("X-Auth-wareId"),
           pushStartTime: "",
           pushEndTime: "",
           specialProd: (() => (this.ischanpingOrOne ? 1 : 0))(),
@@ -302,7 +309,9 @@ export default {
       //打印拣货单
       this.$nextTick(() => {
         if (document.getElementById("checkbox").checked) {
-          this.isJianHuoDanShow = true;
+          this.$router.push({
+            path: "/deliveryManagement/pickingList",
+          });
         }
       });
     },
@@ -321,7 +330,22 @@ export default {
         .catch((err) => this.$messageSelf.message("出错拉~~"));
     },
     goToDetailOut(e) {
-      sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
+      this.$router.push({
+        path: "/indentManagement/orderDetail",
+        query: {
+          orderNo: e,
+          type: "orderNo",
+        },
+      });
+    },
+    goToSubOrderNo(e) {
+      this.$router.push({
+        path: "/indentManagement/childOrderDetail",
+        query: {
+          subOrderNos: e,
+          type: "subOrderNos",
+        },
+      });
     },
     getPageNum(e) {
       this.sendOutDataJson.pageNumber = e;
@@ -343,6 +367,10 @@ export default {
     },
     //打印物流单
     _printWuLiuDan() {
+      if (!this.multipleSelection.length || this.multipleSelection.length != 1)
+        return this.$messageSelf.message(
+          "请选择需要打印的物流单，以及只能选择一个物流单"
+        );
       this.$messageSelf
         .confirms(
           `共选中${this.multipleSelection.length}笔订单，确认打印吗?`,
@@ -353,6 +381,7 @@ export default {
         )
         .then(() => {
           //确定打印
+          this.logisticsListJson = this.multipleSelection[0];
           this.iswuliudanOne = true;
         })
         .catch(() => {
@@ -362,26 +391,30 @@ export default {
     //打印集计单
     _jijiCenter() {
       if (!this.multipleSelection.length)
-        // return this.$messageSelf.message("请选择要集计的拣货单单");
-        this.$messageSelf
-          .confirms(
-            ` 共集计${this.multipleSelection.length}个订单，可生成${this.multipleSelection.length}张拣货单，确认集计吗？<div id='checkboxID'  > <input id='checkbox' checked type='checkbox' /> 打印集计单</div>`,
-            "集计确认",
-            {
-              showClose: true,
-              confirmButtonText: "确定",
-              dangerouslyUseHTMLString: true,
-              cancelButtonText: "取消",
-              type: "info",
-            }
-          )
-          .then(() => {
-            this.iSJianHuoDan();
-            this._jijiJianhuodan();
-          })
-          .catch(() => {
-            this.$messageSelf.message("已经取消集计");
-          });
+        return this.$messageSelf.message({
+          message: "请选择要集计的拣货单单",
+          type: "info",
+        });
+      this.$messageSelf
+        .confirms(
+          ` 共集计${this.multipleSelection.length}个订单，可生成${this.multipleSelection.length}张拣货单，确认集计吗？<div id='checkboxID'  > <input id='checkbox' checked type='checkbox' /> 打印集计单</div>`,
+          "集计确认",
+          {
+            showClose: true,
+            confirmButtonText: "确定",
+            dangerouslyUseHTMLString: true,
+            cancelButtonText: "取消",
+            type: "info",
+          }
+        )
+        .then(() => {
+          this.detailsJianHuoDan = this.multipleSelection[0];
+          this.iSJianHuoDan();
+          this._jijiJianhuodan();
+        })
+        .catch(() => {
+          this.$messageSelf.message("已经取消集计");
+        });
     },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {

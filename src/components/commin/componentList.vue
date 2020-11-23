@@ -108,22 +108,28 @@
                   </div>
                 </div>
                 <div>
-                  {{ changeRes[idx] }}
                   <el-table
                     style="width: 980px"
-                    ref="singleTable"
-                    :data="changeRes[idx]"
+                    :data="tabledatasArr[idx]"
                     border
                     highlight-current-row
                   >
-                    <el-table-column
-                      v-for="(tableItem, tableIdx) in items.basicJsonArr"
-                      :key="tableIdx"
-                      :type="tableItem.types"
-                      :label="tableItem.centerStr"
-                      :width="tableItem.width"
-                    >
+                    <el-table-column type="index" label="序号" width="50">
                     </el-table-column>
+                    <template
+                      v-for="(tableItem, tableIdx) in items.basicJsonArr"
+                    >
+                      <el-table-column
+                        :key="tableIdx"
+                        :type="tableItem.types"
+                        :label="tableItem.centerStr"
+                        :width="tableItem.width"
+                      >
+                        <span slot-scope="scope">
+                          {{ scope.row[tableItem.types] }}
+                        </span>
+                      </el-table-column>
+                    </template>
                   </el-table>
                 </div>
                 <!-- 表格title -->
@@ -177,6 +183,12 @@ export default {
     };
   },
   props: {
+    tabledatasArr: {
+      type: Array,
+      default: () => {
+        return [];
+      },
+    },
     ReplenishmentNote: {
       type: Object,
       default: () => {

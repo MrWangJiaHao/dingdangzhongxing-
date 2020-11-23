@@ -144,6 +144,7 @@
         <div v-if="isReplenishmentNote">
           <div>
             <delivetyNote
+              :tabledatasArr="tabledatasArr"
               :ReplenishmentNote="replenishmentNoteJson"
               @getiswuliudanOne="getiswuliudanOne"
             />
@@ -188,11 +189,6 @@ export default {
             titles: "基础信息",
             basicJsonArr: [
               {
-                types: "index",
-                centerStr: "序号",
-                width: 70,
-              },
-              {
                 types: "prodCode",
                 centerStr: "产品编码",
               },
@@ -215,25 +211,10 @@ export default {
               { types: "seatNo", centerStr: "存储区库位" },
               { types: "seatNo", centerStr: "补货库位" },
             ],
-            tabledatasArr: [
-              {
-                prodName: "sadsadsa",
-                prodNum: "dsads",
-                prodCode: "dsadsa d",
-                seatNo: "adsa",
-                specName: "dsad",
-              },
-              {
-                prodName: "sadsadsa",
-                prodNum: "dsads",
-                prodCode: "dsadsa d",
-                seatNo: "adsa",
-                specName: "dsad",
-              },
-            ],
           },
         ],
       },
+      tabledatasArr: [], //data
       sendOutDataJson: {
         paras: {},
         pageNumber: 1, //当前页数
@@ -260,7 +241,7 @@ export default {
         {
           queryTitle: "补货人（签字）",
           queryCenter: "",
-          queryLine: true,
+          queryLine: true, //是否有横线
         },
         {
           queryTitle: "补货时间",

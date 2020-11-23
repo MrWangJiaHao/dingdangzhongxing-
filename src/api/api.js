@@ -1554,6 +1554,7 @@ export const pDeliverGoodsfindSubOrderByPickOrderNo = function (data) {
         })
     })
 }
+
 /**
  * 打印发货单
  * @param {*} datas /wbs-warehouse-manage/v1/pDeliverGoods/printDeliverGoods
@@ -1571,6 +1572,27 @@ export const pDeliverGoodsprintDeliverGoods = function (data) {
         })
     })
 }
+
+
+/**
+ * 发货异常分页查询
+ * @param {*} data /wbs-warehouse-manage/v1/pOrgFailSubOrder/findRecordPageGroupByProd
+ */
+export const pOrgFailSubOrderfindRecordPageGroupByProd = (data) => {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgFailSubOrder/findRecordPageGroupByProd",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+
+
 //=========================================发货管理 end ========================================
 //=========================================货品移位 start ========================================
 

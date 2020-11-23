@@ -1,28 +1,31 @@
 <template>
   <div id="fahuoguanli">
     <div class="manualBox">
-      <div class="pd20 mtb20">
-        <div class="zujianBox mb20">
-          <div class="displayalign zujianBox">
-            <div class="noneIconTitle mr11">拣货单号:</div>
-            <div class="mr20">
-              <el-input
-                v-model="pickOrderNo"
-                placeholder="扫描拣货单号/输入查询"
-              ></el-input>
+      <div class="displayJucenMes">
+        <div class="pd20 mtb20">
+          <div class="zujianBox mb20">
+            <div class="displayalign zujianBox">
+              <div class="noneIconTitle nowrap mr11">拣货单号:</div>
+              <div class="mr20">
+                <el-input
+                  v-model="pickOrderNo"
+                  placeholder="扫描拣货单号/输入查询"
+                ></el-input>
+              </div>
             </div>
           </div>
+          <!-- 拣货单号 -->
         </div>
-        <!-- 拣货单号 -->
-      </div>
-
-      <div class="tr pd20" style="width: 100%">
-        <div class="btns mb20">
-          <div class="bianjiUser disinb zujianBox" @click="queryBtns">查询</div>
-          <div class="remove disinb" @click="clearBtns">清空</div>
+        <div class="tr pd20" style="width: 100%">
+          <div class="btns mb20">
+            <div class="bianjiUser disinb zujianBox" @click="queryBtns">
+              查询
+            </div>
+            <div class="remove disinb" @click="clearBtns">清空</div>
+          </div>
         </div>
+        <!-- 查询 && 清空 -->
       </div>
-      <!-- 查询 && 清空 -->
       <div class="btnArr">
         <div style="background-color: #fff">
           <div class="meiyiyetitle">发货单打印</div>
@@ -55,34 +58,34 @@
               />
               <el-table-column
                 label="订单号"
-                prop="orgName"
+                prop="orderNo"
                 show-overflow-tooltip
               >
                 <span slot-scope="scoped">
                   <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
-                    {{ scoped.row.channelOrderNo }}
+                    {{ scoped.row.orderNo }}
                   </div>
                 </span>
               </el-table-column>
               <el-table-column
                 label="子单号"
-                prop="channelName"
+                prop="subOrderNo"
                 show-overflow-tooltip
               >
                 <span slot-scope="scoped">
-                  <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
-                    {{ scoped.row.channelOrderNo }}
+                  <div @click="goToSubOrderNo(scoped.row)" class="lookDeatil">
+                    {{ scoped.row.subOrderNo }}
                   </div>
                 </span>
               </el-table-column>
               <el-table-column
                 label="推荐用箱"
-                prop="orderSourceName"
+                prop="commendBox"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="订单编号"
-                prop="channelOrderNo"
+                prop="pickOrderNo"
                 show-overflow-tooltip
               >
               </el-table-column>
@@ -108,7 +111,10 @@
       >
         <div v-if="isJianHuoDanShow">
           <div>
-            <delivetyNote @getiswuliudanOne="getiswuliudanOne" />
+            <delivetyNote
+              @getiswuliudanOne="getiswuliudanOne"
+              :parseMes="dayindanJson"
+            />
           </div>
         </div>
       </transition>
@@ -135,6 +141,7 @@ export default {
   data() {
     return {
       isJianHuoDanShow: false,
+      dayindanJson: {},
       tableData: [],
       pageComponentsData: {
         pageNums: 0, //一共多少条 //默认一页10
@@ -144,9 +151,7 @@ export default {
         pageNumber: 1, //当前页数
         pageSize: 10, //每页记录数
       },
-
       pickOrderNo: "",
-
       multipleSelection: [], //选择了那个
     };
   },
@@ -170,19 +175,35 @@ export default {
     getiswuliudanOne(e) {
       this.isJianHuoDanShow = e;
     },
-    //打印拣货单
+    //打印发货单
     iSJianHuoDan() {
+      this.dayindanJson = this.multipleSelection[0];
       this.isJianHuoDanShow = true;
-      // pDeliverGoodsprintDeliverGoods({ ids: this.multipleSelection }).then(
-      //   (res) => {
-      //     if (res.code == "10000") {
-      //       this.$messageSelf.message(res.msg);
-      //     }
-      //   }
-      // );
+      pDeliverGoodsprintDeliverGoods([
+        { id: this.multipleSelection[0].id },
+      ]).then((res) => {
+        if (res.code == "10000") {
+          this.$messageSelf.message(res.msg);
+        }
+      });
     },
     goToDetailOut(e) {
-      sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
+      this.$router.push({
+        path: "/indentManagement/orderDetail",
+        query: {
+          orderNo: e,
+          type: "orderNo",
+        },
+      });
+    },
+    goToSubOrderNo(e) {
+      this.$router.push({
+        path: "/indentManagement/childOrderDetail",
+        query: {
+          subOrderNos: e,
+          type: "subOrderNos",
+        },
+      });
     },
     getPageNum(e) {
       this.sendOutDataJson.pageNumber = e;
@@ -197,7 +218,8 @@ export default {
     },
     //集计
     warehousingConfirmation() {
-      // if(!this.multipleSelection.length ) return this.$messageSelf.message("请选择要集计的拣货单单")
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message("请选择要集计的拣货单单");
       this.$messageSelf
         .confirms(
           `总共${this.multipleSelection.length}笔订单，请确认是否打印？`,
@@ -221,6 +243,7 @@ export default {
     //获取table表格内容
     async getTableData(fn) {
       let datas = await pOrgPickOrderfindOrderPage(this.sendOutDataJson);
+      console.log(datas, "发货单管理");
       if (datas.code == "10000") {
         this._changeDatas(datas.result);
       } else {
@@ -297,15 +320,5 @@ export default {
 
 .remove {
   @include BtnFunction("error");
-}
-
-.goOn {
-  margin-right: 10px;
-  @include BtnFunction("success");
-}
-
-.lodopFunClear {
-  margin-right: 10px;
-  @include BtnFunction("success");
 }
 </style>
