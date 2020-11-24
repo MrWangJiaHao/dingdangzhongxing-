@@ -8,9 +8,8 @@ button{
     cursor: pointer;
 }
 @mixin BtnFunction($msg:'Usual') {
-    padding: 0 10px;
-    min-width: 62px;
-    max-width: 102px;
+    padding: 0 20px;
+    min-width: 80px;
     height: 36px;
     border-radius: $border;
     font-weight: 400;
@@ -28,6 +27,5 @@ button{
     @if $msg == "success"{
         background:$btnSuccsee;
         color: #FFFFFF;
-
     }
 }

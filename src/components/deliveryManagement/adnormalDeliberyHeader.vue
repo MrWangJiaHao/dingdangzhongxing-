@@ -2,7 +2,7 @@
   <div>
     <div class="fuzzyQueryBox">
       <div class="biaogeBox">
-        <div class="displayalign mb20 zujianBox">
+        <div class="displayalign mb16 zujianBox">
           <div class="noneIconTitle mr11">委托公司:</div>
           <div class="mr20">
             <el-select
@@ -22,7 +22,7 @@
           </div>
         </div>
         <!-- 委托公司 -->
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">渠道:</div>
             <div class="mr20">
@@ -44,7 +44,7 @@
           </div>
         </div>
         <!-- 渠道 -->
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">订单来源:</div>
             <div class="mr20">
@@ -67,7 +67,7 @@
         </div>
         <!-- 订单来源 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">订单号:</div>
             <div class="mr20">
@@ -82,7 +82,7 @@
         </div>
         <!-- 订单号 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">子单号:</div>
             <div class="mr20">
@@ -97,7 +97,7 @@
         </div>
         <!-- 子单号 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">产品编号:</div>
             <div class="mr20">
@@ -112,7 +112,7 @@
         </div>
         <!-- 产品名称 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">产品名称:</div>
             <div class="mr20">
@@ -127,7 +127,7 @@
         </div>
         <!-- 产品名称 -->
 
-        <div v-if="fastFahuo" class="displayalign mb20 zujianBox">
+        <div v-if="fastFahuo" class="displayalign mb16 zujianBox">
           <div class="noneIconTitle mr11">物流打印状态:</div>
           <div class="mr20">
             <el-select
@@ -147,7 +147,7 @@
         </div>
         <!-- 物流公司 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">下发时间:</div>
             <div class="mr20 displayalign">
@@ -172,13 +172,10 @@
           </div>
         </div>
         <!-- 下发时间 -->
-
-        <div class="btns mb20">
-          <div class="queryBtn mr11 zujianBox" @click="clickQueryUser">
-            查询
-          </div>
-          <div class="clearBtn" @click="clearInputAll">清空</div>
-        </div>
+      </div>
+      <div class="btns btnArrs">
+        <div class="queryBtn mr11 zujianBox" @click="clickQueryUser">查询</div>
+        <div class="clearBtn" @click="clearInputAll">清空</div>
       </div>
     </div>
   </div>
@@ -277,8 +274,15 @@ export default {
   },
   created() {
     this._getMes();
+    this.addZhanKaiRes(".btnArrs");
   },
   methods: {
+    addZhanKaiRes(child) {
+      this.$nextTick(() => {
+        child = document.querySelector(child);
+        this.$isChaXun.isChaXun(child);
+      });
+    },
     changeorderAddr(e) {
       this.paras.orderAddr = addressJson.orderAddrArr[e].orderAddr;
     },
@@ -422,6 +426,7 @@ export default {
 .fuzzyQueryBox {
   padding: 17px 30px;
   display: flex;
+  position: relative;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
@@ -442,6 +447,9 @@ export default {
   }
   .btns {
     display: inline-block;
+    position: absolute;
+    right: 30px;
+    bottom: 26px;
     .queryBtn {
       display: inline-block;
       @include BtnFunction("success");

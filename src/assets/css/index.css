@@ -44,7 +44,7 @@ abbr {
   padding: 0;
 }
 body {
-  font: 14px  Arial,;
+  font: 14px  Arial;
   color: #333;
   height: 100%;
 }
@@ -536,3 +536,27 @@ textarea{
   border-bottom-color:transparent ;
 }
 
+.clickMes {
+  color: #888888;
+  cursor: pointer;
+}
+.mb16{
+  margin-bottom: 16px;
+}
+.clickMes::after {
+  content: "";
+  margin-left: 4px;
+  margin-bottom: 3px;
+  transition: all 0.5s;
+  display: inline-block;
+  transform-origin: 8px 13px;
+  border: 8px solid transparent;
+  transform: rotate(-180deg);
+  border-radius: 2px;
+  border-bottom: 8px solid #a9afbd;
+}
+
+.isclickMes::after {
+  content: "";
+  transform: rotate(0deg);
+}

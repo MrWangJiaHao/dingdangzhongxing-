@@ -598,6 +598,20 @@ export default {
 #manageMenyrukuSures .el-input__inner {
   height: 28px !important;
 }
+#manageMenyrukuSures .ivu-input-suffix {
+  justify-content: center;
+}
+#manageMenyrukuSures .ivu-input {
+  height: 28px !important;
+}
+#manageMenyrukuSures .ivu-icon-ios-close-circle {
+  width: 15px !important;
+  height: 15px !important;
+}
+#manageMenyrukuSures .ivu-icon.ivu-icon-ios-calendar-outline {
+  width: 15px !important;
+  height: 15px !important;
+}
 </style>
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
@@ -660,7 +674,7 @@ export default {
     top: 144px;
     transform: translateX(-50%);
     background: #fff;
-    width: 1000px;
+    width: 1080px;
     .centerBox {
       padding: 30px 20px;
     }

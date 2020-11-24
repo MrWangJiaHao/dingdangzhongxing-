@@ -2,7 +2,7 @@
   <div>
     <div class="fuzzyQueryBox">
       <div class="biaogeBox">
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">拣货单号:</div>
             <div class="mr20">
@@ -17,7 +17,7 @@
         </div>
         <!-- 拣货单号 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">拣货单状态:</div>
             <div class="mr20">
@@ -40,7 +40,7 @@
         </div>
         <!-- 拣货单状态 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">子单号:</div>
             <div class="mr20">
@@ -55,7 +55,7 @@
         </div>
         <!-- 子单号 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">创建时间:</div>
             <div class="mr20 displayalign">
@@ -81,7 +81,7 @@
         </div>
         <!-- 支付时间 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">打印时间:</div>
             <div class="mr20 displayalign">
@@ -107,7 +107,7 @@
         </div>
         <!-- 下发时间 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">拣货开始时间:</div>
             <div class="mr20 displayalign">
@@ -133,12 +133,9 @@
         </div>
         <!-- 下发时间 -->
       </div>
-
-      <div class="tr" style="width: 100%">
-        <div class="btns mb20">
-          <div class="queryBtn zujianBox" @click="clickQueryUser">查询</div>
-          <div class="clearBtn" @click="clearInputAll">清空</div>
-        </div>
+      <div class="btns mb16">
+        <div class="queryBtn mr11 zujianBox" @click="clickQueryUser">查询</div>
+        <div class="clearBtn" @click="clearInputAll">清空</div>
       </div>
     </div>
   </div>
@@ -386,6 +383,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  position: relative;
   align-items: center;
   .biaogeBox {
     flex-wrap: wrap;
@@ -403,6 +401,9 @@ export default {
     margin-right: 10px;
   }
   .btns {
+    position: absolute;
+    right: 30px;
+    bottom: 14px;
     display: inline-block;
     .queryBtn {
       display: inline-block;

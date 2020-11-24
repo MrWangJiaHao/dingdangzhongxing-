@@ -49,7 +49,7 @@
     <div class="dianjiqiehuan">
       <div class="dianjiCenters">
         <el-tabs
-          v-model="activeName"
+          v-model="activeTabsName"
           type="card"
           editable
           @tab-remove="removeTab"
@@ -59,7 +59,7 @@
             :key="idx + 'dsadsa'"
             v-for="(item, idx) in dropdownArr"
             :label="item.title"
-            :name="'+' + idx"
+            :name="''+idx"
           >
           </el-tab-pane>
         </el-tabs>
@@ -103,8 +103,14 @@ export default {
       tabIndex: 0,
       dataArr: [
         {
+          title: "首页",
+          name: "/index/indexFormJH",
+          iconCls: require("@/assets/img/warehouse-index.png"),
+          children: []
+        },
+        {
           title: "仓库配置",
-          name: "",
+          name: "/warehoseconfig/childWarehouseAdmin",
           iconCls: require("@/assets/img/warehouse-config.png"),
           children: [
             {
@@ -127,7 +133,7 @@ export default {
         },
         {
           title: "订单管理",
-          name: "",
+          name: "/indentManagement/sellIndentManage",
           iconCls: require("@/assets/img/warehouse-inventoryAdmin.png"),
           children: [
             {
@@ -154,6 +160,7 @@ export default {
         },
         {
           title: "发货规则配置",
+          name: "/pWarehouseRule/findRecordPage",
           iconCls: require("@/assets/img/warehouse-shipmentsRuleConfig.png"),
           children: [
             {
@@ -195,6 +202,7 @@ export default {
         },
         {
           title: "采购管理",
+          name: "/purchasingManagement/purchasingIndex",
           iconCls: require("@/assets/img/warehouse-procurementConfig.png"),
           children: [
             {
@@ -205,6 +213,7 @@ export default {
         },
         {
           title: "入库管理",
+          name: "/warehousingManagement/manualManagement/0",
           iconCls: require("@/assets/img/warehouse-instorage.png"),
           children: [
             {
@@ -251,6 +260,7 @@ export default {
         },
         {
           title: "出库管理",
+          name: "/warehouseManagement/warehouseIndex/0",
           iconCls: require("@/assets/img/warehouse-outstorage.png"),
           children: [
             {
@@ -342,6 +352,7 @@ export default {
         },
         {
           title: "物料中心",
+          name: "/suppliesCenter/supplierAdmin",
           iconCls: require("@/assets/img/warehouse-suppliesCenter.png"),
           children: [
             {
@@ -372,6 +383,7 @@ export default {
         },
         {
           title: "物流公司信息",
+          name: "/phyDisComInfor/phyDisCom",
           iconCls: require("@/assets/img/warehouse-logisticsInfor.png"),
           children: [
             { title: "物流公司", name: "/phyDisComInfor/phyDisCom" },
@@ -402,6 +414,7 @@ export default {
         },
         {
           title: "系统管理",
+          name: "/systemSetting/userSetting",
           iconCls: require("@/assets/img/warehouse-systemManage.png"),
           children: [
             {
@@ -416,6 +429,7 @@ export default {
         },
       ],
       activeName: "0",
+      activeTabsName: "0",
       dropdownArr: [],
       mianbaoxieArr: [],
       oldName: 0,
@@ -437,19 +451,34 @@ export default {
     this.activeName = sessionStorage.getItem("activeName");
   },
   created() {
-    this.dataArr.unshift({
-      title: "首页",
-      name: "/index/indexFormJH",
-      iconCls: require("@/assets/img/warehouse-index.png"),
-      children: [],
-    });
-    this.dropdownArr.unshift({
-      title: "首页",
-      name: "/index/indexFormJH",
-    });
+    this.dropdownArr.unshift(this.dataArr[0]);
     this.addHenxianTables();
 
     this.mianbaoxieArr.unshift();
+  },
+  watch: {
+    activeName: function (n) {
+      console.log('------------activeName------------', n, this.dropdownArr)
+      this.activeName = ''+parseInt(n)
+    },
+    // activeTabsName: function (n) {
+    //   this.mianbaoxieArr = []
+    //
+    // },
+    $route: function (n) {
+      console.log(n)
+      if (this.dropdownArr.length) {
+        for (var i = 0; i < this.dropdownArr.length; i++) {
+          if (this.dropdownArr[i].name == n.name) {
+            this.activeTabsName = i + ''
+            this.mianbaoxieArr = []
+            this.mianbaoxieArr.push(this.dropdownArr[+this.activeTabsName]);
+            this.mianbaoxieArr.push(this.dropdownArr[+this.activeTabsName].children[0]);
+            break
+          }
+        }
+      }
+    }
   },
   methods: {
     leftMove() {
@@ -486,6 +515,7 @@ export default {
     },
     //点击选中
     handleTabsEdit() {
+      console.log('this.activeTabsName', this.activeTabsName)
       this.addHenxianTables();
       let router =
         this.dataArr[+this.activeName].children.length != 0
@@ -495,15 +525,13 @@ export default {
         return this.$messageSelf.message({
           message: "该模块在开发中请耐心等候稍后",
         });
-
       this.$router.push(router);
-      // mianbaoxieArrJson = this.dataArr[0];
       let dataArrJson =
-        this.dataArr[+this.activeName].children.length != 0
-          ? this.dataArr[+this.activeName].children[0]
-          : this.dataArr[+this.activeName];
+        this.dropdownArr[+this.activeTabsName].children.length != 0
+          ? this.dropdownArr[+this.activeTabsName].children[0]
+          : this.dropdownArr[+this.activeTabsName];
       this.mianbaoxieArr = [];
-      let mianbaoxieArrJson = this.dataArr[+this.activeName];
+      let mianbaoxieArrJson = this.dropdownArr[+this.activeTabsName];
       if (!this.mianbaoxieArr.includes(mianbaoxieArrJson)) {
         this.mianbaoxieArr.unshift(mianbaoxieArrJson);
       }
@@ -530,16 +558,26 @@ export default {
       if (!removeSrc) return;
       this.dropdownArr.splice(removeSrc, 1);
       this.mianbaoxieArr.splice(removeSrc, 1);
+      let router =
+              this.dropdownArr[this.dropdownArr.length - 1].children.length != 0
+                      ? this.dropdownArr[this.dropdownArr.length - 1].children[0].name
+                      : this.dropdownArr[this.dropdownArr.length - 1].name;
+      this.activeTabsName = this.dropdownArr.length ? ((this.dropdownArr.length - 1) + '') : '0'
+      this.$router.push(router);
+      console.log('--------dropdownArr--------', router)
     },
 
     handleClick() {
+      console.log('--------dropdownArr--------', this.dropdownArr)
       this.addHenxianTables();
+      console.log("this.activeName", this.activeName);
       if (
         !this.dataArr[+this.activeName].children.length &&
         this.dataArr[+this.activeName].title != "首页"
       )
-        return this.$messageSelf.message({
-          message: "该模块在开发中请耐心等候稍后",
+        return Message({
+          message: "该模块在开发中，请耐心等候",
+          duration: 500,
         });
       if (this.dataArr[+this.activeName].title == "首页")
         return this.$router.push("/index/indexFormJH");
@@ -554,22 +592,35 @@ export default {
       //跳转路由
       if (!this.dropdownArr.includes(json)) {
         this.dropdownArr.push(this.dataArr[+this.activeName]);
+        this.activeTabsName = ++this.activeTabsName + ''
+      } else {
+        if (this.dropdownArr.length) {
+          for (var i = 0; i < this.dropdownArr.length; i++) {
+            if (this.dropdownArr[i].name == this.dataArr[+this.activeName].name) {
+              this.activeTabsName = i + ''
+              break
+            }
+          }
+        }
       }
       if (!this.mianbaoxieArr.includes(json)) {
-        this.mianbaoxieArr.push(this.dataArr[+this.activeName]);
-        this.mianbaoxieArr.splice(this.dataArr[+this.activeName].children[0]);
+        this.mianbaoxieArr.push(this.dropdownArr[+this.activeTabsName]);
+        this.mianbaoxieArr.splice(this.dropdownArr[+this.activeTabsName].children[0]);
       }
       this.oldName = +this.activeName;
+      this.handleTabsEdit()
+      console.log('this.mianbaoxieArr', this.mianbaoxieArr)
     },
     clickEventGoRouter(e) {
-      let dataArrJson = this.dataArr[+this.activeName].children[e];
-      let mianbaoxieArrJson = this.dataArr[+this.activeName];
+      let dataArrJson = this.dropdownArr[+this.activeTabsName].children[e];
+      let mianbaoxieArrJson = this.dropdownArr[+this.activeTabsName];
       if (!this.mianbaoxieArr.includes(mianbaoxieArrJson)) {
         this.mianbaoxieArr.unshift(mianbaoxieArrJson);
       }
       this.mianbaoxieArr.splice(1, 1, dataArrJson);
-      let router = this.dataArr[+this.activeName].children[e].name;
+      let router = this.dropdownArr[+this.activeTabsName].children[e].name;
       this.$router.push(router);
+      console.log('this.mianbaoxieArr', this.mianbaoxieArr)
     },
   },
 };
@@ -616,7 +667,6 @@ export default {
 
 .dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item {
   border: 1px solid #ced4de;
-  border-bottom: none;
 }
 
 .el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
@@ -769,6 +819,7 @@ export default {
 .el-nav {
   width: 89%;
   flex: 1;
+  overflow: hidden;
 }
 
 .el-lr {

@@ -64,8 +64,8 @@
         </div>
         <!-- 区域名称 -->
       </div>
-      <div class="btns">
-        <div class="queryBtn zujianBox" @click="clickQueryUser">查询</div>
+      <div class="btns mr11">
+        <div class="queryBtn zujianBox mr11" @click="clickQueryUser">查询</div>
         <div class="clearBtn" @click="clearInputAll">清空</div>
       </div>
     </div>
@@ -747,7 +747,7 @@ export default {
 .userSettingBox {
   background-color: rgb(232, 233, 236);
   .fuzzyQueryBox {
-    padding: 17px 30px;
+    padding: 17px 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

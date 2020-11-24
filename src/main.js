@@ -22,6 +22,7 @@ import {
 } from "./utils/validate"; //判断是否为空4  
 Vue.use(animated)
 import messageSelf from "./assets/js/toast"; //自定义弹框
+import isChaXun from "./assets/js/isChaXun"; //是否要展示
 
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -59,6 +60,7 @@ Vue.prototype.$isEmpty = _isEmpty
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
 Vue.prototype.$messageSelf = messageSelf
+Vue.prototype.$isChaXun = isChaXun
 
 Vue.config.productionTip = false
 new Vue({

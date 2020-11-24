@@ -61,7 +61,7 @@
               />
               <el-table-column
                 label="委托公司"
-                width="119"
+                width="250"
                 prop="orgName"
                 show-overflow-tooltip
               />

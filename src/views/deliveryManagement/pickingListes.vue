@@ -8,7 +8,7 @@
         <div style="background-color: #fff">
           <div class="meiyiyetitle">拣货单管理</div>
           <div class="btnClick">
-            <div class="setUser" @click="TovoidClick">作废</div>
+            <div class="setUser mr11" @click="TovoidClick">作废</div>
             <div class="setUser" @click="printPicking">打印拣货单</div>
           </div>
         </div>
@@ -80,7 +80,7 @@
               ></el-table-column>
               <el-table-column
                 label="创建时间"
-                width="110"
+                width="250"
                 prop="createTime"
               ></el-table-column>
               <el-table-column
@@ -359,7 +359,6 @@ export default {
 }
 
 .setUser {
-  margin-right: 10px;
   @include BtnFunction("success");
 }
 
