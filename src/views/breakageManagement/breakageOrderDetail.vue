@@ -6,27 +6,27 @@
         <table>
           <tr>
             <td>报损单号</td>
-            <td>{{}}</td>
+            <td>{{ BreakageData.damageOrderNo }}</td>
             <td>报损状态</td>
-            <td>{{}}</td>
+            <td>{{ BreakageData.disposeStatus }}</td>
             <td>委托公司</td>
-            <td>{{ orgName }}</td>
+            <td>{{ BreakageData.orgName }}</td>
           </tr>
           <tr>
             <td>报损类型</td>
-            <td>{{}}</td>
+            <td>{{ BreakageData.damageType }}</td>
             <td>创建时间</td>
-            <td>{{}}</td>
+            <td>{{ BreakageData.createTime }}</td>
             <td>创建人</td>
-            <td>{{}}</td>
+            <td>{{ BreakageData.createUser }}</td>
           </tr>
           <tr>
             <td>审核时间</td>
-            <td>{{}}</td>
-            <td>审核人</td>
-            <td>{{}}</td>
-            <td>备注</td>
             <td></td>
+            <td>审核人</td>
+            <td></td>
+            <td>备注</td>
+            <td>{{ BreakageData.remark }}</td>
           </tr>
         </table>
       </div>
@@ -41,15 +41,15 @@
         >
           <el-table-column label="序号" align="center" type="index" width="60">
           </el-table-column>
-          <el-table-column prop="orgName" label="产品编码" align="center">
+          <el-table-column prop="prodCode" label="产品编码" align="center">
           </el-table-column>
-          <el-table-column prop="disposeStatus" label="产品名称" align="center">
+          <el-table-column prop="prodName" label="产品名称" align="center">
           </el-table-column>
-          <el-table-column prop="damageType" label="产品规格" align="center">
+          <el-table-column prop="specName" label="产品规格" align="center">
           </el-table-column>
-          <el-table-column prop="createUser" label="品牌" align="center">
+          <el-table-column prop="braName" label="品牌" align="center">
           </el-table-column>
-          <el-table-column prop="createTime" label="报损数量" align="center">
+          <el-table-column prop="prodNum" label="报损数量" align="center">
           </el-table-column>
           <el-table-column
             prop="verifyUserName"
@@ -72,26 +72,46 @@
 </template>
 
 <script>
-import {} from "../../api/api";
+import { pointBreakageOrder } from "../../api/api";
 
 export default {
   beforeRouteEnter(to, from, next) {
     if (from.name === "/breakageManagement/breakageMain") {
       next((vm) => {
         if (vm.$route.query.type === "damageOrderNo") {
-          let data = vm.$route.query.damageOrderNo;
-          console.log(data);
+          vm.BreakageData = vm.$route.query.damageOrderNo;
+          vm.id = vm.$route.query.damageOrderNo.id;
+          vm.queryInfor();
+          // console.log(vm.BreakageData);
         }
       });
     } else {
-      next();
+      next((vm) => {
+        vm.$router.go(-1);
+      });
     }
   },
   data() {
-    return {};
+    return {
+      BreakageData: {},
+      id: "",
+      tableData: [],
+    };
   },
   mounted() {},
   methods: {
+    queryInfor() {
+      pointBreakageOrder({ id: this.id }).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.tableData = [];
+          ok.data.result[0].detailList.forEach((v) => {
+            this.tableData.push(v.pOrgProducts);
+            //  console.log(v)
+          });
+        }
+      });
+    },
     back() {
       this.$router.go(-1);
     },

@@ -26,20 +26,8 @@
           <div class="el-inputBox">
             <div class="el-inputBox-text">报损单号：</div>
             <div class="el-inputBox-checkBox">
-              <el-select
-                v-model="breakageOrder"
-                placeholder="请选择报损单号"
-                @change="breakageOrders"
-                clearable
-              >
-                <el-option
-                  v-for="item in breakageOrderData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
+              <el-input v-model="breakageOrder" placeholder="模糊检索">
+              </el-input>
             </div>
           </div>
           <div class="el-inputBox">
@@ -164,7 +152,12 @@
           </el-table-column>
           <el-table-column prop="orgName" label="委托公司" align="center">
           </el-table-column>
-          <el-table-column prop="damageOrderNo" label="报损单号" align="center">
+          <el-table-column
+            prop="damageOrderNo"
+            label="报损单号"
+            min-width="100"
+            align="center"
+          >
             <template slot-scope="scope">
               <div class="lookDeatil">
                 {{ scope.row.damageOrderNo }}
@@ -196,10 +189,7 @@
         ></pagecomponent>
       </div>
     </div>
-    <div
-      v-show="popupBoxIsShow"
-      class="popupBox"
-    >
+    <div v-show="popupBoxIsShow" class="popupBox">
       <transition
         enter-active-class="animate__animated animate__zoomIn"
         leave-active-class="animate__animated animate__zoomOut"
@@ -227,6 +217,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     if (from.name === "/breakageManagement/createBreakageOrder") {
       next((vm) => {
+        vm.pageQueryFun();
         if (vm.$route.query.type === "quxiao") {
           vm.$messageSelf.message("已取消");
         }
@@ -252,16 +243,43 @@ export default {
       breakageState: "",
       breakageOrderData: [],
       entrustCompanyData: [],
-      breakageTypeData: [],
-      breakageStateData: [],
-      multipleSelection: [],
-      queryData: {
-        pageNumber: "1",
-        pageSize: "10",
-        paras: {
-          orgId: "",
+      breakageTypeData: [
+        {
+          value: "1",
+          label: "损坏",
         },
-      },
+        {
+          value: "2",
+          label: "入库",
+        },
+        {
+          value: "3",
+          label: "丢失",
+        },
+        {
+          value: "4",
+          label: "其他",
+        },
+      ],
+      breakageStateData: [
+        {
+          value: "1",
+          label: "待提交",
+        },
+        {
+          value: "2",
+          label: "待审核",
+        },
+        {
+          value: "3",
+          label: "审核成功",
+        },
+        {
+          value: "4",
+          label: "拒绝",
+        },
+      ],
+      multipleSelection: [],
       queryBreakageListData: {
         paras: {
           damageOrderNo: "",
@@ -272,11 +290,13 @@ export default {
           childWareId: "",
           childWareName: "",
           damageType: "",
+          disposeStatus: "",
           createStartTime: "",
           createEndTime: "",
         },
         pageNumber: 1,
         pageSize: 10,
+        orderBy: "damageOrderNo",
       },
       pageComponentsData: {
         pageNums: 0,
@@ -289,11 +309,40 @@ export default {
   watch: {},
   methods: {
     pageQueryFun() {
+      this.tableData = [];
       let queryBreakageListData = this.queryBreakageListData;
       queryBreakageList(queryBreakageListData).then((ok) => {
-        // console.log(ok)
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result.list;
+          this.changeData(ok.data.result);
+          this.tableData.forEach((v) => {
+            v.disposeStatus =
+              v.disposeStatus === 1
+                ? "待提交"
+                : v.disposeStatus === 2
+                ? "待审核"
+                : v.disposeStatus === 3
+                ? "审核通过"
+                : v.disposeStatus === 4
+                ? "拒绝"
+                : "——";
+            v.damageType =
+              v.damageType === 1
+                ? "损坏"
+                : v.damageType === 2
+                ? "入库"
+                : v.damageType === 3
+                ? "丢失"
+                : v.damageType === 4
+                ? "其他"
+                : "——";
+          });
+        } else {
+          this.$messageSelf.message({
+            message: "查询失败",
+            type: "error",
+          });
         }
       });
     },
@@ -311,13 +360,17 @@ export default {
     },
     clickQuery() {
       //点击查询
+      // let data = { ...this.queryBreakageListData.paras };
+      this.queryBreakageListData.paras.damageOrderNo = this.breakageOrder;
+      this.queryBreakageListData.paras.damageType = this.breakageType;
+      this.queryBreakageListData.paras.disposeStatus = this.breakageState;
+      this.pageQueryFun();
     },
     clearInput() {
       //点击清空输入框
       this.clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
-      this.tableData = [];
       this.pageQueryFun();
     },
     create() {
@@ -330,7 +383,7 @@ export default {
     edit() {
       if (!this.multipleSelection.length) {
         return this.$messageSelf.message({
-          message: "请选择需要删除的报损订单",
+          message: "请选择需要编辑的报损订单",
           type: "warning",
         });
       } else if (this.multipleSelection.length > 1) {
@@ -339,10 +392,21 @@ export default {
           type: "warning",
         });
       } else {
-        this.$router.push({
-          path: "/breakageManagement/createBreakageOrder",
-          query: { val: this.multipleSelection[0], type: "edit" },
-        });
+        // this.$router.push({
+        //   path: "/breakageManagement/createBreakageOrder",
+        //   query: { val: this.multipleSelection[0], type: "edit" },
+        // });
+        if (this.multipleSelection[0].disposeStatus !== "待审核") {
+          return this.$messageSelf.message({
+            message: "只有待审核的订单可编辑",
+            type: "warning",
+          });
+        } else {
+          this.$router.push({
+            path: "/breakageManagement/createBreakageOrder",
+            query: { val: this.multipleSelection[0], type: "edit" },
+          });
+        }
       }
     },
     del() {
@@ -355,9 +419,13 @@ export default {
       if (!arr.length)
         return this.$messageSelf.message("请选择要删除的报损订单");
       this.$messageSelf
-        .confirms("确定要删除该订单？", "删除确认", {
-          type: "warning",
-        })
+        .confirms(
+          `确定要删除这${this.multipleSelection.length}条报损单号？`,
+          "删除确认",
+          {
+            type: "warning",
+          }
+        )
         .then(() => {
           this.delRequest({ ids: arr });
         })
@@ -385,7 +453,6 @@ export default {
       this.popupBoxIsShow = true;
     },
     point() {
-      let data = { id: "" };
       if (!this.multipleSelection.length) {
         return this.$messageSelf.message({
           message: "请选择需要打印的单号",
@@ -397,11 +464,10 @@ export default {
           type: "warning",
         });
       } else {
-        data.id = this.multipleSelection[0].id;
+        pointBreakageOrder({ id: this.multipleSelection[0].id }).then((ok) => {
+          console.log(ok);
+        });
       }
-      pointBreakageOrder(data).then((ok) => {
-        console.log(ok);
-      });
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
@@ -420,10 +486,11 @@ export default {
       }
     },
     getPageNum(e) {
-      this.queryData.pageNumber = e;
+      this.queryBreakageListData.pageNumber = e;
     },
     sureSuccssBtn(e) {
-      this.queryData.pageNumber = e;
+      this.queryBreakageListData.pageNumber = e;
+      this.pageQueryFun();
     },
     changeData(data) {
       this.changePageData(data);
@@ -433,10 +500,10 @@ export default {
       this.pageComponentsData.pageNums = totalRow;
     },
     getStartTime(e) {
-      console.log(e);
+      this.queryBreakageListData.paras.createStartTime = e;
     },
     getEndTime(e) {
-      console.log(e);
+      this.queryBreakageListData.paras.createEndTime = e;
     },
     getStartTime1(e) {
       console.log(e);
@@ -462,8 +529,8 @@ export default {
 @import "../../assets/scss/btn.scss";
 
 #mianPage {
-  background: #e6e7ea;
-  padding: 16px;
+  background: #eef1f8;
+  padding: 20px 10px;
 }
 .headerHtml {
   .headerInput {

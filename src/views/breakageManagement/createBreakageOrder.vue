@@ -112,45 +112,52 @@
               min-width="180"
             >
             </el-table-column>
-            <el-table-column prop="prodNum" label="报损数量" align="center">
+            <el-table-column prop="breakageNum" label="报损数量" align="center">
               <template slot-scope="scope">
-                <el-input v-model="scope.row.proNum"></el-input>
+                <el-input v-model="scope.row.breakageNum"></el-input>
               </template>
             </el-table-column>
+
             <el-table-column
               prop="wareSeatCode"
               label="当前库位"
               align="center"
+              min-width="140"
             >
-              <template slot-scope="scope">
-                <el-select v-model="currentKuwei" @change="currentKuweis">
-                  <el-option
-                    v-for="item in scope.row.currentKuweiData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </template>
+              <el-select
+                v-model="scope.row.wareSeatCode"
+                @change="currentKuweis"
+                slot-scope="scope"
+              >
+                <el-option
+                  v-for="item in currentKuweiData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
             </el-table-column>
+
             <el-table-column
-              prop="prodNum"
+              prop="imperfectKuweiValue"
               label="残次品库位"
               align="center"
-              min-width="100"
+              min-width="140"
             >
-              <template slot-scope="scope">
-                <el-select v-model="imperfectKuwei" @change="imperfectKuweis">
-                  <el-option
-                    v-for="item in scope.row.prodNum"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </template>
+              <el-select
+                slot-scope="scope"
+                v-model="scope.row.imperfectKuweiValue"
+                @change="imperfectKuweis"
+              >
+                <el-option
+                  v-for="item in imperfectKuwei"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
             </el-table-column>
           </el-table>
         </div>
@@ -179,6 +186,7 @@ import {
   queryEntrustCompany,
   saveBreakageOrder,
   querySLInfor,
+  pointBreakageOrder,
 } from "../../api/api";
 import { getCookie } from "../../utils/validate";
 export default {
@@ -188,10 +196,15 @@ export default {
         vm.tableData = [];
         if (vm.$route.query.type === "addProd") {
           vm.tableData = vm.$route.query.val;
-          // console.log(vm.tableData)
-          // vm.currentKuwei = vm.$route.query.val.wareSeatCode;
-        } else if (vm.$route.query.type === "edit") {
-          vm.tableData = vm.$route.query.val;
+          // console.log(vm.tableData);
+        }
+      });
+    }
+    if (from.name === "/breakageManagement/breakageMain") {
+      next((vm) => {
+        if (vm.$route.query.type === "edit") {
+          vm.id = vm.$route.query.val.id;
+          vm.queryFun();
         }
       });
     } else {
@@ -204,6 +217,9 @@ export default {
       entrustCompany: "",
       textarea: "",
       currentKuwei: "",
+      breakageNum: "",
+      imperfectKuweiValue: "",
+      currentKuweiData: [],
       imperfectKuwei: [],
       tableData: [],
       entrustCompanyData: [],
@@ -226,31 +242,34 @@ export default {
           label: "其他报损",
         },
       ],
+      id: "",
     };
   },
   mounted() {
     //查询残次品库位
     let queryData = {
-        orderBy: "createTime",
-        pageNumber: 1,
-        pageSize: 9999,
-        paras: {
-          childWareId: "", 
-          wareAreaId: "", 
-          wareAreaType: "", 
-          wareShelfId: "", 
-          shelfLevelNum: "", 
-          wareSeatCode: "", 
-          id: "", 
-        },
-      }
+      orderBy: "createTime",
+      pageNumber: 1,
+      pageSize: 999999,
+      paras: {
+        childWareId: "",
+        wareAreaId: "",
+        wareAreaType: "",
+        wareShelfId: "",
+        shelfLevelNum: "",
+        wareSeatCode: "",
+        id: "",
+      },
+    };
     querySLInfor(queryData).then((ok) => {
-      console.log(ok)
-      // if (ok.data.code === "10000") {
-      //   ok.data.result.list.forEach((v) => {
-      //     this.imperfectKuwei.push({});
-      //   });
-      // }
+      // console.log(ok);
+      if (ok.data.code === "10000") {
+        ok.data.result.list.forEach((v) => {
+          if (v.wareType === 3) {
+            this.imperfectKuwei.push({ value: v.wareSeatCode });
+          }
+        });
+      }
     });
     //查询委托公司
     let data = {
@@ -270,6 +289,17 @@ export default {
     });
   },
   methods: {
+    queryFun() {
+      pointBreakageOrder({ id: this.id }).then((ok) => {
+        // console.log(ok)
+        if (ok.data.code === "10000") {
+          this.tableData = [];
+          ok.data.result[0].detailList.forEach((v) => {
+            this.tableData.push(v.pOrgProducts);
+          });
+        }
+      });
+    },
     entrustCompanys(val) {
       this.entrustCompany = val;
     },
@@ -280,7 +310,7 @@ export default {
       this.currentKuwei = val;
     },
     imperfectKuweis(val) {
-      this.imperfectKuwei = val;
+      this.imperfectKuweiValue = val;
     },
     add() {
       this.$router.push({
@@ -340,30 +370,74 @@ export default {
       if (this.entrustCompany === "" || this.breakageType === "") {
         return this.$messageSelf.message({
           message: "请选择委托公司或者报损类型",
-          type: "error",
+          type: "warning",
         });
       }
+      if (!this.tableData.length)
+        return this.$messageSelf.message({
+          message: "请添加产品",
+          type: "warning",
+        });
       let submitData = {
         createTime: "",
         createUser: "",
         damageOrderNo: "",
-        damageType: 0,
+        damageType: this.breakageType,
         detailList: [],
-        disposeStatus: "",
-        id: "",
+        disposeStatus: "", //报损状态
+        id: "", //报损单id
         lastModifyTime: "",
         lastModifyUser: "",
-        orgId: "",
+        orgId: this.entrustCompany,
         orgName: "",
-        remark: "",
-        verifyTime: "",
-        verifyUserId: "",
-        verifyUserName: "",
-        version: 0,
+        remark: this.textarea, //备注
+        verifyTime: "", //审核时间
+        verifyUserId: "", //审核人id
+        verifyUserName: "", //审核人
+        version: "",
       };
-
+      this.tableData.forEach((v) => {
+        submitData.detailList.push({
+          actualProdNum: 0,
+          batchNo: "",
+          createTime: "",
+          createUser: "",
+          damageId: "", //报损单id
+          damagedSeatId: "", //残次品库位id
+          damagedSeatNo: v.imperfectKuweiValue, //残次品库位编号
+          damagedWareAreaId: "", //残次品仓库区域id
+          damagedWareAreaName: "", //残次品仓库区域名称
+          id: "",
+          lastModifyTime: "",
+          lastModifyUser: "",
+          manufTime: "",
+          orgId: v.orgId,
+          orgName: v.orgName,
+          prodId: v.prodId,
+          prodName: v.prodName,
+          prodNum: v.breakageNum,
+          remark: "",
+          version: "",
+          wareAreaId: v.wareAreaId,
+          wareAreaName: v.wareAreaName,
+          childWareId: v.childWareId,
+          childWareName: v.childWareName,
+        });
+      });
       saveBreakageOrder(submitData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.$router.push({ path: "/breakageManagement/breakageMain" });
+          this.$messageSelf.message({
+            message: "创建成功",
+            type: "success",
+          });
+        } else {
+          this.$messageSelf.message({
+            message: "创建失败",
+            type: "error",
+          });
+        }
       });
     },
     handleSelectionChange(value) {
@@ -377,8 +451,8 @@ export default {
 @import "../../assets/scss/btn.scss";
 
 #createBreakage {
-  padding: 20px;
-  background: #e3e4e8;
+  background: #eef1f8;
+  padding: 20px 10px;
   .main {
     .headerBox {
       margin-bottom: 20px;
@@ -459,7 +533,8 @@ export default {
       margin-top: 16px;
       .backBtn {
         margin: 0 16px 0 0;
-        @include BtnFunction("success");
+        @include BtnFunction("");
+        background: white;
       }
       .submitBtn {
         @include BtnFunction("success");
