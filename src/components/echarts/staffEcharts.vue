@@ -4,12 +4,12 @@
     <div class="echarts-buttom">
       <div class="buttom-left">
         <div></div>
-        <div>90</div>
+        <div>10</div>
         <div>拣货</div>
       </div>
       <div class="buttom-right">
         <div></div>
-        <div>30</div>
+        <div>20</div>
         <div>复核</div>
       </div>
     </div>

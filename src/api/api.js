@@ -839,7 +839,49 @@ export function queryBreakageList(data) {
         })
     })
 }
+//保存/修改报损单
+export function saveBreakageOrder(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/pDamageOrder/saveRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//删除报损单
+export function delBreakageOrder(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/pDamageOrder/delRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
 
+//报损单明细(查看/编辑/打印报损单)
+export function pointBreakageOrder(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/pDamageOrder/findRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
 
 /**
  * 
@@ -1527,6 +1569,7 @@ export const pDeliverGoodsfindSubOrderByPickOrderNo = function (data) {
         })
     })
 }
+
 /**
  * 打印发货单
  * @param {*} datas /wbs-warehouse-manage/v1/pDeliverGoods/printDeliverGoods
@@ -1544,7 +1587,57 @@ export const pDeliverGoodsprintDeliverGoods = function (data) {
         })
     })
 }
+
+
+/**
+ * 发货异常分页查询
+ * @param {*} data /wbs-warehouse-manage/v1/pOrgFailSubOrder/findRecordPageGroupByProd
+ */
+export const pOrgFailSubOrderfindRecordPageGroupByProd = (data) => {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgFailSubOrder/findRecordPageGroupByProd",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+
+
 //=========================================发货管理 end ========================================
+//=========================================货品移位 start ========================================
+
+/**
+ * 货品移位 =》 补货作业 => 分页查询补货单
+ * @param {*} datas /wbs-warehouse-manage/pReplenishOrder/findRecordPage
+ */
+export const pReplenishOrderfindRecordPage = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/pReplenishOrder/findRecordPage",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+
+
+//=========================================货品移位 end ========================================
+
+
+
+// 
+
+
+
 export function post(datas) {
     let {
         url,

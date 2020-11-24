@@ -58,7 +58,7 @@
         <!-- 创建时间 -->
       </div>
       <div class="btns">
-        <div class="queryBtn zujianBox" @click="clickQueryUser">查询</div>
+        <div class="queryBtn mr11 zujianBox" @click="clickQueryUser">查询</div>
         <div class="clearBtn" @click="clearInputAll">清空</div>
       </div>
     </div>

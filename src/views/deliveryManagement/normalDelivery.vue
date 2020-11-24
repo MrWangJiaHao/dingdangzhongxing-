@@ -59,8 +59,8 @@
                   <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
                     {{ scoped.row.orderNo }}
                   </div>
-                </span></el-table-column
-              >
+                </span>
+              </el-table-column>
               <el-table-column
                 label="子订单号"
                 prop="subOrderNo"
@@ -70,8 +70,8 @@
                   <div @click="goToSubOrderNo(scoped.row)" class="lookDeatil">
                     {{ scoped.row.subOrderNo }}
                   </div>
-                </span></el-table-column
-              >
+                </span>
+              </el-table-column>
               <el-table-column
                 width="119"
                 label="物流公司"
@@ -126,6 +126,7 @@
         <div v-if="isJianHuoDanShow">
           <div>
             <pickingList
+              :detailsJianHuoDan="detailsJianHuoDan"
               :pickOrderNo="pickOrderNo"
               @getiscaigoudanDetail="getiscaigoudanDetail"
             />
@@ -147,7 +148,7 @@ import {
   pOrgSubOrderMegerOrder,
   pOrgPickOrderprintPick,
 } from "../../api/api";
-import { _getArrTarget } from "../../utils/validate";
+import { getCookie, _getArrTarget } from "../../utils/validate";
 export default {
   components: {
     manualHeader,
@@ -159,6 +160,7 @@ export default {
       isJianHuoDanShow: false,
       pickOrderNo: "",
       tableData: [],
+      detailsJianHuoDan: {},
       pageComponentsData: {
         pageNums: 0, //一共多少条 //默认一页10
       },
@@ -169,9 +171,11 @@ export default {
           orderNo: "",
           prodId: "",
           specId: "",
+          wareId: getCookie("X-Auth-wareId"),
           childWareId: "",
           childWareName: "",
           specName: "",
+
           outWareTimeStart: "",
           pickTimeStart: "",
           checkTimeStart: "",
@@ -196,12 +200,17 @@ export default {
       //打印拣货单
       this.$nextTick(() => {
         if (document.getElementById("checkbox").checked) {
-          pOrgPickOrderprintPick({
-            ids: _getArrTarget(this.multipleSelection, "id"),
-          }).then(() => {
-            // console.log(this.multipleSelection[0].pickOrderNo);
-            this.pickOrderNo = this.$isEmpty("151231511513156456d");
-            this.isJianHuoDanShow = true;
+          pOrgPickOrderprintPick([
+            {
+              ids: this.multipleSelection[0].id,
+            },
+          ]).then((res) => {
+            if (res.code == "10000") {
+              this.detailsJianHuoDan = this.multipleSelection[0];
+              this.$router.push({
+                path: "/deliveryManagement/pickingList",
+              });
+            }
           });
         }
       });
@@ -209,7 +218,7 @@ export default {
     //订单集计==
     _jijiJianhuodan() {
       pOrgSubOrderMegerOrder({
-        id: _getArrTarget(this.multipleSelection, "id"),
+        ids: this.multipleSelection[0].id,
       })
         .then((res) => {
           if (res.code == "10000") {
@@ -252,7 +261,8 @@ export default {
     },
     //集计
     warehousingConfirmation() {
-      // if(!this.multipleSelection.length ) return this.$messageSelf.message("请选择要集计的拣货单单")
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message("请选择要集计的拣货单单");
       this.$messageSelf
         .confirms(
           ` 共集计${this.multipleSelection.length}个订单，可生成${this.multipleSelection.length}张拣货单，确认集计吗？<div id='checkboxID'> <input checked  id='checkbox' type='checkbox' /> 打印集计单</div>`,
@@ -346,25 +356,6 @@ export default {
 }
 
 .setUser {
-  margin-right: 10px;
-  @include BtnFunction("success");
-}
-
-.bianjiUser {
-  margin-right: 10px;
-  @include BtnFunction("success");
-}
-
-.remove {
-  @include BtnFunction("error");
-}
-
-.goOn {
-  margin-right: 10px;
-  @include BtnFunction("success");
-}
-
-.lodopFunClear {
   margin-right: 10px;
   @include BtnFunction("success");
 }

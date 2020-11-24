@@ -306,12 +306,12 @@
           </div>
         </div>
         <!-- 复核完成时间 -->
-        <div class="tr" style="width: 100%">
-          <div class="btns mb20">
-            <div class="queryBtn zujianBox" @click="clickQueryUser">查询</div>
-            <div class="clearBtn" @click="clearInputAll">清空</div>
-          </div>
+      </div>
+      <div class="btns inline tr mb20" style="width: 100%">
+        <div class="queryBtn inline mr11 zujianBox" @click="clickQueryUser">
+          查询
         </div>
+        <div class="clearBtn inline" @click="clearInputAll">清空</div>
       </div>
     </div>
   </div>
@@ -326,7 +326,6 @@ export default {
   components: {
     dateTime,
   },
-
   data() {
     return {
       //委托公司
@@ -678,20 +677,19 @@ export default {
     background: #fff;
     margin-right: 10px;
   }
-  .btns {
+}
+.btns {
+  display: inline-block;
+  .queryBtn {
     display: inline-block;
-    .queryBtn {
-      display: inline-block;
-      @include BtnFunction("success");
-    }
-    .clearBtn {
-      display: inline-block;
-      @include BtnFunction();
-      background: #fff;
-    }
+    @include BtnFunction("success");
+  }
+  .clearBtn {
+    display: inline-block;
+    @include BtnFunction();
+    background: #fff;
   }
 }
-
 .line {
   width: 20px;
   height: 2px;

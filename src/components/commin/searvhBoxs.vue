@@ -4,7 +4,7 @@
     <div>
       <el-input
         :placeholder="searchCenter.placeholder"
-        v-model="input"
+        v-model="searchCenter.input"
         @blur="searchData"
         clearable
         :disabled="searchCenter.disabled"
@@ -24,13 +24,13 @@ export default {
       default: () => {
         return {
           searchCenter: false,
+          input: "",
         };
       },
     },
   },
   data() {
     return {
-      input: "",
       title: "",
     };
   },
@@ -45,13 +45,11 @@ export default {
   methods: {
     searchData() {
       this.$emit("getSearchCenterShuJu", this.input);
-      this.$emit("clearInput", this.clearInput);
     },
     changerInputs(e) {
       this.$emit("getChangeInput", e);
-      this.$emit("changeInputs", this.input);
+      this.$emit("changeInputs", this.searchCenter.input);
     },
-    clearInput() {},
   },
 };
 </script>

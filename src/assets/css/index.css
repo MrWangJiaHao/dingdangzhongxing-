@@ -120,6 +120,9 @@ textarea {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.el-input__icon{
+  line-height: 34px;
+}
 .displayCenter{
     display: flex;
     align-items: center;
@@ -143,6 +146,9 @@ textarea {
   align-items: center;
   flex-direction: column;
 }
+.mb11{
+  margin-bottom: 11px;
+}
 .cell {
   text-align: left;
   text-overflow: ellipsis;
@@ -151,6 +157,11 @@ textarea {
 .displayalign{
   display: flex;
   align-items: center;
+}
+.displayJucenMes{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .dispalyFlex{
   display: flex;
@@ -166,9 +177,7 @@ textarea {
   align-items: center;
   flex-wrap: wrap;
 }
-.zujianBox{
-  margin-right:19px ;
-}
+
 .tc{
   text-align: center;
 }

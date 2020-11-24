@@ -44,7 +44,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 * {
   margin: 0;
   padding: 0;
@@ -110,6 +109,4 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield !important;
 }
-
-
 </style>

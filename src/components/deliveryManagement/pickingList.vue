@@ -7,6 +7,7 @@
         </div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
+
       <div style="padding: 0 0 10px 0">
         <div style="padding: 0 0 10px 0">
           <div id="printCenter" style="padding: 20px">
@@ -29,7 +30,7 @@
                     text-align: center;
                   "
                 >
-                  {{ pickOrderNo }}拣货单
+                  {{ dataBack.pickOrderNo }}拣货单
                 </div>
                 <div
                   style="position: absolute; top: 5px; right: 50px; z-index: -1"
@@ -37,7 +38,7 @@
                   <img
                     :src="
                       'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
-                      pickOrderNo
+                      dataBack.pickOrderNo
                     "
                     width="300"
                     height="90"
@@ -343,9 +344,12 @@ export default {
       tableDatas: [],
       detailsTable: [],
       Newtime: "",
-      dataBack: { orderCount: 1, boxTypeCount: "啊实打实" },
+      dataBack: (() => {
+        this.$isEmpty(this.detailsJianHuoDan) ? this.detailsJianHuoDan : "";
+      })(),
     };
   },
+
   created() {
     this._changeTime();
     this._pDeliverGoodsfindSubOrderByPickOrderNo();
@@ -355,9 +359,11 @@ export default {
       type: Boolean,
       default: false,
     },
-    pickOrderNo: {
-      type: String,
-      default: "12321dsad",
+    detailsJianHuoDan: {
+      type: "",
+      default: () => {
+        return {};
+      },
     },
   },
   methods: {

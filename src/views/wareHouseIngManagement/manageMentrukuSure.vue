@@ -1,5 +1,5 @@
 <template>
-  <div class="setUserIngBox" id="manageMenyrukuSure">
+  <div class="setUserIngBox" id="manageMenyrukuSures">
     <div class="setUserIngBoxCenter">
       <div class="headerBox">
         <div class="closeTitle">
@@ -31,6 +31,7 @@
                   </div>
                   <div v-else-if="item == '*入库时间'">
                     <dateTime
+                      style="height: 28px"
                       :dateTimeData="dateTimeData"
                       :valueDataStart="createUserData.expectedSendTime"
                       @getDateTime="getDateTimeExpectedSendTime"
@@ -579,20 +580,23 @@ export default {
 };
 </script>
 <style >
-#manageMenyrukuSure
+#manageMenyrukuSures
   .ivu-input-wrapper.ivu-input-wrapper-default.ivu-input-type.ivu-date-picker-editor {
   width: 172px;
-  height: 28px;
+  height: 28px !important;
 }
 
-#manageMenyrukuSure .ivu-input.ivu-input-default.ivu-input-with-suffix {
+#manageMenyrukuSures .ivu-input.ivu-input-default.ivu-input-with-suffix {
   border: 1px solid #d2d6e2;
-  height: 28px;
+  height: 28px !important;
   color: #333333;
   font-size: 14px;
   font-weight: normal;
   background: rgba(236, 241, 247, 0);
   border-radius: 2px;
+}
+#manageMenyrukuSures .el-input__inner {
+  height: 28px !important;
 }
 </style>
 <style lang='scss' scoped>

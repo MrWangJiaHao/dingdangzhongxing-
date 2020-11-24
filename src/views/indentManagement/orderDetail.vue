@@ -93,7 +93,10 @@ export default {
       from.name === "/indentManagement/zitiIndentManage" ||
       from.name === "/indentManagement/notLogisticsIndentManage" ||
       from.name === "/indentManagement/stockoutIndentManage" ||
-      from.name === "/indentManagement/resalesIndentManage"
+      from.name === "/indentManagement/resalesIndentManage" ||
+      from.name === "/deliveryManagement/normalDelivery" ||
+      from.name === "/deliveryManagement/quetyNormal" ||
+      from.name === "/deliveryManagement/delivetyNotePrint"
     ) {
       next((vm) => {
         if (vm.$route.query.type === "orderNo") {

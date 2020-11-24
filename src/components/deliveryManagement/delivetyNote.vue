@@ -8,7 +8,7 @@
       <div id="printCenter" class="displayColom">
         <div
           style="
-            width: 358px;
+            width: 450px;
             border: 1px solid #d1d6e2;
             padding: 10px;
             position: relative;
@@ -16,10 +16,13 @@
         >
           <div style="margin-bottom: 16px">
             <div style="float: left; font-size: 24px; color: #333333">
-              xxx发货清单
+              {{ parseMes.orderNo }}发货清单
             </div>
-            <div style="float: right; font-size: 24px; color: #333333">
-              [01#A]
+            <div
+              v-if="parseMes.commendBox && parseMes.check"
+              style="float: right; font-size: 24px; color: #333333"
+            >
+              [{{ parseMes.commendBox }}#{{ parseMes.check }}]
             </div>
             <p style="clear: both"></p>
           </div>
@@ -30,7 +33,7 @@
             </div>
             <!-- img -->
             <p style="font-size: 16px; color: #333333; font-weight: normal">
-              订单号：{{ parseMes.channelOrderNo }}
+              订单号：{{ parseMes.orderNo }}
             </p>
             <p style="font-size: 16px; color: #333333; font-weight: normal">
               收货人：{{ parseMes.orderContact }}
@@ -81,7 +84,7 @@
             </el-table>
           </div>
           <div
-            v-if="parseMes.purchase"
+            v-if="parseMes.disposeStatus"
             style="
               position: absolute;
               left: 50%;
@@ -110,8 +113,26 @@
  eslint-disable
  */
 import JsBarcode from "jsbarcode";
+import { pDeliverGoodsfindSubOrderByPickOrderNo } from "../../api/api";
 
 export default {
+  props: {
+    parseMes: {
+      type: Object,
+      default: () => {
+        return {
+          channelOrderNo: "JD20180927002",
+          orderContact: "王五",
+          orderContactPhone: "131313131313",
+          orderProName: "aadsa",
+          orderCityName: "",
+          orderCountyName: "dsdsa",
+          orderAddr: "sadsa",
+          disposeStatus: false,
+        };
+      },
+    },
+  },
   data() {
     return {
       Newtime: "",
@@ -125,20 +146,10 @@ export default {
           sum: 1,
         },
       ],
-      parseMes: {
-        channelOrderNo: "JD20180927002",
-        orderContact: "王五",
-        orderContactPhone: "131313131313",
-        orderProName: "aadsa",
-        orderCityName: "",
-        orderCountyName: "dsdsa",
-        orderAddr: "sadsa",
-        purchase: false,
-      },
       parintBatchNumberArrs: [],
     };
   },
-
+  created() {},
   mounted() {
     this.printMes();
   },

@@ -85,7 +85,9 @@
   margin-top: 80px;
   position: inherit;
 }
-
+.el-select:hover .el-input__inner {
+  border-color: #409EFF;
+}
 .el-message-box__btns {
   margin: -20px 20px 0px 0;  
 }

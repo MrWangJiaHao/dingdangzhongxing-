@@ -36,9 +36,9 @@ export function isURL(s) {
  * @param {*} value 判断的值
  */
 export const isMaoHao = (value) => {
-  return (value.includes(":")
-    ? value
-    : value + ":");
+  return (value.includes(":") ?
+    value :
+    value + ":");
 }
 /**
  * 原生ajax post 请求
@@ -180,7 +180,9 @@ export const _getExportExcels = (res, biaoti = "入库") => {
   fileName = biaoti + fileName.substring(6, fileName.length);
   fileName = decodeURIComponent(fileName);
   let type = res.headers["content-type"].split(";")[0];
-  let blob = new Blob([res.data], { type: type });
+  let blob = new Blob([res.data], {
+    type: type
+  });
   const blobUrl = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.download = fileName;
@@ -259,3 +261,16 @@ export const isNums = (i) => {
       break;
   }
 }
+
+//这个函数解决数组中对象去重的问题
+
+export const reduceFun = (arr) => {
+    let testObj = {};
+    let res = arr.reduce((item, next) => {
+      testObj[next.value] ?
+        "" :
+        (testObj[next.value] = true && item.push(next));
+      return item;
+    }, []);
+    return res;
+  }

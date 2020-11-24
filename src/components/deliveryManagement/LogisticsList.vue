@@ -5,6 +5,7 @@
         <div class="closeTitle">打印模板</div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
+
       <div id="printCenter" class="displayColom">
         <div style="width: 551px; border: 1px solid #888888">
           <div style="border-bottom: none">
@@ -18,11 +19,14 @@
                   float: left;
                 "
               >
-                申通快递
+                {{ logisticsListJson.exprName }}
               </h1>
               <img
                 style="margin: 10px; float: right"
-                src="http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=123123'"
+                :src="
+                  'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
+                  logisticsListJson.exprNo
+                "
                 alt=""
               />
             </div>
@@ -30,42 +34,50 @@
               style="clear: both; width: 100%; height: 4px; background: #454545"
             ></p>
             <pre style="color: #454545; margin: 10px">
-收件方地址：陕西省西安市雁塔区锦业路69号创业研发园
+收件方地址：{{ logisticsListJson.orderProName +logisticsListJson.orderCityName+logisticsListJson.orderAddr }}
 
-<span>小龙</span>  <span style="color:#333;">15894542101</span>    
+<span>{{logisticsListJson.orderContact}}</span>  <span style="color:#333;">{{logisticsListJson.orderContactPhone}}</span>    
 </pre>
             <p style="width: 100%; height: 1px; background: #888888"></p>
             <pre style="color: #454545; margin: 10px">
 寄件方地址：陕西省西安市雁塔区锦业路69号创业研发园
 
-xxxxxxxxxx公司        15894542101
+{{logisticsListJson.orderSourceName}}公司        15894542101
 <div style=" position: relative">
 <span style="">托寄信息：化妆品</span>
-<div style="position:absolute; right:-10px;bottom:-10px;
+<div style="position:absolute; right:-20px;bottom:-10px;
     overflow: hidden;
+    z-index:-1;
 height:90px;">
-     <img src="http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=123123'">
+     <img :src="
+                  'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
+                  logisticsListJson.exprNo
+                ">
      </div>  
 </div></pre>
           </div>
           <p style="width: 551px; height: 4px; background: #454545"></p>
           <div style="width: 551px; border-top: none">
             <pre style="color: #454545; margin: 10px">
-收件方地址：陕西省西安市雁塔区锦业路69号创业研发园
+收件方地址：{{ logisticsListJson.orderProName +logisticsListJson.orderCityName+logisticsListJson.orderAddr }}
 
-<span>小龙</span>  <span style="color:#333;">15894542101</span>    
+<span>{{logisticsListJson.orderContact}}</span>  <span style="color:#333;">{{logisticsListJson.orderContactPhone}}</span>    
 </pre>
             <p style="width: 100%; height: 1px; background: #888888"></p>
             <pre style="color: #454545; margin: 10px">
 寄件方地址：陕西省西安市雁塔区锦业路69号创业研发园
 
-xxxxxxxxxx公司        15894542101
+{{logisticsListJson.orderSourceName}}公司        15894542101
 <div style=" position: relative">
 <span style="">托寄信息：化妆品</span>
-<div style="position:absolute; right:-8px;bottom:-10px;
+<div style="position:absolute; right:-15px;bottom:-10px;
+z-index:-1;
     overflow: hidden;
 height:90px;">
-     <img src="http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=123123'">
+     <img  :src="
+                  'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
+                  logisticsListJson.exprNo
+                ">
      </div>  
 </div></pre>
           </div>
@@ -87,35 +99,23 @@ height:90px;">
  eslint-disable
  */
 export default {
+  props: {
+    logisticsListJson: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
+  },
   data() {
     return {
-      tableDatas: [
-        {
-          ads: "asds",
-          abes: "else",
-        },
-        {
-          ads: "asd",
-        },
-        {
-          ads: "asd",
-        },
-        {
-          ads: "asd",
-          abes: "else",
-        },
-        {
-          ads: "asd",
-        },
-        {
-          ads: "asd",
-        },
-      ],
+      tableDatas: [],
       Newtime: "",
       parintBatchNumberArrs: [],
     };
   },
   created() {
+    console.log(this.logisticsListJson);
     this._changeTime();
     let parintBatchNumberArrs = eval(
       sessionStorage.getItem("parintBatchNumberArrs")

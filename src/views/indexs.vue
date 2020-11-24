@@ -489,7 +489,7 @@ export default {
     },
     rightMove() {
       let oDiv = document.querySelector(".el-tabs__nav-scroll");
-      let oDiv1 = document.querySelector(".el-tabs__nav-wrap");
+      // let oDiv1 = document.querySelector(".el-tabs__nav-wrap");
       oDiv.style.transition = "0.5s";
       a++;
       oDiv.style.left = `${-1140 * a}px`;
@@ -679,8 +679,15 @@ export default {
 .dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item:first-child {
   border-left: 1px solid #ced4de !important;
 }
-
-.el-tabs__item.is-top.is-active.is-closable {
+.dianjiqiehuan .el-breadcrumb__inner.is-link {
+  color: #606266 !important;
+  font-weight: bold !important;
+}
+.dianjiqiehuan .el-breadcrumb__separator.el-icon-arrow-right {
+  font-weight: bold !important;
+  color: #606266 !important;
+}
+.dianjiqiehuan .el-tabs__item.is-top.is-active.is-closable {
   color: #000 !important;
   border-bottom-color: #eef1f8 !important;
 }
