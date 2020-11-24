@@ -279,7 +279,7 @@ export default {
         出库状态: () =>
           this.createUserData.outWareStatus ? "已出库" : "未出库",
         出库类型: () =>
-          his.createUserData.outWareType
+          this.createUserData.outWareType
             ? this.createUserData.outWareType
             : "- -",
         "&nbsp;收货人": () =>
@@ -674,6 +674,20 @@ export default {
   background: rgba(236, 241, 247, 0);
   border-radius: 2px;
 }
+#chukuSure .ivu-input-suffix {
+  justify-content: center;
+}
+#chukuSure .ivu-input {
+  height: 28px !important;
+}
+#chukuSure .ivu-icon-ios-close-circle {
+  width: 15px !important;
+  height: 15px !important;
+}
+#chukuSure .ivu-icon.ivu-icon-ios-calendar-outline {
+  width: 15px !important;
+  height: 15px !important;
+}
 </style>
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
@@ -736,7 +750,8 @@ export default {
     top: 144px;
     transform: translateX(-50%);
     background: #fff;
-    width: 1000px;
+    overflow: auto;
+    width: 1080px;
     .centerBox {
       padding: 30px 20px;
     }

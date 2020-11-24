@@ -2,7 +2,7 @@
   <div>
     <div class="fuzzyQueryBox">
       <div class="biaogeBox">
-        <div class="displayalign mb20 zujianBox">
+        <div class="displayalign mb16 zujianBox">
           <div class="noneIconTitle mr11">委托公司:</div>
           <div class="mr20">
             <el-select
@@ -23,7 +23,7 @@
         </div>
         <!-- 委托公司 orgId -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">采购单号:</div>
             <div class="mr20">
@@ -38,7 +38,7 @@
         </div>
         <!-- 采购单号 purcNo -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">采购状态:</div>
             <div class="mr20">
@@ -61,7 +61,7 @@
         </div>
         <!-- 采购状态 disposeStatus -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">采购类型:</div>
             <div class="mr20">
@@ -84,7 +84,7 @@
         </div>
         <!-- 采购类型 orderSource -->
 
-        <div class="displayalign mb20 zujianBox">
+        <div class="displayalign mb16 zujianBox">
           <div class="noneIconTitle mr11">产品名称:</div>
           <div class="mr20">
             <el-autocomplete
@@ -97,7 +97,7 @@
         </div>
         <!-- 采购名称 prodId -->
 
-        <div class="displayalign mb20 zujianBox">
+        <div class="displayalign mb16 zujianBox">
           <div class="noneIconTitle mr11">产品编码:</div>
           <div class="mr20">
             <el-autocomplete
@@ -110,7 +110,7 @@
         </div>
         <!-- 产品编码 prodCode -->
 
-        <!-- <div class="zujianBox mb20">
+        <!-- <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">产品规格:</div>
             <div class="mr20">
@@ -133,7 +133,7 @@
         </div> -->
         <!-- 产品规格 ProductSpecificationsJson -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">期望到货时间:</div>
             <div class="mr20 displayalign">
@@ -159,7 +159,7 @@
         </div>
         <!-- 期望入库时间 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">实际到货时间:</div>
             <div class="mr20 displayalign">
@@ -186,14 +186,12 @@
         <!-- 入库开始时间 -->
       </div>
 
-      <div class="tr" style="width: 100%">
-        <div class="btns mb20">
-          <div class="queryBtn zujianBox" @click="clickQueryUser">查询</div>
-          <div class="clearBtn" @click="clearInputAll">清空</div>
-        </div>
+      <div class="btns mb16">
+        <div class="queryBtn mr11 zujianBox" @click="clickQueryUser">查询</div>
+        <div class="clearBtn" @click="clearInputAll">清空</div>
       </div>
     </div>
-    <!--btns mb20  -->
+    <!--btns mb16  -->
   </div>
 </template>
 
@@ -331,7 +329,9 @@ export default {
     },
     //委托公司
     getOrdName(e) {
-      this.sendOutDataJson.paras.orgId = this.EntrustedCompany.entrustedCompanyArr[e].id;
+      this.sendOutDataJson.paras.orgId = this.EntrustedCompany.entrustedCompanyArr[
+        e
+      ].id;
     },
     //关联单号
     associatedArr(queryString, cb) {
@@ -398,7 +398,6 @@ export default {
       this.paras.disposeStatus = "";
       this.paras.orderSource = "";
       this.prodIdNo.prodIdNoCenter = "";
-      //清空时间
       this.$refs.expectedStart.clear();
       this.$refs.expectedEnd.clear();
       this.$refs.putStart.clear();
@@ -414,6 +413,7 @@ export default {
   padding: 17px 30px;
   display: flex;
   flex-wrap: wrap;
+  position: relative;
   justify-content: space-between;
   align-items: center;
   .biaogeBox {
@@ -433,6 +433,9 @@ export default {
   }
   .btns {
     display: inline-block;
+    position: absolute;
+    right: 30px;
+    bottom: 10px;
     .queryBtn {
       display: inline-block;
       @include BtnFunction("success");

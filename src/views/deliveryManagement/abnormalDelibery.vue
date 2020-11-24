@@ -246,7 +246,6 @@ export default {
 }
 
 .setUser {
-  margin-right: 10px;
   @include BtnFunction("success");
 }
 </style>

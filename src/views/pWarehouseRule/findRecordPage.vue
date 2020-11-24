@@ -45,7 +45,7 @@
         </div>
         <div class="tr pd20">
           <div class="inline bianjiUser mr20" @click="getParasJson">查询</div>
-          <div class="inline remove" @click="clearChaxun">清空</div>
+          <div class="inline setUser" @click="clearChaxun">清空</div>
         </div>
       </div>
       <div class="btnArr">
@@ -381,8 +381,8 @@ export default {
 }
 
 .setUser {
-  margin-right: 10px;
-  @include BtnFunction("success");
+  background-color: #ffffff;
+  @include BtnFunction();
 }
 
 .bianjiUser {

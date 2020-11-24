@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="fuzzyQueryBox">
+    <div class="fuzzyQueryBox" style="transform: all 5s">
       <div class="biaogeBox">
-        <div class="displayalign mb20 zujianBox">
+        <div class="displayalign mb16 zujianBox">
           <div class="noneIconTitle mr11">委托公司:</div>
           <div class="mr20">
             <el-select
@@ -22,7 +22,7 @@
           </div>
         </div>
         <!-- 委托公司 -->
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">渠道:</div>
             <div class="mr20">
@@ -44,7 +44,7 @@
           </div>
         </div>
         <!-- 渠道 -->
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">订单来源:</div>
             <div class="mr20">
@@ -67,7 +67,7 @@
         </div>
         <!-- 订单来源 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">订单号:</div>
             <div class="mr20">
@@ -82,7 +82,7 @@
         </div>
         <!-- 订单号 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">子单号:</div>
             <div class="mr20">
@@ -97,7 +97,7 @@
         </div>
         <!-- 子单号 -->
 
-        <div class="displayalign mb20 zujianBox">
+        <div class="displayalign mb16 zujianBox">
           <div class="noneIconTitle mr11">物流公司:</div>
           <div class="mr20">
             <el-select
@@ -118,7 +118,7 @@
         </div>
         <!-- 物流公司 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">收货人:</div>
             <div class="mr20">
@@ -133,7 +133,7 @@
         </div>
         <!-- 收货人 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">联系电话:</div>
             <div class="mr20">
@@ -148,7 +148,7 @@
         </div>
         <!-- 联系电话 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">收货地址:</div>
             <div class="mr20">
@@ -180,7 +180,7 @@
         </div>
         <!-- 收货地址 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">产品名称:</div>
             <div class="mr20">
@@ -213,7 +213,7 @@
         </div>
         <!-- 产品名称 -->
 
-        <div v-if="fastFahuo" class="displayalign mb20 zujianBox">
+        <div v-if="fastFahuo" class="displayalign mb16 zujianBox">
           <div class="noneIconTitle mr11">物流打印状态:</div>
           <div class="mr20">
             <el-select
@@ -232,7 +232,7 @@
           </div>
         </div>
         <!-- 物流公司 -->
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">支付时间:</div>
             <div class="mr20 displayalign">
@@ -258,7 +258,7 @@
         </div>
         <!-- 支付时间 -->
 
-        <div class="zujianBox mb20">
+        <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">下发时间:</div>
             <div class="mr20 displayalign">
@@ -283,12 +283,10 @@
           </div>
         </div>
         <!-- 下发时间 -->
-        <div class="mb20 tr">
-          <div class="queryBtn mr11 tr zujianBox" @click="clickQueryUser">
-            查询
-          </div>
-          <div class="clearBtn tr" @click="clearInputAll">清空</div>
-        </div>
+      </div>
+      <div class="btn inline btnArrs">
+        <div class="queryBtn mr11 tr" @click="clickQueryUser">查询</div>
+        <div class="clearBtn tr" @click="clearInputAll">清空</div>
       </div>
     </div>
   </div>
@@ -386,8 +384,15 @@ export default {
   },
   created() {
     this._getMes();
+    this.addZhanKaiRes(".btnArrs");
   },
   methods: {
+    addZhanKaiRes(child) {
+      this.$nextTick(() => {
+        child = document.querySelector(child);
+        this.$isChaXun.isChaXun(child);
+      });
+    },
     changeorderAddr(e) {
       this.paras.orderAddr = addressJson.orderAddrArr[e].orderAddr;
     },
@@ -526,14 +531,39 @@ export default {
     },
   },
 };
+let flag = 1;
+//判断需不需要添加
+function createZhangkaiD(child) {
+  let parent = child.parentNode;
+  let parentHeight = parent.offsetHeight;
+  if (parentHeight >= 118) {
+    parent.style.height = 118 + "px";
+    createDomPush(child);
+  }
+}
+//
+function createDomPush(child) {
+  let text = flag % 2 != 0 ? "展开" : "收起";
+  let div = document.createElement("div");
+  div.innerText = text;
+  div.className = "inline mr11 clickMes";
+  child.insertBefore(div, child.children[0]);
+  div.addEventListener("click", clickFun, false);
+}
+//isClickMes
+function clickFun() {
+  flag++;
+}
 </script>
 
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .fuzzyQueryBox {
-  padding: 17px 30px;
+  position: relative;
+  padding: 20px 30px;
   display: flex;
   flex-wrap: wrap;
+  overflow: hidden;
   justify-content: space-between;
   align-items: center;
   .biaogeBox {
@@ -550,6 +580,11 @@ export default {
     height: 2px;
     background: #fff;
     margin-right: 10px;
+  }
+  .btn {
+    position: absolute;
+    right: 30px;
+    bottom: 10px;
   }
   .queryBtn {
     display: inline-block;

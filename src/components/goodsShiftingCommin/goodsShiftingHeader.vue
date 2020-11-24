@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="goodsShiftingBox">
     <div class="dispalywrap">
-      <div class="inline mr11">
+      <div class="inline mr11 mb16">
         <dropDownXiala
           :dropDowBox="wieTuoGonShiJson"
           @cliclInput="weiTuoGonShiClick"
@@ -10,28 +10,28 @@
         />
       </div>
       <!-- 委托公司 -->
-      <div class="inline mr11">
+      <div class="inline mr11 mb16">
         <searchBox
           @changeInputs="changereplenishOrderNo"
           :searchCenter="buhuodanhaoJson"
         />
       </div>
       <!-- 补货单号 -->
-      <div class="inline mr11">
+      <div class="inline mr11 mb16">
         <searchBox
           @changeInputs="changprodNumeJson"
           :searchCenter="prodNumeJson"
         />
       </div>
       <!-- 产品名称 -->
-      <div class="inline mr11">
+      <div class="inline mr11 mb16">
         <searchBox
           @changeInputs="changprodCodeJson"
           :searchCenter="prodCodeJson"
         />
       </div>
       <!-- 产品编码 -->
-      <div class="inline mr11 mb11">
+      <div class="inline mr11 mb16">
         <dropDownXiala
           :dropDowBox="specNameJson"
           @cliclInput="specNameClick"
@@ -40,7 +40,7 @@
         />
       </div>
       <!-- 委托公司 -->
-      <div class="inline mr11 mb11">
+      <div class="inline mr11 mb16">
         <dropDownXiala
           :dropDowBox="disposeStatusJson"
           @cliclInput="disposeStatusClick"
@@ -49,7 +49,7 @@
         />
       </div>
       <!-- 补货状态 -->
-      <div class="inline mr11 mb11">
+      <div class="inline mr11 mb16">
         <dropDownXiala
           :dropDowBox="orderSourceJson"
           @cliclInput="orderSourceClick"
@@ -59,7 +59,7 @@
       </div>
       <!-- 补货类型 -->
 
-      <div class="inline mr11 mb11">
+      <div class="inline mr11 mb16">
         <div class="displayalign zujianBox">
           <div class="noneIconTitle mr11">创建时间:</div>
           <div class="mr20 displayalign">
@@ -84,7 +84,7 @@
         </div>
       </div>
       <!-- 下发时间 -->
-      <div class="inline mr11 mb11">
+      <div class="inline mr11 mb16">
         <div class="displayalign zujianBox">
           <div class="noneIconTitle mr11">补货开始时间:</div>
           <div class="mr20 displayalign">
@@ -109,10 +109,10 @@
         </div>
       </div>
       <!-- 补货开始时间 -->
-      <div class="tr">
-        <div class="queryBtn mb11 mr11" @click="queryCenter">查询</div>
-        <div class="clearBtn mb11" @click="clearInters">清空</div>
-      </div>
+    </div>
+    <div class="tr btns">
+      <div class="queryBtn mr11" @click="queryCenter">查询</div>
+      <div class="clearBtn" @click="clearInters">清空</div>
     </div>
     <!-- 补获作业 header -->
   </div>
@@ -269,6 +269,14 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
+.goodsShiftingBox {
+  position: relative;
+  .btns {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+}
 
 .line {
   width: 20px;

@@ -46,6 +46,7 @@
                     <el-table-column
                       type="index"
                       label="序号"
+                      width="70"
                       show-overflow-tooltip
                     >
                     </el-table-column>
@@ -155,17 +156,19 @@
               ></el-table-column>
               <el-table-column
                 label="期望到货时间"
-                width="119"
+                width="250"
                 prop="expectedArrivalTime"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="实际到货数量"
+                width="250"
                 prop="putStartTime"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="实际到货时间"
+                width="250"
                 prop="arrivalTime"
                 show-overflow-tooltip
               ></el-table-column>
@@ -177,7 +180,7 @@
               ></el-table-column>
               <el-table-column
                 label="创建日期"
-                width="119"
+                width="250"
                 prop="createTime"
                 show-overflow-tooltip
               ></el-table-column>

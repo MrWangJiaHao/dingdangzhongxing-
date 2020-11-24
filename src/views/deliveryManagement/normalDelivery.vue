@@ -45,13 +45,14 @@
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                width="119"
+                width="250"
                 label="订单来源"
                 prop="orderSourceName"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="订单号"
+                width="250"
                 prop="orderNo"
                 show-overflow-tooltip
               >
@@ -64,6 +65,7 @@
               <el-table-column
                 label="子订单号"
                 prop="subOrderNo"
+                width="250"
                 show-overflow-tooltip
               >
                 <span slot-scope="scoped">
@@ -80,7 +82,7 @@
               ></el-table-column>
               <el-table-column
                 label="物流单号"
-                width="110"
+                width="250"
                 sortable
                 prop="exprNo"
               ></el-table-column>
@@ -356,7 +358,6 @@ export default {
 }
 
 .setUser {
-  margin-right: 10px;
   @include BtnFunction("success");
 }
 </style>

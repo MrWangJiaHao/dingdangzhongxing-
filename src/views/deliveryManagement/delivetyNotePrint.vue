@@ -16,7 +16,7 @@
           </div>
           <!-- 拣货单号 -->
         </div>
-        <div class="tr pd20" style="width: 100%">
+        <div class="tr pd20 mr11" style="">
           <div class="btns mb20">
             <div class="bianjiUser disinb zujianBox" @click="queryBtns">
               查询
@@ -298,7 +298,6 @@ export default {
 
 .tableBox {
   padding: 0 10px 0px 10px;
-
   .pageComponent {
     margin: 180px 10px 0 0;
     text-align: right;
@@ -309,7 +308,6 @@ export default {
 }
 
 .setUser {
-  margin-right: 10px;
   @include BtnFunction("success");
 }
 
@@ -319,6 +317,7 @@ export default {
 }
 
 .remove {
-  @include BtnFunction("error");
+  background-color: #fff;
+  @include BtnFunction();
 }
 </style>

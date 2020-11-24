@@ -90,37 +90,38 @@
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                width="119"
+                width="250"
                 label="订单来源"
                 prop="orderSourceName"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                width="119"
+                width="250"
                 label="产品名称"
                 prop="orderSourceName"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                width="119"
+                width="250"
                 label="产品编码"
                 prop="orderSourceName"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                width="119"
+                width="250"
                 label="产品规格"
                 prop="orderSourceName"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
-                width="119"
+                width="250"
                 label="产品数量"
                 prop="orderSourceName"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="订单号"
+                width="250"
                 prop="channelOrderNo"
                 show-overflow-tooltip
               >
@@ -133,6 +134,7 @@
               <el-table-column
                 label="子单号"
                 prop="subOrderNo"
+                width="250"
                 show-overflow-tooltip
               >
                 <span slot-scope="scoped">
@@ -142,14 +144,14 @@
                 </span></el-table-column
               >
               <el-table-column
-                width="119"
+                width="250"
                 label="物流公司"
                 prop="exprName"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="物流单号"
-                width="110"
+                width="250"
                 prop="exprNo"
               ></el-table-column>
               <el-table-column
@@ -492,7 +494,6 @@ export default {
 }
 
 .setUser {
-  margin-right: 10px;
   @include BtnFunction("success");
 }
 
@@ -501,7 +502,6 @@ export default {
   @include BtnFunction("success");
 }
 .zhengcxhang {
-  margin-right: 10px;
   border: 1px solid #d1d6e2;
   @include BtnFunction();
 }

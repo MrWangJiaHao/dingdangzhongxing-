@@ -495,7 +495,6 @@ export default {
         return this.$messageSelf.message({
           message: "该模块在开发中请耐心等候稍后",
         });
-
       this.$router.push(router);
       // mianbaoxieArrJson = this.dataArr[0];
       let dataArrJson =
