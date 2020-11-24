@@ -69,7 +69,7 @@
         </div>
       </div>
       <!-- 个人信息 -->
-      <div class="pd20">
+      <div id="bjTableWraper " class="pd20">
         <div class="setTitle">产品明细</div>
         <div class="mb20 tr">
           <div
@@ -240,30 +240,20 @@
 
 <script>
 /*eslint-disable */
-import searchBox from "../../components/commin/searchBox"; //搜索框
-import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
-import dropDownUserType from "../../components/commin/dropDownUserType"; //用户管理下拉框
 import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
-import { mapState } from "vuex";
-import { Message } from "element-ui";
-import { isMobile, isEmail } from "../../utils/validate";
+import { isMobile } from "../../utils/validate";
 import {
-  post,
   getFindWareOrg,
   getFindOrgChildWare,
   getfindOrgProductPage,
   getFindWarehouseProduct,
   getpOutWarehouseconfirmRecord,
-  getSaveRecord,
   getpOutWarehousefindOutWareDetailById,
 } from "../../api/api";
 import choiceSelect from "../../components/manual/choiceSelect";
 export default {
   name: "createUsering",
   components: {
-    dropDowbox,
-    searchBox,
-    dropDownUserType,
     choiceSelect,
     dateTime,
   },
@@ -289,11 +279,11 @@ export default {
         出库状态: () =>
           this.createUserData.outWareStatus ? "已出库" : "未出库",
         出库类型: () =>
-          this.$route.query.outWareType
+          his.createUserData.outWareType
             ? this.createUserData.outWareType
             : "- -",
         "&nbsp;收货人": () =>
-          this.$route.query.takeUser ? this.createUserData.takeUser : "- -",
+          this.createUserData.takeUser ? this.createUserData.takeUser : "- -",
         收货人联系电话: () =>
           this.$route.query.takePhone ? this.createUserData.takePhone : "- -",
         "*取货人": () =>
@@ -317,7 +307,7 @@ export default {
         出库状态: () =>
           this.createUserData.outWareStatus ? "已出库" : "未出库",
         出库类型: () =>
-          this.$route.query.outWareType
+          his.createUserData.outWareType
             ? this.createUserData.outWareType
             : "- -",
         "&nbsp;收货人": () =>
@@ -399,6 +389,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isWarehouseSure: {
+      type: Boolean,
+      default: false,
+    },
   },
   beforeDestroy() {
     sessionStorage.removeItem("sarehouseChuKuSure");
@@ -471,8 +465,6 @@ export default {
   },
   methods: {
     isDetailsFn() {
-      if (!this.isDetails && !eval(this.isWarehouseSureDetails))
-        return this.feizhitiJson;
       if (this.isDetails) {
         return this.detailChuKu;
       } else {
@@ -485,7 +477,7 @@ export default {
     getManufTimeClickSendTime(e) {
       this.manufTimeClickData.manufTime = e;
     },
-    takePhoneChange(e) {
+    takePhoneChange() {
       this.createUserData.takePhone = this.createUserData.takePhone.substring(
         0,
         11
@@ -494,7 +486,10 @@ export default {
     blurTakePhone(e) {
       let Moble = isMobile(e.target.value);
       if (!Moble)
-        return Message({ message: "请输入正确的手机号", duration: 1000 });
+        return this.$messageSelf.message({
+          message: "请输入正确的手机号",
+          duration: 1000,
+        });
       else {
         this.sureTakePhone = true;
       }
@@ -512,9 +507,9 @@ export default {
     //copy产品
     copyChanpin() {
       if (this.multipleSelection.length == 0) {
-        return Message("请选择要复制的产品");
+        return this.$messageSelf.message("请选择要复制的产品");
       } else if (this.multipleSelection.length != 1) {
-        return Message("每次只能复制一个产品");
+        return this.$messageSelf.message("每次只能复制一个产品");
       } else {
         let idxs = this.tabledata.indexOf(this.multipleSelection[0]);
         let copyIdxs = this.multipleSelection[0];
@@ -562,7 +557,8 @@ export default {
     },
     //库位点击
     kuweiChanges(e) {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.this.$messageSelf.message("请选择委托公司");
       this.targetRow.maxNum = this.kueirArr[e].maxNum;
       if (this.createUserData.detailList) {
         this.targetRow.currInventory = this.kueirArr[e].currInventory;
@@ -596,7 +592,8 @@ export default {
     },
     //点击了子仓名称
     async getZiCangJsonAndArr() {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.this.$messageSelf.message("请选择委托公司");
       let datas = await getFindOrgChildWare(this.createUserData.orgId);
       this.ziCangJson.ziCangArr = datas.result;
     },
@@ -617,19 +614,24 @@ export default {
     //点击了提交
     goAJAXCreate() {
       this.createUserData.pOutWarehouseDetails = this.multipleSelection;
-      if (!this.createUserData.takeUser) return Message("请输入取货人");
-      if (!this.multipleSelection) return Message("请选择要确认的产品明细");
+      if (!this.createUserData.takeUser)
+        return this.$messageSelf.message("请输入取货人");
+      if (!this.multipleSelection)
+        return this.$messageSelf.message("请选择要确认的产品明细");
       if (!this.createUserData.takePhone)
-        return Message("请输入取货人联系电话");
-      if (!this.sureTakePhone) return Message("请输入正确的手机号码");
-      if (!this.createUserData.outWareUser) return Message("请输入出货人");
-      if (!this.createUserData.outWareTime) return Message("请输入出库时间");
+        return this.$messageSelf.message("请输入取货人联系电话");
+      if (!this.sureTakePhone)
+        return this.$messageSelf.message("请输入正确的手机号码");
+      if (!this.createUserData.outWareUser)
+        return this.$messageSelf.message("请输入出货人");
+      if (!this.createUserData.outWareTime)
+        return this.$messageSelf.message("请输入出库时间");
       this._getpOutWarehouseconfirmRecord(this.createUserData).then((res) => {
         if (res.code == "10000") {
-          Message(res.msg);
+          this.$messageSelf.message(res.msg);
           this.closeBtn();
         } else {
-          Message(res.msg);
+          this.$messageSelf.message(res.msg);
         }
       });
     },

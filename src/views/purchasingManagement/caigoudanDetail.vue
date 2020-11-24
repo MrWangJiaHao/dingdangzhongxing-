@@ -51,7 +51,7 @@
       <div class="pd20">
         <div class="setTitle">采购详情</div>
         <div v-if="!isrukuDetails" class="mb20 tr"></div>
-        <div class="mb20" style="height: 220px" id="tableBox">
+        <div class="mb20" id="bjTableWraper tableBox">
           <el-table
             ref="multipleTable"
             :data="tabledata"

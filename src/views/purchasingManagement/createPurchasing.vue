@@ -72,20 +72,19 @@
         </div>
       </div>
       <!-- 个人信息 -->
-      <div class="pd20">
+      <div class="pd20" id="bjTableWraper">
         <div class="setTitle">产品明细</div>
         <div class="mb20 tr">
           <div class="tijiaoBox disinb mr20" @click="addChanpin">添加产品</div>
           <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
         </div>
-        <div class="mb20" style="height: 200px">
+        <div class="mb20">
           <el-table
             ref="multipleTable"
             :data="tabledata"
             :stripe="true"
             :border="true"
             tooltip-effect="dark"
-            style="width: 100%; height: 100%; overflow-y: auto"
             @selection-change="handleSelectionChange"
           >
             <el-table-column
@@ -256,7 +255,12 @@ export default {
       this.changeEditData();
     }
   },
-
+  mounted() {
+    this.tabledata = JSON.parse(sessionStorage.getItem("allProduct"));
+  },
+  beforeDestroy() {
+    sessionStorage.removeItem("allProduct");
+  },
   methods: {
     _addTablesData() {
       this.tables = eval(sessionStorage.getItem("_addTablesData"));
@@ -319,6 +323,15 @@ export default {
     },
     //关闭
     closeBtn() {
+      console.log(sessionStorage.getItem("fromPage"));
+      if (sessionStorage.getItem("fromPage") === "stockoutIndentManage") {
+        this.$router.push({
+          path: "/indentManagement/stockoutIndentManage",
+          query: { cancel: "cancel" },
+        });
+      }
+      sessionStorage.removeItem("fromPage");
+
       this.$parent._data.isCreatePurchasing = false;
       sessionStorage.removeItem("_addTablesData");
     },

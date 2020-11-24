@@ -6,43 +6,51 @@
         <table>
           <tr>
             <td>退单号</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.backOrderNo }}</td>
             <td>退单状态</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.disposeStatus }}</td>
             <td>退货时间</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.returnMoneyTime }}</td>
           </tr>
           <tr>
             <td>委托公司</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.orgName }}</td>
             <td>渠道</td>
-            <td>{{}}</td>
+            <td></td>
             <td>订单来源</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.orderSourceName }}</td>
           </tr>
           <tr>
             <td>主单号</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.orderNo }}</td>
             <td>子单号</td>
-            <td>{{}}</td>
+            <td>
+              <div
+                class="subOrder"
+                v-for="(v, i) in orderObj.subOrderNos"
+                :key="i"
+              >
+                {{ v }}
+              </div>
+            </td>
             <td>订单状态</td>
-            <td>{{}}</td>
+            <td></td>
           </tr>
           <tr>
             <td>收件人</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.orderContact }}</td>
             <td>收件人电话</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.orderContactPhone }}</td>
             <td>收件人地址</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.orderAddr }}</td>
           </tr>
           <tr>
             <td>退货类型</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.returnType }}</td>
             <td>退货物流公司</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.exprName }}</td>
             <td>退货物流单号</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.exprNo }}</td>
           </tr>
         </table>
       </div>
@@ -51,15 +59,15 @@
         <table>
           <tr>
             <td>用户昵称</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.nickName }}</td>
             <td>联系电话</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.orderContactPhone }}</td>
           </tr>
           <tr>
             <td>收货人</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.orderContact }}</td>
             <td>收货地址</td>
-            <td>{{}}</td>
+            <td>{{ orderObj.orderAddr }}</td>
           </tr>
         </table>
       </div>
@@ -86,13 +94,23 @@
           </el-table-column>
           <el-table-column prop="braName" label="品牌" align="center">
           </el-table-column>
-          <el-table-column prop="prodNum" :label="whatLabel" align="center">
+          <el-table-column prop="prodNum" label="退货数量" align="center">
+          </el-table-column>
+          <el-table-column
+            prop="practical"
+            label="实际退货数量"
+            align="center"
+            v-if="colShow"
+          >
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.practical"></el-input>
+            </template>
           </el-table-column>
         </el-table>
       </div>
       <div class="backBtnBox">
         <div class="backBtn" @click="back">返回</div>
-        <div class="submitBtn" @click="submit">提交</div>
+        <div class="submitBtn" @click="submit" v-if="btnShow">提交</div>
       </div>
     </div>
   </div>
@@ -101,37 +119,36 @@
 <script>
 // import {  } from "../../api/api";
 // import { Message } from "element-ui";
-
+import { finishBackOrder } from "../../api/api";
+import { getCookie } from "../../utils/validate";
 export default {
   beforeRouteEnter(to, from, next) {
     if (from.name === "/indentManagement/resalesIndentManage") {
       next((vm) => {
-        if (vm.$route.query.type === "") {
-          vm.whatLabel = "";
-        } else if (vm.$route.query.type === "") {
-          vm.whatLabel = "";
+        if (vm.$route.query.type === "backOrderNo") {
+          vm.colShow = false;
+          vm.btnShow = false;
+          vm.orderObj = vm.$route.query.backOrderNo;
+        } else if (vm.$route.query.type === "sureBtn") {
+          vm.colShow = true;
+          vm.btnShow = true;
+          vm.orderObj = vm.$route.query.sureBtn;
         }
       });
     } else {
-      next((vm) => {
-        vm.$router.go(-1);
-      });
+      next();
     }
   },
   data() {
     return {
-      whatLabel: "实际退货数量",
+      colShow: false,
+      btnShow: false,
       tableData: [],
-      orderNo: "", //订单号
-      subOrderStatus: "", //订单状态
-      payTime: "", //支付时间
-      orgName: "",
-      channelName: "", //渠道
-      orderSourceName: "", //订单来源名称
-      pushTime: "", //下发时间
-      exprName: "", //物流公司
-      subOrderNo: "", //子订单ID
-      id: "", //销售订单id
+      orderObj: {},
+      inStoreSure: {
+        backOrderDetails: [],
+        wareId: getCookie("X-Auth-wareId"),
+      },
     };
   },
   mounted() {},
@@ -139,7 +156,17 @@ export default {
     back() {
       this.$router.go(-1);
     },
-    submit() {},
+    submit() {
+      //提交按钮
+      this.inStoreSure.backOrderDetails.push({
+        backOrderDetailId: "", //退货详情id
+        returnNum: this.practical, //实际退货数量
+      });
+      let sureData = this.inStoreSure;
+      finishBackOrder(sureData).then((ok) => {
+        console.log(ok);
+      });
+    },
   },
 };
 </script>
@@ -171,6 +198,8 @@ export default {
     }
     .backBtnBox {
       width: 100%;
+      display: flex;
+      justify-content: center;
       .backBtn {
         margin: 0 16px 0 0;
         @include BtnFunction("success");

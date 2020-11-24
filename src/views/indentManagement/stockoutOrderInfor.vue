@@ -10,7 +10,7 @@
           <span>{{ prodName }}</span>
           <span class="addLeft">规格：</span>
           <span>{{ specName }}</span>
-          <span class="addLeft">共计{{ allProdNum }}单</span>
+          <span class="addLeft">共计{{ allorderNum }}单</span>
         </div>
         <el-table
           :data="tableData"
@@ -66,10 +66,18 @@ export default {
         if (vm.$route.query.type === "orderNum") {
           vm.prodReleOrderQueryData.paras.prodId =
             vm.$route.query.orderNum.prodId;
+          let rowres = vm.$route.query.orderNum;
+          vm.orgName = rowres.orgName;
+          vm.prodName = rowres.prodName;
+          vm.specName = rowres.specName;
+          vm.allorderNum = rowres.orderNum;
+          vm.queryFun();
         }
       });
     } else {
-      next();
+      next((vm) => {
+        vm.$router.go(-1);
+      });
     }
   },
   components: {
@@ -84,26 +92,25 @@ export default {
       orgName: "",
       prodName: "",
       specName: "",
-      allProdNum: "",
-      prodId: "",
+      allorderNum: "",
       prodReleOrderQueryData: {
-        orderBy: "createTime",
         pageNumber: 1,
         pageSize: 10,
         paras: {
           prodId: "",
         },
       },
-      queryFun: "",
+      queryFun: ()=>{},
     };
   },
   mounted() {
     this.queryFun = () => {
       let prodReleOrderQueryData = this.prodReleOrderQueryData;
       findFailProdDetail(prodReleOrderQueryData).then((ok) => {
-        // console.log(ok)
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result.list;
+          this.changeData(ok.data.result);
           if (this.tableData.length === 0) {
             Message({
               type: "error",
@@ -119,12 +126,14 @@ export default {
         }
       });
     };
+    this.queryFun();
   },
   methods: {
     back() {
       this.$router.go(-1);
     },
     summaryMethod({ columns, data }) {
+      //表格合计方法
       console.log(columns, data);
     },
     getPageNum(e) {
@@ -132,6 +141,7 @@ export default {
     },
     sureSuccssBtn(e) {
       this.tableData = [];
+      this.queryFun();
       this.prodReleOrderQueryData.pageNumber = e;
     },
     changeData(data) {

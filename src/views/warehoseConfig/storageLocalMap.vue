@@ -43,7 +43,6 @@
                 v-model="nameValue"
                 placeholder="请选择子仓名称"
                 @change="nameValues"
-                @visible-change="chooseItem"
               >
                 <el-option
                   v-for="item in childWarehouseName"
@@ -182,24 +181,230 @@
     </div>
     <div class="formBox">
       <div class="formTabs">
-        <el-tabs type="card" @tab-click="pickStoreQuery">
+        <el-tabs type="card">
           <el-tab-pane label="存储区库位">
-            <MapForms
-              :storageArea="storageArea1"
-              :storageShelf="storageShelf1"
-              :storageTier="storageTier1"
-              :wareSeatCode="storageUnit1"
-              :tableData="tableData"
-            ></MapForms>
+            <div class="childWarehouseForm">
+              <div class="formHeader">
+                <div class="icon-title">
+                  <div class="icon-title-icon">
+                    <img src="../../assets/img/systemTitlemesa.png" />
+                  </div>
+                  <div class="icon-title-title">库位管理</div>
+                </div>
+                <div class="someBtn">
+                  <div class="setUser" @click="create">创建</div>
+                  <div class="bianjiUser" @click="storeEdit">编辑</div>
+                  <div class="remove" @click="storeDel">删除</div>
+                </div>
+              </div>
+              <div class="resultForm">
+                <el-table
+                  :data="storeTableData"
+                  border
+                  style="width: 100%"
+                  @selection-change="storeHandleSelectionChange"
+                  :stripe="true"
+                  tooltip-effect="dark"
+                  @cell-click="lookDetail"
+                >
+                  <el-table-column type="selection" width="55">
+                  </el-table-column>
+                  <el-table-column
+                    label="序号"
+                    align="center"
+                    type="index"
+                    width="55"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orgName"
+                    label="委托公司"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="prodFullName"
+                    label="产品名称"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="prodCode"
+                    label="产品编号"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="specName"
+                    label="产品规格"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column prop="braName" label="品牌" align="center">
+                  </el-table-column>
+                  <el-table-column
+                    prop="childWareName"
+                    label="子仓名称"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="wareAreaName"
+                    label="存储区"
+                    align="center"
+                  ></el-table-column>
+                  <el-table-column
+                    prop="wareSeatCode1"
+                    label="存储货架"
+                    align="center"
+                  ></el-table-column>
+                  <el-table-column
+                    prop="wareSeatCode2"
+                    label="存储层"
+                    align="center"
+                  ></el-table-column>
+                  <el-table-column
+                    prop="wareSeatCode"
+                    label="存储库位"
+                    align="center"
+                  >
+                    <template slot-scope="scope">
+                      <div class="lookDetail">{{ scope.row.wareSeatCode }}</div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    prop="createUser"
+                    label="创建人"
+                    align="center"
+                  ></el-table-column>
+                  <el-table-column
+                    prop="createTime"
+                    label="创建时间"
+                    align="center"
+                    min-width="120"
+                  ></el-table-column>
+                </el-table>
+              </div>
+              <div class="pageComponent">
+                <pagecomponent
+                  :pageComponentsData="pageComponentsData"
+                  @getPageNum="getPageNum"
+                  @sureSuccssBtn="sureSuccssBtn"
+                ></pagecomponent>
+              </div>
+            </div>
           </el-tab-pane>
           <el-tab-pane label="拣货区库位">
-            <MapForms
-              :storageArea="storageArea2"
-              :storageShelf="storageShelf2"
-              :storageTier="storageTier2"
-              :wareSeatCode="storageUnit2"
-              :tableData="tableData1"
-            ></MapForms>
+            <div class="childWarehouseForm">
+              <div class="formHeader">
+                <div class="icon-title">
+                  <div class="icon-title-icon">
+                    <img src="../../assets/img/systemTitlemesa.png" />
+                  </div>
+                  <div class="icon-title-title">库位管理</div>
+                </div>
+                <div class="someBtn">
+                  <div class="setUser" @click="create">创建</div>
+                  <div class="bianjiUser" @click="pickEdit">编辑</div>
+                  <div class="remove" @click="pickDel">删除</div>
+                </div>
+              </div>
+              <div class="resultForm">
+                <el-table
+                  :data="pickTableData"
+                  border
+                  style="width: 100%"
+                  @selection-change="pickHandleSelectionChange"
+                  :stripe="true"
+                  tooltip-effect="dark"
+                  @cell-click="lookDetail"
+                >
+                  <el-table-column type="selection" width="55">
+                  </el-table-column>
+                  <el-table-column
+                    label="序号"
+                    align="center"
+                    type="index"
+                    width="55"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orgName"
+                    label="委托公司"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="prodFullName"
+                    label="产品名称"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="prodCode"
+                    label="产品编号"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="specName"
+                    label="产品规格"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column prop="braName" label="品牌" align="center">
+                  </el-table-column>
+                  <el-table-column
+                    prop="childWareName"
+                    label="子仓名称"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="wareAreaName"
+                    label="拣货区"
+                    align="center"
+                  ></el-table-column>
+                  <el-table-column
+                    prop="wareSeatCode1"
+                    label="拣货货架"
+                    align="center"
+                  ></el-table-column>
+                  <el-table-column
+                    prop="wareSeatCode2"
+                    label="拣货层"
+                    align="center"
+                  ></el-table-column>
+                  <el-table-column
+                    prop="wareSeatCode"
+                    label="拣货库位"
+                    align="center"
+                  >
+                    <template slot-scope="scope">
+                      <div class="lookDetail">{{ scope.row.wareSeatCode }}</div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    prop="createUser"
+                    label="创建人"
+                    align="center"
+                  ></el-table-column>
+                  <el-table-column
+                    prop="createTime"
+                    label="创建时间"
+                    align="center"
+                    min-width="120"
+                  ></el-table-column>
+                </el-table>
+              </div>
+              <div class="pageComponent">
+                <pagecomponent
+                  :pageComponentsData="pageComponentsData1"
+                  @getPageNum="getPageNum1"
+                  @sureSuccssBtn="sureSuccssBtn1"
+                ></pagecomponent>
+              </div>
+            </div>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -208,21 +413,25 @@
 </template>
 
 <script>
+import pagecomponent from "../../components/commin/pageComponent";
 import {
   query_WH_Request,
   storeMapRelation,
   queryAreaOfWS,
   queryEntrustCompany,
   areaShelfQuery,
+  delStoreMapRelation,
 } from "../../api/api";
-import MapForms from "../../components/mapForms";
 import { Message } from "element-ui";
+import { getCookie } from "../../utils/validate";
 export default {
-  components: { MapForms },
+  components: {
+    pagecomponent,
+  },
   data() {
     return {
-      tableData: [],
-      tableData1: [],
+      storeTableData: [],
+      pickTableData: [],
       storageArea1: "存储区",
       storageShelf1: "存储货架",
       storageTier1: "存储层",
@@ -256,12 +465,19 @@ export default {
       ],
       pickAreaData: [],
       pickShelfData: [],
-      pickTierfData: [],
-
-      multipleSelection: [],
+      pickTierfData: [
+        { value: 1, label: 1 },
+        { value: 2, label: 2 },
+        { value: 3, label: 3 },
+        { value: 4, label: 4 },
+      ],
+      storeMultipleSelection: [],
+      pickMultipleSelection: [],
       pageComponentsData: {
-        //这是分页器需要的json
-        pageNums: 0, //一共多少条 //默认一页10条
+        pageNums: 0,
+      },
+      pageComponentsData1: {
+        pageNums: 0,
       },
       childStoreData: [],
       pagingQueryData: {
@@ -288,11 +504,15 @@ export default {
         wareAreaId: "",
       },
       shelfResList: [],
+      orgId: "",
+      storePageNumber:"1",
+      pickPageNumber:"1",
     };
   },
   mounted() {
     //查询库位映射关系
-    this.clickQuery();
+    this.storefenyeQuery();
+    this.pickfenyeQuery();
     //查询子仓名称的请求
     let queryData = this.pagingQueryData;
     query_WH_Request(queryData).then((ok) => {
@@ -320,7 +540,7 @@ export default {
       }
     });
     let EntrustCompanyData = {
-      wareId: "2A8B48391F4F4EB5BDEDF9EBA0B6BAE7",
+      wareId: getCookie("X-Auth-wareId"),
     };
     queryEntrustCompany(EntrustCompanyData).then((ok) => {
       // console.log(ok);
@@ -328,7 +548,7 @@ export default {
         let res = ok.result;
         res.forEach((v) => {
           this.delegaCompanyData.push({
-            value: v.orgName,
+            value: v.orgId,
             label: v.orgName,
           });
         });
@@ -336,8 +556,90 @@ export default {
     });
   },
   methods: {
+    storefenyeQuery() {
+      this.storeTableData = [];
+      let queryData = {
+        orderBy: "createTime",
+        pageNumber: this.storePageNumber,
+        pageSize: 10,
+        paras: {
+          orgId: "", //委托公司id
+          prodName: "", //产品名称
+          prodCode: "", //产品编码
+          childWareId: "", //子仓id
+          wareAreaId: "", //区域id
+        },
+      };
+      storeMapRelation(queryData).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          let res = ok.data.result.list;
+          this.changeData(ok.data.result);
+          res.forEach((v) => {
+            if (v.seatType === 1) {
+              this.storeTableData.push(v);
+              this.storeTableData.forEach((v) => {
+                v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
+                v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
+              });
+            }
+          });
+        }
+      });
+    },
+    pickfenyeQuery() {
+      this.pickTableData = [];
+      let queryData = {
+        orderBy: "createTime",
+        pageNumber: this.pickPageNumber,
+        pageSize: 10,
+        paras: {
+          orgId: "", //委托公司id
+          prodName: "", //产品名称
+          prodCode: "", //产品编码
+          childWareId: "", //子仓id
+          wareAreaId: "", //区域id
+        },
+      };
+      storeMapRelation(queryData).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          let res = ok.data.result.list;
+          this.changeData1(ok.data.result);
+          res.forEach((v) => {
+            if (v.seatType === 2) {
+              this.pickTableData.push(v);
+              this.pickTableData.forEach((v) => {
+                v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
+                v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
+                this.pickAreaData.push({
+                  value: v.wareAreaId,
+                  label: v.wareAreaName,
+                });
+                this.pickAreaData = this.reduceFun(this.pickAreaData);
+                this.pickShelfData.push({
+                  value: v.wareSeatId,
+                  label: v.wareSeatName,
+                });
+                this.pickShelfData = this.reduceFun(this.pickShelfData);
+              });
+            }
+          });
+        }
+      });
+    },
+    reduceFun(arr) {
+      let testObj = {};
+      let res = arr.reduce((item, next) => {
+        testObj[next.value]
+          ? ""
+          : (testObj[next.value] = true && item.push(next));
+        return item;
+      }, []);
+      return res;
+    },
     delegaCompanyValues(value) {
-      this.delegaCompanyValue = value;
+      this.orgId = value;
     },
     nameValues(value) {
       this.nameValue = value;
@@ -346,7 +648,6 @@ export default {
           this.pagingQueryData.paras.childWareId = v.id;
         }
       });
-
       this.CSandareaData.forEach((v) => {
         if (value === v.childWareName) {
           this.placeAreaData.push({
@@ -380,14 +681,6 @@ export default {
       });
     },
 
-    chooseItem(event) {
-      if (event) {
-        this.placeAreaData = [];
-      }
-      // if(event === false){
-      //   console.log(this.SLInforData)
-      // }
-    },
     placeShelfValues(value) {
       this.placeShelfValue = value;
     },
@@ -405,52 +698,36 @@ export default {
     },
     clickQuery() {
       //点击查询
-      this.tableData = [];
+      this.storeTableData = [];
+      this.pickTableData = [];
       let queryData = {
-        //分页查询
+        orderBy: "createTime",
         pageNumber: 1,
         pageSize: 10,
         paras: {
-          orgId: "", //委托公司id
+          orgId: this.orgId, //委托公司id
           prodName: this.productName, //产品名称
           prodCode: this.productCode, //产品编码
           childWareId: this.pagingQueryData.paras.childWareId, //子仓id
           wareAreaId: this.pagingQueryData.paras.wareAreaId, //区域id
+          wareSeatCode:this.pickSL
         },
       };
       storeMapRelation(queryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
-          let resData = ok.data.result.list;
-          this.tableData = ok.data.result.list;
-          this.tableData.forEach((v) => {
-            v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
-            v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
-            v.specName = v.specName + "ml";
+          let res = ok.data.result.list;
+          res.forEach((v) => {
+            if (v.seatType === 1) {
+              this.storeTableData.push(v);
+              v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
+              v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
+            } else if (v.seatType === 2) {
+              this.pickTableData.push(v);
+              v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
+              v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
+            }
           });
-          // resData.forEach((v) => {
-          //   this.tableData.push({
-          //     delegaCompany: v.orgName,
-          //     productName: v.prodName,
-          //     productNumber: v.prodCode,
-          //     producTspecifica: v.specName + "ml",
-          //     brand: v.braName,
-          //     CHName: v.childWareName,
-          //     storageArea: v.wareAreaName,
-          //     storageShelf: v.wareSeatNo.split("-")[1],
-          //     storageTier: v.wareSeatNo.split("-")[3],
-          //     storageUnit: v.wareSeatNo,
-          //     createName: v.createUser,
-          //     createTime: v.createTime,
-          //     id: v.id,
-          //   });
-          // });
-          if (resData.length === 0) {
-            Message({
-              type: "error",
-              message: "查询失败",
-            });
-          }
         } else {
           Message({
             type: "error",
@@ -458,11 +735,6 @@ export default {
           });
         }
       });
-    },
-    pickStoreQuery(a) {
-      if (a.label === "拣货区库位") {
-        console.log(123);
-      }
     },
     clearInput() {
       //点击清空
@@ -477,9 +749,149 @@ export default {
       this.pickShelfValue = "";
       this.pickTierValue = "";
       this.pickSL = "";
+      this.pickfenyeQuery();
+      this.storefenyeQuery();
     },
-    handleSelectionChange(value) {
-      this.multipleSelection = value;
+    storeHandleSelectionChange(value) {
+      this.storeMultipleSelection = value;
+    },
+    pickHandleSelectionChange(value) {
+      this.pickMultipleSelection = value;
+    },
+
+    create() {
+      //创建库位
+      this.$router.push({
+        path: "/storageLocalMap/SLmapInfor",
+        query: { datas: this.multipleSelection, type: "create" },
+      });
+    },
+    storeEdit() {
+      //存储区编辑操作
+      if (!this.storeMultipleSelection.length)
+        return Message("请选择要编辑的库位");
+      if (this.storeMultipleSelection.length !== 1)
+        return Message({
+          message: "每次只能编辑一条库位信息，请重新选择",
+          type: "warning",
+        });
+      this.$router.push({
+        path: "/storageLocalMap/SLmapInfor",
+        query: { datas: this.storeMultipleSelection, type: "edit" },
+      });
+    },
+    pickEdit() {
+      //拣货区编辑操作
+      if (!this.pickMultipleSelection.length)
+        return Message("请选择要编辑的库位");
+      if (this.pickMultipleSelection.length !== 1)
+        return Message({
+          message: "每次只能编辑一条库位信息，请重新选择",
+          type: "warning",
+        });
+      this.$router.push({
+        path: "/storageLocalMap/SLmapInfor",
+        query: { datas: this.pickMultipleSelection, type: "edit" },
+      });
+    },
+    storeDel() {
+      //存储区删除操作
+      let arr = [];
+      this.storeMultipleSelection.forEach((item) => {
+        if (!arr.includes(item.id)) {
+          arr.push(item.id);
+        }
+      });
+      if (!arr.length) return Message("请选择要删除的库位");
+      this.$confirm("确定要删除吗？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.delRequest({ ids: arr });
+        })
+        .catch(() => {
+          Message("已取消删除");
+        });
+    },
+    pickDel() {
+      //拣货区删除操作
+      let arr = [];
+      this.pickMultipleSelection.forEach((item) => {
+        if (!arr.includes(item.id)) {
+          arr.push(item.id);
+        }
+      });
+      if (!arr.length) return Message("请选择要删除的库位");
+      this.$confirm("确定要删除吗？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.delRequest({ ids: arr });
+        })
+        .catch(() => {
+          Message("已取消删除");
+        });
+    },
+    delRequest(data) {
+      //删除的请求
+      delStoreMapRelation(data).then((ok) => {
+        if (ok.data.code === "10000") {
+          Message({
+            type: "success",
+            message: "删除成功",
+          });
+          this.storefenyeQuery();
+          this.pickfenyeQuery();
+        } else {
+          Message({
+            type: "error",
+            message: "删除失败",
+          });
+        }
+      });
+    },
+    lookDetail(row, column) {
+      if (column.property === "wareSeatCode") {
+        this.$router.push({
+          path: "/storageLocalMap/storageLocalDetail",
+          query: { kuwei: row },
+        });
+      }
+    },
+
+    getPageNum(e) {
+      this.storePageNumber = e;
+    },
+    sureSuccssBtn(e) {
+      this.storeTableData = [];
+      this.storefenyeQuery();
+       this.storePageNumber = e;
+    },
+    changeData(data) {
+      this.changePageData(data);
+    },
+    changePageData(data) {
+      let { totalRow } = data;
+      this.pageComponentsData.pageNums = totalRow;
+    },
+    getPageNum1(e) {
+      this.pickPageNumber = e;
+    },
+    sureSuccssBtn1(e) {
+      this.pickTableData = [];
+      this.pickfenyeQuery();
+      this.pickPageNumber = e;
+    },
+    changeData1(data) {
+      this.changePageData1(data);
+    },
+    changePageData1(data) {
+      let { totalRow } = data;
+      this.pageComponentsData1.pageNums = totalRow;
     },
   },
 };
@@ -495,6 +907,65 @@ export default {
   }
   .formBox {
     padding: 0 16px 16px 16px;
+    .childWarehouseForm {
+      margin: 16px 0 0 0;
+      background: white;
+      .formHeader {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #d1d6e2;
+        .icon-title {
+          display: flex;
+          margin: 24px 0 0 0;
+          .icon-title-icon {
+            width: 14px;
+            height: 14px;
+            margin: 0 0 0 20px;
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .icon-title-title {
+            margin: 0 0 0 8px;
+            font-size: 16px;
+          }
+        }
+        .someBtn {
+          display: flex;
+          margin: 16px 20px 16px 0;
+          .setUser {
+            margin-right: 10px;
+            @include BtnFunction("success");
+          }
+          .bianjiUser {
+            margin-right: 10px;
+            @include BtnFunction("success");
+          }
+          .remove {
+            @include BtnFunction("error");
+          }
+          .goOn {
+            margin-right: 10px;
+            @include BtnFunction("success");
+          }
+        }
+      }
+      .resultForm {
+        padding: 20px;
+        .lookDetail {
+          color: #599af3;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+      .pageComponent {
+        margin: 20px 10px 0 0;
+        text-align: right;
+        height: 36px;
+        background: #ffffff;
+      }
+    }
   }
   .publicStyle {
     margin: 0 30px 0 0;

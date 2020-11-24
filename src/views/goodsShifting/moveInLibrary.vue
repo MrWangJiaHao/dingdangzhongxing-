@@ -1,5 +1,5 @@
 <template>
-  <div>详情</div>
+  <div>库位移动</div>
 </template>
 
 <script>

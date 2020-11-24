@@ -71,7 +71,11 @@
                 property="putWareNo"
                 show-overflow-tooltip
               >
-                <span slot-scope="scoped" @click="gotoRuKudetails(scoped.row)">
+                <span
+                  slot-scope="scoped"
+                  class="lookDeatil"
+                  @click="gotoRuKudetails(scoped.row)"
+                >
                   <div>
                     {{ scoped.row.putWareNo }}
                   </div>
@@ -228,7 +232,7 @@ import {
   putWarehouseFindRecordPage,
   delRecordByIdArrs,
 } from "../../api/api";
-import { Message } from "element-ui";
+
 import { _getArrTarget, _getExportExcels } from "../../utils/validate";
 
 export default {
@@ -387,9 +391,9 @@ export default {
     //入库确认
     warehousingConfirmation() {
       if (!this.multipleSelection.length) {
-        return Message("请选择入库确认的单号");
+        return this.$messageSelf.message("请选择入库确认的单号");
       } else if (this.multipleSelection.length > 1) {
-        return Message("只能选择一个入库单号");
+        return this.$messageSelf.message("只能选择一个入库单号");
       } else {
         this._getFindRecord(this.multipleSelection[0].id).then(() => {
           sessionStorage.setItem(
@@ -403,9 +407,9 @@ export default {
     //打印入库单:
     printstockinlist() {
       if (!this.multipleSelection.length) {
-        return Message("请选择要打印的入库单");
+        return this.$messageSelf.message("请选择要打印的入库单");
       } else if (this.multipleSelection.length > 1) {
-        return Message("只能选择打印一个入库单");
+        return this.$messageSelf.message("只能选择打印一个入库单");
       } else {
         this.WarehouseReceiptIds = this.multipleSelection[0].id;
         this._getFindRecord(this.multipleSelection[0].id, () => {
@@ -416,9 +420,9 @@ export default {
     //打印收货单
     printReceipt() {
       if (!this.multipleSelection.length) {
-        return Message("请选择要打印的收货单");
+        return this.$messageSelf.message("请选择要打印的收货单");
       } else if (this.multipleSelection.length > 1) {
-        return Message("只能选择打印一个收货单");
+        return this.$messageSelf.message("只能选择打印一个收货单");
       } else {
         this.ReceiptIds = this.multipleSelection[0].id;
 
@@ -430,7 +434,7 @@ export default {
     // 打印批次号
     parintBatchNumber() {
       if (!this.multipleSelection.length)
-        return Message("请选择需要打印的批次号");
+        return this.$messageSelf.message("请选择需要打印的批次号");
       let target = _getArrTarget(this.multipleSelection, "id");
       getFindWareHouseDetailByIds({ ids: target }, (data) => {
         data = JSON.parse(data);
@@ -442,7 +446,7 @@ export default {
           );
           this.BatchNumber = !this.BatchNumber;
         } else {
-          Message(data.msg);
+          this.$messageSelf.message(data.msg);
         }
       });
     },
@@ -456,9 +460,9 @@ export default {
     //导出
     ExportArr() {
       if (!this.multipleSelection.length)
-        return Message("请选择要导出的入库单");
+        return this.$messageSelf.message("请选择要导出的入库单");
       if (this.multipleSelection.length != 1)
-        return Message("一次只能选择一个入库单");
+        return this.$messageSelf.message("一次只能选择一个入库单");
       insertExcelData({
         ids: this.multipleSelection[0].id,
       }).then((res) => {
@@ -474,9 +478,9 @@ export default {
     //编辑
     editBtn() {
       if (!this.multipleSelection.length)
-        return Message("请选择要编辑的入库单");
+        return this.$messageSelf.message("请选择要编辑的入库单");
       if (this.multipleSelection.length != 1)
-        return Message("一次只能编辑一个入库单");
+        return this.$messageSelf.message("一次只能编辑一个入库单");
       sessionStorage.setItem(
         "manualManageMentEdit",
         JSON.stringify(this.multipleSelection[0])
@@ -487,18 +491,29 @@ export default {
     //删除
     clearBtn() {
       if (!this.multipleSelection.length)
-        return Message("请选择要删除的入库单");
-      _getArrTarget(this.multipleSelection, "id");
-      delRecordByIdArrs({
-        ids: _getArrTarget(this.multipleSelection, "id"),
-      }).then((res) => {
-        if (res.data.code == "10000") {
-          this.getTableData();
-          return Message("删除成功");
-        } else {
-          return Message(res.data.msgdfs);
-        }
-      });
+        return this.$messageSelf.message("请选择要删除的入库单");
+
+      this.$messageSelf
+        .confirms("确定要删除该入库单号？", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
+        .then(() => {
+          delRecordByIdArrs({
+            ids: _getArrTarget(this.multipleSelection, "id"),
+          }).then((res) => {
+            if (res.data.code == "10000") {
+              this.getTableData();
+              return this.$messageSelf.message("删除成功");
+            } else {
+              return this.$messageSelf.message(res.data.msgdfs);
+            }
+          });
+        })
+        .catch(() => {
+          this.$messageSelf.message("已经取消");
+        });
     },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {

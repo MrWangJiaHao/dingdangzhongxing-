@@ -62,7 +62,7 @@
                 </el-select>
               </div>
             </div>
-            <div class="el-inputBox">
+            <div class="el-inputBox setMargin">
               <div class="el-inputBox-text">订单号：</div>
               <div class="el-inputBox-checkBox">
                 <el-input v-model="orderNumberValue" placeholder="模糊检索">
@@ -119,8 +119,8 @@
             </div> -->
             <div class="timeChoose">
               <div class="el-inputBox-text titleBox">下发时间：</div>
-              <div class="timeBox zujianBox">
-                <div style="margin-right: 10px">
+              <div class="timeBox">
+                <div style="">
                   <dateTime
                     :dateTimeData="datetimeDates"
                     @getDateTime="getStartTime"
@@ -154,6 +154,7 @@
                   placeholder="请输入联系电话"
                   type="number"
                   @blur="testIsMobile"
+                  @focus="focusEvent"
                 >
                 </el-input>
               </div>
@@ -261,7 +262,7 @@
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { Message } from "element-ui";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
-import { queryOrderInfor, childOrderInfor, getExprNo } from "../../api/api";
+import { queryOrderInfor, getExprNo } from "../../api/api";
 import { isMobile } from "../../utils/validate";
 export default {
   components: {
@@ -401,8 +402,14 @@ export default {
         },
       },
       pageComponentsData: {
-        pageNums: 0, //一共多少条 //默认一页10条
+        pageNums: 0,
       },
+      // 导出文件名称
+      filename: "无物流订单信息",
+      // 导出表格宽度是否auto
+      autoWidth: true,
+      // 导出文件格式
+      bookType: "xlsx",
     };
   },
   mounted() {
@@ -547,26 +554,82 @@ export default {
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
-      let data = {
-        subOrderNo: "",
-      };
-      if (this.multipleSelection.length > 0) {
-        data.subOrderNo = value[0].subOrderNo;
-        childOrderInfor(data).then((ok) => {
-          if (ok.data.code === "10000") {
-            this.lotNo = ok.data.result[0].lotNo;
-          }
-        });
-      }
+      // let data = {
+      //   subOrderNo: "",
+      // };
+      // if (this.multipleSelection.length > 0) {
+      //   data.subOrderNo = value[0].subOrderNo;
+      //   childOrderInfor(data).then((ok) => {
+      //     if (ok.data.code === "10000") {
+      //       this.lotNo = ok.data.result[0].lotNo;
+      //     }
+      //   });
+      // }
     },
     educe() {
       //导出表格
-      if (!this.multipleSelection.length) return Message("请选择要导出的订单");
-      if (this.multipleSelection.length != 1)
-        return Message("一次只能选择一个订单");
-      if (this.lotNo === "") return Message("请稍等片刻");
-      let oA = document.querySelector(".setUser");
-      oA.setAttribute("href", this.getExcelUrl + this.lotNo);
+      // if (!this.multipleSelection.length) return Message("请选择要导出的订单");
+      // if (this.multipleSelection.length != 1)
+      //   return Message("一次只能选择一个订单");
+      // if (this.lotNo === "") return Message("请稍等片刻");
+      // let oA = document.querySelector(".setUser");
+      // oA.setAttribute("href", this.getExcelUrl + this.lotNo);
+      if (this.tableData.length === 0) {
+        return Message({
+          message: "表格为空不能导出",
+          type: "error",
+        });
+      }
+      import("../../js-xlsx/Export2Excel").then((excel) => {
+        // 设置导出表格的头部
+        const tHeader = [
+          "委托公司",
+          "渠道",
+          "订单来源",
+          "订单号",
+          "子订单号",
+          "体积(m³)",
+          "重量(KG)",
+          "推荐用箱",
+          "下发时间",
+        ];
+        // 设置要导出的属性
+        const filterVal = [
+          "orgName",
+          "channelName",
+          "orderSourceName",
+          "orderNo",
+          "subOrderNo",
+          "volume",
+          "weight",
+          "commendBox",
+          "pushTime",
+        ];
+        // 获取当前展示的表格数据
+        const list = this.tableData;
+        // 将要导出的数据进行一个过滤
+        const data = this.formatJson(filterVal, list);
+        // 调用我们封装好的方法进行导出Excel
+        excel.export_json_to_excel({
+          // 导出的头部
+          header: tHeader,
+          // 导出的内容
+          data,
+          // 导出的文件名称
+          filename: this.filename,
+          // 导出的表格宽度是否自动
+          autoWidth: this.autoWidth,
+          // 导出文件的后缀类型
+          bookType: this.bookType,
+        });
+      });
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map((v) =>
+        filterVal.map((j) => {
+          return v[j];
+        })
+      );
     },
     clickShow() {
       this.index++;
@@ -599,28 +662,41 @@ export default {
     },
     testIsMobile() {
       let telPhoneValue = this.telPhoneValue;
-      if (!isMobile(telPhoneValue)) {
-        return this.$message.error("请输入正确的手机号");
+      let phoneInput = document.querySelector(".telphone .el-input__inner");
+      if (telPhoneValue !== "") {
+        if (!isMobile(telPhoneValue)) {
+          phoneInput.style.borderColor = "red";
+          return this.$message.error("请输入正确的手机号");
+        }
       }
+      phoneInput.style.borderColor = "#DCDFE6";
     },
-    lookDetailEvent(row, column) {
+    focusEvent() {
+      document.querySelector(".telphone .el-input__inner").style.borderColor =
+        "#409EFF";
+    },
+    lookDetailEvent(row, column, cell) {
       if (column.property === "orderNo") {
-        this.$router.push({
-          path: "/indentManagement/orderDetail",
-          query: {
-            orderNo: row,
-            type: "orderNo",
-          },
-        });
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/orderDetail",
+            query: {
+              orderNo: row,
+              type: "orderNo",
+            },
+          });
+        }
       }
       if (column.property === "subOrderNo") {
-        this.$router.push({
-          path: "/indentManagement/childOrderDetail",
-          query: {
-            subOrderNos: row,
-            type: "subOrderNos",
-          },
-        });
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/childOrderDetail",
+            query: {
+              subOrderNos: row,
+              type: "subOrderNos",
+            },
+          });
+        }
       }
     },
     takeOrders() {
@@ -724,7 +800,7 @@ export default {
         display: flex;
         align-items: center;
         font-size: 16px;
-        margin-right: 20px;
+        margin-right: 1.05%;
         .el-inputBox-text {
           white-space: nowrap;
         }
@@ -738,8 +814,9 @@ export default {
         }
       }
       .telphone {
-        width: 14%;
+        width: 18.4%;
         transition: 0.3s;
+        margin-right: 0;
         .el-inputBox-checkBox {
           width: 100%;
         }
@@ -775,7 +852,10 @@ export default {
     }
     .inputs {
       .el-inputBox {
-        width: 24%;
+        width: 25%;
+      }
+      .setMargin {
+        margin-right: 0;
       }
       .el-inputBox-checkBox {
         width: 100%;
@@ -783,7 +863,7 @@ export default {
     }
   }
   .header-botton {
-    width: 12%;
+    width: 18%;
     transition: 0.3s;
     position: absolute;
     right: 0;
@@ -806,20 +886,22 @@ export default {
     }
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     .queryBtn {
       @include BtnFunction("success");
     }
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 14px 0 10px;
+      margin: 0 0 0 10px;
     }
   }
   .timeChoose {
-    width: 25%;
+    width: 23.4%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-right: 1.05%;
     .titleBox {
       font-size: 16px;
       white-space: nowrap;
@@ -831,7 +913,7 @@ export default {
         width: 10px;
         height: 2px;
         background: #d1d6e2;
-        margin-right: 10px;
+        margin: 0 2.5%;
       }
     }
   }
@@ -865,7 +947,6 @@ export default {
       display: flex;
       margin: 16px 20px 16px 0;
       .setUser {
-        margin-right: 10px;
         @include BtnFunction("success");
       }
       .takeOrdersDiv {

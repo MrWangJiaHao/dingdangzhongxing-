@@ -1,5 +1,5 @@
 <template>
-  <div id="mianPage">
+  <div id="resalesMianPage">
     <!-- 这是退货订单管理页面 -->
     <div class="roleName">
       <div class="headerHtml">
@@ -69,7 +69,7 @@
                 </el-input>
               </div>
             </div>
-            <div class="el-inputBox">
+            <div class="el-inputBox setMargin">
               <div class="el-inputBox-text">子单号：</div>
               <div class="el-inputBox-checkBox">
                 <el-input
@@ -117,11 +117,11 @@
             <div class="el-inputBox childrenIndent">
               <div class="el-inputBox-text">退单号：</div>
               <div class="el-inputBox-checkBox">
-                <el-input v-model="prodCodeValue" placeholder="模糊检索">
+                <el-input v-model="returnOrderValue" placeholder="模糊检索">
                 </el-input>
               </div>
             </div>
-            <div class="el-inputBox childrenIndent">
+            <div class="el-inputBox childrenIndent setMargin">
               <div class="el-inputBox-text">退单状态：</div>
               <div class="el-inputBox-checkBox">
                 <el-select
@@ -148,7 +148,7 @@
                 <div class="el-inputBox-checkBox">
                   <el-select
                     v-model="resalesTypeValue"
-                    placeholder="请选择产品规格"
+                    placeholder="请选择退货类型"
                     @change="resalesTypeValues"
                     clearable
                   >
@@ -205,138 +205,172 @@
                   <div class="icon-title-title">{{ title }}</div>
                 </div>
                 <div class="someBtn">
-                  <div class="takeOrdersDiv" @click="yiChuHuoSure">完成</div>
+                  <div class="takeOrdersDiv" @click="yichukuSure">完成</div>
                   <div class="takeOrdersDiv" @click="affirmResales">
                     确认退货
                   </div>
-                  <a class="setUser" @click="chukuEduce" target="_blank"
+                  <a
+                    class="setUser outEduce"
+                    @click="chukuEduce"
+                    target="_blank"
                     >导出</a
                   >
                 </div>
               </div>
-              <el-table
-                :data="productData"
-                border
-                style="width: 100%"
-                @selection-change="handleSelectionChange"
-                :stripe="true"
-                tooltip-effect="dark"
-                @cell-click="prodLookDetailEvent"
-              >
-                <el-table-column type="selection" width="55"> </el-table-column>
-                <el-table-column
-                  label="序号"
-                  align="center"
-                  type="index"
-                  width="60"
+              <div class="formTable">
+                <el-table
+                  :data="storeOutData"
+                  border
+                  style="width: 100%"
+                  @selection-change="outHandleSelectionChange"
+                  :stripe="true"
+                  tooltip-effect="dark"
+                  @cell-click="outLookDetailEvent"
                 >
-                </el-table-column>
-                <el-table-column prop="orgName" label="委托公司" align="center">
-                </el-table-column>
-                <el-table-column
-                  prop="orderSourceName"
-                  label="订单来源"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="backOrderNo"
-                  label="退单号"
-                  align="center"
-                >
-                  <template slot-scope="scope">
-                    <div class="lookDetail">
-                      {{ scope.row.backOrderNo }}
-                    </div>
-                  </template> </el-table-column
-                ><el-table-column prop="orderNo" label="订单号" align="center">
-                  <template slot-scope="scope">
-                    <div class="lookDetail">
-                      {{ scope.row.orderNo }}
-                    </div>
-                  </template> </el-table-column
-                ><el-table-column prop="braName" label="子单号" align="center">
-                  <template slot-scope="scope">
-                    <div class="lookDetail">
-                      {{ scope.row.braName }}
-                    </div>
-                    <div class="lookDetail">
-                      {{ scope.row.braName }}
-                    </div>
-                  </template> </el-table-column
-                ><el-table-column
-                  prop="disposeStatus"
-                  label="退单状态"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="disposeStatus"
-                  label="退货类型"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="exprName"
-                  label="退货物流公司"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="exprNo"
-                  label="退货物流单号"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column prop="" label="用户昵称" align="center">
-                </el-table-column>
-                <el-table-column
-                  prop="sendContact"
-                  label="发货人"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="sendContactPhone"
-                  label="发货人电话"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="sendAddr"
-                  label="发货地址"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="orderContact"
-                  label="收货人"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="orderContactPhone"
-                  label="收货人电话"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="orderAddr"
-                  label="收货地址"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="returnMoneyTime"
-                  label="退货时间"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column prop="" label="确认时间" align="center">
-                </el-table-column>
-                <el-table-column prop="" label="入库时间" align="center">
-                </el-table-column>
-              </el-table>
+                  <el-table-column type="selection" width="55">
+                  </el-table-column>
+                  <el-table-column
+                    label="序号"
+                    align="center"
+                    type="index"
+                    width="60"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orgName"
+                    label="委托公司"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderSourceName"
+                    label="订单来源"
+                    align="center"
+                    min-width="120"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="backOrderNo"
+                    label="退单号"
+                    align="center"
+                    min-width="120"
+                  >
+                    <template slot-scope="scope">
+                      <div class="lookDetail">
+                        {{ scope.row.backOrderNo }}
+                      </div>
+                    </template> </el-table-column
+                  ><el-table-column
+                    prop="orderNo"
+                    label="订单号"
+                    align="center"
+                  >
+                    <template slot-scope="scope">
+                      <div class="lookDetail">
+                        {{ scope.row.orderNo }}
+                      </div>
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column
+                    prop="subOrderNos"
+                    label="子单号"
+                    align="center"
+                  >
+                    <template slot-scope="scope">
+                      <div class="subOrderNosList">
+                        <div
+                          class="lookDetail subOrderNosStyle"
+                          v-for="(v, i) in scope.row.subOrderNos"
+                          :key="i"
+                        >
+                          {{ v }}
+                        </div>
+                      </div>
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column
+                    prop="disposeStatus"
+                    label="退单状态"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="returnType"
+                    label="退货类型"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="exprName"
+                    label="退货物流公司"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="exprNo"
+                    label="退货物流单号"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="nickName"
+                    label="用户昵称"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="sendContact"
+                    label="发货人"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="sendContactPhone"
+                    label="发货人电话"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="sendAddr"
+                    label="发货地址"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderContact"
+                    label="收货人"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderContactPhone"
+                    label="收货人电话"
+                    align="center"
+                    min-width="120"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderAddr"
+                    label="收货地址"
+                    align="center"
+                    min-width="300"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="returnMoneyTime"
+                    label="退货时间"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column prop="" label="确认时间" align="center">
+                  </el-table-column>
+                  <el-table-column prop="" label="入库时间" align="center">
+                  </el-table-column>
+                </el-table>
+              </div>
+
               <div class="pageComponent">
                 <pagecomponent
                   :pageComponentsData="pageComponentsData"
@@ -355,112 +389,146 @@
                 </div>
                 <div class="someBtn">
                   <div class="takeOrdersDiv" @click="weichukuSure">完成</div>
-                  <a class="setUser" @click="weichuEduce" target="_blank"
+                  <a
+                    class="setUser unOutEduce"
+                    @click="weichuEduce"
+                    target="_blank"
                     >导出</a
                   >
                 </div>
               </div>
-              <el-table
-                :data="productData"
-                border
-                style="width: 100%"
-                @selection-change="handleSelectionChange"
-                :stripe="true"
-                tooltip-effect="dark"
-                @cell-click="prodLookDetailEvent"
-              >
-                <el-table-column type="selection" width="55"> </el-table-column>
-                <el-table-column
-                  label="序号"
-                  align="center"
-                  type="index"
-                  width="60"
+              <div class="formTable">
+                <el-table
+                  :data="unStoreOutData"
+                  border
+                  style="width: 100%"
+                  @selection-change="unOutHandleSelectionChange"
+                  :stripe="true"
+                  tooltip-effect="dark"
+                  @cell-click="unOutLookDetailEvent"
                 >
-                </el-table-column>
-                <el-table-column prop="orgName" label="委托公司" align="center">
-                </el-table-column>
-                <el-table-column
-                  prop="orderSourceName"
-                  label="订单来源"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="backOrderNo"
-                  label="退单号"
-                  align="center"
-                >
-                  <template slot-scope="scope">
-                    <div class="lookDetail">
-                      {{ scope.row.backOrderNo }}
-                    </div>
-                  </template> </el-table-column
-                ><el-table-column prop="orderNo" label="订单号" align="center">
-                  <template slot-scope="scope">
-                    <div class="lookDetail">
-                      {{ scope.row.orderNo }}
-                    </div>
-                  </template> </el-table-column
-                ><el-table-column prop="braName" label="子单号" align="center">
-                  <template slot-scope="scope">
-                    <div class="lookDetail">
-                      {{ scope.row.braName }}
-                    </div>
-                    <div class="lookDetail">
-                      {{ scope.row.braName }}
-                    </div>
-                  </template> </el-table-column
-                ><el-table-column
-                  prop="disposeStatus"
-                  label="退单状态"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="disposeStatus"
-                  label="退货类型"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column
-                  prop="exprName"
-                  label="物流公司"
-                  align="center"
-                >
-                </el-table-column
-                ><el-table-column prop="exprNo" label="物流单号" align="center">
-                </el-table-column
-                ><el-table-column prop="" label="用户昵称" align="center">
-                </el-table-column>
-                <el-table-column
-                  prop="orderContact"
-                  label="收货人"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="orderContactPhone"
-                  label="联系电话"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="orderAddr"
-                  label="收货地址"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="returnMoneyTime"
-                  label="退货时间"
-                  align="center"
-                >
-                </el-table-column>
-                <el-table-column prop="" label="确认时间" align="center">
-                </el-table-column>
-                <el-table-column prop="" label="入库时间" align="center">
-                </el-table-column>
-              </el-table>
+                  <el-table-column type="selection" width="55">
+                  </el-table-column>
+                  <el-table-column
+                    label="序号"
+                    align="center"
+                    type="index"
+                    width="60"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orgName"
+                    label="委托公司"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderSourceName"
+                    label="订单来源"
+                    align="center"
+                    min-width="120"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="backOrderNo"
+                    label="退单号"
+                    align="center"
+                    min-width="120"
+                  >
+                    <template slot-scope="scope">
+                      <div class="lookDetail">
+                        {{ scope.row.backOrderNo }}
+                      </div>
+                    </template> </el-table-column
+                  ><el-table-column
+                    prop="orderNo"
+                    label="订单号"
+                    align="center"
+                  >
+                    <template slot-scope="scope">
+                      <div class="lookDetail">
+                        {{ scope.row.orderNo }}
+                      </div>
+                    </template> </el-table-column
+                  ><el-table-column
+                    prop="subOrderNos"
+                    label="子单号"
+                    align="center"
+                  >
+                    <template slot-scope="scope">
+                      <div class="subOrderNosList">
+                        <div
+                          class="lookDetail subOrderNosStyle"
+                          v-for="(v, i) in scope.row.subOrderNos"
+                          :key="i"
+                        >
+                          {{ v }}
+                        </div>
+                      </div>
+                    </template> </el-table-column
+                  ><el-table-column
+                    prop="disposeStatus"
+                    label="退单状态"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="returnType"
+                    label="退货类型"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="exprName"
+                    label="物流公司"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="exprNo"
+                    label="物流单号"
+                    align="center"
+                  >
+                  </el-table-column
+                  ><el-table-column
+                    prop="nickName"
+                    label="用户昵称"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderContact"
+                    label="收货人"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderContactPhone"
+                    label="联系电话"
+                    align="center"
+                    min-width="120"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orderAddr"
+                    label="收货地址"
+                    align="center"
+                    min-width="300"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="returnMoneyTime"
+                    label="退货时间"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column prop="" label="确认时间" align="center">
+                  </el-table-column>
+                  <el-table-column prop="" label="入库时间" align="center">
+                  </el-table-column>
+                </el-table>
+              </div>
+
               <div class="pageComponent">
                 <pagecomponent
                   :pageComponentsData="pageComponentsData1"
@@ -490,12 +558,39 @@ export default {
   data() {
     return {
       index: 0,
-      title: "未出库",
+      title: "已出库信息",
       lotNo: "",
-      getExcelUrl:
-        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubOrder/getExcel?lotNo=",
-      productData: [],
-      orderData: [],
+      outGetExcelUrl:
+        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubBackOrder/getReturnOrderExcel",
+      unOutGetExcelUrl:
+        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubBackOrder/getBackOrderExcel",
+      storeOutData: [
+        {
+          backOrderNo: "TH20200305092516647298284",
+          channelBackOrderNo: "",
+          disposeStatus: 1,
+          exprName: "",
+          exprNo: "",
+          id: "da148d24db0043c2b5325e72e0b6fcf5",
+          orderAddr: "硅谷街道硅谷大街益田枫露小区1期3栋",
+          orderCityName: "长春市",
+          orderContact: "周秋影",
+          orderContactPhone: "18686456695",
+          orderCountyName: "",
+          orderId: "37E6E46AAECF440883DC10C66A7D31DA",
+          orderNo: "XS_20200303142834448_769705",
+          orderProName: "吉林省",
+          orderSourceId: "7CBF78FF05034EDC855CF4A9C877B477",
+          orderSourceName: "创客淘宝订单来源",
+          orgId: "2B82213FE3764E9E96691B70BE5281CD",
+          orgName: "xxxxxckc委托公司",
+          returnMoneyTime: null,
+          returnType: 4,
+          subOrder: [],
+          subOrderNos: ["871195073869320914-1", "771696073865320114-1"],
+        },
+      ],
+      unStoreOutData: [],
       datetimeDate: {
         placeholder: "请选择结束时间",
       },
@@ -513,30 +608,47 @@ export default {
       prodNameValue: "",
       prodCodeValue: "",
       prodSpecValue: "",
+      returnOrderValue: "",
       resalesOrderStateValue: "",
       resalesTypeValue: "",
       resalesOrderStateData: [
         {
+          value: "0",
+          label: "初始",
+        },
+        {
           value: "1",
-          label: "待退货确认",
+          label: "已取消",
         },
         {
           value: "2",
-          label: "待入库",
+          label: "待确认",
         },
         {
           value: "3",
-          label: "已入库",
+          label: "已完成",
         },
       ],
       resalesTypeValueData: [
         {
           value: "1",
-          label: "全退",
+          label: "部分退货",
         },
         {
           value: "2",
-          label: "部分退",
+          label: "全部退货",
+        },
+        {
+          value: "3",
+          label: "取消订单",
+        },
+        {
+          value: "4",
+          label: "部分退货中",
+        },
+        {
+          value: "5",
+          label: "全部退货中",
         },
       ],
       channelValueData: [],
@@ -548,9 +660,9 @@ export default {
       consigneeValue: "",
       telPhoneValue: "",
       addressValue: "",
-      multipleSelection: [],
+      outMultipleSelection: [],
+      unOutMultipleSelection: [],
       QueryData: {
-        orderBy: "createTime",
         pageNumber: 1,
         pageSize: 10,
         paras: {
@@ -558,27 +670,41 @@ export default {
         },
       },
       pageComponentsData: {
-        pageNums: 0, //一共多少条 //默认一页10条
+        pageNums: 0,
       },
       pageComponentsData1: {
-        pageNums: 0, //一共多少条 //默认一页10条
+        pageNums: 0,
       },
+      startTime: "",
+      endTime: "",
     };
   },
   mounted() {
-    this.pageQueryFun();
+    this.outPageQueryFun();
+    this.unOutPageQueryFun();
   },
   watch: {},
   methods: {
-    pageQueryFun() {
-      //缺货产品查询
-      let ProdQueryData = this.ProdQueryData;
-      findReturnOrderPage(ProdQueryData).then((ok) => {
-        console.log(ok);
+    outPageQueryFun() {
+      //已出库查询
+      let QueryData = this.QueryData;
+      findReturnOrderPage(QueryData).then((ok) => {
+        // console.log(ok);
         if (ok.data.code === "10000") {
-          this.productData = ok.data.result.list;
+          // this.storeOutData = ok.data.result.list;
+          let oDiv = document.querySelectorAll(".subOrderNosStyle");
+          let oList = document.querySelector(".subOrderNosList");
+          oDiv.forEach((v) => {
+            v.style.borderBottom = "1px solid #d2d6e2";
+            v.style.padding = "10px";
+            v.parentNode.parentNode.style.padding = "0";
+            v.parentNode.parentNode.parentNode.style.padding = "0";
+          });
+          if (oDiv.length > 0) {
+            oList.lastChild.style.borderBottom = "0";
+          }
           this.changeData(ok.data.result);
-          this.productData.forEach((v) => {
+          this.storeOutData.forEach((v) => {
             this.entrustCompanyData.push({
               value: v.orgId,
               label: v.orgName,
@@ -590,12 +716,14 @@ export default {
             });
             this.channelValueData = this.reduceFun(this.channelValueData);
             this.indentSourceValueData.push({
-              value: v.orderSourceName,
+              value: v.orderSourceId,
               label: v.orderSourceName,
             });
             this.indentSourceValueData = this.reduceFun(
               this.indentSourceValueData
             );
+            v.disposeStatus = this.disposeStatus(v.disposeStatus);
+            v.returnType = this.returnType(v.returnType);
           });
         } else {
           Message({
@@ -604,10 +732,19 @@ export default {
           });
         }
       });
-      findBackOrderPage(ProdQueryData).then((ok) => {
-        console.log(ok);
+    },
+    unOutPageQueryFun() {
+      //未出库查询
+      let QueryData = this.QueryData;
+      findBackOrderPage(QueryData).then((ok) => {
+        // console.log(ok);
         if (ok.data.code === "10000") {
-          this.orderData = ok.data.result.list;
+          this.unStoreOutData = ok.data.result.list;
+          this.changeData1(ok.data.result);
+          this.unStoreOutData.forEach((v) => {
+            v.disposeStatus = this.disposeStatus(v.disposeStatus);
+            v.returnType = this.returnType(v.returnType);
+          });
         } else {
           Message({
             message: "未知错误",
@@ -615,6 +752,53 @@ export default {
           });
         }
       });
+    },
+    disposeStatus(state) {
+      //退单状态
+      let data = state;
+      switch (state) {
+        case 0:
+          data = "初始";
+          break;
+        case 1:
+          data = "已取消";
+          break;
+        case 2:
+          data = "待确认";
+          break;
+        case 3:
+          data = "已完成";
+          break;
+        default:
+          data = "未知";
+          break;
+      }
+      return data;
+    },
+    returnType(state) {
+      //退货类型
+      let data = state;
+      switch (data) {
+        case 1:
+          data = "部分退货";
+          break;
+        case 2:
+          data = "全部退货";
+          break;
+        case 3:
+          data = "取消订单";
+          break;
+        case 4:
+          data = "部分退货中";
+          break;
+        case 5:
+          data = "全部退货中";
+          break;
+        default:
+          data = "未知";
+          break;
+      }
+      return data;
     },
     reduceFun(arr) {
       let testObj = {};
@@ -628,15 +812,12 @@ export default {
     },
     channelValues(val) {
       this.channelValue = val;
-      this.ProdQueryData.paras.channelId = val;
     },
     entrustCompanys(val) {
       this.entrustCompany = val;
-      this.ProdQueryData.paras.orgId = val;
     },
     indentSourceValues(val) {
       this.indentSourceValue = val;
-      this.ProdQueryData.paras.orderSourceId = val;
     },
     stateChooseValues(val) {
       this.stateChooseValue = val;
@@ -652,113 +833,264 @@ export default {
     },
     clickQuery() {
       //点击查询
-      this.ProdQueryData.paras.orderNo = this.orderNumberValue;
-      this.ProdQueryData.paras.subOrderNo = this.ChildOrderNumberValue;
-      this.ProdQueryData.paras.orderContact = this.consigneeValue;
-      this.ProdQueryData.paras.orderContactPhone = this.telPhoneValue;
-      this.ProdQueryData.paras.orderAddr = this.addressValue;
-      this.tableData = [];
-      // console.log(this.ProdQueryData);
-      this.pageQueryFun();
+      let queryData = {
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          wareId: getCookie("X-Auth-wareId"),
+          orgId: this.entrustCompany,
+          channelId: this.channelValue,
+          orderSourceId: this.indentSourceValue,
+          orderNo: this.orderNumberValue,
+          subOrderNo: this.ChildOrderNumberValue,
+          backOrderNo: this.returnOrderValue,
+          disposeStatus: this.resalesOrderStateValue,
+          returnType: this.resalesTypeValue,
+        },
+      };
+      if (this.title === "已出库信息") {
+        findReturnOrderPage(queryData).then((ok) => {
+          // console.log(ok);
+          if (ok.data.code === "10000") {
+            this.storeOutData = ok.data.result.list;
+            this.changeData(ok.data.result);
+            this.storeOutData.forEach((v) => {
+              v.disposeStatus = this.disposeStatus(v.disposeStatus);
+              v.returnType = this.returnType(v.returnType);
+            });
+          } else {
+            Message({
+              message: "查询失败",
+              type: "error",
+            });
+          }
+        });
+      } else {
+        findBackOrderPage(queryData).then((ok) => {
+          // console.log(ok);
+          if (ok.data.code === "10000") {
+            this.unStoreOutData = ok.data.result.list;
+            this.changeData1(ok.data.result);
+            this.unStoreOutData.forEach((v) => {
+              v.disposeStatus = this.disposeStatus(v.disposeStatus);
+              v.returnType = this.returnType(v.returnType);
+            });
+          } else {
+            Message({
+              message: "查询失败",
+              type: "error",
+            });
+          }
+        });
+      }
     },
     clearInput() {
       //点击清空输入框
-      this.entrustCompany = "";
-      this.channelValue = "";
-      this.indentSourceValue = "";
-      this.orderNumberValue = "";
-      this.ChildOrderNumberValue = "";
-      this.prodNameValue = "";
-      this.prodCodeValue = "";
-      this.prodSpecValue = "";
       this.clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
-      this.tableData = [];
-      this.ProdQueryData.paras.orgId = "";
-      this.ProdQueryData.paras.channelId = "";
-      this.ProdQueryData.paras.orderSourceId = "";
-      this.ProdQueryData.paras.orderNo = "";
-      this.ProdQueryData.paras.subOrderNo = "";
-      this.ProdQueryData.paras.prodName = "";
-      this.ProdQueryData.paras.pushStartTime = "";
-      this.ProdQueryData.paras.pushEndTime = "";
-      this.ProdQueryData.paras.prodCode = "";
-      this.ProdQueryData.paras.specName = "";
-      this.ProdQueryData.paras.pushTime = "";
-      this.pageQueryFun();
+      this.storeOutData = [];
+      this.unStoreOutData = [];
+      this.outPageQueryFun();
+      this.unOutPageQueryFun();
     },
-    handleSelectionChange(value) {
-      this.multipleSelection = value;
+    outHandleSelectionChange(value) {
+      this.outMultipleSelection = value;
+    },
+    unOutHandleSelectionChange(value) {
+      this.unOutMultipleSelection = value;
     },
     chukuEduce() {
-      //缺货产品导出表格
-      if (!this.multipleSelection.length) return Message("请选择要导出的订单");
-      if (this.multipleSelection.length != 1)
-        return Message("一次只能选择一个订单");
-      if (this.lotNo === "") return Message("请稍等片刻");
-      let oA = document.querySelector(".setUser");
-      oA.setAttribute("href", this.getExcelUrl + this.lotNo);
+      //已出库导出表格
+      // if (!this.outMultipleSelection.length)
+      //   return Message("请选择要导出的订单");
+      // if (this.outMultipleSelection.length !== 1)
+      //   return Message("一次只能选择一个订单");
+      let oA = document.querySelector(".outEduce");
+      oA.setAttribute(
+        "href",
+        `${this.outGetExcelUrl}?wareId=${getCookie("X-Auth-wareId")}`
+      );
     },
     weichuEduce() {
       //未出库导出按钮
+      // if (!this.unOutMultipleSelection.length)
+      //   return Message("请选择要导出的订单");
+      // if (this.unOutMultipleSelection.length !== 1)
+      //   return Message("一次只能选择一个订单");
+      let oA = document.querySelector(".unOutEduce");
+      oA.setAttribute(
+        "href",
+        `${this.unOutGetExcelUrl}?wareId=${getCookie("X-Auth-wareId")}`
+      );
     },
-    yiChuHuoSure() {
+    yichukuSure() {
       //已出库完成按钮
+      if (!this.outMultipleSelection.length)
+        return Message("请选择要强制完成的订单");
+      this.$messageSelf
+        .confirms(
+          `共选择${this.outMultipleSelection.length}个退货订单，确认强制完成吗？`,
+          "提示",
+          { type: "warning" }
+        )
+        .then(() => {
+          Message("该功能暂时没有");
+        })
+        .catch(() => {
+          Message("已取消");
+        });
     },
     weichukuSure() {
       //未出库完成按钮
+      if (!this.unOutMultipleSelection.length)
+        return Message("请选择要强制完成的订单");
+      this.$messageSelf
+        .confirms(
+          `共选择${this.unOutMultipleSelection.length}个退货订单，确认强制完成吗？`,
+          "提示",
+          { type: "warning" }
+        )
+        .then(() => {
+          Message("该功能暂时没有");
+        })
+        .catch(() => {
+          Message("已取消");
+        });
     },
     affirmResales() {
       //确认退货
+      if (!this.outMultipleSelection.length)
+        return Message("请选择要确认退货的订单");
+      if (this.outMultipleSelection.length !== 1)
+        return Message("一次只能选择一个订单");
+      this.$router.push({
+        path: "/indentManagement/resalesOrderInfor",
+        query: {
+          sureBtn: this.outMultipleSelection[0],
+          type: "sureBtn",
+        },
+      });
     },
-    prodLookDetailEvent(row, column) {
-      if (column.property === "orderNum") {
-        this.$router.push({
-          path: "/indentManagement/orderDetail",
-          query: {
-            orderNum: row,
-            type: "orderNum",
-          },
-        });
+    outLookDetailEvent(row, column, cell) {
+      if (column.property === "backOrderNo") {
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/resalesOrderInfor",
+            query: {
+              backOrderNo: row,
+              type: "backOrderNo",
+            },
+          });
+        }
       }
-    },
-    orderLookDetailEvent(row, column) {
       if (column.property === "orderNo") {
-        this.$router.push({
-          path: "/indentManagement/orderDetail",
-          query: {
-            orderNo: row,
-            type: "orderNo",
-          },
-        });
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/orderDetail",
+            query: {
+              orderNo: row,
+              type: "orderNo",
+            },
+          });
+        }
       }
-      if (column.property === "subOrderNo") {
-        this.$router.push({
-          path: "/indentManagement/childOrderDetail",
-          query: {
-            subOrderNo: row,
-            type: "subOrderNo",
-          },
-        });
+      if (column.property === "subOrderNos") {
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/childOrderDetail",
+            query: {
+              subOrderNos: row,
+              type: "subOrderNos",
+            },
+          });
+        }
+      }
+    },
+    unOutLookDetailEvent(row, column, cell) {
+      if (column.property === "backOrderNo") {
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/resalesOrderInfor",
+            query: {
+              backOrderNo: row,
+              type: "backOrderNo",
+            },
+          });
+        }
+      }
+      if (column.property === "orderNo") {
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/orderDetail",
+            query: {
+              orderNo: row,
+              type: "orderNo",
+            },
+          });
+        }
+      }
+      if (column.property === "subOrderNos") {
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/childOrderDetail",
+            query: {
+              subOrderNos: row,
+              type: "subOrderNos",
+            },
+          });
+        }
       }
     },
     prodAndOrder(item) {
       this.title = item.label + "信息";
+      if (item.label === "未出库") {
+        this.resalesOrderStateData = [
+          {
+            value: "退货中",
+            label: "退货中",
+          },
+          {
+            value: "退货成功",
+            label: "退货成功",
+          },
+        ];
+      } else {
+        this.resalesOrderStateData = [
+          {
+            value: "0",
+            label: "初始",
+          },
+          {
+            value: "1",
+            label: "已取消",
+          },
+          {
+            value: "2",
+            label: "待确认",
+          },
+          {
+            value: "3",
+            label: "已完成",
+          },
+        ];
+      }
     },
     getPageNum(e) {
-      this.ProdQueryData.pageNumber = e;
+      this.QueryData.pageNumber = e;
     },
     sureSuccssBtn(e) {
-      this.productData = [];
-      this.ProdQueryData.pageNumber = e;
+      this.storeOutData = [];
+      this.outPageQueryFun();
+      this.QueryData.pageNumber = e;
     },
     getPageNum1(e) {
-      this.ProdQueryData.pageNumber = e;
+      this.QueryData.pageNumber = e;
     },
     sureSuccssBtn1(e) {
-      this.orderData = [];
-      this.ProdQueryData.pageNumber = e;
+      this.unStoreOutData = [];
+      this.unOutPageQueryFun();
+      this.QueryData.pageNumber = e;
     },
     changeData(data) {
       this.changePageData(data);
@@ -775,10 +1107,10 @@ export default {
       this.pageComponentsData1.pageNums = totalRow;
     },
     getStartTime(e) {
-      this.ProdQueryData.paras.pushStartTime = e;
+      this.startTime = e;
     },
     getEndTime(e) {
-      this.ProdQueryData.paras.pushEndTime = e;
+      this.endTime = e;
     },
     clearTimeInput() {
       let input = document.getElementsByClassName("ivu-input");
@@ -799,7 +1131,7 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
 
-#mianPage {
+#resalesMianPage {
   background: #e6e7ea;
   padding: 16px;
 }
@@ -815,7 +1147,7 @@ export default {
         display: flex;
         align-items: center;
         font-size: 16px;
-        margin-right: 20px;
+        margin-right: 1.05%;
         .el-inputBox-text {
           white-space: nowrap;
         }
@@ -824,7 +1156,7 @@ export default {
         display: none;
       }
       .childrenIndent {
-        width: 19%;
+        width: 20%;
         .el-inputBox-checkBox {
           width: 100%;
         }
@@ -844,6 +1176,9 @@ export default {
         .el-inputBox-checkBox {
           width: 100%;
         }
+      }
+      .setMargin {
+        margin-right: 0;
       }
     }
     .headerInput-three {
@@ -879,6 +1214,9 @@ export default {
       .el-inputBox {
         width: 20%;
       }
+      .setMargin {
+        margin-right: 0;
+      }
       .el-inputBox-checkBox {
         width: 100%;
       }
@@ -900,7 +1238,7 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 22px 0 10px;
+      margin: 0 0 0 10px;
     }
   }
 }
@@ -933,7 +1271,6 @@ export default {
       display: flex;
       margin: 16px 20px 16px 0;
       .setUser {
-        margin-right: 10px;
         @include BtnFunction("success");
       }
       .takeOrdersDiv {
@@ -942,14 +1279,17 @@ export default {
       }
     }
   }
-  .formTabs {
-    padding: 0 10px;
+  .formTable {
+    background: white;
+    padding: 20px;
   }
-  .lookDeatil {
+
+  .lookDetail {
     color: #599af3;
     text-decoration: underline;
     cursor: pointer;
   }
+
   .failCause {
     color: red;
   }
@@ -995,13 +1335,9 @@ export default {
     }
   }
 }
-#mianPage {
+#resalesMianPage {
   .el-tabs {
     left: 0;
-  }
-  .el-table {
-    background: white;
-    padding: 20px;
   }
   .el-tabs--card > .el-tabs__header {
     border: none;

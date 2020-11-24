@@ -50,14 +50,12 @@ export default {
     return {
       tableData: [],
       pagingQueryData: {
-        //分页查询
         pageNumber: 1,
         pageSize: 3,
         paras: {},
       },
       pageComponentsData: {
-        //这是分页器需要的json
-        pageNums: 0, //一共多少条 //默认一页10条
+        pageNums: 0, 
       },
     };
   },

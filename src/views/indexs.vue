@@ -79,8 +79,9 @@
       </div>
     </div>
     <!-- 面包屑导航 -->
-
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
     <div class="footerCom">
       <Footer></Footer>
     </div>
@@ -93,7 +94,6 @@
 let a = 0;
 import Footer from "../components/footer";
 import { jurisdicRequest } from "../api/api";
-import { Message } from "element-ui";
 export default {
   components: {
     Footer,
@@ -172,7 +172,28 @@ export default {
         {
           title: "发货管理",
           iconCls: require("@/assets/img/warehouse-shipments.png"),
-          children: [],
+          children: [
+            {
+              title: "正常发货",
+              name: "/deliveryManagement/normalDelivery",
+            },
+            {
+              title: "快速发货",
+              name: "/deliveryManagement/quetyNormal",
+            },
+            {
+              title: "拣货单管理",
+              name: "/deliveryManagement/pickingList",
+            },
+            {
+              title: "发货单打印",
+              name: "/deliveryManagement/delivetyNotePrint",
+            },
+            {
+              title: "发货异常管理",
+              name: "/deliveryManagement/abnormalDelibery",
+            },
+          ],
         },
         {
           title: "复核配置",
@@ -283,12 +304,26 @@ export default {
         {
           title: "货品移位",
           iconCls: require("@/assets/img/warehouse-goodsGression.png"),
-          children: [],
+          children: [
+            {
+              title: "补货作业",
+              name: "/goodsShifting/jobTask",
+            },
+            {
+              title: "库内移动",
+              name: "/goodsShifting/moveInLibrary",
+            },
+          ],
         },
         {
           title: "报损管理",
           iconCls: require("@/assets/img/warehouse-breakageConfig.png"),
-          children: [],
+          children: [
+            {
+              title: "报损管理",
+              name: "/breakageManagement/breakageMain",
+            },
+          ],
         },
         {
           title: "仓库作业",
@@ -704,11 +739,12 @@ export default {
 
   .dianjiqiehuan {
     padding: 0 20px;
-    background: #eef1f8;
+    background: #e6e7ea;
     border-bottom: 1px solid #ced4de;
 
     .dianjiCenters {
       padding-top: 20px;
+      border-bottom: 1px solid #ced4de;
     }
   }
 

@@ -81,14 +81,13 @@
           <div class="tijiaoBox disinb mr20" @click="addChanpin">添加产品</div>
           <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
         </div>
-        <div class="mb20" style="height: 300px">
+        <div class="mb20" id="bjTableWraper">
           <el-table
             ref="multipleTable"
             :data="tabledata"
             :stripe="true"
             :border="true"
             tooltip-effect="dark"
-            style="width: 100%; height: 100%; overflow-y: auto"
             @selection-change="handleSelectionChange"
           >
             <el-table-column type="selection" width="82"></el-table-column>
@@ -239,7 +238,7 @@ import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
 import dropDownUserType from "../../components/commin/dropDownUserType"; //用户管理下拉框
 import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
 import { mapState } from "vuex";
-import { Message } from "element-ui";
+
 import { isMobile, isEmail, getCookie } from "../../utils/validate";
 import {
   getFindWareOrg,
@@ -376,7 +375,8 @@ export default {
       this.createUserData.expectedSendTime = e;
     },
     getkuweimes(data, e) {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.message("请选择委托公司");
       this.targetRow = data;
       this.$nextTick(() => {
         getfindOrgProductPage(this.sendoutDatas).then((res) => {
@@ -387,7 +387,8 @@ export default {
       this.$forceUpdate();
     },
     kuweiChanges(e) {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.message("请选择委托公司");
       if (this.Index != this.delistIndex) {
         this.createUserData.detailList.push({});
       }
@@ -446,7 +447,8 @@ export default {
     },
     //点击了子仓名称
     async getZiCangJsonAndArr() {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.message("请选择委托公司");
       let datas = await getFindOrgChildWare(this.createUserData.orgId);
       this.ziCangJson.ziCangArr = datas.result;
     },
@@ -474,9 +476,10 @@ export default {
     },
     //点击了添加产品
     addChanpin() {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.message("请选择委托公司");
       if (!sessionStorage.getItem("createManagementChildWareId"))
-        return Message("请选择子仓名称");
+        return this.$messageSelf.message("请选择子仓名称");
       this.addChanpins = true;
       sessionStorage.setItem("orgId", this.createUserData.orgId);
     },
@@ -494,16 +497,18 @@ export default {
     },
     //点击了提交
     async goAJAXCreate() {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
-      if (!this.createUserData.childWareId) return Message("请选择子仓名称");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.message("请选择委托公司");
+      if (!this.createUserData.childWareId)
+        return this.$messageSelf.message("请选择子仓名称");
       if (!this.multipleSelection.length)
-        return Message(
+        return this.$messageSelf.message(
           `请选择要${this.edifManageMent ? "编辑" : "创建"}的产品明细`
         );
       this.createUserData.detailList = this.multipleSelection;
       let datas = await getSaveRecord(this.createUserData);
       if (datas.code == "10000") {
-        Message({
+        this.$messageSelf.message({
           message: datas.msg,
           onClose: () => {
             sessionStorage.removeItem("_addTablesData");

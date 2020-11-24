@@ -42,7 +42,9 @@ export default {
   },
 };
 </script>
-<style>
+
+<style lang="scss">
+
 * {
   margin: 0;
   padding: 0;
@@ -65,4 +67,49 @@ a {
 #app {
   height: 100%;
 }
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+/*隐藏滚动条 
+::-webkit-scrollbar {
+  width: 0 !important;
+}
+::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0;
+} */
+/*改变滚动条样式*/
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #e6e7ea;
+  border-radius: 2.5px;
+}
+::-webkit-scrollbar-thumb {
+  background: #bfbfbf;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+::-webkit-scrollbar-corner {
+  background: #179a16;
+}
+/*去掉数字输入框的上下箭头*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+}
+input[type="number"] {
+  -moz-appearance: textfield !important;
+}
+
+
 </style>

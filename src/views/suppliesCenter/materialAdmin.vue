@@ -503,8 +503,8 @@ export default {
     };
     this.queryAnyInfor();
     this.queryMateAdminFun = () => {
-      this.mateNameValueData=[]
-      this.mateNumValueData=[]
+      this.mateNameValueData = [];
+      this.mateNumValueData = [];
       let pagingQueryData = this.pagingQueryData;
       queryMateAdmin(pagingQueryData).then((ok) => {
         // console.log(ok);

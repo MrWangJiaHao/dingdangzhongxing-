@@ -113,7 +113,9 @@ textarea {
   white-space: nowrap;
   transition: all .5s;
 }
-
+.el-input__inner:hover{
+  border-color: #409EFF;
+}
 .nowrap {
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -142,7 +144,7 @@ textarea {
   flex-direction: column;
 }
 .cell {
-  text-align: center;
+  text-align: left;
   text-overflow: ellipsis;
 }
 
@@ -182,15 +184,43 @@ textarea {
 .line40{
   line-height: 40px;
 }
+
+.el-message-box__header{
+  background: #ECF1F7; border-bottom: 1px solid#D1D6E2;
+}
+.el-message-box .el-message-box__content .el-message-box__message #checkboxID{
+  width:48%;
+}
+.el-message-box__content{
+padding: 0;
+}
 .meiyiyetitle{
   font-size: 14px;
   font-family: Hiragino Sans GB;
   font-weight: normal;
   color: #454545;
 }
+#bjTableWraper .el-table__body-wrapper.is-scrolling-left{
+  max-height:200px;
+  overflow: auto;
+}
 .displayBlock{
   display: block;
 }
+.el-message__closeBtn {
+  top: 0;
+  transform: translate(-50%,80%);
+
+}
+.el-message__closeBtn::before {
+  content:"";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: url(../../assets/img/close.png) center center;
+  background-size: cover;
+}
+
 .bjBox{
   background: rgba(0, 0, 0, 0.4)!important;
   padding: 0 10px;
@@ -216,6 +246,11 @@ textarea {
   font-family: Hiragino Sans GB;
   font-weight: normal;
   color: #454545;
+}
+.lookDeatil {
+  color: #599af3;
+  text-decoration: underline;
+  cursor: pointer;
 }
 .setTitle{
   font-size: 16px;

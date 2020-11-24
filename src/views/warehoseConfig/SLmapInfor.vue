@@ -317,6 +317,7 @@ import {
   storeMapRelation,
 } from "../../api/api";
 import { Message } from "element-ui";
+import { getCookie } from "../../utils/validate";
 export default {
   beforeRouteEnter(to, from, next) {
     if (from.name === "/warehoseconfig/storageLocalAdmins") {
@@ -328,9 +329,9 @@ export default {
             pageNumber: 1,
             pageSize: 10,
             paras: {
-              wareSeatCode: vm.$route.query.isUsed.wareSeatCode
+              wareSeatCode: vm.$route.query.isUsed.wareSeatCode,
             },
-          }
+          };
           storeMapRelation(wareSeatCodeQuery).then((ok) => {
             // console.log(ok)
             if (ok.data.code === "10000") {
@@ -351,11 +352,12 @@ export default {
       next((vm) => {
         if (vm.$route.query.type === "edit") {
           vm.recepData = vm.$route.query.datas;
-          vm.delegaCompanyValue = vm.recepData[0].delegaCompany;
-          vm.productNameValue = vm.recepData[0].productName;
-          vm.productCodeValue = vm.recepData[0].productNumber;
-          vm.specificationValue = vm.recepData[0].producTspecifica;
-          vm.ProdBrandName = vm.recepData[0].brand;
+          // console.log(vm.recepData)
+          vm.delegaCompanyValue = vm.recepData[0].orgName;
+          vm.productNameValue = vm.recepData[0].prodName;
+          vm.productCodeValue = vm.recepData[0].prodCode;
+          vm.specificationValue = vm.recepData[0].specName;
+          vm.ProdBrandName = vm.recepData[0].braName;
           vm.ProdLength = vm.recepData[0].ProdLength;
           vm.ProdWidth = vm.recepData[0].ProdWidth;
           vm.ProdHeight = vm.recepData[0].ProdHeight;
@@ -450,7 +452,7 @@ export default {
   mounted() {
     this.setintervalFun();
     let data = {
-      wareId: "2A8B48391F4F4EB5BDEDF9EBA0B6BAE7",
+      wareId: getCookie("X-Auth-wareId"),
       orgId: "4C2F466B16E94451B942EBBD07BE0F8B",
     };
     queryProductInfor(data).then((ok) => {
@@ -529,8 +531,8 @@ export default {
       // console.log(this.choosedKuWeiData);
     },
     getTableData1() {
-      this.choosedKuWeiData = this.$store.state.PFSRequest1.PFSqueryData1;
-      // console.log(this.choosedKuWeiData);
+      this.choosedKuWeiData1 = this.$store.state.PFSRequest1.PFSqueryData1;
+      // console.log(this.choosedKuWeiData1);
     },
     setintervalFun() {
       setInterval(() => {
@@ -571,10 +573,12 @@ export default {
       });
       this.CSandareaData.forEach((v) => {
         if (value === v.childWareName) {
-          this.storeAreaData.push({
-            value: v.wareAreaName,
-            label: v.wareAreaName,
-          });
+          if (v.wareAreaType === 1) {
+            this.storeAreaData.push({
+              value: v.wareAreaName,
+              label: v.wareAreaName,
+            });
+          }
         }
       });
     },
@@ -652,10 +656,12 @@ export default {
       });
       this.CSandareaData.forEach((v) => {
         if (value === v.childWareName) {
-          this.pickAreaData.push({
-            value: v.wareAreaName,
-            label: v.wareAreaName,
-          });
+          if (v.wareAreaType === 2) {
+            this.pickAreaData.push({
+              value: v.wareAreaName,
+              label: v.wareAreaName,
+            });
+          }
         }
       });
     },
@@ -720,29 +726,9 @@ export default {
       //返回按钮
       this.$router.go(-1);
     },
-    submitData() {
-      //提交按钮
-
-      this.choosedKuWeiData.forEach((v) => {
-        this.requestData.seatDatas.push({
-          maxNum: v.MaxNumberInput,
-          minNum: "",
-          prodUnit: v.prodUnit,
-          seatId: v.seatId,
-          seatType: "0",
-        });
-        // console.log(this.requestData.seatDatas);
-        if (v.prodUnit === "" || v.MaxNumberInput === "") {
-          return Message({
-            type: "error",
-            message: "请选择存放单位和存放数量",
-          });
-        }
-      });
-      let requestData = this.requestData;
-      // console.log(requestData);
-      prodStoreMap(requestData).then((ok) => {
-        console.log(ok);
+    bindingProd(data) {
+      prodStoreMap(data).then((ok) => {
+        // console.log(ok);
         if (ok.data.code === "10000") {
           Message({
             type: "success",
@@ -752,26 +738,67 @@ export default {
         } else {
           Message({
             type: "error",
-            message: ok.data.msg,
+            message: "绑定失败",
           });
         }
       });
     },
+    submitData() {
+      //提交按钮
+      if (this.choosedKuWeiData.length > 0) {
+        this.choosedKuWeiData.forEach((v) => {
+          this.requestData.seatDatas.push({
+            maxNum: v.MaxNumberInput,
+            prodUnit: v.prodUnit,
+            seatId: v.seatId,
+            seatType: "0",
+          });
+          if (v.prodUnit === "" || v.MaxNumberInput === "") {
+            return Message({
+              type: "error",
+              message: "请选择存放单位或输入存放数量",
+            });
+          }
+        });
+        let requestData = this.requestData;
+        // console.log(requestData);
+        this.bindingProd(requestData);
+      } else {
+        this.choosedKuWeiData1.forEach((v) => {
+          this.requestData.seatDatas.push({
+            maxNum: v.MaxNumberInput,
+            minNum: v.repleNum,
+            prodUnit: v.prodUnit,
+            seatId: v.seatId,
+            seatType: "1",
+          });
+          // console.log(this.requestData.seatDatas);
+          if (v.prodUnit === "" || v.MaxNumberInput === "") {
+            return Message({
+              type: "error",
+              message: "请选择存放单位或输入最大存放数",
+            });
+          }
+        });
+        let requestData = this.requestData;
+        this.bindingProd(requestData);
+      }
+    },
     mouseEnterEvent() {
-      let comFormDiv = document.querySelector(".comForm");
-      comFormDiv.style.display = "block";
+      // let comFormDiv = document.querySelector(".comForm");
+      // comFormDiv.style.display = "block";
     },
     mouseOutEvent() {
-      let comFormDiv = document.querySelector(".comForm");
-      comFormDiv.style.display = "none";
+      // let comFormDiv = document.querySelector(".comForm");
+      // comFormDiv.style.display = "none";
     },
     mouseEnterEvent1() {
-      let comFormDiv1 = document.querySelector(".comForm1");
-      comFormDiv1.style.display = "block";
+      // let comFormDiv1 = document.querySelector(".comForm1");
+      // comFormDiv1.style.display = "block";
     },
     mouseOutEvent1() {
-      let comFormDiv1 = document.querySelector(".comForm1");
-      comFormDiv1.style.display = "none";
+      // let comFormDiv1 = document.querySelector(".comForm1");
+      // comFormDiv1.style.display = "none";
     },
   },
 };

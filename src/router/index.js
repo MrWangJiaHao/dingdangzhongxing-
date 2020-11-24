@@ -428,28 +428,28 @@ const routes = [{
   component: () => import("../views/systemSetting/editUserIng.vue")
 },
 
-{
-  path: "/systemSetting/lookUser",
-  name: 'systemSetting/lookUser',
-  component: () => import("../views/systemSetting/lookUser.vue")
-},
-{
-  //仓库配置=>区域管理=>创建子仓
-  path: "/warehoseconfig/editWarehouseConfig",
-  name: "/warehoseconfig/editWarehouseConfig",
-  component: () => import("../views/warehoseConfig/editWarehouseConfig"),
-  meta: {
-    Breadcrumb: "创建子仓",
-    title: "创建子仓"
-  }
-},
-//
-//默认进入登录页
-{
-  path: '/',
-  name: 'Login',
-  component: () => import('../views/login/login.vue')
-},
+  {
+    path: "/systemSetting/lookUser",
+    name: 'systemSetting/lookUser',
+    component: () => import("../views/systemSetting/lookUser.vue")
+  },
+  {
+    //仓库配置=>区域管理=>创建子仓
+    path: "/warehoseconfig/editWarehouseConfig",
+    name: "/warehoseconfig/editWarehouseConfig",
+    component: () => import("../views/warehoseConfig/editWarehouseConfig"),
+    meta: {
+      Breadcrumb: "创建子仓",
+      title: "创建子仓"
+    }
+  },
+  //
+  //默认进入登录页
+  {
+    path: '/',
+    name: 'Login',
+    component: () => import('../views/login/login.vue')
+  },
 ]
 
 const router = new VueRouter({

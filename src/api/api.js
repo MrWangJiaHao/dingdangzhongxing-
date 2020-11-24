@@ -6,6 +6,16 @@ import {
     ajaxPost,
     getCookie
 } from "../utils/validate"
+const getHref = function () {
+    let href = window.location.href
+    if (href.includes("systemSetting")) {
+        return "http://139.196.176.227:8801"
+    } else {
+        return "http://139.196.176.227:8902"
+    }
+}
+let basurl = getHref()
+
 export function login(data) {
     return new Promise((resolve, reject) => {
         service.request({
@@ -685,7 +695,7 @@ export function getExprNo(data) {
 export function childOrderInfor(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "wbs-warehouse-manage/v1/orderOperation/findRecord",
+            url: "/wbs-warehouse-manage/v1/orderOperation/findRecord",
             method: "post",
             data,
         }).then((ok) => {
@@ -700,7 +710,7 @@ export function childOrderInfor(data) {
 export function sellOrderInfor(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "wbs-warehouse-manage/v1/pOrgSubOrderDetail/findProdByOrderId",
+            url: "/wbs-warehouse-manage/v1/pOrgSubOrderDetail/findProdByOrderId",
             method: "post",
             data,
         }).then((ok) => {
@@ -715,7 +725,7 @@ export function sellOrderInfor(data) {
 export function findFailProdData(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "wbs-warehouse-manage/v1/pOrgSubOrder/findFailProdData",
+            url: "/wbs-warehouse-manage/v1/pOrgSubOrder/findFailProdData",
             method: "post",
             data,
         }).then((ok) => {
@@ -730,7 +740,7 @@ export function findFailProdData(data) {
 export function findFailOrderData(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "wbs-warehouse-manage/v1/pOrgSubOrder/findFailOrderData",
+            url: "/wbs-warehouse-manage/v1/pOrgSubOrder/findFailOrderData",
             method: "post",
             data,
         }).then((ok) => {
@@ -745,7 +755,7 @@ export function findFailOrderData(data) {
 export function findFailProdDetail(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "wbs-warehouse-manage/v1/pOrgSubOrder/findFailProdDetail",
+            url: "/wbs-warehouse-manage/v1/pOrgSubOrder/findFailProdDetail",
             method: "post",
             data,
         }).then((ok) => {
@@ -760,7 +770,7 @@ export function findFailProdDetail(data) {
 export function findBackOrderPage(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "wbs-warehouse-manage/v1/pOrgSubBackOrder/findBackOrderPage",
+            url: "/wbs-warehouse-manage/v1/pOrgSubBackOrder/findBackOrderPage",
             method: "post",
             data,
         }).then((ok) => {
@@ -775,7 +785,51 @@ export function findBackOrderPage(data) {
 export function findReturnOrderPage(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "wbs-warehouse-manage/v1/pOrgSubBackOrder/findReturnOrderPage",
+            url: "/wbs-warehouse-manage/v1/pOrgSubBackOrder/findReturnOrderPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//退货入库,记录实际退货数量并生成入库单
+export function finishBackOrder(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgSubBackOrder/finishBackOrder",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//分页查询报损产品
+export function findDamageProductPage(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgProducts/findDamageProductPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//分页查询列表
+export function queryBreakageList(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/pDamageOrder/findRecordPage",
             method: "post",
             data,
         }).then((ok) => {
@@ -930,7 +984,7 @@ export const getSaveRecord = function (data) {
  * ajaxPost
  */
 export const getFindWareHouseDetailByIds = function (data, fn) {
-    ajaxPost("http://139.196.176.227:8902/wbs-warehouse-manage/v1/putWarehouse/findWareHouseDetailByIds", data, fn)
+    ajaxPost("" + basurl + "/wbs-warehouse-manage/v1/putWarehouse/findWareHouseDetailByIds", data, fn)
 }
 
 /**
@@ -1267,7 +1321,7 @@ export const pSubPurchaseOrderFindRecord = function (data) {
  */
 
 export const pPurchaseOrderDeleteBatch = function (data, fn) {
-    ajaxPost("http://139.196.176.227:8902/wbs-warehouse-manage/v1/pPurchaseOrder/deleteBatch", data, fn)
+    ajaxPost("" + basurl + "/wbs-warehouse-manage/v1/pPurchaseOrder/deleteBatch", data, fn)
 }
 
 //=========================================采购管理 end ========================================
@@ -1310,10 +1364,19 @@ export const pWarehouseRuleSaveRecord = function (data) {
  * 
  * @param {*} data 删除发货规则
  */
-export const pWarehouseRuleDelRecord = function (data) {
+export const pWarehouseRuleDelRecord = function (data, fn) {
+    return ajaxPost("" + basurl + "/wbs-warehouse-manage/v1/pWarehouseRule/delRecord", data, fn)
+}
+//=========================================发货规则配置 end ========================================
+//=========================================发货管理 start ========================================
+/**
+ * //正常发货分页查询 
+ * @param {*} datas 
+ */
+export const pDeliverGoodsFindNormalRecordPage = function (data) {
     return new Promise((res, rej) => {
         service.request({
-            url: "/wbs-warehouse-manage/v1/pWarehouseRule/delRecord",
+            url: "/wbs-warehouse-manage/v1/pDeliverGoods/findNormalRecordPage",
             method: "post",
             data
         }).then((ok) => {
@@ -1323,7 +1386,165 @@ export const pWarehouseRuleDelRecord = function (data) {
         })
     })
 }
-//=========================================发货规则配置 end ========================================
+
+/**
+ * 快速发货特殊单件商品分页查询
+ * @param {*} data `/wbs-warehouse-manage/v1/pDeliverGoods/findFastRecordPage
+ */
+export const pDeliverGoodsFindFastRecordPage = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pDeliverGoods/findFastRecordPage",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+
+/**
+ * 订单集计 需要ids
+ * 
+ * @param {*} datas /wbs-warehouse-manage/v1/pOrgSubOrder/megerOrder
+ */
+export const pOrgSubOrderMegerOrder = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgSubOrder/megerOrder",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+
+/**
+ * 打印拣货单
+ * @param {*} datas 
+ */
+export const pOrgPickOrderprintPick = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgPickOrder/printPick",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 拣货单列表
+ * @param {*} datas /wbs-warehouse-manage/v1/pOrgPickOrder/findRecordPage
+ */
+export const pOrgPickOrderfindRecordPage = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgPickOrder/findRecordPage",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+
+/**
+ * 打印拣货单 拣货单 { ids : }
+ * @param {*} datas /wbs-warehouse-manage/v1/pDeliverGoods/updatePrintExprStatus
+ */
+export const pDeliverGoodsUpdatePrintExprStatus = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pDeliverGoods/updatePrintExprStatus",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 作废拣货单
+ * @param {*} datas `/wbs-warehouse-manage/v1/pOrgPickOrder/pickCancle
+ */
+export const pOrgPickOrderPickCancle = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgPickOrder/pickCancle",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 拣货单管理
+ * @param {*} datas /wbs-warehouse-manage/v1/pOrgPickOrder/findOrderPage
+ */
+export const pOrgPickOrderfindOrderPage = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pOrgPickOrder/findOrderPage",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 拣货单号查询子订单列表
+ * @param {*} datas /wbs-warehouse-manage/v1/pDeliverGoods/findSubOrderByPickOrderNo
+ */
+export const pDeliverGoodsfindSubOrderByPickOrderNo = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pDeliverGoods/findSubOrderByPickOrderNo",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+/**
+ * 打印发货单
+ * @param {*} datas /wbs-warehouse-manage/v1/pDeliverGoods/printDeliverGoods
+ */
+export const pDeliverGoodsprintDeliverGoods = function (data) {
+    return new Promise((res, rej) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pDeliverGoods/printDeliverGoods",
+            method: "post",
+            data
+        }).then((ok) => {
+            res(ok.data)
+        }).catch((err) => {
+            rej(err)
+        })
+    })
+}
+//=========================================发货管理 end ========================================
 export function post(datas) {
     let {
         url,

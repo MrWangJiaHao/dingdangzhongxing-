@@ -227,7 +227,6 @@ import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
 import dropDownUserType from "../../components/commin/dropDownUserType"; //用户管理下拉框
 import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
 import { mapState } from "vuex";
-import { Message } from "element-ui";
 import {
   isMobile,
   isEmail,
@@ -366,13 +365,15 @@ export default {
     },
     //点击区域
     getquyuJsonAndArr() {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
-      if (!this.createUserData.childWareId) return Message("请选择子仓名称");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.message("请选择委托公司");
+      if (!this.createUserData.childWareId)
+        return this.$messageSelf.message("请选择子仓名称");
       queryAreaOfWS(this.createUserData).then((res) => {
         if (res.data.code == "10000") {
           this._changequyuJsonArr(res.data.result);
         } else {
-          Message(res.data.data.msg);
+          this.$messageSelf.message(res.data.data.msg);
         }
       });
     },
@@ -389,7 +390,8 @@ export default {
       );
     },
     getkuweimes(data, e) {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.message("请选择委托公司");
       let datas = eval(sessionStorage.getItem("_addTablesData"));
       if (datas) {
         this.createUserData.prodIds = _getArrTarget(datas, "prodId");
@@ -402,12 +404,13 @@ export default {
           this._changeKuweiS(res.result, data, e);
           this.$forceUpdate();
         } else {
-          Message(res.msg);
+          this.$messageSelf.message(res.msg);
         }
       });
     },
     kuweiChanges(e, idx, data) {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.message("请选择委托公司");
 
       this.createUserData.pOutWarehouseDetails[
         this.delistIndex
@@ -437,7 +440,8 @@ export default {
         data.manufTime;
     },
     _changeKuweiS(arr, dataJson, e) {
-      if (!arr.length) return Message("暂时并未有库位，尝试去创建？");
+      if (!arr.length)
+        return this.$messageSelf.message("暂时并未有库位，尝试去创建？");
       dataJson.kueirArr = [];
       this.tabledata[e].kueirArr = arr;
       var data = JSON.stringify(this.tabledata);
@@ -473,7 +477,8 @@ export default {
       this.createUserData.wareAreaName = ""; //区域name
       this.createUserData.childWareId = ""; //子仓id
       this.createUserData.wareName = "";
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.message("请选择委托公司");
       let datas = await getFindOrgChildWare(this.createUserData.orgId);
       this.ziCangJson.ziCangArr = datas.result;
     },
@@ -502,9 +507,10 @@ export default {
     },
     //点击了添加产品
     addChanpin() {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.message("请选择委托公司");
       if (!sessionStorage.getItem("createManagementChildWareId"))
-        return Message("请选择子仓名称");
+        return this.$messageSelf.message("请选择子仓名称");
       this.addChanpins = true;
       sessionStorage.setItem("orgId", this.createUserData.orgId);
     },
@@ -517,14 +523,16 @@ export default {
     },
     //点击了提交
     async goAJAXCreate() {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
-      if (!this.createUserData.childWareId) return Message("请选择子仓名称");
+      if (!this.createUserData.orgId)
+        return this.$messageSelf.message("请选择委托公司");
+      if (!this.createUserData.childWareId)
+        return this.$messageSelf.message("请选择子仓名称");
       if (!this.multipleSelection.length)
-        return Message("请选择要创建的产品明细");
+        return this.$messageSelf.message("请选择要创建的产品明细");
       this.createUserData.pOutWarehouseDetails = this.multipleSelection;
       let datas = await getpOutWarehouseSaveRecord(this.createUserData);
       if (datas.code == "10000") {
-        Message({
+        this.$messageSelf.message({
           message: datas.msg,
           onClose: () => {
             sessionStorage.removeItem("_addTablesData");

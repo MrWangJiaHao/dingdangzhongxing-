@@ -124,7 +124,6 @@ export default {
 @import "../../assets/scss/btn.scss";
 
 .setUserIngBox {
- 
   .headerBox {
     height: 50px;
     border-radius: 3px;

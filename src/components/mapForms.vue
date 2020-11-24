@@ -71,28 +71,19 @@
           prop="createTime"
           label="创建时间"
           align="center"
+          min-width="120"
         ></el-table-column>
       </el-table>
-    </div>
-    <div class="pageComponent">
-      <pagecomponent
-        :pageComponentsData="pageComponentsData"
-        @getPageNum="getPageNum"
-        @sureSuccssBtn="sureSuccssBtn"
-      ></pagecomponent>
     </div>
   </div>
 </template>
 
 <script>
-import pagecomponent from "./commin/pageComponent"; //分页器
 import { delStoreMapRelation } from "../api/api";
 import { Message } from "element-ui";
 
 export default {
-  components: {
-    pagecomponent,
-  },
+  
   props: {
     storageArea: String,
     storageShelf: String,
@@ -103,10 +94,6 @@ export default {
   data() {
     return {
       multipleSelection: [],
-      pageComponentsData: {
-        //这是分页器需要的json
-        pageNums: 0, //一共多少条 //默认一页10条
-      },
     };
   },
   methods: {
@@ -179,20 +166,7 @@ export default {
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
-    getPageNum(e) {
-      this.pagingQueryData.pageNumber = e;
-    },
-    sureSuccssBtn(e) {
-      this.pagingQueryData.pageNumber = e;
-    },
-    changeData(data) {
-      this.changePageData(data); //用来改变分页器的条数
-    },
-    //用来改变分页器的条数
-    changePageData(data) {
-      let { totalRow } = data;
-      this.pageComponentsData.pageNums = totalRow;
-    },
+    
   },
 };
 </script>
@@ -247,7 +221,7 @@ export default {
   .resultForm {
     padding: 20px;
     .lookDetail {
-      color: rgb(117, 117, 241);
+      color: #599af3;
       text-decoration: underline;
       cursor: pointer;
     }

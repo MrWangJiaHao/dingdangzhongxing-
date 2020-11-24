@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -20,6 +20,7 @@
     "file-saver": "^2.0.2",
     "iview": "^3.5.4",
     "jquery": "^3.5.1",
+    "jsbarcode": "^3.11.3",
     "lib-flexible": "^0.3.2",
     "node-sass": "^4.14.1",
     "qs": "^6.9.4",

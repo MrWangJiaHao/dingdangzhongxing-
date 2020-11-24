@@ -8,7 +8,7 @@
         </div>
         <div class="titleText">子仓区域</div>
         <div class="titleDistance">
-          （<span>长：10m 宽：10m 上北、下南、左西、右东</span>）
+          （<span>长：200m 宽：100m 上北、下南、左西、右东</span>）
         </div>
       </div>
       <div class="setArea">
@@ -39,9 +39,9 @@
             </el-option>
           </el-select>
         </div>
-        <div class="input8">
+        <div class="input8 addStar">
           <el-checkbox v-model="checked" @change="clickNumber"
-            >数字</el-checkbox
+            >数字：</el-checkbox
           >
           <el-select v-model="value3" filterable placeholder="">
             <el-option
@@ -106,13 +106,8 @@
     </div>
   </div>
 </template>
-
 <script>
-// import { query_WH_Request } from "../../api/api";
-// import $ from "jquery";
 import { add_edit_WH_Request } from "../../api/api";
-import { Message } from "element-ui";
-
 export default {
   data() {
     return {
@@ -285,7 +280,6 @@ export default {
         },
       ],
       value3: "1",
-
       dataArr: [],
       pagingQueryData: {
         //分页查询
@@ -325,7 +319,7 @@ export default {
         childWarehouseList[i].wareLength * 0.2 + "px";
       childDiv.style.lineHeight =
         (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
-      childDiv.style.fontSize = "14px";
+      childDiv.style.fontSize = "10px";
       childDiv.innerHTML = childWarehouseList[i].childWareName;
       childDiv.className = "childViewDiv";
       oDiv.append(childDiv);
@@ -344,9 +338,9 @@ export default {
         this.value3 = childWarehouseList[i].childWareCode.substring(1); //子仓编号数字
         this.editId = childWarehouseList[i].id; //选中子仓的id
         this.divChecked = true;
-        // v.style.background = "#367fff"
-        // v.style.border = "1px solid #0555c2"
-        // v.style.color = "white"
+        v.style.background = "#367fff";
+        v.style.border = "1px solid #0555c2";
+        v.style.color = "white";
       };
     });
     // $(".childViewDiv").each((v, i) => {
@@ -383,7 +377,7 @@ export default {
     },
     submitData() {
       if (this.divChecked === false) {
-        Message({
+        this.$messageSelf.message({
           type: "error",
           message: "请先选中一个子仓",
         });
@@ -401,15 +395,15 @@ export default {
           id: this.editId, //仓库id
         };
         add_edit_WH_Request(data).then((ok) => {
-          console.log(ok);
+          // console.log(ok);
           if (ok.data.code === "10000") {
-            Message({
+            this.$messageSelf.message({
               type: "success",
               message: "修改成功",
             });
             this.$router.push("/warehoseconfig/childWarehouseAdmin");
           } else {
-            Message({
+            this.$messageSelf.message({
               type: "error",
               message: ok.data.msg,
             });
@@ -421,10 +415,10 @@ export default {
       let input8 = document.querySelector(".input8");
       let input8_input = document.querySelector(".input8 .el-input");
       if (v) {
-        input8.style.width = "150px";
+        input8.style.width = "8%";
         input8_input.style.display = "block";
       } else {
-        input8.style.width = "70px";
+        input8.style.width = "4%";
         input8_input.style.display = "none";
       }
     },
@@ -446,8 +440,7 @@ export default {
       display: flex;
       align-items: center;
       margin-bottom: 20px;
-      .titleImg {
-      }
+
       .titleText {
         font-size: 16px;
         margin: 0 10px;
@@ -466,16 +459,16 @@ export default {
       border-radius: 10px;
       .temporarily_no {
         position: relative;
-        div {
-          width: 300px;
-          height: 150px;
-          background: white;
-          position: absolute;
-          left: 20px;
-          top: 20px;
-          cursor: pointer;
-          border-radius: 10px;
-        }
+        // div {
+        //   width: 300px;
+        //   height: 150px;
+        //   background: white;
+        //   position: absolute;
+        //   left: 20px;
+        //   top: 20px;
+        //   cursor: pointer;
+        //   border-radius: 10px;
+        // }
       }
     }
     .newChildWarehouse {
@@ -491,97 +484,61 @@ export default {
       display: flex;
       align-items: center;
       margin: 0 0 16px 0;
-      flex-wrap: wrap;
+      height: 38px;
       .input1 {
         display: flex;
         align-items: center;
-        // width: 206px;
-        margin-right: 10px;
-        span {
-          flex-shrink: 0;
-        }
+        width: 15%;
+        margin-right: 16px;
       }
       .input2 {
         display: flex;
         align-items: center;
-        // width: 252px;
-        margin-right: 10px;
-        span {
-          flex-shrink: 0;
-        }
+        width: 10%;
+        margin-right: 16px;
       }
       .input3 {
         display: flex;
         align-items: center;
-        // width: 244px;
-        margin-right: 10px;
-        span {
-          flex-shrink: 0;
-        }
-        span:nth-of-type(2) {
-          font-size: 16px;
-        }
+        width: 12.5%;
+        margin-right: 16px;
       }
       .input4 {
         display: flex;
         align-items: center;
-        // width: 244px;
-        margin-right: 10px;
-        span {
-          flex-shrink: 0;
-        }
-        span:nth-of-type(2) {
-          font-size: 16px;
-        }
+        width: 12.5%;
+        margin-right: 16px;
       }
       .input5 {
         display: flex;
         align-items: center;
-        // width: 276px;
-        margin-right: 10px;
-        span {
-          flex-shrink: 0;
-        }
+        width: 12.5%;
+        margin-right: 16px;
       }
       .input6 {
         display: flex;
         align-items: center;
-        // width: 244px;
-        margin-right: 10px;
-        span {
-          flex-shrink: 0;
-        }
-        span:nth-of-type(2) {
-          font-size: 16px;
-        }
+        width: 12.5%;
+        margin-right: 16px;
       }
       .input7 {
         display: flex;
         align-items: center;
-        // width: 244px;
-        span {
-          flex-shrink: 0;
-        }
-        span:nth-of-type(2) {
-          font-size: 16px;
-        }
+        width: 12.5%;
+        margin-right: 16px;
       }
       .input8 {
         display: flex;
         align-items: center;
         transition: 0.5s;
-        // width: 150px;
-        span {
-          flex-shrink: 0;
-        }
+        width: 8%;
+        margin-right: 16px;
       }
     }
+
     .setRemark {
       display: flex;
       align-items: center;
-      span {
-        flex-shrink: 0;
-      }
     }
   }
   .submitBtn {
@@ -602,58 +559,53 @@ export default {
     border: "1px solid #0555c2";
     color: "white";
   }
+  span {
+    white-space: nowrap;
+  }
 }
 </style>
 <style lang="scss">
 .input1 {
   .el-input__inner {
-    width: 134px;
+    width: 100%;
   }
 }
 .input2 {
   .el-input {
-    width: 144px;
+    width: 100%;
   }
   .el-checkbox__inner {
     border-radius: 50%;
-    margin-left: 10px;
   }
 }
 .input3 {
   .el-input {
-    width: 163px;
-    margin-right: 10px;
+    width: 100%;
   }
 }
 .input4 {
   .el-input {
-    width: 163px;
-    margin-right: 10px;
+    width: 100%;
   }
 }
 .input5 {
   .el-input {
-    width: 204px;
+    width: 100%;
   }
 }
 .input6 {
   .el-input {
-    margin-right: 10px;
-    width: 164px;
+    width: 100%;
   }
 }
 .input7 {
   .el-input {
-    margin-right: 10px;
-    width: 164px;
+    width: 100%;
   }
 }
 .input8 {
   .el-input {
-    margin-right: 10px;
-    width: 80px;
-    margin: 0 10px;
-    display: block;
+    width: 100%;
   }
   .el-checkbox__inner {
     border-radius: 50%;

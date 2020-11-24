@@ -41,6 +41,7 @@ export default {
         if (vm.$route.query.type === "subOrderStatus") {
           let data = vm.$route.query.subOrderStatus;
           vm.subOrderNo = data.subOrderNo;
+          vm.queryFun()
         }
       });
     } else {
@@ -53,55 +54,79 @@ export default {
     return {
       tableData: [],
       subOrderNo: "",
+      queryFun: () => {},
     };
   },
   mounted() {
-    let data = {
-      subOrderNo: this.subOrderNo,
+    this.queryFun = () => {
+      let data = {
+        subOrderNo: this.subOrderNo,
+      };
+      childOrderInfor(data).then((ok) => {
+        if (ok.data.code === "10000") {
+          // console.log(ok);
+          this.tableData = ok.data.result;
+          this.tableData.forEach((v) => {
+            v.operateType = this.subOrderStatusFun(v.operateType);
+          });
+        } else {
+          Message({
+            message: "网络异常",
+            type: "error",
+          });
+        }
+      });
     };
-    childOrderInfor(data).then((ok) => {
-      if (ok.data.code === "10000") {
-        // console.log(ok);
-        this.tableData = ok.data.result;
-        this.tableData.forEach((v) => {
-          v.operateType =
-            v.operateType === 0
-              ? "拉取/手工"
-              : v.operateType === 1
-              ? "拆分"
-              : v.operateType === 2
-              ? "下发中"
-              : v.operateType === 3
-              ? "待审核"
-              : v.operateType === 4
-              ? "待分配"
-              : v.operateType === 5
-              ? "待合并"
-              : v.operateType === 6
-              ? "待打印"
-              : v.operateType === 7
-              ? "待拣货"
-              : v.operateType === 8
-              ? "待复核"
-              : v.operateType === 9
-              ? "重新拣货"
-              : v.operateType === 10
-              ? "已发货"
-              : v.operateType === 11
-              ? "已退单"
-              : "";
-        });
-      } else {
-        Message({
-          message: "网络异常",
-          type: "error",
-        });
-      }
-    });
+    this.queryFun();
   },
   methods: {
     back() {
       this.$router.go(-1);
+    },
+    subOrderStatusFun(state) {
+      let data = state;
+      switch (data) {
+        case 0:
+          data = "拉取/手工";
+          break;
+        case 1:
+          data = "拆分";
+          break;
+        case 2:
+          data = "下发中";
+          break;
+        case 3:
+          data = "待审核";
+          break;
+        case 4:
+          data = "待分配";
+          break;
+        case 5:
+          data = "待合并";
+          break;
+        case 6:
+          data = "待打印";
+          break;
+        case 7:
+          data = "待拣货";
+          break;
+        case 8:
+          data = "待复核";
+          break;
+        case 9:
+          data = "重新拣货";
+          break;
+        case 10:
+          data = "已发货";
+          break;
+        case 11:
+          data = "已退单";
+          break;
+        default:
+          data = "未知";
+          break;
+      }
+      return data;
     },
   },
 };
