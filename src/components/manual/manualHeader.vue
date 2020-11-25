@@ -4,7 +4,7 @@
       <div class="biaogeBox">
         <div class="displayalign mb16 zujianBox">
           <div class="noneIconTitle mr11">委托公司:</div>
-          <div class="mr20">
+          <div class="mr20 w320">
             <el-select
               v-model="paras.orgName"
               slot="prepend"
@@ -25,7 +25,7 @@
         <div v-show="!_isRuku()" class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">出库单号:</div>
-            <div class="mr20">
+            <div class="mr20 w160">
               <el-autocomplete
                 v-model="associatedOrderNo.associatedOrderNoCenter"
                 :fetch-suggestions="associatedArr"
@@ -39,7 +39,7 @@
         <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">关联单号:</div>
-            <div class="mr20">
+            <div class="mr20 w160">
               <el-autocomplete
                 v-model="associatedOrderNo.associatedOrderNoCenter"
                 :fetch-suggestions="associatedArr"
@@ -54,7 +54,7 @@
         <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">入库单号:</div>
-            <div class="mr20">
+            <div class="mr20 w160">
               <el-autocomplete
                 v-model="stockInNo.stockInNoCenter"
                 :fetch-suggestions="stockInNoArr"
@@ -68,7 +68,7 @@
 
         <div class="displayalign mb16 zujianBox">
           <div class="noneIconTitle mr11">入库状态:</div>
-          <div class="mr20">
+          <div class="mr20 w160">
             <el-select
               v-model="paras.putstatus"
               slot="prepend"
@@ -88,7 +88,7 @@
 
         <div class="displayalign mb16 zujianBox">
           <div class="noneIconTitle mr11">入库类型:</div>
-          <div class="mr20">
+          <div class="mr20 w160">
             <el-select
               v-model="WarehousingType.WarehousingTypeCenter"
               disabled
@@ -129,7 +129,7 @@
         <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">产品编码:</div>
-            <div class="mr20">
+            <div class="mr20 w160">
               <el-autocomplete
                 v-model="paras.prodCode"
                 :fetch-suggestions="ProductCodeArr"
@@ -144,7 +144,7 @@
         <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">产品名称:</div>
-            <div class="mr20">
+            <div class="mr20 w160">
               <el-autocomplete
                 v-model="paras.prodId"
                 :fetch-suggestions="ProductNameArr"
@@ -158,7 +158,7 @@
         <!-- <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">产品规格:</div>
-            <div class="mr20">
+            <div class="mr20 w160">
               <el-select
                 v-model="paras.specName"
                 slot="prepend"
@@ -528,7 +528,7 @@ export default {
       this.paras.outWareType = this.$route.params.type;
       this.isOneShou = false;
     }
-    this.addZhanKaiRes(".btnArrs");
+    // this.addZhanKaiRes(".btnArrs");
   },
   methods: {
     addZhanKaiRes(child) {
@@ -664,10 +664,9 @@ export default {
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .fuzzyQueryBox {
-  padding: 17px 30px;
-  display: flex;
-  flex-wrap: wrap;
+  padding: 20px 30px;
   overflow: hidden;
+  height: 180px;
   position: relative;
   justify-content: space-between;
   align-items: center;
@@ -690,7 +689,7 @@ export default {
 .btns {
   position: absolute;
   right: 30px;
-  bottom: 16px;
+  bottom: 20px;
   display: inline-block;
   .queryBtn {
     display: inline-block;

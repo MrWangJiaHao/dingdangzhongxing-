@@ -6,8 +6,9 @@
           <div class="dispalywrap" style="margin: 20px">
             <div class="displayalign">
               <div class="titleBox">委托公司：</div>
-              <div class="displayalign mr20">
+              <div class="displayalign w320 mr20">
                 <el-select
+                  class="w320"
                   v-model="sendOutDataJson.paras.orgName"
                   @focus="getAsyncFindWareOrg"
                   @change="changeWareOrgName"
@@ -25,7 +26,7 @@
             </div>
             <div class="displayalign">
               <div class="titleBox">发货规则：</div>
-              <div class="mr20">
+              <div class="mr20 w160">
                 <el-select
                   v-model="sendOutDataJson.paras.ruleName"
                   placeholder="请选择发货规则"

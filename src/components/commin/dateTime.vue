@@ -83,13 +83,16 @@ export default {
 </script>
 
 <style lang='scss'>
+.ivu-input-inner-container {
+  width: 225px;
+}
 .ivu-input-suffix {
   display: flex;
   align-items: center;
   .ivu-icon {
-    width: 25px;
-    height: 25px;
-    background: url(../../assets/img/icon_calendar.png) center center no-repeat;
+    width: 16px;
+    height: 16px;
+    background: url(../../assets/img/date.png) center center no-repeat;
     background-size: cover;
     &::before {
       content: "";
