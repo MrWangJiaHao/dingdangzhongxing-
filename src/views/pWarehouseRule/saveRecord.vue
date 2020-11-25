@@ -29,6 +29,7 @@
               </div>
               <div v-if="items.placeholder">
                 <el-input
+                  class="w160"
                   v-model="sendDataJson.ruleName"
                   :placeholder="items.placeholder"
                   :disabled="lookerRecord ? true : false"
@@ -105,6 +106,7 @@
             </div>
             <div v-if="item.placeholder">
               <el-input
+                class="w160"
                 v-model="sendDataJson.orderNum"
                 :placeholder="item.placeholder"
                 :maxlength="item.maxlength"
@@ -310,7 +312,7 @@ export default {
       let src = e.indexOf("&nbsp;");
       e = e.replace(
         /&nbsp;/g,
-        `<input id="input" ${
+        `<input id="input" style='width:120px;' ${
           this.lookerRecord ? "disabled" : ""
         } maxlength="2" class="el-input__inner ${
           this.lookerRecord ? "is-disabled" : ""
@@ -400,9 +402,9 @@ export default {
   margin: 0 5px;
 }
 .is-disabled {
-  background-color: #F5F7FA;
-  border-color: #E4E7ED;
-  color: #C0C4CC;
+  background-color: #f5f7fa;
+  border-color: #e4e7ed;
+  color: #c0c4cc;
   cursor: not-allowed;
 }
 </style>

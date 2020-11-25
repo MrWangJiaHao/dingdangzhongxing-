@@ -63,7 +63,7 @@
               区域名称
               <span style="color: red">*</span>:
             </div>
-            <div class="mr20">
+            <div class="mr20 w120">
               <el-input
                 maxlength="30"
                 placeholder="请输入区域名称"
@@ -79,7 +79,7 @@
               区域类型
               <span style="color: red">*</span>:
             </div>
-            <div class="mr20">
+            <div class="mr20 w120">
               <el-select
                 v-model="wareAreaCodeChange.wareAreaName"
                 placeholder="请选择区域类型"
@@ -101,7 +101,7 @@
               区域编号
               <span style="color: red">*</span>:
             </div>
-            <div class="mr20">
+            <div class="mr20 w120">
               <el-select
                 v-model="wareAreaCodeChange.STR"
                 placeholder="请选择字母编号"
@@ -129,7 +129,7 @@
               </div>
               <span class="noneIconTitle">数字:</span>
             </div>
-            <div class="mr20">
+            <div class="mr20 w120">
               <el-select
                 v-model="wareAreaCodeChange.NUM"
                 placeholder="请选择数字编号"
@@ -152,7 +152,7 @@
               区域长度
               <span style="color: red">*</span>:
             </div>
-            <div class="displayalign mr20">
+            <div class="displayalign mr20 w120">
               <el-input
                 placeholder="请输入子仓长度"
                 type="number"
@@ -160,16 +160,16 @@
                 clearable
                 @input="createDomTestwareAreaLength"
               ></el-input>
-              <span class="ml11 M">m</span>
+              <span class="M">m</span>
             </div>
           </div>
           <!-- 区域长度 createWarehouseJson.wareAreaLength m-->
-          <div class="displayalign mb20">
+          <div class="displayalign mb20 mr11">
             <div class="noneIconTitle mr11">
               区域宽度
               <span style="color: red">*</span>:
             </div>
-            <div class="displayalign mr20">
+            <div class="displayalign w120">
               <el-input
                 placeholder="请输入子仓宽度"
                 type="number"
@@ -177,16 +177,16 @@
                 @input="createDomTestwareAreaWidth"
                 clearable
               ></el-input>
-              <span class="ml11 M">m</span>
             </div>
+            <span class="M">m</span>
           </div>
           <!-- 区域宽度 createWarehouseJson.wareAreaWidth m-->
-          <div class="displayalign mb20">
+          <div class="displayalign mb20 mr11">
             <div class="noneIconTitle mr11">
               据北距离
               <span style="color: red">*</span>:
             </div>
-            <div class="displayalign mr20">
+            <div class="displayalign w120">
               <el-input
                 placeholder="请输入据北距离"
                 v-model="createWarehouseJson.y"
@@ -194,16 +194,16 @@
                 @input="createDomTesty"
                 clearable
               ></el-input>
-              <span class="ml11 M">m</span>
             </div>
+            <span class="M">m</span>
           </div>
           <!-- 据北距离 m createWarehouseJson.y -->
-          <div class="displayalign mb20">
+          <div class="displayalign mb20 mr11">
             <div class="noneIconTitle mr11">
               据西距离
               <span style="color: red">*</span>:
             </div>
-            <div class="displayalign mr20">
+            <div class="displayalign w120">
               <el-input
                 placeholder="请输入据西距离"
                 type="number"
@@ -211,15 +211,17 @@
                 @input="createDomTestX"
                 clearable
               ></el-input>
-              <span class="ml11 M">m</span>
             </div>
+            <span class="M">m</span>
           </div>
           <!-- 据西距离 m createWarehouseJson.x-->
         </div>
       </div>
       <!-- 输入部分 -->
       <div class="zujianBox tr">
-        <div class="zujianBox disinb fanhiu" @click="$router.go(-1)">返回</div>
+        <div class="zujianBox mr11 disinb fanhiu" @click="$router.go(-1)">
+          返回
+        </div>
         <div class="disinb tijiao" @click="submitData">提交</div>
       </div>
       <!-- btn -->

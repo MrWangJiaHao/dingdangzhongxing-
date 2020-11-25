@@ -3,6 +3,7 @@
     <div class="dispalywrap">
       <div class="inline mr11 mb16">
         <dropDownXiala
+          :w320="'w320'"
           :dropDowBox="wieTuoGonShiJson"
           @cliclInput="weiTuoGonShiClick"
           @getDropDownData="weiTuoGonShiInput"
@@ -39,7 +40,7 @@
           :drop="'specName'"
         />
       </div>
-      <!-- 委托公司 -->
+      <!-- 请选择产品规格 -->
       <div class="inline mr11 mb16">
         <dropDownXiala
           :dropDowBox="disposeStatusJson"

@@ -80,7 +80,6 @@
           </div>
         </div>
         <!-- 支付时间 -->
-
         <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">打印时间:</div>

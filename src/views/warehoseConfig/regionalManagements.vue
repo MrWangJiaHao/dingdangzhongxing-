@@ -4,7 +4,7 @@
       <div class="biaogeBox">
         <div class="displayalign zujianBox">
           <div class="noneIconTitle mr11">子仓名称:</div>
-          <div class="mr20">
+          <div class="mr20 w160">
             <el-select
               v-model="pagingQueryData.paras.childWareName"
               slot="prepend"
@@ -24,7 +24,7 @@
         <div class="zujianBox">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">区域类型:</div>
-            <div class="mr20">
+            <div class="mr20 w120">
               <el-select
                 v-model="wareAreaTypeJson.wareAreaName"
                 placeholder="请选择区域类型"
@@ -44,7 +44,7 @@
         <div class="zujianBox">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">区域名称:</div>
-            <div class="mr20">
+            <div class="mr20 w120">
               <el-select
                 v-model="pagingQueryData.paras.wareAreaName"
                 slot="prepend"
@@ -105,7 +105,7 @@
                       子仓名称
                       <span style="visibility: hidden">*</span>:
                     </div>
-                    <div>
+                    <div class="w160">
                       <el-select
                         v-model="
                           quyuzicanNameOfSubWareHouse.nameOfSubWareHouseName

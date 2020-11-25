@@ -5,7 +5,7 @@
       <div class="zujianBox">
         <div class="displayalign zujianBox">
           <div class="noneIconTitle mr11">子仓名称:</div>
-          <div class="mr20">
+          <div class="mr20 w120">
             <el-select
               v-model="sendOutData.childWareName"
               placeholder="请选择子仓名称"
@@ -27,7 +27,7 @@
         <div class="zujianBox">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">区域名称:</div>
-            <div class="mr20">
+            <div class="mr20 w120">
               <el-select
                 v-model="sendOutData.wareAreaName"
                 placeholder="请选择区域名称"
@@ -84,9 +84,9 @@
       <div class="displayalign huoZhujianS">
         <div class="displayalign mb20 mr20">
           <div class="noneIconTitle mr11">货架组数:</div>
-          <div class="mr11">
+          <div class="mr11 w160">
             <el-input
-              placeholder="请输入您要创建几组货架"
+              placeholder="请输入要创建几组货架"
               v-model="parent.rowNum"
               clearable
               @blur="createDomZu(parent.rowNum, index)"
@@ -102,7 +102,7 @@
             {{ isNums(parent.danqpaishu) }}/
             {{ isNums(parent.danqpaishu + 1) }}排货架间距:
           </div>
-          <div class="displayalign mr11">
+          <div class="displayalign mr11 w120">
             <el-input
               placeholder="请输入货架间距"
               v-model="parent.distance"

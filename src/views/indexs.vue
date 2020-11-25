@@ -575,7 +575,7 @@ export default {
         !this.dataArr[+this.activeName].children.length &&
         this.dataArr[+this.activeName].title != "首页"
       )
-        return Message({
+        return this.$messageSelf.message({
           message: "该模块在开发中，请耐心等候",
           duration: 500,
         });

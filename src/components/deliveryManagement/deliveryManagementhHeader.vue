@@ -6,6 +6,7 @@
           <div class="noneIconTitle mr11">委托公司:</div>
           <div class="mr20">
             <el-select
+              class="w320"
               v-model="paras.orgName"
               slot="prepend"
               :placeholder="EntrustedCompany.placeholder"
@@ -27,6 +28,7 @@
             <div class="noneIconTitle mr11">渠道:</div>
             <div class="mr20">
               <el-select
+                class="w120"
                 v-model="paras.channelName"
                 slot="prepend"
                 placeholder="请选择渠道"
@@ -50,6 +52,7 @@
             <div class="mr20">
               <el-select
                 v-model="paras.orderSourceName"
+                class="w160"
                 slot="prepend"
                 placeholder="请选择订单来源"
                 @focus="getOrderSourceName"
@@ -72,6 +75,7 @@
             <div class="noneIconTitle mr11">订单号:</div>
             <div class="mr20">
               <el-autocomplete
+                class="w120"
                 v-model="paras.orderNoCenter"
                 :fetch-suggestions="orderNoArr"
                 placeholder="请输入订单号"
@@ -87,6 +91,7 @@
             <div class="noneIconTitle mr11">子单号:</div>
             <div class="mr20">
               <el-autocomplete
+                class="w120"
                 v-model="paras.subOrderNoCenter"
                 :fetch-suggestions="subOrderNoArr"
                 placeholder="请输入子单号"
@@ -101,6 +106,7 @@
           <div class="noneIconTitle mr11">物流公司:</div>
           <div class="mr20">
             <el-select
+              class="w120"
               v-model="paras.exprName"
               slot="prepend"
               placeholder="请选择物流公司"
@@ -123,6 +129,7 @@
             <div class="noneIconTitle mr11">收货人:</div>
             <div class="mr20">
               <el-autocomplete
+                class="w120"
                 v-model="paras.orderContactCenter"
                 :fetch-suggestions="orderContactArr"
                 placeholder="请输入收货人"
@@ -138,6 +145,7 @@
             <div class="noneIconTitle mr11">联系电话:</div>
             <div class="mr20">
               <el-autocomplete
+                class="w120"
                 v-model="orderContactPhone.orderContactPhoneCenter"
                 :fetch-suggestions="orderContactPhoneArr"
                 placeholder="请输入收货人"
@@ -154,6 +162,7 @@
             <div class="mr20">
               <span class="mr11">
                 <el-autocomplete
+                  class="w120"
                   v-model="orderAddr.orderAddrCenter"
                   :fetch-suggestions="orderAddrArr"
                   placeholder="请输入收货地址"
@@ -162,6 +171,7 @@
               </span>
 
               <el-select
+                class="w120"
                 v-model="paras.orderAddr"
                 slot="prepend"
                 placeholder="请选择收货地址"
@@ -186,6 +196,7 @@
             <div class="mr20">
               <span class="mr11">
                 <el-autocomplete
+                  class="w120"
                   v-model="paras.prodNameLike"
                   :fetch-suggestions="addressJsonArr"
                   placeholder="请输入产品名称"
@@ -194,6 +205,7 @@
               </span>
 
               <el-select
+                class="w120"
                 v-model="paras.systemProdName"
                 slot="prepend"
                 placeholder="请选择产品名称"
@@ -563,6 +575,7 @@ function clickFun() {
   padding: 20px 30px;
   display: flex;
   flex-wrap: wrap;
+  
   overflow: hidden;
   justify-content: space-between;
   align-items: center;
