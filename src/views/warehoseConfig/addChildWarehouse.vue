@@ -454,7 +454,7 @@ export default {
 <style scoped lang="scss">
 .childWarehousePage {
   width: 100%;
-  background: #e8e9ec;
+  background: #eef1f8;
   padding: 10px;
   .setChildWarehouse {
     background: white;

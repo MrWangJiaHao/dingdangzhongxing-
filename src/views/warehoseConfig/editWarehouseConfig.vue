@@ -411,7 +411,7 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
 .createWareHouseConfigBox {
-  background-color: #e8e9ec;
+  background-color: #eef1f8;
   padding: 10px;
   .centerCreateWareHouseConfig {
     background: #ffffff;

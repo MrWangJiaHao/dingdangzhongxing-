@@ -238,7 +238,7 @@ export default {
         id: "AA4EBC35E2544E7688E2F4230F3F5E30",
       };
       jurisdicRequest(data).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.pageDataArr = ok.data.result;
           this.pageDataArr.forEach((v, idx) => {
@@ -268,7 +268,7 @@ export default {
         url: "http://139.196.176.227:8801/am/v1/pRole/findRecordPage",
         data: this.pagingQueryData,
       });
-      console.log(datas);
+      // console.log(datas);
       if (datas.code === "10000") {
         let res = datas.result.list;
         this.roleQueryRes = datas.result.list;

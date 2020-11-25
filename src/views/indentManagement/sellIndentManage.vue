@@ -4,104 +4,127 @@
     <div class="roleName">
       <div class="headerHtml">
         <div class="headerInput">
-          <div class="headerInput-one inputs">
-            <div class="el-inputBox">
-              <div class="el-inputBox-text">委托公司：</div>
-              <div class="el-inputBox-checkBox">
-                <el-select
-                  v-model="entrustCompany"
-                  placeholder="请选择委托公司"
-                  @change="entrustCompanys"
-                  clearable
+          <div class="el-inputBox entrustCompany">
+            <div class="el-inputBox-text">委托公司：</div>
+            <div class="el-inputBox-checkBox" style="width: 320px">
+              <el-select
+                v-model="entrustCompany"
+                placeholder="请选择委托公司"
+                @change="entrustCompanys"
+                clearable
+              >
+                <el-option
+                  v-for="item in entrustCompanyData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
                 >
-                  <el-option
-                    v-for="item in entrustCompanyData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
-            </div>
-            <div class="el-inputBox">
-              <div class="el-inputBox-text">渠道：</div>
-              <div class="el-inputBox-checkBox">
-                <el-select
-                  v-model="channelValue"
-                  placeholder="请选择渠道"
-                  @change="channelValues"
-                  clearable
-                >
-                  <el-option
-                    v-for="item in channelValueData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
-            </div>
-            <div class="el-inputBox">
-              <div class="el-inputBox-text">订单来源：</div>
-              <div class="el-inputBox-checkBox">
-                <el-select
-                  v-model="indentSourceValue"
-                  placeholder="请选择订单来源"
-                  @change="indentSourceValues"
-                  clearable
-                >
-                  <el-option
-                    v-for="item in indentSourceValueData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
-            </div>
-            <div class="el-inputBox setMargin">
-              <div class="el-inputBox-text">订单号：</div>
-              <div class="el-inputBox-checkBox">
-                <el-input v-model="orderNumberValue" placeholder="模糊检索">
-                </el-input>
-              </div>
+                </el-option>
+              </el-select>
             </div>
           </div>
-          <div class="headerInput-one headerInput-two">
-            <div class="el-inputBox childrenIndent">
-              <div class="el-inputBox-text">子单号：</div>
-              <div class="el-inputBox-checkBox">
-                <el-input
-                  v-model="ChildOrderNumberValue"
-                  placeholder="模糊检索"
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">渠道：</div>
+            <div class="el-inputBox-checkBox" style="width: 120px">
+              <el-select
+                v-model="channelValue"
+                placeholder="请选择渠道"
+                @change="channelValues"
+                clearable
+              >
+                <el-option
+                  v-for="item in channelValueData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
                 >
-                </el-input>
-              </div>
+                </el-option>
+              </el-select>
             </div>
-            <div class="el-inputBox childrenIndentState">
-              <div class="el-inputBox-text">子单状态：</div>
-              <div class="el-inputBox-checkBox">
-                <el-select
-                  v-model="ChildOrderState"
-                  placeholder="请选择子单状态"
-                  @change="ChildOrderStates"
-                  clearable
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">订单来源：</div>
+            <div class="el-inputBox-checkBox" style="width: 160px">
+              <el-select
+                v-model="indentSourceValue"
+                placeholder="请选择订单来源"
+                @change="indentSourceValues"
+                clearable
+              >
+                <el-option
+                  v-for="item in indentSourceValueData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
                 >
-                  <el-option
-                    v-for="item in ChildOrderStateData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
+                </el-option>
+              </el-select>
             </div>
-            <div class="el-inputBox stateChoose">
-              <div class="el-inputBox-checkBox">
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">订单号：</div>
+            <div class="el-inputBox-checkBox" style="width: 160px">
+              <el-input v-model="orderNumberValue" placeholder="模糊检索">
+              </el-input>
+            </div>
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">子单号：</div>
+            <div class="el-inputBox-checkBox" style="width: 160px">
+              <el-input v-model="ChildOrderNumberValue" placeholder="模糊检索">
+              </el-input>
+            </div>
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">子单状态：</div>
+            <div class="el-inputBox-checkBox" style="width: 120px">
+              <el-select
+                v-model="ChildOrderState"
+                placeholder="请选择子单状态"
+                @change="ChildOrderStates"
+                clearable
+              >
+                <el-option
+                  v-for="item in ChildOrderStateData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">收货人：</div>
+            <div class="el-inputBox-checkBox" style="width: 120px">
+              <el-input v-model="consigneeValue" placeholder="请输入收货人">
+              </el-input>
+            </div>
+          </div>
+
+          <div class="el-inputBox block_hidden telphone">
+            <div class="el-inputBox-text">联系电话：</div>
+            <div class="el-inputBox-checkBox" style="width: 120px">
+              <el-input
+                v-model="telPhoneValue"
+                placeholder="请输入联系电话"
+                type="number"
+                @blur="testIsMobile"
+                @focus="focusEvent"
+              >
+              </el-input>
+            </div>
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">收货地址：</div>
+            <div class="el-inputBox-checkBox" style="width: 320px">
+              <el-input v-model="addressValue" placeholder="请输入收货地址">
+              </el-input>
+            </div>
+          </div>
+          <div class="timeChoose el-inputBox">
+            <div class="stateChoose">
+              <div class="el-inputBox-checkBox" style="width: 110px">
                 <el-select
                   v-model="stateChooseValue"
                   @change="stateChooseValues"
@@ -116,62 +139,33 @@
                 </el-select>
               </div>
             </div>
-            <div class="timeChoose">
-              <div class="timeBox">
-                <div style="">
-                  <dateTime
-                    :dateTimeData="datetimeDates"
-                    @getDateTime="getStartTime"
-                    ref="startTime"
-                  />
-                </div>
-                <!-- 开始时间 -->
-                <div class="line"></div>
-                <div>
-                  <dateTime
-                    :dateTimeData="datetimeDate"
-                    @getDateTime="getEndTime"
-                    ref="endTime"
-                  />
-                </div>
-                <!-- 结束时间 -->
+            <div class="timeBox">
+              <div style="">
+                <dateTime
+                  :dateTimeData="datetimeDates"
+                  @getDateTime="getStartTime"
+                  ref="startTime"
+                />
               </div>
-            </div>
-            <div class="el-inputBox consignee">
-              <div class="el-inputBox-text">收货人：</div>
-              <div class="el-inputBox-checkBox">
-                <el-input v-model="consigneeValue" placeholder="请输入收货人">
-                </el-input>
+              <!-- 开始时间 -->
+              <div class="line"></div>
+              <div>
+                <dateTime
+                  :dateTimeData="datetimeDate"
+                  @getDateTime="getEndTime"
+                  ref="endTime"
+                />
               </div>
+              <!-- 结束时间 -->
             </div>
-            <div class="el-inputBox block_hidden telphone">
-              <div class="el-inputBox-text">联系电话：</div>
-              <div class="el-inputBox-checkBox">
-                <el-input
-                  v-model="telPhoneValue"
-                  placeholder="请输入联系电话"
-                  type="number"
-                  @blur="testIsMobile"
-                  @focus="focusEvent"
-                >
-                </el-input>
-              </div>
-            </div>
-            <div class="el-inputBox block_hidden address">
-              <div class="el-inputBox-text">收货地址：</div>
-              <div class="el-inputBox-checkBox">
-                <el-input v-model="addressValue" placeholder="请输入收货地址">
-                </el-input>
-              </div>
-            </div>
-            <div class="header-botton">
-              <div class="showBtn" @click="clickShow">
-                <span>{{ stateChoose }}</span
-                ><span class="el-icon-caret-bottom caret"></span>
-              </div>
-              <div class="queryBtn" @click="clickQuery">查询</div>
-              <div class="clearBtn" @click="clearInput">清空</div>
-            </div>
+          </div>
+          <div class="header-botton">
+            <!-- <div class="showBtn" @click="clickShow">
+              <span>{{ stateChoose }}</span
+              ><span class="el-icon-caret-bottom caret"></span>
+            </div> -->
+            <div class="queryBtn" @click="clickQuery">查询</div>
+            <div class="clearBtn" @click="clearInput">清空</div>
           </div>
         </div>
       </div>
@@ -360,7 +354,6 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { Message } from "element-ui";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import { queryOrderInfor } from "../../api/api";
 import { isMobile } from "../../utils/validate";
@@ -540,7 +533,7 @@ export default {
             );
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -679,10 +672,10 @@ export default {
     },
     educe() {
       //导出表格
-      // if (!this.multipleSelection.length) return Message("请选择要导出的订单");
+      // if (!this.multipleSelection.length) return this.$messageSelf.message("请选择要导出的订单");
       // if (this.multipleSelection.length != 1)
-      //   return Message("一次只能选择一个订单");
-      // if (this.lotNo === "") return Message("请稍等片刻");
+      //   return this.$messageSelf.message("一次只能选择一个订单");
+      // if (this.lotNo === "") return this.$messageSelf.message("请稍等片刻");
       let oA = document.querySelector(".setUser");
       oA.setAttribute("href", this.getExcelUrl);
     },
@@ -710,7 +703,7 @@ export default {
         });
         caret.style.transform = "rotateZ(0)";
         headerBtn.style.position = "absolute";
-        headerBtn.style.top = "60px";
+        headerBtn.style.top = "50px";
         headerBtn.style.right = "0";
         headerHtml.style.height = "96px";
       }
@@ -824,156 +817,93 @@ export default {
 @import "../../assets/scss/btn.scss";
 
 #mianPage {
-  background: #e6e7ea;
-  padding: 16px;
+  background: #eef1f8;
+  padding: 20px 10px;
 }
 .headerHtml {
   position: relative;
-  height: 96px;
+  padding: 0 16px;
   transition: 0.3s;
   .headerInput {
-    .headerInput-one {
-      width: 100%;
-      margin-bottom: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    .el-inputBox {
       display: flex;
       align-items: center;
-      .el-inputBox {
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        margin-right: 1.05%;
-        .el-inputBox-text {
-          white-space: nowrap;
-        }
-      }
-      .address {
-        margin-top: 16px;
-        width: 25.7%;
-        transition: 0.3s;
-        .el-inputBox-checkBox {
-          width: 100%;
-        }
-      }
-      .telphone {
-        width: 14%;
-        transition: 0.3s;
-        margin-right: 0;
-        .el-inputBox-checkBox {
-          width: 100%;
-        }
-      }
-      .block_hidden {
-        display: none;
-      }
-      .childrenIndent {
-        width: 21.8%;
-        .el-inputBox-checkBox {
-          width: 100%;
-        }
-      }
-      .childrenIndentState {
-        width: 18.2%;
-
-        .el-inputBox-checkBox {
-          width: 100%;
-        }
-      }
-      .stateChoose {
-        width: 6.5%;
-        margin-right: 0.6%;
-      }
-      .consignee {
-        width: 11.3%;
-        .el-inputBox-checkBox {
-          width: 100%;
-        }
-      }
-    }
-    .headerInput-two {
-      flex-wrap: wrap;
-    }
-    .inputs {
-      .el-inputBox {
-        width: 25%;
-      }
-      .setMargin {
-        margin-right: 0;
-      }
-      .el-inputBox-checkBox {
-        width: 100%;
+      margin: 0 20px 16px 0;
+      .el-inputBox-text {
+        white-space: nowrap;
       }
     }
   }
   .header-botton {
-    width: 15%;
-    transition: 0.3s;
+    width: 186px;
+    height: 36px;
+    // transition: 0.3s;
     position: absolute;
     right: 0;
-    top: 60px;
-    .caret {
-      transition: 0.5s;
-    }
-    .showBtn {
-      width: 50px;
-      display: flex;
-      white-space: nowrap;
-      color: #888;
-      position: relative;
-      cursor: pointer;
-      .caret {
-        font-size: 16px;
-        position: absolute;
-        left: 50%;
-      }
-    }
+    bottom: 16px;
+    // .caret {
+    //   transition: 0.5s;
+    // }
+    // .showBtn {
+    //   width: 50px;
+    //   display: flex;
+    //   white-space: nowrap;
+    //   color: #888;
+    //   position: relative;
+    //   cursor: pointer;
+    //   .caret {
+    //     font-size: 16px;
+    //     position: absolute;
+    //     left: 28px;
+    //   }
+    // }
     display: flex;
     align-items: center;
-    justify-content: flex-end;
     .queryBtn {
       @include BtnFunction("success");
     }
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 0 0 10px;
+      margin: 0 16px 0 10px;
     }
   }
   .timeChoose {
-    width: 23.4%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-right: 1.05%;
+    margin-right: 20px;
     .titleBox {
       font-size: 16px;
     }
     .timeBox {
+      height: 34px;
       display: flex;
       align-items: center;
       .line {
         width: 10px;
         height: 2px;
         background: #d1d6e2;
-        margin: 0 2.5%;
+        margin: 0 10px;
       }
     }
   }
 }
 .childWarehouseForm {
-  margin: 16px 0 0 0;
+  margin: 4px 0 0 0;
   background: white;
   .formHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #d1d6e2;
     .icon-title {
       display: flex;
-      margin: 24px 0 0 0;
       .icon-title-icon {
         width: 14px;
         height: 14px;
-        margin: 0 0 0 20px;
-
+        margin: 2px 0 0 20px;
         img {
           width: 100%;
           height: 100%;
@@ -986,15 +916,14 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 20px 16px 0;
+      margin: 16px 16px 16px 0;
       .setUser {
         @include BtnFunction("success");
       }
     }
   }
-
   .resultForm {
-    padding: 20px;
+    padding: 16px;
     .lookDeatil {
       color: #599af3;
       text-decoration: underline;
@@ -1002,46 +931,16 @@ export default {
     }
   }
   .pageComponent {
-    margin: 20px 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;
   }
 }
-</style><style lang="scss">
-.headerInput {
+</style>
+<style lang="scss">
+.entrustCompany {
   .el-select {
     width: 100%;
-  }
-
-  .childrenIndent {
-    .el-select {
-      width: 100%;
-    }
-  }
-
-  .childrenIndentState {
-    .el-select {
-      width: 100%;
-    }
-  }
-
-  .consignee {
-    .el-select {
-      width: 100%;
-    }
-  }
-
-  .address {
-    .el-select {
-      width: 100%;
-    }
-  }
-
-  .telphone {
-    .el-select {
-      width: 100%;
-    }
   }
 }
 </style>

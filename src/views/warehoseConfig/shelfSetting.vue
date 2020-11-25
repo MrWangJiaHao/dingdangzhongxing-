@@ -635,7 +635,7 @@ export default {
 @import "../../assets/scss/btn.scss";
 
 .shelfSettingBox {
-  background-color: rgb(232, 233, 236);
+  background-color:#eef1f8;
   padding: 10px;
   .shelfSettingTopBox {
     background: #ffffff;

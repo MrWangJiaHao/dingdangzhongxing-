@@ -745,7 +745,7 @@ export default {
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .userSettingBox {
-  background-color: rgb(232, 233, 236);
+  background-color: #eef1f8;
   .fuzzyQueryBox {
     padding: 17px 20px;
     display: flex;

@@ -295,8 +295,8 @@
     </div>
     <div class="submitBtn">
       <div class="submitBtnBox">
-        <el-button @click="goBack">取 消</el-button>
-        <el-button type="primary" @click="submitData">提 交</el-button>
+        <el-button @click="goBack" class="canclBtn">取 消</el-button>
+        <el-button type="primary" @click="submitData" class="queryBtn">提 交</el-button>
       </div>
     </div>
   </div>
@@ -808,7 +808,7 @@ export default {
 @import "../../assets/scss/btn.scss";
 
 #mapInfor {
-  background: #e3e4e8;
+  background: #eef1f8;
   height: 100%;
   padding: 10px;
   .productInfor {
@@ -934,6 +934,10 @@ export default {
 
 .queryBtn {
   @include BtnFunction("success");
+}
+.canclBtn{
+  @include BtnFunction("");
+  background: white;
 }
 </style>
 <style lang="scss">

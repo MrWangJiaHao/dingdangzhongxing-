@@ -100,7 +100,7 @@
             ></el-table-column>
           </el-table>
         </div>
-        <div class="pageComponent" v-if="this.tableData.length >= 10">
+        <div class="pageComponent">
           <pagecomponent
             :pageComponentsData="pageComponentsData"
             @getPageNum="getPageNum"
@@ -158,8 +158,8 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { Message } from "element-ui";
 import { createSpec, querySpec, delSpec, querySpecCon } from "../../api/api";
+import { reduceFun } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -184,7 +184,7 @@ export default {
         },
       },
       pageComponentsData: {
-        pageNums: 0, //一共多少条 //默认一页10条
+        pageNums: 0, 
       },
 
       dialogFormVisible: false,
@@ -192,16 +192,18 @@ export default {
       specUnitInput: "",
       remarkInfor: "",
       specValueInput: "",
-      querySpecFun: "",
+      querySpecFun: () => {},
       specId: "",
+      promptMessage: "create",
     };
   },
   mounted() {
     this.querySpecFun = () => {
       let pagingQueryData = this.pagingQueryData;
       querySpec(pagingQueryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
+          this.changeData(ok.data.result);
           this.tableData = ok.data.result.list;
           this.tableData1 = ok.data.result.list;
           this.tableData.forEach((v) => {
@@ -214,24 +216,11 @@ export default {
               label: v.specValue,
             });
 
-            let testObj1 = {};
-            this.specUnitData = this.specUnitData.reduce((item, next) => {
-              testObj1[next.value]
-                ? ""
-                : (testObj1[next.value] = true && item.push(next));
-              return item;
-            }, []);
-
-            let testObj2 = {};
-            this.specValueData = this.specValueData.reduce((item, next) => {
-              testObj2[next.value]
-                ? ""
-                : (testObj2[next.value] = true && item.push(next));
-              return item;
-            }, []);
+            this.specUnitData = reduceFun(this.specUnitData);
+            this.specValueData = reduceFun(this.specValueData);
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -257,10 +246,10 @@ export default {
     },
     okBtn() {
       this.dialogFormVisible = false;
-
       let createData = {
         id: this.specId,
-        wareId: "3B31612A55EE4EB09363A6E3805A3F6D",
+        // wareId: getCookie("X-Auth-wareId"),
+        wareId: "",
         specValue: this.specValueInput,
         specUnit: this.specUnitInput,
         remark: this.remarkInfor,
@@ -268,8 +257,8 @@ export default {
       createSpec(createData).then((ok) => {
         // console.log(ok)
         if (ok.data.code === "10000") {
-          Message({
-            message: "创建成功",
+          this.$messageSelf.message({
+            message: this.promptMessage === "create" ? "创建成功" : "编辑成功",
             type: "success",
           });
           this.querySpecFun();
@@ -277,7 +266,7 @@ export default {
           this.remarkInfor = "";
           this.specValueInput = "";
         } else {
-          Message({
+          this.$messageSelf.message({
             message: ok.data.msg,
             type: "error",
           });
@@ -295,7 +284,7 @@ export default {
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result;
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -314,17 +303,23 @@ export default {
       //创建
       this.dialogFormVisible = true;
       this.title = "添加规格";
+      this.promptMessage = "create";
+      this.specUnitInput = "";
+      this.remarkInfor = "";
+      this.specValueInput = "";
     },
     editChildWarehouse() {
       //编辑
-      this.dialogFormVisible = true;
-      this.title = "编辑规格";
-      if (!this.multipleSelection.length) return Message("请选择要查看的规格");
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message("请选择要查看的规格");
       if (this.multipleSelection.length !== 1)
-        return Message({
+        return this.$messageSelf.message({
           message: "每次只能编辑一个规格，请重新选择",
           type: "warning",
         });
+      this.dialogFormVisible = true;
+      this.title = "编辑规格";
+      this.promptMessage = "edit";
       let gys = this.multipleSelection[0];
       this.specUnitInput = gys.specUnit;
       this.remarkInfor = gys.remark;
@@ -339,30 +334,29 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return Message("请选择要删除的规格");
-      this.$confirm("确定要删除该规格？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      if (!arr.length) return this.$messageSelf.message("请选择要删除的规格");
+      this.$messageSelf
+        .confirms("确定要删除该规格？", "删除确认", {
+          type: "warning",
+        })
         .then(() => {
           this.delRequest({ ids: arr });
         })
         .catch(() => {
-          Message("已取消删除");
+          this.$messageSelf.message("已取消删除");
         });
     },
     //删除的请求
     delRequest(data) {
       delSpec(data).then((ok) => {
         if (ok.data.code === "10000") {
-          Message({
+          this.$messageSelf.message({
             type: "success",
             message: "删除成功",
           });
           this.querySpecFun();
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: ok.data.msg ? ok.data.msg : "删除失败",
           });
@@ -378,7 +372,7 @@ export default {
       ) {
         return;
       } else {
-        Message({
+        this.$messageSelf.message({
           type: "error",
           message: "请输入正确的规格单位",
         });
@@ -399,7 +393,7 @@ export default {
     },
     specValueInputFocusEvent() {
       if (this.specUnitInput === "") {
-        Message({
+        this.$messageSelf.message({
           type: "error",
           message: "请先输入规格单位",
         });
@@ -411,6 +405,8 @@ export default {
     },
     sureSuccssBtn(e) {
       this.pagingQueryData.pageNumber = e;
+      this.tableData = [];
+      this.querySpecFun();
     },
     changeData(data) {
       this.changePageData(data); //用来改变分页器的条数
@@ -427,8 +423,8 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/scss/btn.scss";
 #supplierAdmin {
-  background: #e6e7ea;
-  padding: 16px;
+  background: #eef1f8;
+  padding: 20px 10px;
 }
 .roleName-choose {
   display: flex;
@@ -438,9 +434,9 @@ export default {
     .nameBox {
       display: flex;
       align-items: center;
-      margin: 0 50px 0 0;
+      margin: 0 0 0 16px;
       .roleName-text {
-        font-size: 16px;
+        font-size: 14px;
       }
       .roleName {
         height: 76px;
@@ -470,24 +466,24 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 30px 0 10px;
+      margin: 0 16px 0 10px;
     }
   }
 }
 .childWarehouseForm {
-  margin: 16px 0 0 0;
+  margin: 20px 0 0 0;
   background: white;
   .formHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #d1d6e2;
     .icon-title {
       display: flex;
-      margin: 24px 0 0 0;
       .icon-title-icon {
         width: 14px;
         height: 14px;
-        margin: 0 0 0 20px;
+        margin: 2px 0 0 20px;
         img {
           width: 100%;
           height: 100%;
@@ -500,7 +496,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 20px 16px 0;
+      margin: 16px 16px 16px 0;
       .setUser {
         margin-right: 10px;
         @include BtnFunction("success");
@@ -519,10 +515,10 @@ export default {
     }
   }
   .resultForm {
-    padding: 20px;
+    padding: 16px;
   }
   .pageComponent {
-    margin: 20px 10px 0 0;
+    margin: 0 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;

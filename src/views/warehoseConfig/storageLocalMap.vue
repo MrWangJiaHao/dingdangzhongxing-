@@ -4,9 +4,9 @@
     <div class="inputBoxs">
       <div class="roleName-choose">
         <div class="name_type">
-          <div class="delegaCompany">
+          <div class="delegaCompany entrustCompany">
             <div class="roleName-text">委托公司：</div>
-            <div class="roleName-checkBox">
+            <div class="roleName-checkBox" style="width: 320px">
               <el-select
                 v-model="delegaCompanyValue"
                 placeholder="请选择委托公司"
@@ -24,21 +24,21 @@
           </div>
           <div class="productName">
             <div class="roleName-text">产品名称：</div>
-            <div class="roleName-checkBox">
+            <div class="roleName-checkBox" style="width: 400px">
               <el-input placeholder="模糊搜索" v-model="productName" clearable>
               </el-input>
             </div>
           </div>
           <div class="productCode">
             <div class="roleName-text">产品编码：</div>
-            <div class="roleName-checkBox">
+            <div class="roleName-checkBox" style="width: 160px">
               <el-input placeholder="模糊搜索" v-model="productCode" clearable>
               </el-input>
             </div>
           </div>
           <div class="nameBox">
             <div class="roleName-text">子仓名称：</div>
-            <div class="roleName-checkBox">
+            <div class="roleName-checkBox" style="width: 160px">
               <el-select
                 v-model="nameValue"
                 placeholder="请选择子仓名称"
@@ -56,7 +56,7 @@
           </div>
           <div class="areaName">
             <div class="roleName-text">存放区域：</div>
-            <div class="roleName-checkBox">
+            <div class="roleName-checkBox" style="width: 120px">
               <el-select
                 v-model="placeAreaValue"
                 placeholder="请选择存放区域"
@@ -74,7 +74,7 @@
           </div>
           <div class="areaType">
             <div class="roleName-text">存放货架：</div>
-            <div class="roleName-checkBox">
+            <div class="roleName-checkBox" style="width: 120px">
               <el-select
                 v-model="placeShelfValue"
                 placeholder="请选择存放货架"
@@ -92,7 +92,7 @@
           </div>
           <div class="shelfName">
             <div class="roleName-text">存放层：</div>
-            <div class="roleName-checkBox">
+            <div class="roleName-checkBox" style="width: 120px">
               <el-select
                 v-model="placeTierValue"
                 placeholder="请选择存放层"
@@ -110,7 +110,7 @@
           </div>
           <div class="tierChoose">
             <div class="roleName-text">拣货区域：</div>
-            <div class="roleName-checkBox">
+            <div class="roleName-checkBox" style="width: 120px">
               <el-select
                 v-model="pickAreaValue"
                 placeholder="请选择拣货区域"
@@ -128,7 +128,7 @@
           </div>
           <div class="storageLocalChoose">
             <div class="roleName-text">拣货货架：</div>
-            <div class="roleName-checkBox">
+            <div class="roleName-checkBox" style="width: 120px">
               <el-select
                 v-model="pickShelfValue"
                 placeholder="请选择拣货货架"
@@ -146,7 +146,7 @@
           </div>
           <div class="storageLocalChoose">
             <div class="roleName-text">拣货层：</div>
-            <div class="roleName-checkBox">
+            <div class="roleName-checkBox" style="width: 120px">
               <el-select
                 v-model="pickTierValue"
                 placeholder="请选择拣货层"
@@ -164,7 +164,7 @@
           </div>
           <div class="pickSL">
             <div class="roleName-text">拣货库位：</div>
-            <div class="roleName-checkBox">
+            <div class="roleName-checkBox" style="width: 160px">
               <el-input placeholder="模糊搜索" v-model="pickSL" clearable>
               </el-input>
             </div>
@@ -175,12 +175,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="queryBtns">
-        <div class="roleName-botton">
-          <div class="queryBtn" @click="clickQuery">查询</div>
-          <div class="clearBtn" @click="clearInput">清空</div>
-        </div>
-      </div> -->
       <!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
     </div>
     <div class="formBox">
@@ -904,29 +898,24 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/scss/btn.scss";
 #storageLocalMap {
-  background: #e6e7ea;
+  padding: 20px 10px;
+  background: #eef1f8;
   height: 100%;
-  .inputBoxs {
-    padding: 0 16px 16px 16px;
-  }
   .formBox {
-    .formTabs {
-      padding: 0 20px;
-    }
     .childWarehouseForm {
       margin: 16px 0 0 0;
       background: white;
       .formHeader {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         border-bottom: 1px solid #d1d6e2;
         .icon-title {
           display: flex;
-          margin: 24px 0 0 0;
           .icon-title-icon {
             width: 14px;
             height: 14px;
-            margin: 0 0 0 20px;
+            margin: 2px 0 0 20px;
             img {
               width: 100%;
               height: 100%;
@@ -939,7 +928,7 @@ export default {
         }
         .someBtn {
           display: flex;
-          margin: 16px 20px 16px 0;
+          margin: 16px 16px 16px 0;
           .setUser {
             margin-right: 10px;
             @include BtnFunction("success");
@@ -958,32 +947,26 @@ export default {
         }
       }
       .resultForm {
-        padding: 20px;
+        padding: 16px;
         .lookDetail {
           color: #599af3;
           text-decoration: underline;
           cursor: pointer;
         }
       }
-      .pageComponent {
-        margin: 20px 10px 0 0;
-        text-align: right;
-        height: 36px;
-        background: #ffffff;
-      }
     }
   }
   .publicStyle {
-    margin: 0 30px 0 0;
+    margin: 0 20px 16px 0;
     display: flex;
     align-items: center;
-    margin: 10px 10px 0;
     .roleName-text {
       font-size: 14px;
     }
   }
   .roleName-choose {
     display: flex;
+    padding: 0 16px;
     .name_type {
       position: relative;
       display: flex;
@@ -1022,10 +1005,10 @@ export default {
         @extend .publicStyle;
       }
       .roleName-botton {
+        height: 36px;
         position: absolute;
         right: 0;
-        bottom: 0;
-        margin: 16px 0 0 0;
+        bottom: 16px;
         display: flex;
         align-items: center;
         .queryBtn {
@@ -1040,29 +1023,34 @@ export default {
     }
   }
   .pageComponent {
-    margin: 20px 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;
   }
 }
 </style>
+
 <style lang="scss">
-#storageLocalMap .el-tabs--card > .el-tabs__header {
-  border: none;
-}
-#storageLocalMap .el-tabs__item.is-active {
-  font-size: 16px;
-}
-#storageLocalMap .el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
-  border-bottom: 2px solid #409eff;
-}
-#storageLocalMap .el-tabs__header {
-  margin: 0;
-}
-.formTabs {
-  .el-tabs {
-    left: 0;
+@import "../../assets/scss/btn.scss";
+#storageLocalMap {
+  .el-tabs__item.is-active {
+    @include BtnFunction("success");
+  }
+  .el-tabs__item {
+    @include BtnFunction("");
+    background: white;
+    margin-right: 10px;
+  }
+  .el-tabs--card > .el-tabs__header {
+    border: none;
+  }
+  .el-tabs__header {
+    margin: 0;
+  }
+  .entrustCompany {
+    .el-select {
+      width: 100%;
+    }
   }
 }
 </style>

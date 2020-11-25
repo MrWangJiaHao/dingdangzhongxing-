@@ -109,4 +109,5 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield !important;
 }
+.el-input__inner{font-size: 14px;}
 </style>

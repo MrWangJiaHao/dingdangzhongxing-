@@ -633,7 +633,7 @@ export default {
 
 .has-gutter .el-table td,
 .el-table th.is-leaf {
-  background: #e1eaf5;
+  background: #eef1f8;
 }
 
 .el-table td,
@@ -658,7 +658,7 @@ export default {
   margin: 0 0 0;
 }
 
-.el-tabs {
+.dianjiqiehuan .el-tabs {
   position: relative;
   top: 1px;
   left: 10px;
@@ -709,6 +709,9 @@ export default {
 .el-tabs--card > .el-tabs__header .el-tabs__nav {
   border: none;
 }
+.el-tabs--card>.el-tabs__header{
+  border: none;
+}
 
 .el-tabs__item.is-top.is-closable {
   margin-right: 18px;
@@ -731,7 +734,6 @@ export default {
     display: flex;
     align-items: center;
     overflow: hidden;
-
     a {
       display: flex;
       align-items: center;
@@ -744,26 +746,21 @@ export default {
       }
     }
   }
-
   .dianjiqiehuan {
     padding: 0 20px;
-    background: #e6e7ea;
+    background: #eef1f8;
     border-bottom: 1px solid #ced4de;
-
     .dianjiCenters {
       padding-top: 20px;
       border-bottom: 1px solid #ced4de;
     }
   }
-
   .header-title {
     width: 139px;
     height: 90px;
-
     .header-title-img {
       width: 139px;
       height: 22px;
-
       img {
         margin: 34px 10px 34px 20px;
         cursor: pointer;
@@ -772,20 +769,16 @@ export default {
   }
 }
 </style>
-
 <style lang="scss">
 .tabContainer .el-dropdown {
   color: white;
 }
-
 .tabContainer .el-tabs--bottom .el-tabs__header.is-bottom {
   margin: 0;
 }
-
 .tabContainer .el-tabs__content {
   display: none;
 }
-
 .tabContainer .el-tabs--card > .el-tabs__header .el-tabs__nav {
   border: none;
 }
@@ -793,19 +786,16 @@ export default {
 .tabContainer .el-tabs--card > .el-tabs__header .el-tabs__item {
   border: none;
 }
-
 .tabContainer .el-tabs--card > .el-tabs__header {
   border: none;
   margin: 0;
 }
-
 .tabContainer .el-tabs__item {
   color: white;
   font-size: 16px;
   text-align: center;
   line-height: 34px;
 }
-
 .tabContainer .el-tabs__item.is-active {
   color: white;
   text-align: center;
@@ -815,13 +805,11 @@ export default {
   border-radius: 17px;
   font-size: 16px;
 }
-
 .el-nav {
   width: 89%;
   flex: 1;
   overflow: hidden;
 }
-
 .el-lr {
   width: 70px;
   display: flex;
@@ -829,20 +817,16 @@ export default {
   font-size: 22px;
   color: #fff;
   justify-content: space-around;
-
   div {
     cursor: pointer;
   }
 }
-
 .tabContainer .el-tabs__nav-scroll {
   position: absolute;
 }
-
 .tabContainer .el-tabs__nav-wrap.is-scrollable {
   padding: 0;
 }
-
 .tabContainer .el-tabs__nav-wrap {
   position: relative;
   height: 90px;
@@ -856,7 +840,6 @@ export default {
 .tabContainer .el-tabs__nav-wrap::-webkit-scrollbar {
   display: none;
 }
-
 .tabContainer .el-dropdown {
   font-size: 16px;
   color: white;

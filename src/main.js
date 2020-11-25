@@ -27,6 +27,8 @@ import isChaXun from "./assets/js/isChaXun"; //是否要展示
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+import './assets/scss/index.scss'
+
 NProgress.configure({
   easing: 'ease', // 动画方式    
   speed: 500, // 递增进度条的速度    

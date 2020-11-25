@@ -94,7 +94,7 @@
             ></el-table-column>
           </el-table>
         </div>
-        <div class="pageComponent" v-if="this.tableData.length >= 10">
+        <div class="pageComponent">
           <pagecomponent
             :pageComponentsData="pageComponentsData"
             @getPageNum="getPageNum"
@@ -181,14 +181,13 @@
 <script>
 import { regionData, CodeToText } from "element-china-area-data";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { Message } from "element-ui";
 import {
   createSupplier,
   querySupplier,
   delSupplier,
   querySupplierCon,
 } from "../../api/api";
-import { isMobile } from "../../utils/validate";
+import { getCookie, isMobile } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -228,16 +227,20 @@ export default {
       supplierName: "",
       telPeople: "",
       telPeoplePhone: "",
-      querySupplierFun: "",
+      querySupplierFun: () => {},
       supId: "",
+
+      isPhone: true,
+      btnType: "create",
     };
   },
   mounted() {
     this.querySupplierFun = () => {
       let pagingQueryData = this.pagingQueryData;
       querySupplier(pagingQueryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
+          this.changeData(ok.data.result);
           this.tableData = ok.data.result.list;
           this.tableData1 = ok.data.result.list;
           this.tableData.forEach((v) => {
@@ -254,7 +257,7 @@ export default {
             }, []);
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -277,11 +280,16 @@ export default {
     },
     okBtn() {
       // this.testIsMobile()
+      if (!this.isPhone)
+        return this.$messageSelf.message({
+          message: "请输入正确的手机号",
+          type: "error",
+        });
       this.dialogFormVisible = false;
 
       let createData = {
         id: this.supId,
-        wareId: "3B31612A55EE4EB09363A6E3805A3F6D",
+        wareId: getCookie("X-Auth-wareId"),
         supFullName: this.supplierName,
         supContact: this.telPeople,
         supContactPhone: this.telPeoplePhone,
@@ -297,8 +305,13 @@ export default {
       // console.log(createData)
       createSupplier(createData).then((ok) => {
         if (ok.data.code === "10000") {
-          Message({
-            message: "创建成功",
+          this.$messageSelf.message({
+            message:
+              this.btnType === "create"
+                ? "创建成功"
+                : this.btnType === "edit"
+                ? "编辑成功"
+                : "",
             type: "success",
           });
           this.querySupplierFun();
@@ -308,12 +321,13 @@ export default {
           this.telPeople = "";
           this.telPeoplePhone = "";
         } else {
-          Message({
+          this.$messageSelf.message({
             message: ok.data.msg,
             type: "error",
           });
         }
       });
+      this.querySupplierFun();
     },
     clickQuery() {
       //点击查询
@@ -326,7 +340,7 @@ export default {
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result;
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -341,18 +355,19 @@ export default {
     createChildWarehouse() {
       //创建
       this.dialogFormVisible = true;
+      this.btnType = "create";
     },
     editChildWarehouse() {
       //编辑
       if (!this.multipleSelection.length)
-        return Message("请选择要编辑的供应商");
+        return this.$messageSelf.message("请选择要编辑的供应商");
       if (this.multipleSelection.length !== 1)
-        return Message({
+        return this.$messageSelf.message({
           message: "每次只能编辑一个供应商信息，请重新选择",
           type: "warning",
         });
       this.dialogFormVisible = true;
-
+      this.btnType = "edit";
       let gys = this.multipleSelection[0];
       this.xiangxiAddrName = gys.supAddr;
       this.remarkInfor = gys.remark;
@@ -369,30 +384,29 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return Message("请选择要删除的供应商");
-      this.$confirm("确定要删除该供应商？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      if (!arr.length) return this.$messageSelf.message("请选择要删除的供应商");
+      this.$messageSelf
+        .confirms("确定要删除该供应商？", "删除确认", {
+          type: "warning",
+        })
         .then(() => {
           this.delRequest({ ids: arr });
         })
         .catch(() => {
-          Message("已取消删除");
+          this.$messageSelf.message("已取消删除");
         });
     },
     //删除的请求
     delRequest(data) {
       delSupplier(data).then((ok) => {
         if (ok.data.code === "10000") {
-          Message({
+          this.$messageSelf.message({
             type: "success",
             message: "删除成功",
           });
           this.querySupplierFun();
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: ok.data.msg ? ok.data.msg : "删除失败",
           });
@@ -405,6 +419,8 @@ export default {
     },
     sureSuccssBtn(e) {
       this.pagingQueryData.pageNumber = e;
+      this.tableData = [];
+      this.querySupplierFun();
     },
     changeData(data) {
       this.changePageData(data); //用来改变分页器的条数
@@ -429,11 +445,13 @@ export default {
     testIsMobile() {
       let telPeoplePhone = this.telPeoplePhone;
       if (!isMobile(telPeoplePhone)) {
-        return Message({
+        this.isPhone = false;
+        return this.$messageSelf.message({
           type: "error",
           message: "请输入正确的手机号",
         });
       }
+      this.isPhone = true;
     },
   },
 };
@@ -442,8 +460,8 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/scss/btn.scss";
 #supplierAdmin {
-  background: #e6e7ea;
-  padding: 16px;
+  background: #eef1f8;
+  padding: 20px 10px;
 }
 .roleName-choose {
   display: flex;
@@ -453,9 +471,9 @@ export default {
     .nameBox {
       display: flex;
       align-items: center;
-      margin: 0 50px 0 0;
+      margin: 0 0 0 16px;
       .roleName-text {
-        font-size: 16px;
+        font-size: 14px;
       }
       .roleName {
         // width: 100%;
@@ -487,24 +505,24 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 30px 0 10px;
+      margin: 0 16px 0 10px;
     }
   }
 }
 .childWarehouseForm {
-  margin: 16px 0 0 0;
+  margin: 20px 0 0 0;
   background: white;
   .formHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #d1d6e2;
     .icon-title {
       display: flex;
-      margin: 24px 0 0 0;
       .icon-title-icon {
         width: 14px;
         height: 14px;
-        margin: 0 0 0 20px;
+        margin: 2px 0 0 16px;
         img {
           width: 100%;
           height: 100%;
@@ -517,7 +535,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 20px 16px 0;
+      margin: 16px;
       .setUser {
         margin-right: 10px;
         @include BtnFunction("success");
@@ -536,10 +554,10 @@ export default {
     }
   }
   .resultForm {
-    padding: 20px;
+    padding: 16px;
   }
   .pageComponent {
-    margin: 20px 10px 0 0;
+    margin: 0 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;

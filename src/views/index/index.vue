@@ -352,9 +352,9 @@ export default {
     .warehouseStatistics {
       height: 480px;
       display: flex;
-      margin: 0 0 16px 16px;
+      margin: 0 16px 16px 16px;
       .ws-area1 {
-        width: 20.1%;
+        width: 20.45%;
         height: 480px;
         border-radius: 4px;
         background: white;
@@ -376,7 +376,7 @@ export default {
         }
       }
       .ws-area2 {
-        width: 77.6%;
+        width: 79.48%;
         height: 480px;
         border-radius: 4px;
         background: white;
@@ -462,9 +462,6 @@ export default {
             font-weight: bold;
             cursor: pointer;
           }
-        }
-        .infor-two-echarts {
-          // width: 936px;
         }
       }
     }

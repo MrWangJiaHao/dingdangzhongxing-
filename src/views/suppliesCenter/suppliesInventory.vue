@@ -194,7 +194,7 @@
             ></el-table-column>
           </el-table>
         </div>
-        <div class="pageComponent" v-if="this.tableData.length >= 10">
+        <div class="pageComponent">
           <pagecomponent
             :pageComponentsData="pageComponentsData"
             @getPageNum="getPageNum"
@@ -214,7 +214,7 @@ import {
   querySpec,
 } from "../../api/api";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { Message } from "element-ui";
+import { reduceFun } from "../../utils/validate";
 
 export default {
   components: {
@@ -252,6 +252,9 @@ export default {
         { value: "0", label: "未达到" },
         { value: "1", label: "达到" },
       ],
+      pageComponentsData: {
+        pageNums: 0,
+      },
       queryData: {
         orderBy: "createTime",
         pageNumber: 1,
@@ -269,7 +272,7 @@ export default {
       allBrandData: [],
       allSupData: [],
       allSpecData: [],
-      queryMateAdminFun: "",
+      queryMateAdminFun: () => {},
     };
   },
   mounted() {
@@ -279,6 +282,7 @@ export default {
       queryMateAdmin(queryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
+          this.changeData(ok.data.result);
           this.tableData = ok.data.result.list;
           this.tableData.forEach((v) => {
             this.mateTypeValueData.forEach((vv) => {
@@ -319,19 +323,10 @@ export default {
               value: v.braFullName,
               label: v.braFullName,
             });
-            let testObj = {};
-            this.brandNameValueData = this.brandNameValueData.reduce(
-              (item, next) => {
-                testObj[next.value]
-                  ? ""
-                  : (testObj[next.value] = true && item.push(next));
-                return item;
-              },
-              []
-            );
+            this.brandNameValueData = reduceFun(this.brandNameValueData);
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "查询品牌失败",
             type: "error",
           });
@@ -347,19 +342,10 @@ export default {
               value: v.supFullName,
               label: v.supFullName,
             });
-            let testObj1 = {};
-            this.supNameValueData = this.supNameValueData.reduce(
-              (item, next) => {
-                testObj1[next.value]
-                  ? ""
-                  : (testObj1[next.value] = true && item.push(next));
-                return item;
-              },
-              []
-            );
+            this.supNameValueData = reduceFun(this.supNameValueData);
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "查询供应商失败",
             type: "error",
           });
@@ -375,19 +361,10 @@ export default {
               value: v.specValue,
               label: v.specValue,
             });
-            let testObj2 = {};
-            this.mateSpecValueData = this.mateSpecValueData.reduce(
-              (item, next) => {
-                testObj2[next.value]
-                  ? ""
-                  : (testObj2[next.value] = true && item.push(next));
-                return item;
-              },
-              []
-            );
+            this.mateSpecValueData = reduceFun(this.mateSpecValueData);
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "查询规格失败",
             type: "error",
           });
@@ -483,6 +460,8 @@ export default {
     },
     sureSuccssBtn(e) {
       this.pagingQueryData.pageNumber = e;
+      this.tableData = [];
+      this.queryMateAdminFun();
     },
     changeData(data) {
       this.changePageData(data); //用来改变分页器的条数
@@ -499,20 +478,21 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
 #mateAdmin {
-  background: #e6e7ea;
-  padding: 16px;
+  background: #eef1f8;
+  padding: 20px 10px;
 }
 .roleName-choose {
   display: flex;
   justify-content: space-between;
   .name_type {
     display: flex;
+    padding: 0 0 0 16px;
     .nameBox {
       display: flex;
       align-items: center;
       margin: 0 16px 0 0;
       .roleName-text {
-        font-size: 16px;
+        font-size: 14px;
         white-space: nowrap;
       }
       .roleName {
@@ -543,24 +523,24 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 30px 0 10px;
+      margin: 0 16px 0 10px;
     }
   }
 }
 .childWarehouseForm {
-  margin: 16px 0 0 0;
+  margin: 20px 0 0 0;
   background: white;
   .formHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #d1d6e2;
     .icon-title {
       display: flex;
-      margin: 24px 0 0 0;
       .icon-title-icon {
         width: 14px;
         height: 14px;
-        margin: 0 0 0 20px;
+        margin: 2px 0 0 20px;
         img {
           width: 100%;
           height: 100%;
@@ -573,7 +553,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 20px 16px 0;
+      margin: 16px 16px 16px 0;
       .setUser {
         margin-right: 10px;
         @include BtnFunction("success");
@@ -592,10 +572,9 @@ export default {
     }
   }
   .resultForm {
-    padding: 20px;
+    padding: 16px;
   }
   .pageComponent {
-    margin: 20px 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;

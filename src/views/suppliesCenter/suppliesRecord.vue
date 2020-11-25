@@ -210,7 +210,7 @@
             ></el-table-column>
           </el-table>
         </div>
-        <div class="pageComponent" v-if="this.tableData.length >= 10">
+        <div class="pageComponent">
           <pagecomponent
             :pageComponentsData="pageComponentsData"
             @getPageNum="getPageNum"
@@ -321,7 +321,6 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { Message } from "element-ui";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import {
   createMateRecord,
@@ -333,7 +332,7 @@ import {
   querySpec,
   getFindWareOrg,
 } from "../../api/api";
-import { getCookie } from '../../utils/validate';
+import { getCookie } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -435,7 +434,7 @@ export default {
         },
       },
       pageComponentsData: {
-        pageNums: 0, //一共多少条 //默认一页10条
+        pageNums: 0,
       },
 
       dialogFormVisible: false,
@@ -540,7 +539,7 @@ export default {
           });
         });
       } else {
-        Message({
+        this.$messageSelf.message({
           message: "查询供应商失败",
           type: "error",
         });
@@ -558,7 +557,7 @@ export default {
           });
         });
       } else {
-        Message({
+        this.$messageSelf.message({
           message: "查询品牌失败",
           type: "error",
         });
@@ -570,7 +569,7 @@ export default {
       if (ok.data.code === "10000") {
         this.allSpecData = ok.data.result.list;
       } else {
-        Message({
+        this.$messageSelf.message({
           message: "查询规格失败",
           type: "error",
         });
@@ -581,6 +580,7 @@ export default {
       queryMateRecord(pagingQueryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
+          this.changeData(ok.data.result);
           this.tableData = ok.data.result.list;
           this.tableData.forEach((v) => {
             this.anyTypeData.forEach((vv) => {
@@ -656,7 +656,6 @@ export default {
         }
       });
       //选择物料名称后自动将相关信息填入到对应框内
-      this.tableData = [];
       let queryData = this.queryData;
       queryMateAdmin(queryData).then((ok) => {
         // console.log(ok);
@@ -718,7 +717,7 @@ export default {
       createMateRecord(createData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
-          Message({
+          this.$messageSelf.message({
             message: "创建成功",
             type: "success",
           });
@@ -732,7 +731,7 @@ export default {
           this.dialogQuantity = "";
           this.dialogTypeValue = "";
         } else {
-          Message({
+          this.$messageSelf.message({
             message: ok.data.msg,
             type: "error",
           });
@@ -759,7 +758,7 @@ export default {
       //   if (ok.data.code === "10000") {
       //     this.tableData = ok.data.result;
       //   } else {
-      //     Message({
+      //     this.$messageSelf.message({
       //       message: "未知错误",
       //       type: "error",
       //     });
@@ -790,12 +789,11 @@ export default {
     educe() {
       //导出表格
       if (this.tableData.length === 0) {
-        return Message({
+        return this.$messageSelf.message({
           message: "表格为空不能导出",
           type: "error",
         });
       }
-
       import("../../js-xlsx/Export2Excel").then((excel) => {
         // 设置导出表格的头部
         const tHeader = [
@@ -858,15 +856,18 @@ export default {
     editChildWarehouse() {
       //编辑
       this.title = "编辑物料记录";
-      if (!this.multipleSelection.length) return Message("请选择要编辑的物料记录");
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message("请选择要编辑的物料记录");
       if (this.multipleSelection.length !== 1)
-        return Message({
+        return this.$messageSelf.message({
           message: "每次只能编辑一个物料记录信息，请重新选择",
           type: "warning",
         });
       this.dialogFormVisible = true;
 
       // let res = this.multipleSelection[0];
+      // this.dialogBelongCompany=res.orgName
+
     },
 
     delChildWarehouse() {
@@ -877,30 +878,30 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return Message("请选择要删除的物料信息");
-      this.$confirm("确定要删除该物料信息？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      if (!arr.length)
+        return this.$messageSelf.message("请选择要删除的物料信息");
+      this.$messageSelf
+        .confirms("确定要删除该物料信息？", "删除确认", {
+          type: "warning",
+        })
         .then(() => {
           this.delRequest({ ids: arr });
         })
         .catch(() => {
-          Message("已取消删除");
+          this.$messageSelf.message("已取消删除");
         });
     },
     //删除的请求
     delRequest(data) {
       delMateRecord(data).then((ok) => {
         if (ok.data.code === "10000") {
-          Message({
+          this.$messageSelf.message({
             type: "success",
             message: "删除成功",
           });
           this.pageQueryFun();
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: ok.data.msg ? ok.data.msg : "删除失败",
           });
@@ -913,6 +914,8 @@ export default {
     },
     sureSuccssBtn(e) {
       this.pagingQueryData.pageNumber = e;
+      this.tableData = [];
+      this.pageQueryFun();
     },
     changeData(data) {
       this.changePageData(data); //用来改变分页器的条数
@@ -949,20 +952,19 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/scss/btn.scss";
 #mateAdmin {
-  background: #e6e7ea;
-  padding: 16px;
+  background: #eef1f8;
+  padding: 20px 10px;
 }
 .roleName-choose {
-  // display: flex;
-  // justify-content: space-between;
   .name_type {
     display: flex;
+    padding: 0 0 0 16px;
     .nameBox {
       display: flex;
       align-items: center;
       margin: 0 16px 0 0;
       .roleName-text {
-        font-size: 16px;
+        font-size: 14px;
         white-space: nowrap;
       }
       .roleName {
@@ -993,16 +995,16 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 30px 0 10px;
+      margin: 0 16px 0 10px;
     }
   }
   .timeChoose {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 16px;
+    margin: 16px 0 0 16px;
     .titleBox {
-      font-size: 16px;
+      font-size: 14px;
     }
     .timeBox {
       display: flex;
@@ -1017,19 +1019,19 @@ export default {
   }
 }
 .childWarehouseForm {
-  margin: 16px 0 0 0;
+  margin: 20px 0 0 0;
   background: white;
   .formHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #d1d6e2;
     .icon-title {
       display: flex;
-      margin: 24px 0 0 0;
       .icon-title-icon {
         width: 14px;
         height: 14px;
-        margin: 0 0 0 20px;
+        margin: 2px 0 0 20px;
         img {
           width: 100%;
           height: 100%;
@@ -1042,7 +1044,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 20px 16px 0;
+      margin: 16px 16px 16px 0;
       .setUser {
         margin-right: 10px;
         @include BtnFunction("success");
@@ -1061,10 +1063,10 @@ export default {
     }
   }
   .resultForm {
-    padding: 20px;
+    padding: 16px;
   }
   .pageComponent {
-    margin: 20px 10px 0 0;
+    margin: 0 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;
@@ -1075,7 +1077,7 @@ export default {
 <style lang="scss">
 #mateAdmin {
   .titleBox {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .el-dialog__wrapper {

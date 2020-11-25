@@ -3,123 +3,124 @@
     <!-- 这里库位管理的页面 -->
     <div class="roleName-choose">
       <div class="name_type">
-        <div class="nameBox">
-          <div class="roleName-text">子仓名称：</div>
-          <div class="roleName-checkBox">
-            <el-select
-              v-model="nameValue"
-              placeholder="请选择子仓名称"
-              @change="nameValues"
-              @visible-change="chooseItem"
-            >
-              <el-option
-                v-for="item in childWarehouseName"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+        <div class="someInputs">
+          <div class="nameBox">
+            <div class="roleName-text">子仓名称：</div>
+            <div class="roleName-checkBox" style="width: 160px">
+              <el-select
+                v-model="nameValue"
+                placeholder="请选择子仓名称"
+                @change="nameValues"
+                @visible-change="chooseItem"
               >
-              </el-option>
-            </el-select>
+                <el-option
+                  v-for="item in childWarehouseName"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="areaName">
+            <div class="roleName-text">区域名称：</div>
+            <div class="roleName-checkBox" style="width: 120px">
+              <el-select
+                v-model="areaNameValue"
+                placeholder="请选择区域名称"
+                @change="areaNameValues"
+              >
+                <el-option
+                  v-for="item in areaNameData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="areaType">
+            <div class="roleName-text">区域类型：</div>
+            <div class="roleName-checkBox" style="width: 120px">
+              <el-select
+                v-model="areaTypeValue"
+                placeholder="请选择区域类型"
+                @change="areaTypeValues"
+              >
+                <el-option
+                  v-for="item in areaTypeData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="shelfName">
+            <div class="roleName-text">货架名称：</div>
+            <div class="roleName-checkBox" style="width: 120px">
+              <el-select
+                v-model="shelfNameValue"
+                placeholder="请选择货架名称"
+                @change="shelfNameValues"
+              >
+                <el-option
+                  v-for="item in shelfNameData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="tierChoose">
+            <div class="roleName-text">层：</div>
+            <div class="roleName-checkBox" style="width: 120px">
+              <el-select
+                v-model="tierChooseValue"
+                placeholder="请选择层数"
+                @change="tierChooseValues"
+              >
+                <el-option
+                  v-for="item in tierChooseData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="storageLocalChoose">
+            <div class="roleName-text">库位：</div>
+            <div class="roleName-checkBox" style="width: 160px">
+              <el-select
+                v-model="storageLocalChooseValue"
+                placeholder="请选择库位"
+                @change="storageLocalChooseValues"
+              >
+                <el-option
+                  v-for="item in storageLocalChooseData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
           </div>
         </div>
-        <div class="areaName">
-          <div class="roleName-text">区域名称：</div>
-          <div class="roleName-checkBox">
-            <el-select
-              v-model="areaNameValue"
-              placeholder="请选择区域名称"
-              @change="areaNameValues"
-            >
-              <el-option
-                v-for="item in areaNameData"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </div>
-        </div>
-        <div class="areaType">
-          <div class="roleName-text">区域类型：</div>
-          <div class="roleName-checkBox">
-            <el-select
-              v-model="areaTypeValue"
-              placeholder="请选择区域类型"
-              @change="areaTypeValues"
-            >
-              <el-option
-                v-for="item in areaTypeData"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </div>
-        </div>
-        <div class="shelfName">
-          <div class="roleName-text">货架名称：</div>
-          <div class="roleName-checkBox">
-            <el-select
-              v-model="shelfNameValue"
-              placeholder="请选择货架名称"
-              @change="shelfNameValues"
-            >
-              <el-option
-                v-for="item in shelfNameData"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </div>
-        </div>
-        <div class="tierChoose">
-          <div class="roleName-text">层：</div>
-          <div class="roleName-checkBox">
-            <el-select
-              v-model="tierChooseValue"
-              placeholder="请选择层数"
-              @change="tierChooseValues"
-            >
-              <el-option
-                v-for="item in tierChooseData"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </div>
-        </div>
-        <div class="storageLocalChoose">
-          <div class="roleName-text">库位：</div>
-          <div class="roleName-checkBox">
-            <el-select
-              v-model="storageLocalChooseValue"
-              placeholder="请选择库位"
-              @change="storageLocalChooseValues"
-            >
-              <el-option
-                v-for="item in storageLocalChooseData"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </div>
+        <div class="roleName-botton">
+          <div class="queryBtn" @click="clickQuery">查询</div>
+          <div class="clearBtn" @click="clearInput">清空</div>
         </div>
       </div>
     </div>
-    <div class="queryBtns">
-      <div class="roleName-botton">
-        <div class="queryBtn" @click="clickQuery">查询</div>
-        <div class="clearBtn" @click="clearInput">清空</div>
-      </div>
-    </div>
+
     <!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
     <div class="childWarehouseForm">
       <div class="formHeader">
@@ -581,12 +582,12 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/scss/btn.scss";
 #storageLocalAdmin {
-  background: #e6e7ea;
-  padding: 16px;
+  background: #eef1f8;
+  padding: 20px 10px;
   height: 100%;
 }
 .publicStyle {
-  margin: 0 30px 0 0;
+  margin: 0 20px 16px 0;
   display: flex;
   align-items: center;
   .roleName-text {
@@ -599,7 +600,6 @@ export default {
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #d1d6e2;
-    // margin: 16px;
     .roleName-choose {
       width: 360px;
       display: flex;
@@ -614,9 +614,18 @@ export default {
 .roleName-choose {
   display: flex;
   justify-content: space-between;
+  padding: 0 16px;
   flex-wrap: wrap;
   .name_type {
+    width: 100%;
+    justify-content: space-between;
     display: flex;
+    
+    .someInputs {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
     .nameBox {
       @extend .publicStyle;
     }
@@ -635,42 +644,36 @@ export default {
     .storageLocalChoose {
       @extend .publicStyle;
     }
-  }
-}
-.queryBtns {
-  height: 52px;
-  position: relative;
-  .roleName-botton {
-    position: absolute;
-    right: 16px;
-    // bottom: 16px;
-    margin: 16px 0 0 0;
-    display: flex;
-    align-items: center;
-    .queryBtn {
-      @include BtnFunction("success");
-    }
-    .clearBtn {
-      @include BtnFunction();
-      background: #fff;
-      margin: 0 30px 0 10px;
+    .roleName-botton {
+      height: 36px;
+      display: flex;
+      align-items: center;
+      .queryBtn {
+        @include BtnFunction("success");
+      }
+      .clearBtn {
+        @include BtnFunction();
+        background: #fff;
+        margin: 0 0 0 10px;
+      }
     }
   }
 }
+
 .childWarehouseForm {
-  margin: 16px 0 0 0;
+  margin: 4px 0 0 0;
   background: white;
   .formHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #d1d6e2;
     .icon-title {
       display: flex;
-      margin: 24px 0 0 0;
       .icon-title-icon {
         width: 14px;
         height: 14px;
-        margin: 0 0 0 20px;
+        margin: 2px 0 0 20px;
         img {
           width: 100%;
           height: 100%;
@@ -683,34 +686,25 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 20px 16px 0;
+      margin: 16px 16px 16px 0;
       .setUser {
         margin-right: 10px;
         @include BtnFunction("success");
       }
       .bianjiUser {
-        margin-right: 10px;
-        @include BtnFunction("success");
-      }
-      .remove {
-        @include BtnFunction("error");
-      }
-      .goOn {
-        margin-right: 10px;
         @include BtnFunction("success");
       }
     }
   }
   .resultForm {
-    padding: 20px;
+    padding: 16px;
     .lookDetail {
-      color: rgb(117, 117, 241);
+      color: #599af3;
       text-decoration: underline;
       cursor: pointer;
     }
   }
   .pageComponent {
-    margin: 20px 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;

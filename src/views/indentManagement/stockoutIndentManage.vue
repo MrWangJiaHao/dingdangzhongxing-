@@ -4,142 +4,135 @@
     <div class="roleName">
       <div class="headerHtml">
         <div class="headerInput">
-          <div class="headerInput-one inputs">
-            <div class="el-inputBox">
-              <div class="el-inputBox-text">委托公司：</div>
-              <div class="el-inputBox-checkBox">
-                <el-select
-                  v-model="entrustCompany"
-                  placeholder="请选择委托公司"
-                  @change="entrustCompanys"
-                  clearable
+          <div class="el-inputBox entrustCompany">
+            <div class="el-inputBox-text">委托公司：</div>
+            <div class="el-inputBox-checkBox" style="width: 320px">
+              <el-select
+                v-model="entrustCompany"
+                placeholder="请选择委托公司"
+                @change="entrustCompanys"
+                clearable
+              >
+                <el-option
+                  v-for="item in entrustCompanyData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
                 >
-                  <el-option
-                    v-for="item in entrustCompanyData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
-            </div>
-            <div class="el-inputBox">
-              <div class="el-inputBox-text">渠道：</div>
-              <div class="el-inputBox-checkBox">
-                <el-select
-                  v-model="channelValue"
-                  placeholder="请选择渠道"
-                  @change="channelValues"
-                  clearable
-                >
-                  <el-option
-                    v-for="item in channelValueData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
-            </div>
-            <div class="el-inputBox">
-              <div class="el-inputBox-text">订单来源：</div>
-              <div class="el-inputBox-checkBox">
-                <el-select
-                  v-model="indentSourceValue"
-                  placeholder="请选择订单来源"
-                  @change="indentSourceValues"
-                  clearable
-                >
-                  <el-option
-                    v-for="item in indentSourceValueData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
-            </div>
-            <div class="el-inputBox ">
-              <div class="el-inputBox-text">订单号：</div>
-              <div class="el-inputBox-checkBox">
-                <el-input v-model="orderNumberValue" placeholder="模糊检索">
-                </el-input>
-              </div>
-            </div>
-            <div class="el-inputBox setMargin">
-              <div class="el-inputBox-text">子单号：</div>
-              <div class="el-inputBox-checkBox">
-                <el-input
-                  v-model="ChildOrderNumberValue"
-                  placeholder="模糊检索"
-                >
-                </el-input>
-              </div>
+                </el-option>
+              </el-select>
             </div>
           </div>
-          <div class="headerInput-one headerInput-two">
-            <div class="el-inputBox childrenIndent">
-              <div class="el-inputBox-text">产品名称：</div>
-              <div class="el-inputBox-checkBox">
-                <el-input v-model="prodNameValue" placeholder="模糊检索">
-                </el-input>
-              </div>
-            </div>
-            <div class="el-inputBox childrenIndent">
-              <div class="el-inputBox-text">产品编码：</div>
-              <div class="el-inputBox-checkBox">
-                <el-input v-model="prodCodeValue" placeholder="模糊检索">
-                </el-input>
-              </div>
-            </div>
-            <div class="el-inputBox childrenIndent">
-              <div class="el-inputBox-text">产品规格：</div>
-              <div class="el-inputBox-checkBox">
-                <el-select
-                  v-model="prodSpecValue"
-                  placeholder="请选择产品规格"
-                  @change="prodSpecValues"
-                  clearable
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">渠道：</div>
+            <div class="el-inputBox-checkBox" style="width: 120px">
+              <el-select
+                v-model="channelValue"
+                placeholder="请选择渠道"
+                @change="channelValues"
+                clearable
+              >
+                <el-option
+                  v-for="item in channelValueData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
                 >
-                  <el-option
-                    v-for="item in prodSpecValueData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">订单来源：</div>
+            <div class="el-inputBox-checkBox" style="width: 160px">
+              <el-select
+                v-model="indentSourceValue"
+                placeholder="请选择订单来源"
+                @change="indentSourceValues"
+                clearable
+              >
+                <el-option
+                  v-for="item in indentSourceValueData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">订单号：</div>
+            <div class="el-inputBox-checkBox" style="width: 160px">
+              <el-input v-model="orderNumberValue" placeholder="模糊检索">
+              </el-input>
+            </div>
+          </div>
+          <div class="el-inputBox setMargin">
+            <div class="el-inputBox-text">子单号：</div>
+            <div class="el-inputBox-checkBox" style="width: 160px">
+              <el-input v-model="ChildOrderNumberValue" placeholder="模糊检索">
+              </el-input>
+            </div>
+          </div>
+          <div class="el-inputBox childrenIndent">
+            <div class="el-inputBox-text">产品名称：</div>
+            <div class="el-inputBox-checkBox" style="width: 400px">
+              <el-input v-model="prodNameValue" placeholder="模糊检索">
+              </el-input>
+            </div>
+          </div>
+          <div class="el-inputBox childrenIndent">
+            <div class="el-inputBox-text">产品编码：</div>
+            <div class="el-inputBox-checkBox" style="width: 160px">
+              <el-input v-model="prodCodeValue" placeholder="模糊检索">
+              </el-input>
+            </div>
+          </div>
+          <div class="el-inputBox childrenIndent">
+            <div class="el-inputBox-text">产品规格：</div>
+            <div class="el-inputBox-checkBox" style="width: 160px">
+              <el-select
+                v-model="prodSpecValue"
+                placeholder="请选择产品规格"
+                @change="prodSpecValues"
+                clearable
+              >
+                <el-option
+                  v-for="item in prodSpecValueData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="timeChoose el-inputBox">
+            <div class="el-inputBox-text titleBox">下发时间：</div>
+            <div class="timeBox zujianBox">
+              <div>
+                <dateTime
+                  :dateTimeData="datetimeDates"
+                  @getDateTime="getStartTime"
+                  ref="startTime"
+                />
               </div>
-            </div>
-            <div class="timeChoose">
-              <div class="el-inputBox-text titleBox">下发时间：</div>
-              <div class="timeBox zujianBox">
-                <div style="margin-right: 10px">
-                  <dateTime
-                    :dateTimeData="datetimeDates"
-                    @getDateTime="getStartTime"
-                    ref="startTime"
-                  />
-                </div>
-                <!-- 开始时间 -->
-                <div class="line"></div>
-                <div>
-                  <dateTime
-                    :dateTimeData="datetimeDate"
-                    @getDateTime="getEndTime"
-                    ref="endTime"
-                  />
-                </div>
-                <!-- 结束时间 -->
+              <!-- 开始时间 -->
+              <div class="line"></div>
+              <div>
+                <dateTime
+                  :dateTimeData="datetimeDate"
+                  @getDateTime="getEndTime"
+                  ref="endTime"
+                />
               </div>
+              <!-- 结束时间 -->
             </div>
-            <div class="header-botton">
-              <div class="queryBtn" @click="clickQuery">查询</div>
-              <div class="clearBtn" @click="clearInput">清空</div>
-            </div>
+          </div>
+          <div class="header-botton">
+            <div class="queryBtn" @click="clickQuery">查询</div>
+            <div class="clearBtn" @click="clearInput">清空</div>
           </div>
         </div>
       </div>
@@ -678,41 +671,41 @@ export default {
     orderGoPurchase() {
       //缺货订单转采购
     },
-    prodLookDetailEvent(row, column,cell) {
+    prodLookDetailEvent(row, column, cell) {
       if (column.property === "orderNum") {
-          if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
-            this.$router.push({
-              path: "/indentManagement/stockoutOrderInfor",
-              query: {
-                orderNum: row,
-                type: "orderNum",
-              },
-            });
-          }
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/stockoutOrderInfor",
+            query: {
+              orderNum: row,
+              type: "orderNum",
+            },
+          });
+        }
       }
     },
-    orderLookDetailEvent(row, column,cell) {
+    orderLookDetailEvent(row, column, cell) {
       if (column.property === "orderNo") {
-          if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
-            this.$router.push({
-              path: "/indentManagement/orderDetail",
-              query: {
-                orderNo: row,
-                type: "orderNo",
-              },
-            });
-          }
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/orderDetail",
+            query: {
+              orderNo: row,
+              type: "orderNo",
+            },
+          });
+        }
       }
       if (column.property === "subOrderNo") {
-          if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
-            this.$router.push({
-              path: "/indentManagement/childOrderDetail",
-              query: {
-                subOrderNos: row,
-                type: "subOrderNos",
-              },
-            });
-          }
+        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
+          this.$router.push({
+            path: "/indentManagement/childOrderDetail",
+            query: {
+              subOrderNos: row,
+              type: "subOrderNos",
+            },
+          });
+        }
       }
     },
     prodAndOrder(item) {
@@ -774,87 +767,30 @@ export default {
 @import "../../assets/scss/btn.scss";
 
 #stockoutMianPage {
-  background: #e6e7ea;
-  padding: 16px;
+  background: #eef1f8;
+  padding: 20px 10px;
 }
 .headerHtml {
   position: relative;
-  height: 96px;
-  transition: 0.3s;
+  padding: 0 16px;
   .headerInput {
-    .headerInput-one {
-      width: 100%;
-      margin-bottom: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    .el-inputBox {
       display: flex;
       align-items: center;
-      .el-inputBox {
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        margin-right: 20px;
-        .el-inputBox-text {
-          white-space: nowrap;
-        }
-      }
-      .block_hidden {
-        display: none;
-      }
-      .childrenIndent {
-        width: 19%;
-        .el-inputBox-checkBox {
-          width: 100%;
-        }
-      }
-      .childrenIndentState {
-        width: 18.2%;
-        .el-inputBox-checkBox {
-          width: 100%;
-        }
-      }
-      .stateChoose {
-        width: 6.5%;
-        margin-right: 10px;
-      }
-      .consignee {
-        width: 14%;
-        .el-inputBox-checkBox {
-          width: 100%;
-        }
-      }
-    }
-    .headerInput-two {
-      flex-wrap: wrap;
-    }
-    .inputs {
-      .el-inputBox {
-        width: 20%;
-      }
-      .setMargin {
-        margin-right: 0;
-      }
-      .el-inputBox-checkBox {
-        width: 100%;
+      margin: 0 20px 16px 0;
+      .el-inputBox-text {
+        white-space: nowrap;
       }
     }
   }
   .header-botton {
-    width: 9%;
+    width: 186px;
+    height: 36px;
     position: absolute;
     right: 0;
-    top: 60px;
-    .showBtn {
-      width: 50px;
-      display: flex;
-      white-space: nowrap;
-      color: #888;
-      position: relative;
-      cursor: pointer;
-      .caret {
-        font-size: 16px;
-        position: absolute;
-        left: 50%;
-      }
-    }
+    bottom: 16px;
     display: flex;
     align-items: center;
     .queryBtn {
@@ -863,45 +799,42 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 0 0 10px;
+      margin: 0 16px 0 10px;
     }
   }
   .timeChoose {
-    width: 25%;
     display: flex;
+    height: 34px;
     justify-content: space-between;
     align-items: center;
-    .titleBox {
-      font-size: 16px;
-      white-space: nowrap;
-    }
+    margin-right: 20px;
     .timeBox {
+      height: 34px;
       display: flex;
       align-items: center;
       .line {
         width: 10px;
         height: 2px;
         background: #d1d6e2;
-        margin-right: 10px;
+        margin: 0 10px;
       }
     }
   }
 }
 .formBox {
-  margin: 16px 0;
   .formHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #d2d6e2;
     background: white;
     margin-top: 10px;
     .icon-title {
       display: flex;
-      margin: 24px 0 0 0;
       .icon-title-icon {
         width: 14px;
         height: 14px;
-        margin: 0 0 0 20px;
+        margin: 2px 0 0 20px;
         img {
           width: 100%;
           height: 100%;
@@ -914,7 +847,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 20px 16px 0;
+      margin: 16px 16px 16px 0;
       .setUser {
         @include BtnFunction("success");
       }
@@ -926,9 +859,9 @@ export default {
   }
   .formTable {
     background: white;
-    padding: 20px;
+    padding: 16px;
   }
-  
+
   .lookDeatil {
     color: #599af3;
     text-decoration: underline;
@@ -940,60 +873,26 @@ export default {
 }
 .pageComponent {
   text-align: right;
+  height: 36px;
   background: #ffffff;
 }
 </style>
 <style lang="scss">
-.headerInput {
+@import "../../assets/scss/btn.scss";
+
+.entrustCompany {
   .el-select {
     width: 100%;
   }
-
-  .childrenIndent {
-    .el-select {
-      width: 100%;
-    }
-  }
-
-  .childrenIndentState {
-    .el-select {
-      width: 100%;
-    }
-  }
-
-  .consignee {
-    .el-select {
-      width: 100%;
-    }
-  }
-
-  .address {
-    .el-select {
-      width: 100%;
-    }
-  }
-
-  .telphone {
-    .el-select {
-      width: 100%;
-    }
-  }
 }
 #stockoutMianPage {
-  .el-tabs {
-    left: 0;
-  }
-  .el-tabs--card > .el-tabs__header {
-    border: none;
-  }
   .el-tabs__item.is-active {
-    font-size: 16px;
+    @include BtnFunction("success");
   }
-  .el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
-    border-bottom: 2px solid #409eff;
-  }
-  .el-tabs__header {
-    margin: 0;
+  .el-tabs__item {
+    @include BtnFunction("");
+    background: white;
+    margin-right: 10px;
   }
 }
 </style>

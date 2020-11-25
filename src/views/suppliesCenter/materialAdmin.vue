@@ -168,7 +168,7 @@
             ></el-table-column>
           </el-table>
         </div>
-        <div class="pageComponent" v-if="this.tableData.length >= 10">
+        <div class="pageComponent">
           <pagecomponent
             :pageComponentsData="pageComponentsData"
             @getPageNum="getPageNum"
@@ -301,7 +301,6 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { Message } from "element-ui";
 import {
   createMateAdmin,
   queryMateAdmin,
@@ -311,6 +310,7 @@ import {
   querySupplier,
   querySpec,
 } from "../../api/api";
+import { reduceFun } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -390,20 +390,15 @@ export default {
       },
 
       dialogFormVisible: false,
-      formLabelWidth: "120px",
-
-      queryMateAdminFun: "",
+      queryMateAdminFun: () => {},
       mateId: "",
-
       allBrandData: [],
       allSupData: [],
       allSpecData: [],
-
       allBrandId: "",
       allSupId: "",
       allSpecId: "",
-
-      queryAnyInfor: "",
+      queryAnyInfor: () => {},
     };
   },
   mounted() {
@@ -421,7 +416,6 @@ export default {
         // console.log(ok);
         if (ok.data.code === "10000") {
           this.allBrandData = ok.data.result.list;
-          // console.log(this.allBrandData)
           this.allBrandData.forEach((v) => {
             this.dialogBrandData.push({
               value: v.braFullName,
@@ -431,16 +425,10 @@ export default {
               value: v.braFullName,
               label: v.braFullName,
             });
-            let testObj = {};
-            this.dialogBrandData = this.dialogBrandData.reduce((item, next) => {
-              testObj[next.value]
-                ? ""
-                : (testObj[next.value] = true && item.push(next));
-              return item;
-            }, []);
+            this.dialogBrandData = reduceFun(this.dialogBrandData);
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "查询品牌失败",
             type: "error",
           });
@@ -460,16 +448,10 @@ export default {
               value: v.supFullName,
               label: v.supFullName,
             });
-            let testObj1 = {};
-            this.dialogSupData = this.dialogSupData.reduce((item, next) => {
-              testObj1[next.value]
-                ? ""
-                : (testObj1[next.value] = true && item.push(next));
-              return item;
-            }, []);
+            this.dialogSupData = reduceFun(this.dialogSupData);
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "查询供应商失败",
             type: "error",
           });
@@ -485,16 +467,10 @@ export default {
               value: v.specValue,
               label: v.specValue,
             });
-            let testObj2 = {};
-            this.dialogSpecData = this.dialogSpecData.reduce((item, next) => {
-              testObj2[next.value]
-                ? ""
-                : (testObj2[next.value] = true && item.push(next));
-              return item;
-            }, []);
+            this.dialogSpecData = reduceFun(this.dialogSpecData);
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "查询规格失败",
             type: "error",
           });
@@ -509,6 +485,7 @@ export default {
       queryMateAdmin(pagingQueryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
+          this.changeData(ok.data.result);
           this.tableData = ok.data.result.list;
           this.tableData1 = ok.data.result.list;
           this.tableData.forEach((v) => {
@@ -522,7 +499,7 @@ export default {
             });
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -532,14 +509,6 @@ export default {
     this.queryMateAdminFun();
   },
   methods: {
-    deWeightFun(arr) {
-      let Obj = {};
-      arr = arr.reduce((item, next) => {
-        Obj[next.value] ? "" : (Obj[next.value] = true && item.push(next));
-        return item;
-      }, []);
-      return arr;
-    },
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
@@ -605,7 +574,7 @@ export default {
 
       let createData = {
         id: this.mateId,
-        wareId: "3B31612A55EE4EB09363A6E3805A3F6D",
+        wareId: "",
         materielType: this.dialogMateType, //物料类型
         materielName: this.dialogMateName, //物料名称
         materielCode: this.dialogMateCode, //物料编码
@@ -622,7 +591,7 @@ export default {
       createMateAdmin(createData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
-          Message({
+          this.$messageSelf.message({
             message: "创建成功",
             type: "success",
           });
@@ -636,7 +605,7 @@ export default {
           this.remarkInfor = "";
           this.dialogSpecValue = "";
         } else {
-          Message({
+          this.$messageSelf.message({
             message: ok.data.msg,
             type: "error",
           });
@@ -660,7 +629,7 @@ export default {
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result;
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -688,9 +657,10 @@ export default {
 
     editChildWarehouse() {
       //编辑
-      if (!this.multipleSelection.length) return Message("请选择要查看物料");
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message("请选择要查看物料");
       if (this.multipleSelection.length !== 1)
-        return Message({
+        return this.$messageSelf.message({
           message: "每次只能编辑一个物料信息，请重新选择",
           type: "warning",
         });
@@ -715,30 +685,30 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return Message("请选择要删除的物料信息");
-      this.$confirm("确定要删除该物料信息？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      if (!arr.length)
+        return this.$messageSelf.message("请选择要删除的物料信息");
+      this.$messageSelf
+        .confirms("确定要删除该物料信息？", "删除提示", {
+          type: "warning",
+        })
         .then(() => {
           this.delRequest({ ids: arr });
         })
         .catch(() => {
-          Message("已取消删除");
+          this.$messageSelf.message("已取消删除");
         });
     },
     //删除的请求
     delRequest(data) {
       delMateAdmin(data).then((ok) => {
         if (ok.data.code === "10000") {
-          Message({
+          this.$messageSelf.message({
             type: "success",
             message: "删除成功",
           });
           this.queryMateAdminFun();
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: ok.data.msg ? ok.data.msg : "删除失败",
           });
@@ -751,6 +721,8 @@ export default {
     },
     sureSuccssBtn(e) {
       this.pagingQueryData.pageNumber = e;
+      this.tableData = [];
+      this.queryMateAdminFun();
     },
     changeData(data) {
       this.changePageData(data); //用来改变分页器的条数
@@ -767,20 +739,21 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/scss/btn.scss";
 #mateAdmin {
-  background: #e6e7ea;
-  padding: 16px;
+  background: #eef1f8;
+  padding: 20px 10px;
 }
 .roleName-choose {
   display: flex;
   justify-content: space-between;
   .name_type {
     display: flex;
+    padding: 0 0 0 16px;
     .nameBox {
       display: flex;
       align-items: center;
       margin: 0 16px 0 0;
       .roleName-text {
-        font-size: 16px;
+        font-size: 14px;
         white-space: nowrap;
       }
       .roleName {
@@ -811,24 +784,24 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 30px 0 10px;
+      margin: 0 16px 0 10px;
     }
   }
 }
 .childWarehouseForm {
-  margin: 16px 0 0 0;
+  margin: 20px 0 0 0;
   background: white;
   .formHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #d1d6e2;
     .icon-title {
       display: flex;
-      margin: 24px 0 0 0;
       .icon-title-icon {
         width: 14px;
         height: 14px;
-        margin: 0 0 0 20px;
+        margin: 2px 0 0 16px;
         img {
           width: 100%;
           height: 100%;
@@ -841,7 +814,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 20px 16px 0;
+      margin: 16px 16px 16px 0;
       .setUser {
         margin-right: 10px;
         @include BtnFunction("success");
@@ -860,10 +833,10 @@ export default {
     }
   }
   .resultForm {
-    padding: 20px;
+    padding: 16px;
   }
   .pageComponent {
-    margin: 20px 10px 0 0;
+    margin: 0 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;

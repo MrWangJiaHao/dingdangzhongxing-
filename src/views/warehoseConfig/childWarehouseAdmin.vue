@@ -395,16 +395,17 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/scss/btn.scss";
 #childWarehouseAdmin {
-  background: #e6e7ea;
-  padding: 16px;
+  background: #eef1f8;
+  padding: 20px 10px;
 }
 .roleName-choose {
   display: flex;
   justify-content: space-between;
+  padding: 0 16px;
   .name_type {
     display: flex;
     .nameBox {
-      margin: 0 50px 0 0;
+      margin: 0 20px 0 0;
     }
     .nameBox,
     .typeBox {
@@ -414,7 +415,6 @@ export default {
         font-size: 14px;
       }
       .roleName {
-        // width: 100%;
         height: 76px;
         display: flex;
         align-items: center;
@@ -443,24 +443,24 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 30px 0 10px;
+      margin: 0 0 0 10px;
     }
   }
 }
 .childWarehouseForm {
-  margin: 16px 0 0 0;
+  margin: 20px 0 0 0;
   background: white;
   .formHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #d1d6e2;
     .icon-title {
       display: flex;
-      margin: 24px 0 0 0;
       .icon-title-icon {
         width: 14px;
         height: 14px;
-        margin: 0 0 0 20px;
+        margin: 2px 0 0 20px;
         img {
           width: 100%;
           height: 100%;
@@ -492,10 +492,9 @@ export default {
     }
   }
   .resultForm {
-    padding: 20px;
+    padding: 16px;
   }
   .pageComponent {
-    margin: 20px 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;

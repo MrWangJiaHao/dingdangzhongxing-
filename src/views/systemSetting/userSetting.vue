@@ -514,7 +514,7 @@ export default {
 @import "../../assets/scss/btn.scss";
 .userSettingBox {
   border-top: 1px solid #d1d6e2;
-  background-color: rgb(232, 233, 236);
+  background-color: #eef1f8;
   .fuzzyQueryBox {
     padding: 17px 30px;
     display: flex;
