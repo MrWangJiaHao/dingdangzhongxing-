@@ -3,121 +3,117 @@
     <!-- 这是报损管理页面 -->
     <div class="headerHtml">
       <div class="headerInput">
-        <div class="headerInput-one">
-          <div class="el-inputBox">
-            <div class="el-inputBox-text">委托公司：</div>
-            <div class="el-inputBox-checkBox">
-              <el-select
-                v-model="entrustCompany"
-                placeholder="请选择委托公司"
-                @change="entrustCompanys"
-                clearable
+        <div class="el-inputBox entrustCompany">
+          <div class="el-inputBox-text">委托公司：</div>
+          <div class="el-inputBox-checkBox" style="width: 320px">
+            <el-select
+              v-model="entrustCompany"
+              placeholder="请选择委托公司"
+              @change="entrustCompanys"
+              clearable
+            >
+              <el-option
+                v-for="item in entrustCompanyData"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
               >
-                <el-option
-                  v-for="item in entrustCompanyData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </div>
-          </div>
-          <div class="el-inputBox">
-            <div class="el-inputBox-text">报损单号：</div>
-            <div class="el-inputBox-checkBox">
-              <el-input v-model="breakageOrder" placeholder="模糊检索">
-              </el-input>
-            </div>
-          </div>
-          <div class="el-inputBox">
-            <div class="el-inputBox-text">报损类型：</div>
-            <div class="el-inputBox-checkBox">
-              <el-select
-                v-model="breakageType"
-                placeholder="请选择报损类型"
-                @change="breakageTypes"
-                clearable
-              >
-                <el-option
-                  v-for="item in breakageTypeData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </div>
-          </div>
-          <div class="el-inputBox">
-            <div class="el-inputBox-text">报损状态：</div>
-            <div class="el-inputBox-checkBox">
-              <el-select
-                v-model="breakageState"
-                placeholder="请选择报损状态"
-                @change="breakageStates"
-                clearable
-              >
-                <el-option
-                  v-for="item in breakageStateData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </div>
+              </el-option>
+            </el-select>
           </div>
         </div>
-        <div class="headerInput-one">
-          <div class="timeChoose">
-            <div class="el-inputBox-text titleBox">创建时间：</div>
-            <div class="timeBox">
-              <div style="">
-                <dateTime
-                  :dateTimeData="datetimeDates"
-                  @getDateTime="getStartTime"
-                  ref="startTime"
-                />
-              </div>
-              <!-- 开始时间 -->
-              <div class="line"></div>
-              <div>
-                <dateTime
-                  :dateTimeData="datetimeDate"
-                  @getDateTime="getEndTime"
-                  ref="endTime"
-                />
-              </div>
-              <!-- 结束时间 -->
+        <div class="el-inputBox">
+          <div class="el-inputBox-text">报损单号：</div>
+          <div class="el-inputBox-checkBox" style="width: 160px">
+            <el-input v-model="breakageOrder" placeholder="模糊检索">
+            </el-input>
+          </div>
+        </div>
+        <div class="el-inputBox">
+          <div class="el-inputBox-text">报损类型：</div>
+          <div class="el-inputBox-checkBox" style="width: 120px">
+            <el-select
+              v-model="breakageType"
+              placeholder="请选择报损类型"
+              @change="breakageTypes"
+              clearable
+            >
+              <el-option
+                v-for="item in breakageTypeData"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="el-inputBox">
+          <div class="el-inputBox-text">报损状态：</div>
+          <div class="el-inputBox-checkBox" style="width: 120px">
+            <el-select
+              v-model="breakageState"
+              placeholder="请选择报损状态"
+              @change="breakageStates"
+              clearable
+            >
+              <el-option
+                v-for="item in breakageStateData"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="timeChoose el-inputBox">
+          <div class="el-inputBox-text titleBox">创建时间：</div>
+          <div class="timeBox">
+            <div style="">
+              <dateTime
+                :dateTimeData="datetimeDates"
+                @getDateTime="getStartTime"
+                ref="startTime"
+              />
             </div>
-          </div>
-          <div class="timeChoose">
-            <div class="el-inputBox-text titleBox">审核时间：</div>
-            <div class="timeBox">
-              <div style="">
-                <dateTime
-                  :dateTimeData="datetimeDates"
-                  @getDateTime="getStartTime1"
-                  ref="startTime"
-                />
-              </div>
-              <!-- 开始时间 -->
-              <div class="line"></div>
-              <div>
-                <dateTime
-                  :dateTimeData="datetimeDate"
-                  @getDateTime="getEndTime1"
-                  ref="endTime"
-                />
-              </div>
-              <!-- 结束时间 -->
+            <!-- 开始时间 -->
+            <div class="line"></div>
+            <div>
+              <dateTime
+                :dateTimeData="datetimeDate"
+                @getDateTime="getEndTime"
+                ref="endTime"
+              />
             </div>
+            <!-- 结束时间 -->
           </div>
-          <div class="header-botton">
-            <div class="queryBtn" @click="clickQuery">查询</div>
-            <div class="clearBtn" @click="clearInput">清空</div>
+        </div>
+        <div class="timeChoose el-inputBox">
+          <div class="el-inputBox-text titleBox">审核时间：</div>
+          <div class="timeBox">
+            <div style="">
+              <dateTime
+                :dateTimeData="datetimeDates"
+                @getDateTime="getStartTime1"
+                ref="startTime"
+              />
+            </div>
+            <!-- 开始时间 -->
+            <div class="line"></div>
+            <div>
+              <dateTime
+                :dateTimeData="datetimeDate"
+                @getDateTime="getEndTime1"
+                ref="endTime"
+              />
+            </div>
+            <!-- 结束时间 -->
           </div>
+        </div>
+        <div class="header-botton">
+          <div class="queryBtn" @click="clickQuery">查询</div>
+          <div class="clearBtn" @click="clearInput">清空</div>
         </div>
       </div>
     </div>
@@ -189,12 +185,17 @@
         ></pagecomponent>
       </div>
     </div>
-    <div v-show="popupBoxIsShow" class="popupBox">
+    <div class="pointBox" v-show="pointIsShow">
       <transition
         enter-active-class="animate__animated animate__zoomIn"
         leave-active-class="animate__animated animate__zoomOut"
       >
-        <div style="width: 300px; height: 300px; background: red"></div>
+        <BreakageOrder
+          v-show="pointIsShow"
+          :tabledatasArr="tabledatasArr"
+          :ReplenishmentNote="replenishmentNoteJson"
+          @getiswuliudanOne="getiswuliudanOne"
+        ></BreakageOrder>
       </transition>
     </div>
   </div>
@@ -207,12 +208,15 @@ import {
   queryBreakageList,
   delBreakageOrder,
   pointBreakageOrder,
+  saveBreakageOrder,
 } from "../../api/api";
+import BreakageOrder from "../../components/commin/componentList";
 // import { _getExportExcels } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
     dateTime,
+    BreakageOrder,
   },
   beforeRouteEnter(to, from, next) {
     if (from.name === "/breakageManagement/createBreakageOrder") {
@@ -228,8 +232,42 @@ export default {
   },
   data() {
     return {
-      popupBoxIsShow: false,
+      pointIsShow: false,
       tableData: [],
+      tabledatasArr: [],
+      replenishmentNoteJson: {
+        title: "报损单",
+        replenishOrderNo: "",
+        queryArr: [],
+        basicJson: [
+          {
+            titles: "基础信息",
+            basicJsonArr: [
+              {
+                types: "prodCode",
+                centerStr: "产品编码",
+              },
+              {
+                types: "prodName",
+                centerStr: "产品名称",
+              },
+              {
+                types: "specName",
+                centerStr: "产品规格",
+              },
+              {
+                types: "prodNum",
+                centerStr: "报损数量",
+              },
+              {
+                types: "",
+                centerStr: "当前库位",
+              },
+              { types: "", centerStr: "残次品库位" },
+            ],
+          },
+        ],
+      },
       datetimeDate: {
         placeholder: "请选择结束时间",
       },
@@ -317,26 +355,8 @@ export default {
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
           this.tableData.forEach((v) => {
-            v.disposeStatus =
-              v.disposeStatus === 1
-                ? "待提交"
-                : v.disposeStatus === 2
-                ? "待审核"
-                : v.disposeStatus === 3
-                ? "审核通过"
-                : v.disposeStatus === 4
-                ? "拒绝"
-                : "——";
-            v.damageType =
-              v.damageType === 1
-                ? "损坏"
-                : v.damageType === 2
-                ? "入库"
-                : v.damageType === 3
-                ? "丢失"
-                : v.damageType === 4
-                ? "其他"
-                : "——";
+            v.disposeStatus = this.disposeStatus(v.disposeStatus);
+            v.damageType = this.damageType(v.damageType);
           });
         } else {
           this.$messageSelf.message({
@@ -345,6 +365,48 @@ export default {
           });
         }
       });
+    },
+    disposeStatus(num) {
+      let state = num;
+      switch (state) {
+        case 1:
+          state = "待提交";
+          break;
+        case 2:
+          state = "待审核";
+          break;
+        case 3:
+          state = "审核通过";
+          break;
+        case 4:
+          state = "拒绝";
+          break;
+        default:
+          state = "未知";
+          break;
+      }
+      return state;
+    },
+    damageType(num) {
+      let state = num;
+      switch (state) {
+        case 1:
+          state = "损坏";
+          break;
+        case 2:
+          state = "入库";
+          break;
+        case 3:
+          state = "丢失";
+          break;
+        case 4:
+          state = "其他";
+          break;
+        default:
+          state = "未知";
+          break;
+      }
+      return state;
     },
     breakageOrders(val) {
       this.breakageOrder = val;
@@ -450,7 +512,100 @@ export default {
       });
     },
     submit() {
-      this.popupBoxIsShow = true;
+      if (!this.multipleSelection.length) {
+        return this.$messageSelf.message({
+          message: "请选择需要提交的单号",
+          type: "warning",
+        });
+      } else if (this.multipleSelection.length > 1) {
+        return this.$messageSelf.message({
+          message: "只能提交一个产品",
+          type: "warning",
+        });
+      } else {
+        if (this.multipleSelection[0].disposeStatus !== "待提交") {
+          return this.$messageSelf.message({
+            message: "只有待提交的订单可编辑",
+            type: "warning",
+          });
+        } else {
+          let submitData = {
+            createTime: "",
+            createUser: "",
+            damageOrderNo: "",
+            damageType: "",
+            detailList: [],
+            disposeStatus: 1, //报损状态
+            id: "", //报损单id
+            lastModifyTime: "",
+            lastModifyUser: "",
+            orgId: this.entrustCompany,
+            orgName: "",
+            remark: this.textarea, //备注
+            verifyTime: "", //审核时间
+            verifyUserId: "", //审核人id
+            verifyUserName: "", //审核人
+            version: "",
+          };
+          pointBreakageOrder({ id: this.multipleSelection[0].id }).then(
+            (ok) => {
+              if (ok.data.code === "10000") {
+                submitData.damageType = ok.data.result[0].damageType;
+                ok.data.result[0].detailList.forEach((v) => {
+                  submitData.detailList.push({
+                    actualProdNum: 0,
+                    batchNo: "",
+                    createTime: "",
+                    createUser: "",
+                    damageId: "", //报损单id
+                    damagedSeatId: "", //残次品库位id
+                    damagedSeatNo: v.imperfectKuweiValue, //残次品库位编号
+                    damagedWareAreaId: "", //残次品仓库区域id
+                    damagedWareAreaName: "", //残次品仓库区域名称
+                    id: "",
+                    lastModifyTime: "",
+                    lastModifyUser: "",
+                    manufTime: "",
+                    orgId: v.orgId,
+                    orgName: v.orgName,
+                    prodId: v.prodId,
+                    prodName: v.prodName,
+                    prodNum: v.breakageNum,
+                    remark: "",
+                    version: "",
+                    wareAreaId: v.wareAreaId,
+                    wareAreaName: v.wareAreaName,
+                    childWareId: v.childWareId,
+                    childWareName: v.childWareName,
+                  });
+                });
+                if (submitData.detailList.length > 0) {
+                  saveBreakageOrder(submitData).then((ok) => {
+                    // console.log(ok);
+                    if (ok.data.code === "10000") {
+                      this.$messageSelf.message({
+                        message: "提交成功",
+                        type: "success",
+                      });
+                      this.pageQueryFun();
+                    } else {
+                      this.$messageSelf.message({
+                        message: "提交失败",
+                        type: "error",
+                      });
+                    }
+                  });
+                }
+              } else {
+                this.$messageSelf.message({
+                  message: "提交失败",
+                  type: "error",
+                });
+              }
+            }
+          );
+        }
+      }
     },
     point() {
       if (!this.multipleSelection.length) {
@@ -464,8 +619,41 @@ export default {
           type: "warning",
         });
       } else {
+        this.tabledatasArr = [];
+        this.pointIsShow = true;
         pointBreakageOrder({ id: this.multipleSelection[0].id }).then((ok) => {
-          console.log(ok);
+          // console.log(ok);
+          if (ok.data.code === "10000") {
+            let json = [
+              {
+                queryTitle: "报损单号",
+                queryCenter: ok.data.result[0].damageOrderNo,
+              },
+              {
+                queryTitle: "委托公司",
+                queryCenter: ok.data.result[0].orgName,
+              },
+              {
+                queryTitle: "审核状态",
+                queryCenter: this.disposeStatus(
+                  ok.data.result[0].disposeStatus
+                ),
+              },
+              {
+                queryTitle: "签字",
+                queryCenter: "",
+                queryLine: true,
+              },
+            ];
+            this.replenishmentNoteJson.queryArr = json;
+            this.replenishmentNoteJson.replenishOrderNo =
+              ok.data.result[0].damageOrderNo;
+            let newArr = [];
+            ok.data.result[0].detailList.forEach((v) => {
+              newArr.push(v.pOrgProducts);
+            });
+            this.tabledatasArr.push(newArr);
+          }
         });
       }
     },
@@ -484,6 +672,9 @@ export default {
           });
         }
       }
+    },
+    getiswuliudanOne(e) {
+      this.pointIsShow = e;
     },
     getPageNum(e) {
       this.queryBreakageListData.pageNumber = e;
@@ -527,6 +718,26 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
+.pointBox {
+  position: fixed;
+
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+// .fade-enter-active,
+// .fade-leave-active {
+//   transition: opacity 0.5s;
+// }
+// .fade-enter,
+// .fade-leave-active {
+//   opacity: 0;
+// }
 
 #mianPage {
   background: #eef1f8;
@@ -534,46 +745,47 @@ export default {
 }
 .headerHtml {
   .headerInput {
-    .headerInput-one {
-      margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+    .el-inputBox {
       display: flex;
       align-items: center;
-      .el-inputBox {
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        margin-right: 16px;
-        .el-inputBox-text {
-          white-space: nowrap;
-        }
+      font-size: 14px;
+      margin: 0 20px 16px 0;
+      .el-inputBox-text {
+        white-space: nowrap;
       }
     }
   }
   .header-botton {
-    width: 154px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    position: absolute;
+    right: 0;
+    bottom: 16px;
     .queryBtn {
       @include BtnFunction("success");
     }
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 0 0 10px;
+      margin: 0 16px 0 10px;
     }
   }
   .timeChoose {
-    width: 524px;
     display: flex;
+    height: 34px;
     justify-content: space-between;
     align-items: center;
-    margin-right: 16px;
+    margin-right: 20px;
     .titleBox {
       font-size: 14px;
       white-space: nowrap;
     }
     .timeBox {
+      width: 100%;
       display: flex;
       align-items: center;
       .line {
@@ -586,7 +798,7 @@ export default {
   }
 }
 .childWarehouseForm {
-  margin: 16px 0 0 0;
+  margin: 4px 0 0 0;
   background: white;
   .formHeader {
     display: flex;
@@ -607,7 +819,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 20px 16px 0;
+      margin: 16px 16px 16px 0;
       .create {
         @include BtnFunction("success");
         margin-right: 10px;
@@ -623,7 +835,7 @@ export default {
   }
 
   .resultForm {
-    padding: 20px;
+    padding: 16px;
     .lookDeatil {
       color: #599af3;
       text-decoration: underline;
@@ -635,6 +847,13 @@ export default {
     text-align: right;
     height: 36px;
     background: #ffffff;
+  }
+}
+</style>
+<style lang="scss">
+.entrustCompany {
+  .el-select {
+    width: 100%;
   }
 }
 </style>
