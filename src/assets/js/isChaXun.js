@@ -9,11 +9,12 @@ class isDisplayNoneBlock {
     isChaXun(child) {
         if (!child) return
         let parent = child.parentNode;
+        if (!parent) return console.log(new Error("该字节点没有父节点，请重新输入"))
         this.child = child
         let parentHeight = parent.offsetHeight;
         this.parentHeight = parentHeight
         this.parent = parent
-        console.log(parentHeight)
+        console.log(parentHeight, "查询按钮父层的height，是否超过150px")
         if (parentHeight > 150) {
             parent.style.height = 118 + "px";
             this.createDomPush(child);
@@ -34,7 +35,6 @@ class isDisplayNoneBlock {
         div.innerText = "展示"
         div.classList.toggle("isclickMes")
         self.child.style.bottom = "10" + "px";
-
         self.parent.style.height = 118 + "px";
     }
     changeFun(div, self) {

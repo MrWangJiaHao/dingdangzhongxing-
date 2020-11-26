@@ -1,7 +1,10 @@
 <template>
   <div class="dropDownBox">
     <div v-if="title !== ''" class="titleBox">{{ title }}</div>
-    <div class="input_box" :class="w320 ? w320 : ''">
+    <div
+      class="input_box"
+      :class="w320 ? w320 : dropDowBox.w320 ? dropDowBox.w320 : ''"
+    >
       <el-select
         v-model="dropDowBox.select"
         slot="prepend"

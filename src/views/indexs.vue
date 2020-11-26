@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <div class="dianjiqiehuan">
+    <div class="dianjiqiehuan" id="clickBox">
       <div class="dianjiCenters">
         <el-tabs
           v-model="activeTabsName"
@@ -59,7 +59,7 @@
             :key="idx + 'dsadsa'"
             v-for="(item, idx) in dropdownArr"
             :label="item.title"
-            :name="''+idx"
+            :name="'' + idx"
           >
           </el-tab-pane>
         </el-tabs>
@@ -106,7 +106,7 @@ export default {
           title: "首页",
           name: "/index/indexFormJH",
           iconCls: require("@/assets/img/warehouse-index.png"),
-          children: []
+          children: [],
         },
         {
           title: "仓库配置",
@@ -458,27 +458,29 @@ export default {
   },
   watch: {
     activeName: function (n) {
-      console.log('------------activeName------------', n, this.dropdownArr)
-      this.activeName = ''+parseInt(n)
+      console.log("------------activeName------------", n, this.dropdownArr);
+      this.activeName = "" + parseInt(n);
     },
     // activeTabsName: function (n) {
     //   this.mianbaoxieArr = []
     //
     // },
     $route: function (n) {
-      console.log(n)
+      console.log(n);
       if (this.dropdownArr.length) {
         for (var i = 0; i < this.dropdownArr.length; i++) {
           if (this.dropdownArr[i].name == n.name) {
-            this.activeTabsName = i + ''
-            this.mianbaoxieArr = []
+            this.activeTabsName = i + "";
+            this.mianbaoxieArr = [];
             this.mianbaoxieArr.push(this.dropdownArr[+this.activeTabsName]);
-            this.mianbaoxieArr.push(this.dropdownArr[+this.activeTabsName].children[0]);
-            break
+            this.mianbaoxieArr.push(
+              this.dropdownArr[+this.activeTabsName].children[0]
+            );
+            break;
           }
         }
       }
-    }
+    },
   },
   methods: {
     leftMove() {
@@ -515,7 +517,7 @@ export default {
     },
     //点击选中
     handleTabsEdit() {
-      console.log('this.activeTabsName', this.activeTabsName)
+      console.log("this.activeTabsName", this.activeTabsName);
       this.addHenxianTables();
       let router =
         this.dataArr[+this.activeName].children.length != 0
@@ -559,16 +561,18 @@ export default {
       this.dropdownArr.splice(removeSrc, 1);
       this.mianbaoxieArr.splice(removeSrc, 1);
       let router =
-              this.dropdownArr[this.dropdownArr.length - 1].children.length != 0
-                      ? this.dropdownArr[this.dropdownArr.length - 1].children[0].name
-                      : this.dropdownArr[this.dropdownArr.length - 1].name;
-      this.activeTabsName = this.dropdownArr.length ? ((this.dropdownArr.length - 1) + '') : '0'
+        this.dropdownArr[this.dropdownArr.length - 1].children.length != 0
+          ? this.dropdownArr[this.dropdownArr.length - 1].children[0].name
+          : this.dropdownArr[this.dropdownArr.length - 1].name;
+      this.activeTabsName = this.dropdownArr.length
+        ? this.dropdownArr.length - 1 + ""
+        : "0";
       this.$router.push(router);
-      console.log('--------dropdownArr--------', router)
+      console.log("--------dropdownArr--------", router);
     },
 
     handleClick() {
-      console.log('--------dropdownArr--------', this.dropdownArr)
+      console.log("--------dropdownArr--------", this.dropdownArr);
       this.addHenxianTables();
       console.log("this.activeName", this.activeName);
       if (
@@ -592,24 +596,28 @@ export default {
       //跳转路由
       if (!this.dropdownArr.includes(json)) {
         this.dropdownArr.push(this.dataArr[+this.activeName]);
-        this.activeTabsName = ++this.activeTabsName + ''
+        this.activeTabsName = ++this.activeTabsName + "";
       } else {
         if (this.dropdownArr.length) {
           for (var i = 0; i < this.dropdownArr.length; i++) {
-            if (this.dropdownArr[i].name == this.dataArr[+this.activeName].name) {
-              this.activeTabsName = i + ''
-              break
+            if (
+              this.dropdownArr[i].name == this.dataArr[+this.activeName].name
+            ) {
+              this.activeTabsName = i + "";
+              break;
             }
           }
         }
       }
       if (!this.mianbaoxieArr.includes(json)) {
         this.mianbaoxieArr.push(this.dropdownArr[+this.activeTabsName]);
-        this.mianbaoxieArr.splice(this.dropdownArr[+this.activeTabsName].children[0]);
+        this.mianbaoxieArr.splice(
+          this.dropdownArr[+this.activeTabsName].children[0]
+        );
       }
       this.oldName = +this.activeName;
-      this.handleTabsEdit()
-      console.log('this.mianbaoxieArr', this.mianbaoxieArr)
+      this.handleTabsEdit();
+      console.log("this.mianbaoxieArr", this.mianbaoxieArr);
     },
     clickEventGoRouter(e) {
       let dataArrJson = this.dropdownArr[+this.activeTabsName].children[e];
@@ -620,7 +628,7 @@ export default {
       this.mianbaoxieArr.splice(1, 1, dataArrJson);
       let router = this.dropdownArr[+this.activeTabsName].children[e].name;
       this.$router.push(router);
-      console.log('this.mianbaoxieArr', this.mianbaoxieArr)
+      console.log("this.mianbaoxieArr", this.mianbaoxieArr);
     },
   },
 };
@@ -669,10 +677,10 @@ export default {
   border: 1px solid #ced4de;
 }
 
-.el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
+#clickBox .el-tabs__header .el-tabs__item.is-active {
   border-bottom-color: #ced4de;
+  background: #eef1f8;
 }
-
 .mianbaoxie {
   padding: 20px 10px;
 }
@@ -709,7 +717,7 @@ export default {
 .el-tabs--card > .el-tabs__header .el-tabs__nav {
   border: none;
 }
-.el-tabs--card>.el-tabs__header{
+.el-tabs--card > .el-tabs__header {
   border: none;
 }
 
@@ -749,7 +757,6 @@ export default {
   .dianjiqiehuan {
     padding: 0 20px;
     background: #eef1f8;
-    border-bottom: 1px solid #ced4de;
     .dianjiCenters {
       padding-top: 20px;
       border-bottom: 1px solid #ced4de;

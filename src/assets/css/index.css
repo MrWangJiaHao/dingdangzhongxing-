@@ -219,7 +219,6 @@ padding: 0;
 .el-message__closeBtn {
   top: 0;
   transform: translate(-50%,80%);
-
 }
 .el-message__closeBtn::before {
   content:"";
