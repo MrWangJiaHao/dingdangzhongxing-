@@ -102,7 +102,7 @@ export default {
   methods: {
     queryInfor() {
       pointBreakageOrder({ id: this.id }).then((ok) => {
-        // console.log(ok);
+        console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = [];
           ok.data.result[0].detailList.forEach((v) => {
@@ -145,9 +145,9 @@ export default {
       }
     }
     .backBtnBox {
-      width: 100%;
+      display: flex;
+      justify-content: center;
       .backBtn {
-        margin: 0 auto;
         @include BtnFunction("success");
       }
     }

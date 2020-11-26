@@ -371,9 +371,9 @@ export default {
       }
     }
     .backBtnBox {
-      width: 100%;
+      display: flex;
+      justify-content: center;
       .backBtn {
-        margin: 0 auto;
         @include BtnFunction("success");
       }
     }
