@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <div class="dianjiqiehuan">
+    <div class="dianjiqiehuan" id="clickBox">
       <div class="dianjiCenters">
         <el-tabs
           v-model="activeTabsName"
@@ -682,10 +682,10 @@ export default {
   border: 1px solid #ced4de;
 }
 
-.el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
+#clickBox .el-tabs__header .el-tabs__item.is-active {
   border-bottom-color: #ced4de;
+  background: #eef1f8;
 }
-
 .mianbaoxie {
   padding: 20px 10px;
 }
@@ -762,7 +762,6 @@ export default {
   .dianjiqiehuan {
     padding: 0 20px;
     background: #eef1f8;
-    border-bottom: 1px solid #ced4de;
     .dianjiCenters {
       padding-top: 20px;
       border-bottom: 1px solid #ced4de;

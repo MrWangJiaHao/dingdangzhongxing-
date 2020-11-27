@@ -390,7 +390,17 @@ export default {
       sendoutData: {
         pageNumber: 1, //当前页数
         pageSize: 10, //每页记录数
-        paras: {},
+        paras: {
+          wareId: getCookie("X-Auth-wareId"),
+        },
+      },
+      sendoutDataPage: {
+        page: 1, //当前页数
+        pageSize: 10, //每页记录数
+        paras: {
+          specialProd: 0,
+          wareId: getCookie("X-Auth-wareId"),
+        },
       },
     };
   },
@@ -406,7 +416,7 @@ export default {
       });
     },
     changeorderAddr(e) {
-      this.paras.orderAddr = addressJson.orderAddrArr[e].orderAddr;
+      this.paras.orderAddr = this.addressJson.orderAddrArr[e].orderAddr;
     },
     changewiliudayarr(e) {
       this.paras.printExprStatus = e;
@@ -418,7 +428,7 @@ export default {
     },
     _ajaxMes() {
       return this.fastFahuo
-        ? pDeliverGoodsFindFastRecordPage(this.sendoutData)
+        ? pDeliverGoodsFindFastRecordPage(this.sendoutDataPage)
         : pDeliverGoodsFindNormalRecordPage(this.sendoutData);
     },
     //获取订单来源
@@ -474,7 +484,7 @@ export default {
     orderContactSelect() {},
     //改变物流公司
     changeExprName(e) {
-      exprNameJson.exprNameArr = exprNameJson.exprNameArr[e].exprNameArr;
+      exprNameJson.exprNameArr = this.exprNameJson.exprNameArr[e].exprNameArr;
     },
     //点击物流公司
     getexprName() {},
@@ -488,12 +498,13 @@ export default {
     getOrderSourceName() {},
     //改变订单来源
     changeOrderSourceName(e) {
-      this.paras.orderSourceId =
-        channelNameJson.channelNameArr[e].orderSourceId;
+      this.paras.orderSourceId = this.channelNameJson.channelNameArr[
+        e
+      ].orderSourceId;
     },
     //改变渠道
     getchannelName(e) {
-      this.paras.channelId = channelNameJson.channelNameArr[e].channelId;
+      this.paras.channelId = this.channelNameJson.channelNameArr[e].channelId;
     },
     //点击渠道
     changeChannelName() {},
@@ -575,7 +586,7 @@ function clickFun() {
   padding: 20px 30px;
   display: flex;
   flex-wrap: wrap;
-  
+
   overflow: hidden;
   justify-content: space-between;
   align-items: center;

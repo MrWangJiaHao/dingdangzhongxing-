@@ -1,10 +1,12 @@
 <template>
   <div class="searchBox">
     <div v-if="title !== ''" class="titleBox">{{ title }}</div>
+
     <div>
       <el-input
+        :class="searchCenter.w320 ? searchCenter.w320 : ''"
         :placeholder="searchCenter.placeholder"
-        v-model="input"
+        v-model="searchCenter.input"
         @blur="searchData"
         clearable
         :disabled="searchCenter.disabled"
@@ -22,15 +24,12 @@ export default {
     searchCenter: {
       type: Object,
       default: () => {
-        return {
-          searchCenter: false,
-        };
+        return {};
       },
     },
   },
   data() {
     return {
-      input: "",
       title: "",
     };
   },
@@ -44,12 +43,12 @@ export default {
   },
   methods: {
     searchData() {
-      this.$emit("getSearchCenterShuJu", this.input);
-      this.$emit("clearInput", this.clearInput);
+      this.$emit("getSearchCenterShuJu", this.searchCenter.input);
+      this.$emit("clearInput", this.searchCenter.clearInput);
     },
     changerInputs(e) {
       this.$emit("getChangeInput", e);
-      this.$emit("changeInputs", this.input);
+      this.$emit("changeInputs", this.searchCenter.input);
     },
     clearInput() {},
   },

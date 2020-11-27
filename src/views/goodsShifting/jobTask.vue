@@ -17,7 +17,7 @@
             <div class="setUser" @click="isReplenishmentNoteClick">
               打印补货单
             </div>
-            <div class="setUser">创建</div>
+            <div class="setUser" @click="isOrderNote = true">创建</div>
             <div class="setUser">编辑</div>
             <div class="remove">删除</div>
           </div>
@@ -135,7 +135,7 @@
       </div>
       <!-- table-biaoge -->
     </div>
-    <!-- 拣货单 start -->
+    <!-- 补货单 start -->
     <div v-show="isReplenishmentNote" class="bjBox">
       <transition
         enter-active-class="animate__animated animate__zoomIn"
@@ -152,7 +152,21 @@
         </div>
       </transition>
     </div>
-    <!-- 拣货单 end -->
+    <!-- 补货单 end -->
+    <!-- 创建补货单 start -->
+    <div v-show="isOrderNote" class="bjBox">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div v-if="isOrderNote">
+          <div>
+            <createOrderReplen @closeFn="isOrderNoteFun" />
+          </div>
+        </div>
+      </transition>
+    </div>
+    <!-- 创建补货单 end -->
   </div>
 </template>
 
@@ -161,6 +175,8 @@
 import goodsShiftingHeader from "../../components/goodsShiftingCommin/goodsShiftingHeader";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import delivetyNote from "../../components/commin/componentList"; //补货单
+import createOrderReplen from "../../components/goodsShiftingCommin/createOrderReplen"; //创建补货单
+
 import {
   pReplenishOrderfindRecordPage,
   pDeliverGoodsprintDeliverGoods,
@@ -171,18 +187,20 @@ export default {
   components: {
     goodsShiftingHeader,
     delivetyNote,
+    createOrderReplen,
     pagecomponent,
   },
   data() {
     return {
       isReplenishmentNote: false, //补货单
+      isOrderNote: false, //创建补货单
       tableData: [],
       pageComponentsData: {
         pageNums: 0, //一共多少条 //默认一页10
       },
       replenishmentNoteJson: {
-        title: "补货单",
-        replenishOrderNo: "JHRK20180909001",
+        title: "",
+        replenishOrderNo: "",
         queryArr: [],
         basicJson: [
           {
@@ -214,7 +232,7 @@ export default {
           },
         ],
       },
-      tabledatasArr: [], //data
+      tabledatasArr: [{ seatNo: "sadsa", prodNum: 1 }], //data
       sendOutDataJson: {
         paras: {},
         pageNumber: 1, //当前页数
@@ -228,15 +246,27 @@ export default {
     this.getTableData();
   },
   methods: {
+    isOrderNoteFun() {
+      console.log(1);
+      this.isOrderNote = false;
+    },
     isReplenishmentNoteClick() {
+      if (!this.multipleSelection.length || this.multipleSelection.length != -1)
+        return this.$messageSelf.message(
+          "请选择要打印的补货单,以及补货单只能打印一张"
+        );
       let json = [
         {
           queryTitle: "委托公司",
-          queryCenter: "qewqewq",
+          queryCenter: ` this.multipleSelection[0].orgName
+            ? this.multipleSelection[0].orgName
+            : ""`,
         },
         {
           queryTitle: "补货单号",
-          queryCenter: "eqwewqewq",
+          queryCenter: `this.multipleSelection[0].replenishOrderNo
+            ? this.multipleSelection[0].replenishOrderNo
+            : ""`,
         },
         {
           queryTitle: "补货人（签字）",
@@ -302,8 +332,6 @@ export default {
 };
 </script>
 
-<style>
-</style>
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .posFixCenter {

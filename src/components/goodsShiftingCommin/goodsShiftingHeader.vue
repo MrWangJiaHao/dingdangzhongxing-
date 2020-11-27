@@ -123,7 +123,7 @@
 import dropDownXiala from "../commin/dropDownXiala"; //下拉框
 import searchBox from "../commin/searvhBoxs"; //下拉框
 import dateTime from "../../components/commin/dateTime.vue"; //时间
-
+import { pReplenishOrderfindRecordPage } from "../../api/api";
 export default {
   components: {
     dropDownXiala,
@@ -197,13 +197,21 @@ export default {
         replenishStartTime: "", //补货开始时间，
         replenishEndTime: "", //补货结束时间
       },
+      sendOutDataJson: {
+        paras: {},
+        pageNumber: 1, //当前页数
+        pageSize: 10, //每页记录数
+      },
     };
+  },
+  created() {
+    this.getTableData();
   },
   methods: {
     //委托公司
     weiTuoGonShiClick() {
       let orgNume = {
-        orgNume: "撒旦撒 ",
+        orgNume: " ",
       };
       this.wieTuoGonShiJson.dropDownBoxData.push(orgNume);
     },
@@ -264,6 +272,16 @@ export default {
       this.$refs.createStartTime.clear();
       this.$emit("jobTaskClearBtn", true);
     },
+    async getTableData(fn) {
+      let datas = await pReplenishOrderfindRecordPage(this.sendOutDataJson);
+      if (datas.code == "10000") {
+        this._changeDatas(datas.result);
+      } else {
+        this.$messageSelf.message(datas.msg);
+      }
+      fn && fn(datas.result);
+      return datas;
+    },
   },
 };
 </script>
@@ -271,6 +289,7 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
 .goodsShiftingBox {
+  height: 140px;
   position: relative;
   .btns {
     position: absolute;
@@ -285,10 +304,12 @@ export default {
   background: #fff;
   margin-right: 10px;
 }
+
 .queryBtn {
   display: inline-block;
   @include BtnFunction("success");
 }
+
 .clearBtn {
   display: inline-block;
   @include BtnFunction();

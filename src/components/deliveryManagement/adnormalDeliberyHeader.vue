@@ -6,6 +6,7 @@
           <div class="noneIconTitle mr11">委托公司:</div>
           <div class="mr20">
             <el-select
+              class="w320"
               v-model="paras.orgName"
               slot="prepend"
               :placeholder="EntrustedCompany.placeholder"
@@ -27,6 +28,7 @@
             <div class="noneIconTitle mr11">渠道:</div>
             <div class="mr20">
               <el-select
+                class="w160"
                 v-model="paras.channelName"
                 slot="prepend"
                 placeholder="请选择渠道"
@@ -49,6 +51,7 @@
             <div class="noneIconTitle mr11">订单来源:</div>
             <div class="mr20">
               <el-select
+                class="w160"
                 v-model="paras.orderSourceName"
                 slot="prepend"
                 placeholder="请选择订单来源"
@@ -72,6 +75,7 @@
             <div class="noneIconTitle mr11">订单号:</div>
             <div class="mr20">
               <el-autocomplete
+                class="w120"
                 v-model="paras.orderNoCenter"
                 :fetch-suggestions="orderNoArr"
                 placeholder="请输入订单号"
@@ -87,6 +91,7 @@
             <div class="noneIconTitle mr11">子单号:</div>
             <div class="mr20">
               <el-autocomplete
+                class="w120"
                 v-model="paras.subOrderNoCenter"
                 :fetch-suggestions="subOrderNoArr"
                 placeholder="请输入子单号"
@@ -102,9 +107,10 @@
             <div class="noneIconTitle mr11">产品编号:</div>
             <div class="mr20">
               <el-autocomplete
+                class="w120"
                 v-model="paras.prodNameLike"
                 :fetch-suggestions="addressJsonArr"
-                placeholder="请输入产品名称"
+                placeholder="请输入产品编号"
                 @select="addressJsonSelect"
               ></el-autocomplete>
             </div>
@@ -117,6 +123,7 @@
             <div class="noneIconTitle mr11">产品名称:</div>
             <div class="mr20">
               <el-autocomplete
+                class="w120"
                 v-model="paras.prodNameLike"
                 :fetch-suggestions="addressJsonArr"
                 placeholder="请输入产品名称"
@@ -131,6 +138,7 @@
           <div class="noneIconTitle mr11">物流打印状态:</div>
           <div class="mr20">
             <el-select
+              class="w120"
               v-model="paras.printExprStatus"
               slot="prepend"
               placeholder="请选择物物流打印状态"
@@ -184,9 +192,8 @@
 <script>
 /*eslint-disable */
 import {
+  pOrgFailSubOrderfindRecordPageGroupByProd,
   getEntrustedcompany,
-  pDeliverGoodsFindNormalRecordPage,
-  pDeliverGoodsFindFastRecordPage,
 } from "../../api/api";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import { getCookie } from "../../utils/validate";
@@ -291,13 +298,10 @@ export default {
     },
     //获取数组
     async _getMes() {
-      let { result } = await this._ajaxMes();
+      let { result } = await pOrgFailSubOrderfindRecordPageGroupByProd(
+        this.sendoutData
+      );
       this._changDianDanLaiYuan(result.list);
-    },
-    _ajaxMes() {
-      return this.fastFahuo
-        ? pDeliverGoodsFindFastRecordPage(this.sendoutData)
-        : pDeliverGoodsFindNormalRecordPage(this.sendoutData);
     },
     //获取订单来源
     _changDianDanLaiYuan(res) {
@@ -332,30 +336,6 @@ export default {
     addressJsonArr() {},
     //点击拉那个产品名称
     addressJsonSelect() {},
-    //点击收货地址
-    getaddress() {},
-    //改变收货地址
-    changeaddress(e) {
-      this.paras.orderAddr = this.systemProdName.systemProdNameArr[e].orderAddr;
-    },
-    //收货联系电话
-    orderContactPhoneArr(e) {
-      this.paras.orderContactPhone = e;
-    },
-    //选择了那个收货联系电话
-    orderContactPhoneSelect() {},
-    //点击收货人
-    orderContactArr(e) {
-      this.paras.orderContact = e;
-    },
-    //选择了那个收货人
-    orderContactSelect() {},
-    //改变物流公司
-    changeExprName(e) {
-      exprNameJson.exprNameArr = exprNameJson.exprNameArr[e].exprNameArr;
-    },
-    //点击物流公司
-    getexprName() {},
     //订单号数组
     orderNoArr(e) {
       this.paras.orderNo = e;

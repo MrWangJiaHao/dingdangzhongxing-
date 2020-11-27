@@ -177,7 +177,6 @@
           </div>
         </div> -->
         <!-- 产品规格 ProductSpecificationsJson -->
-        <br />
         <div v-show="_isRuku()" class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">期望入库时间:</div>
@@ -307,7 +306,7 @@
         </div>
         <!-- 复核完成时间 -->
       </div>
-      <div class="btns inline btnArrs tr" style="width: 100%">
+      <div class="btns inline btnArrs tr">
         <div class="queryBtn inline mr11 zujianBox" @click="clickQueryUser">
           查询
         </div>
@@ -528,7 +527,7 @@ export default {
       this.paras.outWareType = this.$route.params.type;
       this.isOneShou = false;
     }
-    // this.addZhanKaiRes(".btnArrs");
+    this.addZhanKaiRes(".btnArrs");
   },
   methods: {
     addZhanKaiRes(child) {
@@ -556,7 +555,6 @@ export default {
     pickTimeEnd(e) {
       this.paras.pickTimeEnd = e;
     },
-
     changeWareStatus(e) {
       this.paras.outWareStatus = this.outWareStatusJson.outWareStatusArr[
         e
@@ -666,7 +664,6 @@ export default {
 .fuzzyQueryBox {
   padding: 20px 30px;
   overflow: hidden;
-  height: 180px;
   position: relative;
   justify-content: space-between;
   align-items: center;

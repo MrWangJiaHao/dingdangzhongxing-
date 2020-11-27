@@ -177,7 +177,6 @@ export default {
           childWareId: "",
           childWareName: "",
           specName: "",
-
           outWareTimeStart: "",
           pickTimeStart: "",
           checkTimeStart: "",
@@ -302,6 +301,7 @@ export default {
       return datas;
     },
     _changeDatas(datas) {
+      console.log(datas);
       this.tableData = datas.list;
       this.pageComponentsData.pageNums = datas.totalRow;
     },

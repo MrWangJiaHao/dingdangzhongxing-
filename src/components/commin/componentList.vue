@@ -111,7 +111,7 @@
                 <div>
                   <el-table
                     style="width: 980px"
-                    :data="tabledatasArr[idx]"
+                    :data="tabledatasArrFun(tabledatasArr, idx)"
                     border
                     highlight-current-row
                   >
@@ -177,6 +177,7 @@
 </template>
 
 <script>
+/*eslint-disable */
 export default {
   data() {
     return {
@@ -215,6 +216,11 @@ export default {
     },
   },
   methods: {
+    tabledatasArrFun(data, idx) {
+      return Object.prototype.toString.call(data[idx]).includes("Object")
+        ? data
+        : data[idx];
+    },
     closeBtn() {
       this.$emit("getiswuliudanOne", false);
     },
