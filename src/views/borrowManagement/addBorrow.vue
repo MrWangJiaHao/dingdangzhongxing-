@@ -2,39 +2,20 @@
   <div id="createBreakage">
     <div class="main">
       <div class="headerBox">
-        <div class="headerBox-title">选择产品</div>
+        <div class="headerBox-title">添加物料</div>
         <div class="header-content">
           <div class="headerBox-input">
             <div class="el-inputBox">
-              <div class="el-inputBox-text">子仓名称：</div>
-              <div class="el-inputBox-checkBox" style="width: 160px">
-                <el-select
-                  v-model="childStoreName"
-                  placeholder="请选择子仓名称"
-                  @change="childStoreNames"
-                  clearable
-                >
-                  <el-option
-                    v-for="item in childStoreNameData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
-            </div>
-            <div class="el-inputBox">
-              <div class="el-inputBox-text">区域名称：</div>
+              <div class="el-inputBox-text">物料类型：</div>
               <div class="el-inputBox-checkBox" style="width: 120px">
                 <el-select
-                  v-model="areaName"
-                  placeholder="请选择区域名称"
-                  @change="areaNames"
+                  v-model="mateType"
+                  placeholder="请选择物料类型"
+                  @change="mateTypes"
                   clearable
                 >
                   <el-option
-                    v-for="item in areaNameData"
+                    v-for="item in mateTypeData"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -44,53 +25,24 @@
               </div>
             </div>
             <div class="el-inputBox">
-              <div class="el-inputBox-text">区域类型：</div>
+              <div class="el-inputBox-text">物料编码：</div>
               <div class="el-inputBox-checkBox" style="width: 120px">
-                <el-select
-                  v-model="areaType"
-                  placeholder="请选择区域类型"
-                  @change="areatypes"
-                  clearable
-                >
-                  <el-option
-                    v-for="item in areaTypeData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
+                <el-input v-model="mateCode" placeholder="请输入物料编码">
+                </el-input>
               </div>
             </div>
             <div class="el-inputBox">
-              <div class="el-inputBox-text">产品规格：</div>
+              <div class="el-inputBox-text">物料名称：</div>
+              <div class="el-inputBox-checkBox" style="width: 120px">
+                <el-input v-model="mateName" placeholder="请输入物料名称">
+                </el-input>
+              </div>
+            </div>
+            <div class="el-inputBox">
+              <div class="el-inputBox-text">物料规格：</div>
               <div class="el-inputBox-checkBox" style="width: 160px">
-                <el-select
-                  v-model="prodSpec"
-                  placeholder="请选择产品规格"
-                  @change="prodSpecs"
-                  clearable
-                >
-                  <el-option
-                    v-for="item in prodSpecData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
-            </div>
-            <div class="el-inputBox">
-              <div class="el-inputBox-text">产品编码：</div>
-              <div class="el-inputBox-checkBox" style="width: 160px">
-                <el-input v-model="prodCode" placeholder="模糊检索"> </el-input>
-              </div>
-            </div>
-            <div class="el-inputBox">
-              <div class="el-inputBox-text">产品名称：</div>
-              <div class="el-inputBox-checkBox" style="width: 400px">
-                <el-input v-model="prodName" placeholder="模糊检索"> </el-input>
+                <el-input v-model="mateSpec" placeholder="请输入物料规格">
+                </el-input>
               </div>
             </div>
           </div>
@@ -122,27 +74,31 @@
               width="60"
             >
             </el-table-column>
+            <el-table-column prop="type" label="物料类型" align="center">
+            </el-table-column>
             <el-table-column
-              prop="childWareName"
-              label="子仓名称"
+              prop="materielCode"
+              label="物料编码"
               align="center"
             >
             </el-table-column>
-            <el-table-column prop="seatType" label="区域类型" align="center">
-            </el-table-column>
             <el-table-column
-              prop="wareAreaName"
-              label="区域名称"
+              prop="materielName"
+              label="物料名称"
               align="center"
             >
             </el-table-column>
-            <el-table-column prop="prodCode" label="产品编码" align="center">
-            </el-table-column>
-            <el-table-column prop="prodName" label="产品名称" align="center">
-            </el-table-column>
-            <el-table-column prop="specName" label="产品规格" align="center">
+            <el-table-column prop="specName" label="物料规格" align="center">
             </el-table-column>
             <el-table-column prop="braName" label="品牌" align="center">
+            </el-table-column>
+            <el-table-column prop="supName" label="供应商" align="center">
+            </el-table-column>
+            <el-table-column
+              prop="actualInventory"
+              label="销售仓可用库存"
+              align="center"
+            >
             </el-table-column>
           </el-table>
         </div>
@@ -163,144 +119,112 @@
 </template>
 
 <script>
+/*eslint-disable*/
+
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { storeMapRelation } from "../../api/api";
+import { queryMateRecord } from "../../api/api";
 import { reduceFun } from "../../utils/validate";
-import { Message } from "element-ui";
 
 export default {
+  beforeRouteEnter(to, from, next) {
+    if (from.name === "/borrowManagement/createBorrowOrder") {
+      next();
+    } else {
+      next((vm) => {
+        vm.$router.go(-1);
+      });
+    }
+  },
   components: {
     pagecomponent,
   },
+  inject: ["reload"],
   data() {
     return {
-      areaName: "",
-      areaType: "",
-      childStoreName: "",
+      mateCode: "",
+      mateName: "",
+      mateType: "",
       prodCode: "",
       prodName: "",
-      prodSpec: "",
+      mateSpec: "",
       multipleSelection: [],
       tableData: [],
-      childStoreNameData: [],
-      areaNameData: [],
-      areaTypeData: [
+      mateTypeData: [
         {
           value: "1",
-          label: "存储区",
+          label: "纸箱",
         },
         {
           value: "2",
-          label: "拣货区",
+          label: "胶带",
+        },
+        {
+          value: "3",
+          label: "打印纸",
         },
       ],
-      prodSpecData: [],
-
       pageComponentsData: {
         pageNums: 0,
       },
-      queryData: {
+      pagingQueryData: {
         orderBy: "createTime",
         pageNumber: 1,
         pageSize: 10,
         paras: {
-          orgId: "", //委托公司id
-          prodName: "", //产品名称
-          prodCode: "", //产品编码
-          childWareId: "", //子仓id
-          wareAreaId: "", //区域id
-        },
-      },
-      queryData1: {
-        orderBy: "createTime",
-        pageNumber: 1,
-        pageSize: 999999,
-        paras: {
-          orgId: "", //委托公司id
-          prodName: "", //产品名称
-          prodCode: "", //产品编码
-          childWareId: "", //子仓id
-          wareAreaId: "", //区域id
+          materielName: "",
+          materielType: "",
+          supId: "",
+          braId: "",
+          type: "",
+          startTime: "",
+          endTime: "",
         },
       },
     };
   },
   mounted() {
-    storeMapRelation(this.queryData1).then((ok) => {
-      if (ok.data.code === "10000") {
-        ok.data.result.list.forEach((v) => {
-          if (v.childWareName !== "") {
-            this.childStoreNameData.push({
-              value: v.childWareId,
-              label: v.childWareName,
-            });
-          }
-          this.childStoreNameData = reduceFun(this.childStoreNameData);
-          this.areaNameData.push({
-            value: v.wareAreaId,
-            label: v.wareAreaName,
-          });
-          this.areaNameData = reduceFun(this.areaNameData);
-          if (v.specName !== "") {
-            this.prodSpecData.push({
-              value: v.specName,
-              label: v.specName,
-            });
-          }
-          this.prodSpecData = reduceFun(this.prodSpecData);
-        });
-      }
-    });
     this.queryFun();
   },
   methods: {
     queryFun() {
-      storeMapRelation(this.queryData).then((ok) => {
+      queryMateRecord(this.pagingQueryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
           this.tableData.forEach((v) => {
-            v.seatType = v.seatType === 2 ? "拣货区" : "存储区";
+            v.type =
+              v.type === 1
+                ? "纸箱"
+                : v.type === 2
+                ? "胶带"
+                : v.type === 3
+                ? "打印纸"
+                : "未知";
           });
         }
       });
     },
     clickQuery() {
       this.tableData = [];
-      this.queryData.paras.prodCode = this.prodCode;
-      this.queryData.paras.prodName = this.prodName;
-      this.queryData.paras.specName = this.prodSpec;
+      this.pagingQueryData.paras.materielCode = this.mateCode;
+      this.pagingQueryData.paras.materielName = this.mateName;
+      this.pagingQueryData.paras.specName = this.mateSpec;
       this.queryFun();
     },
     clearInput() {
-      this.areaName = "";
-      this.areaType = "";
-      this.childStoreName = "";
-      this.prodCode = "";
-      this.prodName = "";
-      this.prodSpec = "";
+      this.mateCode = "";
+      this.mateName = "";
+      this.mateType = "";
+      this.mateSpec = "";
       this.tableData = [];
-      Object.keys(this.queryData.paras).forEach((v) => {
-        this.queryData.paras[v] = "";
+      Object.keys(this.pagingQueryData.paras).forEach((v) => {
+        this.pagingQueryData.paras[v] = "";
       });
       this.queryFun();
     },
-    childStoreNames(val) {
-      //   this.childStoreName = val;
-      this.queryData.paras.childWareId = val;
-    },
-    areaNames(val) {
-      //   this.areaName = val;
-      this.queryData.paras.wareAreaId = val;
-    },
-    areatypes(val) {
-      //   this.areaType = val;
-      this.queryData.paras.seatType = val;
-    },
-    prodSpecs(val) {
-      //   this.prodSpec = val;
-      this.queryData.paras.specName = val;
+    mateTypes(val) {
+      this.pagingQueryData.paras.type = val;
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
@@ -310,14 +234,16 @@ export default {
       this.$messageSelf.message("该功能待定");
     },
     back() {
-      this.$router.push({ path: "/breakageManagement/createBreakageOrder" });
+      this.$router.push({ path: "/borrowManagement/createBorrowOrder" });
     },
     submit() {
-      if (!this.multipleSelection.length) return Message("请选择报损的产品");
+      if (!this.multipleSelection.length)
+        return this.$messageSelf, message("请选择需要借调的产品");
       this.$router.push({
-        path: "/breakageManagement/createBreakageOrder",
+        path: "/borrowManagement/createBorrowOrder",
         query: { val: this.multipleSelection, type: "addProd" },
       });
+      this.reload();
     },
     getPageNum(e) {
       this.queryData.pageNumber = e;
@@ -360,7 +286,7 @@ export default {
         left: -25px;
         top: 3px;
       }
-      .header-content{
+      .header-content {
         display: flex;
         justify-content: space-between;
       }

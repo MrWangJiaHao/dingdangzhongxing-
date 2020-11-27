@@ -1,11 +1,21 @@
 <template>
   <div id="app">
-    <router-view />
+    <router-view v-if="isRouterAlive" />
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      isRouterAlive: true,
+    };
+  },
+  provide() {
+    return {
+      reload: this.reload,
+    };
+  },
   created() {
     this.$store.dispatch("getusertype");
     if (localStorage.getItem("data")) {
@@ -38,6 +48,12 @@ export default {
           });
         });
       }, 700);
+    },
+    reload() {
+      this.isRouterAlive = false;
+      this.$nextTick(function () {
+        this.isRouterAlive = true;
+      });
     },
   },
 };
@@ -109,5 +125,7 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield !important;
 }
-.el-input__inner{font-size: 14px;}
+.el-input__inner {
+  font-size: 14px;
+}
 </style>
