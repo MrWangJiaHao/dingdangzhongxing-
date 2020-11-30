@@ -7,7 +7,7 @@ class isDisplayNoneBlock {
         window.onresize = this.isChaXun()
     }
     isChaXun(child) {
-        if (!child) return
+        if (!child) return console.log(child)
         let parent = child.parentNode;
         if (!parent) return console.log(new Error("该字节点没有父节点，请重新输入"))
         this.child = child
@@ -15,7 +15,7 @@ class isDisplayNoneBlock {
         this.parentHeight = parentHeight
         this.parent = parent
         console.log(parentHeight, "查询按钮父层的height，是否超过150px")
-        if (parentHeight > 150) {
+        if (parentHeight > 160) {
             parent.style.height = 118 + "px";
             this.createDomPush(child);
         }

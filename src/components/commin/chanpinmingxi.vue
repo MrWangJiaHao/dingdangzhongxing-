@@ -6,11 +6,17 @@
     </div>
     <div>
       <tableCommin :tableDataJson="chanpinminxiJson.tableDataJsonAndArr">
+        <template name="searchBox">
+          <input type="text" placeholder="asdsa" />
+        </template>
+        <template name="dropDownXiala">
+          <input type="text" placeholder="asdsa" />
+        </template>
       </tableCommin>
     </div>
   </div>
 </template>
-
+  
 <script>
 import tableCommin from "./tableCommin";
 export default {

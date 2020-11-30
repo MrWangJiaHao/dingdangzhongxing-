@@ -1,6 +1,9 @@
 <template>
   <div class="setUserIngBox">
-    <div class="setUserIngBoxCenter">
+    <div
+      class="setUserIngBoxCenter"
+      :style="{ width: width || '1000px', top: top || ' 144px' }"
+    >
       <div class="headerBox">
         <div class="closeTitle">
           {{ titles }}
@@ -27,6 +30,14 @@ export default {
     titles: {
       type: String,
       default: "",
+    },
+    width: {
+      type: String,
+      default: "1000px",
+    },
+    top: {
+      type: String,
+      default: "144px",
     },
   },
   methods: {
@@ -66,10 +77,9 @@ export default {
   .setUserIngBoxCenter {
     position: relative;
     left: 50%;
-    top: 144px;
+    min-height: 730px;
     transform: translateX(-50%);
     background: #fff;
-    width: 1000px;
     .centerBox {
       padding: 30px 20px;
     }

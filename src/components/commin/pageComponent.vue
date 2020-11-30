@@ -21,7 +21,15 @@ export default {
     };
   },
   props: {
-    pageComponentsData: Object,
+    pageComponentsData: {
+      type: Object,
+      default: () => {
+        return {
+          pageNums: 10,
+          sizes: false,
+        };
+      },
+    },
   },
   computed: {
     layout() {

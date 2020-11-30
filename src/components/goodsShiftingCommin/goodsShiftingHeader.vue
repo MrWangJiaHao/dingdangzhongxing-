@@ -111,7 +111,7 @@
       </div>
       <!-- 补货开始时间 -->
     </div>
-    <div class="tr btns">
+    <div class="tr btns btnArrs">
       <div class="queryBtn mr11" @click="queryCenter">查询</div>
       <div class="clearBtn" @click="clearInters">清空</div>
     </div>
@@ -123,7 +123,6 @@
 import dropDownXiala from "../commin/dropDownXiala"; //下拉框
 import searchBox from "../commin/searvhBoxs"; //下拉框
 import dateTime from "../../components/commin/dateTime.vue"; //时间
-import { pReplenishOrderfindRecordPage } from "../../api/api";
 export default {
   components: {
     dropDownXiala,
@@ -207,11 +206,16 @@ export default {
   created() {
     this.getTableData();
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.$isChaXun.isChaXun(document.querySelector(".btnArrs"));
+    });
+  },
   methods: {
     //委托公司
     weiTuoGonShiClick() {
       let orgNume = {
-        orgNume: " ",
+        orgNume: "",
       };
       this.wieTuoGonShiJson.dropDownBoxData.push(orgNume);
     },
@@ -273,7 +277,9 @@ export default {
       this.$emit("jobTaskClearBtn", true);
     },
     async getTableData(fn) {
-      let datas = await pReplenishOrderfindRecordPage(this.sendOutDataJson);
+      let datas = await this.$pOrgProductsApp.pReplenishOrderfindRecordPage(
+        this.sendOutDataJson
+      );
       if (datas.code == "10000") {
         this._changeDatas(datas.result);
       } else {
@@ -282,6 +288,13 @@ export default {
       fn && fn(datas.result);
       return datas;
     },
+    _changeDatas(res) {
+      let { list } = res;
+      this.wieTuoGonShiJson.dropDownBoxData = list;
+      this.specNameJson.dropDownBoxData = list;
+      this.disposeStatusJson.dropDownBoxData = list;
+      this.orderSourceJson.dropDownBoxData = list;
+    },
   },
 };
 </script>
@@ -289,8 +302,10 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
 .goodsShiftingBox {
-  height: 140px;
+  min-height: 160px;
+  padding: 20px 30px;
   position: relative;
+  overflow: hidden;
   .btns {
     position: absolute;
     right: 10px;

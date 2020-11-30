@@ -23,12 +23,10 @@ import {
 Vue.use(animated)
 import messageSelf from "./assets/js/toast"; //自定义弹框
 import isChaXun from "./assets/js/isChaXun"; //是否要展示
-
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-
 import './assets/scss/index.scss'
-
+import "./utils/otherFlag";
 NProgress.configure({
   easing: 'ease', // 动画方式    
   speed: 500, // 递增进度条的速度    

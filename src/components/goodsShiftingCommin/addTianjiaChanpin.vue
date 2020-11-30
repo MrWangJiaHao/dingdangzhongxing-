@@ -1,0 +1,171 @@
+<template>
+  <div>
+    <kuanjiaClick
+      :titles="'添加产品'"
+      :width="'980px'"
+      :top="'160px'"
+      @closeBtn="closeBtn"
+    >
+      <template slot="centerKuanjia">
+        <div>
+          <createMonent :chuanjianJsonAndArr="chuanjianJsonAndArr">
+            <template slot="btnsArr">
+              <div class="tr dispalyFlex">
+                <span class="goOn inline mr11">查询</span>
+                <span class="lodopFunClear inline">清空</span>
+              </div>
+            </template>
+          </createMonent>
+          <!-- 上部分 -->
+          <div class="tr pd20">
+            <span class="lodopFunClear mb16 inline">删除</span>
+          </div>
+          <div class="pd20 mb16">
+            <table-commin :tableDataJson="tableDataJson"></table-commin>
+          </div>
+        </div>
+        <div class="tr mb16 pd20">
+          <pageComponent
+            :pageComponentsData="pageComponentsData"
+            @sureSuccssBtn="sureSuccssBtn"
+            @handleSizeChange="handleSizeChange"
+            @getPageNum="getPageNum"
+          ></pageComponent>
+        </div>
+      </template>
+    </kuanjiaClick>
+  </div>
+</template>
+
+<script>
+import createMonent from "../commin/createMonent"; //创建上面
+import kuanjiaClick from "../commin/kuanjiaClick"; //点击架子
+import TableCommin from "../commin/tableCommin.vue";
+
+import pageComponent from "../commin/pageComponent";
+
+export default {
+  props: {
+    sendoutJson: {
+      type: Object,
+      default: () => {},
+    },
+  },
+
+  data() {
+    return {
+      chuanjianJsonAndArr: {
+        inputArr: [
+          {
+            title: "产品编码",
+            types: "search",
+            select: "",
+            placeholder: "请输入产品编码",
+          },
+          {
+            title: "产品名称",
+            types: "search",
+            select: "",
+            placeholder: "请输入产品名称",
+          },
+          {
+            title: "产品规格",
+            types: "xiala",
+            select: "",
+            placeholder: "请选择产品规格",
+            dropDownXialaClickFun() {},
+            getDropDownChangeDataFun() {},
+          },
+        ],
+      },
+      pageComponentsData: {
+        pageNums: 10,
+        sizes: true,
+      },
+      tableDataJson: {
+        tabledata: [], // 表格数据
+        typeData: [
+          {
+            types: "selection",
+          },
+          {
+            types: "index",
+            label: "序号",
+            width: 70,
+          },
+          {
+            types: "prodCode",
+            label: "产品编码",
+          },
+          {
+            types: "prodName",
+            label: "产品名称",
+          },
+          {
+            types: "prodCode",
+            label: "产品规格",
+          },
+          {
+            types: "prodCode",
+            label: "品牌",
+          },
+          {
+            types: "prodCode",
+            label: "仓库可用库存",
+          },
+        ], //表头数据
+      },
+      sendoutJsonData: {
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {},
+      },
+    };
+  },
+  components: {
+    kuanjiaClick,
+    createMonent,
+    pageComponent,
+    TableCommin,
+  },
+  created() {
+    this._tableDataArrs();
+  },
+  methods: {
+    closeBtn() {
+      this.$parent._data.isAddcreateChanpin = false;
+    },
+    async _tableDataArrs() {
+      let data = await this.$pOrgProductsApp.findReplienshProductPagePost(
+        this.sendoutJsonData
+      );
+      this.tabledata.tabledata = data.list;
+      console.log(data);
+    },
+    sureSuccssBtn(e) {
+      this.sendoutJsonData.pageNumber = e;
+    },
+    handleSizeChange(e) {
+      this.sendoutJsonData.pageSize = e;
+    },
+    getPageNum(e) {
+      this.sendoutJsonData.pageNumber = e;
+    },
+  },
+};
+</script>
+
+<style lang='scss' scoped>
+@import "../../assets/scss/btn.scss";
+.goOn {
+  @include BtnFunction("success");
+}
+.goOnmes {
+  border: 1px solid #000;
+  @include BtnFunction();
+}
+
+.lodopFunClear {
+  @include BtnFunction("error");
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
   <div id="fahuoguanli">
     <div class="manualBox">
-      <div class="pd20 mtb20">
+      <div>
         <goodsShiftingHeader
           @jobTaskHeader="jobTaskHeader"
           @jobTaskClearBtn="jobTaskClearBtn"
@@ -177,12 +177,7 @@ import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import delivetyNote from "../../components/commin/componentList"; //补货单
 import createOrderReplen from "../../components/goodsShiftingCommin/createOrderReplen"; //创建补货单
 
-import {
-  pReplenishOrderfindRecordPage,
-  pDeliverGoodsprintDeliverGoods,
-  pDeliverGoodsfindSubOrderByPickOrderNo,
-} from "../../api/api";
-import { _getArrTarget } from "../../utils/validate";
+import { getCookie, _getArrTarget } from "../../utils/validate";
 export default {
   components: {
     goodsShiftingHeader,
@@ -234,7 +229,9 @@ export default {
       },
       tabledatasArr: [{ seatNo: "sadsa", prodNum: 1 }], //data
       sendOutDataJson: {
-        paras: {},
+        paras: {
+          wareId: getCookie("X-Auth-wareId"),
+        },
         pageNumber: 1, //当前页数
         pageSize: 10, //每页记录数
       },
@@ -315,7 +312,9 @@ export default {
     },
     //获取table表格内容
     async getTableData(fn) {
-      let datas = await pReplenishOrderfindRecordPage(this.sendOutDataJson);
+      let datas = await this.$pOrgProductsApp.pReplenishOrderfindRecordPage(
+        this.sendOutDataJson
+      );
       if (datas.code == "10000") {
         this._changeDatas(datas.result);
       } else {

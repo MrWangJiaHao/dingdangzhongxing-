@@ -6,6 +6,8 @@
       ref="multipleTable"
       tooltip-effect="dark"
       border
+      @row-click="handleRowClick"
+      @filter-change="filterHandler"
       @selection-change="handleSelectionChange"
     >
       <template v-for="(tableItem, tableIdx) in tableDataJson.typeData">
@@ -30,14 +32,17 @@
           :key="tableIdx"
         >
           <span slot-scope="scope">
-            <div v-if="tableItem.searchBox">
-              <slot name="searchBox"></slot>
-            </div>
-            <div v-else-if="tableItem.dropDownXiala">
-              <slot name="dropDownXiala"></slot>
-            </div>
+            <ex-slot
+              v-if="tableItem.render"
+              :row="scope.row"
+              :index="scope.$index"
+              :render="tableItem.render"
+              :column="tableItem"
+            >
+              {{ scope.row[tableItem.types] || "1" }}
+            </ex-slot>
             <span v-else>
-              {{ scope.row[tableItem.types] }}
+              {{ scope.row[tableItem.types] || "暂无数据" }}
             </span>
           </span>
         </el-table-column>
@@ -47,7 +52,29 @@
 </template>
 
 <script>
+var exSlot = {
+  functional: true,
+  props: {
+    row: Object,
+    render: Function,
+    index: Number,
+    column: {
+      type: Object,
+      default: null,
+    },
+  },
+  render: (h, data) => {
+    const params = {
+      row: data.props.row,
+      index: data.props.index,
+    };
+    if (data.props.column) params.column = data.props.column;
+    return data.props.render(h, params);
+  },
+};
 export default {
+  name: "comp-table",
+  components: { exSlot },
   props: {
     tableDataJson: {
       type: Object,
@@ -59,6 +86,13 @@ export default {
   methods: {
     handleSelectionChange(e) {
       this.$emit("tableSelectArr", e);
+    },
+    // 某一行被点击
+    handleRowClick(row) {
+      this.$emit("click-events", row);
+    },
+    filterHandler(filters) {
+      this.$emit("filter-events", filters);
     },
   },
 };

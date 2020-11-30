@@ -1,22 +1,34 @@
 <template>
   <div>
     <div class="centerBox">
-      <div class="setTitle mb16">{{ chuanjianJsonAndArr.title }}</div>
+      <div class="setTitle mb16" v-if="chuanjianJsonAndArr.title">
+        {{ chuanjianJsonAndArr.title }}
+      </div>
       <!-- title -->
-      <div class="dispalywrap">
-        <div
-          v-for="(item, idx) in chuanjianJsonAndArr.inputArr"
-          :key="idx"
-          class="mb16"
-        >
-          <div v-if="item.types == 'xiala'" class="mr11">
-            <dropDownXiala :dropDowBox="item" />
+      <div>
+        <div :class="chuanjianJsonAndArr.title ? 'dispalywrap' : 'dispalyFlex'">
+          <div
+            v-for="(item, idx) in chuanjianJsonAndArr.inputArr"
+            :key="idx"
+            class="mb16"
+          >
+            <div v-if="item.types == 'xiala'" class="mr11 ellipsis">
+              <dropDownXiala
+                :dropDowBox="item"
+                :drop="item.drop"
+                @cliclInput="item.dropDownXialaClickFun"
+                @getDropDownData="item.getDropDownChangeDataFun"
+              />
+            </div>
+            <div v-else-if="item.types == 'search'" class="mr11 ellipsis">
+              <searchBox :searchCenter="item" />
+            </div>
+            <div v-else>
+              {{ "再加一个判断" + item }}
+            </div>
           </div>
-          <div v-else-if="item.types == 'search'" class="mr11">
-            <searchBox :searchCenter="item" />
-          </div>
-          <div v-else>
-            {{ "再加一个判断" + item }}
+          <div>
+            <slot name="btnsArr"> </slot>
           </div>
         </div>
       </div>

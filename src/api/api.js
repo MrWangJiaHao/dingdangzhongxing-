@@ -1610,33 +1610,21 @@ export const pOrgFailSubOrderfindRecordPageGroupByProd = (data) => {
 
 //=========================================发货管理 end ========================================
 //=========================================货品移位 start ========================================
-
-/**
- * 货品移位 =》 补货作业 => 分页查询补货单
- * @param {*} datas /wbs-warehouse-manage/pReplenishOrder/findRecordPage
- */
-export const pReplenishOrderfindRecordPage = function (data) {
-    return new Promise((res, rej) => {
-        service.request({
-            url: "/wbs-warehouse-manage/pReplenishOrder/findRecordPage",
-            method: "post",
-            data
-        }).then((ok) => {
-            res(ok.data)
-        }).catch((err) => {
-            rej(err)
-        })
-    })
+export const pOrgProductsApp = {
+    findReplienshProductPagePost: (data) => post({
+        url: "/wbs-warehouse-manage/v1/pOrgProducts/findReplienshProductPage",
+        data
+    }),//新增根据委托公司、子仓、区域查询产品
+    pReplenishOrderSaveRecord: (data) => post({
+        url: "/wbs-warehouse-manage/pReplenishOrder/saveRecord",
+        data
+    }),//创建 保存 修改 补货单
+    pReplenishOrderfindRecordPage: (data) => post({
+        url: "/wbs-warehouse-manage/pReplenishOrder/findRecordPage",
+        data
+    }),//货品移位 =》 补货作业 => 分页查询补货单
 }
-
-
 //=========================================货品移位 end ========================================
-
-
-
-// 
-
-
 
 export function post(datas) {
     let {
