@@ -419,7 +419,6 @@ export default {
       tableData1: [],
       multipleSelection: [],
       pagingQueryData: {
-        //分页查询
         orderBy: "createTime",
         pageNumber: 1,
         pageSize: 10,

@@ -99,7 +99,7 @@ export default {
           };
 
           login(data).then((ok) => {
-            // console.log(ok.data);
+            console.log(ok.data);
             if (ok.data.code === "10000") {
               this.$messageSelf.message({
                 type: "success",
@@ -116,6 +116,10 @@ export default {
               this.$cookie.set("X-Auth-wareId", ok.data.result.user.wareId);
               this.$cookie.set("orgId", ok.data.result.user.orgId);
               this.$cookie.set("X-Auth-user", ok.data.result.user.id);
+              this.$cookie.set(
+                "X-Auth-wareName",
+                ok.data.result.user.wareFullName
+              );
               this.isLoading = true;
               setTimeout(() => {
                 this.$router.push("/index");

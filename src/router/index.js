@@ -381,6 +381,32 @@ const routes = [{
     component: () => import("../views//breakageManagement/breakageOrderDetail"),
   },
   //----------------------------------------------------------报损管理结束-------------------------------------------------------------------------------------
+  //----------------------------------------------------------借调管理开始-------------------------------------------------------------------------------------
+  {
+    // 借调管理主页面
+    path: "/borrowManagement/borrowMain",
+    name: "/borrowManagement/borrowMain",
+    component: () => import("../views//borrowManagement/borrowMain"),
+  },
+  {
+    // 借调管理=>创建借调单
+    path: "/borrowManagement/createBorrowOrder",
+    name: "/borrowManagement/createBorrowOrder",
+    component: () => import("../views//borrowManagement/createBorrowOrder"),
+  },
+  {
+    // 借调管理=>添加借调
+    path: "/borrowManagement/addBorrow",
+    name: "/borrowManagement/addBorrow",
+    component: () => import("../views//borrowManagement/addBorrow"),
+  },
+  {
+    // 借调管理=>借调单详情
+    path: "/borrowManagement/borrowOrderDetail",
+    name: "/borrowManagement/borrowOrderDetail",
+    component: () => import("../views//borrowManagement/borrowOrderDetail"),
+  },
+  //----------------------------------------------------------借调管理结束-------------------------------------------------------------------------------------
   //----------------------------------------------------------发货管理 start-------------------------------------------------------------------------------------
   {
     // 发货管理=>正常发货

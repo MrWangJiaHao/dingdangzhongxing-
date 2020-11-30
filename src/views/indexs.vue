@@ -14,7 +14,7 @@
                 placement="bottom"
                 trigger="click"
                 class="displayalign"
-                v-if="navIndex.children.length != 0"
+                v-if="navIndex.children.length > 1"
                 @command="clickEventGoRouter"
               >
                 <span class="el-dropdown-link">
@@ -338,7 +338,12 @@ export default {
         {
           title: "借调管理",
           iconCls: require("@/assets/img/warehouse-adjustAdmin.png"),
-          children: [],
+          children: [
+            {
+              title: "借调管理",
+              name: "/borrowManagement/borrowMain",
+            },
+          ],
         },
         {
           title: "库存管理",
