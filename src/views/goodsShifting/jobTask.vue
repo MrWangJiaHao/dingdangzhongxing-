@@ -11,22 +11,27 @@
       <div class="btnArr">
         <div style="background-color: #fff">
           <div class="meiyiyetitle">补货作业</div>
-          <div class="btnClick">
-            <div class="setUser">待补货产品</div>
-            <div class="setUser">补货确认</div>
+          <div v-if="!daibuhuochanping" class="btnClick">
+            <div class="setUser" @click="daibuhuochanping = true">
+              待补货产品
+            </div>
+            <div class="setUser" @click="isBuHuoSureJson">补货确认</div>
             <div class="setUser" @click="isReplenishmentNoteClick">
               打印补货单
             </div>
             <div class="setUser" @click="isOrderNote = true">创建</div>
-            <div class="setUser">编辑</div>
-            <div class="remove">删除</div>
+            <div class="setUser" @click="editOrderNote">编辑</div>
+            <div class="remove" @click="removeIsOrderNode">删除</div>
+          </div>
+          <div v-else class="btnClick">
+            <div class="setUser" @click="shenchengbuhuodan">生成补货单</div>
           </div>
         </div>
         <!-- but按钮 -->
       </div>
       <div class="tableBox">
         <div style="background-color: #fff; padding: 20px 20px 0 20px">
-          <div class="center">
+          <div v-if="!daibuhuochanping" class="center">
             <el-table
               ref="multipleTable"
               :data="tableData"
@@ -51,6 +56,7 @@
               <el-table-column
                 label="补货单号"
                 prop="replenishOrderNo"
+                width="250"
                 show-overflow-tooltip
               >
                 <span slot-scope="scoped">
@@ -124,6 +130,10 @@
             </el-table>
           </div>
           <!-- 表格主体 -->
+          <div v-else class="center">
+            <tableCommin :tableDataJson="tableDataJson" />
+          </div>
+          <!-- 待补货产品 -->
           <div class="pageComponent">
             <pagecomponent
               :pageComponentsData="pageComponentsData"
@@ -167,6 +177,20 @@
       </transition>
     </div>
     <!-- 创建补货单 end -->
+    <!-- 补货确认 start -->
+    <div v-show="isBuHuoSures" class="bjBox">
+      <transition
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
+      >
+        <div v-if="isBuHuoSures">
+          <div>
+            <createOrderSure @closeBtnSure="closeBtnSure" />
+          </div>
+        </div>
+      </transition>
+    </div>
+    <!-- 补货确认 end -->
   </div>
 </template>
 
@@ -176,17 +200,22 @@ import goodsShiftingHeader from "../../components/goodsShiftingCommin/goodsShift
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import delivetyNote from "../../components/commin/componentList"; //补货单
 import createOrderReplen from "../../components/goodsShiftingCommin/createOrderReplen"; //创建补货单
-
-import { getCookie, _getArrTarget } from "../../utils/validate";
+import createOrderSure from "../../components/goodsShiftingCommin/createOrderSure"; //创建补货单
+import { getCookie, _getArrTarget, getJsonTarget } from "../../utils/validate";
+import tableCommin from "../../components/commin/tableCommin";
 export default {
   components: {
     goodsShiftingHeader,
     delivetyNote,
     createOrderReplen,
     pagecomponent,
+    tableCommin,
+    createOrderSure,
   },
   data() {
     return {
+      isBuHuoSures: false, // 补货确认
+      daibuhuochanping: false, //点击了待补货产品
       isReplenishmentNote: false, //补货单
       isOrderNote: false, //创建补货单
       tableData: [],
@@ -227,7 +256,7 @@ export default {
           },
         ],
       },
-      tabledatasArr: [{ seatNo: "sadsa", prodNum: 1 }], //data
+      tabledatasArr: [], //data
       sendOutDataJson: {
         paras: {
           wareId: getCookie("X-Auth-wareId"),
@@ -237,15 +266,104 @@ export default {
       },
       pickOrderNo: "",
       multipleSelection: [], //选择了那个
+      tableDataJson: {
+        tabledata: [],
+        typeData: [
+          {
+            types: "selection",
+          },
+          {
+            types: "index",
+            label: "序号",
+            width: 71,
+          },
+          {
+            types: "orgName",
+            label: "委托公司",
+          },
+          {
+            types: "oldName",
+            label: "补货库位",
+          },
+          {
+            types: "oldName",
+            label: "产品编码",
+          },
+          {
+            types: "oldName",
+            label: "产品名称",
+          },
+          {
+            types: "oldName",
+            label: "产品规格",
+          },
+          {
+            types: "oldName",
+            label: "品牌",
+          },
+          {
+            types: "oldName",
+            label: "补货状态",
+          },
+          {
+            types: "disposeStatus",
+            label: "补货时间",
+          },
+          {
+            types: "disposeStatus",
+            label: "当前数量",
+          },
+          {
+            types: "disposeStatus",
+            label: "最大补货数量",
+          },
+        ],
+      },
     };
   },
   created() {
     this.getTableData();
   },
   methods: {
+    //编辑
+    editOrderNote() {
+      if (!this.multipleSelection.length || this.multipleSelection.length != 1)
+        return this.$messageSelf.message(
+          "请选择要删除的补货单,并且只能选择一个编辑"
+        );
+    },
+    //删除
+    removeIsOrderNode() {
+      console.log(this.multipleSelection);
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message("请选择要删除的补货单");
+      console.log(getJsonTarget(this.multipleSelection, "id"));
+      this.$pOrgProductsApp
+        .pReplenishOrderDelRecord({
+          ids: _getArrTarget(this.multipleSelection, "id"),
+        })
+        .then((res) => {
+          if (res.code == "10000") {
+            this.$messageSelf.message(res.msg);
+            this.getTableData();
+          } else {
+            this.$messageSelf.message(res.msg);
+          }
+        });
+    },
+    isBuHuoSureJson() {
+      this.isBuHuoSures = true;
+    },
+    shenchengbuhuodan() {
+      this.isOrderNote = true;
+    },
+    closeBtnSure() {
+      this.isBuHuoSures = false;
+      this.getTableData();
+    },
     isOrderNoteFun() {
-      console.log(1);
       this.isOrderNote = false;
+      this.getTableData();
     },
     isReplenishmentNoteClick() {
       if (!this.multipleSelection.length || this.multipleSelection.length != -1)
@@ -255,15 +373,15 @@ export default {
       let json = [
         {
           queryTitle: "委托公司",
-          queryCenter: ` this.multipleSelection[0].orgName
+          queryCenter: this.multipleSelection[0].orgName
             ? this.multipleSelection[0].orgName
-            : ""`,
+            : "",
         },
         {
           queryTitle: "补货单号",
-          queryCenter: `this.multipleSelection[0].replenishOrderNo
+          queryCenter: this.multipleSelection[0].replenishOrderNo
             ? this.multipleSelection[0].replenishOrderNo
-            : ""`,
+            : "",
         },
         {
           queryTitle: "补货人（签字）",
@@ -326,6 +444,8 @@ export default {
     _changeDatas(datas) {
       this.tableData = datas.list;
       this.pageComponentsData.pageNums = datas.totalRow;
+      //点击生产补货单
+      this.tableDataJson.tabledata = datas.list;
     },
   },
 };

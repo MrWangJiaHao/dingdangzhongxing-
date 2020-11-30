@@ -5,7 +5,10 @@
       <slot name="anniuBtns"></slot>
     </div>
     <div>
-      <tableCommin :tableDataJson="chanpinminxiJson.tableDataJsonAndArr">
+      <tableCommin
+        :tableDataJson="chanpinminxiJson.tableDataJsonAndArr"
+        @tableSelectArr="tableSelectArrs"
+      >
         <template name="searchBox">
           <input type="text" placeholder="asdsa" />
         </template>
@@ -31,6 +34,11 @@ export default {
           title: "",
         };
       },
+    },
+  },
+  methods: {
+    tableSelectArrs(e) {
+      this.$emit("tableSelectArrs", e);
     },
   },
 };

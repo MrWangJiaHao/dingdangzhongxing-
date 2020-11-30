@@ -5,6 +5,7 @@
       :width="'980px'"
       :top="'160px'"
       @closeBtn="closeBtn"
+      @clickSubmit="goAJAXCreate"
     >
       <template slot="centerKuanjia">
         <div>
@@ -12,16 +13,23 @@
             <template slot="btnsArr">
               <div class="tr dispalyFlex">
                 <span class="goOn inline mr11">查询</span>
-                <span class="lodopFunClear inline">清空</span>
+                <span class="lodopFunClear inline" @click="clearInputs"
+                  >清空</span
+                >
               </div>
             </template>
           </createMonent>
           <!-- 上部分 -->
           <div class="tr pd20">
-            <span class="lodopFunClear mb16 inline">删除</span>
+            <span class="lodopFunClear mb16 inline" @click="removeTarget"
+              >删除</span
+            >
           </div>
           <div class="pd20 mb16">
-            <table-commin :tableDataJson="tableDataJson"></table-commin>
+            <table-commin
+              :tableDataJson="tableDataJson"
+              @tableSelectArr="tableSelectArr"
+            ></table-commin>
           </div>
         </div>
         <div class="tr mb16 pd20">
@@ -41,7 +49,6 @@
 import createMonent from "../commin/createMonent"; //创建上面
 import kuanjiaClick from "../commin/kuanjiaClick"; //点击架子
 import TableCommin from "../commin/tableCommin.vue";
-
 import pageComponent from "../commin/pageComponent";
 
 export default {
@@ -59,13 +66,13 @@ export default {
           {
             title: "产品编码",
             types: "search",
-            select: "",
+            input: "",
             placeholder: "请输入产品编码",
           },
           {
             title: "产品名称",
             types: "search",
-            select: "",
+            input: "",
             placeholder: "请输入产品名称",
           },
           {
@@ -120,6 +127,7 @@ export default {
         pageSize: 10,
         paras: {},
       },
+      multiputes: [],
     };
   },
   components: {
@@ -132,15 +140,23 @@ export default {
     this._tableDataArrs();
   },
   methods: {
+    clearInputs() {
+      this.chuanjianJsonAndArr.inputArr[0].input = "";
+      this.chuanjianJsonAndArr.inputArr[1].input = "";
+      this.chuanjianJsonAndArr.inputArr[2].select = "";
+    },
     closeBtn() {
       this.$parent._data.isAddcreateChanpin = false;
     },
     async _tableDataArrs() {
-      let data = await this.$pOrgProductsApp.findReplienshProductPagePost(
+      let { result } = await this.$pOrgProductsApp.findReplienshProductPagePost(
         this.sendoutJsonData
       );
-      this.tabledata.tabledata = data.list;
-      console.log(data);
+      this.tableDataJson.tabledata = result.list;
+      return result.list;
+    },
+    tableSelectArr(e) {
+      this.multiputes = e;
     },
     sureSuccssBtn(e) {
       this.sendoutJsonData.pageNumber = e;
@@ -150,6 +166,28 @@ export default {
     },
     getPageNum(e) {
       this.sendoutJsonData.pageNumber = e;
+    },
+    removeTarget() {
+      this._removeData(this.tableDataJson.tabledata, this.multiputes);
+    },
+    //删除data
+    _removeData(data, target) {
+      data = data || [];
+      target = target || [];
+      target.forEach((item) => {
+        let idx = data.indexOf(item);
+        data.splice(idx, 1);
+      });
+      sessionStorage.setItem("tianjiachanpings", JSON.stringify(data));
+      return data;
+    },
+    //点击了提交
+    goAJAXCreate() {
+      sessionStorage.setItem(
+        "tianjiachanpings",
+        JSON.stringify(this.multiputes)
+      );
+      this.closeBtn();
     },
   },
 };

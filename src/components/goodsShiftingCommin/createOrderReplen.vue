@@ -11,19 +11,22 @@
         </div>
         <!-- 创建补货单 -->
         <div class="mb16">
-          <chanpinmingxi :chanpinminxiJson="chanpinminxiJson">
+          <chanpinmingxi
+            :chanpinminxiJson="chanpinminxiJson"
+            @tableSelectArrs="tableSelectArr"
+          >
             <template slot="anniuBtns">
               <span class="goOn mr11 inline" @click="isAddcreateChanpinShow"
                 >添加产品</span
               >
-              <span class="lodopFunClear inline">删除</span>
+              <span class="lodopFunClear inline" @click="removeItem">删除</span>
             </template>
           </chanpinmingxi>
         </div>
         <!-- 产品明细 -->
         <div class="pd20 mb16">
           <remarksInput
-            :textareaCenter="sendoutJson.remark"
+            @changeInputs="changeInputs"
             :searchCenter="searchCenter"
           />
         </div>
@@ -55,7 +58,11 @@ import {
   queryAreaOfWS,
 } from "../../api/api";
 import remarksInput from "../commin/remarksInput";
-import { getCookie } from "../../utils/validate";
+import {
+  getCookie,
+  removeSessageItem,
+  _removeData,
+} from "../../utils/validate";
 export default {
   components: {
     createMonent,
@@ -73,8 +80,8 @@ export default {
         placeholder: "请输入备注",
       },
       sendoutJson: {
-        orderSource: 2, //手工创建
-        disposeStatus: 1, //状态
+        orderSource: 2, //手工创建 补货类型（1-缺货 2-手工创建）
+        disposeStatus: 1, //状态 //（1-待补货 2-补货中 3已补货）
         orgId: "", //委托商id
         orgName: "", //委托商姓名
         childWareId: "", //子仓库id
@@ -83,6 +90,8 @@ export default {
         wareAreaName: "", //区域名称
         wareAreaId: "", //区域id
         wareId: getCookie("X-Auth-wareId"),
+        detailList: [],
+        operatorType: 1, //(1-新增 2-修改 3-补货确认)
       },
       isAddcreateChanpin: false,
       wareAreaCode: "",
@@ -292,9 +301,38 @@ export default {
           ], ////表头data
         },
       },
+      muitiplites: [],
     };
   },
+  watch: {
+    isAddcreateChanpin(n) {
+      if (!n) {
+        this._isTianJiaPinS();
+      }
+    },
+  },
+  created() {
+    this._isTianJiaPinS();
+  },
   methods: {
+    changeInputs(e) {
+      this.sendoutJson.remark = e;
+    },
+    removeItem() {
+      _removeData(
+        this.chanpinminxiJson.tableDataJsonAndArr.tabledata,
+        this.muitiplites
+      );
+    },
+    tableSelectArr(e) {
+      this.muitiplites = e;
+      // console.log(this.chanpinminxiJson.tableDataJsonAndArr.tabledata, e);
+    },
+    _isTianJiaPinS() {
+      let data = JSON.parse(sessionStorage.getItem("tianjiachanpings"));
+      this.chanpinminxiJson.tableDataJsonAndArr.tabledata = data;
+      return data;
+    },
     isAddcreateChanpinShow() {
       let { orgName, childWareName, wareAreaName } = this.sendoutJson;
       if (!orgName) return this.$messageSelf.message("请选择委托公司");
@@ -306,19 +344,25 @@ export default {
       this.$emit("closeFn", false);
     },
     async clickSubmit() {
-      let data = await this.$pOrgProductsApp.pReplenishOrderSaveRecord();
-      console.log(data);
-    },
-    clearSendoutData() {
-      this.sendoutJson = {
-        orderSource: 2, //手工创建
-        disposeStatus: 1, //状态
-        orgId: "", //委托商id
-        orgName: "", //委托商姓名
-        childWareId: "", //子仓库id
-        childWareName: "", //子仓库名称
-        remark: "", //备注
-      };
+      // this.sendoutJson = {
+      //   disposeStatus: 1,
+      //   operatorType: 1,
+      //   orderSource: 2,
+      //   orgId: "4C2F466B16E94451B942EBBD07BE0F8B",
+      //   orgName: "巨子生物",
+      //   remark: "",
+      //   wareAreaId: "49664829685A406390F5A8102F963EAD",
+      //   wareAreaName: "test5",
+      //   wareId: "2A8B48391F4F4EB5BDEDF9EBA0B6BAE7",
+      //   childWareId: "3E65D6F787854793B1D70AC19E8C2A76",
+      //   childWareName: "test5",
+      //   detailList: [],
+      // };
+      this.sendoutJson.detailList = this.muitiplites;
+      let data = await this.$pOrgProductsApp.pReplenishOrderSaveRecord(
+        this.sendoutJson
+      );
+      removeSessageItem("tianjiachanpings");
     },
   },
 };

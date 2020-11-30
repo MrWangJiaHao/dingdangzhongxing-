@@ -160,6 +160,7 @@ export const getMarginConversion = (item) => {
     display: "inline-block"
   };
 }
+
 export const _getArrTarget = (arr, target) => {
   let needArr = [];
   arr.forEach((item) => {
@@ -169,6 +170,7 @@ export const _getArrTarget = (arr, target) => {
   });
   return needArr;
 }
+
 /**
  * 将后端发送的excel文件流导出为excel
  * @param {*} res axios返回的文档
@@ -202,8 +204,8 @@ export const _TableXuanRaRequest = (data) => {
   data = [];
   data = JSON.parse(datas);
 }
+
 /**
- * 
  * @param {*} i 判断json是否为空 
  */
 export const _isJsonEmpty = (json) => {
@@ -263,14 +265,67 @@ export const isNums = (i) => {
 }
 
 //这个函数解决数组中对象去重的问题
-
 export const reduceFun = (arr) => {
-    let testObj = {};
-    let res = arr.reduce((item, next) => {
-      testObj[next.value] ?
-        "" :
-        (testObj[next.value] = true && item.push(next));
-      return item;
-    }, []);
-    return res;
-  }
+  let testObj = {};
+  let res = arr.reduce((item, next) => {
+    testObj[next.value] ?
+      "" :
+      (testObj[next.value] = true && item.push(next));
+    return item;
+  }, []);
+  return res;
+}
+
+
+/**
+ * 删除数组
+ * @param {*} data 要删除的数组
+ * @param {*} target 要删除的数组里面的数组
+ */
+export const _removeData = (data, target) => {
+  data = data || [];
+  target = target || [];
+  target.forEach((item) => {
+    let idx = data.indexOf(item);
+    data.splice(idx, 1);
+  });
+  return data;
+}
+
+/**
+ * 创建sess
+ * @param {*} name 
+ * @param {*} data 
+ */
+export const setSessageItem = (name, data) => {
+  sessionStorage.setItem(name, data)
+}
+/**
+ * 
+ * @param {*} name 删除sess
+ */
+export const removeSessageItem = (name) => {
+  sessionStorage.removeItem(name)
+}
+/**
+ * @param {*} name 获取sess
+ */
+export const getSessageItem = (name) => {
+  sessionStorage.getItem(name)
+}
+
+/**
+ * [{id:''},[id:'']]
+ * @param {*} arr 要获取json
+ * @param {*} target 目标
+ */
+export const getJsonTarget = (arr, target, jsonTarget = 'ids') => {
+  let targetArr = []
+  arr.forEach(item => {
+    let json = {};
+    json[jsonTarget] = item[target];
+    console.log(item[target])
+    targetArr.push(json);
+  })
+  return targetArr
+}

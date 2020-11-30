@@ -25,6 +25,41 @@
           :width="tableItem.width"
         />
         <el-table-column
+          v-else-if="tableItem.flag"
+          :key="tableIdx"
+          :type="tableItem.types"
+          :label="tableItem.label"
+          :width="tableItem.width"
+        >
+          <span slot-scope="scoped">
+            <div v-if="tableItem.flag == 'input'">
+              <input
+                type="text"
+                class="input"
+                v-model="scoped.row.input"
+                :placeholder="tableItem.placeholder"
+              />
+            </div>
+            <div v-else-if="tableItem.flag == 'xiala'">
+              <dropDownXiala
+                style="height: 28px"
+                :dropDowBox="tableItem.dropDowBox"
+                :drop="tableItem.drop"
+                @getDropDownData="tableItem.getDropDownData"
+                @cliclInput="tableItem.cliclInput(scoped.row)"
+              ></dropDownXiala>
+            </div>
+            <div v-else-if="tableItem.flag == 'date'">
+              <dateTime
+                :dateTimeData="tableItem.dateTimeData"
+                @getDateTime="tableItem.getDateTime"
+                style="height: 28px"
+              />
+            </div>
+            <div v-else>再加一个判断 :placeholder="JSON.stringify(scoped)"</div>
+          </span>
+        </el-table-column>
+        <el-table-column
           v-else
           :label="tableItem.label"
           :type="tableItem.types"
@@ -42,7 +77,7 @@
               {{ scope.row[tableItem.types] || "1" }}
             </ex-slot>
             <span v-else>
-              {{ scope.row[tableItem.types] || "暂无数据" }}
+              {{ scope.row[tableItem.types] || "--" }}
             </span>
           </span>
         </el-table-column>
@@ -52,6 +87,8 @@
 </template>
 
 <script>
+import dateTime from "../commin/dateTime";
+import dropDownXiala from "../commin/dropDownXiala";
 var exSlot = {
   functional: true,
   props: {
@@ -74,7 +111,8 @@ var exSlot = {
 };
 export default {
   name: "comp-table",
-  components: { exSlot },
+  components: { exSlot, dateTime, dropDownXiala },
+
   props: {
     tableDataJson: {
       type: Object,
@@ -83,9 +121,15 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      multipute: [],
+    };
+  },
   methods: {
     handleSelectionChange(e) {
-      this.$emit("tableSelectArr", e);
+      this.multipute = e;
+      this.$emit("tableSelectArr", this.multipute);
     },
     // 某一行被点击
     handleRowClick(row) {
@@ -98,5 +142,5 @@ export default {
 };
 </script>
 
-<style>
+<style lang='scss' >
 </style>

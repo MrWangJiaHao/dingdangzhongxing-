@@ -4,7 +4,7 @@
     <textarea
       style="height: 80px"
       :placeholder="searchCenter.placeholder"
-      v-model="textareaCenter"
+      v-model="input"
       @blur="searchData"
       clearable
       :disabled="searchCenter.disabled"
@@ -36,6 +36,7 @@ export default {
   data() {
     return {
       title: "",
+      input: "",
     };
   },
   created() {
@@ -52,7 +53,7 @@ export default {
     },
     changerInputs(e) {
       this.$emit("getChangeInput", e);
-      this.$emit("changeInputs", this.searchCenter.input);
+      this.$emit("changeInputs", this.input);
     },
   },
 };

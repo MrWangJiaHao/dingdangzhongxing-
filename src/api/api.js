@@ -1707,6 +1707,14 @@ export const pOrgProductsApp = {
         url: "/wbs-warehouse-manage/pReplenishOrder/findRecordPage",
         data
     }),//货品移位 =》 补货作业 => 分页查询补货单
+    pReplenishOrderFindRecord: (data) => post({
+        url: "/wbs-warehouse-manage/pReplenishOrder/findRecord",
+        data
+    }),//补货详情查询 （打印补货单/补货确认）
+    pReplenishOrderDelRecord: (data) => post({
+        url: "/wbs-warehouse-manage/pReplenishOrder/delRecord",
+        data
+    }) //删除补货单
 }
 //=========================================货品移位 end ========================================
 
