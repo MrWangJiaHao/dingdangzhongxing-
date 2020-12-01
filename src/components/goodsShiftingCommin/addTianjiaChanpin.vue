@@ -109,15 +109,15 @@ export default {
             label: "产品名称",
           },
           {
-            types: "prodCode",
+            types: "specName",
             label: "产品规格",
           },
           {
-            types: "prodCode",
+            types: "braName",
             label: "品牌",
           },
           {
-            types: "prodCode",
+            types: "currInventory",
             label: "仓库可用库存",
           },
         ], //表头数据

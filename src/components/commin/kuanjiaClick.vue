@@ -13,8 +13,12 @@
       <slot name="centerKuanjia"></slot>
       <!-- 账号信息 -->
       <div class="displayCenter mb20">
-        <div class="quxiaoBox mr20 mb20" @click="closeBtn">取消</div>
-        <div class="tijiaoBox mb20" @click="goAJAXCreate">提交</div>
+        <div class="quxiaoBox mr20 mb20" @click="closeBtn">
+          {{ isLooker ? "返回" : "取消" }}
+        </div>
+        <div class="tijiaoBox mb20" v-if="!isLooker" @click="goAJAXCreate">
+          提交
+        </div>
       </div>
       <!-- btn -->
     </div>
@@ -27,6 +31,10 @@ export default {
     return {};
   },
   props: {
+    isLooker: {
+      type: Boolean,
+      default: false,
+    },
     titles: {
       type: String,
       default: "",

@@ -34,10 +34,11 @@
           <span slot-scope="scoped">
             <div v-if="tableItem.flag == 'input'">
               <input
-                type="text"
+                :type="tableItem.inputType ? tableItem.inputType : 'text'"
                 class="input"
-                v-model="scoped.row.input"
+                v-model="scoped.row[tableItem.drop]"
                 :placeholder="tableItem.placeholder"
+                @blur="tableItem.OnBlur(scoped.$index, scoped.row) || ''"
               />
             </div>
             <div v-else-if="tableItem.flag == 'xiala'">
@@ -45,7 +46,9 @@
                 style="height: 28px"
                 :dropDowBox="tableItem.dropDowBox"
                 :drop="tableItem.drop"
-                @getDropDownData="tableItem.getDropDownData"
+                @getDropDownData="
+                  tableItem.getDropDownData(scoped.$index, scoped.row)
+                "
                 @cliclInput="tableItem.cliclInput(scoped.row)"
               ></dropDownXiala>
             </div>
@@ -142,5 +145,15 @@ export default {
 };
 </script>
 
-<style lang='scss' >
+<style lang='scss' scoped >
+.input {
+  border: 1px solid #d2d6e2;
+  height: 28px;
+  text-indent: 10px;
+  color: #333333;
+  font-size: 14px;
+  font-weight: normal;
+  background: rgba(236, 241, 247, 0);
+  border-radius: 2px;
+}
 </style>

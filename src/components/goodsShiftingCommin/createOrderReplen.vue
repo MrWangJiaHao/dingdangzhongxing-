@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="creReplen">
     <kuanjiaClick
       :titles="chuanjianJsonAndArr.title"
       @closeBtn="closeBtn"
@@ -61,6 +61,7 @@ import remarksInput from "../commin/remarksInput";
 import {
   getCookie,
   removeSessageItem,
+  _isJsonEmpty,
   _removeData,
 } from "../../utils/validate";
 export default {
@@ -91,12 +92,12 @@ export default {
         wareAreaId: "", //区域id
         wareId: getCookie("X-Auth-wareId"),
         detailList: [],
-        operatorType: 1, //(1-新增 2-修改 3-补货确认)
+        operatorType: (() => (!_isJsonEmpty(this.editDataJson) ? 2 : 1))(), //(1-新增 2-修改 3-补货确认)
       },
       isAddcreateChanpin: false,
       wareAreaCode: "",
       chuanjianJsonAndArr: {
-        title: "创建补货单",
+        title: _isJsonEmpty(this.editDataJson) ? "创建补货单" : "编辑补货单",
         inputArr: [
           {
             title: "委托公司",
@@ -114,10 +115,6 @@ export default {
               });
             },
             getDropDownChangeDataFun: (res) => {
-              console.log(
-                self.chuanjianJsonAndArr.inputArr[0].dropDownBoxData[res]
-                  .seatType || "没有 委托公司"
-              );
               this.sendoutJson.orgId =
                 self.chuanjianJsonAndArr.inputArr[0].dropDownBoxData[res].id;
               this.sendoutJson.orgName =
@@ -145,10 +142,6 @@ export default {
               self.chuanjianJsonAndArr.inputArr[1].dropDownBoxData = result;
             },
             getDropDownChangeDataFun: (res) => {
-              console.log(
-                self.chuanjianJsonAndArr.inputArr[1].dropDownBoxData[res]
-                  .seatType || "没有 子仓名称"
-              );
               this.sendoutJson.childWareId =
                 self.chuanjianJsonAndArr.inputArr[1].dropDownBoxData[res].id;
               this.sendoutJson.childWareName =
@@ -169,7 +162,8 @@ export default {
             dropDownXialaClickFun: async () => {
               this.sendoutJson.wareAreaId = "";
               this.sendoutJson.wareAreaName = "";
-              let { data } = await queryAreaOfWS(this.sendoutJson);
+              let { childWareId } = this.sendoutJson;
+              let { data } = await queryAreaOfWS({ childWareId });
               self.chuanjianJsonAndArr.inputArr[2].dropDownBoxData =
                 data.result;
             },
@@ -180,10 +174,6 @@ export default {
                 self.chuanjianJsonAndArr.inputArr[2].dropDownBoxData[
                   res
                 ].wareAreaName;
-              console.log(
-                self.chuanjianJsonAndArr.inputArr[2].dropDownBoxData[res]
-                  .seatType || "没有 区域名称"
-              );
               self.chuanjianJsonAndArr.inputArr[3].input =
                 self.chuanjianJsonAndArr.inputArr[2].dropDownBoxData[
                   res
@@ -251,11 +241,11 @@ export default {
               label: "产品名称",
             },
             {
-              types: "prodName",
+              types: "specName",
               label: "产品规格",
             },
             {
-              types: "prodName",
+              types: "braName",
               label: "品牌",
             },
             {
@@ -282,23 +272,55 @@ export default {
               types: "prodName",
               label: "申请补货数量*",
               width: 250,
-              render: (h, data) => {
-                let inputs = document.createElement("input");
-                // console.log(h(), data);
-                h(inputs, data);
+              flag: "input",
+              placeholder: "请输入申请补货数量",
+              drop: "wareSeatNo",
+              inputType: "number",
+              OnBlur: (e, data) => {
+                console.log(e, data);
               },
             },
             {
               types: "prodName",
               label: "补货库位",
               width: 250,
+              flag: "xiala",
+              drop: "wareSeatNo",
+              dropDowBox: {
+                placeholder: "请选择补货库位",
+                dropDownBoxData: [],
+                select: "",
+              },
+              getDropDownData: (e, data) => {
+                console.log(e, data);
+              },
+              cliclInput: (e) => {
+                console.log(e.prodSeatList, "补货库位");
+                this.chanpinminxiJson.tableDataJsonAndArr.typeData[12].dropDowBox.dropDownBoxData =
+                  e.prodSeatList;
+              },
             },
             {
               types: "prodName",
               width: 250,
               label: "存储区库位",
+              flag: "xiala",
+              dropDowBox: {
+                select: "",
+                placeholder: "请选择存储区库位",
+                dropDownBoxData: [],
+              },
+              drop: "storageSeatNo",
+              getDropDownData: (e) => {
+                console.log(e.prodSeatList2);
+              },
+              cliclInput: (e) => {
+                console.log(e.prodSeatList2, "存储区库位");
+                this.chanpinminxiJson.tableDataJsonAndArr.typeData[13].dropDowBox.dropDownBoxData =
+                  e.prodSeatList2;
+              },
             },
-          ], ////表头data
+          ], //表头data
         },
       },
       muitiplites: [],
@@ -311,10 +333,46 @@ export default {
       }
     },
   },
+  props: {
+    editDataJson: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
+  },
   created() {
     this._isTianJiaPinS();
+    if (!_isJsonEmpty(this.editDataJson)) {
+      //来编辑
+      this.changeEdits();
+    }
   },
   methods: {
+    async changeEdits() {
+      this.editDataJson.operatorType = !_isJsonEmpty(this.editDataJson) ? 2 : 1;
+      this.sendoutJson = Object.assign({}, this.sendoutJson, this.editDataJson);
+      let {
+        orgName,
+        childWareName,
+        wareAreaName,
+        wareAreaCode,
+      } = this.sendoutJson;
+      this.chuanjianJsonAndArr.inputArr[0].select = orgName;
+      this.chuanjianJsonAndArr.inputArr[1].select = childWareName;
+      this.chuanjianJsonAndArr.inputArr[2].select = wareAreaName;
+      this.chuanjianJsonAndArr.inputArr[3].input = wareAreaCode;
+      this._getdetailsChanPin();
+    },
+
+    async _getdetailsChanPin() {
+      let data = await this.$pOrgProductsApp.pReplenishOrderFindRecord({
+        id: this.editDataJson.id,
+      });
+      this.chanpinminxiJson.tableDataJsonAndArr.tabledata =
+        data.result[0].detailList;
+      console.log(data);
+    },
     changeInputs(e) {
       this.sendoutJson.remark = e;
     },
@@ -326,7 +384,6 @@ export default {
     },
     tableSelectArr(e) {
       this.muitiplites = e;
-      // console.log(this.chanpinminxiJson.tableDataJsonAndArr.tabledata, e);
     },
     _isTianJiaPinS() {
       let data = JSON.parse(sessionStorage.getItem("tianjiachanpings"));
@@ -344,33 +401,25 @@ export default {
       this.$emit("closeFn", false);
     },
     async clickSubmit() {
-      // this.sendoutJson = {
-      //   disposeStatus: 1,
-      //   operatorType: 1,
-      //   orderSource: 2,
-      //   orgId: "4C2F466B16E94451B942EBBD07BE0F8B",
-      //   orgName: "巨子生物",
-      //   remark: "",
-      //   wareAreaId: "49664829685A406390F5A8102F963EAD",
-      //   wareAreaName: "test5",
-      //   wareId: "2A8B48391F4F4EB5BDEDF9EBA0B6BAE7",
-      //   childWareId: "3E65D6F787854793B1D70AC19E8C2A76",
-      //   childWareName: "test5",
-      //   detailList: [],
-      // };
+      if (!this.muitiplites.length)
+        return this.$messageSelf.message("请选择要添加的产品明细");
       this.sendoutJson.detailList = this.muitiplites;
       let data = await this.$pOrgProductsApp.pReplenishOrderSaveRecord(
         this.sendoutJson
       );
-      removeSessageItem("tianjiachanpings");
+      if (data.code == "10000") {
+        this.$messageSelf.message(data.msg);
+        removeSessageItem("tianjiachanpings");
+        this.closeBtn();
+      } else {
+        this.$messageSelf.message(data.msg);
+      }
     },
   },
 };
 </script>
-<style>
-</style>
 
-<style lang='scss' scoped>
+<style lang='scss' >
 @import "../../assets/scss/btn.scss";
 .goOn {
   @include BtnFunction("success");
@@ -378,5 +427,14 @@ export default {
 
 .lodopFunClear {
   @include BtnFunction("error");
+}
+#creReplen .el-input__inner {
+  height: 28px;
+}
+#creReplen .dropDownBox .input_box {
+  height: 28px;
+}
+#creReplen .el-input__icon {
+  line-height: 28px;
 }
 </style>

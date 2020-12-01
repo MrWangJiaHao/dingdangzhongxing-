@@ -19,7 +19,10 @@
                   <dateTime
                     style="height: 28px;!important; width:170px"
                     :valueDataStart="item.centers"
-                    :dateTimeData="{ placeholder: item.centers }"
+                    :dateTimeData="{
+                      placeholder: item.centers,
+                      disabled: item.disabled ? item.disabled : false,
+                    }"
                     @getDateTime="item.getDateTimeExpectedSendTime"
                   />
                 </div>
@@ -28,7 +31,10 @@
                     type="text"
                     v-model="item.input"
                     class="input"
+                    :disabled="item.disabled"
                     :placeholder="item.placeholder || ''"
+                    @input="item.onInputs || ''"
+                    @blur="item.OnBlur"
                   />
                 </div>
                 <div v-else>

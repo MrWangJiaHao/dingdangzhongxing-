@@ -19,7 +19,7 @@
             <div class="setUser" @click="isReplenishmentNoteClick">
               打印补货单
             </div>
-            <div class="setUser" @click="isOrderNote = true">创建</div>
+            <div class="setUser" @click="createOrderNoteFun">创建</div>
             <div class="setUser" @click="editOrderNote">编辑</div>
             <div class="remove" @click="removeIsOrderNode">删除</div>
           </div>
@@ -52,7 +52,11 @@
                 label="委托公司"
                 type="orgName"
                 show-overflow-tooltip
-              />
+              >
+                <span slot-scope="scoped">
+                  {{ scoped.row.orgName }}
+                </span>
+              </el-table-column>
               <el-table-column
                 label="补货单号"
                 prop="replenishOrderNo"
@@ -107,15 +111,24 @@
                 label="创建时间"
                 prop="createTime"
                 show-overflow-tooltip
+                width="200"
               >
               </el-table-column>
               <el-table-column
                 label="补货人"
-                prop="replenishUser"
+                prop="replenishUserName"
                 show-overflow-tooltip
               >
+                <span slot-scope="scoped">
+                  {{
+                    scoped.row.replenishUserName
+                      ? scoped.row.replenishUserName
+                      : "---"
+                  }} </span
+                >+
               </el-table-column>
               <el-table-column
+                width="200"
                 label="补货开始时间"
                 prop="replenishStartTime"
                 show-overflow-tooltip
@@ -123,6 +136,7 @@
               </el-table-column>
               <el-table-column
                 label="补货完成时间"
+                width="200"
                 prop="replenishEndTime"
                 show-overflow-tooltip
               >
@@ -163,7 +177,7 @@
       </transition>
     </div>
     <!-- 补货单 end -->
-    <!-- 创建补货单 start -->
+    <!-- 创建补货单 & 编辑 start -->
     <div v-show="isOrderNote" class="bjBox">
       <transition
         enter-active-class="animate__animated animate__zoomIn"
@@ -171,12 +185,15 @@
       >
         <div v-if="isOrderNote">
           <div>
-            <createOrderReplen @closeFn="isOrderNoteFun" />
+            <createOrderReplen
+              @closeFn="isOrderNoteFun"
+              :editDataJson="editDataJson"
+            />
           </div>
         </div>
       </transition>
     </div>
-    <!-- 创建补货单 end -->
+    <!-- 创建补货单 & 编辑 end -->
     <!-- 补货确认 start -->
     <div v-show="isBuHuoSures" class="bjBox">
       <transition
@@ -185,7 +202,12 @@
       >
         <div v-if="isBuHuoSures">
           <div>
-            <createOrderSure @closeBtnSure="closeBtnSure" />
+            <createOrderSure
+              @closeBtnSure="closeBtnSure"
+              :BuHuoSureJson="BuHuoSureJson"
+              :tabledatasArr="tabledatasArr"
+              :isLooker="isLooker"
+            />
           </div>
         </div>
       </transition>
@@ -214,6 +236,7 @@ export default {
   },
   data() {
     return {
+      isLooker: false, //点击查看
       isBuHuoSures: false, // 补货确认
       daibuhuochanping: false, //点击了待补货产品
       isReplenishmentNote: false, //补货单
@@ -223,8 +246,8 @@ export default {
         pageNums: 0, //一共多少条 //默认一页10
       },
       replenishmentNoteJson: {
-        title: "",
-        replenishOrderNo: "",
+        title: "this.multipleSelection[0].replenishOrderNo",
+        replenishOrderNo: "this.multipleSelection[0].replenishOrderNo",
         queryArr: [],
         basicJson: [
           {
@@ -250,8 +273,8 @@ export default {
                 types: "prodNum",
                 centerStr: "实际补货数量",
               },
-              { types: "seatNo", centerStr: "存储区库位" },
-              { types: "seatNo", centerStr: "补货库位" },
+              { types: "wareSeatNo", centerStr: "补货库位" },
+              { types: "storageSeatNo", centerStr: "存储区库位" },
             ],
           },
         ],
@@ -319,25 +342,32 @@ export default {
           },
         ],
       },
+      editDataJson: {}, //编辑
+      BuHuoSureJson: {}, //补货确认
     };
   },
   created() {
     this.getTableData();
   },
   methods: {
+    //创建
+    createOrderNoteFun() {
+      this.editDataJson = {};
+      this.isOrderNote = true;
+    },
     //编辑
     editOrderNote() {
       if (!this.multipleSelection.length || this.multipleSelection.length != 1)
         return this.$messageSelf.message(
-          "请选择要删除的补货单,并且只能选择一个编辑"
+          "请选择要编辑的补货单,并且只能选择一个编辑"
         );
+      this.editDataJson = this.multipleSelection[0];
+      this.isOrderNote = true;
     },
     //删除
     removeIsOrderNode() {
-      console.log(this.multipleSelection);
       if (!this.multipleSelection.length)
         return this.$messageSelf.message("请选择要删除的补货单");
-      console.log(getJsonTarget(this.multipleSelection, "id"));
       this.$pOrgProductsApp
         .pReplenishOrderDelRecord({
           ids: _getArrTarget(this.multipleSelection, "id"),
@@ -352,6 +382,14 @@ export default {
         });
     },
     isBuHuoSureJson() {
+      if (!this.multipleSelection.length || this.multipleSelection.length != 1)
+        return this.$messageSelf.message(
+          "请选择要确认的补货单,并且只能选择一个确认"
+        );
+      this.BuHuoSureJson = this.multipleSelection[0];
+      this._getdetailsChanPin(this.multipleSelection[0]);
+
+      this.isLooker = false;
       this.isBuHuoSures = true;
     },
     shenchengbuhuodan() {
@@ -366,7 +404,7 @@ export default {
       this.getTableData();
     },
     isReplenishmentNoteClick() {
-      if (!this.multipleSelection.length || this.multipleSelection.length != -1)
+      if (!this.multipleSelection.length || this.multipleSelection.length != 1)
         return this.$messageSelf.message(
           "请选择要打印的补货单,以及补货单只能打印一张"
         );
@@ -395,7 +433,17 @@ export default {
         },
       ];
       this.replenishmentNoteJson.queryArr = json;
+      this.replenishmentNoteJson.title = this.multipleSelection[0].replenishOrderNo;
+      this.replenishmentNoteJson.replenishOrderNo = this.multipleSelection[0].replenishOrderNo;
+      this._getdetailsChanPin(this.multipleSelection[0]);
       this.isReplenishmentNote = true;
+    },
+
+    async _getdetailsChanPin(e) {
+      let data = await this.$pOrgProductsApp.pReplenishOrderFindRecord({
+        id: e.id,
+      });
+      this.tabledatasArr = data.result[0].detailList;
     },
     jobTaskHeader(e) {
       this.sendOutDataJson.paras = e;
@@ -410,7 +458,10 @@ export default {
       this.isReplenishmentNote = e;
     },
     goToDetailOut(e) {
-      sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
+      this.BuHuoSureJson = e;
+      this._getdetailsChanPin(e);
+      this.isLooker = true;
+      this.isBuHuoSures = true;
     },
     getPageNum(e) {
       this.sendOutDataJson.pageNumber = e;

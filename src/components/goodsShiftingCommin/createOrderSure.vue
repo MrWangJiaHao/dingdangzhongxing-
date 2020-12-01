@@ -3,7 +3,9 @@
     <kuanjiaClick
       :titles="'补货确认'"
       @closeBtn="closeBtn"
+      :isLooker="isLooker"
       @clickSubmit="clickSubmit"
+      :width="'1080px'"
     >
       <template slot="centerKuanjia">
         <div class="mb16">
@@ -29,6 +31,7 @@
 import kuanjiaClick from "../commin/kuanjiaClick"; //点击架子
 import detailsData from "../commin/dindanxiangq"; //订单详情
 import chanpinmingxi from "../commin/chanpinmingxi"; // 产品明细
+import { getCookie, _isJsonEmpty } from "../../utils/validate";
 
 export default {
   data() {
@@ -36,35 +39,66 @@ export default {
       detailsArr: [
         {
           titles: "补货单号",
-          centers: "adsdas",
+          centers: (() => this.BuHuoSureJson.replenishOrderNo || "--")(),
         },
         {
           titles: "补货状态",
-          centers: "adsdas",
+          centers: (() =>
+            this.BuHuoSureJson.disposeStatus == "1"
+              ? "待补货"
+              : this.BuHuoSureJson.disposeStatus == "2"
+              ? "补货中"
+              : this.BuHuoSureJson.disposeStatus == "3"
+              ? "已补货"
+              : "未定义" || "--")(),
         },
         {
           titles: "创建时间",
-          centers: "adsdas",
+          centers: (() => this.BuHuoSureJson.createTime || "--")(),
         },
         {
           titles: "创建人",
-          centers: "adsdas",
+          centers: (() => this.BuHuoSureJson.createUser || "--")(),
         },
         {
           titles: "补货时间",
           type: "date",
-          centers: "请输入补货订单详情",
+          disabled: false,
+          centers: (() =>
+            this.BuHuoSureJson.replenishStartTime || "请输入补货订单详情")(),
           getDateTimeExpectedSendTime: (res) => {
-            console.log(res);
+            this.sendOutData.replenishStartTime = res;
           },
         },
         {
           titles: "补货人",
           type: "input",
-          centers: "adsdas",
-          input: "asd",
+          centers: "",
+          placeholder: "请输入补货人",
+          input: "",
+          disabled: false,
+          drop: "replenishUserName",
+          OnBlur: (res) => {
+            this.sendOutData.replenishUserName = res.target.value;
+          },
         },
       ],
+      sendOutData: {
+        replenishStartTime: "", // 补货确认
+        operatorType: 3, //操作状态(1-新增 2-修改 3-补货确认)
+        id: (() => this.BuHuoSureJson.id || "")(), //入库单id
+        detailList: [],
+        replenishOrderNo: (() => this.BuHuoSureJson.replenishOrderNo || "")(),
+        orgId: (() => this.BuHuoSureJson.orgId || "")(),
+        orgName: (() => this.BuHuoSureJson.orgName || "")(),
+        childWareId: (() => this.BuHuoSureJson.childWareId || "")(),
+        childWareName: (() => this.BuHuoSureJson.childWareName || "")(),
+        orderSource: 1,
+        disposeStatus: 1,
+        remark: (() => this.BuHuoSureJson.remark || "")(),
+        wareId: getCookie("X-Auth-wareId"),
+        replenishUserName: "",
+      },
       chanpinminxiJson: {
         title: "产品明细",
         tableDataJsonAndArr: {
@@ -87,11 +121,11 @@ export default {
               label: "产品名称",
             },
             {
-              types: "prodName",
+              types: "specName",
               label: "产品规格",
             },
             {
-              types: "prodName",
+              types: "braName",
               label: "品牌",
             },
             {
@@ -175,19 +209,53 @@ export default {
           ],
         },
       },
+      buhuoSure: null,
     };
+  },
+  props: {
+    BuHuoSureJson: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
+    isLooker: {
+      type: Boolean,
+      default: false,
+    },
+    tabledatasArr: {
+      type: Array,
+      default: () => [],
+    },
   },
   components: {
     kuanjiaClick,
     detailsData,
     chanpinmingxi,
   },
+  created() {
+    this.buhuoSure = _isJsonEmpty(this.BuHuoSureJson);
+    this.detailsArr[5].input = this.BuHuoSureJson.replenishUserName;
+    console.log(this.BuHuoSureJson.replenishStartTime, "this.tabledatasArr");
+    this.detailsArr[5].disabled = this.isLooker;
+    this.detailsArr[4].disabled = this.isLooker;
+    if (this.tabledatasArr.length != 0) {
+      this.chanpinminxiJson.tableDataJsonAndArr.tabledata = this.tabledatasArr;
+    }
+  },
   methods: {
     closeBtn() {
       this.$emit("closeBtnSure", false);
     },
     //点击了确认
-    clickSubmit() {},
+    clickSubmit() {
+      let self = this;
+      this.$pOrgProductsApp
+        .pReplenishOrderSaveRecord(this.sendOutData)
+        .then((res) => {
+          res.code === "10000" && self.closeBtn();
+        });
+    },
   },
 };
 </script>
