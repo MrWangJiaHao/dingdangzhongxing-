@@ -10,6 +10,7 @@
         @on-ok="openChangeDate"
         :value="valueDataStart"
         ref="time"
+        :disabled="dateTimeData.disabled"
         :transfer="transfer"
       ></Date-picker>
     </div>
@@ -32,6 +33,7 @@ export default {
       default: () => {
         return {
           placeholder: "",
+          disabled: false,
         };
       },
     },

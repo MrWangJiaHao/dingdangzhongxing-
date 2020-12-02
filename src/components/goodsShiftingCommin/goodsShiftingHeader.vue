@@ -275,6 +275,7 @@ export default {
       this.$refs.createEndTime.clear();
       this.$refs.createStartTime.clear();
       this.$emit("jobTaskClearBtn", true);
+      this.$parent.getTableData();
     },
     async getTableData(fn) {
       let datas = await this.$pOrgProductsApp.pReplenishOrderfindRecordPage(
@@ -290,6 +291,7 @@ export default {
     },
     _changeDatas(res) {
       let { list } = res;
+      console.log(list);
       this.wieTuoGonShiJson.dropDownBoxData = list;
       this.specNameJson.dropDownBoxData = list;
       this.disposeStatusJson.dropDownBoxData = list;

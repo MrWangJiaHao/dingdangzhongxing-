@@ -105,13 +105,13 @@ export default {
         {
           title: "首页",
           name: "/index/indexFormJH",
-          iconCls: require("@/assets/img/warehouse-index.png"),
+          iconCls: require("@/assets/svg/index.svg"),
           children: [],
         },
         {
           title: "仓库配置",
           name: "/warehoseconfig/childWarehouseAdmin",
-          iconCls: require("@/assets/img/warehouse-config.png"),
+          iconCls: require("@/assets/svg/cankupeizhi.svg"),
           children: [
             {
               title: "子仓管理",
@@ -134,7 +134,7 @@ export default {
         {
           title: "订单管理",
           name: "/indentManagement/sellIndentManage",
-          iconCls: require("@/assets/img/warehouse-inventoryAdmin.png"),
+          iconCls: require("@/assets/svg/dindanguanli.svg"),
           children: [
             {
               title: "销售订单管理",
@@ -161,7 +161,7 @@ export default {
         {
           title: "发货规则配置",
           name: "/pWarehouseRule/findRecordPage",
-          iconCls: require("@/assets/img/warehouse-shipmentsRuleConfig.png"),
+          iconCls: require("@/assets/svg/faguoguizhe.svg"),
           children: [
             {
               title: "发货规则配置",
@@ -171,7 +171,7 @@ export default {
         },
         {
           title: "发货管理",
-          iconCls: require("@/assets/img/warehouse-shipments.png"),
+          iconCls: require("@/assets/svg/fahuoguanli.svg"),
           children: [
             {
               title: "正常发货",
@@ -197,13 +197,13 @@ export default {
         },
         {
           title: "复核配置",
-          iconCls: require("@/assets/img/warehouse-reexamineConfig.png"),
+          iconCls: require("@/assets/svg/fuhepeizhi.svg"),
           children: [],
         },
         {
           title: "采购管理",
           name: "/purchasingManagement/purchasingIndex",
-          iconCls: require("@/assets/img/warehouse-procurementConfig.png"),
+          iconCls: require("@/assets/svg/caigouguanli.svg"),
           children: [
             {
               title: "采购管理",
@@ -214,7 +214,7 @@ export default {
         {
           title: "入库管理",
           name: "/warehousingManagement/manualManagement/0",
-          iconCls: require("@/assets/img/warehouse-instorage.png"),
+          iconCls: require("@/assets/svg/rukuguanli.svg"),
           children: [
             {
               title: "手工创建入库",
@@ -261,7 +261,7 @@ export default {
         {
           title: "出库管理",
           name: "/warehouseManagement/warehouseIndex/0",
-          iconCls: require("@/assets/img/warehouse-outstorage.png"),
+          iconCls: require("@/assets/svg/chukuguanli.svg"),
           children: [
             {
               title: "手工创建出库",
@@ -303,7 +303,7 @@ export default {
         },
         {
           title: "货品移位",
-          iconCls: require("@/assets/img/warehouse-goodsGression.png"),
+          iconCls: require("@/assets/svg/moveSelf.svg"),
           children: [
             {
               title: "补货作业",
@@ -317,7 +317,7 @@ export default {
         },
         {
           title: "报损管理",
-          iconCls: require("@/assets/img/warehouse-breakageConfig.png"),
+          iconCls: require("@/assets/svg/baoshunguanli.svg"),
           children: [
             {
               title: "报损管理",
@@ -327,17 +327,17 @@ export default {
         },
         {
           title: "仓库作业",
-          iconCls: require("@/assets/img/warehouse-warehouseWork.png"),
+          iconCls: require("@/assets/svg/cankuBookie.svg"),
           children: [],
         },
         {
           title: "PDA操作",
-          iconCls: require("@/assets/img/warehouse-PDAoperation.png"),
+          iconCls: require("@/assets/svg/PDA.svg"),
           children: [],
         },
         {
           title: "借调管理",
-          iconCls: require("@/assets/img/warehouse-adjustAdmin.png"),
+          iconCls: require("@/assets/svg/jiediaoguanli.svg"),
           children: [
             {
               title: "借调管理",
@@ -347,18 +347,18 @@ export default {
         },
         {
           title: "库存管理",
-          iconCls: require("@/assets/img/warehouse-inventoryAdmin.png"),
+          iconCls: require("@/assets/svg/kuchunguanli.svg"),
           children: [],
         },
         {
           title: "库存盘点",
-          iconCls: require("@/assets/img/warehouse-inventoryCheck.png"),
+          iconCls: require("@/assets/svg/kuchunpandian.svg"),
           children: [],
         },
         {
           title: "物料中心",
           name: "/suppliesCenter/supplierAdmin",
-          iconCls: require("@/assets/img/warehouse-suppliesCenter.png"),
+          iconCls: require("@/assets/svg/wuliaozhonxin.svg"),
           children: [
             {
               title: "供应商管理",
@@ -389,7 +389,7 @@ export default {
         {
           title: "物流公司信息",
           name: "/phyDisComInfor/phyDisCom",
-          iconCls: require("@/assets/img/warehouse-logisticsInfor.png"),
+          iconCls: require("@/assets/svg/wuliugonsi.svg"),
           children: [
             { title: "物流公司", name: "/phyDisComInfor/phyDisCom" },
             {
@@ -404,23 +404,23 @@ export default {
         },
         {
           title: "客户信息",
-          iconCls: require("@/assets/img/warehouse-clientInfor.png"),
+          iconCls: require("@/assets/svg/kehuxinxi.svg"),
           children: [],
         },
         {
           title: "设备管理",
-          iconCls: require("@/assets/img/warehouse-equipmentManage.png"),
+          iconCls: require("@/assets/svg/shebeoguanli.svg"),
           children: [],
         },
         {
           title: "统计",
-          iconCls: require("@/assets/img/warehouse-statistics.png"),
+          iconCls: require("@/assets/svg/tonjiwenming.svg"),
           children: [],
         },
         {
           title: "系统管理",
           name: "/systemSetting/userSetting",
-          iconCls: require("@/assets/img/warehouse-systemManage.png"),
+          iconCls: require("@/assets/svg/systemis.svg"),
           children: [
             {
               title: "用户管理",
@@ -466,10 +466,6 @@ export default {
       console.log("------------activeName------------", n, this.dropdownArr);
       this.activeName = "" + parseInt(n);
     },
-    // activeTabsName: function (n) {
-    //   this.mianbaoxieArr = []
-    //
-    // },
     $route: function (n) {
       console.log(n);
       if (this.dropdownArr.length) {
@@ -532,6 +528,7 @@ export default {
         return this.$messageSelf.message({
           message: "该模块在开发中请耐心等候稍后",
         });
+      console.log("router", router);
       this.$router.push(router);
       let dataArrJson =
         this.dropdownArr[+this.activeTabsName].children.length != 0

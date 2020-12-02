@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import { isMaoHao } from "../../utils/validate";
 /*eslint-disable */
+import { isMaoHao } from "../../utils/validate";
 export default {
   props: {
     dropDowBox: {

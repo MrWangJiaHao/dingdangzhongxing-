@@ -47,16 +47,17 @@
             <!-- 入库单头部 -->
             <div style="padding: 20px 20px 0 20px; width: 1000px">
               <div
-                style="width: 100%; display: flex"
+                style="width: 100%; display: inline-block"
                 v-if="ReplenishmentNote.queryArr"
               >
                 <div
-                  style="display: flex; "
+                  style="display: inline-block"
                   v-for="(item, idx) in ReplenishmentNote.queryArr"
                   :key="idx"
                 >
                   <div
                     style="
+                      display: inline-block;
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
@@ -72,9 +73,12 @@
                       color: #343434;
                       line-height: 26px;
                       margin-right: 50px;
+                      display: inline-block;
                     "
                     :style="
-                      item.queryLine ? 'border-bottom: 1px solid #000;width:130px' : ''
+                      item.queryLine
+                        ? 'border-bottom: 1px solid #000;width:130px'
+                        : ''
                     "
                   >
                     {{ item.queryCenter }}
