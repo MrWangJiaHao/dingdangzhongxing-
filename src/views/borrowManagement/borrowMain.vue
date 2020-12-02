@@ -473,42 +473,36 @@ export default {
       });
     },
     submit() {
-      let bool = true;
-      this.multipleSelection.forEach((v) => {
-        if (v.loanStatus === "待提交") {
-          bool = false;
-        } else {
-          bool = true;
+      let arr = [];
+      this.multipleSelection.forEach((item) => {
+        if (!arr.includes(item.id)) {
+          arr.push(item.id);
+        }
+        if (item.loanStatus !== "待提交") {
+          return this.$messageSelf.message({
+            type: "warning",
+            message: "只有待提交的单号可以提交",
+          });
         }
       });
-      if (!bool) {
-        let arr = [];
-        this.multipleSelection.forEach((item) => {
-          if (!arr.includes(item.id)) {
-            arr.push(item.id);
-          }
+      if (!arr.length) {
+        return this.$messageSelf.message({
+          message: "请选择要提交的借调单",
+          type: "warning",
         });
-        if (!arr.length) {
-          return this.$messageSelf.message("请选择要删除的借调单");
-        } else {
-          this.$messageSelf
-            .confirms(
-              `确定要提交这${this.multipleSelection.length}条借调单号？`,
-              "提交确认",
-              { type: "warning" }
-            )
-            .then(() => {
-              this.submitRequest({ ids: arr });
-            })
-            .catch(() => {
-              this.$messageSelf.message("取消删除");
-            });
-        }
       } else {
-        this.$messageSelf.message({
-          type: "error",
-          message: "只有待提交的单号可以提交",
-        });
+        this.$messageSelf
+          .confirms(
+            `确定要提交这${this.multipleSelection.length}条借调单号？`,
+            "提交确认",
+            { type: "warning" }
+          )
+          .then(() => {
+            this.submitRequest({ ids: arr });
+          })
+          .catch(() => {
+            this.$messageSelf.message("取消删除");
+          });
       }
     },
     submitRequest(data) {
