@@ -140,7 +140,6 @@
           @selection-change="handleSelectionChange"
           :stripe="true"
           tooltip-effect="dark"
-          @cell-click="lookDetailEvent"
         >
           <el-table-column type="selection" width="55"> </el-table-column>
           <el-table-column label="序号" align="center" type="index" width="60">
@@ -152,7 +151,7 @@
             align="center"
           >
             <template slot-scope="scope">
-              <div class="lookDeatil">
+              <div class="lookDeatil" @click="lookDeatil(scope.row)">
                 {{ scope.row.loanNo }}
               </div>
             </template>
@@ -173,13 +172,13 @@
             align="center"
           ></el-table-column>
         </el-table>
-      </div>
-      <div class="pageComponent">
-        <pagecomponent
-          :pageComponentsData="pageComponentsData"
-          @getPageNum="getPageNum"
-          @sureSuccssBtn="sureSuccssBtn"
-        ></pagecomponent>
+        <div class="pageComponent">
+          <pagecomponent
+            :pageComponentsData="pageComponentsData"
+            @getPageNum="getPageNum"
+            @sureSuccssBtn="sureSuccssBtn"
+          ></pagecomponent>
+        </div>
       </div>
     </div>
     <div class="pointBox" v-show="pointIsShow">
@@ -195,11 +194,18 @@
         ></BreakageOrder>
       </transition>
     </div>
-    <div class="pointBox" v-show="detailIsShow">
+    <div class="pointBox" v-show="lookDetailIsShow">
       <transition
         enter-active-class="animate__animated animate__zoomIn"
         leave-active-class="animate__animated animate__zoomOut"
       >
+        <BorrowOrderDetailPage
+          v-show="lookDetailIsShow"
+          :tableData="detailTableData"
+          :dataJson="detailObject"
+          :title="detailTitle"
+          @BorrowOrderDetailIsShow="BorrowOrderDetailIsShow"
+        ></BorrowOrderDetailPage>
       </transition>
     </div>
   </div>
@@ -217,12 +223,14 @@ import {
   pointBorrowOrder,
 } from "../../api/api";
 import BreakageOrder from "../../components/commin/componentList";
+import BorrowOrderDetailPage from "./borrowOrderDetail";
 import { getCookie } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
     dateTime,
     BreakageOrder,
+    BorrowOrderDetailPage,
   },
   beforeRouteEnter(to, from, next) {
     if (from.name === "/breakageManagement/createBreakageOrder") {
@@ -241,7 +249,10 @@ export default {
   data() {
     return {
       pointIsShow: false,
-      detailIsShow: false,
+      lookDetailIsShow: false,
+      detailTableData: [],
+      detailObject: {},
+      detailTitle: "借调单详情",
       tableData: [],
       tabledatasArr: [],
       replenishmentNoteJson: {
@@ -253,27 +264,23 @@ export default {
             titles: "基础信息",
             basicJsonArr: [
               {
-                types: "prodCode",
+                types: "materielTypeName", //materielTypeName
                 centerStr: "物料类型",
               },
               {
-                types: "prodName",
+                types: "materielCode",
                 centerStr: "物料编码",
               },
               {
-                types: "specName",
-                centerStr: "物料编码",
-              },
-              {
-                types: "prodNum",
+                types: "materielName",
                 centerStr: "物料名称",
               },
               {
-                types: "",
+                types: "specName",
                 centerStr: "物料规格",
               },
-              { types: "", centerStr: "借调数量" },
-              { types: "", centerStr: "借出方" },
+              { types: "materielNum", centerStr: "借调数量" },
+              { types: "wareName", centerStr: "借出方" },
               { types: "", centerStr: "入库数量" },
             ],
           },
@@ -356,6 +363,17 @@ export default {
         }
       });
     },
+    clickQuery() {
+      //点击查询
+      let senddata = this.queryBorrowListData.paras;
+      senddata.loanNo = this.borrowOrder;
+      senddata.loanStatus = this.borrowType;
+      senddata.outWareName = this.borrowOutSide;
+      // senddata.loanNo=this.borrowOrder
+      // senddata.loanNo=this.borrowOrder
+      // senddata.loanNo=this.borrowOrder
+      this.pageQueryFun();
+    },
     loanStatus(num) {
       let state = num;
       switch (state) {
@@ -387,16 +405,15 @@ export default {
     borrowOutSides(val) {
       this.borrowOutSide = val;
     },
-    clickQuery() {
-      //点击查询
 
-      this.pageQueryFun();
-    },
     clearInput() {
       //点击清空输入框
       this.clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
+      Object.keys(this.queryBorrowListData.paras).forEach((v) => {
+        this.queryBorrowListData.paras[v] = "";
+      });
       this.pageQueryFun();
     },
     create() {
@@ -422,7 +439,7 @@ export default {
         //   path: "/breakageManagement/createBreakageOrder",
         //   query: { val: this.multipleSelection[0], type: "edit" },
         // });
-        if (this.multipleSelection[0].disposeStatus !== "待审核") {
+        if (this.multipleSelection[0].loanStatus !== "待审核") {
           return this.$messageSelf.message({
             message: "只有待审核的订单可编辑",
             type: "warning",
@@ -529,56 +546,58 @@ export default {
         });
       } else if (this.multipleSelection.length > 1) {
         return this.$messageSelf.message({
-          message: "只能选择一个产品进行打印",
+          message: "只能选择一个单号进行打印",
           type: "warning",
         });
       } else {
         this.tabledatasArr = [];
         this.pointIsShow = true;
-        pointBorrowOrder({ id: this.multipleSelection[0].id }).then((ok) => {
-          console.log(ok);
-          // if (ok.data.code === "10000") {
-          //   let json = [
-          //     {
-          //       queryTitle: "借调单号",
-          //       queryCenter: ok.data.result[0].damageOrderNo,
-          //     },
-          //     {
-          //       queryTitle: "借调状态",
-          //       queryCenter: this.loanStatus(1),
-          //     },
-          //     {
-          //       queryTitle: "签字",
-          //       queryCenter: "",
-          //       queryLine: true,
-          //     },
-          //   ];
-          //   this.replenishmentNoteJson.queryArr = json;
-          //   this.replenishmentNoteJson.replenishOrderNo =""
-          //   let newArr = [];
-          //   this.tabledatasArr.push(newArr);
-          // }
-        });
+        pointBorrowOrder({ loanId: this.multipleSelection[0].id }).then(
+          (ok) => {
+            // console.log(ok);
+            if (ok.data.code === "10000") {
+              let json = [
+                {
+                  queryTitle: "借调单号",
+                  queryCenter: this.multipleSelection[0].loanNo,
+                },
+                {
+                  queryTitle: "借调状态",
+                  queryCenter: this.loanStatus(3),
+                },
+                {
+                  queryTitle: "签字",
+                  queryCenter: "",
+                  queryLine: true,
+                },
+              ];
+              this.replenishmentNoteJson.queryArr = json;
+              this.replenishmentNoteJson.replenishOrderNo = this.multipleSelection[0].loanNo;
+              this.tabledatasArr = ok.data.result;
+            }
+          }
+        );
       }
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
-    lookDetailEvent(row, column, cell) {
-      if (column.property === "damageOrderNo") {
-        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
-          this.$router.push({
-            path: "/breakageManagement/breakageOrderDetail",
-            query: {
-              damageOrderNo: row,
-              type: "damageOrderNo",
-            },
-          });
+    lookDeatil(data) {
+      // console.log(data);
+      BorrowOrderDetail({ loanId: data.id }).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.lookDetailIsShow = true;
+          this.detailTableData = ok.data.result;
+          this.detailObject = ok.data.result[0];
         }
-      }
+      });
     },
     getiswuliudanOne(e) {
       this.pointIsShow = e;
+    },
+    BorrowOrderDetailIsShow(e) {
+      this.lookDetailIsShow = e;
     },
     getPageNum(e) {
       this.queryBorrowListData.pageNumber = e;
@@ -624,7 +643,6 @@ export default {
 @import "../../assets/scss/btn.scss";
 .pointBox {
   position: fixed;
-
   left: 0;
   top: 0;
   right: 0;
@@ -633,15 +651,6 @@ export default {
   z-index: 9999;
   background: rgba(0, 0, 0, 0.3);
 }
-
-// .fade-enter-active,
-// .fade-leave-active {
-//   transition: opacity 0.5s;
-// }
-// .fade-enter,
-// .fade-leave-active {
-//   opacity: 0;
-// }
 
 #mianPage {
   background: #eef1f8;
@@ -746,12 +755,6 @@ export default {
       text-decoration: underline;
       cursor: pointer;
     }
-  }
-  .pageComponent {
-    margin: 10px 10px 0 0;
-    text-align: right;
-    height: 36px;
-    background: #ffffff;
   }
 }
 </style>

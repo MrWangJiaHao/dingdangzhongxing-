@@ -145,13 +145,13 @@
             <el-table-column prop="braName" label="品牌" align="center">
             </el-table-column>
           </el-table>
-        </div>
-        <div class="pageComponent">
-          <pagecomponent
-            :pageComponentsData="pageComponentsData"
-            @getPageNum="getPageNum"
-            @sureSuccssBtn="sureSuccssBtn"
-          ></pagecomponent>
+          <div class="pageComponent">
+            <pagecomponent
+              :pageComponentsData="pageComponentsData"
+              @getPageNum="getPageNum"
+              @sureSuccssBtn="sureSuccssBtn"
+            ></pagecomponent>
+          </div>
         </div>
       </div>
       <div class="backBtnBox">
@@ -360,7 +360,7 @@ export default {
         left: -25px;
         top: 3px;
       }
-      .header-content{
+      .header-content {
         display: flex;
         justify-content: space-between;
       }
@@ -424,12 +424,6 @@ export default {
         @include BtnFunction("success");
       }
     }
-  }
-  .pageComponent {
-    margin: 10px 10px 0 0;
-    text-align: right;
-    height: 36px;
-    background: #ffffff;
   }
 }
 </style>

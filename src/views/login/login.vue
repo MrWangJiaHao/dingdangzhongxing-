@@ -31,7 +31,7 @@
                 <el-input
                   v-model="dataForm.password"
                   type="password"
-                  placeholder="密码"
+                  placeholder="请输入密码"
                 ></el-input>
               </div>
             </el-form-item>
@@ -192,6 +192,8 @@ export default {
     img {
       width: 20px;
       height: 20px;
+      display: block;
+      margin: 13px 0 0 14px;
     }
   }
 }
@@ -297,13 +299,8 @@ export default {
     font-size: 18px;
     font-weight: 400;
     color: rgba(255, 255, 255, 1);
-    line-height: 38px;
     text-align: center;
-    background: linear-gradient(
-      25deg,
-      rgba(30, 209, 216, 1),
-      rgba(32, 229, 184, 1)
-    );
+    background: linear-gradient(#52a8fd, #73cfff);
     border-radius: 3px;
     border: 0;
   }

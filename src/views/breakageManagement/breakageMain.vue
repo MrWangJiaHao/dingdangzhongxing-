@@ -176,13 +176,13 @@
             align="center"
           ></el-table-column>
         </el-table>
-      </div>
-      <div class="pageComponent">
-        <pagecomponent
-          :pageComponentsData="pageComponentsData"
-          @getPageNum="getPageNum"
-          @sureSuccssBtn="sureSuccssBtn"
-        ></pagecomponent>
+        <div class="pageComponent">
+          <pagecomponent
+            :pageComponentsData="pageComponentsData"
+            @getPageNum="getPageNum"
+            @sureSuccssBtn="sureSuccssBtn"
+          ></pagecomponent>
+        </div>
       </div>
     </div>
     <div class="pointBox" v-show="pointIsShow">
@@ -433,6 +433,9 @@ export default {
       this.clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
+      Object.keys(this.queryBreakageListData.paras).forEach((v) => {
+        this.queryBreakageListData.paras[v] = "";
+      });
       this.pageQueryFun();
     },
     create() {
@@ -842,12 +845,6 @@ export default {
       text-decoration: underline;
       cursor: pointer;
     }
-  }
-  .pageComponent {
-    margin: 10px 10px 0 0;
-    text-align: right;
-    height: 36px;
-    background: #ffffff;
   }
 }
 </style>

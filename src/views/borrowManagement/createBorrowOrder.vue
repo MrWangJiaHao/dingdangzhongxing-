@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { saveBorrowOrder, } from "../../api/api";
+import { saveBorrowOrder, BorrowOrderDetail } from "../../api/api";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 
 import { getCookie } from "../../utils/validate";
@@ -115,17 +115,21 @@ export default {
   beforeRouteEnter(to, from, next) {
     if (from.name === "/borrowManagement/addBorrow") {
       next((vm) => {
-        vm.tableData = [];
         if (vm.$route.query.type === "addProd") {
-          vm.tableData = vm.$route.query.val;
+          vm.requestData.id = "";
+          vm.$route.query.val.forEach((v) => {
+            vm.tableData.push(v);
+          });
           // console.log(vm.tableData);
         }
       });
     }
     if (from.name === "/borrowManagement/borrowMain") {
       next((vm) => {
+        vm.tableData = [];
         if (vm.$route.query.type === "edit") {
           vm.editObj = vm.$route.query.val;
+          vm.requestData.id = vm.$route.query.val.id;
           vm.queryFun();
         }
       });
@@ -143,15 +147,15 @@ export default {
         placeholder: "请选择期望时间",
       },
       id: "",
-      editObj:{},
+      editObj: {},
       requestData: {
         id: "",
-        loanNo: "",//借调单号
-        loanStatus: "",//借调状态（1-待提交 2-待审核 3-审核通过 4-拒绝）
-        reason: "",//借调原因
+        loanNo: "", //借调单号
+        loanStatus: "", //借调状态（1-待提交 2-待审核 3-审核通过 4-拒绝）
+        reason: "", //借调原因
         wareId: getCookie("X-Auth-wareId"),
         wareName: this.$store.state.loginRequest.loginData.user.wareFullName,
-        expectedSendTime: "",//期望入库时间
+        expectedSendTime: "", //期望入库时间
         inWareDetailList: [],
       },
     };
@@ -159,10 +163,11 @@ export default {
   mounted() {},
   methods: {
     queryFun() {
-      saveBorrowOrder({ id: this.id }).then((ok) => {
-        console.log(ok);
+      BorrowOrderDetail({ loanId: this.editObj.id }).then((ok) => {
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = [];
+          this.tableData = ok.data.result;
         }
       });
     },
@@ -256,7 +261,10 @@ export default {
       saveBorrowOrder(this.requestData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
-          this.$router.push({ path: "/borrowManagement/borrowMain" ,query:{type:"submit"}});
+          this.$router.push({
+            path: "/borrowManagement/borrowMain",
+            query: { type: "submit" },
+          });
           this.$messageSelf.message({
             message: "创建成功",
             type: "success",

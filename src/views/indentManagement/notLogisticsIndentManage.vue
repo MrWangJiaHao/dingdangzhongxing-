@@ -4,157 +4,154 @@
     <div class="roleName">
       <div class="headerHtml">
         <div class="headerInput">
-            <div class="el-inputBox entrustCompany">
-              <div class="el-inputBox-text">委托公司：</div>
-              <div class="el-inputBox-checkBox" style="width: 320px">
-                <el-select
-                  v-model="entrustCompany"
-                  placeholder="请选择委托公司"
-                  @change="entrustCompanys"
-                  clearable
+          <div class="el-inputBox entrustCompany">
+            <div class="el-inputBox-text">委托公司：</div>
+            <div class="el-inputBox-checkBox" style="width: 320px">
+              <el-select
+                v-model="entrustCompany"
+                placeholder="请选择委托公司"
+                @change="entrustCompanys"
+                clearable
+              >
+                <el-option
+                  v-for="item in entrustCompanyData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
                 >
-                  <el-option
-                    v-for="item in entrustCompanyData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
+                </el-option>
+              </el-select>
             </div>
-            <div class="el-inputBox">
-              <div class="el-inputBox-text">渠道：</div>
-              <div class="el-inputBox-checkBox" style="width: 120px">
-                <el-select
-                  v-model="channelValue"
-                  placeholder="请选择渠道"
-                  @change="channelValues"
-                  clearable
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">渠道：</div>
+            <div class="el-inputBox-checkBox" style="width: 120px">
+              <el-select
+                v-model="channelValue"
+                placeholder="请选择渠道"
+                @change="channelValues"
+                clearable
+              >
+                <el-option
+                  v-for="item in channelValueData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
                 >
-                  <el-option
-                    v-for="item in channelValueData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
+                </el-option>
+              </el-select>
             </div>
-            <div class="el-inputBox">
-              <div class="el-inputBox-text">订单来源：</div>
-              <div class="el-inputBox-checkBox" style="width: 160px">  
-                <el-select
-                  v-model="indentSourceValue"
-                  placeholder="请选择订单来源"
-                  @change="indentSourceValues"
-                  clearable
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">订单来源：</div>
+            <div class="el-inputBox-checkBox" style="width: 160px">
+              <el-select
+                v-model="indentSourceValue"
+                placeholder="请选择订单来源"
+                @change="indentSourceValues"
+                clearable
+              >
+                <el-option
+                  v-for="item in indentSourceValueData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
                 >
-                  <el-option
-                    v-for="item in indentSourceValueData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
+                </el-option>
+              </el-select>
             </div>
-            <div class="el-inputBox setMargin">
-              <div class="el-inputBox-text">订单号：</div>
-              <div class="el-inputBox-checkBox" style="width: 160px">
-                <el-input v-model="orderNumberValue" placeholder="模糊检索">
-                </el-input>
-              </div>
+          </div>
+          <div class="el-inputBox setMargin">
+            <div class="el-inputBox-text">订单号：</div>
+            <div class="el-inputBox-checkBox" style="width: 160px">
+              <el-input v-model="orderNumberValue" placeholder="模糊检索">
+              </el-input>
             </div>
-            <div class="el-inputBox childrenIndent">
-              <div class="el-inputBox-text">子单号：</div>
-              <div class="el-inputBox-checkBox" style="width: 160px">
-                <el-input
-                  v-model="ChildOrderNumberValue"
-                  placeholder="模糊检索"
+          </div>
+          <div class="el-inputBox childrenIndent">
+            <div class="el-inputBox-text">子单号：</div>
+            <div class="el-inputBox-checkBox" style="width: 160px">
+              <el-input v-model="ChildOrderNumberValue" placeholder="模糊检索">
+              </el-input>
+            </div>
+          </div>
+          <div class="el-inputBox childrenIndentState">
+            <div class="el-inputBox-text">子单状态：</div>
+            <div class="el-inputBox-checkBox" style="width: 120px">
+              <el-select
+                v-model="ChildOrderState"
+                placeholder="请选择子单状态"
+                @change="ChildOrderStates"
+                clearable
+              >
+                <el-option
+                  v-for="item in ChildOrderStateData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
                 >
-                </el-input>
-              </div>
+                </el-option>
+              </el-select>
             </div>
-            <div class="el-inputBox childrenIndentState">
-              <div class="el-inputBox-text">子单状态：</div>
-              <div class="el-inputBox-checkBox" style="width: 120px">
-                <el-select
-                  v-model="ChildOrderState"
-                  placeholder="请选择子单状态"
-                  @change="ChildOrderStates"
-                  clearable
-                >
-                  <el-option
-                    v-for="item in ChildOrderStateData"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
+          </div>
+
+          <div class="el-inputBox consignee">
+            <div class="el-inputBox-text">收货人：</div>
+            <div class="el-inputBox-checkBox" style="width: 120px">
+              <el-input v-model="consigneeValue" placeholder="请输入收货人">
+              </el-input>
             </div>
-            
-            <div class="el-inputBox consignee">
-              <div class="el-inputBox-text">收货人：</div>
-              <div class="el-inputBox-checkBox" style="width: 120px">
-                <el-input v-model="consigneeValue" placeholder="请输入收货人">
-                </el-input>
-              </div>
+          </div>
+          <div class="el-inputBox block_hidden telphone">
+            <div class="el-inputBox-text">联系电话：</div>
+            <div class="el-inputBox-checkBox" style="width: 120px">
+              <el-input
+                v-model="telPhoneValue"
+                placeholder="请输入联系电话"
+                type="number"
+                @blur="testIsMobile"
+                @focus="focusEvent"
+              >
+              </el-input>
             </div>
-            <div class="el-inputBox block_hidden telphone">
-              <div class="el-inputBox-text">联系电话：</div>
-              <div class="el-inputBox-checkBox" style="width: 120px">
-                <el-input
-                  v-model="telPhoneValue"
-                  placeholder="请输入联系电话"
-                  type="number"
-                  @blur="testIsMobile"
-                  @focus="focusEvent"
-                >
-                </el-input>
-              </div>
+          </div>
+          <div class="el-inputBox block_hidden address">
+            <div class="el-inputBox-text">收货地址：</div>
+            <div class="el-inputBox-checkBox" style="width: 320px">
+              <el-input v-model="addressValue" placeholder="请输入收货地址">
+              </el-input>
             </div>
-            <div class="el-inputBox block_hidden address">
-              <div class="el-inputBox-text">收货地址：</div>
-              <div class="el-inputBox-checkBox" style="width: 320px">
-                <el-input v-model="addressValue" placeholder="请输入收货地址">
-                </el-input>
+          </div>
+          <div class="timeChoose el-inputBox">
+            <div class="el-inputBox-text titleBox">下发时间：</div>
+            <div class="timeBox">
+              <div style="">
+                <dateTime
+                  :dateTimeData="datetimeDates"
+                  @getDateTime="getStartTime"
+                  ref="startTime"
+                />
               </div>
-            </div>
-            <div class="timeChoose el-inputBox">
-              <div class="el-inputBox-text titleBox">下发时间：</div>
-              <div class="timeBox">
-                <div style="">
-                  <dateTime
-                    :dateTimeData="datetimeDates"
-                    @getDateTime="getStartTime"
-                    ref="startTime"
-                  />
-                </div>
-                <!-- 开始时间 -->
-                <div class="line"></div>
-                <div>
-                  <dateTime
-                    :dateTimeData="datetimeDate"
-                    @getDateTime="getEndTime"
-                    ref="endTime"
-                  />
-                </div>
-                <!-- 结束时间 -->
+              <!-- 开始时间 -->
+              <div class="line"></div>
+              <div>
+                <dateTime
+                  :dateTimeData="datetimeDate"
+                  @getDateTime="getEndTime"
+                  ref="endTime"
+                />
               </div>
+              <!-- 结束时间 -->
             </div>
-            <div class="header-botton">
-              <!-- <div class="showBtn" @click="clickShow">
+          </div>
+          <div class="header-botton">
+            <!-- <div class="showBtn" @click="clickShow">
                 <span>{{ stateChoose }}</span
                 ><span class="el-icon-caret-bottom caret"></span>
               </div> -->
-              <div class="queryBtn" @click="clickQuery">查询</div>
-              <div class="clearBtn" @click="clearInput">清空</div>
-            </div>
+            <div class="queryBtn" @click="clickQuery">查询</div>
+            <div class="clearBtn" @click="clearInput">清空</div>
+          </div>
         </div>
       </div>
       <div class="childWarehouseForm">
@@ -225,13 +222,13 @@
               align="center"
             ></el-table-column>
           </el-table>
-        </div>
-        <div class="pageComponent">
-          <pagecomponent
-            :pageComponentsData="pageComponentsData"
-            @getPageNum="getPageNum"
-            @sureSuccssBtn="sureSuccssBtn"
-          ></pagecomponent>
+          <div class="pageComponent">
+            <pagecomponent
+              :pageComponentsData="pageComponentsData"
+              @getPageNum="getPageNum"
+              @sureSuccssBtn="sureSuccssBtn"
+            ></pagecomponent>
+          </div>
         </div>
       </div>
     </div>
@@ -498,38 +495,13 @@ export default {
     },
     clearInput() {
       //点击清空输入框
-      this.entrustCompany = "";
-      this.channelValue = "";
-      this.indentSourceValue = "";
-      this.orderNumberValue = "";
-      this.ChildOrderNumberValue = "";
-      this.ChildOrderState = "";
-      this.stateChooseValue = "下发时间";
-      this.consigneeValue = "";
-      this.telPhoneValue = "";
-      this.addressValue = "";
       this.clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
       this.tableData = [];
-      this.queryData.paras.orgId = "";
-      this.queryData.paras.channelId = "";
-      this.queryData.paras.orderSourceId = "";
-      this.queryData.paras.orderNo = "";
-      this.queryData.paras.subOrderNo = "";
-      this.queryData.paras.subOrderStatus = "";
-      this.queryData.paras.orderContactPhone = "";
-      this.queryData.paras.orderAddr = "";
-      this.queryData.paras.pushStartTime = "";
-      this.queryData.paras.pushEndTime = "";
-      this.queryData.paras.megerStartTime = "";
-      this.queryData.paras.megerEndTime = "";
-      this.queryData.paras.pickStartTime = "";
-      this.queryData.paras.pickEndTime = "";
-      this.queryData.paras.checkStartTime = "";
-      this.queryData.paras.checkEndTime = "";
-      this.queryData.paras.sendStartTime = "";
-      this.queryData.paras.sendEndTime = "";
+      Object.keys(this.queryData.paras).forEach((v) => {
+        this.queryData.paras[v] = "";
+      });
       this.pageQueryFun();
     },
     handleSelectionChange(value) {
@@ -783,7 +755,7 @@ export default {
     }
   }
   .header-botton {
-   width: 186px;
+    width: 186px;
     height: 36px;
     position: absolute;
     right: 0;
@@ -865,13 +837,6 @@ export default {
       text-decoration: underline;
       cursor: pointer;
     }
-  }
-
-  .pageComponent {
-    margin: 20px 10px 0 0;
-    text-align: right;
-    height: 36px;
-    background: #ffffff;
   }
 }
 </style>

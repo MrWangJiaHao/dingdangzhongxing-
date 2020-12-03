@@ -181,16 +181,16 @@
             align="center"
           ></el-table-column>
         </el-table>
+        <div class="pageComponent">
+          <pagecomponent
+            :pageComponentsData="pageComponentsData"
+            @getPageNum="getPageNum"
+            @sureSuccssBtn="sureSuccssBtn"
+          ></pagecomponent>
+        </div>
         <transition>
           <Loading v-if="isLoading"></Loading>
         </transition>
-      </div>
-      <div class="pageComponent">
-        <pagecomponent
-          :pageComponentsData="pageComponentsData"
-          @getPageNum="getPageNum"
-          @sureSuccssBtn="sureSuccssBtn"
-        ></pagecomponent>
       </div>
     </div>
     <div
@@ -620,7 +620,7 @@ export default {
     width: 100%;
     justify-content: space-between;
     display: flex;
-    
+
     .someInputs {
       display: flex;
       align-items: center;
