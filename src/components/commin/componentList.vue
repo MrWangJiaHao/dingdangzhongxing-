@@ -22,8 +22,9 @@
                   font-size: 24px;
                   font-weight: bold;
                   left: 50%;
+                  transform: translateX(-50%);
                   top: 30px;
-                  transform: translate(-50%);
+
                   color: #343434;
                   line-height: 26px;
                 "

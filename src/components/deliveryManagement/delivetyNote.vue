@@ -92,6 +92,7 @@
               width: 180px;
               height: 180px;
               margin-left: -90px;
+              z-index: -1;
               margin-top: -90px;
             "
           >

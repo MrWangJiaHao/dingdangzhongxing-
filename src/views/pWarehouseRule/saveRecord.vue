@@ -400,6 +400,7 @@ export default {
   height: 30px;
   width: 130px;
   margin: 0 5px;
+  border-radius: 6px;
 }
 .is-disabled {
   background-color: #f5f7fa;

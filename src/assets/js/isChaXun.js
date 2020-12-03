@@ -15,11 +15,11 @@ class isDisplayNoneBlock {
         this.parentHeight = parentHeight
         this.parent = parent
         console.log(parentHeight, "查询按钮父层的height，是否超过150px")
-        if (parentHeight > 160) {
+        if (parentHeight > 158) {
             parent.style.height = 118 + "px";
             this.createDomPush(child);
         }
-    }
+    } 158
     createDomPush(child) {
         let self = this
         let div = document.createElement("div");

@@ -4,7 +4,7 @@
       <div class="displayJucenMes">
         <div>
           <div class="dispalywrap" style="margin: 20px">
-            <div class="displayalign">
+            <div style="margin-left: 10px" class="displayalign">
               <div class="titleBox">委托公司：</div>
               <div class="displayalign w320 mr20">
                 <el-select
@@ -60,7 +60,7 @@
         </div>
         <!-- but按钮 -->
       </div>
-      <div class="tableBox">
+      <div class="tableBox" id="findRecord">
         <div style="background-color: #fff; padding: 20px 20px 0 20px">
           <div class="center">
             <el-table
@@ -334,7 +334,11 @@ export default {
   },
 };
 </script>
-
+<style lang="scss" >
+#findRecord .is-disabled {
+  background-color: #e1eaf5;
+}
+</style>
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
 .posFixCenter {

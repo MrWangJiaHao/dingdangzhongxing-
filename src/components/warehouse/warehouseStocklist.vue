@@ -30,7 +30,7 @@
               >
                 出库单
               </div>
-              <div style="position: absolute; top: 10px; right: 50px">
+              <div style="position: absolute; top: 10px; right: 50px;">
                 <img
                   :src="
                     'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +

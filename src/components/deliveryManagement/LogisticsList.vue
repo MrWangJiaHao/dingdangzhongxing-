@@ -22,7 +22,7 @@
                 {{ logisticsListJson.exprName }}
               </h1>
               <img
-                style="margin: 10px; float: right"
+                style="margin: 10px; float: right;z-index: -1;"
                 :src="
                   'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
                   logisticsListJson.exprNo

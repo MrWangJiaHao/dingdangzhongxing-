@@ -108,12 +108,35 @@
   color: #FFFFFF;
   background: linear-gradient(117deg, #52A8FD, #73CFFF);
 }
-.el-table__row--striped{
-  background-color: #D1D6E2;
-}
+.el-table__row.el-table__row--striped{
+  background-color: #F3F8FE;
+} 
 .el-input__inner{
   height: 34px;
 }
 .ivu-input{
   height: 34px!important;
+}
+
+.el-icon-arrow-up:before{
+  content: " ";
+  margin-left: 4px;
+  margin-bottom: 3px;
+  transition: all 0.5s;
+  display: inline-block;
+  transform-origin: 8px 13px;
+  border: 8px solid transparent;
+  transform: rotate(0deg);
+  border-radius: 2px;
+  border-bottom: 8px solid #A9AFBD;
+}
+.el-checkbox__inner{
+  border-radius: 4px;
+}
+.el-tabs__item.is-top.is-active.is-closable .el-icon-close::before{
+  content: "";
+  background: url(../img/close.png) center center no-repeat;
+  background-size: cover;
+  width: 10px;
+  height: 10px;
 }

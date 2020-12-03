@@ -1,11 +1,7 @@
 <template>
   <div id="headerMain">
     <div class="tabContainer">
-      <div class="header-title">
-        <div class="header-title-img">
-          <img src="@/assets/img/logo.png" />
-        </div>
-      </div>
+      <img src="@/assets/img/logo.png" class="imgbox" />
       <div class="el-nav">
         <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
           <el-tab-pane v-for="(navIndex, idx) in dataArr" :key="idx">
@@ -18,8 +14,15 @@
                 @command="clickEventGoRouter"
               >
                 <span class="el-dropdown-link">
-                  <img :src="navIndex.iconCls" width="20" height="20" />
-                  {{ navIndex.title }}
+                  <img
+                    style="margin-right: 8px"
+                    :src="navIndex.iconCls"
+                    width="16"
+                    height="16"
+                  />
+                  <div style="display: inline-block">
+                    {{ navIndex.title }}
+                  </div>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item
@@ -32,8 +35,15 @@
               </el-dropdown>
               <div v-else>
                 <span class="el-dropdown-link">
-                  <img :src="navIndex.iconCls" width="20" height="20" />
-                  {{ navIndex.title }}
+                  <img
+                    :src="navIndex.iconCls"
+                    style="margin-right: 8px"
+                    width="16"
+                    height="16"
+                  />
+                  <div style="display: inline-block">
+                    {{ navIndex.title }}
+                  </div>
                 </span>
               </div>
             </div>
@@ -46,7 +56,7 @@
       </div>
     </div>
 
-    <div class="dianjiqiehuan" id="clickBox">
+    <div class="dianjiqiehuan" v-show="dropdownArr.length" id="clickBox">
       <div class="dianjiCenters">
         <el-tabs
           v-model="activeTabsName"
@@ -518,7 +528,6 @@ export default {
     },
     //点击选中
     handleTabsEdit() {
-      console.log("this.activeTabsName", this.activeTabsName);
       this.addHenxianTables();
       let router =
         this.dataArr[+this.activeName].children.length != 0
@@ -690,6 +699,9 @@ export default {
 .dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item:first-child {
   border-left: 1px solid #ced4de !important;
 }
+.dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item {
+  border-bottom: none;
+}
 .dianjiqiehuan .el-breadcrumb__inner.is-link {
   color: #606266 !important;
   font-weight: bold !important;
@@ -706,7 +718,9 @@ export default {
 .el-breadcrumb__item {
   display: flex;
 }
-
+.el-breadcrumb .el-breadcrumb__item:first-child {
+  border-bottom: none;
+}
 .el-breadcrumb .el-breadcrumb__item:first-child::before {
   content: "";
   display: inline-block;
@@ -733,48 +747,27 @@ export default {
 }
 </style>
 <style scoped lang="scss">
+.imgbox {
+  margin-left: 20px;
+}
 #headerMain {
   position: relative;
-
   .tabContainer {
-    width: 100%;
-    height: 90px;
-    background: linear-gradient(0deg, #3795eb, #4bade4);
-    position: relative;
     display: flex;
     align-items: center;
-    overflow: hidden;
-    a {
-      display: flex;
-      align-items: center;
-      color: white;
-
-      img {
-        margin: 0 8px 0 0;
-        width: 18px;
-        height: 18px;
-      }
-    }
+    height: 90px;
+    background: linear-gradient(0deg, #3795eb, #4bade4);
   }
   .dianjiqiehuan {
     padding: 0 20px;
     background: #eef1f8;
+    border-bottom: 1px solid #ced4de;
     .dianjiCenters {
       padding-top: 20px;
-      border-bottom: 1px solid #ced4de;
     }
   }
   .header-title {
-    width: 139px;
     height: 90px;
-    .header-title-img {
-      width: 139px;
-      height: 22px;
-      img {
-        margin: 34px 10px 34px 20px;
-        cursor: pointer;
-      }
-    }
   }
 }
 </style>
@@ -815,16 +808,15 @@ export default {
   font-size: 16px;
 }
 .el-nav {
-  width: 89%;
-  flex: 1;
-  overflow: hidden;
+  margin-left: 38px;
+  width: 88%;
+  line-height: 90px;
+  display: inline-block;
 }
 .el-lr {
-  width: 70px;
-  display: flex;
-  align-items: center;
   font-size: 22px;
   color: #fff;
+  display: inline-block;
   justify-content: space-around;
   div {
     cursor: pointer;
@@ -839,8 +831,8 @@ export default {
 .tabContainer .el-tabs__nav-wrap {
   position: relative;
   height: 90px;
-  display: flex;
-  align-items: center;
+  // display: flex;
+  // align-items: center;
   overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
