@@ -31,7 +31,7 @@
                 <el-input
                   v-model="dataForm.password"
                   type="password"
-                  placeholder="密码"
+                  placeholder="请输入密码"
                 ></el-input>
               </div>
             </el-form-item>
@@ -123,7 +123,7 @@ export default {
               this.isLoading = true;
               setTimeout(() => {
                 this.$router.push("/index");
-              }, 2000);
+              }, 1500);
               //四个小时后清除用户名和密码
               setTimeout(() => {
                 this.$cookie.delete("userName");
@@ -134,7 +134,10 @@ export default {
                 this.$cookie.delete("X-Auth-user");
               }, 14400000);
             } else {
-              this.$messageSelf.message("账号或者密码有误");
+              this.$messageSelf.message({
+                message: "账号或者密码有误",
+                type: "error",
+              });
             }
           });
         }
@@ -150,10 +153,11 @@ export default {
       (autoUserName === null && autoUserPwd === null) ||
       (autoUserName === undefined && autoUserPwd === undefined)
     ) {
-      this.$messageSelf.message({
-        type: "error",
-        message: "请重新登录",
-      });
+      // this.$messageSelf.message({
+      //   type: "error",
+      //   message: "请重新登录",
+      // });
+      console.log("账号密码失效啦");
     } else {
       this.dataForm.userName = autoUserName;
       this.dataForm.password = autoUserPwd;
@@ -188,12 +192,14 @@ export default {
     img {
       width: 20px;
       height: 20px;
+      display: block;
+      margin: 13px 0 0 14px;
     }
   }
 }
 </style>
 <style lang="scss">
-.el-input__inner {
+.site-wrapper .el-input__inner {
   border: none;
 }
 .el-button--primary {
@@ -293,13 +299,8 @@ export default {
     font-size: 18px;
     font-weight: 400;
     color: rgba(255, 255, 255, 1);
-    line-height: 38px;
     text-align: center;
-    background: linear-gradient(
-      25deg,
-      rgba(30, 209, 216, 1),
-      rgba(32, 229, 184, 1)
-    );
+    background: linear-gradient(#52a8fd, #73cfff);
     border-radius: 3px;
     border: 0;
   }

@@ -100,22 +100,24 @@ a {
 } */
 /*改变滚动条样式*/
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
 }
 ::-webkit-scrollbar-track {
-  background: #e6e7ea;
-  border-radius: 2.5px;
+  background: #fff;
 }
 ::-webkit-scrollbar-thumb {
-  background: #bfbfbf;
-  border-radius: 10px;
+  width: 12px;
+  height: 12px;
+  background: #d1d6e2;
+}
+::-webkit-scrollbar-track-piece {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #333;
 }
 ::-webkit-scrollbar-corner {
-  background: #179a16;
+  background: #fff;
 }
 /*去掉数字输入框的上下箭头*/
 input::-webkit-outer-spin-button,
@@ -127,5 +129,37 @@ input[type="number"] {
 }
 .el-input__inner {
   font-size: 14px;
+}
+.el-table--border,
+.el-table--group {
+  border: 1px solid #d2d6e2 !important;
+  border-bottom: none !important;
+}
+
+/*全局设置表格一行的高度*/
+.el-table td,
+.el-table th {
+  padding: 6px 0 !important;
+}
+
+/*全局设置表格内容不换行 */
+// .el-table .cell {
+//   white-space: nowrap !important;
+// }
+
+/**全局设置表头背景颜色 */
+.has-gutter .el-table td,
+.el-table th.is-leaf {
+  background: #e1eaf5 !important;
+}
+
+/* 全局设置分页器样式*/
+.pageComponent {
+  border: 1px solid #d2d6e2 !important;
+  border-top: none !important;
+  padding: 2px 0 !important;
+  text-align: right !important;
+  height: 36px !important;
+  background: #ffffff !important;
 }
 </style>

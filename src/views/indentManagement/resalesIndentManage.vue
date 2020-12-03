@@ -357,14 +357,13 @@
                   <el-table-column prop="" label="入库时间" align="center">
                   </el-table-column>
                 </el-table>
-              </div>
-
-              <div class="pageComponent">
-                <pagecomponent
-                  :pageComponentsData="pageComponentsData"
-                  @getPageNum="getPageNum"
-                  @sureSuccssBtn="sureSuccssBtn"
-                ></pagecomponent>
+                <div class="pageComponent">
+                  <pagecomponent
+                    :pageComponentsData="pageComponentsData"
+                    @getPageNum="getPageNum"
+                    @sureSuccssBtn="sureSuccssBtn"
+                  ></pagecomponent>
+                </div>
               </div>
             </el-tab-pane>
             <el-tab-pane label="未出库">
@@ -515,14 +514,13 @@
                   <el-table-column prop="" label="入库时间" align="center">
                   </el-table-column>
                 </el-table>
-              </div>
-
-              <div class="pageComponent">
-                <pagecomponent
-                  :pageComponentsData="pageComponentsData1"
-                  @getPageNum="getPageNum1"
-                  @sureSuccssBtn="sureSuccssBtn1"
-                ></pagecomponent>
+                <div class="pageComponent">
+                  <pagecomponent
+                    :pageComponentsData="pageComponentsData1"
+                    @getPageNum="getPageNum1"
+                    @sureSuccssBtn="sureSuccssBtn1"
+                  ></pagecomponent>
+                </div>
               </div>
             </el-tab-pane>
           </el-tabs>
@@ -1136,7 +1134,7 @@ export default {
       }
     }
   }
-   .header-botton {
+  .header-botton {
     width: 186px;
     height: 36px;
     position: absolute;
@@ -1221,10 +1219,6 @@ export default {
   .failCause {
     color: red;
   }
-}
-.pageComponent {
-  text-align: right;
-  background: #ffffff;
 }
 </style>
 <style lang="scss">

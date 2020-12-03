@@ -1,119 +1,99 @@
 <template>
   <div class="mian">
+    <div class="titleStyle">{{ title }}</div>
     <div class="orderDetaiPage">
       <div class="orderDetailBox">
-        <div class="orderDetail-title">报损单详情</div>
+        <div class="orderDetail-title">借调单详情</div>
         <table>
           <tr>
-            <td>报损单号</td>
-            <td>{{ BreakageData.damageOrderNo }}</td>
-            <td>报损状态</td>
-            <td>{{ BreakageData.disposeStatus }}</td>
-            <td>委托公司</td>
-            <td>{{ BreakageData.orgName }}</td>
+            <td>借调单号：</td>
+            <td>{{ dataJson.loanNo }}</td>
+            <td>借出方：</td>
+            <td>{{ dataJson.wareName }}</td>
+            <td>借调状态：</td>
+            <td>{{ dataJson.loanStatus }}</td>
           </tr>
           <tr>
-            <td>报损类型</td>
-            <td>{{ BreakageData.damageType }}</td>
-            <td>创建时间</td>
-            <td>{{ BreakageData.createTime }}</td>
-            <td>创建人</td>
-            <td>{{ BreakageData.createUser }}</td>
+            <td>创建人：</td>
+            <td>{{ dataJson.createUser }}</td>
+            <td>创建时间：</td>
+            <td>{{ dataJson.createTime }}</td>
+            <td>审核人：</td>
+            <td>{{ dataJson.verifyUserName }}</td>
           </tr>
           <tr>
-            <td>审核时间</td>
+            <td>审核时间：</td>
+            <td>{{ dataJson.verifyTime }}</td>
             <td></td>
-            <td>审核人</td>
             <td></td>
-            <td>备注</td>
-            <td>{{ BreakageData.remark }}</td>
+            <td></td>
+            <td></td>
           </tr>
         </table>
       </div>
       <div class="orderDetailBox userInfor">
-        <div class="orderDetail-title">产品明细</div>
+        <div class="orderDetail-title">物料明细</div>
         <el-table
           :data="tableData"
           border
           style="width: 100%"
           :stripe="true"
           tooltip-effect="dark"
+          max-height="200px"
         >
           <el-table-column label="序号" align="center" type="index" width="60">
           </el-table-column>
-          <el-table-column prop="prodCode" label="产品编码" align="center">
+          <el-table-column prop="materielType" label="物料类型" align="center">
           </el-table-column>
-          <el-table-column prop="prodName" label="产品名称" align="center">
+          <el-table-column prop="materielCode" label="物料编号" align="center">
           </el-table-column>
-          <el-table-column prop="specName" label="产品规格" align="center">
+          <el-table-column prop="materielName" label="物料名称" align="center">
           </el-table-column>
-          <el-table-column prop="braName" label="品牌" align="center">
-          </el-table-column>
-          <el-table-column prop="prodNum" label="报损数量" align="center">
+          <el-table-column prop="specName" label="物料规格" align="center">
           </el-table-column>
           <el-table-column
-            prop="verifyUserName"
-            label="当前库位"
+            prop="actualInventory"
+            label="实际库存"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="verifyTime"
-            label="残次品库位"
+            prop="materielNum"
+            label="申请借调数量"
             align="center"
-          ></el-table-column>
+          >
+          </el-table-column>
         </el-table>
       </div>
-      <div class="backBtnBox">
-        <div class="backBtn" @click="back">返回</div>
+      <div class="orderDetailBox">
+        <div class="orderDetail-title">备注</div>
+        <div class="remarkBox">
+          {{ dataJson.remark ? "无备注" : dataJson.remark }}
+        </div>
       </div>
+    </div>
+    <div class="backBtnBox">
+      <div class="backBtn" @click="back">返回</div>
     </div>
   </div>
 </template>
 
 <script>
-import { pointBreakageOrder } from "../../api/api";
-
 export default {
-  beforeRouteEnter(to, from, next) {
-    if (from.name === "/breakageManagement/breakageMain") {
-      next((vm) => {
-        if (vm.$route.query.type === "damageOrderNo") {
-          vm.BreakageData = vm.$route.query.damageOrderNo;
-          vm.id = vm.$route.query.damageOrderNo.id;
-          vm.queryInfor();
-          // console.log(vm.BreakageData);
-        }
-      });
-    } else {
-      next((vm) => {
-        vm.$router.go(-1);
-      });
-    }
+  props: {
+    tableData: Array,
+    dataJson: Object,
+    title: String,
   },
   data() {
     return {
-      BreakageData: {},
       id: "",
-      tableData: [],
     };
   },
   mounted() {},
   methods: {
-    queryInfor() {
-      pointBreakageOrder({ id: this.id }).then((ok) => {
-        console.log(ok);
-        if (ok.data.code === "10000") {
-          this.tableData = [];
-          ok.data.result[0].detailList.forEach((v) => {
-            this.tableData.push(v.pOrgProducts);
-            //  console.log(v)
-          });
-        }
-      });
-    },
     back() {
-      this.$router.go(-1);
+      this.$emit("BorrowOrderDetailIsShow", false);
     },
   },
 };
@@ -122,62 +102,80 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
 .mian {
-  background: #e3e4e8;
-  padding: 10px;
+  width: 1000px;
+  height: 658px;
+  position: relative;
+  left: 0;
+  top: 66px;
+  transform: translateX(46%);
+  .titleStyle {
+    width: 100%;
+    height: 50px;
+    background: #ecf1f7;
+    line-height: 50px;
+    padding: 0 20px;
+    font-size: 18px;
+    border-bottom: 1px solid #d1d6e2;
+  }
+  .orderDetaiPage::-webkit-scrollbar {
+    width: 0 !important;
+  }
   .orderDetaiPage {
     background: #fff;
     padding: 20px;
+    overflow: scroll;
+    height: 530px;
     .orderDetailBox {
       margin-bottom: 20px;
       .orderDetail-title {
         font-size: 16px;
+        color: #52a8fd;
         position: relative;
-        margin: 0 0 20px 25px;
+        margin: 0 0 20px 10px;
+      }
+      .remarkBox {
+        height: 20px;
       }
       .orderDetail-title::before {
         content: "";
-        width: 15px;
+        width: 3px;
         height: 15px;
-        background: url("../../assets/img/systemTitlemesa.png");
+        background: linear-gradient(#52a8fd, #73cfff);
         position: absolute;
-        left: -25px;
-        top: 3px;
+        left: -10px;
+        top: 4px;
       }
     }
-    .backBtnBox {
-      display: flex;
-      justify-content: center;
-      .backBtn {
-        @include BtnFunction("success");
-      }
+  }
+  .backBtnBox {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 78px;
+    border-top: 1px solid #d1d6e2;
+    background: #fff;
+    display: flex;
+    justify-content: flex-end;
+    .backBtn {
+      margin: 20px;
+      @include BtnFunction("success");
     }
   }
   table {
     width: 100%;
-    border: 1px solid #d1d6e2;
-    border-collapse: collapse;
   }
-  tr,
+
   td {
-    border: 1px solid #d1d6e2;
-  }
-  td {
-    padding: 10px 20px;
+    padding: 10px 0;
   }
   td:nth-of-type(odd) {
     text-align: right;
-    background: #ecf1f7;
   }
   td:nth-of-type(even) {
     text-align: left;
     width: 25%;
-    padding: 10px 20px;
-  }
-  .userInfor {
-    td:nth-of-type(even) {
-      width: 37%;
-      padding: 10px 20px;
-    }
+    padding: 10px 0;
   }
 }
 </style>

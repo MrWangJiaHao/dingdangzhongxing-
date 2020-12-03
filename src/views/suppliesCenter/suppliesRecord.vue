@@ -209,14 +209,15 @@
               align="center"
             ></el-table-column>
           </el-table>
-        </div>
-        <div class="pageComponent">
+          <div class="pageComponent">
           <pagecomponent
             :pageComponentsData="pageComponentsData"
             @getPageNum="getPageNum"
             @sureSuccssBtn="sureSuccssBtn"
           ></pagecomponent>
         </div>
+        </div>
+        
       </div>
     </div>
 
@@ -1063,12 +1064,6 @@ export default {
   }
   .resultForm {
     padding: 16px;
-  }
-  .pageComponent {
-    margin: 0 10px 0 0;
-    text-align: right;
-    height: 36px;
-    background: #ffffff;
   }
 }
 </style>

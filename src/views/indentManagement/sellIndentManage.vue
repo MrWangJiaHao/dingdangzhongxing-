@@ -339,13 +339,13 @@
               align="center"
             ></el-table-column>
           </el-table>
-        </div>
-        <div class="pageComponent">
-          <pagecomponent
-            :pageComponentsData="pageComponentsData"
-            @getPageNum="getPageNum"
-            @sureSuccssBtn="sureSuccssBtn"
-          ></pagecomponent>
+          <div class="pageComponent">
+            <pagecomponent
+              :pageComponentsData="pageComponentsData"
+              @getPageNum="getPageNum"
+              @sureSuccssBtn="sureSuccssBtn"
+            ></pagecomponent>
+          </div>
         </div>
       </div>
     </div>
@@ -931,6 +931,9 @@ export default {
     }
   }
   .pageComponent {
+    border: 0.5px solid #d2d6e2;
+    border-top: none;
+    padding: 2px 0;
     text-align: right;
     height: 36px;
     background: #ffffff;

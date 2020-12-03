@@ -23,7 +23,7 @@
           </div>
           <div class="typeBox">
             <div class="roleName-text">子仓类型：</div>
-            <div class="roleName-checkBox">
+            <div class="roleName-checkBox" style="width:120px">
               <el-select
                 v-model="typeValue"
                 placeholder="请选择子仓类型"
@@ -51,7 +51,7 @@
             <div class="icon-title-icon">
               <img src="../../assets/img/systemTitlemesa.png" />
             </div>
-            <div class="icon-title-title">子仓管理</div>
+            <div class="icon-title-title">查询结果</div>
           </div>
           <div class="someBtn">
             <div class="setUser" @click="createChildWarehouse">创建</div>
@@ -157,13 +157,13 @@
               align="center"
             ></el-table-column>
           </el-table>
-        </div>
-        <div class="pageComponent">
-          <pagecomponent
-            :pageComponentsData="pageComponentsData"
-            @getPageNum="getPageNum"
-            @sureSuccssBtn="sureSuccssBtn"
-          ></pagecomponent>
+          <div class="pageComponent">
+            <pagecomponent
+              :pageComponentsData="pageComponentsData"
+              @getPageNum="getPageNum"
+              @sureSuccssBtn="sureSuccssBtn"
+            ></pagecomponent>
+          </div>
         </div>
       </div>
     </div>
@@ -494,10 +494,6 @@ export default {
   .resultForm {
     padding: 16px;
   }
-  .pageComponent {
-    text-align: right;
-    height: 36px;
-    background: #ffffff;
-  }
+  
 }
 </style>

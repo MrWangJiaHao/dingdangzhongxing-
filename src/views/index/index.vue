@@ -249,6 +249,7 @@ export default {
 
 <style scoped lang="scss">
 #indexMain {
+  padding: 0 0 16px 0;
   position: relative;
   height: 100%;
   background: #eef1f8;
@@ -419,7 +420,7 @@ export default {
     .echartsInfor {
       height: 560px;
       display: flex;
-      margin: 0 0 16px 16px;
+      margin: 0 0 0 16px;
       .infor-one {
         flex: 1;
         height: 560px;

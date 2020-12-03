@@ -101,13 +101,13 @@
             >
             </el-table-column>
           </el-table>
-        </div>
-        <div class="pageComponent">
-          <pagecomponent
-            :pageComponentsData="pageComponentsData"
-            @getPageNum="getPageNum"
-            @sureSuccssBtn="sureSuccssBtn"
-          ></pagecomponent>
+          <div class="pageComponent">
+            <pagecomponent
+              :pageComponentsData="pageComponentsData"
+              @getPageNum="getPageNum"
+              @sureSuccssBtn="sureSuccssBtn"
+            ></pagecomponent>
+          </div>
         </div>
       </div>
       <div class="backBtnBox">
@@ -270,6 +270,7 @@ export default {
 #createBreakage {
   padding: 20px 10px;
   background: #eef1f8;
+
   .main {
     .headerBox {
       .headerBox-title {
@@ -337,25 +338,21 @@ export default {
         padding: 16px;
       }
     }
-    .backBtnBox {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin-top: 16px;
-      .backBtn {
-        margin: 0 16px 0 0;
-        @include BtnFunction("success");
-      }
-      .submitBtn {
-        @include BtnFunction("success");
-      }
-    }
   }
-  .pageComponent {
-    margin: 10px 10px 0 0;
-    text-align: right;
-    height: 36px;
-    background: #ffffff;
+
+  .backBtnBox {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    .backBtn {
+      margin: 0 16px 0 0;
+      @include BtnFunction();
+      background: white;
+    }
+    .submitBtn {
+      @include BtnFunction("success");
+    }
   }
 }
 </style>

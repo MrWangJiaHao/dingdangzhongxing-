@@ -238,13 +238,13 @@
                     </template>
                   </el-table-column>
                 </el-table>
-              </div>
-              <div class="pageComponent">
-                <pagecomponent
-                  :pageComponentsData="pageComponentsData"
-                  @getPageNum="getPageNum"
-                  @sureSuccssBtn="sureSuccssBtn"
-                ></pagecomponent>
+                <div class="pageComponent">
+                  <pagecomponent
+                    :pageComponentsData="pageComponentsData"
+                    @getPageNum="getPageNum"
+                    @sureSuccssBtn="sureSuccssBtn"
+                  ></pagecomponent>
+                </div>
               </div>
             </el-tab-pane>
             <el-tab-pane label="缺货订单">
@@ -350,13 +350,13 @@
                     align="center"
                   ></el-table-column>
                 </el-table>
-              </div>
-              <div class="pageComponent">
-                <pagecomponent
-                  :pageComponentsData="pageComponentsData1"
-                  @getPageNum="getPageNum1"
-                  @sureSuccssBtn="sureSuccssBtn1"
-                ></pagecomponent>
+                <div class="pageComponent">
+                  <pagecomponent
+                    :pageComponentsData="pageComponentsData1"
+                    @getPageNum="getPageNum1"
+                    @sureSuccssBtn="sureSuccssBtn1"
+                  ></pagecomponent>
+                </div>
               </div>
             </el-tab-pane>
           </el-tabs>
