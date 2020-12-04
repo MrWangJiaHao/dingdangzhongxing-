@@ -1,12 +1,9 @@
 <template>
   <div class="footer_box">
     <div class="dianJiTuiChu">
-      <div class="imgBox">
-        <span></span>
-        <img src="../assets/img/userName.png" alt />
-      </div>
+      <img src="../assets/img/userName.png" style="margin-right: 7px" alt />
       <div class="wenZi" @click="loginOutMeg">
-        登入用户&nbsp;
+        登录用户&nbsp;
         <span
           >wms_ss:<span class="ml11"> {{ userName }}</span></span
         >
@@ -146,6 +143,7 @@ export default {
   .dianJiTuiChu {
     display: flex;
     align-items: center;
+    user-select: none;
     margin-left: 21px;
     .imgBox {
       margin-right: 7px;
@@ -160,6 +158,7 @@ export default {
       font-size: 14px;
       font-family: Hiragino Sans GB;
       font-weight: normal;
+      line-height: 30px;
       color: #ffffff;
       cursor: pointer;
     }

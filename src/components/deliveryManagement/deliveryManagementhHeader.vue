@@ -159,7 +159,7 @@
         <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">收货地址:</div>
-            <div class="mr20">
+            <div class="mr20 displayalign">
               <span class="mr11">
                 <el-autocomplete
                   class="w120"
@@ -193,7 +193,7 @@
         <div class="zujianBox mb16">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">产品名称:</div>
-            <div class="mr20">
+            <div class="mr20 displayalign">
               <span class="mr11">
                 <el-autocomplete
                   class="w120"

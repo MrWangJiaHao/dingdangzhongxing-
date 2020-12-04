@@ -63,6 +63,7 @@
                 <div class="noneIconTitle mr11">期望入库时间:</div>
                 <div class="mr20">
                   <dateTime
+         
                     :valueDataStart="createUserData.expectedSendTime"
                     :dateTimeData="datetimeDate"
                     @getDateTime="getExpectedSendTime"
@@ -171,7 +172,7 @@
             <el-table-column
               label="期望入库时间"
               prop="expectedSendTime"
-              width="200"
+              width="250"
               show-overflow-tooltip
             >
               <div slot-scope="scope">

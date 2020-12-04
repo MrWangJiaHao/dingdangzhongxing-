@@ -23,7 +23,6 @@
               ref="multipleTable"
               :data="tableData"
               :stripe="true"
-              :border="true"
               tooltip-effect="dark"
               row-key="id"
               style="width: 100%"

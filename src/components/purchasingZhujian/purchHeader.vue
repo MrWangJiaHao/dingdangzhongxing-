@@ -6,6 +6,7 @@
           <div class="noneIconTitle mr11">委托公司:</div>
           <div class="mr20">
             <el-select
+              class="w400"
               v-model="paras.orgName"
               slot="prepend"
               :placeholder="EntrustedCompany.placeholder"

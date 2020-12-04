@@ -23,14 +23,16 @@
                   font-weight: bold;
                   left: 50%;
                   top: 30px;
-                  transrom: translate(-50%);
                   color: #343434;
                   line-height: 26px;
+                  transform: translateX(-50%);
                 "
               >
                 入库单
               </div>
-              <div style="position: absolute; top: 10px; right: 50px">
+              <div
+                style="position: absolute; top: 10px; z-index: -1; right: 50px"
+              >
                 <img
                   :src="
                     'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +

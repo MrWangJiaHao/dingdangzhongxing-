@@ -32,7 +32,7 @@
                 委托公司：{{ item.supName }}
               </div>
               <div style="margin-bottom: 15px">批次号：{{ item.batchNo }}</div>
-              <div style="width: 440px; height: 50px; overflow: hidden">
+              <div style="width: 440px; height: 50px;z-index: -1; overflow: hidden">
                 <img
                   width="440"
                   style="margin-left: -40px"

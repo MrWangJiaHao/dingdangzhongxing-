@@ -17,10 +17,12 @@
             <div>
               <div class="displayalign ellipsis">
                 <div class="noneIconTitle mr11">
-                  委托公司<span style="color: red">*</span> :
+                  委托公司
+                  <span style="color: red">*</span>:
                 </div>
                 <div class="mr20">
                   <el-select
+                    class="w400"
                     v-model="companyJson.value"
                     @focus="getCompanyJsonAndArr"
                     @change="changeCompany"
@@ -55,11 +57,11 @@
             <!-- 期望到货时间 getFindOrgChildWare -->
           </div>
           <div class="dispalyFlex mb20">
-            <div class="noneIconTitle mr11 fosi0">
-              <span class="fosi14" style="visibility: hidden">你好</span>
-              <span class="fosi14">备注</span>
-              <span class="fosi14" style="visibility: hidden">好</span>
-              <span class="fosi14">:</span>
+            <div class="noneIconTitle mr11">
+              <span class="" style="visibility: hidden">你好</span>
+              <span class="">备注</span>
+              <span class="" style="visibility: hidden">*</span>
+              :
             </div>
             <div class="bzTetxArea">
               <textarea

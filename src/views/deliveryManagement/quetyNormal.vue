@@ -258,6 +258,11 @@ export default {
     pagecomponent,
     logisticsList,
   },
+  watch: {
+    ischanpingOrOne(n) {
+      // this.multipleSelection = [];
+    },
+  },
   data() {
     return {
       detailsJianHuoDan: {},
