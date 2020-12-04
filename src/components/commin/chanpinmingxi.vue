@@ -1,8 +1,10 @@
 <template>
-  <div class="pd20">
-    <div class="setTitle mb16">{{ chanpinminxiJson.title }}</div>
-    <div class="tr mb16">
-      <slot name="anniuBtns"></slot>
+  <div class="Colord1d6e2">
+    <div class="clearfix">
+      <div class="setTitle fl mb16">{{ chanpinminxiJson.title }}</div>
+      <div class="tr fr mb16">
+        <slot name="anniuBtns"></slot>
+      </div>
     </div>
     <div>
       <tableCommin

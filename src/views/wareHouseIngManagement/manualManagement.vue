@@ -41,7 +41,7 @@
         <!-- but按钮 -->
       </div>
       <div class="tableBox">
-        <div style="background-color: #fff; padding: 20px 20px 0 20px">
+        <div style="background-color: #fff; padding: 20px 20px 20px 20px">
           <div class="center">
             <el-table
               ref="multipleTable"
@@ -52,9 +52,14 @@
               style="width: 100%"
               @selection-change="handleSelectionChange"
             >
-              <el-table-column type="selection" width="82"></el-table-column>
+              <el-table-column
+                type="selection"
+                align="center"
+                width="82"
+              ></el-table-column>
               <el-table-column
                 label="序号"
+                align="center"
                 type="index"
                 width="71"
                 show-overflow-tooltip
@@ -212,11 +217,7 @@
     <!-- 入库确认&&入库详情 end -->
   </div>
 </template>
-<style>
-.cell {
-  text-align: center;
-}
-</style>
+
 <script>
 import manualHeader from "../../components/manual/manualHeader";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
@@ -573,7 +574,7 @@ export default {
 .tableBox {
   padding: 0 10px 0px 10px;
   .pageComponent {
-    margin: 180px 10px 0 0;
+    // margin: 180px 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;

@@ -15,7 +15,7 @@
         <!-- but按钮 -->
       </div>
       <div class="tableBox">
-        <div style="background-color: #fff; padding: 20px 20px 0 20px">
+        <div style="background-color: #fff; padding: 20px 20px 20px 20px">
           <div class="center">
             <el-table
               ref="multipleTable"
@@ -26,10 +26,15 @@
               style="width: 100%"
               @selection-change="handleSelectionChange"
             >
-              <el-table-column type="selection" width="82"></el-table-column>
+              <el-table-column
+                type="selection"
+                align="center"
+                width="82"
+              ></el-table-column>
               <el-table-column
                 label="序号"
                 type="index"
+                align="center"
                 width="71"
                 show-overflow-tooltip
               />
@@ -53,10 +58,12 @@
                 width="119"
                 label="打印次数"
                 prop="orderCount"
+                align="center"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 label="订单数量"
+                align="center"
                 prop="orderCount"
                 show-overflow-tooltip
               >
@@ -75,6 +82,7 @@
               <el-table-column
                 width="119"
                 label="产品数量"
+                align="center"
                 prop="prodCount"
                 show-overflow-tooltip
               ></el-table-column>
@@ -350,7 +358,7 @@ export default {
   padding: 0 10px 0px 10px;
 
   .pageComponent {
-    margin: 180px 10px 0 0;
+    // margin: 180px 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;

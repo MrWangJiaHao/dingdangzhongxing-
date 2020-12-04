@@ -1695,6 +1695,7 @@ export const pOrgFailSubOrderfindRecordPageGroupByProd = (data) => {
 //=========================================发货管理 end ========================================
 //=========================================货品移位 start ========================================
 export const pOrgProductsApp = {
+    // 补货作业 start
     findReplienshProductPagePost: (data) => post({
         url: "/wbs-warehouse-manage/v1/pOrgProducts/findReplienshProductPage",
         data
@@ -1714,7 +1715,25 @@ export const pOrgProductsApp = {
     pReplenishOrderDelRecord: (data) => post({
         url: "/wbs-warehouse-manage/pReplenishOrder/delRecord",
         data
-    }) //删除补货单
+    }), //删除补货单
+    // 补货作业 end
+    //库内移动 start
+    pWarehouseInnerMoveFindRecordPage: (data) => post({
+        url: "/wbs-warehouse-manage/pWarehouseInnerMove/findRecordPage",
+        data
+    }),//分页查询移库单列表
+    pWarehouseInnerMoveDelRecord: (data) => post({
+        url: "/wbs-warehouse-manage/pWarehouseInnerMove/delRecord",
+        data
+    }),//删除移库单
+    
+    pOrgProductsFindInnerMoveProductPage: (data) => post({
+        url: "/wbs-warehouse-manage/v1/pOrgProducts/findInnerMoveProductPage",
+        data
+    }),//分页查询产品列表
+
+    // 库内移动 end
+
 }
 //=========================================货品移位 end ========================================
 

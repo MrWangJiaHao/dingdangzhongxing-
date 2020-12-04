@@ -88,11 +88,16 @@
             style="width: 100%"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="50"></el-table-column>
+            <el-table-column
+              type="selection"
+              align="center"
+              width="50"
+            ></el-table-column>
             <el-table-column
               label="序号"
               type="index"
               width="50"
+              align="center"
               show-overflow-tooltip
             />
             <el-table-column
@@ -112,6 +117,7 @@
             ></el-table-column>
             <el-table-column
               label="联系电话"
+              align="center"
               prop="userPhone"
               show-overflow-tooltip
             ></el-table-column>
@@ -506,9 +512,6 @@ export default {
 };
 </script>
 <style >
-.cell {
-  text-align: center;
-}
 </style>
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
@@ -589,7 +592,7 @@ export default {
   .tableBox {
     padding: 0 10px 0px 10px;
     .pageComponent {
-      margin: 180px 10px 0 0;
+      // margin: 180px 10px 0 0;
       text-align: right;
       height: 36px;
       background: #ffffff;

@@ -12,7 +12,7 @@
       </div>
       <slot name="centerKuanjia"></slot>
       <!-- 账号信息 -->
-      <div class="displayCenter mb20">
+      <div class="disRight mr20 mb20">
         <div class="quxiaoBox mr20 mb20" @click="closeBtn">
           {{ isLooker ? "返回" : "取消" }}
         </div>
@@ -140,7 +140,8 @@ export default {
     }
   }
   .quxiaoBox {
-    @include BtnFunction("error");
+    border: 1px solid rgb(209, 214, 226);
+    @include BtnFunction();
   }
   .tijiaoBox {
     @include BtnFunction("success");

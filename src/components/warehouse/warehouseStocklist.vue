@@ -30,7 +30,9 @@
               >
                 出库单
               </div>
-              <div style="position: absolute; top: 10px; right: 50px;">
+              <div
+                style="position: absolute; top: 10px; right: 10px; z-index: -1"
+              >
                 <img
                   :src="
                     'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
@@ -387,9 +389,7 @@ export default {
 .el-table th.is-leaf {
   border: 1px solid #d2d6e2;
 }
-.cell {
-  text-align: center;
-}
+
 </style>
 
 <style lang="scss" scoped>

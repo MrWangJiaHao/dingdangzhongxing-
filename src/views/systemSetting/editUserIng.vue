@@ -116,7 +116,7 @@
         </div>
       </div>
       <!-- 个人信息 -->
-      <div class="pd20">
+      <div class="mb20 centerBox">
         <div class="setTitle">账号信息</div>
         <div class="displayalign mb20">
           <div class="displayalign">
@@ -209,7 +209,7 @@
         <!-- 备注 -->
       </div>
       <!-- 账号信息 -->
-      <div class="displayCenter mb20">
+      <div class="disRight mr20 mb20">
         <div class="quxiaoBox mr20" @click="closeBtn">取消</div>
         <div class="tijiaoBox" @click="goAJAXCreate">提交</div>
       </div>
@@ -572,7 +572,8 @@ export default {
     }
   }
   .quxiaoBox {
-    @include BtnFunction("error");
+    border: 1px solid rgb(209, 214, 226);
+    @include BtnFunction();
   }
   .tijiaoBox {
     @include BtnFunction("success");

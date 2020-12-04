@@ -11,7 +11,7 @@
       <div
         v-for="(item, idx) in CenterJson"
         :key="idx"
-        style="margin: 20px; border-bottom: 1px solid #d1d6e2"
+        style="padding: 15px 20px 10px 20px; border-bottom: 1px solid #d1d6e2"
       >
         <div>
           <div v-if="item.title" class="setTitle">
@@ -63,13 +63,13 @@
               </div>
             </div>
             <div v-if="item.ruleUsers[0].titleName">
-              <div class="mt20 mb20 ml11">
+              <div class="mt20 ml11" id="dindanlaiyuan">
                 <el-checkbox-group
                   v-model="sendDataJson.laiyuanArr"
                   @change="handleCheckedlaiyuanArr"
                 >
                   <el-checkbox
-                    style="display: block"
+                    style="display: block; border-radius: 50%"
                     v-for="(city, idx) in item.ruleUsers"
                     :label="city.id"
                     :key="idx"
@@ -81,7 +81,7 @@
               <!-- 订单来源 -->
             </div>
             <div v-if="item.ruleUsers[0].jijiguizheCenter">
-              <div class="mt20 mb20 ml11">
+              <div class="mt20 ml11">
                 <el-checkbox-group
                   v-model="sendDataJson.guizheArr"
                   @change="handleCheckedguizheArr"
@@ -121,7 +121,7 @@
         </div>
       </div>
 
-      <div class="displayCenter mb20">
+      <div class="disRight mr20 mt20 mb20">
         <div class="quxiaoBox mb20 mr20" @click="closeBtn">
           {{ lookerRecord ? "返回" : "取消" }}
         </div>
@@ -312,7 +312,7 @@ export default {
       let src = e.indexOf("&nbsp;");
       e = e.replace(
         /&nbsp;/g,
-        `<input id="input" style='width:120px;' ${
+        `<input id="input" style='width:140px;' ${
           this.lookerRecord ? "disabled" : ""
         } maxlength="2" class="el-input__inner ${
           this.lookerRecord ? "is-disabled" : ""
@@ -396,6 +396,9 @@ export default {
 };
 </script>
 <style>
+#dindanlaiyuan .el-checkbox__inner {
+  border-radius: 50%;
+}
 #input {
   height: 30px;
   width: 130px;
@@ -434,7 +437,8 @@ export default {
   }
 
   .quxiaoBox {
-    @include BtnFunction("error");
+    border: 1px solid rgb(209, 214, 226);
+    @include BtnFunction();
   }
 
   .tijiaoBox {

@@ -44,7 +44,7 @@
             </div>
           </div>
         </div>
-        <div class="tr pd20">
+        <div class="tr pd20 mr10">
           <div class="inline bianjiUser mr20" @click="getParasJson">查询</div>
           <div class="inline setUser" @click="clearChaxun">清空</div>
         </div>
@@ -61,7 +61,7 @@
         <!-- but按钮 -->
       </div>
       <div class="tableBox" id="findRecord">
-        <div style="background-color: #fff; padding: 20px 20px 0 20px">
+        <div style="background-color: #fff; padding: 20px 20px 20px 20px">
           <div class="center">
             <el-table
               ref="multipleTable"
@@ -72,9 +72,12 @@
               style="width: 100%"
               @selection-change="handleSelectionChange"
             >
-              <el-table-column type="selection" width="82"></el-table-column>
+               
+              <el-table-column  align="center" type="selection" width="82"></el-table-column>
               <el-table-column
                 label="序号"
+                width="71"
+                align="center"
                 type="index"
                 show-overflow-tooltip
               />
@@ -375,9 +378,7 @@ export default {
 
 .tableBox {
   padding: 0 10px 0px 10px;
-
   .pageComponent {
-    margin: 180px 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;

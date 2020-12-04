@@ -89,7 +89,7 @@
         </div>
       </div>
       <!-- 个人信息 -->
-      <div class="pd20">
+      <div class="mb20 centerBox">
         <div class="setTitle">账号信息</div>
         <div class="displayalign mb20">
           <div class="displayalign">
@@ -178,7 +178,7 @@
         <!-- 备注 -->
       </div>
       <!-- 账号信息 -->
-      <div class="displayCenter mb20">
+      <div class="disRight mr20 mb20">
         <div class="quxiaoBox mr20" @click="closeBtn">取消</div>
         <div class="tijiaoBox" @click="goAJAXCreate">提交</div>
       </div>
@@ -303,7 +303,7 @@ export default {
         .catch((err) => err);
     },
     getUserName(e) {
-      if (!e) return  this.$messageSelf.message("请输入用户姓名");
+      if (!e) return this.$messageSelf.message("请输入用户姓名");
       this.createUserData.userName = e;
     },
     isMobilePanduan() {
@@ -314,32 +314,39 @@ export default {
     },
     getMobile() {
       let mes = isMobile(this.createUserData.userPhone);
-      if (!mes) return  this.$messageSelf.message("请输入11位正确的联系电话");
+      if (!mes) return this.$messageSelf.message("请输入11位正确的联系电话");
     },
     //点击了提交
     async goAJAXCreate() {
       let isMobiles = isMobile(this.createUserData.userPhone);
       let isEmails = isEmail(this.createUserData.userEmail);
-      if (!this.createUserData.userName) return  this.$messageSelf.message("请输入用户姓名");
-      if (!this.createUserData.userPhone) return  this.$messageSelf.message("请输入用户联系电话");
-      if (!this.createUserData.loginName) return  this.$messageSelf.message("请输入用户账号");
-      if (!this.createUserData.loginPwd) return  this.$messageSelf.message("请输入用户密码");
-      if (!this.createUserData.userType) return  this.$messageSelf.message("请输入用户角色");
-      if (!this.createUserData.userEmail) return  this.$messageSelf.message("请输入邮箱地址");
-      if (!isMobiles) return  this.$messageSelf.message("请输入11位正确的联系电话");
-      if (!isEmails) return  this.$messageSelf.message("请输入正确的邮箱");
+      if (!this.createUserData.userName)
+        return this.$messageSelf.message("请输入用户姓名");
+      if (!this.createUserData.userPhone)
+        return this.$messageSelf.message("请输入用户联系电话");
+      if (!this.createUserData.loginName)
+        return this.$messageSelf.message("请输入用户账号");
+      if (!this.createUserData.loginPwd)
+        return this.$messageSelf.message("请输入用户密码");
+      if (!this.createUserData.userType)
+        return this.$messageSelf.message("请输入用户角色");
+      if (!this.createUserData.userEmail)
+        return this.$messageSelf.message("请输入邮箱地址");
+      if (!isMobiles)
+        return this.$messageSelf.message("请输入11位正确的联系电话");
+      if (!isEmails) return this.$messageSelf.message("请输入正确的邮箱");
 
       let results = await post({
         url: "http://139.196.176.227:8801/am/v1/pUser/saveRecord",
         data: this.createUserData,
       });
       if (results.code === "10000") {
-         this.$messageSelf.message("创建成功");
+        this.$messageSelf.message("创建成功");
         this.$router.push({
           path: "/systemSetting/userSetting",
         });
       } else {
-         this.$messageSelf.message(results.msg);
+        this.$messageSelf.message(results.msg);
       }
     },
     setProvinceCode() {
@@ -347,8 +354,9 @@ export default {
       this.isXuanzhe = true;
     },
     setCityCode() {
-      if (!this.isXuanzhe) return  this.$messageSelf.message("请选择省");
-      if (!this.getProvinceData.parentCode) return  this.$messageSelf.message("请选择省");
+      if (!this.isXuanzhe) return this.$messageSelf.message("请选择省");
+      if (!this.getProvinceData.parentCode)
+        return this.$messageSelf.message("请选择省");
       let probinceData = this.fasonCodeAjax();
       probinceData.then((data) => {
         this.dropDowCity.dropDownBoxData = data;
@@ -356,7 +364,7 @@ export default {
       this.isCity = true;
     },
     setAreaCode() {
-      if (!this.isCity) return  this.$messageSelf.message("请选择市");
+      if (!this.isCity) return this.$messageSelf.message("请选择市");
       let probinceData = this.fasonCodeAjax();
       probinceData.then((data) => {
         this.dropDowDistrictCount.dropDownBoxData = data;
@@ -395,7 +403,7 @@ export default {
     },
     isEmails() {
       let mes = isEmail(this.createUserData.userEmail);
-      if (!mes) return  this.$messageSelf.message("请输入正确的邮箱");
+      if (!mes) return this.$messageSelf.message("请输入正确的邮箱");
     },
     getUserType(e) {
       //获取创建的用户类型
@@ -479,7 +487,8 @@ export default {
     }
   }
   .quxiaoBox {
-    @include BtnFunction("error");
+    border: 1px solid rgb(209, 214, 226);
+    @include BtnFunction();
   }
   .tijiaoBox {
     @include BtnFunction("success");

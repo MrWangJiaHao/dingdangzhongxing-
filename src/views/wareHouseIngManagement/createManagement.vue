@@ -63,7 +63,6 @@
                 <div class="noneIconTitle mr11">期望入库时间:</div>
                 <div class="mr20">
                   <dateTime
-         
                     :valueDataStart="createUserData.expectedSendTime"
                     :dateTimeData="datetimeDate"
                     @getDateTime="getExpectedSendTime"
@@ -76,11 +75,15 @@
         </div>
       </div>
       <!-- 个人信息 -->
-      <div class="pd20">
-        <div class="setTitle">产品明细</div>
-        <div class="mb20 tr">
-          <div class="tijiaoBox disinb mr20" @click="addChanpin">添加产品</div>
-          <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
+      <div class="centerBox mb20">
+        <div class="clearfix">
+          <div class="setTitle fl">产品明细</div>
+          <div class="mb20 fr">
+            <div class="tijiaoBox disinb mr20" @click="addChanpin">
+              添加产品
+            </div>
+            <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
+          </div>
         </div>
         <div class="mb20" id="bjTableWraper">
           <el-table
@@ -91,11 +94,16 @@
             tooltip-effect="dark"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="82"></el-table-column>
+            <el-table-column
+              align="center"
+              type="selection"
+              width="82"
+            ></el-table-column>
             <el-table-column
               label="序号"
               type="index"
               width="71"
+              align="center"
               show-overflow-tooltip
             />
             <el-table-column
@@ -207,7 +215,7 @@
       </div>
       <!-- 备注 -->
       <!-- 账号信息 -->
-      <div class="displayCenter mb20">
+      <div class="disRight mr20 mb20">
         <div class="quxiaoBox mr20 mb20" @click="closeBtn">取消</div>
         <div class="tijiaoBox mb20" @click="goAJAXCreate">提交</div>
       </div>
@@ -231,7 +239,14 @@
     </div>
   </div>
 </template>
-
+<style >
+.setUserIngBox .is-disabled {
+  background: #e1eaf5;
+}
+.centerBox {
+  border-bottom: 1px solid #d1d6e2;
+}
+</style>
 <script>
 /*eslint-disable */
 import searchBox from "../../components/commin/searchBox"; //搜索框
@@ -611,7 +626,8 @@ export default {
     }
   }
   .quxiaoBox {
-    @include BtnFunction("error");
+    border: 1px solid rgb(209, 214, 226);
+    @include BtnFunction();
   }
   .tijiaoBox {
     @include BtnFunction("success");

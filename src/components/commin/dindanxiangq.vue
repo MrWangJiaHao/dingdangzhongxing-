@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="centerBox" id="CentersBox">
+    <div class="centerBox mb20" id="CentersBox">
       <div class="setTitle">{{ title }}</div>
       <div class="gerxinxiBox">
         <div class="xinxiBitian">
@@ -100,6 +100,7 @@ export default {
 }
 .centerBox {
   padding: 30px 20px;
+  border-bottom: 1px solid #d1d6e2;
   .setTitle {
     margin-bottom: 18px;
   }

@@ -1,7 +1,12 @@
 <template>
   <div id="headerMain">
     <div class="tabContainer">
-      <img src="@/assets/img/logo.png" class="imgbox" />
+      <span class="imgbox ellipsis displayalign">
+        <img src="@/assets/img/logo.png" style="margin-right: 5px" />
+        <span style="color: #fff; font-size: 18px; line-height: 90px"
+          >仓储系统</span
+        >
+      </span>
       <div class="el-nav">
         <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
           <el-tab-pane v-for="(navIndex, idx) in dataArr" :key="idx">
@@ -51,8 +56,26 @@
         </el-tabs>
       </div>
       <div class="el-lr">
-        <div class="el-icon-arrow-left left" @click="leftMove"></div>
-        <div class="el-icon-arrow-right right" @click="rightMove"></div>
+        <div
+          class="el-icon-arrow-left left"
+          :style="{
+            opacity:
+              leftMoveClick && this.steep == this.navWidth - this.innersWidth
+                ? 0.46
+                : 1,
+          }"
+          @click="leftMove"
+        ></div>
+        <div
+          class="el-icon-arrow-right right"
+          :style="{
+            opacity:
+              rightMoveClick && this.steep == this.navWidth - this.innersWidth
+                ? 0.46
+                : 1,
+          }"
+          @click="rightMove"
+        ></div>
       </div>
     </div>
 
@@ -452,6 +475,12 @@ export default {
       activeNames: 1,
       rightLock: true,
       leftLock: true,
+      navWidth: null,
+      innersWidth: null,
+      Nums: null,
+      steep: null,
+      leftMoveClick: null,
+      rightMoveClick: null,
     };
   },
   mounted() {
@@ -464,6 +493,13 @@ export default {
       // console.log(ok);
     });
     this.activeName = sessionStorage.getItem("activeName");
+    this.$nextTick(() => {
+      let TabNavs = document.querySelector(".el-tabs__nav-scroll"); //子层
+      this.navWidth = TabNavs.offsetWidth;
+      let inners = document.querySelector(".el-tabs__nav-wrap.is-top"); //父层
+      this.innersWidth = inners.offsetWidth;
+      this.Nums = Math.ceil(this.navWidth / this.innersWidth);
+    });
   },
   created() {
     this.dropdownArr.unshift(this.dataArr[0]);
@@ -496,28 +532,27 @@ export default {
   methods: {
     leftMove() {
       a = 0;
+      this.leftMoveClick = true;
+      this.rightMoveClick = false;
       let oDiv = document.querySelector(".el-tabs__nav-scroll");
       oDiv.style.left = "0";
       oDiv.style.transition = "0.5s";
     },
     rightMove() {
+      this.leftMoveClick = false;
+      this.rightMoveClick = true;
       let oDiv = document.querySelector(".el-tabs__nav-scroll");
-      // let oDiv1 = document.querySelector(".el-tabs__nav-wrap");
       oDiv.style.transition = "0.5s";
       a++;
-      oDiv.style.left = `${-1140 * a}px`;
-      if (oDiv.offsetLeft <= -1140) {
+      if (this.Nums == a) {
+        this.steep = this.navWidth - this.navWidth * (this.Nums - 1);
         a = 0;
+      } else {
+        this.steep = this.navWidth - this.innersWidth;
       }
-      // let time = setInterval(() => {
-      //   let buchang = oDiv.offsetWidth / 50;
-      //   a += buchang;
-      //   oDiv.style.left = -a + "px";
-      //   if (oDiv.offsetLeft < -1020) {
-      //     clearInterval(time);
-      //   }
-      // }, 10);
-      // console.log(oDiv1.scrollHeight)
+      console.log(this.steep, "steep");
+      let res = this.navWidth - this.innersWidth;
+      oDiv.style.left = `${-this.steep * a}px`;
     },
     clickItemIdx(e) {
       console.log(e, "点击item");
@@ -599,10 +634,10 @@ export default {
       let json = this.dataArr[+this.activeName];
       // console.log("点击了第一级的菜单栏");
       sessionStorage.setItem("activeName", this.activeName);
-      let router =this.dataArr[+this.activeName].name
-        // this.dataArr[+this.activeName].children.length != 0
-        //   ? this.dataArr[+this.activeName].children[0].name
-        //   : this.dataArr[+this.activeName].name;
+      let router = this.dataArr[+this.activeName].name;
+      // this.dataArr[+this.activeName].children.length != 0
+      //   ? this.dataArr[+this.activeName].children[0].name
+      //   : this.dataArr[+this.activeName].name;
       this.$router.push(router);
       // console.log(router);
       //跳转路由
@@ -660,10 +695,6 @@ export default {
 .el-table th.is-leaf {
   border-right: 0.5px solid #d2d6e2;
   border-bottom: 0.5px solid #d2d6e2;
-}
-
-.cell {
-  text-align: center;
 }
 
 .el-tabs__new-tab {
@@ -817,7 +848,7 @@ export default {
 .el-lr {
   font-size: 22px;
   color: #fff;
-  display: inline-block;
+  display: flex;
   justify-content: space-around;
   div {
     cursor: pointer;

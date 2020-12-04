@@ -9,7 +9,7 @@
       </div>
 
       <div class="centerBox">
-        <div class="setTitle">
+        <div class="setTitle mb20">
           {{ !isrukuDetails ? "入库确认" : "入库详情" }}
         </div>
         <div class="gerxinxiBox">
@@ -54,12 +54,18 @@
         </div>
       </div>
       <!-- 个人信息 -->
-      <div class="pd20">
-        <div class="setTitle">产品明细</div>
-        <div v-if="!isrukuDetails" class="mb20 tr">
-          <div class="tijiaoBox disinb mr20" @click="copyChanpin">复制产品</div>
-          <div class="tijiaoBox disinb mr20" @click="addChanpin">添加产品</div>
-          <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
+      <div class="centerBox mb20">
+        <div class="clearfix">
+          <div class="setTitle fl">产品明细</div>
+          <div v-if="!isrukuDetails" class="fr mb20">
+            <div class="tijiaoBox disinb mr20" @click="copyChanpin">
+              复制产品
+            </div>
+            <div class="tijiaoBox disinb mr20" @click="addChanpin">
+              添加产品
+            </div>
+            <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
+          </div>
         </div>
         <div class="mb20" id="bjTableWraper">
           <el-table
@@ -237,7 +243,7 @@
       </div>
       <!-- 备注 -->
       <!-- 账号信息 -->
-      <div class="displayCenter mb20">
+      <div class="disRight mr20 mb20">
         <div class="quxiaoBox mb20 mr20" @click="closeBtn">
           {{ !isrukuDetails ? "取消" : "返回" }}
         </div>
@@ -676,11 +682,9 @@ export default {
     background: #fff;
     width: 1080px;
     .centerBox {
-      padding: 30px 20px;
+      padding: 30px 20px 0 20px;
     }
-    .setTitle {
-      margin-bottom: 18px;
-    }
+
     .gerxinxiBox {
       display: flex;
       flex-direction: column;
@@ -728,7 +732,8 @@ export default {
     }
   }
   .quxiaoBox {
-    @include BtnFunction("error");
+    border: 1px solid rgb(209, 214, 226);
+    @include BtnFunction();
   }
   .tijiaoBox {
     @include BtnFunction("success");

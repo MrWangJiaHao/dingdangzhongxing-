@@ -38,7 +38,7 @@
         <!-- but按钮 -->
       </div>
       <div class="tableBox">
-        <div style="background-color: #fff; padding: 20px 20px 0 20px">
+        <div style="background-color: #fff; padding: 20px 20px 20px 20px">
           <div class="center">
             <el-table
               ref="multipleTable"
@@ -49,11 +49,16 @@
               style="width: 100%"
               @selection-change="handleSelectionChange"
             >
-              <el-table-column type="selection" width="82"></el-table-column>
+              <el-table-column
+                type="selection"
+                align="center"
+                width="82"
+              ></el-table-column>
               <el-table-column
                 label="序号"
                 type="index"
                 width="71"
+                align="center"
                 show-overflow-tooltip
               />
               <el-table-column
@@ -277,7 +282,6 @@ export default {
 
 .btnArr {
   padding: 0 10px;
-
   > div {
     border-bottom: 1px solid #d1d6e2;
     padding: 16px 20px;
@@ -299,7 +303,7 @@ export default {
 .tableBox {
   padding: 0 10px 0px 10px;
   .pageComponent {
-    margin: 180px 10px 0 0;
+    // margin: 180px 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;

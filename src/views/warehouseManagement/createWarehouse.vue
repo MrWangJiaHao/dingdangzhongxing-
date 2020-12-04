@@ -8,7 +8,7 @@
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
 
-      <div class="centerBox">
+      <div class="centerBox mb20">
         <div class="setTitle">
           {{ editCreateWarehouse ? "编辑出库单" : "创建出库单" }}
         </div>
@@ -84,11 +84,15 @@
         </div>
       </div>
       <!-- 个人信息 -->
-      <div class="pd20">
-        <div class="setTitle">产品明细</div>
-        <div class="mb20 tr">
-          <div class="tijiaoBox disinb mr20" @click="addChanpin">添加产品</div>
-          <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
+      <div class="centerBox mb20">
+        <div class="clearfix">
+          <div class="setTitle fl">产品明细</div>
+          <div class="mb20 fr">
+            <div class="tijiaoBox disinb mr20" @click="addChanpin">
+              添加产品
+            </div>
+            <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
+          </div>
         </div>
         <div class="mb20">
           <el-table
@@ -198,7 +202,7 @@
       </div>
       <!-- 备注 -->
       <!-- 账号信息 -->
-      <div class="displayCenter mb20">
+      <div class="disRight mb20 m210">
         <div class="quxiaoBox mb20 mr20" @click="closeBtn">取消</div>
         <div class="tijiaoBox mb20" @click="goAJAXCreate">提交</div>
       </div>
@@ -649,7 +653,8 @@ export default {
   }
 
   .quxiaoBox {
-    @include BtnFunction("error");
+    border: 1px solid rgb(209, 214, 226);
+    @include BtnFunction();
   }
 
   .tijiaoBox {

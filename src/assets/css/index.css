@@ -106,7 +106,23 @@ textarea {
 .tc {
   text-align: center;
 }
+#app{
+  background-color: #eef1f8;
 
+}
+.p20{
+  padding: 20px;
+}
+#creReplen .el-table{
+  height: auto!important;
+  max-height: 220px!important;
+}
+#app #supplierAdmin{
+  background-color: #eef1f8;
+}
+#app .manualBox{
+  background-color: #eef1f8;
+}
 .ellipsis {
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -128,7 +144,7 @@ textarea {
     justify-content: center;
 }
 .pd30{
-  padding:0 30px ;
+  padding:0 30px;
 }
 .fon36{
   font-size: 36px;
@@ -152,10 +168,12 @@ textarea {
   margin-bottom: 11px;
 }
 .cell {
-  text-align: left;
   text-overflow: ellipsis;
 }
-
+.Colord1d6e2{
+  padding: 0 20px 30px 20px;
+  border-bottom: 1px solid #d1d6e2;
+}
 .displayalign{
   display: flex;
   align-items: center;
@@ -262,13 +280,24 @@ padding: 0;
   text-decoration: underline;
   cursor: pointer;
 }
+.mr10{
+  margin-right: 10px;
+}
+#app .el-checkbox__inner{
+  border-radius: 4px;
+}
+.disRight{
+  display: flex;
+  justify-content: flex-end;
+}
 .setTitle{
   font-size: 16px;
+  line-height: 36px;
   font-family: Microsoft YaHei;
   font-weight: bold;
   display: flex;
   align-items: center;
-  color: #454545;
+  color: #4796E3;
 }
 .setTitle::before{
   content: "";
@@ -589,4 +618,10 @@ textarea{
   border: 1px solid #D1D6E2;
   border-radius: 4px;
   color: #888888;
+}
+.el-input__inner{
+  border: 1px solid #dcdfe6!important;
+}
+.is-disabled{
+      background-color: #e1eaf5;
 }

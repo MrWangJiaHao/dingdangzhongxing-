@@ -58,6 +58,7 @@ export default {
 .searchBox {
   display: flex;
   height: 36px;
+  align-items: center;
   .titleBox {
     line-height: 36px;
     margin-right: 11px;

@@ -9,7 +9,8 @@ class messageSelf {
             message: "",
             showClose: true,
             duration: 1500,
-            offset: 400
+            offset: 400,
+            type: "info"
         }
     }
     /**

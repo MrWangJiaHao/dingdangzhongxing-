@@ -58,6 +58,7 @@ export default {
 <style lang="scss" scoped>
 .searchBox {
   display: flex;
+  align-items: center;
   height: 36px;
   .titleBox {
     line-height: 36px;

@@ -24,7 +24,7 @@
         <div class="zujianBox">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">区域类型:</div>
-            <div class="mr20 w120">
+            <div class="mr20 w140">
               <el-select
                 v-model="wareAreaTypeJson.wareAreaName"
                 placeholder="请选择区域类型"
@@ -44,7 +44,7 @@
         <div class="zujianBox">
           <div class="displayalign zujianBox">
             <div class="noneIconTitle mr11">区域名称:</div>
-            <div class="mr20 w120">
+            <div class="mr20 w140">
               <el-select
                 v-model="pagingQueryData.paras.wareAreaName"
                 slot="prepend"
@@ -115,8 +115,9 @@
                         @input="getZicankuOfSunWareHouseWareId"
                       >
                         <el-option
-                          v-for="(item,
-                          idx) in quyuzicanNameOfSubWareHouse.nameOfSubwareHouseData"
+                          v-for="(
+                            item, idx
+                          ) in quyuzicanNameOfSubWareHouse.nameOfSubwareHouseData"
                           :key="idx"
                           :label="item.childWareName"
                           :value="idx"
@@ -193,11 +194,16 @@
             style="width: 100%"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="82"></el-table-column>
+            <el-table-column
+              type="selection"
+              width="82"
+              align="center"
+            ></el-table-column>
             <el-table-column
               label="序号"
               type="index"
               width="71"
+              align="center"
               show-overflow-tooltip
             />
             <el-table-column
@@ -211,6 +217,7 @@
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
+              width="130"
               label="区域名称"
               prop="wareAreaName"
               show-overflow-tooltip
@@ -218,11 +225,13 @@
             <el-table-column
               width="119"
               label="区域长(m)"
+              align="center"
               prop="wareAreaLength"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
               label="区域宽(m)"
+              align="center"
               width="119"
               prop="wareAreaWidth"
               show-overflow-tooltip
@@ -230,17 +239,20 @@
             <el-table-column
               label="货架总排数"
               width="119"
+              align="center"
               prop="rowNum"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
               label="货架总数"
+              align="center"
               width="119"
               prop="shelfNum"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
               label="货架总库位数"
+              align="center"
               width="119"
               prop="seatNum"
               show-overflow-tooltip
@@ -249,11 +261,13 @@
               label="已用库位"
               width="119"
               prop="useSeat"
+              align="center"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
               label="未使用库位"
               width="119"
+              align="center"
               prop="noSeat"
               show-overflow-tooltip
             ></el-table-column>
@@ -268,7 +282,6 @@
             </el-table-column>
           </el-table>
         </div>
-        <!-- 表格主体 -->
         <div class="pageComponent">
           <pagecomponent
             :pageComponentsData="pageComponentsData"
@@ -276,8 +289,10 @@
             @sureSuccssBtn="sureSuccssBtn"
           />
         </div>
+        <!-- 表格主体 -->
       </div>
     </div>
+
     <!-- table表格 -->
     <div class="lineBox">
       <div class="line"></div>
@@ -302,6 +317,17 @@ export default {
   },
   computed: {
     ...mapState(["editUser", "warehouseConfig"]),
+  },
+  watch: {
+    $route(to, from) {
+      console.log(from);
+      if (
+        from.path == "/warehoseconfig/createWarehouseConfig" ||
+        from.path == "/warehoseconfig/editWarehouseConfig"
+      ) {
+        this.fasonPagIngQueryData();
+      }
+    },
   },
   data() {
     return {
@@ -738,9 +764,6 @@ export default {
 };
 </script>
 <style >
-.cell {
-  text-align: center;
-}
 </style>
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
@@ -797,7 +820,6 @@ export default {
   .tableBox {
     padding: 0 10px 0px 10px;
     .pageComponent {
-      margin: 180px 10px 0 0;
       text-align: right;
       height: 36px;
       background: #ffffff;

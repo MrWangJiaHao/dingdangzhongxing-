@@ -41,7 +41,7 @@
         <!-- but按钮 -->
       </div>
       <div class="tableBox">
-        <div style="background-color: #fff; padding: 20px 20px 0 20px">
+        <div style="background-color: #fff; padding: 20px 20px 20px 20px">
           <div class="center">
             <el-table
               ref="multipleTable"
@@ -52,9 +52,11 @@
               style="width: 100%"
               @selection-change="handleSelectionChange"
             >
-              <el-table-column type="selection" width="82"> </el-table-column>
+              <el-table-column type="selection" align="center" width="82">
+              </el-table-column>
               <el-table-column
                 label="序号"
+                align="center"
                 type="index"
                 width="71"
                 show-overflow-tooltip
@@ -65,7 +67,11 @@
                 prop="orgName"
                 show-overflow-tooltip
               />
-              <el-table-column label="出库单号" show-overflow-tooltip>
+              <el-table-column
+                label="出库单号"
+                width="250"
+                show-overflow-tooltip
+              >
                 <span slot-scope="scoped">
                   <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
                     {{ scoped.row.outWareNo }}
@@ -97,8 +103,8 @@
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
+                width="150"
                 label="出库人"
-                width="110"
                 prop="outWareUser"
               ></el-table-column>
               <el-table-column
@@ -514,7 +520,7 @@ export default {
   padding: 0 10px 0px 10px;
 
   .pageComponent {
-    margin: 180px 10px 0 0;
+    // margin: 180px 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;

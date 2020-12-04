@@ -291,7 +291,7 @@ export default {
     },
     _changeDatas(res) {
       let { list } = res;
-      console.log(list);
+      // console.log(list);
       this.wieTuoGonShiJson.dropDownBoxData = list;
       this.specNameJson.dropDownBoxData = list;
       this.disposeStatusJson.dropDownBoxData = list;

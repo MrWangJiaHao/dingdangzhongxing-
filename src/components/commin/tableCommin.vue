@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table
-      style="height: 220px; overflow-y: auto"
+      style="overflow-y: auto"
       :data="tableDataJson.tabledata"
       ref="multipleTable"
       tooltip-effect="dark"
@@ -15,11 +15,13 @@
           v-if="tableItem.types == 'selection'"
           :key="tableIdx"
           type="selection"
+          :align="tableItem.align || 'center'"
           :label="tableItem.label"
         />
         <el-table-column
           v-else-if="tableItem.types == 'index'"
           :key="tableIdx"
+          :align="tableItem.align || 'center'"
           type="index"
           :label="tableItem.label"
           :width="tableItem.width"

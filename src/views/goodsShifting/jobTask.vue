@@ -30,7 +30,7 @@
         <!-- but按钮 -->
       </div>
       <div class="tableBox">
-        <div style="background-color: #fff; padding: 20px 20px 0 20px">
+        <div style="background-color: #fff; padding: 20px 20px 20px 20px">
           <div v-if="!daibuhuochanping" class="center">
             <el-table
               ref="multipleTable"
@@ -41,10 +41,15 @@
               style="width: 100%"
               @selection-change="handleSelectionChange"
             >
-              <el-table-column type="selection" width="82"></el-table-column>
+              <el-table-column
+                type="selection"
+                align="center"
+                width="82"
+              ></el-table-column>
               <el-table-column
                 label="序号"
                 type="index"
+                align="center"
                 width="71"
                 show-overflow-tooltip
               />
@@ -146,8 +151,8 @@
           <!-- 表格主体 -->
           <div v-else class="center">
             <tableCommin :tableDataJson="tableDataJson" />
+            <!-- 待补货产品 -->
           </div>
-          <!-- 待补货产品 -->
           <div class="pageComponent">
             <pagecomponent
               :pageComponentsData="pageComponentsData"
@@ -433,7 +438,8 @@ export default {
         },
       ];
       this.replenishmentNoteJson.queryArr = json;
-      this.replenishmentNoteJson.title = this.multipleSelection[0].replenishOrderNo;
+      this.replenishmentNoteJson.title =
+        "补货单" + this.multipleSelection[0].replenishOrderNo;
       this.replenishmentNoteJson.replenishOrderNo = this.multipleSelection[0].replenishOrderNo;
       this._getdetailsChanPin(this.multipleSelection[0]);
       this.isReplenishmentNote = true;
@@ -540,7 +546,7 @@ export default {
   padding: 0 10px 0px 10px;
 
   .pageComponent {
-    margin: 180px 10px 0 0;
+    // margin: 180px 10px 0 0;
     text-align: right;
     height: 36px;
     background: #ffffff;

@@ -8,7 +8,7 @@
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
 
-      <div class="centerBox">
+      <div class="centerBox mb20">
         <div class="setTitle">{{ !isDetails ? "出库确认" : "出库单详情" }}</div>
         <div class="gerxinxiBox">
           <div class="xinxiBitian">
@@ -69,22 +69,24 @@
         </div>
       </div>
       <!-- 个人信息 -->
-      <div id="bjTableWraper " class="pd20">
-        <div class="setTitle">产品明细</div>
-        <div class="mb20 tr">
-          <div
-            class="tijiaoBox disinb mr20"
-            v-if="!isDetails"
-            @click="copyChanpin"
-          >
-            复制产品
-          </div>
-          <div
-            class="quxiaoBox disinb"
-            v-if="!isDetails"
-            @click="goClearRemove"
-          >
-            删除
+      <div id="bjTableWraper " class="centerBox mb20">
+        <div class="clearfix">
+          <div class="setTitle fl">产品明细</div>
+          <div class="mb20 fr">
+            <div
+              class="tijiaoBox disinb mr20"
+              v-if="!isDetails"
+              @click="copyChanpin"
+            >
+              复制产品
+            </div>
+            <div
+              class="quxiaoBox disinb"
+              v-if="!isDetails"
+              @click="goClearRemove"
+            >
+              删除
+            </div>
           </div>
         </div>
         <div class="mb20">
@@ -218,7 +220,7 @@
         </div>
       </div>
       <!-- 账号信息 -->
-      <div class="displayCenter mb20">
+      <div class="disRight mb20 mr20">
         <div class="quxiaoBox mb20 mr20" @click="closeBtn">
           {{ !isDetails ? "取消" : "返回" }}
         </div>
@@ -805,7 +807,8 @@ export default {
     }
   }
   .quxiaoBox {
-    @include BtnFunction("error");
+    border: 1px solid rgb(209, 214, 226);
+    @include BtnFunction();
   }
   .tijiaoBox {
     @include BtnFunction("success");
