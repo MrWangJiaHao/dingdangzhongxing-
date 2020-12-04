@@ -532,7 +532,6 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { Message } from "element-ui";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import { findBackOrderPage, findReturnOrderPage } from "../../api/api";
 import { getCookie } from "../../utils/validate";
@@ -712,7 +711,7 @@ export default {
             v.returnType = this.returnType(v.returnType);
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -732,7 +731,7 @@ export default {
             v.returnType = this.returnType(v.returnType);
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -845,7 +844,7 @@ export default {
               v.returnType = this.returnType(v.returnType);
             });
           } else {
-            Message({
+            this.$messageSelf.message({
               message: "查询失败",
               type: "error",
             });
@@ -862,7 +861,7 @@ export default {
               v.returnType = this.returnType(v.returnType);
             });
           } else {
-            Message({
+            this.$messageSelf.message({
               message: "查询失败",
               type: "error",
             });
@@ -889,9 +888,9 @@ export default {
     chukuEduce() {
       //已出库导出表格
       // if (!this.outMultipleSelection.length)
-      //   return Message("请选择要导出的订单");
+      //   return this.$messageSelf.message("请选择要导出的订单");
       // if (this.outMultipleSelection.length !== 1)
-      //   return Message("一次只能选择一个订单");
+      //   return this.$messageSelf.message("一次只能选择一个订单");
       let oA = document.querySelector(".outEduce");
       oA.setAttribute(
         "href",
@@ -901,9 +900,9 @@ export default {
     weichuEduce() {
       //未出库导出按钮
       // if (!this.unOutMultipleSelection.length)
-      //   return Message("请选择要导出的订单");
+      //   return this.$messageSelf.message("请选择要导出的订单");
       // if (this.unOutMultipleSelection.length !== 1)
-      //   return Message("一次只能选择一个订单");
+      //   return this.$messageSelf.message("一次只能选择一个订单");
       let oA = document.querySelector(".unOutEduce");
       oA.setAttribute(
         "href",
@@ -913,7 +912,7 @@ export default {
     yichukuSure() {
       //已出库完成按钮
       if (!this.outMultipleSelection.length)
-        return Message("请选择要强制完成的订单");
+        return this.$messageSelf.message("请选择要强制完成的订单");
       this.$messageSelf
         .confirms(
           `共选择${this.outMultipleSelection.length}个退货订单，确认强制完成吗？`,
@@ -921,16 +920,16 @@ export default {
           { type: "warning" }
         )
         .then(() => {
-          Message("该功能暂时没有");
+          this.$messageSelf.message("该功能暂时没有");
         })
         .catch(() => {
-          Message("已取消");
+          this.$messageSelf.message("已取消");
         });
     },
     weichukuSure() {
       //未出库完成按钮
       if (!this.unOutMultipleSelection.length)
-        return Message("请选择要强制完成的订单");
+        return this.$messageSelf.message("请选择要强制完成的订单");
       this.$messageSelf
         .confirms(
           `共选择${this.unOutMultipleSelection.length}个退货订单，确认强制完成吗？`,
@@ -938,18 +937,18 @@ export default {
           { type: "warning" }
         )
         .then(() => {
-          Message("该功能暂时没有");
+          this.$messageSelf.message("该功能暂时没有");
         })
         .catch(() => {
-          Message("已取消");
+          this.$messageSelf.message("已取消");
         });
     },
     affirmResales() {
       //确认退货
       if (!this.outMultipleSelection.length)
-        return Message("请选择要确认退货的订单");
+        return this.$messageSelf.message("请选择要确认退货的订单");
       if (this.outMultipleSelection.length !== 1)
-        return Message("一次只能选择一个订单");
+        return this.$messageSelf.message("一次只能选择一个订单");
       this.$router.push({
         path: "/indentManagement/resalesOrderInfor",
         query: {
@@ -1172,6 +1171,7 @@ export default {
 }
 .formBox {
   margin: 4px 0;
+  position: relative;
   .formHeader {
     display: flex;
     justify-content: space-between;
@@ -1226,14 +1226,19 @@ export default {
 #resalesMianPage {
   .el-tabs__item.is-active {
     @include BtnFunction("success");
+    border: none;
   }
   .el-tabs__item {
     @include BtnFunction("");
     background: white;
     margin-right: 10px;
+    border: 1px solid #d1d6e2;
   }
   .el-tabs--card > .el-tabs__header {
     border: none;
+    position: absolute;
+    left: 136px;
+    top: 26px;
   }
   .el-tabs__header {
     margin: 0;

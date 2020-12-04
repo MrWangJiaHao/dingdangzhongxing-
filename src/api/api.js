@@ -967,6 +967,36 @@ export function pointBorrowOrder(data) {
     })
 }
 
+
+//统计=>补货统计（分页查询）
+export function findRepStatistics(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/repStatistics/findRepStatistics",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//统计=>拣货错误明细（分页查询）
+export function findPickOrderMistakeStatistics(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/menStatistics/findPickOrderMistakeStatistics",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
 /**
  * 
  * @param {*}  获取查询仓库下的委托公司

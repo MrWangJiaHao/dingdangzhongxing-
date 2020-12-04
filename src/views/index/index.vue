@@ -224,22 +224,22 @@ export default {
     detailInfor(i) {
       switch (i) {
         case 0:
-           Message("该模块还在开发中");
+          Message("该模块还在开发中");
           break;
         case 1:
-           Message("该模块还在开发中");
+          Message("该模块还在开发中");
           break;
         case 2:
-           Message("该模块还在开发中");
+          Message("该模块还在开发中");
           break;
         case 3:
-           Message("该模块还在开发中");
+          Message("该模块还在开发中");
           break;
         case 4:
-           Message("该模块还在开发中");
+          Message("该模块还在开发中");
           break;
         case 5:
-           Message("该模块还在开发中");
+          Message("该模块还在开发中");
           break;
       }
     },
@@ -337,6 +337,13 @@ export default {
           width: 117px;
           height: 89px;
           margin: 26px auto 10px;
+          position: relative;
+          img {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+          }
         }
         .area-number {
           font-size: 42px;

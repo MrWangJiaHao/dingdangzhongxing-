@@ -822,6 +822,7 @@ export default {
   }
 }
 .formBox {
+  position: relative;
   .formHeader {
     display: flex;
     justify-content: space-between;
@@ -888,11 +889,19 @@ export default {
 #stockoutMianPage {
   .el-tabs__item.is-active {
     @include BtnFunction("success");
+     border: none;
   }
   .el-tabs__item {
     @include BtnFunction("");
     background: white;
     margin-right: 10px;
+    border: 1px solid #d1d6e2;
+  }
+  .el-tabs--card > .el-tabs__header {
+    border: none;
+    position: absolute;
+    left: 156px;
+    top: 26px;
   }
 }
 </style>
