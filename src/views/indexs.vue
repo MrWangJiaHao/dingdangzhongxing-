@@ -415,7 +415,36 @@ export default {
         {
           title: "统计",
           iconCls: require("@/assets/svg/tonjiwenming.svg"),
-          children: [],
+          children: [
+            {
+              title: "发货统计",
+              name: "/statistics/shipmentStatistics",
+            },
+            {
+              title: "补货统计",
+              name: "/statistics/replenishSatistics",
+            },
+            {
+              title: "人工统计",
+              name: "/statistics/labourStatistics",
+            },
+            {
+              title: "拣货错误统计",
+              name: "/statistics/pickErrorStatistics",
+            },
+            {
+              title: "快递揽货量统计",
+              name: "/statistics/expressPickStatistics",
+            },
+            {
+              title: "物流费用明细",
+              name: "/statistics/logisticsFreesDetail",
+            },
+            {
+              title: "物流费用统计",
+              name: "/statistics/logisticsFreesStatistics",
+            },
+          ],
         },
         {
           title: "系统管理",
@@ -433,7 +462,7 @@ export default {
           ],
         },
       ],
-      activeName: 1,
+      activeName: 0,
       activeTabsName: "0",
       dropdownArr: [],
       mianbaoxieArr: [],
@@ -590,10 +619,10 @@ export default {
       let json = this.dataArr[+this.activeName];
       // console.log("点击了第一级的菜单栏");
       sessionStorage.setItem("activeName", this.activeName);
-      let router =this.dataArr[+this.activeName].name
-        // this.dataArr[+this.activeName].children.length != 0
-        //   ? this.dataArr[+this.activeName].children[0].name
-        //   : this.dataArr[+this.activeName].name;
+      let router = this.dataArr[+this.activeName].name;
+      // this.dataArr[+this.activeName].children.length != 0
+      //   ? this.dataArr[+this.activeName].children[0].name
+      //   : this.dataArr[+this.activeName].name;
       this.$router.push(router);
       // console.log(router);
       //跳转路由

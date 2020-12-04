@@ -187,7 +187,7 @@
                   <div class="icon-title-icon">
                     <img src="../../assets/img/systemTitlemesa.png" />
                   </div>
-                  <div class="icon-title-title">库位管理</div>
+                  <div class="icon-title-title">查询结果</div>
                 </div>
                 <div class="someBtn">
                   <div class="setUser" @click="create">创建</div>
@@ -299,7 +299,7 @@
                   <div class="icon-title-icon">
                     <img src="../../assets/img/systemTitlemesa.png" />
                   </div>
-                  <div class="icon-title-title">库位管理</div>
+                  <div class="icon-title-title">查询结果</div>
                 </div>
                 <div class="someBtn">
                   <div class="setUser" @click="create">创建</div>
@@ -902,6 +902,7 @@ export default {
   background: #eef1f8;
   height: 100%;
   .formBox {
+    position: relative;
     .childWarehouseForm {
       margin: 16px 0 0 0;
       background: white;
@@ -1022,11 +1023,6 @@ export default {
       }
     }
   }
-  .pageComponent {
-    text-align: right;
-    height: 36px;
-    background: #ffffff;
-  }
 }
 </style>
 
@@ -1035,14 +1031,19 @@ export default {
 #storageLocalMap {
   .el-tabs__item.is-active {
     @include BtnFunction("success");
+    border: none;
   }
   .el-tabs__item {
     @include BtnFunction("");
     background: white;
     margin-right: 10px;
+    border: 1px solid #d1d6e2;
   }
   .el-tabs--card > .el-tabs__header {
     border: none;
+    position: absolute;
+    left: 126px;
+    top: 32px;
   }
   .el-tabs__header {
     margin: 0;
