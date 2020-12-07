@@ -191,7 +191,8 @@
             tooltip-effect="dark"
             @cell-click="lookDetailEvent"
           >
-            <el-table-column type="selection" width="55"> </el-table-column>
+            <el-table-column type="selection" width="55" align="center">
+            </el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -207,16 +208,30 @@
               prop="orderSourceName"
               label="订单来源"
               align="center"
+              width="150"
+              min-width="150"
             >
             </el-table-column>
-            <el-table-column prop="orderNo" label="订单号" align="center">
+            <el-table-column
+              prop="orderNo"
+              label="订单号"
+              align="center"
+              width="190"
+              min-width="190"
+            >
               <template slot-scope="scope">
                 <div class="lookDeatil">
                   {{ scope.row.orderNo }}
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="subOrderNo" label="子订单号" align="center">
+            <el-table-column
+              prop="subOrderNo"
+              label="子订单号"
+              align="center"
+              width="190"
+              min-width="190"
+            >
               <template slot-scope="scope">
                 <div class="lookDeatil">
                   {{ scope.row.subOrderNo }}
@@ -227,6 +242,8 @@
               prop="subOrderStatus"
               label="子订单状态"
               align="center"
+              width="100"
+              min-width="100"
             >
               <template slot-scope="scope">
                 <div class="lookDeatil">
@@ -242,52 +259,76 @@
             </el-table-column>
             <el-table-column prop="exprName" label="物流公司" align="center">
             </el-table-column>
-            <el-table-column prop="exprNo" label="物流单号" align="center">
+            <el-table-column
+              prop="exprNo"
+              label="物流单号"
+              align="center"
+              width="150"
+              min-width="150"
+            >
             </el-table-column>
             <el-table-column
               prop="wareExprFeeCode"
               label="仓库运费模板编号"
               align="center"
+              width="160"
+              min-width="160"
             ></el-table-column>
             <el-table-column
               prop="wareExprFeeName"
               label="仓库运费模板名称"
               align="center"
+              width="160"
+              min-width="160"
             ></el-table-column>
             <el-table-column
               prop="orgExprFeeCode"
               label="委托公司运费模板编号"
               align="center"
+              width="170"
+              min-width="170"
             ></el-table-column>
             <el-table-column
               prop="orgExprFeeName"
               label="委托公司运费模板名称"
               align="center"
+              width="170"
+              min-width="170"
             ></el-table-column>
             <el-table-column
               prop="exprFee"
               label="预估运费（元）"
               align="center"
+              width="120"
+              min-width="120"
             ></el-table-column>
             <el-table-column
               prop="pushTime"
               label="下发时间"
               align="center"
+              width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="mergeStartTime"
               label="集计开始时间"
               align="center"
+              width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="mergeEndTime"
               label="集计完成时间"
               align="center"
+              width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="printTime"
               label="打印时间"
               align="center"
+              width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="printUser"
@@ -298,11 +339,15 @@
               prop="pickStartTime"
               label="拣货开始时间"
               align="center"
+              width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="pickEndTime"
               label="拣货完成时间"
               align="center"
+              width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="pickUser"
@@ -313,11 +358,15 @@
               prop="reCheckStartTime"
               label="复核开始时间"
               align="center"
+              width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="reCheckEndTime"
               label="复核完成时间"
               align="center"
+              width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="reCheckUser"
@@ -325,6 +374,7 @@
               align="center"
             ></el-table-column>
             <el-table-column
+              show-overflow-tooltip
               prop="reCheckImageData"
               label="复核照片"
               align="center"

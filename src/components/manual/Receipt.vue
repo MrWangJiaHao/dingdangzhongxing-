@@ -322,11 +322,11 @@ export default {
 };
 </script>
 <style >
-.has-gutter .el-table td,
+.setUserIngBox .has-gutter .el-table td,
 .el-table th.is-leaf {
   background: #e1eaf5;
 }
-.el-table td,
+.setUserIngBox .el-table td,
 .el-table th.is-leaf {
   border: 1px solid #d2d6e2;
 }

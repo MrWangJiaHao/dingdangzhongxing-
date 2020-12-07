@@ -95,6 +95,8 @@
           ></el-input>
         </div>
       </div>
+    </div>
+    <div class="footerBtnBox">
       <div class="backBtnBox">
         <div class="backBtn" @click="back">返回</div>
         <div class="submitBtn" @click="submit">提交</div>
@@ -291,9 +293,9 @@ export default {
 @import "../../assets/scss/btn.scss";
 
 #createBreakage {
-  background: #eef1f8;
-  padding: 20px 10px;
   .main {
+    padding: 20px 10px;
+
     .headerBox {
       margin-bottom: 20px;
       .headerBox-title {

@@ -177,7 +177,8 @@
             tooltip-effect="dark"
             @cell-click="lookDetailEvent"
           >
-            <el-table-column type="selection" width="55"> </el-table-column>
+            <el-table-column type="selection" width="55" align="center">
+            </el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -220,6 +221,8 @@
               prop="pushTime"
               label="下发时间"
               align="center"
+              width="180"
+              min-width="180"
             ></el-table-column>
           </el-table>
           <div class="pageComponent">

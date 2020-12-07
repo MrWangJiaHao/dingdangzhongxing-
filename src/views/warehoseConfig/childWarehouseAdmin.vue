@@ -23,7 +23,7 @@
           </div>
           <div class="typeBox">
             <div class="roleName-text">子仓类型：</div>
-            <div class="roleName-checkBox" style="width:120px">
+            <div class="roleName-checkBox" style="width: 120px">
               <el-select
                 v-model="typeValue"
                 placeholder="请选择子仓类型"
@@ -68,7 +68,8 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55"> </el-table-column>
+            <el-table-column type="selection" width="55" align="center">
+            </el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -80,6 +81,8 @@
               prop="childWareName"
               label="子仓名称"
               align="center"
+              width="110"
+              min-width="110"
             >
             </el-table-column>
             <el-table-column
@@ -127,19 +130,21 @@
               prop="areaNum"
               label="是否划分区域"
               align="center"
-              width="150"
+              width="110"
             ></el-table-column>
             <el-table-column
               prop="size"
               label="已使用面积(㎡)"
               align="center"
-              width="110"
+              width="120"
+              min-width="120"
             ></el-table-column>
             <el-table-column
               prop="unUsedArea"
               label="未使用面积(㎡)"
               align="center"
-              width="110"
+              width="120"
+              min-width="120"
             ></el-table-column>
             <el-table-column
               prop="remark"
@@ -155,6 +160,8 @@
               prop="createTime"
               label="创建时间"
               align="center"
+              width="180"
+              min-width="180"
             ></el-table-column>
           </el-table>
           <div class="pageComponent">
@@ -494,6 +501,5 @@ export default {
   .resultForm {
     padding: 16px;
   }
-  
 }
 </style>

@@ -152,7 +152,8 @@
             empty-text="加载中请稍等"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55"> </el-table-column>
+            <el-table-column type="selection" width="55" align="center">
+            </el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -210,14 +211,13 @@
             ></el-table-column>
           </el-table>
           <div class="pageComponent">
-          <pagecomponent
-            :pageComponentsData="pageComponentsData"
-            @getPageNum="getPageNum"
-            @sureSuccssBtn="sureSuccssBtn"
-          ></pagecomponent>
+            <pagecomponent
+              :pageComponentsData="pageComponentsData"
+              @getPageNum="getPageNum"
+              @sureSuccssBtn="sureSuccssBtn"
+            ></pagecomponent>
+          </div>
         </div>
-        </div>
-        
       </div>
     </div>
 
@@ -867,7 +867,6 @@ export default {
 
       // let res = this.multipleSelection[0];
       // this.dialogBelongCompany=res.orgName
-
     },
 
     delChildWarehouse() {

@@ -192,7 +192,7 @@
             tooltip-effect="dark"
             @cell-click="lookDetailEvent"
           >
-            <el-table-column type="selection" width="55"> </el-table-column>
+            <el-table-column type="selection" width="55" align="center"> </el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -208,16 +208,20 @@
               prop="orderSourceName"
               label="订单来源"
               align="center"
+              width="150"
+              min-width="150"
             >
             </el-table-column>
-            <el-table-column prop="orderNo" label="订单号" align="center">
+            <el-table-column prop="orderNo" label="订单号" align="center" width="190"
+              min-width="190">
               <template slot-scope="scope">
                 <div class="lookDeatil">
                   {{ scope.row.orderNo }}
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="subOrderNo" label="子订单号" align="center">
+            <el-table-column prop="subOrderNo" label="子订单号" align="center" width="190"
+              min-width="190">
               <template slot-scope="scope">
                 <div class="lookDeatil">
                   {{ scope.row.subOrderNo }}
@@ -228,6 +232,8 @@
               prop="subOrderStatus"
               label="子订单状态"
               align="center"
+               width="100"
+              min-width="100"
             >
               <template slot-scope="scope">
                 <div class="lookDeatil">
@@ -245,22 +251,26 @@
             <el-table-column
               prop="pushTime"
               label="下发时间"
-              align="center"
+              align="center" width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="mergeStartTime"
               label="集计开始时间"
-              align="center"
+              align="center" width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="mergeEndTime"
               label="集计完成时间"
-              align="center"
+              align="center" width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="printTime"
               label="打印时间"
-              align="center"
+              align="center" width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="printUser"
@@ -270,12 +280,14 @@
             <el-table-column
               prop="pickStartTime"
               label="拣货开始时间"
-              align="center"
+              align="center" width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="pickEndTime"
               label="拣货完成时间"
-              align="center"
+              align="center" width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="pickUser"
@@ -285,12 +297,14 @@
             <el-table-column
               prop="reCheckStartTime"
               label="复核开始时间"
-              align="center"
+              align="center" width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="reCheckEndTime"
               label="复核完成时间"
-              align="center"
+              align="center" width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop="reCheckUser"
@@ -314,7 +328,8 @@
             <el-table-column
               prop=""
               label="取货时间"
-              align="center"
+              align="center" width="180"
+              min-width="180"
             ></el-table-column>
             <el-table-column
               prop=""

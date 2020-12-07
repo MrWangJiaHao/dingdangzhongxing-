@@ -715,16 +715,6 @@ export default {
   transform: translate(-50%);
 }
 
-.has-gutter .el-table td,
-.el-table th.is-leaf {
-  background: #eef1f8;
-}
-
-.el-table td,
-.el-table th.is-leaf {
-  border-right: 0.5px solid #d2d6e2;
-  border-bottom: 0.5px solid #d2d6e2;
-}
 
 .el-tabs__new-tab {
   display: none;

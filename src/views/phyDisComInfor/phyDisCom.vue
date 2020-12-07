@@ -73,13 +73,13 @@
               align="center"
             ></el-table-column>
           </el-table>
-        </div>
-        <div class="pageComponent" v-if="this.tableData.length >= 10">
-          <pagecomponent
-            :pageComponentsData="pageComponentsData"
-            @getPageNum="getPageNum"
-            @sureSuccssBtn="sureSuccssBtn"
-          ></pagecomponent>
+          <div class="pageComponent">
+            <pagecomponent
+              :pageComponentsData="pageComponentsData"
+              @getPageNum="getPageNum"
+              @sureSuccssBtn="sureSuccssBtn"
+            ></pagecomponent>
+          </div>
         </div>
       </div>
     </div>
@@ -114,6 +114,7 @@ export default {
         pageNums: 0, //一共多少条 //默认一页10条
       },
       id: "",
+      queryBrandFun: () => {},
     };
   },
   mounted() {
@@ -122,6 +123,7 @@ export default {
       queryPhyDisCom(pagingQueryData).then((ok) => {
         //   console.log(ok)
         if (ok.data.code === "10000") {
+          this.tableData = [];
           this.changeData(ok.data.result);
           this.tableData = ok.data.result.list;
           this.tableData1 = ok.data.result.list;
@@ -183,6 +185,7 @@ export default {
     },
     sureSuccssBtn(e) {
       this.pagingQueryData.pageNumber = e;
+      this.queryBrandFun();
     },
     changeData(data) {
       this.changePageData(data); //用来改变分页器的条数
@@ -199,21 +202,19 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/scss/btn.scss";
 #supplierAdmin {
-  background: #e6e7ea;
-  padding: 16px;
+  background: #eef1f8;
+  padding: 20px 10px;
 }
 .roleName-choose {
   display: flex;
   justify-content: space-between;
+  padding: 0 16px;
   .name_type {
     display: flex;
     .nameBox {
       display: flex;
       align-items: center;
       margin: 0 50px 0 0;
-      .roleName-text {
-        font-size: 16px;
-      }
       .roleName {
         // width: 100%;
         height: 76px;
@@ -228,7 +229,6 @@ export default {
           align-items: center;
           .roleName-text {
             margin: 0 10px 0 30px;
-            font-size: 16px;
           }
         }
       }
@@ -244,7 +244,7 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 30px 0 10px;
+      margin: 0 0 0 10px;
     }
   }
 }
@@ -268,19 +268,12 @@ export default {
       }
       .icon-title-title {
         margin: 0 0 0 8px;
-        font-size: 16px;
         line-height: 50px;
       }
     }
   }
   .resultForm {
-    padding: 20px;
-  }
-  .pageComponent {
-    margin: 20px 10px 0 0;
-    text-align: right;
-    height: 36px;
-    background: #ffffff;
+    padding: 16px;
   }
 }
 </style>

@@ -31,7 +31,7 @@
         </div>
         <div class="el-inputBox">
           <div class="el-inputBox-text">报损类型：</div>
-          <div class="el-inputBox-checkBox" style="width: 120px">
+          <div class="el-inputBox-checkBox" style="width: 150px">
             <el-select
               v-model="breakageType"
               placeholder="请选择报损类型"
@@ -50,7 +50,7 @@
         </div>
         <div class="el-inputBox">
           <div class="el-inputBox-text">报损状态：</div>
-          <div class="el-inputBox-checkBox" style="width: 120px">
+          <div class="el-inputBox-checkBox" style="width: 150px">
             <el-select
               v-model="breakageState"
               placeholder="请选择报损状态"
@@ -143,7 +143,7 @@
           tooltip-effect="dark"
           @cell-click="lookDetailEvent"
         >
-          <el-table-column type="selection" width="55"> </el-table-column>
+          <el-table-column type="selection" width="55" align="center"> </el-table-column>
           <el-table-column label="序号" align="center" type="index" width="60">
           </el-table-column>
           <el-table-column prop="orgName" label="委托公司" align="center">
@@ -166,7 +166,8 @@
           </el-table-column>
           <el-table-column prop="createUser" label="创建人" align="center">
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间" align="center">
+          <el-table-column prop="createTime" label="创建时间" align="center" width="180"
+            min-width="180">
           </el-table-column>
           <el-table-column prop="verifyUserName" label="审核人" align="center">
           </el-table-column>
@@ -174,6 +175,8 @@
             prop="verifyTime"
             label="审核时间"
             align="center"
+            width="180"
+            min-width="180"
           ></el-table-column>
         </el-table>
         <div class="pageComponent">
@@ -796,7 +799,7 @@ export default {
         width: 10px;
         height: 2px;
         background: #d1d6e2;
-        margin: 0 2.5%;
+        margin: 0 10px;
       }
     }
   }
