@@ -2,7 +2,7 @@
   <div class="setUserIngBox">
     <div
       class="setUserIngBoxCenter"
-      :style="{ width: width || '1000px', top: top || ' 144px' }"
+      :style="{ maxWidth: width || '1000px', top: top || ' 144px' }"
     >
       <div class="headerBox">
         <div class="closeTitle">

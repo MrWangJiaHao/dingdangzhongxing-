@@ -399,22 +399,14 @@ export default {
     background: rgb(236, 241, 247);
     border-bottom: 1px solid #d1d6e2;
   }
-  .addChanpinClass {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 980px;
-    z-index: 44;
-    background: #f8f8f8;
-    transform: translate(-50%, -50%);
-  }
+
   .setUserIngBoxCenter {
     position: relative;
     left: 50%;
     top: 144px;
     transform: translateX(-50%);
     background: #fff;
-    width: 1000px;
+    max-width: 1000px;
     .centerBox {
       padding: 30px 20px;
     }

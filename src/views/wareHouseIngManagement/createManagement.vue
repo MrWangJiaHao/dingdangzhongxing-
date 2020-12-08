@@ -562,7 +562,8 @@ export default {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 980px;
+    max-width: 980px;
+    overflow: auto;
     z-index: 44;
     background: #f8f8f8;
     transform: translate(-50%, -50%);
@@ -573,7 +574,8 @@ export default {
     top: 144px;
     transform: translateX(-50%);
     background: #fff;
-    width: 1000px;
+    max-width: 1000px;
+    overflow: auto;
     .centerBox {
       padding: 30px 20px;
     }

@@ -242,8 +242,19 @@ export default {
     if (this.tabledatasArr.length != 0) {
       this.chanpinminxiJson.tableDataJsonAndArr.tabledata = this.tabledatasArr;
     }
+    this._isTableMes();
   },
   methods: {
+    _isTableMes() {
+      if (this.isLooker) {
+        let json = {
+          titles: "委托公司",
+          centers: (() => this.BuHuoSureJson.orgName || "--")(),
+          play: (() => this.isLooker)(),
+        };
+        this.detailsArr.unshift(json);
+      }
+    },
     closeBtn() {
       this.$emit("closeBtnSure", false);
     },
