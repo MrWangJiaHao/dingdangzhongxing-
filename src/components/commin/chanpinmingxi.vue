@@ -1,5 +1,5 @@
 <template>
-  <div class="Colord1d6e2">
+  <div class="Colord1d6e2 mt20">
     <div class="clearfix">
       <div class="setTitle fl mb16">{{ chanpinminxiJson.title }}</div>
       <div class="tr fr mb16">

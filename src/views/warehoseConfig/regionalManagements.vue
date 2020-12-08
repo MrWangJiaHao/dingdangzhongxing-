@@ -308,7 +308,7 @@ import { post, logins } from "../../api/api";
 import { mapState } from "vuex";
 import quyuLooker from "../../components/quyuLooker";
 import kuwieLooker from "../../components/kuwieLooker";
-import { ajaxPost, getCookie } from "../../utils/validate";
+import { ajaxPost, getCookie, _addArrPush } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -432,11 +432,13 @@ export default {
       flag: true,
     };
   },
-  async created() {
-    this.fasonPagIngQueryData();
+  created() {
     setTimeout(() => {
       this.dropDowBox.dropDownBoxData = this.warehouseConfig;
     }, 0);
+  },
+  mounted() {
+    this.fasonPagIngQueryData();
   },
   methods: {
     //获取子仓名称
@@ -675,11 +677,21 @@ export default {
       // console.log(list, "表格的数据");
       this.tableData = list;
       list.forEach((item, idx) => {
-        this.tableData[idx].wareAreaType =
-          item.wareAreaType == 1 ? "存储区" : "拣货区";
+        this.tableData[idx].wareAreaType = item.wareAreaType
+          ? item.wareAreaType == 1
+            ? "存储区"
+            : "拣货区"
+          : "———";
+
         this.tableData[idx].address =
           item.provinceName + item.cityName + item.areaName + item.userAddr;
+        this.tableData[idx].address === "NaN"
+          ? this.tableData[idx].address
+          : "———";
         this.tableData[idx].noSeat = item.seatNum - item.useSeat;
+        this.tableData[idx].noSeat === "NaN"
+          ? this.tableData[idx].noSeat
+          : "———";
       });
     },
     //用来改变分页器的条数

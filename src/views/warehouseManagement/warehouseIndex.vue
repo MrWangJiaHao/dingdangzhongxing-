@@ -320,6 +320,7 @@ export default {
       this.sendOutDataJson.paras.outWareType = to.params.type
         ? to.params.type
         : from.params.type;
+      this.tableData = [];
       this.getTableData();
       this.noraisingFn();
     },
@@ -454,7 +455,6 @@ export default {
     },
     //表格发生了变化以及点击了查询按钮
     getParasJson(data) {
-      console.log(data);
       this.sendOutDataJson.paras = { ...data };
       this.getTableData();
     },
@@ -477,6 +477,7 @@ export default {
       }
       this.tableData = datas.list;
       this.pageComponentsData.pageNums = datas.totalRow;
+      this.$forceUpdate();
     },
   },
 };

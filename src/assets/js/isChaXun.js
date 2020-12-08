@@ -4,7 +4,6 @@ class isDisplayNoneBlock {
         this.text = "展示";
         this.parentHeight = 0
         this.parent = null
-        window.onresize = this.isChaXun()
     }
     isChaXun(child) {
         if (!child) return console.log(child)
@@ -14,12 +13,12 @@ class isDisplayNoneBlock {
         let parentHeight = parent.offsetHeight;
         this.parentHeight = parentHeight
         this.parent = parent
-        console.log(parentHeight, "查询按钮父层的height，是否超过150px")
+        console.log(parentHeight, "查询按钮父层的height，是否超过158px")
         if (parentHeight > 158) {
-            parent.style.height = 118 + "px";
+            parent.style.height = 120 + "px";
             this.createDomPush(child);
         }
-    } 158
+    }
     createDomPush(child) {
         let self = this
         let div = document.createElement("div");
@@ -44,6 +43,4 @@ class isDisplayNoneBlock {
         div.classList.toggle("isclickMes")
     }
 }
-
-
 export default new isDisplayNoneBlock()

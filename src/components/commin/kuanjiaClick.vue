@@ -85,9 +85,10 @@ export default {
   .setUserIngBoxCenter {
     position: relative;
     left: 50%;
-    min-height: 730px;
+    max-height: 730px;
+    overflow: auto;
     transform: translateX(-50%);
-    background: #fff;
+    background-color: #fff;
     .centerBox {
       padding: 30px 20px;
     }

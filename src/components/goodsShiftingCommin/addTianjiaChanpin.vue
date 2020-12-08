@@ -13,32 +13,30 @@
             <template slot="btnsArr">
               <div class="tr dispalyFlex">
                 <span class="goOn inline mr11">查询</span>
-                <span class="lodopFunClear inline" @click="clearInputs"
-                  >清空</span
-                >
+                <span class="lodopFunClear inline" @click="clearInputs">
+                  清空
+                </span>
               </div>
             </template>
           </createMonent>
           <!-- 上部分 -->
-          <div class="tr pd20">
-            <span class="lodopFunClear mb16 inline" @click="removeTarget"
-              >删除</span
-            >
+          <div class="tr mt20 pd20">
+            <span class="lodopFunClear inline" @click="removeTarget">删除</span>
           </div>
-          <div class="pd20 mb16">
+          <div class="pd20 centerBox mb16">
             <table-commin
               :tableDataJson="tableDataJson"
               @tableSelectArr="tableSelectArr"
             ></table-commin>
+            <div class="tr pageComponent mb16 pd20">
+              <pageComponent
+                :pageComponentsData="pageComponentsData"
+                @sureSuccssBtn="sureSuccssBtn"
+                @handleSizeChange="handleSizeChange"
+                @getPageNum="getPageNum"
+              ></pageComponent>
+            </div>
           </div>
-        </div>
-        <div class="tr mb16 pd20">
-          <pageComponent
-            :pageComponentsData="pageComponentsData"
-            @sureSuccssBtn="sureSuccssBtn"
-            @handleSizeChange="handleSizeChange"
-            @getPageNum="getPageNum"
-          ></pageComponent>
         </div>
       </template>
     </kuanjiaClick>

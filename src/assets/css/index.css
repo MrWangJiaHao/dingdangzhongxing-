@@ -423,7 +423,7 @@ textarea{
   user-select: none;
 }
 .juli{
-  font-size: 14px;
+  font-size: 14px ;
   font-family: Microsoft YaHei;
   font-weight: 400;
   color: #599AF4;
@@ -576,19 +576,20 @@ textarea{
 .clickMes::after {
   content: "";
   margin-left: 4px;
-  margin-bottom: 3px;
   transition: all 0.5s;
   display: inline-block;
-  transform-origin: 8px 13px;
-  border: 8px solid transparent;
-  transform: rotate(-180deg);
+  transform-origin: 5px 3px;
+  width: 11px;
+  height: 8px;
+  background: url(../svg/dropDown.svg) center center no-repeat;
+  background-size: cover;
+  transform: rotate(0deg);
   border-radius: 2px;
-  border-bottom: 8px solid #a9afbd;
 }
 
 .isclickMes::after {
   content: "";
-  transform: rotate(0deg);
+  transform: rotate(-180deg);
 }
 /* .el-table td, .el-table th.is-leaf{
   border: 0.5px solid #D1D6E2!important;
@@ -624,4 +625,10 @@ textarea{
 } */
 .is-disabled{
       background-color: #e1eaf5;
+}
+.pageComponent{
+  border: 1px solid  rgb(209, 214, 226);
+}
+.quxiaoBox{
+  border: 1px solid rgb(209, 214, 226);
 }

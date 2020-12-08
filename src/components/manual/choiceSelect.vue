@@ -5,7 +5,7 @@
         <div class="closeTitle">选择产品</div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
-      <div class="displayalign mb20 pd20">
+      <div class="displayalign centerBox mb20 pd20" style="padding: 30px 20px">
         <div>
           <div class="displayalign ellipsis">
             <div class="noneIconTitle mr11">产品名称:</div>
@@ -62,9 +62,9 @@
         </div>
       </div>
       <div class="btn tr mb20 pd20">
-        <div class="disinb quxiaoBox" @click="clearRemovetable">删除</div>
+        <div class="disinb remove" @click="clearRemovetable">删除</div>
       </div>
-      <div class="mb20 pd20">
+      <div class="mb20 centerBox pd20">
         <el-table
           ref="multipleTable"
           :data="tabledata"
@@ -111,16 +111,16 @@
             show-overflow-tooltip
           ></el-table-column>
         </el-table>
-      </div>
-      <div class="tr mb20 pd20">
-        <pageComponent
-          @handleSizeChange="handleSizeChange"
-          :pageComponentsData="pageComponentsData"
-        />
+        <div class="tr pageComponent mb20 pd20">
+          <pageComponent
+            @handleSizeChange="handleSizeChange"
+            :pageComponentsData="pageComponentsData"
+          />
+        </div>
       </div>
 
-      <div class="mb20 pd20 tc">
-        <div class="disinb quxiaoBox mr11" @click="closeBtn">返回</div>
+      <div class="disRight mr20 mb20">
+        <div class="quxiaoBox mb20 mr20" @click="closeBtn">返回</div>
         <div class="disinb tijiaoBox" @click="clickSubmit">提交</div>
       </div>
     </div>
@@ -309,7 +309,8 @@ export default {
   border-bottom: 1px solid #d1d6e2;
 }
 .quxiaoBox {
-  @include BtnFunction("error");
+  border: 1px solid rgb(209, 214, 226);
+  @include BtnFunction();
 }
 .tijiaoBox {
   @include BtnFunction("success");

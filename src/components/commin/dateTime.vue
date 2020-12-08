@@ -94,7 +94,7 @@ export default {
   .ivu-icon {
     width: 16px;
     height: 16px;
-    background: url(../../assets/img/date.png) center center no-repeat;
+    background: url(../../assets/svg/dateTime.svg) center center no-repeat;
     background-size: cover;
     &::before {
       content: "";

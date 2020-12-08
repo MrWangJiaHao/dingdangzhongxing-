@@ -246,12 +246,17 @@
                     border
                     highlight-current-row
                   >
-                    <el-table-column type="index" label="序号" width="50">
+                    <el-table-column
+                      type="index"
+                      label="序号"
+                      align="center"
+                      width="50"
+                    >
                     </el-table-column>
                     <el-table-column
                       property="prodCode"
                       label="产品编码"
-                      style="text-align: center; width: 80px"
+                      style="width: 80px"
                     >
                     </el-table-column>
                     <el-table-column
@@ -260,9 +265,17 @@
                       width="120"
                     >
                     </el-table-column>
-                    <el-table-column property="specName" label="产品规格">
+                    <el-table-column
+                      property="specName"
+                      align="center"
+                      label="产品规格"
+                    >
                     </el-table-column>
-                    <el-table-column property="prodNum" label="申请入库数量">
+                    <el-table-column
+                      property="prodNum"
+                      align="center"
+                      label="申请入库数量"
+                    >
                     </el-table-column>
                     <el-table-column
                       property="shijishulian"
@@ -342,13 +355,6 @@ export default {
       console.log(listArrs, "入库单");
       this.listArrs = listArrs;
       this.tableDatas = listArrs.detailList;
-      let cells = document
-        .getElementById("printCenter")
-        .getElementsByClassName("cell");
-      let array = Array.from(cells);
-      array.forEach((item) => {
-        item.style = "text-align:center;";
-      });
     });
   },
   methods: {

@@ -32,6 +32,7 @@
           :type="tableItem.types"
           :label="tableItem.label"
           :width="tableItem.width"
+          :align="tableItem.align || 'left'"
         >
           <span slot-scope="scoped">
             <div v-if="tableItem.flag == 'input'">
@@ -61,7 +62,7 @@
                 style="height: 28px"
               />
             </div>
-            <div v-else>再加一个判断 :placeholder="JSON.stringify(scoped)"</div>
+            <div v-else>再加一个判断 {{ tableItem.flag }}</div>
           </span>
         </el-table-column>
         <el-table-column

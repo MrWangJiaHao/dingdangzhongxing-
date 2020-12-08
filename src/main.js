@@ -19,7 +19,7 @@ import "./assets/js/rem";
 import animated from 'animate.css';
 import {
   _isEmpty
-} from "./utils/validate"; //判断是否为空4  
+} from "./utils/validate"; //判断是否为空
 Vue.use(animated)
 import messageSelf from "./assets/js/toast"; //自定义弹框
 import isChaXun from "./assets/js/isChaXun"; //是否要展示

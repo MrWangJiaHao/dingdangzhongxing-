@@ -87,7 +87,7 @@
                       ? "补货中"
                       : scoped.row.disposeStatus == 3
                       ? "已补货"
-                      : "未定义"
+                      : "———"
                   }}
                 </div>
               </el-table-column>
@@ -102,7 +102,7 @@
                       ? "手工创建"
                       : scoped.row.orderSource == 2
                       ? "缺货"
-                      : "未定义"
+                      : "———"
                   }}
                 </div>
               </el-table-column>
@@ -128,7 +128,7 @@
                   {{
                     scoped.row.replenishUserName
                       ? scoped.row.replenishUserName
-                      : "---"
+                      : "———"
                   }} </span
                 >+
               </el-table-column>
@@ -228,7 +228,12 @@ import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import delivetyNote from "../../components/commin/componentList"; //补货单
 import createOrderReplen from "../../components/goodsShiftingCommin/createOrderReplen"; //创建补货单
 import createOrderSure from "../../components/goodsShiftingCommin/createOrderSure"; //创建补货单
-import { getCookie, _getArrTarget, getJsonTarget } from "../../utils/validate";
+import {
+  getCookie,
+  _getArrTarget,
+  getJsonTarget,
+  _addArrPush,
+} from "../../utils/validate";
 import tableCommin from "../../components/commin/tableCommin";
 export default {
   components: {
@@ -393,7 +398,6 @@ export default {
         );
       this.BuHuoSureJson = this.multipleSelection[0];
       this._getdetailsChanPin(this.multipleSelection[0]);
-
       this.isLooker = false;
       this.isBuHuoSures = true;
     },
@@ -444,7 +448,6 @@ export default {
       this._getdetailsChanPin(this.multipleSelection[0]);
       this.isReplenishmentNote = true;
     },
-
     async _getdetailsChanPin(e) {
       let data = await this.$pOrgProductsApp.pReplenishOrderFindRecord({
         id: e.id,
@@ -499,6 +502,7 @@ export default {
       return datas;
     },
     _changeDatas(datas) {
+      _addArrPush(datas.list.length, datas.list);
       this.tableData = datas.list;
       this.pageComponentsData.pageNums = datas.totalRow;
       //点击生产补货单
