@@ -111,7 +111,8 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55"> </el-table-column>
+            <el-table-column type="selection" width="55" align="center">
+            </el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -121,33 +122,61 @@
             </el-table-column>
             <el-table-column prop="loginName" label="姓名" align="center">
             </el-table-column>
-            <el-table-column
-              prop="roleName"
-              label="角色"
-              align="center"
-            >
+            <el-table-column prop="roleName" label="角色" align="center">
             </el-table-column>
             <el-table-column prop="userName" label="用户名" align="center">
             </el-table-column>
-            <el-table-column prop="pickStartTime" label="拣货开始时间" align="center">
+            <el-table-column
+              prop="pickStartTime"
+              label="拣货开始时间"
+              align="center"
+              width="180"
+              min-width="180"
+            >
             </el-table-column>
             <el-table-column
               prop="pickEndTime"
               label="拣货结束时间"
               align="center"
+              width="180"
+              min-width="180"
             >
             </el-table-column>
-            <el-table-column prop="channelOrderNo" label="订单号" align="center">
+            <el-table-column
+              prop="channelOrderNo"
+              label="订单号"
+              align="center"
+              width="190"
+              min-width="190"
+            >
             </el-table-column>
-            <el-table-column prop="subOrderNo" label="子单号" align="center">
+            <el-table-column
+              prop="subOrderNo"
+              label="子单号"
+              align="center"
+              width="190"
+              min-width="190"
+            >
             </el-table-column>
             <el-table-column prop="reCheckUser" label="复核人" align="center">
             </el-table-column>
-             <el-table-column prop="reCheckStartTime" label="复核开始时间" align="center">
+            <el-table-column
+              prop="reCheckStartTime"
+              label="复核开始时间"
+              align="center"
+              width="180"
+              min-width="180"
+            >
             </el-table-column>
-             <el-table-column prop="reCheckEndTime" label="复核结束时间" align="center">
+            <el-table-column
+              prop="reCheckEndTime"
+              label="复核结束时间"
+              align="center"
+              width="180"
+              min-width="180"
+            >
             </el-table-column>
-             <el-table-column prop="reason" label="失败原因" align="center">
+            <el-table-column prop="reason" label="失败原因" align="center">
             </el-table-column>
           </el-table>
           <div class="pageComponent">
@@ -219,11 +248,11 @@ export default {
   methods: {
     pageQueryFun() {
       findPickOrderMistakeStatistics(this.queryData).then((ok) => {
-        console.log(ok)
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = [];
           this.tableData = ok.data.result.list;
-          this, this.changeData(ok.data.result);
+          this.changeData(ok.data.result);
         }
       });
     },
@@ -238,10 +267,9 @@ export default {
     },
     clickQuery() {
       //点击查询
-      this.queryData.paras.orgName = this.entrustCompany;
-      this.queryData.paras.prodFullName = this.prodName;
-      this.queryData.paras.prodCode = this.prodCode;
-      this.queryData.paras.wareSeatNo = this.buhuoCode;
+      this.queryData.paras.userId = this.oname;
+      this.queryData.paras.roleId = this.roleName;
+      this.queryData.paras.userName = this.userName;
       this.pageQueryFun();
     },
     clearInput() {
@@ -266,6 +294,7 @@ export default {
     },
     sureSuccssBtn(e) {
       this.queryData.pageNumber = e;
+      this.pageQueryFun();
     },
     changeData(data) {
       this.changePageData(data);
@@ -275,10 +304,10 @@ export default {
       this.pageComponentsData.pageNums = totalRow;
     },
     getStartTime(e) {
-      this.queryData.paras.searchStartTime = e;
+      this.queryData.paras.pickStartTime = e;
     },
     getEndTime(e) {
-      this.queryData.paras.searchEndTime = e;
+      this.queryData.paras.pickEndTime = e;
     },
     clearTimeInput() {
       let input = document.getElementsByClassName("ivu-input");
@@ -298,7 +327,6 @@ export default {
 @import "../../assets/scss/btn.scss";
 
 #mianPage {
-  background: #eef1f8;
   padding: 20px 10px;
 }
 .headerHtml {

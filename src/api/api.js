@@ -996,6 +996,48 @@ export function findPickOrderMistakeStatistics(data) {
         })
     })
 }
+//统计=>快递拣货量统计（分页查询）
+export function findExprStatistics(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/exprStatistics/findExprStatistics",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//统计=>物流费用统计（分页查询）
+export function findExprFeeStatistics(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/exprStatistics/findExprFeeStatistics",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//统计=>物流费用明细（分页查询）
+export function findExprFeeDetailStatistics(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/exprStatistics/findExprFeeDetailStatistics",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
 
 /**
  * 

@@ -1,5 +1,5 @@
 <template>
-  <div id="mianPage">
+  <div id="mainPage">
     <!-- 这是补货统计页面 -->
     <div class="roleName">
       <div class="headerHtml">
@@ -93,7 +93,8 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55"> </el-table-column>
+            <el-table-column type="selection" width="55" align="center">
+            </el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -142,7 +143,8 @@
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import dateTime from "../../components/commin/dateTime.vue"; //时间
-import { findRepStatistics } from "../../api/api";
+import { findRepStatistics, getFindWareOrg } from "../../api/api";
+import { reduceFun, clearTimeInput } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -179,6 +181,18 @@ export default {
     };
   },
   mounted() {
+    getFindWareOrg().then((ok) => {
+      // console.log(ok);
+      if (ok.code === "10000") {
+        ok.result.forEach((v) => {
+          this.entrustCompanyData.push({
+            value: v.id,
+            label: v.orgName,
+          });
+        });
+        this.entrustCompanyData = reduceFun(this.entrustCompanyData);
+      }
+    });
     this.pageQueryFun();
   },
   watch: {},
@@ -206,7 +220,7 @@ export default {
     },
     clearInput() {
       //点击清空输入框
-      this.clearTimeInput();
+      clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
       Object.keys(this.queryData.paras).forEach((v) => {
@@ -240,16 +254,6 @@ export default {
     getEndTime(e) {
       this.queryData.paras.searchEndTime = e;
     },
-    clearTimeInput() {
-      let input = document.getElementsByClassName("ivu-input");
-      for (let i = 0; i < input.length; i++) {
-        input[i].value = "";
-      }
-      let elInput = document.querySelectorAll(".el-input__inner");
-      for (let i = 0; i < elInput.length; i++) {
-        elInput[i].value = "";
-      }
-    },
   },
 };
 </script>
@@ -257,7 +261,7 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
 
-#mianPage {
+#mainPage {
   background: #eef1f8;
   padding: 20px 10px;
 }

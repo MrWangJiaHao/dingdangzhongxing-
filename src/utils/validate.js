@@ -276,6 +276,20 @@ export const reduceFun = (arr) => {
   return res;
 }
 
+//这个方法清除所有输入框的内容
+export const clearTimeInput = () => {
+  let input = document.getElementsByClassName("ivu-input");
+  for (let i = 0; i < input.length; i++) {
+    input[i].value = "";
+  }
+  let elInput = document.querySelectorAll(
+    ".el-input__inner"
+  );
+  for (let i = 0; i < elInput.length; i++) {
+    elInput[i].value = "";
+  }
+}
+
 
 /**
  * 删除数组

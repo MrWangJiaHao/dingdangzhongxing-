@@ -219,7 +219,7 @@ export default {
       return Message("该模块还在开发中");
     },
     detail4() {
-      return Message("该模块还在开发中");
+      this.$router.push({path:"/indentManagement/resalesIndentManage"})
     },
     detailInfor(i) {
       switch (i) {

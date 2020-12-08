@@ -112,8 +112,6 @@ a {
   height: 12px;
   background: #d1d6e2;
 }
-::-webkit-scrollbar-track-piece {
-}
 ::-webkit-scrollbar-thumb:hover {
   background: #333;
 }

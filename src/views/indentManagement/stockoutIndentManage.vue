@@ -823,13 +823,13 @@ export default {
 }
 .formBox {
   position: relative;
+  margin: 4px 0;
   .formHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #d2d6e2;
     background: white;
-    margin-top: 10px;
     .icon-title {
       display: flex;
       .icon-title-icon {
@@ -889,7 +889,7 @@ export default {
 #stockoutMianPage {
   .el-tabs__item.is-active {
     @include BtnFunction("success");
-    border: none;
+    border: 1px solid transparent;
   }
   .el-tabs__item {
     @include BtnFunction("");
@@ -901,7 +901,7 @@ export default {
     border: none;
     position: absolute;
     left: 156px;
-    top: 26px;
+    top: 16px;
   }
 }
 </style>

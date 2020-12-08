@@ -1,12 +1,604 @@
 <template>
-  <div>
+  <div id="mainPage">
     <!-- 这是物流费用明细页面 -->
+    <div class="roleName">
+      <div class="headerHtml">
+        <div class="headerInput">
+          <div class="el-inputBox entrustCompany">
+            <div class="el-inputBox-text">委托公司：</div>
+            <div class="el-inputBox-checkBox" style="width: 320px">
+              <el-select
+                v-model="entrustCompany"
+                placeholder="请选择委托公司"
+                @change="entrustCompanys"
+                clearable
+              >
+                <el-option
+                  v-for="item in entrustCompanyData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">渠道：</div>
+            <div class="el-inputBox-checkBox" style="width: 120px">
+              <el-select
+                v-model="channelName"
+                placeholder="请选择渠道"
+                @change="channelNames"
+                clearable
+              >
+                <el-option
+                  v-for="item in channelNameData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">订单来源：</div>
+            <div class="el-inputBox-checkBox" style="width: 160px">
+              <el-select
+                v-model="orderSourceName"
+                placeholder="请选择订单来源"
+                @change="orderSourceNames"
+                clearable
+              >
+                <el-option
+                  v-for="item in orderSourceNameData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">物流公司：</div>
+            <div class="el-inputBox-checkBox" style="width: 160px">
+              <el-select
+                v-model="expressName"
+                placeholder="请选择物流公司"
+                @change="expressNames"
+                clearable
+              >
+                <el-option
+                  v-for="item in expressNameData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">订单号：</div>
+            <div class="el-inputBox-checkBox" style="width: 160px">
+              <el-input v-model="orderNo" placeholder="模糊检索"> </el-input>
+            </div>
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">子单号：</div>
+            <div class="el-inputBox-checkBox" style="width: 160px">
+              <el-input v-model="subOrderNo" placeholder="模糊检索"> </el-input>
+            </div>
+          </div>
+          <div class="el-inputBox">
+            <div class="el-inputBox-text">物流单状态：</div>
+            <div class="el-inputBox-checkBox" style="width: 150px">
+              <el-select
+                v-model="expressState"
+                placeholder="请选择物流状态"
+                @change="expressStates"
+                clearable
+              >
+                <el-option
+                  v-for="item in expressStateData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="timeChoose el-inputBox">
+            <div class="el-inputBox-text">揽件时间：</div>
+            <div class="timeBox">
+              <div style="">
+                <dateTime
+                  :dateTimeData="datetimeDates"
+                  @getDateTime="getStartTime"
+                  ref="startTime"
+                />
+              </div>
+              <!-- 开始时间 -->
+              <div class="line"></div>
+              <div>
+                <dateTime
+                  :dateTimeData="datetimeDate"
+                  @getDateTime="getEndTime"
+                  ref="endTime"
+                />
+              </div>
+              <!-- 结束时间 -->
+            </div>
+          </div>
+          <div class="header-botton">
+            <div class="queryBtn" @click="clickQuery">查询</div>
+            <div class="clearBtn" @click="clearInput">清空</div>
+          </div>
+        </div>
+      </div>
+      <div class="childWarehouseForm">
+        <div class="formHeader">
+          <div class="icon-title">
+            <div class="icon-title-icon">
+              <img src="../../assets/img/systemTitlemesa.png" />
+            </div>
+            <div class="icon-title-title">查询结果</div>
+          </div>
+          <div class="someBtn">
+            <a class="setUser" @click="downTemplate" target="_blank"
+              >下载导入模板</a
+            >
+            <a class="setUser" @click="leadingin" target="_blank">导入</a>
+            <a class="setUser educe" @click="educe" target="_blank">导出</a>
+          </div>
+        </div>
+        <div class="resultForm">
+          <el-table
+            :data="tableData"
+            border
+            style="width: 100%"
+            @selection-change="handleSelectionChange"
+            :stripe="true"
+            tooltip-effect="dark"
+          >
+            <el-table-column type="selection" width="55" align="center">
+            </el-table-column>
+            <el-table-column
+              label="序号"
+              align="center"
+              type="index"
+              width="60"
+            >
+            </el-table-column>
+            <el-table-column prop="orgName" label="委托公司" align="center">
+            </el-table-column>
+            <el-table-column prop="channelName" label="渠道" align="center">
+            </el-table-column>
+            <el-table-column
+              prop="orderSourceName"
+              label="订单来源"
+              align="center"
+              width="150"
+              min-width="150"
+            ></el-table-column>
+            <el-table-column
+              prop="channelOrderNo"
+              label="订单号"
+              align="center"
+              width="180"
+              min-width="180"
+            ></el-table-column>
+            <el-table-column
+              prop="subOrderNo"
+              label="子单号"
+              align="center"
+              width="180"
+              min-width="180"
+            >
+            </el-table-column>
+            <el-table-column prop="exprName" label="物流公司" align="center">
+            </el-table-column>
+            <el-table-column
+              prop="exprNo"
+              label="物流单号"
+              align="center"
+              width="160"
+              min-width="160"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="exprBalanceStatus"
+              label="物流单状态"
+              align="center"
+              width="100"
+              min-width="100"
+            >
+            </el-table-column>
+            <el-table-column prop="prodNum" label="产品数量" align="center">
+            </el-table-column>
+            <el-table-column prop="prodTypeNum" label="产品种类" align="center">
+            </el-table-column>
+            <el-table-column
+              prop="predictWeightCount"
+              label="预估总重量（kg）"
+              align="center"
+              min-width="140"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="predictFeeCount"
+              label="预估总运费（元）"
+              align="center"
+              min-width="140"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="weightCount"
+              label="称重总重量（kg）"
+              align="center"
+              min-width="140"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="feeCount"
+              label="实际总费用（元）"
+              align="center"
+              min-width="140"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="weightDiff"
+              label="重量总差（kg）"
+              align="center"
+              min-width="140"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="feeDiff"
+              label="运费总差（元）"
+              align="center"
+              min-width="140"
+            >
+            </el-table-column>
+            <el-table-column prop="chargeMan" label="揽件人" align="center">
+            </el-table-column>
+            <el-table-column
+              prop="feeDiff"
+              label="揽件时间"
+              align="center"
+              width="180"
+              min-width="180"
+            >
+            </el-table-column>
+          </el-table>
+          <div class="pageComponent">
+            <pagecomponent
+              :pageComponentsData="pageComponentsData"
+              @getPageNum="getPageNum"
+              @sureSuccssBtn="sureSuccssBtn"
+            ></pagecomponent>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-export default {};
+import pagecomponent from "../../components/commin/pageComponent"; //分页器
+import dateTime from "../../components/commin/dateTime.vue"; //时间
+import { findExprFeeDetailStatistics, getFindWareOrg } from "../../api/api";
+import { clearTimeInput, reduceFun } from "../../utils/validate";
+export default {
+  components: {
+    pagecomponent,
+    dateTime,
+  },
+  data() {
+    return {
+      getExcelUrl:
+        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/exprStatistics/exportExprFeeStatistics",
+      tableData: [],
+      entrustCompany: "",
+      channelName: "",
+      orderSourceName: "",
+      expressName: "",
+      orderNo: "",
+      subOrderNo: "",
+      expressState: "",
+      entrustCompanyData: [],
+      channelNameData: [],
+      orderSourceNameData: [],
+      expressNameData: [],
+      expressStateData: [
+        {
+          value: "0",
+          label: "待结算",
+        },
+        {
+          value: "1",
+          label: "已结算",
+        },
+      ],
+      datetimeDate: {
+        placeholder: "请选择结束时间",
+      },
+      datetimeDates: {
+        title: "",
+        placeholder: "请选择开始时间",
+      },
+      multipleSelection: [],
+      queryData: {
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          orgId: "",
+          channelId: "",
+          orderSourceId: "",
+          exprId: "",
+          searchStartTime: "",
+          searchEndTime: "",
+          channelOrderNo: "",
+          subOrderNo: "",
+          exprBalanceStatus: "",
+        },
+      },
+      queryDataAll: {
+        pageNumber: 1,
+        pageSize: 99999999,
+        paras: {
+          orgId: "",
+          channelId: "",
+          orderSourceId: "",
+          exprId: "",
+          searchStartTime: "",
+          searchEndTime: "",
+          channelOrderNo: "",
+          subOrderNo: "",
+          exprBalanceStatus: "",
+        },
+      },
+      pageComponentsData: {
+        pageNums: 0,
+      },
+    };
+  },
+  mounted() {
+    getFindWareOrg().then((ok) => {
+      // console.log(ok);
+      if (ok.code === "10000") {
+        ok.result.forEach((v) => {
+          this.entrustCompanyData.push({
+            value: v.id,
+            label: v.orgName,
+          });
+        });
+        this.entrustCompanyData = reduceFun(this.entrustCompanyData);
+      }
+    });
+    findExprFeeDetailStatistics(this.queryDataAll).then((ok) => {
+      // console.log(ok);
+      if (ok.data.code === "10000") {
+        ok.data.result.list.forEach((v) => {
+          this.channelNameData.push({
+            value: v.channelId,
+            label: v.channelName,
+          });
+          this.orderSourceNameData.push({
+            value: v.orderSourceId,
+            label: v.orderSourceName,
+          });
+          this.expressNameData.push({
+            value: v.exprId,
+            label: v.exprName,
+          });
+          this.channelNameData = reduceFun(this.channelNameData);
+          this.orderSourceNameData = reduceFun(this.orderSourceNameData);
+          this.expressNameData = reduceFun(this.expressNameData);
+        });
+      }
+    });
+    this.pageQueryFun();
+  },
+  watch: {},
+  methods: {
+    pageQueryFun() {
+      findExprFeeDetailStatistics(this.queryData).then((ok) => {
+        console.log(ok);
+        if (ok.data.code === "10000") {
+          this.tableData = [];
+          this.tableData = ok.data.result.list;
+          this.changeData(ok.data.result);
+          this.tableData.forEach((v) => {
+            if (v.exprBalanceStatus === 0) {
+              v.exprBalanceStatus = "待结算";
+            } else if (v.exprBalanceStatus === 1) {
+              v.exprBalanceStatus = "已结算";
+            }
+          });
+        }
+      });
+    },
+    entrustCompanys(val) {
+      this.entrustCompany = val;
+    },
+    channelNames(val) {
+      this.channelName = val;
+    },
+    orderSourceNames(val) {
+      this.orderSourceName = val;
+    },
+    expressNames(val) {
+      this.expressName = val;
+    },
+    expressStates(val) {
+      this.expressState = val;
+    },
+    clickQuery() {
+      //点击查询
+      this.queryData.paras.orgId = this.entrustCompany;
+      this.queryData.paras.channelId = this.channelName;
+      this.queryData.paras.orderSourceId = this.orderSourceName;
+      this.queryData.paras.exprId = this.expressName;
+      this.queryData.paras.channelOrderNo = this.orderNo;
+      this.queryData.paras.subOrderNo = this.subOrderNo;
+      this.queryData.paras.exprBalanceStatus = this.expressState;
+      this.pageQueryFun();
+    },
+    clearInput() {
+      //点击清空输入框
+      clearTimeInput();
+      this.$refs.startTime.clear();
+      this.$refs.endTime.clear();
+      Object.keys(this.queryData.paras).forEach((v) => {
+        this.queryData.paras[v] = "";
+      });
+      this.pageQueryFun();
+    },
+    handleSelectionChange(value) {
+      this.multipleSelection = value;
+    },
+    downTemplate() {
+      //下载导入模板
+    },
+    leadingin() {
+      //导入
+    },
+    educe() {
+      //导出表格
+      document.querySelector(".educe").setAttribute("href", this.getExcelUrl);
+    },
+    getPageNum(e) {
+      this.queryData.pageNumber = e;
+    },
+    sureSuccssBtn(e) {
+      this.queryData.pageNumber = e;
+    },
+    changeData(data) {
+      this.changePageData(data);
+    },
+    changePageData(data) {
+      let { totalRow } = data;
+      this.pageComponentsData.pageNums = totalRow;
+    },
+    getStartTime(e) {
+      this.queryData.paras.searchStartTime = e;
+    },
+    getEndTime(e) {
+      this.queryData.paras.searchEndTime = e;
+    },
+  },
+};
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import "../../assets/scss/btn.scss";
+
+#mainPage {
+  background: #eef1f8;
+  padding: 20px 10px;
+}
+.headerHtml {
+  position: relative;
+  padding: 0 16px;
+  transition: 0.3s;
+  .headerInput {
+    display: flex;
+    flex-wrap: wrap;
+    .el-inputBox {
+      display: flex;
+      align-items: center;
+      margin: 0 20px 16px 0;
+      .el-inputBox-text {
+        white-space: nowrap;
+      }
+    }
+  }
+  .header-botton {
+    width: 186px;
+    height: 36px;
+    position: absolute;
+    right: 0;
+    bottom: 16px;
+    display: flex;
+    align-items: center;
+    .queryBtn {
+      @include BtnFunction("success");
+    }
+    .clearBtn {
+      @include BtnFunction();
+      background: #fff;
+      margin: 0 16px 0 10px;
+    }
+  }
+  .timeChoose {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 20px;
+    .titleBox {
+      font-size: 16px;
+    }
+    .timeBox {
+      height: 34px;
+      display: flex;
+      align-items: center;
+      .line {
+        width: 10px;
+        height: 2px;
+        background: #d1d6e2;
+        margin: 0 10px;
+      }
+    }
+  }
+}
+.childWarehouseForm {
+  margin: 4px 0 0 0;
+  background: white;
+  .formHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #d1d6e2;
+    .icon-title {
+      display: flex;
+      .icon-title-icon {
+        width: 14px;
+        height: 14px;
+        margin: 2px 0 0 20px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .icon-title-title {
+        margin: 0 0 0 8px;
+        font-size: 16px;
+      }
+    }
+    .someBtn {
+      display: flex;
+      margin: 16px 16px 16px 0;
+      .setUser {
+        @include BtnFunction("success");
+        margin-right: 10px;
+      }
+      .setUser:last-child {
+        margin: 0;
+      }
+    }
+  }
+  .resultForm {
+    padding: 16px;
+  }
+}
+</style>
+<style lang="scss">
+.entrustCompany {
+  .el-select {
+    width: 100%;
+  }
+}
 </style>

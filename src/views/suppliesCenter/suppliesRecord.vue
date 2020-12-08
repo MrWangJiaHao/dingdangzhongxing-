@@ -938,7 +938,7 @@ export default {
         input[i].value = "";
       }
       let elInput = document.querySelectorAll(
-        ".el-input--suffix .el-input__inner"
+        ".el-input__inner"
       );
       for (let i = 0; i < elInput.length; i++) {
         elInput[i].value = "";

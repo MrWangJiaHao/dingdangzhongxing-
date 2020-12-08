@@ -382,6 +382,7 @@ export default {
     width: 100%;
     border: 1px solid #d1d6e2;
     border-collapse: collapse;
+    white-space: nowrap;
   }
   tr,
   td {
@@ -439,6 +440,7 @@ export default {
               position: absolute;
               left: -2px;
               margin-top: 8px;
+              white-space: nowrap;
             }
           }
           .rightLine {

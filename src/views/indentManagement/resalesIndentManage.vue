@@ -242,8 +242,8 @@
                     prop="backOrderNo"
                     label="退单号"
                     align="center"
-                    width="190"
-                    min-width="190"
+                    width="230"
+                    min-width="230"
                   >
                     <template slot-scope="scope">
                       <div class="lookDetail">
@@ -254,8 +254,8 @@
                     prop="orderNo"
                     label="订单号"
                     align="center"
-                    width="190"
-                    min-width="190"
+                    width="230"
+                    min-width="230"
                   >
                     <template slot-scope="scope">
                       <div class="lookDetail">
@@ -277,6 +277,12 @@
                           class="lookDetail subOrderNosStyle"
                           v-for="(v, i) in scope.row.subOrderNos"
                           :key="i"
+                          @click="
+                            outSubOrderNoDetail(
+                              scope.row.subOrderNos[i],
+                              scope.row
+                            )
+                          "
                         >
                           {{ v }}
                         </div>
@@ -294,6 +300,8 @@
                     prop="returnType"
                     label="退货类型"
                     align="center"
+                    width="110"
+                    min-width="110"
                   >
                   </el-table-column
                   ><el-table-column
@@ -435,7 +443,6 @@
                     align="center"
                     type="index"
                     width="60"
-                    
                   >
                   </el-table-column>
                   <el-table-column
@@ -489,6 +496,12 @@
                           class="lookDetail subOrderNosStyle"
                           v-for="(v, i) in scope.row.subOrderNos"
                           :key="i"
+                          @click="
+                            unoutSubOrderNoDetail(
+                              scope.row.subOrderNos[i],
+                              scope.row
+                            )
+                          "
                         >
                           {{ v }}
                         </div>
@@ -613,30 +626,38 @@ export default {
       unOutGetExcelUrl:
         "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubBackOrder/getBackOrderExcel",
       storeOutData: [
-        // {
-        //   backOrderNo: "TH20200305092516647298284",
-        //   channelBackOrderNo: "",
-        //   disposeStatus: 1,
-        //   exprName: "",
-        //   exprNo: "",
-        //   id: "da148d24db0043c2b5325e72e0b6fcf5",
-        //   orderAddr: "硅谷街道硅谷大街益田枫露小区1期3栋",
-        //   orderCityName: "长春市",
-        //   orderContact: "周秋影",
-        //   orderContactPhone: "18686456695",
-        //   orderCountyName: "",
-        //   orderId: "37E6E46AAECF440883DC10C66A7D31DA",
-        //   orderNo: "XS_20200303142834448_769705",
-        //   orderProName: "吉林省",
-        //   orderSourceId: "7CBF78FF05034EDC855CF4A9C877B477",
-        //   orderSourceName: "创客淘宝订单来源",
-        //   orgId: "2B82213FE3764E9E96691B70BE5281CD",
-        //   orgName: "xxxxxckc委托公司",
-        //   returnMoneyTime: null,
-        //   returnType: 4,
-        //   subOrder: [],
-        //   subOrderNos: ["871195073869320914-1", "771696073865320114-1"],
-        // },
+        {
+          backOrderNo: "TH20200305092516647298284",
+          channelBackOrderNo: "",
+          disposeStatus: 1,
+          exprName: "",
+          exprNo: "",
+          id: "da148d24db0043c2b5325e72e0b6fcf5",
+          orderAddr: "硅谷街道硅谷大街益田枫露小区1期3栋",
+          orderCityName: "长春市",
+          orderContact: "周秋影",
+          orderContactPhone: "18686456695",
+          orderCountyName: "",
+          orderId: "37E6E46AAECF440883DC10C66A7D31DA",
+          orderNo: "XS_20200303142834448_769705",
+          orderProName: "吉林省",
+          orderSourceId: "7CBF78FF05034EDC855CF4A9C877B477",
+          orderSourceName: "创客淘宝订单来源",
+          orgId: "2B82213FE3764E9E96691B70BE5281CD",
+          orgName: "xxxxxckc委托公司",
+          returnMoneyTime: null,
+          returnType: 4,
+          subOrder: [],
+          subOrderNos: [
+            "871195073869320914-1",
+            "771696073865320114-1",
+            "771696073865320114-1",
+            "771696073865320114-1",
+            "771696073865320114-1",
+            "771696073865320114-1",
+            "771696073865320114-1",
+          ],
+        },
       ],
       unStoreOutData: [],
       datetimeDate: {
@@ -739,12 +760,12 @@ export default {
       findReturnOrderPage(QueryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
-          this.storeOutData = ok.data.result.list;
+          // this.storeOutData = ok.data.result.list;
           let oDiv = document.querySelectorAll(".subOrderNosStyle");
           let oList = document.querySelector(".subOrderNosList");
           oDiv.forEach((v) => {
             v.style.borderBottom = "1px solid #d2d6e2";
-            v.style.padding = "10px";
+            v.style.padding = "0 10px";
             v.parentNode.parentNode.style.padding = "0";
             v.parentNode.parentNode.parentNode.style.padding = "0";
           });
@@ -1020,6 +1041,32 @@ export default {
         },
       });
     },
+    outSubOrderNoDetail(data, rowData) {
+      /**
+       * @param data:具体那个子单号
+       * @param rowData:当前行的数据
+       */
+      // console.log(data, rowData);
+      this.$router.push({
+        path: "/indentManagement/childOrderDetail",
+        query: {
+          subOrderNos: data,
+          rowData,
+          type: "subOrderNos",
+        },
+      });
+    },
+    unoutSubOrderNoDetail(data, rowData) {
+      // console.log(data, rowData);
+      this.$router.push({
+        path: "/indentManagement/childOrderDetail",
+        query: {
+          subOrderNos: data,
+          rowData,
+          type: "subOrderNos",
+        },
+      });
+    },
     outLookDetailEvent(row, column, cell) {
       if (column.property === "backOrderNo") {
         if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
@@ -1039,17 +1086,6 @@ export default {
             query: {
               orderNo: row,
               type: "orderNo",
-            },
-          });
-        }
-      }
-      if (column.property === "subOrderNos") {
-        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
-          this.$router.push({
-            path: "/indentManagement/childOrderDetail",
-            query: {
-              subOrderNos: row,
-              type: "subOrderNos",
             },
           });
         }
@@ -1074,17 +1110,6 @@ export default {
             query: {
               orderNo: row,
               type: "orderNo",
-            },
-          });
-        }
-      }
-      if (column.property === "subOrderNos") {
-        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
-          this.$router.push({
-            path: "/indentManagement/childOrderDetail",
-            query: {
-              subOrderNos: row,
-              type: "subOrderNos",
             },
           });
         }
@@ -1240,7 +1265,6 @@ export default {
     justify-content: space-between;
     border-bottom: 1px solid #d1d6e2;
     background: white;
-    margin-top: 10px;
     .icon-title {
       display: flex;
       margin: 24px 0 0 0;
@@ -1289,7 +1313,7 @@ export default {
 #resalesMianPage {
   .el-tabs__item.is-active {
     @include BtnFunction("success");
-    border: none;
+    border: 1px solid transparent;
   }
   .el-tabs__item {
     @include BtnFunction("");
@@ -1301,7 +1325,7 @@ export default {
     border: none;
     position: absolute;
     left: 136px;
-    top: 26px;
+    top: 16px;
   }
   .el-tabs__header {
     margin: 0;
