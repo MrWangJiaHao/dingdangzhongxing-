@@ -167,9 +167,8 @@
                   @selection-change="prodHandleSelectionChange"
                   :stripe="true"
                   tooltip-effect="dark"
-                  @cell-click="prodLookDetailEvent"
                 >
-                  <el-table-column type="selection" width="55">
+                  <el-table-column type="selection" width="55" align="center">
                   </el-table-column>
                   <el-table-column
                     label="序号"
@@ -234,7 +233,12 @@
                     align="center"
                   >
                     <template slot-scope="scope">
-                      <div class="lookDeatil">{{ scope.row.orderNum }}</div>
+                      <div
+                        class="lookDeatil"
+                        @click="lookDeatilOrderNum(scope.row)"
+                      >
+                        {{ scope.row.orderNum }}
+                      </div>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -275,9 +279,8 @@
                   @selection-change="orderHandleSelectionChange"
                   :stripe="true"
                   tooltip-effect="dark"
-                  @cell-click="orderLookDetailEvent"
                 >
-                  <el-table-column type="selection" width="55">
+                  <el-table-column type="selection" width="55" align="center">
                   </el-table-column>
                   <el-table-column
                     label="序号"
@@ -306,7 +309,10 @@
                   </el-table-column>
                   <el-table-column prop="orderNo" label="订单号" align="center">
                     <template slot-scope="scope">
-                      <div class="lookDeatil">
+                      <div
+                        class="lookDeatil"
+                        @click="lookDeatilOrderNo(scope.row)"
+                      >
                         {{ scope.row.orderNo }}
                       </div>
                     </template>
@@ -317,7 +323,10 @@
                     align="center"
                   >
                     <template slot-scope="scope">
-                      <div class="lookDeatil">
+                      <div
+                        class="lookDeatil"
+                        @click="lookDeatilSubOrderNo(scope.row)"
+                      >
                         {{ scope.row.subOrderNo }}
                       </div>
                     </template>
@@ -348,6 +357,8 @@
                     prop="pullTime"
                     label="下发时间"
                     align="center"
+                    width="180"
+                    min-width="180"
                   ></el-table-column>
                 </el-table>
                 <div class="pageComponent">
@@ -368,7 +379,6 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { Message } from "element-ui";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import { findFailProdData, findFailOrderData } from "../../api/api";
 import { getCookie } from "../../utils/validate";
@@ -483,7 +493,7 @@ export default {
     if (from.name === "/purchasingManagement/purchasingIndex") {
       next((vm) => {
         if (vm.$route.query.cancel === "cancel") {
-          Message("已取消");
+          this.$messageSelf.message("已取消");
         }
       });
     } else {
@@ -508,7 +518,7 @@ export default {
             this.prodSpecValueData = this.reduceFun(this.prodSpecValueData);
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -543,7 +553,7 @@ export default {
             );
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -635,9 +645,9 @@ export default {
     prodEduce() {
       //缺货产品导出表格
       // if (!this.prodMultipleSelection.length)
-      //   return Message("请选择要导出的订单");
+      //   return this.$messageSelf.message("请选择要导出的订单");
       // if (this.prodMultipleSelection.length != 1)
-      //   return Message("一次只能选择一个订单");
+      //   return this.$messageSelf.message("一次只能选择一个订单");
       let oA = document.querySelector(".prodEduce");
       oA.setAttribute(
         "href",
@@ -647,9 +657,9 @@ export default {
     orderEduce() {
       //缺货订单导出表格
       // if (!this.orderMultipleSelection.length)
-      //   return Message("请选择要导出的订单");
+      //   return this.$messageSelf.message("请选择要导出的订单");
       // if (this.orderMultipleSelection.length != 1)
-      //   return Message("一次只能选择一个订单");
+      //   return this.$messageSelf.message("一次只能选择一个订单");
       let oA = document.querySelector(".orderEduce");
       oA.setAttribute(
         "href",
@@ -659,7 +669,7 @@ export default {
     prodGoPurchase() {
       //缺货产品转采购
       if (!this.prodMultipleSelection.length)
-        return Message("请选择需采购的产品");
+        return this.$messageSelf.message("请选择需采购的产品");
       this.$router.push({
         path: "/purchasingManagement/purchasingIndex",
         query: {
@@ -671,42 +681,32 @@ export default {
     orderGoPurchase() {
       //缺货订单转采购
     },
-    prodLookDetailEvent(row, column, cell) {
-      if (column.property === "orderNum") {
-        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
-          this.$router.push({
-            path: "/indentManagement/stockoutOrderInfor",
-            query: {
-              orderNum: row,
-              type: "orderNum",
-            },
-          });
-        }
-      }
+    lookDeatilOrderNum(data) {
+      this.$router.push({
+        path: "/indentManagement/stockoutOrderInfor",
+        query: {
+          orderNum: data,
+          type: "orderNum",
+        },
+      });
     },
-    orderLookDetailEvent(row, column, cell) {
-      if (column.property === "orderNo") {
-        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
-          this.$router.push({
-            path: "/indentManagement/orderDetail",
-            query: {
-              orderNo: row,
-              type: "orderNo",
-            },
-          });
-        }
-      }
-      if (column.property === "subOrderNo") {
-        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
-          this.$router.push({
-            path: "/indentManagement/childOrderDetail",
-            query: {
-              subOrderNos: row,
-              type: "subOrderNos",
-            },
-          });
-        }
-      }
+    lookDeatilOrderNo(data) {
+      this.$router.push({
+        path: "/indentManagement/orderDetail",
+        query: {
+          orderNo: data,
+          type: "orderNo",
+        },
+      });
+    },
+    lookDeatilSubOrderNo(data) {
+      this.$router.push({
+        path: "/indentManagement/childOrderDetail",
+        query: {
+          subOrderNos: data,
+          type: "subOrderNos",
+        },
+      });
     },
     prodAndOrder(item) {
       this.title = item.label + "信息";
@@ -889,7 +889,7 @@ export default {
 #stockoutMianPage {
   .el-tabs__item.is-active {
     @include BtnFunction("success");
-     border: none;
+    border: none;
   }
   .el-tabs__item {
     @include BtnFunction("");

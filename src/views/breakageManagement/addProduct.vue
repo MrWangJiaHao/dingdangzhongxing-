@@ -1,5 +1,5 @@
 <template>
-  <div id="createBreakage">
+  <div id="addBreakProduct">
     <div class="main">
       <div class="headerBox">
         <div class="headerBox-title">选择产品</div>
@@ -114,7 +114,11 @@
             tooltip-effect="dark"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column
+              type="selection"
+              width="55"
+              align="center"
+            ></el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -154,6 +158,8 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="footerBtnBox">
       <div class="backBtnBox">
         <div class="backBtn" @click="back">返回</div>
         <div class="submitBtn" @click="submit">提交</div>
@@ -341,10 +347,9 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
 
-#createBreakage {
-  padding: 20px 10px;
-  background: #eef1f8;
+#addBreakProduct {
   .main {
+    padding: 20px 10px;
     .headerBox {
       .headerBox-title {
         font-size: 16px;
@@ -389,7 +394,7 @@ export default {
         .clearBtn {
           @include BtnFunction();
           background: #fff;
-          margin: 0 0 0 10px;
+          margin: 0 16px 0 10px;
         }
       }
     }
@@ -409,19 +414,6 @@ export default {
       }
       .tableBox-table {
         padding: 16px;
-      }
-    }
-    .backBtnBox {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin-top: 16px;
-      .backBtn {
-        margin: 0 16px 0 0;
-        @include BtnFunction("success");
-      }
-      .submitBtn {
-        @include BtnFunction("success");
       }
     }
   }

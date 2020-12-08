@@ -61,7 +61,11 @@
             tooltip-effect="dark"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column
+              type="selection"
+              width="55"
+              align="center"
+            ></el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -122,7 +126,8 @@
               prop="wareSeatCode"
               label="当前库位"
               align="center"
-              min-width="140"
+              width="170"
+              min-width="170"
             >
               <el-select
                 v-model="scope.row.wareSeatCode"
@@ -143,7 +148,8 @@
               prop="imperfectKuweiValue"
               label="残次品库位"
               align="center"
-              min-width="140"
+              width="170"
+              min-width="170"
             >
               <el-select
                 slot-scope="scope"
@@ -173,6 +179,8 @@
           ></el-input>
         </div>
       </div>
+    </div>
+    <div class="footerBtnBox">
       <div class="backBtnBox">
         <div class="backBtn" @click="back">返回</div>
         <div class="submitBtn" @click="submit">提交</div>
@@ -451,9 +459,8 @@ export default {
 @import "../../assets/scss/btn.scss";
 
 #createBreakage {
-  background: #eef1f8;
-  padding: 20px 10px;
   .main {
+    padding: 20px 10px;
     .headerBox {
       margin-bottom: 20px;
       .headerBox-title {
@@ -473,6 +480,7 @@ export default {
       .headerBox-input {
         display: flex;
         font-size: 14px;
+        padding: 0 16px;
         .el-inputBox {
           display: flex;
           align-items: center;
@@ -482,7 +490,6 @@ export default {
     }
     .tableBox {
       background: white;
-
       .tableBox-title {
         border-bottom: 1px solid #d1d6e2;
         height: 69px;
@@ -492,7 +499,7 @@ export default {
         .titleText {
           font-size: 16px;
           position: relative;
-          margin-left: 50px;
+          margin-left: 42px;
         }
         .titleText::before {
           content: "";
@@ -511,12 +518,12 @@ export default {
           }
           .del {
             @include BtnFunction("error");
-            margin-right: 20px;
+            margin-right: 16px;
           }
         }
       }
       .tableBox-table {
-        padding: 20px;
+        padding: 16px;
       }
     }
     .remarkBox {
@@ -526,27 +533,28 @@ export default {
         margin-bottom: 10px;
       }
     }
-    .backBtnBox {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin-top: 16px;
-      .backBtn {
-        margin: 0 16px 0 0;
-        @include BtnFunction("");
-        background: white;
-      }
-      .submitBtn {
-        @include BtnFunction("success");
-      }
-    }
   }
+  
 }
 </style>
 <style lang="scss">
-.textarea {
-  .el-textarea__inner {
-    height: 80px;
+#createBreakage {
+  .textarea {
+    .el-textarea__inner {
+      height: 80px;
+    }
+  }
+  .el-table td,
+  .el-table th {
+    padding: 4px 0 !important;
+  }
+  .tableBox {
+    .el-input__inner {
+      height: 26px;
+    }
+    .el-icon-arrow-up:before {
+      margin-bottom: 6px;
+    }
   }
 }
 </style>

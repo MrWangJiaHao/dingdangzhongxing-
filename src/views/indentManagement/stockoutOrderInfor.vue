@@ -189,6 +189,7 @@ export default {
     }
     .backBtnBox {
       width: 100%;
+      display: flex;
       .backBtn {
         margin: 0 auto;
         @include BtnFunction("success");

@@ -215,7 +215,7 @@
                   tooltip-effect="dark"
                   @cell-click="outLookDetailEvent"
                 >
-                  <el-table-column type="selection" width="55">
+                  <el-table-column type="selection" width="55" align="center">
                   </el-table-column>
                   <el-table-column
                     label="序号"
@@ -234,14 +234,16 @@
                     prop="orderSourceName"
                     label="订单来源"
                     align="center"
-                    min-width="120"
+                    width="150"
+                    min-width="150"
                   >
                   </el-table-column
                   ><el-table-column
                     prop="backOrderNo"
                     label="退单号"
                     align="center"
-                    min-width="120"
+                    width="190"
+                    min-width="190"
                   >
                     <template slot-scope="scope">
                       <div class="lookDetail">
@@ -252,6 +254,8 @@
                     prop="orderNo"
                     label="订单号"
                     align="center"
+                    width="190"
+                    min-width="190"
                   >
                     <template slot-scope="scope">
                       <div class="lookDetail">
@@ -264,6 +268,8 @@
                     prop="subOrderNos"
                     label="子单号"
                     align="center"
+                    width="190"
+                    min-width="190"
                   >
                     <template slot-scope="scope">
                       <div class="subOrderNosList">
@@ -294,18 +300,24 @@
                     prop="exprName"
                     label="退货物流公司"
                     align="center"
+                    width="110"
+                    min-width="110"
                   >
                   </el-table-column
                   ><el-table-column
                     prop="exprNo"
                     label="退货物流单号"
                     align="center"
+                    width="190"
+                    min-width="190"
                   >
                   </el-table-column
                   ><el-table-column
                     prop="nickName"
                     label="用户昵称"
                     align="center"
+                    width="120"
+                    min-width="120"
                   >
                   </el-table-column>
                   <el-table-column
@@ -318,12 +330,17 @@
                     prop="sendContactPhone"
                     label="发货人电话"
                     align="center"
+                    width="120"
+                    min-width="120"
                   >
                   </el-table-column>
                   <el-table-column
+                    show-overflow-tooltip
                     prop="sendAddr"
                     label="发货地址"
                     align="center"
+                    width="300"
+                    min-width="300"
                   >
                   </el-table-column>
                   <el-table-column
@@ -336,13 +353,16 @@
                     prop="orderContactPhone"
                     label="收货人电话"
                     align="center"
+                    width="120"
                     min-width="120"
                   >
                   </el-table-column>
                   <el-table-column
+                    show-overflow-tooltip
                     prop="orderAddr"
                     label="收货地址"
                     align="center"
+                    width="300"
                     min-width="300"
                   >
                   </el-table-column>
@@ -350,11 +370,25 @@
                     prop="returnMoneyTime"
                     label="退货时间"
                     align="center"
+                    width="180"
+                    min-width="180"
                   >
                   </el-table-column>
-                  <el-table-column prop="" label="确认时间" align="center">
+                  <el-table-column
+                    prop=""
+                    label="确认时间"
+                    align="center"
+                    width="180"
+                    min-width="180"
+                  >
                   </el-table-column>
-                  <el-table-column prop="" label="入库时间" align="center">
+                  <el-table-column
+                    prop=""
+                    label="入库时间"
+                    align="center"
+                    width="180"
+                    min-width="180"
+                  >
                   </el-table-column>
                 </el-table>
                 <div class="pageComponent">
@@ -394,13 +428,14 @@
                   tooltip-effect="dark"
                   @cell-click="unOutLookDetailEvent"
                 >
-                  <el-table-column type="selection" width="55">
+                  <el-table-column type="selection" width="55" align="center">
                   </el-table-column>
                   <el-table-column
                     label="序号"
                     align="center"
                     type="index"
                     width="60"
+                    
                   >
                   </el-table-column>
                   <el-table-column
@@ -413,14 +448,16 @@
                     prop="orderSourceName"
                     label="订单来源"
                     align="center"
-                    min-width="120"
+                    width="150"
+                    min-width="150"
                   >
                   </el-table-column
                   ><el-table-column
                     prop="backOrderNo"
                     label="退单号"
                     align="center"
-                    min-width="120"
+                    width="190"
+                    min-width="190"
                   >
                     <template slot-scope="scope">
                       <div class="lookDetail">
@@ -431,6 +468,8 @@
                     prop="orderNo"
                     label="订单号"
                     align="center"
+                    width="190"
+                    min-width="190"
                   >
                     <template slot-scope="scope">
                       <div class="lookDetail">
@@ -441,6 +480,8 @@
                     prop="subOrderNos"
                     label="子单号"
                     align="center"
+                    width="190"
+                    min-width="190"
                   >
                     <template slot-scope="scope">
                       <div class="subOrderNosList">
@@ -469,18 +510,24 @@
                     prop="exprName"
                     label="物流公司"
                     align="center"
+                    width="110"
+                    min-width="110"
                   >
                   </el-table-column
                   ><el-table-column
                     prop="exprNo"
                     label="物流单号"
                     align="center"
+                    width="190"
+                    min-width="190"
                   >
                   </el-table-column
                   ><el-table-column
                     prop="nickName"
                     label="用户昵称"
                     align="center"
+                    width="120"
+                    min-width="120"
                   >
                   </el-table-column>
                   <el-table-column
@@ -493,6 +540,7 @@
                     prop="orderContactPhone"
                     label="联系电话"
                     align="center"
+                    width="120"
                     min-width="120"
                   >
                   </el-table-column>
@@ -500,6 +548,7 @@
                     prop="orderAddr"
                     label="收货地址"
                     align="center"
+                    width="300"
                     min-width="300"
                   >
                   </el-table-column>
@@ -507,11 +556,25 @@
                     prop="returnMoneyTime"
                     label="退货时间"
                     align="center"
+                    width="180"
+                    min-width="180"
                   >
                   </el-table-column>
-                  <el-table-column prop="" label="确认时间" align="center">
+                  <el-table-column
+                    prop=""
+                    label="确认时间"
+                    align="center"
+                    width="180"
+                    min-width="180"
+                  >
                   </el-table-column>
-                  <el-table-column prop="" label="入库时间" align="center">
+                  <el-table-column
+                    prop=""
+                    label="入库时间"
+                    align="center"
+                    width="180"
+                    min-width="180"
+                  >
                   </el-table-column>
                 </el-table>
                 <div class="pageComponent">

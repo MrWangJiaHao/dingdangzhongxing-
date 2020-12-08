@@ -295,7 +295,7 @@
     </div>
     <div class="submitBtn">
       <div class="submitBtnBox">
-        <el-button @click="goBack" class="canclBtn">取 消</el-button>
+        <el-button @click="goBack" class="canclBtn">返 回</el-button>
         <el-button type="primary" @click="submitData" class="queryBtn">提 交</el-button>
       </div>
     </div>
@@ -840,7 +840,7 @@ export default {
         }
         display: flex;
         align-items: center;
-        font-size: 16px;
+        font-size: 14px;
         margin-right: 16px;
       }
     }
@@ -894,7 +894,7 @@ export default {
       .text_select {
         display: flex;
         align-items: center;
-        font-size: 16px;
+        font-size: 14px;
         margin-right: 16px;
         div {
           white-space: nowrap;

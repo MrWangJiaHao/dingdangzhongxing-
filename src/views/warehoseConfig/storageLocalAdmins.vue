@@ -145,27 +145,55 @@
           tooltip-effect="dark"
           @cell-click="lookDetail"
         >
-          <el-table-column type="selection" width="55"> </el-table-column>
+          <el-table-column type="selection" width="55" align="center"> </el-table-column>
           <el-table-column label="序号" align="center" type="index" width="55">
           </el-table-column>
           <el-table-column prop="childWareName" label="子仓名称" align="center">
           </el-table-column>
           <el-table-column prop="wareAreaName" label="区域名称" align="center">
           </el-table-column>
-          <el-table-column prop="wareAreaType" label="区域类型" align="center">
+          <el-table-column
+            prop="wareAreaType"
+            label="区域类型"
+            align="center"
+            min-width="100"
+          >
           </el-table-column>
-          <el-table-column prop="areaNumber" label="区域编号" align="center">
+          <el-table-column
+            prop="areaNumber"
+            label="区域编号"
+            align="center"
+            min-width="80"
+          >
           </el-table-column>
-          <el-table-column prop="shelfName" label="货架" align="center">
+          <el-table-column
+            prop="shelfName"
+            label="货架"
+            align="center"
+            min-width="80"
+          >
           </el-table-column>
-          <el-table-column prop="tierChoose" label="层" align="center">
+          <el-table-column
+            prop="tierChoose"
+            label="层"
+            align="center"
+            width="60"
+            min-width="60"
+          >
           </el-table-column>
           <el-table-column
             prop="wareSeatCode"
             label="库位"
             align="center"
+            min-width="130"
           ></el-table-column>
-          <el-table-column prop="seatProdId" label="是否已使用" align="center">
+          <el-table-column
+            prop="seatProdId"
+            label="是否已使用"
+            align="center"
+            width="100"
+            min-width="100"
+          >
             <template slot-scope="scope">
               <div class="lookDetail">{{ scope.row.seatProdId }}</div>
             </template>
@@ -179,6 +207,8 @@
             prop="createTime"
             label="创建时间"
             align="center"
+            width="180"
+            min-width="180"
           ></el-table-column>
         </el-table>
         <div class="pageComponent">

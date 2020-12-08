@@ -104,7 +104,8 @@
             tooltip-effect="dark"
             :span-method="spanMethod"
           >
-            <el-table-column type="selection" width="55"> </el-table-column>
+            <el-table-column type="selection" width="55" align="center">
+            </el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -112,7 +113,7 @@
               width="60"
             >
             </el-table-column>
-            <el-table-column prop="exprFeeCode" label="模板编号" align="center">
+            <el-table-column prop="exprFeeCode" label="模板编号" align="left">
             </el-table-column>
             <el-table-column prop="orgName" label="委托公司" align="center">
             </el-table-column>
@@ -137,13 +138,13 @@
               align="center"
             ></el-table-column>
           </el-table>
-        </div>
-        <div class="pageComponent">
-          <pagecomponent
-            :pageComponentsData="pageComponentsData"
-            @getPageNum="getPageNum"
-            @sureSuccssBtn="sureSuccssBtn"
-          ></pagecomponent>
+          <div class="pageComponent">
+            <pagecomponent
+              :pageComponentsData="pageComponentsData"
+              @getPageNum="getPageNum"
+              @sureSuccssBtn="sureSuccssBtn"
+            ></pagecomponent>
+          </div>
         </div>
       </div>
     </div>
@@ -164,26 +165,30 @@
             prop="typeName"
             label="计费方式"
             align="center"
+            width="90"
           ></el-table-column>
           <el-table-column
             prop="cargoName"
             label="运货方式"
             align="center"
+            width="120"
           ></el-table-column>
           <el-table-column
             prop="firstHeavy"
             label="首重(5KG)"
             align="center"
+            width="120"
           ></el-table-column>
           <el-table-column
             prop="continuedHeavy"
             label="续重(每1KG)"
             align="center"
+            width="120"
           ></el-table-column>
           <el-table-column
             prop="areaName"
             label="区域"
-            align="center"
+            align="left"
           ></el-table-column>
         </el-table>
       </div>
@@ -196,7 +201,6 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { Message } from "element-ui";
 import { queryStorePhyDis, queryStorePhyDisCon } from "../../api/api";
 export default {
   components: {
@@ -250,7 +254,7 @@ export default {
       pageComponentsData: {
         pageNums: 0, //一共多少条 //默认一页10条
       },
-      queryFun: "",
+      queryFun: () => {},
       allInfroDate: [],
       idQueryData: {
         exprId: "",
@@ -270,8 +274,8 @@ export default {
       },
       spanArr: [],
       spanCodeArr: [],
-      pos:0,
-      codePos:0
+      pos: 0,
+      codePos: 0,
     };
   },
   mounted() {
@@ -313,7 +317,7 @@ export default {
             }, []);
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -342,7 +346,7 @@ export default {
     spanMethod({ row, column, rowIndex, columnIndex }) {
       console.log(row, column, rowIndex, columnIndex);
       if (column.property === 3) {
-        return[2,2]
+        return [2, 2];
       }
     },
     clickQuery() {
@@ -354,7 +358,7 @@ export default {
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result;
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -382,9 +386,10 @@ export default {
     lookDetail() {
       //查看
       this.tableData1 = [];
-      if (!this.multipleSelection.length) return Message("请选择要查看模板");
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message("请选择要查看模板");
       if (this.multipleSelection.length !== 1)
-        return Message({
+        return this.$messageSelf.message({
           message: "每次只能编辑一个模板，请重新选择",
           type: "warning",
         });
@@ -451,12 +456,13 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/scss/btn.scss";
 #mateAdmin {
-  background: #e6e7ea;
-  padding: 16px;
+  background: #eef1f8;
+  padding: 20px 10px;
 }
 .roleName-choose {
   display: flex;
   justify-content: space-between;
+  padding: 0 16px;
   .name_type {
     display: flex;
     .nameBox {
@@ -464,7 +470,7 @@ export default {
       align-items: center;
       margin: 0 16px 0 0;
       .roleName-text {
-        font-size: 16px;
+        font-size: 14px;
         white-space: nowrap;
       }
       .roleName {
@@ -495,7 +501,7 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 30px 0 10px;
+      margin: 0 0 0 10px;
     }
   }
 }
@@ -505,10 +511,10 @@ export default {
   .formHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #d1d6e2;
     .icon-title {
       display: flex;
-      margin: 24px 0 0 0;
       .icon-title-icon {
         width: 14px;
         height: 14px;
@@ -520,37 +526,18 @@ export default {
       }
       .icon-title-title {
         margin: 0 0 0 8px;
-        font-size: 16px;
       }
     }
     .someBtn {
       display: flex;
-      margin: 16px 20px 16px 0;
-      .setUser {
-        margin-right: 10px;
-        @include BtnFunction("success");
-      }
+      margin: 16px 16px 16px 0;
       .bianjiUser {
-        margin-right: 10px;
-        @include BtnFunction("success");
-      }
-      .remove {
-        @include BtnFunction("error");
-      }
-      .goOn {
-        margin-right: 10px;
         @include BtnFunction("success");
       }
     }
   }
   .resultForm {
-    padding: 20px;
-  }
-  .pageComponent {
-    margin: 20px 10px 0 0;
-    text-align: right;
-    height: 36px;
-    background: #ffffff;
+    padding: 16px;
   }
 }
 </style>
@@ -558,12 +545,11 @@ export default {
 <style lang="scss">
 #mateAdmin {
   .el-dialog__wrapper {
-    background: #eef1f8;
+    // background: #eef1f8;
   }
   .el-dialog {
     width: 900px;
     height: 630px;
-    box-shadow: 0 0 5px 3px #e1e2e5;
     border-radius: 4px;
     .el-dialog__header {
       padding: 0 20px;

@@ -591,9 +591,9 @@ textarea{
   content: "";
   transform: rotate(-180deg);
 }
-.el-table td, .el-table th.is-leaf{
+/* .el-table td, .el-table th.is-leaf{
   border: 0.5px solid #D1D6E2!important;
-}
+} */
 
 .w160{
   width: 175px;
@@ -620,9 +620,9 @@ textarea{
   border-radius: 4px;
   color: #888888;
 }
-.el-input__inner{
+/* .el-input__inner{
   border: 1px solid #dcdfe6!important;
-}
+} */
 .is-disabled{
       background-color: #e1eaf5;
 }

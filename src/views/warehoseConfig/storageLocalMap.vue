@@ -205,7 +205,7 @@
                   tooltip-effect="dark"
                   @cell-click="lookDetail"
                 >
-                  <el-table-column type="selection" width="55">
+                  <el-table-column type="selection" width="55" align="center">
                   </el-table-column>
                   <el-table-column
                     label="序号"
@@ -230,6 +230,8 @@
                     prop="prodCode"
                     label="产品编号"
                     align="center"
+                    width="170"
+                    min-width="170"
                   >
                   </el-table-column>
                   <el-table-column
@@ -317,7 +319,7 @@
                   tooltip-effect="dark"
                   @cell-click="lookDetail"
                 >
-                  <el-table-column type="selection" width="55">
+                  <el-table-column type="selection" width="55" align="center">
                   </el-table-column>
                   <el-table-column
                     label="序号"
@@ -342,6 +344,8 @@
                     prop="prodCode"
                     label="产品编号"
                     align="center"
+                    width="170"
+                    min-width="170"
                   >
                   </el-table-column>
                   <el-table-column

@@ -137,7 +137,7 @@ input[type="number"] {
 .el-table--border,
 .el-table--group {
   border: 1px solid #d2d6e2 !important;
-  border-bottom: none !important;
+  // border-bottom: none !important;
 }
 
 /*全局设置表格一行的高度*/
@@ -147,14 +147,20 @@ input[type="number"] {
 }
 
 /*全局设置表格内容不换行 */
-// .el-table .cell {
-//   white-space: nowrap !important;
-// }
+.el-table .cell {
+  white-space: nowrap !important;
+}
 
 /**全局设置表头背景颜色 */
 .has-gutter .el-table td,
 .el-table th.is-leaf {
   background: #e1eaf5 !important;
+}
+
+.el-table td,
+.el-table th.is-leaf {
+  border-right: 1px solid #d2d6e2 !important;
+  border-bottom: 1px solid #d2d6e2 !important;
 }
 
 /* 全局设置分页器样式*/
@@ -165,5 +171,30 @@ input[type="number"] {
   text-align: right !important;
   height: 36px !important;
   background: #ffffff !important;
+}
+
+//全局设置返回提交按钮css样式
+.footerBtnBox {
+  height: 66px !important;
+  .backBtnBox {
+    position: fixed !important;
+    bottom: 30px !important;
+    background: #eef1f8 !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    height: 66px !important;
+    border-top: 1px solid #ced4de !important;
+    .backBtn {
+      margin: 0 16px 0 0 !important;
+      @include BtnFunction("");
+      background: white !important;
+    }
+    .submitBtn {
+      margin: 0 10px 0 0 !important;
+      @include BtnFunction("success");
+    }
+  }
 }
 </style>
