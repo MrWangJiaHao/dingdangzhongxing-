@@ -117,18 +117,16 @@
 .ivu-input{
   height: 34px!important;
 }
-
 .el-icon-arrow-up:before{
   content: " ";
-  margin-left: 4px;
-  margin-bottom: 3px;
   transition: all 0.5s;
   display: inline-block;
-  transform-origin: 8px 13px;
-  border: 8px solid transparent;
-  transform: rotate(0deg);
-  border-radius: 2px;
-  border-bottom: 8px solid #A9AFBD;
+  width: 11px;
+  height: 8px;
+  transform-origin: 5px 4px;
+  background: url(../svg/dropDown.svg) center center no-repeat;
+  background-size: cover;
+  transform: rotate(-180deg);
 }
 .el-checkbox__inner{
   border-radius: 4px;

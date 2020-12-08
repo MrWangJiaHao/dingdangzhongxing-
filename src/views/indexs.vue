@@ -1,9 +1,15 @@
 <template>
   <div id="headerMain">
     <div class="tabContainer">
-      <span class="imgbox ellipsis displayalign">
+      <span class="imgbox ellipsis displayalign" @click="goToIndex">
         <img src="@/assets/img/logo.png" style="margin-right: 5px" />
-        <span style="color: #fff; font-size: 18px; line-height: 90px"
+        <span
+          style="
+            color: #fff;
+            font-size: 18px;
+            line-height: 90px;
+            user-select: none;
+          "
           >仓储系统</span
         >
       </span>
@@ -513,6 +519,9 @@ export default {
     };
   },
   mounted() {
+    window.addEventListener("resize", () => {
+      this._getMesAge();
+    });
     let data = {
       appNo: "99125FCFA23B4AD09668DC8F1DC53C18",
       type: "4",
@@ -522,23 +531,16 @@ export default {
       // console.log(ok);
     });
     this.activeName = sessionStorage.getItem("activeName");
-    this.$nextTick(() => {
-      let TabNavs = document.querySelector(".el-tabs__nav-scroll"); //子层
-      this.navWidth = TabNavs.offsetWidth;
-      let inners = document.querySelector(".el-tabs__nav-wrap.is-top"); //父层
-      this.innersWidth = inners.offsetWidth;
-      this.Nums = Math.ceil(this.navWidth / this.innersWidth);
-    });
+    this._getMesAge();
   },
   created() {
     this.dropdownArr.unshift(this.dataArr[0]);
     this.addHenxianTables();
-
     this.mianbaoxieArr.unshift();
   },
   watch: {
     activeName: function (n) {
-      console.log("------------activeName------------", n, this.dropdownArr);
+      // console.log("------------activeName------------", n, this.dropdownArr);
       this.activeName = "" + parseInt(n);
     },
     $route: function (n) {
@@ -559,6 +561,18 @@ export default {
     },
   },
   methods: {
+    goToIndex() {
+      this.$router.push("/index/indexFormJH");
+    },
+    _getMesAge() {
+      this.$nextTick(() => {
+        let TabNavs = document.querySelector(".el-tabs__nav-scroll"); //子层
+        this.navWidth = TabNavs.offsetWidth;
+        let inners = document.querySelector(".el-tabs__nav-wrap.is-top"); //父层
+        this.innersWidth = inners.offsetWidth;
+        this.Nums = Math.ceil(this.navWidth / this.innersWidth);
+      });
+    },
     leftMove() {
       a = 0;
       this.leftMoveClick = true;
@@ -571,7 +585,6 @@ export default {
       this.leftMoveClick = false;
       this.rightMoveClick = true;
       let oDiv = document.querySelector(".el-tabs__nav-scroll");
-      oDiv.style.transition = "0.5s";
       a++;
       if (this.Nums == a) {
         this.steep = this.navWidth - this.navWidth * (this.Nums - 1);
@@ -582,6 +595,7 @@ export default {
       console.log(this.steep, "steep");
       let res = this.navWidth - this.innersWidth;
       oDiv.style.left = `${-this.steep * a}px`;
+      oDiv.style.transition = "0.5s";
     },
     clickItemIdx(e) {
       console.log(e, "点击item");
@@ -601,6 +615,7 @@ export default {
         return this.$messageSelf.message({
           message: "该模块在开发中请耐心等候稍后",
         });
+      this._changeBaseUrl(this.dataArr[+this.activeName]);
       console.log("router", router);
       this.$router.push(router);
       let dataArrJson =

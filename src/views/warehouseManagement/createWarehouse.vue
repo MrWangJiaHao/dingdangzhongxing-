@@ -91,7 +91,7 @@
             <div class="tijiaoBox disinb mr20" @click="addChanpin">
               添加产品
             </div>
-            <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
+            <div class="remove disinb" @click="goClearRemove">删除</div>
           </div>
         </div>
         <div class="mb20">
@@ -104,11 +104,16 @@
             style="width: 100%"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="82"></el-table-column>
+            <el-table-column
+              type="selection"
+              align="center"
+              width="82"
+            ></el-table-column>
             <el-table-column
               label="序号"
               type="index"
               width="71"
+              align="center"
               show-overflow-tooltip
             />
             <el-table-column
@@ -202,7 +207,7 @@
       </div>
       <!-- 备注 -->
       <!-- 账号信息 -->
-      <div class="disRight mb20 m210">
+      <div class="disRight mb20 mr20">
         <div class="quxiaoBox mb20 mr20" @click="closeBtn">取消</div>
         <div class="tijiaoBox mb20" @click="goAJAXCreate">提交</div>
       </div>

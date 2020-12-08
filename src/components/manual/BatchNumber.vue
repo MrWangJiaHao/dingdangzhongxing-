@@ -5,36 +5,46 @@
         <div class="closeTitle">打印批次号</div>
         <div class="closeIcon" @click="closeBtn"></div>
       </div>
-      <div style="border-bottom: 1px solid #d2d6e2; padding: 0 0 10px 0">
-        <div id="printCenter" style="padding: 20px">
-          <div class="ptb20" style="width: 1060px">
+      <div style="border-bottom: 1px solid #d2d6e2; padding: 0 0 0px 0">
+        <div id="printCenter" style="text-align: center">
+          <div style="width: 780px">
             <div
               v-for="(item, idx) in parintBatchNumberArrs"
               :key="idx"
               style="
+                position: relative;
                 padding: 20px;
                 display: inline-block;
                 margin-left: 20px;
                 margin-bottom: 20px;
-                width: 460px;
-                height: 240px;
+                width: 300px;
+                height: 200px;
                 color: #333333;
                 font-size: 16px;
                 font-weight: normal;
+                text-align: left;
                 border: 1px solid #d1d6e2;
               "
             >
-              <div style="margin-bottom: 15px">
+              <div style="margin-bottom: 10px">
                 产品名称：{{ item.prodName }}
               </div>
-              <div style="margin-bottom: 15px">规 格：{{ item.specName }}</div>
-              <div style="margin-bottom: 15px">
+              <div style="margin-bottom: 10px">规 格：{{ item.specName }}</div>
+              <div style="margin-bottom: 10px">
                 委托公司：{{ item.supName }}
               </div>
-              <div style="margin-bottom: 15px">批次号：{{ item.batchNo }}</div>
-              <div style="width: 440px; height: 50px;z-index: -1; overflow: hidden">
+              <div style="margin-bottom: 10px">批次号：{{ item.batchNo }}</div>
+              <div
+                style="
+                  height: 50px;
+                  z-index: -1;
+                  position: absolute;
+                  overflow: hidden;
+                "
+              >
                 <img
-                  width="440"
+                  width="300"
+                  height="100"
                   style="margin-left: -40px"
                   :src="
                     'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
@@ -103,8 +113,8 @@ export default {
     },
     _createEwm() {
       this.LODOP.ADD_PRINT_HTM(
-        40,
         20,
+        10,
         2970,
         2100,
         document.getElementById("printCenter").innerHTML
@@ -135,22 +145,15 @@ export default {
     background: rgb(236, 241, 247);
     border-bottom: 1px solid #d1d6e2;
   }
-  .addChanpinClass {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 1140px;
-    z-index: 44;
-    background: #f8f8f8;
-    transform: translate(-50%, -50%);
-  }
   .setUserIngBoxCenter {
     position: relative;
     left: 50%;
     top: 144px;
     transform: translateX(-50%);
     background: #fff;
-    width: 1140px;
+    width: 800px;
+    overflow-y: auto;
+    max-height: 750px;
     .centerBox {
       padding: 30px 20px;
     }

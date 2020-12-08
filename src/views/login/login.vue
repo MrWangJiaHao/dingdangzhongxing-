@@ -99,7 +99,6 @@ export default {
           };
 
           login(data).then((ok) => {
-            console.log(ok.data);
             if (ok.data.code === "10000") {
               this.$messageSelf.message({
                 type: "success",

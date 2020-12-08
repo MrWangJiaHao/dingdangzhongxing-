@@ -439,7 +439,6 @@ export default {
       let target = _getArrTarget(this.multipleSelection, "id");
       getFindWareHouseDetailByIds({ ids: target }, (data) => {
         data = JSON.parse(data);
-        console.log(data);
         if (data.code === "10000") {
           sessionStorage.setItem(
             "parintBatchNumberArrs",

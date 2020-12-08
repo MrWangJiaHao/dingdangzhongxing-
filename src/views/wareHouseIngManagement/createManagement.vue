@@ -82,7 +82,7 @@
             <div class="tijiaoBox disinb mr20" @click="addChanpin">
               添加产品
             </div>
-            <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
+            <div class="remove disinb" @click="goClearRemove">删除</div>
           </div>
         </div>
         <div class="mb20" id="bjTableWraper">

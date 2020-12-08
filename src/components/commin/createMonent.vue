@@ -1,17 +1,16 @@
 <template>
   <div>
-    <div class="centerBox">
+    <div class="">
       <div class="setTitle mb16" v-if="chuanjianJsonAndArr.title">
         {{ chuanjianJsonAndArr.title }}
       </div>
       <!-- title -->
       <div>
-        <div :class="chuanjianJsonAndArr.title ? 'dispalywrap' : 'dispalyFlex'">
-          <div
-            v-for="(item, idx) in chuanjianJsonAndArr.inputArr"
-            :key="idx"
-            class="mb16"
-          >
+        <div
+          :class="chuanjianJsonAndArr.title ? 'dispalywrap' : 'dispalyFlex'"
+          class="centerBox"
+        >
+          <div v-for="(item, idx) in chuanjianJsonAndArr.inputArr" :key="idx">
             <div v-if="item.types == 'xiala'" class="mr11 ellipsis">
               <dropDownXiala
                 :dropDowBox="item"

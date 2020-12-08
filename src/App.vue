@@ -60,6 +60,10 @@ export default {
 </script>
 
 <style lang="scss">
+@import "./assets/scss/btn.scss";
+.remove {
+  @include BtnFunction("error");
+}
 * {
   margin: 0;
   padding: 0;

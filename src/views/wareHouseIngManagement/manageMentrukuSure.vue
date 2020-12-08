@@ -77,10 +77,15 @@
             style="width: 100%; height: 200px; overflow: auto"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="82"></el-table-column>
+            <el-table-column
+              type="selection"
+              align="center"
+              width="82"
+            ></el-table-column>
             <el-table-column
               label="序号"
               type="index"
+              align="center"
               width="71"
               show-overflow-tooltip
             />
@@ -591,7 +596,6 @@ export default {
   width: 172px;
   height: 28px !important;
 }
-
 #manageMenyrukuSures .ivu-input.ivu-input-default.ivu-input-with-suffix {
   border: 1px solid #d2d6e2;
   height: 28px !important;
@@ -617,6 +621,9 @@ export default {
 #manageMenyrukuSures .ivu-icon.ivu-icon-ios-calendar-outline {
   width: 15px !important;
   height: 15px !important;
+}
+#manageMenyrukuSures .ivu-input-inner-container {
+  width: auto;
 }
 </style>
 <style lang='scss' scoped>

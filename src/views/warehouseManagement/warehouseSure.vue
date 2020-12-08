@@ -102,11 +102,13 @@
             <el-table-column
               v-if="!isDetails"
               type="selection"
+              align="center"
               width="82"
             ></el-table-column>
             <el-table-column
               label="序号"
               type="index"
+              align="center"
               width="71"
               :index="indexMethod"
               show-overflow-tooltip
@@ -689,6 +691,9 @@ export default {
 #chukuSure .ivu-icon.ivu-icon-ios-calendar-outline {
   width: 15px !important;
   height: 15px !important;
+}
+#chukuSure .ivu-input-inner-container {
+  width: auto;
 }
 </style>
 <style lang='scss' scoped>
