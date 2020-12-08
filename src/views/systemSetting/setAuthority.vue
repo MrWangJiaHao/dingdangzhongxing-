@@ -58,7 +58,7 @@ export default {
     return {
       checkAll: false,
       checkedCities: [],
-      cities: ["添加","删除"],
+      cities: ["添加", "删除"],
       isIndeterminate: true,
 
       Treedata: [],
@@ -161,7 +161,8 @@ export default {
   top: 0;
   bottom: 0;
   right: 0;
-  width: 870px;
+  max-width: 870px;
+  overflow: auto;
   height: 560px;
   background: #ecf1f7;
   box-shadow: 0px 0px 10px 5px #e4e6e9;

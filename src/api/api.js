@@ -1790,22 +1790,35 @@ export const pOrgProductsApp = {
     }), //删除补货单
     // 补货作业 end
     //库内移动 start
+
     pWarehouseInnerMoveFindRecordPage: (data) => post({
         url: "/wbs-warehouse-manage/pWarehouseInnerMove/findRecordPage",
         data
     }),//分页查询移库单列表
+
     pWarehouseInnerMoveDelRecord: (data) => post({
         url: "/wbs-warehouse-manage/pWarehouseInnerMove/delRecord",
         data
     }),//删除移库单
-    
+
     pOrgProductsFindInnerMoveProductPage: (data) => post({
         url: "/wbs-warehouse-manage/v1/pOrgProducts/findInnerMoveProductPage",
         data
     }),//分页查询产品列表
 
-    // 库内移动 end
+    pWarehouseInnerMoveSaveRecord: (data) => post({
+        url: "/wbs-warehouse-manage/pWarehouseInnerMove/saveRecord",
+        data
+    })
+    ,//保存/修改移库产品
 
+    pWarehouseInnerMoveFindRecord: (data) => post({
+        url: "/wbs-warehouse-manage/pWarehouseInnerMove/findRecord",
+        data
+    })
+    ,//查询移库单详情（编辑/移库确认/打印移库单）
+
+    // 库内移动 end
 }
 //=========================================货品移位 end ========================================
 

@@ -433,7 +433,7 @@ export default {
     top: 144px;
     transform: translateX(-50%);
     background: #fff;
-    width: 1000px;
+    max-width: 1000px;
   }
 
   .quxiaoBox {

@@ -10,6 +10,7 @@
           <createMonent :chuanjianJsonAndArr="chuanjianJsonAndArr" />
         </div>
         <!-- 创建补货单 -->
+
         <div class="mb16">
           <chanpinmingxi
             :chanpinminxiJson="chanpinminxiJson"
@@ -324,6 +325,7 @@ export default {
         },
       },
       muitiplites: [],
+      _isBuHuoZuoYe: false,
     };
   },
   watch: {
@@ -340,8 +342,20 @@ export default {
         return {};
       },
     },
+    moveCreateData: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
   },
   created() {
+    let href = window.location.href;
+    if (href.includes("/moveInLibrary")) {
+      this._isBuHuoZuoYe = true;
+    } else {
+      this._isBuHuoZuoYe = false;
+    }
     this._isTianJiaPinS();
     if (!_isJsonEmpty(this.editDataJson)) {
       //来编辑
@@ -364,7 +378,6 @@ export default {
       this.chuanjianJsonAndArr.inputArr[3].input = wareAreaCode;
       this._getdetailsChanPin();
     },
-
     async _getdetailsChanPin() {
       let data = await this.$pOrgProductsApp.pReplenishOrderFindRecord({
         id: this.editDataJson.id,
@@ -404,12 +417,20 @@ export default {
       if (!this.muitiplites.length)
         return this.$messageSelf.message("请选择要添加的产品明细");
       this.sendoutJson.detailList = this.muitiplites;
+
+      if (this._isBuHuoZuoYe) {
+        this.$emit("clickSubmit", this.sendoutJson);
+      } else {
+        this._buhuozuoye();
+        removeSessageItem("tianjiachanpings");
+      }
+    },
+    async _buhuozuoye() {
       let data = await this.$pOrgProductsApp.pReplenishOrderSaveRecord(
         this.sendoutJson
       );
       if (data.code == "10000") {
         this.$messageSelf.message(data.msg);
-        removeSessageItem("tianjiachanpings");
         this.closeBtn();
       } else {
         this.$messageSelf.message(data.msg);

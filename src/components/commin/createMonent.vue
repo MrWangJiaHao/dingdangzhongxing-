@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="">
-      <div class="setTitle mb16" v-if="chuanjianJsonAndArr.title">
+    <div>
+      <div class="setTitle pd20 mt20" v-if="chuanjianJsonAndArr.title">
         {{ chuanjianJsonAndArr.title }}
       </div>
       <!-- title -->
@@ -10,7 +10,11 @@
           :class="chuanjianJsonAndArr.title ? 'dispalywrap' : 'dispalyFlex'"
           class="centerBox"
         >
-          <div v-for="(item, idx) in chuanjianJsonAndArr.inputArr" :key="idx">
+          <div
+            v-for="(item, idx) in chuanjianJsonAndArr.inputArr"
+            :key="idx"
+            class="mb16"
+          >
             <div v-if="item.types == 'xiala'" class="mr11 ellipsis">
               <dropDownXiala
                 :dropDowBox="item"
@@ -59,5 +63,6 @@ export default {
 <style lang='scss' scoped>
 .centerBox {
   padding: 30px 20px;
+  border-bottom: 1px solid #d1d6e2;
 }
 </style>

@@ -3,8 +3,8 @@
     <div class="manualBox">
       <div>
         <goodsShiftingHeader
-          @jobTaskHeader="jobTaskHeader"
-          @jobTaskClearBtn="jobTaskClearBtn"
+          @queryClick="jobTaskHeader"
+          @clearInters="jobTaskClearBtn"
         />
       </div>
 
@@ -12,8 +12,8 @@
         <div style="background-color: #fff">
           <div class="meiyiyetitle">库内移动</div>
           <div class="btnClick">
-            <div class="setUser" @click="shenchengbuhuodan">移库确认</div>
-            <div class="setUser" @click="isReplenishmentNote = true">
+            <div class="setUser" @click="isBuHuoSureJson">移库确认</div>
+            <div class="setUser" @click="isReplenishmentNoteClick">
               打印移库单
             </div>
             <div class="setUser" @click="createOrderNoteFun">创建</div>
@@ -23,6 +23,7 @@
         </div>
         <!-- but按钮 -->
       </div>
+
       <div class="tableBox">
         <div style="background-color: #fff; padding: 20px 20px 20px 20px">
           <tableCommin :tableDataJson="tableDataJson" />
@@ -66,7 +67,10 @@
           <div>
             <createOrderReplen
               @closeFn="isOrderNoteFun"
+              @clickSubmit="clickSubmit"
               :editDataJson="editDataJson"
+              :chanpinminxiJson="chanpinminxiJson"
+              :chuanjianJsonAndArr="moveCreateData"
             />
           </div>
         </div>
@@ -100,9 +104,9 @@
 import goodsShiftingHeader from "../../components/goodsShiftingCommin/moveInLibrayHeader.vue";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import delivetyNote from "../../components/commin/componentList"; //补货单
-import createOrderReplen from "../../components/goodsShiftingCommin/createOrderReplen"; //创建补货单
-import createOrderSure from "../../components/goodsShiftingCommin/createOrderSure"; //创建补货单
-import { getCookie, _getArrTarget } from "../../utils/validate";
+import createOrderReplen from "../../components/goodsShiftingCommin/moveInLibraryCreate"; //创建补货单
+import createOrderSure from "../../components/goodsShiftingCommin/createOrderSure"; //补货确认
+import { getCookie, _getArrTarget, _isJsonEmpty } from "../../utils/validate";
 import tableCommin from "../../components/commin/tableCommin";
 export default {
   components: {
@@ -114,6 +118,7 @@ export default {
     createOrderSure,
   },
   data() {
+    let self = this;
     return {
       isLooker: false, //点击查看
       isBuHuoSures: false, // 补货确认
@@ -192,6 +197,10 @@ export default {
           {
             types: "orgName",
             label: "移库单号",
+            flag: "puton",
+            OnClicks(res) {
+              console.log(res);
+            },
           },
           {
             types: "oldName",
@@ -221,6 +230,126 @@ export default {
       },
       editDataJson: {}, //编辑
       BuHuoSureJson: {}, //补货确认
+      //创建数据 start
+      moveCreateData: {
+        title: "创建移库单",
+        inputArr: [
+          {
+            title: "子仓名称",
+            disabled: false,
+            types: "xiala",
+            select: "",
+            w320: "w320",
+            placeholder: "请选择子仓名称",
+            dropDownBoxData: [],
+            drop: "",
+          },
+          {
+            title: "子仓类型",
+            disabled: true,
+            types: "search",
+            select: "",
+            w320: "w160",
+            placeholder: "请选择子仓类型",
+            dropDownBoxData: [],
+            drop: "",
+          },
+          {
+            title: "区域名称",
+            disabled: false,
+            types: "xiala",
+            select: "",
+            w320: "w160",
+            placeholder: "请选择区域名称",
+            dropDownBoxData: [],
+            drop: "",
+          },
+          {
+            title: "区域类型",
+            disabled: false,
+            types: "xiala",
+            select: "",
+            w320: "w160",
+            placeholder: "请选择区域类型",
+            dropDownBoxData: [],
+            drop: "",
+          },
+          {
+            title: "区域编号",
+            disabled: false,
+            types: "search",
+            select: "",
+            w320: "w120",
+            placeholder: "请输入区域编号",
+            dropDownBoxData: [],
+            drop: "",
+          },
+        ],
+      },
+      chanpinminxiJson: {
+        title: "产品明细",
+        tableDataJsonAndArr: {
+          tabledata: [],
+          typeData: [
+            {
+              types: "selection",
+              width: 55,
+              align: "center",
+            },
+            {
+              types: "index",
+              width: 71,
+              label: "序号",
+              align: "center",
+            },
+            {
+              types: "ordName",
+              label: "委托公司",
+            },
+            {
+              types: "ordName",
+              label: "产品编码",
+            },
+            {
+              types: "ordName",
+              label: "产品名称",
+            },
+            {
+              types: "ordName",
+              label: "产品规格",
+            },
+            {
+              types: "品牌",
+              label: "品牌",
+            },
+            {
+              types: "品牌",
+              label: "当前库位产品数量",
+            },
+            {
+              types: "品牌",
+              label: "移入库位产品数量",
+            },
+            {
+              types: "品牌",
+              label: "移入库位最大存货数",
+            },
+            {
+              types: "品牌",
+              label: "申请移库数量*",
+            },
+            {
+              types: "品牌",
+              label: "移出库位*",
+            },
+            {
+              types: "品牌",
+              label: "移入库位*",
+            },
+          ],
+        },
+      },
+      //创建数据 end
     };
   },
   created() {
@@ -232,11 +361,21 @@ export default {
       this.editDataJson = {};
       this.isOrderNote = true;
     },
+    async clickSubmit(e) {
+      console.log(e, "clickSubmit提交");
+      let data = await this.$pOrgProductsApp.pWarehouseInnerMoveSaveRecord(e);
+      if (data.code == "10000") {
+        removeSessageItem("tianjiachanpings");
+        this.isOrderNoteFun();
+      } else {
+        this.$messageSelf.message(data.msg);
+      }
+    },
     //编辑
     editOrderNote() {
       if (!this.multipleSelection.length || this.multipleSelection.length != 1)
         return this.$messageSelf.message(
-          "请选择要编辑的补货单,并且只能选择一个编辑"
+          "请选择要编辑的移库单,并且只能选择一个编辑"
         );
       this.editDataJson = this.multipleSelection[0];
       this.isOrderNote = true;
@@ -244,9 +383,9 @@ export default {
     //删除
     removeIsOrderNode() {
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要删除的补货单");
+        return this.$messageSelf.message("请选择要删除的移库单");
       this.$pOrgProductsApp
-        .pReplenishOrderDelRecord({
+        .pWarehouseInnerMoveDelRecord({
           ids: _getArrTarget(this.multipleSelection, "id"),
         })
         .then((res) => {
@@ -261,11 +400,10 @@ export default {
     isBuHuoSureJson() {
       if (!this.multipleSelection.length || this.multipleSelection.length != 1)
         return this.$messageSelf.message(
-          "请选择要确认的补货单,并且只能选择一个确认"
+          "请选择要确认的移库单,并且只能选择一个确认"
         );
       this.BuHuoSureJson = this.multipleSelection[0];
       this._getdetailsChanPin(this.multipleSelection[0]);
-
       this.isLooker = false;
       this.isBuHuoSures = true;
     },
@@ -280,17 +418,18 @@ export default {
       this.isOrderNote = false;
       this.getTableData();
     },
+    //打印移库单
     isReplenishmentNoteClick() {
       if (!this.multipleSelection.length || this.multipleSelection.length != 1)
         return this.$messageSelf.message(
-          "请选择要打印的补货单,以及补货单只能打印一张"
+          "请选择要打印的移库单,以及移库单只能打印一张"
         );
       let json = [
         {
           queryTitle: "移库单号",
-          queryCenter: this.multipleSelection[0].replenishOrderNo
+          queryCenter: `this.multipleSelection[0].replenishOrderNo
             ? this.multipleSelection[0].replenishOrderNo
-            : "",
+            : ""`,
         },
         {
           queryTitle: "移库人（签字）",
@@ -304,21 +443,23 @@ export default {
         },
       ];
       this.replenishmentNoteJson.queryArr = json;
-      this.replenishmentNoteJson.title =
-        "移库单" + this.multipleSelection[0].replenishOrderNo;
+      this.replenishmentNoteJson.title = "移库单";
       this.replenishmentNoteJson.replenishOrderNo = this.multipleSelection[0].replenishOrderNo;
       this._getdetailsChanPin(this.multipleSelection[0]);
       this.isReplenishmentNote = true;
     },
-
     async _getdetailsChanPin(e) {
-      let data = await this.$pOrgProductsApp.pReplenishOrderFindRecord({
+      let data = await this.$pOrgProductsApp.pWarehouseInnerMoveFindRecord({
         id: e.id,
       });
       this.tabledatasArr = data.result[0].detailList;
     },
     jobTaskHeader(e) {
-      this.sendOutDataJson.paras = e;
+      this.sendOutDataJson.paras = Object.assign(
+        {},
+        this.sendOutDataJson.paras,
+        e
+      );
       this.getTableData();
     },
     jobTaskClearBtn(e) {
@@ -353,7 +494,7 @@ export default {
     },
     //获取table表格内容
     async getTableData(fn) {
-      let datas = await this.$pOrgProductsApp.pReplenishOrderfindRecordPage(
+      let datas = await this.$pOrgProductsApp.pWarehouseInnerMoveFindRecordPage(
         this.sendOutDataJson
       );
       if (datas.code == "10000") {

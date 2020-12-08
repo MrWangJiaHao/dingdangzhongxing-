@@ -62,6 +62,13 @@
                 style="height: 28px"
               />
             </div>
+            <div
+              v-else-if="tableItem.flag == 'puton'"
+              class="lookDeatil"
+              @click="tableItem.OnClicks(scoped.row)"
+            >
+              {{ scoped.row[tableItem.types] }}
+            </div>
             <div v-else>再加一个判断 {{ tableItem.flag }}</div>
           </span>
         </el-table-column>
