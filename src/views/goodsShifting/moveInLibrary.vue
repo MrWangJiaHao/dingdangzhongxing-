@@ -106,8 +106,8 @@ import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import delivetyNote from "../../components/commin/componentList"; //补货单
 import createOrderReplen from "../../components/goodsShiftingCommin/moveInLibraryCreate"; //创建补货单
 import createOrderSure from "../../components/goodsShiftingCommin/createOrderSure"; //补货确认
-import { getCookie, _getArrTarget, _isJsonEmpty } from "../../utils/validate";
-import tableCommin from "../../components/commin/tableCommin";
+import { getCookie, _childWareType, _getArrTarget, _isJsonEmpty, _WareAreaType } from "../../utils/validate";
+import tableCommin from "../../components/commin/tableCommin"
 export default {
   components: {
     goodsShiftingHeader,
@@ -231,6 +231,18 @@ export default {
       editDataJson: {}, //编辑
       BuHuoSureJson: {}, //补货确认
       //创建数据 start
+      createDataJson:{
+        id:"",//移库单id
+        innerMoveEndTime:"",//移库开始时间
+        innerMoveNo:"",//移库单号
+        innerMoveStartTime:"",//移库结束时间
+        moveStatus:"",//移库状态（1-待移动 2-移动中 3已移动)
+        moveUser:"",//移库人
+        operatorType:"",//操作状态(1-新增 2-修改 3-入库确认)
+        remark:"",//备注
+        detailList:[],//移库产品明细集合
+        wareType:"",//仓库类型（1-销售；2-售后；3-残次品）
+      },
       moveCreateData: {
         title: "创建移库单",
         inputArr: [
@@ -239,20 +251,38 @@ export default {
             disabled: false,
             types: "xiala",
             select: "",
-            w320: "w320",
+            w320: "w160",
             placeholder: "请选择子仓名称",
             dropDownBoxData: [],
-            drop: "",
+            drop: "childWareName",
+            dropDownXialaClickFun(params) {
+              self.$pOrgProductsApp.query_WH_Request({}).then((res)=>{
+                self.moveCreateData.inputArr[0].dropDownBoxData = self.$messageSelf.isDataCodeExistence(res).list || []
+              })
+            },
+            getDropDownChangeDataFun(e){
+              self.createDataJson = {
+                childWareId:self.moveCreateData.inputArr[0].dropDownBoxData[e].id || 0,
+                wareType:self.moveCreateData.inputArr[0].dropDownBoxData[e].wareType,
+                wareAreaId:"",
+                wareAreaType:"",
+                wareAreaCode:"",
+              }
+              self.moveCreateData.inputArr[1].select = _childWareType(self.createDataJson.wareType) 
+            }
           },
           {
             title: "子仓类型",
             disabled: true,
-            types: "search",
-            select: "",
+            types: "xiala",
+            select: "销售",
             w320: "w160",
             placeholder: "请选择子仓类型",
+            select: "",
             dropDownBoxData: [],
             drop: "",
+            dropDownXialaClickFun(){},
+            getDropDownChangeDataFun(){}
           },
           {
             title: "区域名称",
@@ -262,27 +292,46 @@ export default {
             w320: "w160",
             placeholder: "请选择区域名称",
             dropDownBoxData: [],
-            drop: "",
+            drop:"wareAreaName",
+            dropDownXialaClickFun(){
+              if(!self.createDataJson.childWareId) return self.$messageSelf.message("请选择子仓名称")
+              self.$pOrgProductsApp.queryAreaOfWS(self.createDataJson).then(res=>{
+                let datas = self.$messageSelf.isDataCodeExistence(res)
+                self.moveCreateData.inputArr[2].dropDownBoxData = datas || []
+              })
+            },
+            getDropDownChangeDataFun(e){
+              self.createDataJson = {
+                wareAreaId:self.moveCreateData.inputArr[2].dropDownBoxData[e].id,
+                wareAreaType:self.moveCreateData.inputArr[2].dropDownBoxData[e].wareAreaType,
+                wareAreaCode:self.moveCreateData.inputArr[2].dropDownBoxData[e].wareAreaCode
+              }
+              self.moveCreateData.inputArr[3].select = _WareAreaType(self.createDataJson.wareAreaType)
+              self.moveCreateData.inputArr[4].input = self.createDataJson.wareAreaCode
+            }
           },
           {
             title: "区域类型",
-            disabled: false,
+            disabled: true,
             types: "xiala",
             select: "",
             w320: "w160",
             placeholder: "请选择区域类型",
             dropDownBoxData: [],
             drop: "",
+            dropDownXialaClickFun(){},
+            getDropDownChangeDataFun(){}
           },
           {
             title: "区域编号",
-            disabled: false,
+            disabled: true,
             types: "search",
-            select: "",
+            input: "",
             w320: "w120",
             placeholder: "请输入区域编号",
             dropDownBoxData: [],
             drop: "",
+            changeInputs(){}
           },
         ],
       },
@@ -323,27 +372,27 @@ export default {
               label: "品牌",
             },
             {
-              types: "品牌",
+              types: "当前库位产品数量",
               label: "当前库位产品数量",
             },
             {
-              types: "品牌",
+              types: "移入库位产品数量",
               label: "移入库位产品数量",
             },
             {
-              types: "品牌",
+              types: "移入库位最大存货数",
               label: "移入库位最大存货数",
             },
             {
-              types: "品牌",
+              types: "申请移库数量",
               label: "申请移库数量*",
             },
             {
-              types: "品牌",
+              types: "移出库位",
               label: "移出库位*",
             },
             {
-              types: "品牌",
+              types: "移入库位",
               label: "移入库位*",
             },
           ],

@@ -23,6 +23,7 @@ export default {
       type: Object,
       default: () => {
         return {
+          placeholder:"请输入备注",
           searchCenter: false,
           input: "",
         };

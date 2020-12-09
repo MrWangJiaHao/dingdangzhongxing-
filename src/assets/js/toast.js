@@ -42,6 +42,13 @@ class messageSelf {
             ...JSON
         })
     }
+    isDataCodeExistence(data) {
+        if (data.code === "10000") {
+            return data.result
+        } else {
+            return this.message(data.msg)
+        }
+    }
 }
 
 export default new messageSelf()
