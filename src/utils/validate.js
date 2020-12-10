@@ -351,7 +351,7 @@ export const getJsonTarget = (arr, target, jsonTarget = 'ids') => {
  * @param {*} maxnums 最长的数字
  */
 export const _addArrPush = (nums = 0, arr, maxnums = 10) => {
-  console.log(arr)
+  // console.log(arr)
   if (nums == maxnums) return arr;
   let json = {}
   arr.push(json);

@@ -11,7 +11,7 @@
         <div>
           <createMonent :chuanjianJsonAndArr="chuanjianJsonAndArr">
             <template slot="btnsArr">
-              <div class="tr dispalyFlex">
+              <div class=" dispalyFlex mb16">
                 <span class="goOn inline mr11">查询</span>
                 <span class="lodopFunClear inline" @click="clearInputs">
                   清空
@@ -44,19 +44,19 @@
 </template>
 
 <script>
-import createMonent from "../commin/createMonent"; //创建上面
-import kuanjiaClick from "../commin/kuanjiaClick"; //点击架子
-import TableCommin from "../commin/tableCommin.vue";
-import pageComponent from "../commin/pageComponent";
+  /* eslint-disable */
+  import createMonent from "../commin/createMonent"; //创建上面
+  import kuanjiaClick from "../commin/kuanjiaClick"; //点击架子
+  import TableCommin from "../commin/tableCommin.vue";
+  import pageComponent from "../commin/pageComponent";
 
-export default {
+  export default {
   props: {
     sendoutJson: {
       type: Object,
       default: () => {},
     },
   },
-
   data() {
     return {
       chuanjianJsonAndArr: {
@@ -66,17 +66,20 @@ export default {
             types: "search",
             input: "",
             placeholder: "请输入产品编码",
+            w320:"w160"
           },
           {
             title: "产品名称",
             types: "search",
             input: "",
             placeholder: "请输入产品名称",
+            w320:"w160"
           },
           {
             title: "产品规格",
             types: "xiala",
             select: "",
+            w320:"w160",
             placeholder: "请选择产品规格",
             dropDownXialaClickFun() {},
             getDropDownChangeDataFun() {},
@@ -136,8 +139,92 @@ export default {
   },
   created() {
     this._tableDataArrs();
+    this._hrefDatas()
+  },
+  computed:{
+    //委托公司
+    _inputArrMoveInLibrary(){
+      return [
+        {
+          title: "委托公司",
+          types: "search",
+          input: "",
+          placeholder: "请选择委托公司",
+          w320:'w320'
+        },
+        {
+          title: "产品编码",
+          types: "search",
+          input: "",
+          placeholder: "请输入产品编码",
+          w320:'w160'
+        },
+        {
+          title: "产品名称",
+          types: "search",
+          input: "",
+          placeholder: "请输入产品名称",
+          w320:'w160'
+
+        },
+        {
+          title: "产品规格",
+          types: "xiala",
+          select: "",
+          placeholder: "请选择产品规格",
+          dropDownXialaClickFun() {},
+          getDropDownChangeDataFun() {},
+          w320:'w160'
+        }
+      ]
+    },
+    //产品明细，table
+    _changpingmingxiData(){
+      return [
+        {
+          types: "selection",
+        },
+        {
+          types: "index",
+          label: "序号",
+          width: 70,
+        },
+        {
+          types: "orgName",
+          label: '委托公司'
+        },
+        {
+          types: "prodCode",
+          label: '产品编码'
+        },
+        {
+          types: 'prodName',
+          label: '产品名称'
+        },
+        {
+          types: 'specName',
+          label: '产品规格'
+        },
+        {
+          types: 'braName',
+          label: '品牌'
+        }
+        ,
+        {
+          types: 'currInventory',
+          label: '销售仓可用库存'
+        }
+      ]
+    }
   },
   methods: {
+    _hrefDatas(){
+      let _href = window.location.href
+      if(_href.includes('/moveInLibrary')){
+      this.chuanjianJsonAndArr.inputArr=  this._inputArrMoveInLibrary
+      this.tableDataJson.typeData = this._changpingmingxiData
+      }
+    },
     clearInputs() {
       this.chuanjianJsonAndArr.inputArr[0].input = "";
       this.chuanjianJsonAndArr.inputArr[1].input = "";
@@ -181,10 +268,12 @@ export default {
     },
     //点击了提交
     goAJAXCreate() {
+      if (!this.multiputes.length) return this.$messageSelf.message('请选择要提交的产品明细')
       sessionStorage.setItem(
         "tianjiachanpings",
         JSON.stringify(this.multiputes)
       );
+      this.$emit('clickSubmitFun',this.multiputes)
       this.closeBtn();
     },
   },

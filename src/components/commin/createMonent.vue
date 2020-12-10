@@ -7,15 +7,14 @@
       <!-- title -->
       <div>
         <div
-          :class="chuanjianJsonAndArr.title ? 'dispalywrap' : 'dispalyFlex'"
-          class="centerBox"
+          class="centerBox clearfix "
         >
           <div
             v-for="(item, idx) in chuanjianJsonAndArr.inputArr"
             :key="idx"
-            class="mb16"
+            class="mb16 fl"
           >
-            <div v-if="item.types == 'xiala'" class="mr11 ellipsis">
+            <div v-if="item.types == 'xiala'" class="mr11  ellipsis">
               <dropDownXiala
                 :dropDowBox="item"
                 :drop="item.drop"
@@ -30,7 +29,7 @@
               {{ "再加一个判断" + item }}
             </div>
           </div>
-          <div>
+          <div class="fr">
             <slot name="btnsArr"> </slot>
           </div>
         </div>

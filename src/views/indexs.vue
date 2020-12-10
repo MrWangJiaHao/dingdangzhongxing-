@@ -1,3 +1,4 @@
+<script src="../utils/validate.js"></script>
 <template>
   <div id="headerMain">
     <div class="tabContainer">
@@ -615,8 +616,6 @@ export default {
         return this.$messageSelf.message({
           message: "该模块在开发中请耐心等候稍后",
         });
-      this._changeBaseUrl(this.dataArr[+this.activeName]);
-      console.log("router", router);
       this.$router.push(router);
       let dataArrJson =
         this.dropdownArr[+this.activeTabsName].children.length != 0

@@ -8,6 +8,7 @@
       <template slot="centerKuanjia">
         <createMonent :chuanjianJsonAndArr="chuanjianJsonAndArr" />
         <chanpinmingxi
+                id="cangpingmingxi"
           :chanpinminxiJson="chanpinminxiJson"
           @tableSelectArrs="tableSelectArr"
         >
@@ -21,8 +22,8 @@
         <!-- 产品明细 -->
         <div class="pd20 mt20 mb16">
           <remarksInput
-            @changeInputs="changeInputs"
-            :searchCenter="searchCenter"
+            @changeInputs="beizhuObj.changeInputs"
+            :searchCenter="beizhuObj.searchCenter"
           />
         </div>
         <!-- 备注 -->
@@ -34,13 +35,29 @@
         leave-active-class="animate__animated animate__zoomOut"
       >
         <div v-if="isAddcreateChanpin">
-          <addTianjiaChanpin :sendoutJson="sendoutJson" />
+          <addTianjiaChanpin :sendoutJson="sendoutJson" @clickSubmitFun="clickSubmitFun" />
         </div>
       </transition>
     </div>
   </div>
 </template>
+<style lang="scss" >
+ #cangpingmingxi .el-input__inner{
+   height: 28px;
+  }
+ #cangpingmingxi .el-input__icon {
+  line-height: 28px;
+ }
+ #cangpingmingxi .dropDownBox .input_box{
+   height: 28px;
 
+ }
+ #cangpingmingxi .input{
+   border-radius: 4px;
+   /*color:#DCDFE6;*/
+   border: 1px solid #DCDFE6;
+ }
+</style>
 <script>
 /*eslint-disable */
 import kuanjiaClick from "../commin/kuanjiaClick"; //点击架子
@@ -52,6 +69,15 @@ import addTianjiaChanpin from "../goodsShiftingCommin/addTianjiaChanpin"; // 添
 
 export default {
   props: {
+    beizhuObj:{
+      type:Object,
+      default:()=>{
+        return {
+          changeInputs:()=>{},
+          searchCenter:"请输入备注"
+        }
+      }
+    },
     sendoutJson:{
       type:Object,
       default:()=>{}
@@ -101,11 +127,15 @@ export default {
         this.mutitleMes
       );
     },
+    clickSubmitFun(e){
+      this.$emit('changpingmingxiData',e)
+    },
     closeBtn() {
       this.$emit("closeFn");
     },
     clickSubmit() {
-      this.$emit("clickSubmit");
+      if(!this.mutitleMes.length) return this.$messageSelf.message("请选择要创建的产品明细")
+      this.$emit("clickSubmit",this.mutitleMes);
     },
   },
 };

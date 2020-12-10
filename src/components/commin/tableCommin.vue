@@ -49,16 +49,17 @@
                 style="height: 28px"
                 :dropDowBox="tableItem.dropDowBox"
                 :drop="tableItem.drop"
+                :select="scoped.row.drop"
                 @getDropDownData="
-                  tableItem.getDropDownData(scoped.$index, scoped.row)
+                  tableItem.getDropDownData
                 "
-                @cliclInput="tableItem.cliclInput(scoped.row)"
+                @cliclInput="tableItem.cliclInput(scoped.row,scoped.$index)  "
               ></dropDownXiala>
             </div>
             <div v-else-if="tableItem.flag == 'date'">
               <dateTime
                 :dateTimeData="tableItem.dateTimeData"
-                @getDateTime="tableItem.getDateTime"
+                @getDateTime="tableItem.getDateTime  "
                 style="height: 28px"
               />
             </div>

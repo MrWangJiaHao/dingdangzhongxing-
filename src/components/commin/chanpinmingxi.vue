@@ -11,12 +11,6 @@
         :tableDataJson="chanpinminxiJson.tableDataJsonAndArr"
         @tableSelectArr="tableSelectArrs"
       >
-        <template name="searchBox">
-          <input type="text" placeholder="asdsa" />
-        </template>
-        <template name="dropDownXiala">
-          <input type="text" placeholder="asdsa" />
-        </template>
       </tableCommin>
     </div>
   </div>
