@@ -358,3 +358,75 @@ export const _addArrPush = (nums = 0, arr, maxnums = 10) => {
   nums++;
   _addArrPush(nums, arr);
 }
+
+/**
+ * 判断子仓类型
+ * @param {*} nums 传入的waretype
+ */
+export const _childWareType = (nums) => {
+  switch (nums) {
+    case 1:
+      return "销售"
+      break;
+    case 2:
+      return "售后";
+      break;
+    case 3:
+      return "残次品";
+      break;
+    default:
+      return "其他"
+  }
+}
+/**
+ * 区域类型
+ * @param {*} nums 需要判断的
+ */
+export const _WareAreaType = (nums) => {
+  switch (nums) {
+    case 1:
+      return "存储区"
+      break;
+    case 2:
+      return "拣货区";
+      break;
+    default:
+      return "不知道"
+  }
+  // 区域类型（1-存储区；2-拣货区）
+}
+
+/**
+ * 库位类型
+ * @param {*} nums 需要判断的
+ */
+export const _seatType = (nums) => {
+  switch (nums) {
+    case 1:
+      return "存储区"
+      break;
+    case 2:
+      return "拣货区";
+      break;
+    default:
+      return "不知道"
+  }
+  // 区域类型（1-存储区；2-拣货区）
+}
+
+/**
+ * disposeStatus
+ * 补货状态
+ */
+export const _disposeStatus = (nums) => {
+  switch (nums) {
+    case 1:
+      return "待补货"
+      break;
+    case 2:
+      return "补货中";
+      break;
+    default:
+      return "已补货"
+  }
+}

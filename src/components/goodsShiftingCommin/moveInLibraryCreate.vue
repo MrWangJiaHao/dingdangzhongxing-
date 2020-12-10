@@ -28,7 +28,7 @@
         <!-- 备注 -->
       </template>
     </kuanjiaClick>
-    <div v-if="isAddcreateChanpin">
+    <div v-if="isAddcreateChanpin" class="bjBox">
       <transition
         enter-active-class="animate__animated animate__zoomIn"
         leave-active-class="animate__animated animate__zoomOut"
@@ -52,6 +52,10 @@ import addTianjiaChanpin from "../goodsShiftingCommin/addTianjiaChanpin"; // 添
 
 export default {
   props: {
+    sendoutJson:{
+      type:Object,
+      default:()=>{}
+    },
     chuanjianJsonAndArr: {
       type: Object,
       default: () => {
@@ -77,11 +81,15 @@ export default {
     return {
       mutitleMes: [],
       isAddcreateChanpin: false,
+      stream:""
     };
   },
   methods: {
+ 
     //添加产品
-    isAddcreateChanpinShow() {},
+    isAddcreateChanpinShow() {
+      this.isAddcreateChanpin = true
+    },
     tableSelectArr(e) {
       this.mutitleMes = e;
     },

@@ -1871,12 +1871,15 @@ export const pOrgProductsApp = {
     pWarehouseInnerMoveFindRecord: (data) => post({
         url: "/wbs-warehouse-manage/pWarehouseInnerMove/findRecord",
         data
-    }), //查询移库单详情（编辑/移库确认/打印移库单）
-
+    })
+    ,//查询移库单详情（编辑/移库确认/打印移库单）
+    query_WH_Request: (data) => query_WH_Request(data).then(res => res.data), //获取子仓
+    queryAreaOfWS: (data) => queryAreaOfWS(data).then(res => res.data), //获取区域
+    getFindOrgChildWare: (data) => getFindOrgChildWare(data).then(res => res),//根据委托公司获取子仓
     // 库内移动 end
 }
-//=========================================货品移位 end ========================================
 
+//=========================================货品移位 end ========================================
 export function post(datas) {
     let {
         url,
