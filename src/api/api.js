@@ -1038,6 +1038,63 @@ export function findExprFeeDetailStatistics(data) {
         })
     })
 }
+//统计=>发货订单统计（分页查询）
+export function findOrderStatistics(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/sendStatistics/findOrderStatistics",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//统计=>发货单品统计（分页查询）
+export function findProdStatistics(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/sendStatistics/findProdStatistics",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//统计=>人工统计（拣货统计）（分页查询）
+export function findPickOrderStatistics(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/menStatistics/findPickOrderStatistics",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//统计=>人工统计（复核统计）（分页查询）
+export function findReCheckOrderStatistics(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/menStatistics/findReCheckOrderStatistics",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
 
 /**
  * 
@@ -1771,19 +1828,19 @@ export const pOrgProductsApp = {
     findReplienshProductPagePost: (data) => post({
         url: "/wbs-warehouse-manage/v1/pOrgProducts/findReplienshProductPage",
         data
-    }),//新增根据委托公司、子仓、区域查询产品
+    }), //新增根据委托公司、子仓、区域查询产品
     pReplenishOrderSaveRecord: (data) => post({
         url: "/wbs-warehouse-manage/pReplenishOrder/saveRecord",
         data
-    }),//创建 保存 修改 补货单
+    }), //创建 保存 修改 补货单
     pReplenishOrderfindRecordPage: (data) => post({
         url: "/wbs-warehouse-manage/pReplenishOrder/findRecordPage",
         data
-    }),//货品移位 =》 补货作业 => 分页查询补货单
+    }), //货品移位 =》 补货作业 => 分页查询补货单
     pReplenishOrderFindRecord: (data) => post({
         url: "/wbs-warehouse-manage/pReplenishOrder/findRecord",
         data
-    }),//补货详情查询 （打印补货单/补货确认）
+    }), //补货详情查询 （打印补货单/补货确认）
     pReplenishOrderDelRecord: (data) => post({
         url: "/wbs-warehouse-manage/pReplenishOrder/delRecord",
         data
@@ -1794,29 +1851,27 @@ export const pOrgProductsApp = {
     pWarehouseInnerMoveFindRecordPage: (data) => post({
         url: "/wbs-warehouse-manage/pWarehouseInnerMove/findRecordPage",
         data
-    }),//分页查询移库单列表
+    }), //分页查询移库单列表
 
     pWarehouseInnerMoveDelRecord: (data) => post({
         url: "/wbs-warehouse-manage/pWarehouseInnerMove/delRecord",
         data
-    }),//删除移库单
+    }), //删除移库单
 
     pOrgProductsFindInnerMoveProductPage: (data) => post({
         url: "/wbs-warehouse-manage/v1/pOrgProducts/findInnerMoveProductPage",
         data
-    }),//分页查询产品列表
+    }), //分页查询产品列表
 
     pWarehouseInnerMoveSaveRecord: (data) => post({
         url: "/wbs-warehouse-manage/pWarehouseInnerMove/saveRecord",
         data
-    })
-    ,//保存/修改移库产品
+    }), //保存/修改移库产品
 
     pWarehouseInnerMoveFindRecord: (data) => post({
         url: "/wbs-warehouse-manage/pWarehouseInnerMove/findRecord",
         data
-    })
-    ,//查询移库单详情（编辑/移库确认/打印移库单）
+    }), //查询移库单详情（编辑/移库确认/打印移库单）
 
     // 库内移动 end
 }

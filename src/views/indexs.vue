@@ -387,7 +387,24 @@ export default {
         {
           title: "库存管理",
           iconCls: require("@/assets/svg/kuchunguanli.svg"),
-          children: [],
+          children: [
+            {
+              title: "产品库存",
+              name: "/inventoryMangement/productInventory",
+            },
+            {
+              title: "有效期管理",
+              name: "/inventoryMangement/indateMangement",
+            },
+            {
+              title: "批次有效期修改",
+              name: "/inventoryMangement/saveIndate",
+            },
+            {
+              title: "设置临期值",
+              name: "/inventoryMangement/setAdventValue",
+            },
+          ],
         },
         {
           title: "库存盘点",
@@ -615,7 +632,7 @@ export default {
         return this.$messageSelf.message({
           message: "该模块在开发中请耐心等候稍后",
         });
-      this._changeBaseUrl(this.dataArr[+this.activeName]);
+      // this._changeBaseUrl(this.dataArr[+this.activeName]);
       console.log("router", router);
       this.$router.push(router);
       let dataArrJson =
@@ -729,16 +746,12 @@ export default {
   left: 50% !important;
   transform: translate(-50%);
 }
-
-
 .el-tabs__new-tab {
   display: none;
 }
-
 .el-table__body-wrapper .is-scrolling-right {
   overflow: auto;
 }
-
 .el-tabs__header {
   margin: 0 0 0;
 }
@@ -749,7 +762,6 @@ export default {
   left: 10px;
   z-index: 10;
 }
-
 .dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item {
   border: 1px solid #ced4de;
 }
@@ -761,7 +773,6 @@ export default {
 .mianbaoxie {
   padding: 20px 10px;
 }
-
 .dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item:first-child {
   border-left: 1px solid #ced4de !important;
 }
@@ -780,7 +791,6 @@ export default {
   color: #000 !important;
   border-bottom-color: #eef1f8 !important;
 }
-
 .el-breadcrumb__item {
   display: flex;
 }
@@ -795,7 +805,6 @@ export default {
   background: #5a9af4;
   margin-right: 10px;
 }
-
 .el-tabs--card > .el-tabs__header .el-tabs__nav {
   border: none;
 }
@@ -806,7 +815,6 @@ export default {
 .el-tabs__item.is-top.is-closable {
   margin-right: 18px;
 }
-
 .el-tabs__item:hover {
   color: #000;
   cursor: pointer;

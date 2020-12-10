@@ -118,7 +118,6 @@ import orderPicking from "@/assets/img/orderPicking.png";
 import recheck from "@/assets/img/recheck.png";
 import pickingFail from "@/assets/img/pickingFail.png";
 import pullGoods from "@/assets/img/pullGoods.png";
-import { Message } from "element-ui";
 
 import { indexRequest } from "../../api/api";
 export default {
@@ -162,7 +161,7 @@ export default {
         this.todaySend = ok.data.result.todaySend;
         this.yesterdaySend = ok.data.result.yesterdaySend;
       } else {
-        Message({
+        this.$messageSelf.message({
           type: "error",
           message: ok.data.msg,
         });
@@ -210,36 +209,36 @@ export default {
       );
     },
     detail1() {
-      return Message("该模块还在开发中");
+      this.$router.push({ path: "/statistics/labourStatistics" });
     },
     detail2() {
-      return Message("该模块还在开发中");
+      this.$router.push({ path: "/statistics/labourStatistics" });
     },
     detail3() {
-      return Message("该模块还在开发中");
+      this.$router.push({ path: "/statistics/shipmentStatistics" });
     },
     detail4() {
-      this.$router.push({path:"/indentManagement/resalesIndentManage"})
+      this.$router.push({ path: "/indentManagement/resalesIndentManage" });
     },
     detailInfor(i) {
       switch (i) {
         case 0:
-          Message("该模块还在开发中");
+          this.$router.push({ path: "/deliveryManagement/normalDelivery" });
           break;
         case 1:
-          Message("该模块还在开发中");
+          this.$router.push({ path: "/deliveryManagement/pickingList" });
           break;
         case 2:
-          Message("该模块还在开发中");
+          this.$messageSelf.message("该模块还在开发中");
           break;
         case 3:
-          Message("该模块还在开发中");
+          this.$router.push({ path: "/indentManagement/sellIndentManage" });
           break;
         case 4:
-          Message("该模块还在开发中");
+          this.$router.push({ path: "/indentManagement/stockoutIndentManage" });
           break;
         case 5:
-          Message("该模块还在开发中");
+          this.$messageSelf.message("该模块还在开发中");
           break;
       }
     },
@@ -276,7 +275,7 @@ export default {
           margin: 0 0 0 20px;
         }
         .numberInfor1-num1 {
-          padding: 0 44px;
+          padding: 0 44px 0 27px;
           border-right: 1px #f2e9e8 solid;
           span {
             font-size: 16px;
@@ -291,7 +290,7 @@ export default {
           }
         }
         .numberInfor1-num2 {
-          padding: 0 44px;
+          padding: 0 50px;
           border-right: 1px #f2e9e8 solid;
           span {
             font-size: 16px;
@@ -303,7 +302,7 @@ export default {
           }
         }
         .numberInfor1-num3 {
-          padding: 0 44px;
+          padding: 0 50px;
           span {
             font-size: 16px;
           }
