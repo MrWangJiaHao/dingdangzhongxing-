@@ -92,6 +92,7 @@
                                 :detailsJson="moveSureDetailsJson"
                                 :chanpinminxiJson="moveSureChanpinminxiJson"
                                 @closeBtnSure="closeBtnSure"
+                                @tableSelectArrs="moveSuretableSelectArrs"
                                 :isLooker="isLooker"
                                 @sureSubmit="sureSubmit"
                         />
@@ -357,14 +358,15 @@
                     detailsArr: []
                 },
                 moveSureChanpinminxiJson: {
+                    title: "产品明细",
+                    moveSureChanPInarr: [],
+                    copyShopping() {
+                        console.log('点击了复制')
+                    },
+                    removeShopping() {
+                        console.log('点击了删除')
+                    },
                     tableDataJsonAndArr: {
-                        copyShopping() {
-                            console.log('messs')
-                        },
-                        removeShopping() {
-                            console.log('messs11')
-
-                        },
                         tabledata: [{}],
                         typeData: [
                             {
@@ -418,7 +420,11 @@
                                 label: "实际移库数量*",
                                 width: 250,
                                 flag: "input",
-                                placeholder: "请输入实际移库数量"
+                                inputType: "number",
+                                placeholder: "请输入实际移库数量",
+                                OnBlur: (e) => {
+                                    console.log(e)
+                                }
                             }, {
                                 types: "",
                                 label: "批次号",
@@ -551,6 +557,10 @@
             this.getTableData();
         },
         methods: {
+            //产品明细
+            moveSuretableSelectArrs(e) {
+                this.moveSureChanpinminxiJson.moveSureChanPInarr = e
+            },
             changpingmingxiData(e) {
                 this.chanpinminxiJson.tableDataJsonAndArr.tabledata = e
             },

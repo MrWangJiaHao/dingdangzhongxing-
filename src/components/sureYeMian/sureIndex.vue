@@ -15,7 +15,7 @@
                     ></detailsData>
                 </div>
                 <div class="mb16">
-                    <chanpinmingxi :chanpinminxiJson="chanpinminxiJson">
+                    <chanpinmingxi :chanpinminxiJson="chanpinminxiJson" @tableSelectArrs="tableSelectArrs">
                         <template slot="anniuBtns">
                             <span class="goOn mr11 inline" @click="chanpinminxiJson.copyShopping">复制产品</span>
                             <span class="lodopFunClear inline" @click="chanpinminxiJson.removeShopping">删除</span>
@@ -75,8 +75,10 @@
             clickSubmit() {
                 this.$emit("sureSubmit")
             },
+            tableSelectArrs(e){
+                this.$emit('tableSelectArrs',e)
+            }
         }
-
     }
 </script>
 
@@ -106,7 +108,7 @@
         height: 28px;
     }
 
-    #sures .dropDownBox .input_box[data-v-0e988ff4] {
+    #sures .dropDownBox .input_box {
         height: 28px;
     }
 

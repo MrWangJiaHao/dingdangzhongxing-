@@ -125,7 +125,6 @@
             changpingName(e) {
                 this.paras.prodName = e
             },
-
             //产品编码
             changpingbianma(e) {
                 this.paras.prodCode = e
