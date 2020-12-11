@@ -74,6 +74,9 @@ import {
 import {
   PFSRequest1
 } from '../components/productForm/productFormPick'
+import {
+  orgInfor
+} from '../views/login/orgInfor.js'
 export default new Vuex.Store({
   state,
   mutations,
@@ -83,6 +86,7 @@ export default new Vuex.Store({
     CWAdminRequest,
     storageLocalAdminRequest,
     PFSRequest,
-    PFSRequest1
+    PFSRequest1,
+    orgInfor
   }
 })

@@ -159,13 +159,13 @@
             >
             </el-table-column>
             <el-table-column
-              prop="subOrderStatus"
+              prop="practicalInventory"
               label="销售仓实际库存"
               align="center"
             >
             </el-table-column>
             <el-table-column
-              prop="volume"
+              prop="outOfProdNum"
               label="销售仓可用库存"
               align="center"
             >
@@ -177,12 +177,16 @@
             >
             </el-table-column>
             <el-table-column
-              prop="commendBox"
+              prop="defectiveGoodsInventory"
               label="残次品仓库存"
               align="center"
             >
             </el-table-column>
-            <el-table-column prop="exprName" label="售后仓库存" align="center">
+            <el-table-column
+              prop="afterSaleInventory"
+              label="售后仓库存"
+              align="center"
+            >
             </el-table-column>
             <el-table-column
               prop="inventoryFloor"
@@ -277,18 +281,16 @@ export default {
   },
   mounted() {
     this.pageQueryFun();
+    this.entrustCompanyData = this.$store.state.orgInfor.orgInforData;
     inventoryMangementQuery(this.queryDataAll).then((ok) => {
       // console.log(ok);
       if (ok.data.code === "10000") {
         ok.data.result.list.forEach((v) => {
-          this.entrustCompanyData.push({ value: v.orgId, label: v.orgName });
-          this.entrustCompanyData = reduceFun(this.entrustCompanyData);
-          this.specNameData.push({value: v.specName, label: v.specName})
+          this.specNameData.push({ value: v.specName, label: v.specName });
           this.specNameData = reduceFun(this.specNameData);
           // this.braNameData.push({value: v.braId, label: v.braName})
-          this.braNameData.push({value: v.braName, label: v.braName})
-          this.braNameData = reduceFun(this.braNameData)
-
+          this.braNameData.push({ value: v.braName, label: v.braName });
+          this.braNameData = reduceFun(this.braNameData);
         });
       }
     });
@@ -301,6 +303,10 @@ export default {
           this.tableData = [];
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
+          this.tableData.forEach((v) => {
+            //销售仓实际库存=销售仓当前库存-销售仓锁定库存
+            v.practicalInventory = v.currInventory - v.lockInventory;
+          });
         }
       });
     },
