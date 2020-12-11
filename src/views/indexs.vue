@@ -387,7 +387,24 @@ export default {
         {
           title: "库存管理",
           iconCls: require("@/assets/svg/kuchunguanli.svg"),
-          children: [],
+          children: [
+            {
+              title: "产品库存",
+              name: "/inventoryMangement/productInventory",
+            },
+            {
+              title: "有效期管理",
+              name: "/inventoryMangement/indateMangement",
+            },
+            {
+              title: "批次有效期修改",
+              name: "/inventoryMangement/saveIndate",
+            },
+            {
+              title: "设置临期值",
+              name: "/inventoryMangement/setAdventValue",
+            },
+          ],
         },
         {
           title: "库存盘点",
@@ -615,7 +632,6 @@ export default {
         return this.$messageSelf.message({
           message: "该模块在开发中请耐心等候稍后",
         });
-      this._changeBaseUrl(this.dataArr[+this.activeName]);
       console.log("router", router);
       this.$router.push(router);
       let dataArrJson =
@@ -730,7 +746,6 @@ export default {
   transform: translate(-50%);
 }
 
-
 .el-tabs__new-tab {
   display: none;
 }
@@ -745,7 +760,6 @@ export default {
 
 .dianjiqiehuan .el-tabs {
   position: relative;
-  top: 1px;
   left: 10px;
   z-index: 10;
 }
@@ -760,6 +774,7 @@ export default {
 }
 .mianbaoxie {
   padding: 20px 10px;
+  height: 56px;
 }
 
 .dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item:first-child {

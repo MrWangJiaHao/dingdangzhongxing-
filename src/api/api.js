@@ -1096,6 +1096,21 @@ export function findReCheckOrderStatistics(data) {
     })
 }
 
+//库存管理=>
+export function inventoryMangementQuery(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWareOrgProd/findRecordPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
 /**
  * 
  * @param {*}  获取查询仓库下的委托公司

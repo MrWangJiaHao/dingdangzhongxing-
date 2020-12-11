@@ -406,7 +406,7 @@
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import { queryOrderInfor } from "../../api/api";
-import { isMobile } from "../../utils/validate";
+import { clearTimeInput, isMobile } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -560,6 +560,7 @@ export default {
       queryOrderInfor(queryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
+          this.tableData = [];
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
           this.tableData.forEach((v) => {
@@ -681,7 +682,7 @@ export default {
     },
     clearInput() {
       //点击清空输入框
-      this.clearTimeInput();
+      clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
       this.tableData = [];
@@ -815,6 +816,7 @@ export default {
     },
     sureSuccssBtn(e) {
       this.queryData.pageNumber = e;
+      this.pageQueryFun();
     },
     changeData(data) {
       this.changePageData(data);
@@ -847,16 +849,6 @@ export default {
         this.queryData.paras.checkEndTime = e;
       } else if (this.stateChooseValue === "揽件时间") {
         this.queryData.paras.sendEndTime = e;
-      }
-    },
-    clearTimeInput() {
-      let input = document.getElementsByClassName("ivu-input");
-      for (let i = 0; i < input.length; i++) {
-        input[i].value = "";
-      }
-      let elInput = document.querySelectorAll(".el-input__inner");
-      for (let i = 0; i < elInput.length; i++) {
-        elInput[i].value = "";
       }
     },
   },
@@ -979,14 +971,6 @@ export default {
       text-decoration: underline;
       cursor: pointer;
     }
-  }
-  .pageComponent {
-    border: 0.5px solid #d2d6e2;
-    border-top: none;
-    padding: 2px 0;
-    text-align: right;
-    height: 36px;
-    background: #ffffff;
   }
 }
 </style>
