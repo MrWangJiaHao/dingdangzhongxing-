@@ -37,7 +37,7 @@
               </el-input>
             </div>
           </div>
-          
+
           <div class="el-inputBox">
             <div class="el-inputBox-text">规格：</div>
             <div class="el-inputBox-checkBox" style="width: 160px">
@@ -216,7 +216,7 @@
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { inventoryMangementQuery } from "../../api/api";
-import { clearTimeInput } from "../../utils/validate";
+import { clearTimeInput, reduceFun } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -257,6 +257,19 @@ export default {
           prodType: "",
         },
       },
+      queryDataAll: {
+        pageNumber: "1",
+        pageSize: "99999999",
+        paras: {
+          orgId: "",
+          orgName: "",
+          prodCode: "",
+          prodName: "",
+          specId: "",
+          specName: "",
+          prodType: "",
+        },
+      },
       pageComponentsData: {
         pageNums: 0,
       },
@@ -264,6 +277,21 @@ export default {
   },
   mounted() {
     this.pageQueryFun();
+    inventoryMangementQuery(this.queryDataAll).then((ok) => {
+      // console.log(ok);
+      if (ok.data.code === "10000") {
+        ok.data.result.list.forEach((v) => {
+          this.entrustCompanyData.push({ value: v.orgId, label: v.orgName });
+          this.entrustCompanyData = reduceFun(this.entrustCompanyData);
+          this.specNameData.push({value: v.specName, label: v.specName})
+          this.specNameData = reduceFun(this.specNameData);
+          // this.braNameData.push({value: v.braId, label: v.braName})
+          this.braNameData.push({value: v.braName, label: v.braName})
+          this.braNameData = reduceFun(this.braNameData)
+
+        });
+      }
+    });
   },
   methods: {
     pageQueryFun() {
@@ -272,7 +300,7 @@ export default {
         if (ok.data.code === "10000") {
           this.tableData = [];
           this.tableData = ok.data.result.list;
-          this.changeData(ok.data.result)
+          this.changeData(ok.data.result);
         }
       });
     },
@@ -308,6 +336,10 @@ export default {
     },
     turnToProc() {
       //转采购
+      this.$router.push({
+        path: "/purchasingManagement/purchasingIndex",
+        query: { fromPage: "productInventory" },
+      });
     },
     setWarning() {
       //设置高库存预警值
@@ -402,7 +434,7 @@ export default {
     }
   }
   .resultForm {
-    padding: 16px;
+    padding: 16px 20px;
   }
 }
 </style>

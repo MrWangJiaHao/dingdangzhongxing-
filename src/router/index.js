@@ -536,20 +536,7 @@ const routes = [{
         name: "/inventoryMangement/indateMangement",
         component: () => import("../views/inventoryMangement/indateMangement"),
       },
-      {
-        // 库存管理=>批次有效期修改
-        path: "/inventoryMangement/saveIndate",
-        name: "/inventoryMangement/saveIndate",
-        component: () => import("../views/inventoryMangement/saveIndate"),
-      },
-      {
-        // 库存管理=>设置临期值
-        path: "/inventoryMangement/setAdventValue",
-        name: "/inventoryMangement/setAdventValue",
-        component: () => import("../views/inventoryMangement/setAdventValue"),
-      },
       //----------------------------------------------------------库存管理结束-------------------------------------------------------------------------------------
-
     ]
   },
   {

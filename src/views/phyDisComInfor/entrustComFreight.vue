@@ -537,7 +537,7 @@ export default {
     }
   }
   .resultForm {
-    padding: 16px;
+    padding: 16px 20px;
   }
 }
 </style>
@@ -571,9 +571,11 @@ export default {
     }
     .el-dialog__footer {
       width: 100%;
-      height: 76px;
-      padding: 0 20px;
-      margin: 19px 0 0 0;
+      height: 80px;
+      padding: 20px 20px;
+      .el-button{
+        border:1px solid #DCDFE6
+      }
     }
   }
 }

@@ -395,14 +395,6 @@ export default {
               title: "有效期管理",
               name: "/inventoryMangement/indateMangement",
             },
-            {
-              title: "批次有效期修改",
-              name: "/inventoryMangement/saveIndate",
-            },
-            {
-              title: "设置临期值",
-              name: "/inventoryMangement/setAdventValue",
-            },
           ],
         },
         {

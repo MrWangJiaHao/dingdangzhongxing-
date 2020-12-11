@@ -599,9 +599,7 @@ export default {
       border: 1px solid #d1d6e2;
     }
   }
-  .center {
-    border: 1px solid #d1d6e2;
-  }
+
   .lineBox {
     height: 25px;
     padding: 0 10px;

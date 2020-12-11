@@ -726,17 +726,12 @@ export default {
     }
   }
   .resultForm {
-    padding: 16px;
+    padding: 16px 20px;
     .lookDetail {
       color: #599af3;
       text-decoration: underline;
       cursor: pointer;
     }
-  }
-  .pageComponent {
-    text-align: right;
-    height: 36px;
-    background: #ffffff;
   }
 }
 </style>

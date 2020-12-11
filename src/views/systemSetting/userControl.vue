@@ -530,14 +530,7 @@ export default {
     }
   }
   .resultForm {
-    padding: 20px;
-  }
-  .pageComponent {
-    margin: 20px 10px 0 0;
-    text-align: right;
-    height: 36px;
-    background: #ffffff;
-    border: 1px solid #d1d6e2;
+    padding:16px 20px;
   }
 }
 </style>

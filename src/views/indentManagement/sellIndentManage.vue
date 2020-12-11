@@ -964,7 +964,7 @@ export default {
     }
   }
   .resultForm {
-    padding: 16px;
+    padding: 16px 20px;
     .lookDeatil {
       color: #599af3;
       text-decoration: underline;

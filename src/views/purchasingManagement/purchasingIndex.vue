@@ -276,6 +276,12 @@ export default {
           vm.isCreatePurchasing = true;
         }
       });
+    } else if (from.name === "/inventoryMangement/productInventory") {
+      next((vm) => {
+        if (vm.$route.query.fromPage === "productInventory") {
+          console.log("库存管理-产品库存页面跳转过来的");
+        }
+      });
     } else {
       next();
     }
