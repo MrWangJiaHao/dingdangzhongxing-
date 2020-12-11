@@ -5,6 +5,7 @@ class isDisplayNoneBlock {
         this.parentHeight = 0
         this.parent = null
     }
+
     isChaXun(child) {
         if (!child) return console.log(child)
         let parent = child.parentNode;
@@ -19,6 +20,7 @@ class isDisplayNoneBlock {
             this.createDomPush(child);
         }
     }
+
     createDomPush(child) {
         let self = this
         let div = document.createElement("div");
@@ -30,12 +32,14 @@ class isDisplayNoneBlock {
             self.number % 2 ? self.clickFun(div, self) : self.changeFun(div, self);
         }, false);
     }
+
     clickFun(div, self) {
         div.innerText = "展示"
         div.classList.toggle("isclickMes")
         self.child.style.bottom = "10" + "px";
         self.parent.style.height = 118 + "px";
     }
+
     changeFun(div, self) {
         div.innerText = "收起"
         self.parent.style.height = self.parentHeight + "px";
@@ -43,4 +47,5 @@ class isDisplayNoneBlock {
         div.classList.toggle("isclickMes")
     }
 }
+
 export default new isDisplayNoneBlock()
