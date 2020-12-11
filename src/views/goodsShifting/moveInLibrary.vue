@@ -1,3 +1,5 @@
+<script src="../../../../../../../其他/ckysemployeeFront/js/c_policy.js"></script>
+<script src="../../../../../../../每日必备/test1.js"></script>
 <template>
     <div id="fahuoguanli">
         <div class="manualBox">
@@ -111,7 +113,7 @@
     import delivetyNote from "../../components/commin/componentList"; //补货单
     import createOrderReplen from "../../components/goodsShiftingCommin/moveInLibraryCreate"; //创建补货单
     import createOrderSure from "../../components/sureYeMian/sureIndex"; //补货确认
-    import {_childWareType, _getArrTarget, _WareAreaType, getCookie} from "../../utils/validate";
+    import {_childWareType, _getArrTarget, _removeData, _WareAreaType, getCookie} from "../../utils/validate";
     import tableCommin from "../../components/commin/tableCommin"
 
     export default {
@@ -315,7 +317,6 @@
                                 })
                             },
                             getDropDownChangeDataFun(e) {
-                                console.log(self.moveCreateData.inputArr[2].dropDownBoxData[e].wareAreaType)
                                 self.createDataJson = {
                                     ...self.createDataJson,
                                     wareAreaId: self.moveCreateData.inputArr[2].dropDownBoxData[e].id,
@@ -355,8 +356,47 @@
                 },
                 moveSureDetailsJson: {
                     title: "移库确认详情",
-                    detailsArr: []
+                    detailsArr: [
+                        {
+                            titles: "移库单号",
+                            centers: 'this.BuHuoSureJson.replenishOrderNo',
+                        },
+                        {
+                            titles: "移库状态",
+                            centers: "待移库"
+                        },
+                        {
+                            titles: "创建时间",
+                            centers: ""
+                        },
+                        {
+                            titles: "创建人",
+                            centers: ""
+                        },
+                        {
+                            titles: "移库时间",
+                            centers: "请选择移库时间",
+                            type: "date",
+                            disabled: false,
+                            getDateTimeExpectedSendTime(res) {
+                                console.log(res)
+                            }
+                        },
+                        {
+                            titles: "移库人",
+                            centers: "",
+                            type: "input",
+                            input: "",
+                            disabled: false,
+                            placeholder: "请输入移库人姓名",
+                            OnBlur(res) {
+                                let value = res.target.value
+                                console.log(value)
+                            }
+                        }
+                    ]
                 },
+
                 moveSureChanpinminxiJson: {
                     title: "产品明细",
                     moveSureChanPInarr: [],
@@ -364,7 +404,7 @@
                         console.log('点击了复制')
                     },
                     removeShopping() {
-                        console.log('点击了删除')
+                        _removeData(self.moveSureChanpinminxiJson.tableDataJsonAndArr.tabledata,self.createDataJson.detailList)
                     },
                     tableDataJsonAndArr: {
                         tabledata: [{}],
@@ -721,6 +761,7 @@
                 this.tableDataJson.tabledata = datas.list;
             },
             sureSubmit(e) {
+                this.createDataJson.detailList = e
                 console.log(e, '确认点击了提交')
             }
         },
