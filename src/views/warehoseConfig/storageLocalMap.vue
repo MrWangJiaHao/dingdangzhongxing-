@@ -908,7 +908,7 @@ export default {
   .formBox {
     position: relative;
     .childWarehouseForm {
-      margin: 16px 0 0 0;
+      margin: 4px 0;
       background: white;
       .formHeader {
         display: flex;
@@ -1035,7 +1035,7 @@ export default {
 #storageLocalMap {
   .el-tabs__item.is-active {
     @include BtnFunction("success");
-    border: none;
+    border: 1px solid transparent;
   }
   .el-tabs__item {
     @include BtnFunction("");
@@ -1047,7 +1047,7 @@ export default {
     border: none;
     position: absolute;
     left: 126px;
-    top: 32px;
+    top: 20px;
   }
   .el-tabs__header {
     margin: 0;

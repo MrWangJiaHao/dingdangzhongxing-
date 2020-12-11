@@ -160,7 +160,10 @@ input[type="number"] {
   border-right: 1px solid #d2d6e2 !important;
   border-bottom: 1px solid #d2d6e2 !important;
 }
-
+/**全局设置表格斑马线背景色 */
+.el-table--striped .el-table__body tr.el-table__row--striped td{
+  background: #f3f8fe !important;
+}
 /* 全局设置分页器样式*/
 .pageComponent {
   border: 1px solid #d2d6e2 !important;

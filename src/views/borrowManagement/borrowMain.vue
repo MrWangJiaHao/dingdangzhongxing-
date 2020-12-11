@@ -11,7 +11,7 @@
         </div>
         <div class="el-inputBox">
           <div class="el-inputBox-text">借调状态：</div>
-          <div class="el-inputBox-checkBox" style="width: 120px">
+          <div class="el-inputBox-checkBox" style="width: 160px">
             <el-select
               v-model="borrowType"
               placeholder="请选择借调状态"
@@ -30,7 +30,7 @@
         </div>
         <div class="el-inputBox">
           <div class="el-inputBox-text">借调物料：</div>
-          <div class="el-inputBox-checkBox" style="width: 120px">
+          <div class="el-inputBox-checkBox" style="width: 160px">
             <el-select
               v-model="borrowMate"
               placeholder="请选择借调物料"
@@ -49,7 +49,7 @@
         </div>
         <div class="el-inputBox">
           <div class="el-inputBox-text">借出方：</div>
-          <div class="el-inputBox-checkBox" style="width: 120px">
+          <div class="el-inputBox-checkBox" style="width: 160px">
             <el-select
               v-model="borrowOutSide"
               placeholder="请选择借出方"
@@ -162,7 +162,13 @@
           </el-table-column>
           <el-table-column prop="createUser" label="创建人" align="center">
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间" align="center">
+          <el-table-column
+            prop="createTime"
+            label="创建时间"
+            align="center"
+            width="180"
+            min-width="180"
+          >
           </el-table-column>
           <el-table-column prop="verifyUserName" label="审核人" align="center">
           </el-table-column>
@@ -170,6 +176,8 @@
             prop="verifyTime"
             label="审核时间"
             align="center"
+            width="180"
+            min-width="180"
           ></el-table-column>
         </el-table>
         <div class="pageComponent">
@@ -706,7 +714,7 @@ export default {
         width: 10px;
         height: 2px;
         background: #d1d6e2;
-        margin: 0 2.5%;
+        margin: 0 10px;
       }
     }
   }
