@@ -30,7 +30,7 @@
         <!-- but按钮 -->
       </div>
       <div class="tableBox">
-        <div style="background-color: #fff; padding: 20px 20px 20px 20px">
+        <div style="background-color: #fff; padding: 16px 20px 16px 20px">
           <div v-if="!daibuhuochanping" class="center">
             <el-table
               ref="multipleTable"
@@ -231,7 +231,6 @@ import createOrderSure from "../../components/goodsShiftingCommin/createOrderSur
 import {
   getCookie,
   _getArrTarget,
-  getJsonTarget,
   _addArrPush,
 } from "../../utils/validate";
 import tableCommin from "../../components/commin/tableCommin";

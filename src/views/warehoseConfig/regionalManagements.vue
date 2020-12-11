@@ -88,7 +88,7 @@
     <div v-if="quyuLook">
       <div
         class="pofixCenter displayCenter"
-        style="background: rgba(0, 0, 0, 0.4)"
+        style="background: rgba(0, 0, 0, 0.4);"
       >
         <div class="quyupinmianBoxMsg">
           <div class="heiderBoxs p20">
@@ -183,7 +183,7 @@
     </div>
     <!-- 库位平面图 -->
     <div class="tableBox">
-      <div style="background-color: #fff; padding: 20px 20px 0 20px">
+      <div style="background-color: #fff;padding: 16px 20px 16px 20px">
         <div class="center">
           <el-table
             ref="multipleTable"

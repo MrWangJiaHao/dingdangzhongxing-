@@ -1,5 +1,3 @@
-<script src="../../../../../../../其他/ckysemployeeFront/js/c_policy.js"></script>
-<script src="../../../../../../../每日必备/test1.js"></script>
 <template>
     <div id="fahuoguanli">
         <div class="manualBox">
@@ -27,7 +25,7 @@
             </div>
 
             <div class="tableBox">
-                <div style="background-color: #fff; padding: 20px 20px 20px 20px">
+                <div style="background-color: #fff;padding: 16px 20px 16px 20px">
                     <tableCommin :tableDataJson="tableDataJson"/>
                     <!-- 待补货产品 -->
                     <div class="pageComponent">
@@ -208,35 +206,36 @@
                             width: 71,
                         },
                         {
-                            types: "orgName",
+                            types: "innerMoveNo",
                             label: "移库单号",
                             flag: "puton",
+                            width: 250,
                             OnClicks(res) {
                                 console.log(res);
                             },
                         },
                         {
-                            types: "oldName",
+                            types: "moveStatus",
                             label: "移库单状态",
                         },
                         {
-                            types: "oldName",
+                            types: "createUser",
                             label: "创建人",
                         },
                         {
-                            types: "oldName",
+                            types: "createTime",
                             label: "创建时间",
                         },
                         {
-                            types: "oldName",
+                            types: "moveUser",
                             label: "移库人",
                         },
                         {
-                            types: "oldName",
+                            types: "innerMoveStartTime",
                             label: "移库开始时间",
                         },
                         {
-                            types: "oldName",
+                            types: "innerMoveEndTime",
                             label: "移库结束时间",
                         },
                     ],
@@ -396,18 +395,22 @@
                         }
                     ]
                 },
-
                 moveSureChanpinminxiJson: {
                     title: "产品明细",
                     moveSureChanPInarr: [],
                     copyShopping() {
-                        console.log('点击了复制')
+                        if (!self.createDataJson.detailList.length) return self.$messageSelf.message('请选择要复制的产品')
+                        let arr = _removeData(self.moveSureChanpinminxiJson.tableDataJsonAndArr.tabledata, self.createDataJson.detailList, true)
+                        self.moveSureChanpinminxiJson.tableDataJsonAndArr.tabledata = arr
+                        self.createDataJson.detailList = arr
                     },
                     removeShopping() {
-                        _removeData(self.moveSureChanpinminxiJson.tableDataJsonAndArr.tabledata,self.createDataJson.detailList)
+                        let arrs = _removeData(self.moveSureChanpinminxiJson.tableDataJsonAndArr.tabledata, self.createDataJson.detailList)
+                        self.moveSureChanpinminxiJson.tableDataJsonAndArr.tabledata = arrs
+                        self.createDataJson.detailList = arrs
                     },
                     tableDataJsonAndArr: {
-                        tabledata: [{}],
+                        tabledata: [{orgName: "子仓名称"}],
                         typeData: [
                             {
                                 types: "selection"
@@ -462,14 +465,17 @@
                                 flag: "input",
                                 inputType: "number",
                                 placeholder: "请输入实际移库数量",
-                                OnBlur: (e) => {
-                                    console.log(e)
+                                drop: "value",
+                                OnBlur: (e, data) => {
+                                    console.log(e, data)
                                 }
-                            }, {
+                            },
+                            {
                                 types: "",
                                 label: "批次号",
                                 width: 250,
-                            }, {
+                            },
+                            {
                                 types: "",
                                 label: "生产日期",
                                 width: 250,
@@ -600,6 +606,7 @@
             //产品明细
             moveSuretableSelectArrs(e) {
                 this.moveSureChanpinminxiJson.moveSureChanPInarr = e
+                this.createDataJson.detailList = e
             },
             changpingmingxiData(e) {
                 this.chanpinminxiJson.tableDataJsonAndArr.tabledata = e
@@ -613,7 +620,6 @@
                 this.createDataJson.detailList = e
                 let data = await this.$pOrgProductsApp.pWarehouseInnerMoveSaveRecord(this.createDataJson);
                 if (data.code == "10000") {
-                    removeSessageItem("tianjiachanpings");
                     this.isOrderNoteFun();
                 } else {
                     this.$messageSelf.message(data.msg);
@@ -758,11 +764,17 @@
                 this.tableData = datas.list;
                 this.pageComponentsData.pageNums = datas.totalRow;
                 //点击生产补货单
+                datas.list.forEach(item => {
+                    item.moveStatus = this.movestatusData(item.moveStatus);
+                })
                 this.tableDataJson.tabledata = datas.list;
             },
             sureSubmit(e) {
                 this.createDataJson.detailList = e
                 console.log(e, '确认点击了提交')
+            },
+            movestatusData(res) {
+                return res == 1 ? "待移动" : res ? "移动中" : res ? "已移动" : "未定义"
             }
         },
     };

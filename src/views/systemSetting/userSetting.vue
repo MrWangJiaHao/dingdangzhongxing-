@@ -77,7 +77,7 @@
     </div>
     <!-- but按钮 -->
     <div class="tableBox">
-      <div style="background-color: #fff; padding: 20px 20px 0 20px">
+      <div style="background-color: #fff;padding: 16px 20px 16px 20px">
         <div class="center">
           <el-table
             ref="multipleTable"

@@ -61,7 +61,7 @@
         <!-- but按钮 -->
       </div>
       <div class="tableBox" id="findRecord">
-        <div style="background-color: #fff; padding: 20px 20px 20px 20px">
+        <div style="background-color: #fff;padding: 16px 20px 16px 20px">
           <div class="center">
             <el-table
               ref="multipleTable"
