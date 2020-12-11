@@ -5,7 +5,7 @@
                 @closeBtn="closeBtn"
                 :isLooker="isLooker"
                 @clickSubmit="clickSubmit"
-                :width="'1080px'"
+                :width="'1180px'"
         >
             <template slot="centerKuanjia">
                 <div class="mb16">
@@ -68,14 +68,20 @@
                 default: false
             }
         },
+        data(){
+            return {
+
+            }
+        },
         methods: {
             closeBtn() {
                 this.$emit('closeBtnSure')
             },
             clickSubmit() {
-                this.$emit("sureSubmit")
+                this.$emit("sureSubmit",this.tableSelectArrs)
             },
             tableSelectArrs(e){
+                this.tableSelectArrs = e
                 this.$emit('tableSelectArrs',e)
             }
         }

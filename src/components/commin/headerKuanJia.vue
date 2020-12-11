@@ -3,12 +3,12 @@
     <div class="fuzzyQueryBox">
       <div class="biaogeBox">
         <slot name="biaoBoxCenter"></slot>
-      </div>
-      <div class="btns inline btnArrs tr">
-        <div class="queryBtn inline mr11 zujianBox" @click="clickQueryUser">
-          查询
+        <div class="btns inline btnArrs tr">
+          <div class="queryBtn inline mr11 zujianBox" @click="clickQueryUser">
+            查询
+          </div>
+          <div class="clearBtn inline" @click="clearInputAll">清空</div>
         </div>
-        <div class="clearBtn inline" @click="clearInputAll">清空</div>
       </div>
     </div>
   </div>
@@ -33,8 +33,6 @@ export default {
   padding: 20px 30px;
   overflow: hidden;
   position: relative;
-  justify-content: space-between;
-  align-items: center;
   .biaogeBox {
     flex-wrap: wrap;
     align-items: center;

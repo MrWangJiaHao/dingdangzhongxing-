@@ -10,8 +10,7 @@
             line-height: 90px;
             user-select: none;
           "
-          >仓储系统</span
-        >
+          >仓储系统</span>
       </span>
       <div class="el-nav">
         <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
@@ -596,6 +595,9 @@ export default {
       let res = this.navWidth - this.innersWidth;
       oDiv.style.left = `${-this.steep * a}px`;
       oDiv.style.transition = "0.5s";
+    },
+    _isPanDauanQianMianDaGuoHouMian(max,min){
+      
     },
     clickItemIdx(e) {
       console.log(e, "点击item");
