@@ -231,7 +231,6 @@ import createOrderSure from "../../components/goodsShiftingCommin/createOrderSur
 import {
   getCookie,
   _getArrTarget,
-  getJsonTarget,
   _addArrPush,
 } from "../../utils/validate";
 import tableCommin from "../../components/commin/tableCommin";

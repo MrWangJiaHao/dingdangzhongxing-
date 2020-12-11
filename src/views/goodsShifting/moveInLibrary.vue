@@ -206,35 +206,36 @@
                             width: 71,
                         },
                         {
-                            types: "orgName",
+                            types: "innerMoveNo",
                             label: "移库单号",
                             flag: "puton",
+                            width: 250,
                             OnClicks(res) {
                                 console.log(res);
                             },
                         },
                         {
-                            types: "oldName",
+                            types: "moveStatus",
                             label: "移库单状态",
                         },
                         {
-                            types: "oldName",
+                            types: "createUser",
                             label: "创建人",
                         },
                         {
-                            types: "oldName",
+                            types: "createTime",
                             label: "创建时间",
                         },
                         {
-                            types: "oldName",
+                            types: "moveUser",
                             label: "移库人",
                         },
                         {
-                            types: "oldName",
+                            types: "innerMoveStartTime",
                             label: "移库开始时间",
                         },
                         {
-                            types: "oldName",
+                            types: "innerMoveEndTime",
                             label: "移库结束时间",
                         },
                     ],
@@ -619,7 +620,6 @@
                 this.createDataJson.detailList = e
                 let data = await this.$pOrgProductsApp.pWarehouseInnerMoveSaveRecord(this.createDataJson);
                 if (data.code == "10000") {
-                    removeSessageItem("tianjiachanpings");
                     this.isOrderNoteFun();
                 } else {
                     this.$messageSelf.message(data.msg);
@@ -764,11 +764,17 @@
                 this.tableData = datas.list;
                 this.pageComponentsData.pageNums = datas.totalRow;
                 //点击生产补货单
+                datas.list.forEach(item => {
+                    item.moveStatus = this.movestatusData(item.moveStatus);
+                })
                 this.tableDataJson.tabledata = datas.list;
             },
             sureSubmit(e) {
                 this.createDataJson.detailList = e
                 console.log(e, '确认点击了提交')
+            },
+            movestatusData(res) {
+                return res == 1 ? "待移动" : res ? "移动中" : res ? "已移动" : "未定义"
             }
         },
     };
