@@ -74,7 +74,7 @@
         </div>
       </div>
       <!-- 个人信息 -->
-      <div class="centerBox mb20" id="bjTableWraper">
+      <div class="centerBox" id="bjTableWraper">
         <div class="clearfix">
           <div class="setTitle fl">产品明细</div>
           <div class="mb20 fr">
@@ -198,7 +198,7 @@
 <script>
 /*eslint-disable */
 import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
-import { Message } from "element-ui";
+
 import { getCookie, _isJsonEmpty } from "../../utils/validate";
 import {
   getFindWareOrg,
@@ -324,7 +324,7 @@ export default {
     //点击了添加产品
     addChanpin() {
       if (!this.createUserData.expectedArrivalTime)
-        return Message("请选择期望到货时间");
+        return this.$messageSelf.message("请选择期望到货时间");
       this.addChanpins = true;
     },
     //关闭
@@ -346,15 +346,15 @@ export default {
     },
     //点击了提交
     async goAJAXCreate() {
-      if (!this.createUserData.orgId) return Message("请选择委托公司");
+      if (!this.createUserData.orgId) return this.$messageSelf.message("请选择委托公司");
       if (!this.createUserData.expectedArrivalTime)
-        return Message("请选择期望到货时间");
+        return this.$messageSelf.message("请选择期望到货时间");
       if (!this.multipleSelection.length)
-        return Message("请选择要创建的产品明细");
+        return this.$messageSelf.message("请选择要创建的产品明细");
       this.createUserData.detailList = this.multipleSelection;
       let datas = await getpPurchaseOrdersaveRecord(this.createUserData);
       if (datas.code == "10000") {
-        Message(datas.msg);
+        this.$messageSelf.message(datas.msg);
         sessionStorage.removeItem("_addTablesData");
         sessionStorage.removeItem("createManagementChildWareId");
         this.$parent.getTableData();
