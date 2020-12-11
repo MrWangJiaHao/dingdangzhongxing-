@@ -463,9 +463,11 @@ export default {
     },
     downTemplate() {
       //下载导入模板
+      this.$messageSelf.message({ message: "该功能暂时没有", type: "warning" });
     },
     leadingin() {
       //导入
+      this.$messageSelf.message({ message: "该功能暂时没有", type: "warning" });
     },
     educe() {
       //导出表格
@@ -567,7 +569,7 @@ export default {
       .icon-title-icon {
         width: 14px;
         height: 14px;
-        margin: 2px 0 0 20px;
+        margin: 0 0 0 20px;
         img {
           width: 100%;
           height: 100%;
@@ -575,7 +577,6 @@ export default {
       }
       .icon-title-title {
         margin: 0 0 0 8px;
-        font-size: 16px;
       }
     }
     .someBtn {

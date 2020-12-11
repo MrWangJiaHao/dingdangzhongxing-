@@ -195,7 +195,6 @@ export default {
       }
       .icon-title-title {
         margin: 0 0 0 8px;
-        font-size: 16px;
       }
     }
     .someBtn {

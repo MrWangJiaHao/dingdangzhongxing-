@@ -223,22 +223,28 @@ export default {
     detailInfor(i) {
       switch (i) {
         case 0:
-          this.$router.push({ path: "/deliveryManagement/normalDelivery" });
+          this.$router.push({ path: "/indentManagement/stockoutIndentManage" });
           break;
         case 1:
-          this.$router.push({ path: "/deliveryManagement/pickingList" });
+          this.$router.push({ path: "/deliveryManagement/normalDelivery" });
           break;
         case 2:
-          this.$messageSelf.message("该模块还在开发中");
+          this.$router.push({ path: "/deliveryManagement/pickingList" });
           break;
         case 3:
           this.$router.push({ path: "/indentManagement/sellIndentManage" });
           break;
         case 4:
-          this.$router.push({ path: "/indentManagement/stockoutIndentManage" });
+          this.$messageSelf.message({
+            message: "该模块还在开发中",
+            type: "warning",
+          });
           break;
         case 5:
-          this.$messageSelf.message("该模块还在开发中");
+          this.$messageSelf.message({
+            message: "该模块还在开发中",
+            type: "warning",
+          });
           break;
       }
     },
