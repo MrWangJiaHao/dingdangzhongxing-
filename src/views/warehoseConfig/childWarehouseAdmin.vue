@@ -467,7 +467,7 @@ export default {
       .icon-title-icon {
         width: 14px;
         height: 14px;
-        margin: 2px 0 0 20px;
+        margin: 0 0 0 20px;
         img {
           width: 100%;
           height: 100%;
@@ -475,7 +475,6 @@ export default {
       }
       .icon-title-title {
         margin: 0 0 0 8px;
-        font-size: 16px;
       }
     }
     .someBtn {
