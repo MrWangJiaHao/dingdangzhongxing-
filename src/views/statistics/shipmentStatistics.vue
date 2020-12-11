@@ -393,10 +393,12 @@ export default {
       if (val.label === this.labelTitle1) {
         document.querySelector(".prodNameBox").style.display = "flex";
         document.querySelector(".prodCodeBox").style.display = "flex";
+        document.querySelector(".headerHtml").style.height = "100px";
         this.activeLabel = true;
       } else {
         document.querySelector(".prodNameBox").style.display = "none";
         document.querySelector(".prodCodeBox").style.display = "none";
+        document.querySelector(".headerHtml").style.height = "50px";
         this.activeLabel = false;
       }
     },

@@ -37,7 +37,7 @@
               </el-input>
             </div>
           </div>
-          
+
           <div class="el-inputBox">
             <div class="el-inputBox-text">规格：</div>
             <div class="el-inputBox-checkBox" style="width: 160px">
@@ -159,13 +159,13 @@
             >
             </el-table-column>
             <el-table-column
-              prop="subOrderStatus"
+              prop="practicalInventory"
               label="销售仓实际库存"
               align="center"
             >
             </el-table-column>
             <el-table-column
-              prop="volume"
+              prop="outOfProdNum"
               label="销售仓可用库存"
               align="center"
             >
@@ -177,12 +177,16 @@
             >
             </el-table-column>
             <el-table-column
-              prop="commendBox"
+              prop="defectiveGoodsInventory"
               label="残次品仓库存"
               align="center"
             >
             </el-table-column>
-            <el-table-column prop="exprName" label="售后仓库存" align="center">
+            <el-table-column
+              prop="afterSaleInventory"
+              label="售后仓库存"
+              align="center"
+            >
             </el-table-column>
             <el-table-column
               prop="inventoryFloor"
@@ -216,7 +220,7 @@
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { inventoryMangementQuery } from "../../api/api";
-import { clearTimeInput } from "../../utils/validate";
+import { clearTimeInput, reduceFun } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -257,6 +261,19 @@ export default {
           prodType: "",
         },
       },
+      queryDataAll: {
+        pageNumber: "1",
+        pageSize: "99999999",
+        paras: {
+          orgId: "",
+          orgName: "",
+          prodCode: "",
+          prodName: "",
+          specId: "",
+          specName: "",
+          prodType: "",
+        },
+      },
       pageComponentsData: {
         pageNums: 0,
       },
@@ -264,6 +281,19 @@ export default {
   },
   mounted() {
     this.pageQueryFun();
+    this.entrustCompanyData = this.$store.state.orgInfor.orgInforData;
+    inventoryMangementQuery(this.queryDataAll).then((ok) => {
+      // console.log(ok);
+      if (ok.data.code === "10000") {
+        ok.data.result.list.forEach((v) => {
+          this.specNameData.push({ value: v.specName, label: v.specName });
+          this.specNameData = reduceFun(this.specNameData);
+          // this.braNameData.push({value: v.braId, label: v.braName})
+          this.braNameData.push({ value: v.braName, label: v.braName });
+          this.braNameData = reduceFun(this.braNameData);
+        });
+      }
+    });
   },
   methods: {
     pageQueryFun() {
@@ -272,7 +302,11 @@ export default {
         if (ok.data.code === "10000") {
           this.tableData = [];
           this.tableData = ok.data.result.list;
-          this.changeData(ok.data.result)
+          this.changeData(ok.data.result);
+          this.tableData.forEach((v) => {
+            //销售仓实际库存=销售仓当前库存-销售仓锁定库存
+            v.practicalInventory = v.currInventory - v.lockInventory;
+          });
         }
       });
     },
@@ -308,6 +342,10 @@ export default {
     },
     turnToProc() {
       //转采购
+      this.$router.push({
+        path: "/purchasingManagement/purchasingIndex",
+        query: { fromPage: "productInventory" },
+      });
     },
     setWarning() {
       //设置高库存预警值
@@ -402,7 +440,7 @@ export default {
     }
   }
   .resultForm {
-    padding: 16px;
+    padding: 16px 20px;
   }
 }
 </style>

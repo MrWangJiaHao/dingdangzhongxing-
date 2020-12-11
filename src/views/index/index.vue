@@ -278,7 +278,7 @@ export default {
         .numberInfor1-img {
           width: 54px;
           height: 54px;
-          margin: 0 0 0 20px;
+          margin: 0 0 0 29px;
         }
         .numberInfor1-num1 {
           padding: 0 44px 0 27px;

@@ -56,8 +56,9 @@
 </template>
 
 <script>
-import { login } from "@/api/api.js";
+import { login, getFindWareOrg } from "@/api/api.js";
 import Loading from "@/components/loading/loading";
+import { reduceFun } from '../../utils/validate';
 
 export default {
   components: {
@@ -132,6 +133,20 @@ export default {
                 this.$cookie.delete("X-Auth-wareId");
                 this.$cookie.delete("X-Auth-user");
               }, 14400000);
+              getFindWareOrg().then((ok) => {
+                // console.log(ok);
+                if (ok.code === "10000") {
+                  let orgArr = [];
+                  ok.result.forEach((v) => {
+                    orgArr.push({
+                      value: v.id,
+                      label: v.orgName,
+                    });
+                  });
+                  orgArr = reduceFun(orgArr)
+                  this.$store.dispatch("orgInforRequest", orgArr);
+                }
+              });
             } else {
               this.$messageSelf.message({
                 message: "账号或者密码有误",

@@ -592,7 +592,7 @@ export default {
     }
   }
   .resultForm {
-    padding: 16px;
+    padding: 16px 20px;
   }
 }
 </style>

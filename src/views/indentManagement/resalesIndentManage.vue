@@ -154,7 +154,7 @@
             </div>
           </div>
           <div class="timeChoose el-inputBox" style="width: 500px">
-            <div class="el-inputBox-text titleBox">退货时间：</div>
+            <div class="el-inputBox-text">退货时间：</div>
             <div class="timeBox zujianBox">
               <div>
                 <dateTime
@@ -1263,11 +1263,11 @@ export default {
   .formHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #d1d6e2;
     background: white;
     .icon-title {
       display: flex;
-      margin: 24px 0 0 0;
       .icon-title-icon {
         width: 14px;
         height: 14px;
@@ -1278,7 +1278,7 @@ export default {
         }
       }
       .icon-title-title {
-        margin: -1px 0 0 8px;
+        margin: 0 0 0 8px;
       }
     }
     .someBtn {
