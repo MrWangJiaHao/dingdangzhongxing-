@@ -211,6 +211,7 @@
                     },
                     {
                         title: "发货管理",
+                        name: '/deliveryManagement/normalDelivery',
                         iconCls: require("@/assets/svg/fahuoguanli.svg"),
                         children: [
                             {
@@ -550,7 +551,7 @@
             jurisdicRequest(data).then((ok) => {
                 // console.log(ok);
             });
-            this.activeName = sessionStorage.getItem("activeName");
+            this.getStorage()
             this._getMesAge();
         },
         created() {
@@ -646,10 +647,11 @@
                         : this.dropdownArr[+this.activeTabsName];
                 this.mianbaoxieArr = [];
                 let mianbaoxieArrJson = this.dropdownArr[+this.activeTabsName];
-                if (!this.mianbaoxieArr.includes(mianbaoxieArrJson)) {
+                if (!this.Heavy({list: this.mianbaoxieArr, data: mianbaoxieArrJson})) {
                     this.mianbaoxieArr.unshift(mianbaoxieArrJson);
                 }
                 this.mianbaoxieArr.splice(1, 1, dataArrJson);
+                this.setStorage()
             },
             addHenxianTables() {
                 setTimeout(() => {
@@ -680,6 +682,7 @@
                     ? this.dropdownArr.length - 1 + ""
                     : "0";
                 this.$router.push(router);
+                this.setStorage()
                 console.log("--------dropdownArr--------", router);
             },
 
@@ -699,7 +702,6 @@
                 //     return this.$router.push("/index/indexFormJH");
                 let json = this.dataArr[+this.activeName];
                 // console.log("点击了第一级的菜单栏");
-                sessionStorage.setItem("activeName", this.activeName);
                 let router = this.dataArr[+this.activeName].name;
                 // this.dataArr[+this.activeName].children.length != 0
                 //   ? this.dataArr[+this.activeName].children[0].name
@@ -707,7 +709,7 @@
                 this.$router.push(router);
                 // console.log(router);
                 //跳转路由
-                if (!this.dropdownArr.includes(json)) {
+                if (!this.Heavy({list: this.dropdownArr, data: json})) {
                     this.dropdownArr.push(this.dataArr[+this.activeName]);
                     this.activeTabsName = ++this.activeTabsName + "";
                 } else {
@@ -722,7 +724,7 @@
                         }
                     }
                 }
-                if (!this.mianbaoxieArr.includes(json)) {
+                if (!this.Heavy({list: this.mianbaoxieArr, data: json})) {
                     this.mianbaoxieArr.push(this.dropdownArr[+this.activeTabsName]);
                     this.mianbaoxieArr.splice(
                         this.dropdownArr[+this.activeTabsName].children[0]
@@ -730,19 +732,50 @@
                 }
                 this.oldName = +this.activeName;
                 this.handleTabsEdit();
+                this.setStorage()
                 console.log("this.mianbaoxieArr", this.mianbaoxieArr, 'this.activeTabsName', this.activeTabsName);
             },
             clickEventGoRouter(e) {
                 let dataArrJson = this.dropdownArr[+this.activeTabsName].children[e];
                 let mianbaoxieArrJson = this.dropdownArr[+this.activeTabsName];
-                if (!this.mianbaoxieArr.includes(mianbaoxieArrJson)) {
+                if (!this.Heavy({list: this.mianbaoxieArr, data: mianbaoxieArrJson})) {
                     this.mianbaoxieArr.unshift(mianbaoxieArrJson);
                 }
                 this.mianbaoxieArr.splice(1, 1, dataArrJson);
                 let router = this.dropdownArr[+this.activeTabsName].children[e].name;
                 this.$router.push(router);
+                this.setStorage()
                 console.log("this.mianbaoxieArr", this.mianbaoxieArr);
             },
+            // 本地存储
+            setStorage: function () {
+                sessionStorage.setItem('activeName', this.activeName);
+                sessionStorage.setItem('activeTabsName', this.activeTabsName);
+                this.dropdownArr.length ? sessionStorage.setItem('dropdownArr', JSON.stringify(this.dropdownArr)) : '';
+                this.mianbaoxieArr.length ? sessionStorage.setItem('mianbaoxieArr', JSON.stringify(this.mianbaoxieArr)) : '';
+            },
+            // 获取本地缓存
+            getStorage: function () {
+                if (sessionStorage.getItem('activeName')) this.activeName = sessionStorage.getItem('activeName')
+                if (sessionStorage.getItem('activeTabsName')) this.activeTabsName = sessionStorage.getItem('activeTabsName')
+                if (sessionStorage.getItem('dropdownArr')) this.dropdownArr = JSON.parse(sessionStorage.getItem('dropdownArr'))
+                if (sessionStorage.getItem('mianbaoxieArr')) this.mianbaoxieArr = JSON.parse(sessionStorage.getItem('mianbaoxieArr'))
+            },
+            // 数组json去重
+            Heavy: function (data) {
+                var list = data.list
+                var index = null
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i].name == data.data.name) {
+                        return true
+                    } else {
+                        index = i
+                    }
+                }
+                if (index == list.length - 1) {
+                    return false
+                }
+            }
         },
     };
 </script>
