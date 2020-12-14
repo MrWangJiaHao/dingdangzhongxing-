@@ -35,6 +35,7 @@ const service = axios.create({
  * 请求拦截
  */
 service.interceptors.request.use(config => {
+  config.baseURL = getHref()
   config.headers['X-Auth-Token'] = Vue.cookie.get('userToken') // 请求头带上token
   return config
 }, error => {
