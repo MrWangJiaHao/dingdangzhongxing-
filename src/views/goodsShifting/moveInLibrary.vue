@@ -150,7 +150,7 @@
                             titles: "产品明细",
                             basicJsonArr: [
                                 {
-                                    types: "prodCode",
+                                    types: "orgName",
                                     centerStr: "委托公司",
                                 },
                                 {
@@ -178,7 +178,7 @@
                                     centerStr: "实际移库数量",
                                 },
                                 {
-                                    types: "prodNum",
+                                    types: "wareAreaName",
                                     centerStr: "移入库位",
                                 },
                             ],
@@ -212,7 +212,7 @@
                             flag: "puton",
                             width: 250,
                             OnClicks(res) {
-                                console.log(res);
+                                self.clickInnerMoveNo(res)
                             },
                         },
                         {
@@ -293,6 +293,7 @@
                             select: "",
                             w320: "w160",
                             placeholder: "请选择子仓类型",
+
                             dropDownBoxData: [],
                             drop: "",
                             dropDownXialaClickFun() {
@@ -304,7 +305,8 @@
                             title: "区域名称",
                             disabled: false,
                             types: "xiala",
-                            select: "",
+                            select: "asdsads",
+                            input: "",
                             w320: "w160",
                             placeholder: "请选择区域名称",
                             dropDownBoxData: [],
@@ -359,7 +361,7 @@
                     detailsArr: [
                         {
                             titles: "移库单号",
-                            centers: 'this.BuHuoSureJson.replenishOrderNo',
+                            centers: "",
                         },
                         {
                             titles: "移库状态",
@@ -375,11 +377,11 @@
                         },
                         {
                             titles: "移库时间",
-                            centers: "请选择移库时间",
+                            centers: "",
                             type: "date",
                             disabled: false,
                             getDateTimeExpectedSendTime(res) {
-                                console.log(res)
+                                self.createDataJson.innerMoveStartTime = res
                             }
                         },
                         {
@@ -390,8 +392,9 @@
                             disabled: false,
                             placeholder: "请输入移库人姓名",
                             OnBlur(res) {
-                                let value = res.target.value
-                                console.log(value)
+                                res = res.target.value
+                                self.createDataJson.moveUser = res
+
                             }
                         }
                     ]
@@ -411,7 +414,7 @@
                         self.createDataJson.detailList = arrs
                     },
                     tableDataJsonAndArr: {
-                        tabledata: [{orgName: "子仓名称"}],
+                        tabledata: [],
                         typeData: [
                             {
                                 types: "selection"
@@ -498,6 +501,7 @@
                     console.log(e)
                 },
                 chanpinminxiJson: {
+                    title: "产品明细",
                     tableDataJsonAndArr: {
                         tabledata: [],
                         typeData: [
@@ -604,6 +608,13 @@
             this.getTableData();
         },
         methods: {
+            //点击移库单号
+            clickInnerMoveNo(data) {
+                console.log(data, "点击移库单号")
+                this.changePageSureData(data)
+                this.isBuHuoSures = true;
+                this.isLooker = true
+            },
             _clearchanpinminxiJson() {
                 this.chanpinminxiJson.tableDataJsonAndArr.tabledata = []
                 this.createDataJson = {
@@ -618,7 +629,13 @@
                     detailList: [],//移库产品明细集合
                     wareType: "",//仓库类型（1-销售；2-售后；3-残次品）
                 }
-
+                this.moveCreateData.inputArr.forEach(item => {
+                    if (item.select) {
+                        item.select = ""
+                    } else if (item.input) {
+                        item.input = ""
+                    }
+                })
             },
             //产品明细
             moveSuretableSelectArrs(e) {
@@ -631,6 +648,7 @@
             //创建
             createOrderNoteFun() {
                 this.editDataJson = {};
+                this._clearchanpinminxiJson()
                 this.isOrderNote = true;
             },
             async clickSubmit(e) {
@@ -645,13 +663,13 @@
             editOrderNote() {
                 if (!this.multipleSelection.length || this.multipleSelection.length != 1)
                     return this.$messageSelf.message(
-                        "请选择要编辑的移库单,并且只能选择一个编辑"
+                        {message: "请选择要编辑的移库单,并且只能选择一个编辑", type: "info"}
                     );
-                this.createDataJson = {
-                    ...this.createDataJson,
-                    id: this.multipleSelection[0].id,//移库单id
-                    operatorType: 2,//操作状态(1-新增 2-修改 3-入库确认)
-                }
+                this.createDataJson.operatorType = 2
+
+                let data = Object.assign({}, this.editDataJson, this.createDataJson)
+                data = Object.assign({}, data, this.multipleSelection[0])
+                console.log(data, "编辑")
                 this.isOrderNote = true;
             },
             //删除
@@ -677,13 +695,45 @@
             //确定移货
             isBuHuoSureJson() {
                 if (!this.multipleSelection.length || this.multipleSelection.length != 1)
-                    return this.$messageSelf.message(
-                        "请选择要确认的移库单,并且只能选择一个确认"
+                    return this.$messageSelf.message({
+                            message:
+                                "请选择要确认的移库单,并且只能选择一个确认",
+                            type: "info"
+                        }
                     );
+                this.createDataJson.operatorType = 3
+                this.createDataJson.id = this.multipleSelection[0].id
+                this.createDataJson.wareType = this.multipleSelection[0].wareType
                 this.BuHuoSureJson = this.multipleSelection[0];
+                this.changePageSureData(this.multipleSelection[0]);
                 this._getdetailsChanPin(this.multipleSelection[0]);
                 this.isLooker = false;
                 this.isBuHuoSures = true;
+            },
+            changePageSureData(json) {
+                let moveSureDateArr = ['innerMoveNo', 'moveStatus', "createTime", "createUser", "innerMoveStartTime", "moveUser"]
+                moveSureDateArr.forEach((item, idx) => {
+                    if (item === 'innerMoveStartTime') {
+                        json[item] = json[item] ? json[item] : '请选择移库时间'
+                    }
+                    this.moveSureDetailsJson.detailsArr[idx].centers = json[item]
+                })
+            },
+            async _getdetailsChanPin(e) {
+                let data = await this.$pOrgProductsApp.pWarehouseInnerMoveFindRecord({
+                    id: e.id,
+                });
+                console.log(data, 'dataTable列表错误')
+                if (data.code === "10000") {
+                    data.result.forEach(item => {
+                        this.chanpinminxiJson.tableDataJsonAndArr.tabledata = item.detailList
+                    })
+                } else {
+                    this.$messageSelf.message({
+                        message: "打印移库单Table列表错误",
+                        type: "error"
+                    })
+                }
             },
             shenchengbuhuodan() {
                 this.isOrderNote = true;
@@ -701,13 +751,16 @@
             isReplenishmentNoteClick() {
                 if (!this.multipleSelection.length || this.multipleSelection.length != 1)
                     return this.$messageSelf.message(
-                        "请选择要打印的移库单,以及移库单只能打印一张"
+                        {
+                            message: "请选择要打印的移库单,以及移库单只能打印一张",
+                            type: "info"
+                        }
                     );
                 let json = [
                     {
                         queryTitle: "移库单号",
-                        queryCenter: this.multipleSelection[0].replenishOrderNo
-                            ? this.multipleSelection[0].replenishOrderNo
+                        queryCenter: this.multipleSelection[0].innerMoveNo
+                            ? this.multipleSelection[0].innerMoveNo
                             : "",
                     },
                     {
@@ -719,20 +772,15 @@
                         queryTitle: "移库时间",
                         queryCenter: "",
                         queryLine: true,
-                    },
+                    }
                 ];
                 this.replenishmentNoteJson.queryArr = json;
                 this.replenishmentNoteJson.title = "移库单";
-                this.replenishmentNoteJson.replenishOrderNo = this.multipleSelection[0].replenishOrderNo;
+                this.replenishmentNoteJson.replenishOrderNo = this.multipleSelection[0].innerMoveNo;
                 this._getdetailsChanPin(this.multipleSelection[0]);
                 this.isReplenishmentNote = true;
             },
-            async _getdetailsChanPin(e) {
-                let data = await this.$pOrgProductsApp.pWarehouseInnerMoveFindRecord({
-                    id: e.id,
-                });
-                this.tabledatasArr = data.result[0].detailList;
-            },
+
             jobTaskHeader(e) {
                 this.sendOutDataJson.paras = Object.assign(
                     {},
@@ -779,7 +827,7 @@
                 if (datas.code == "10000") {
                     this._changeDatas(datas.result);
                 } else {
-                    this.$messageSelf.message(datas.msg);
+                    this.$messageSelf.message({message: datas.msg, type: "error"});
                 }
                 fn && fn(datas);
                 return datas;
@@ -794,14 +842,21 @@
                 this.tableDataJson.tabledata = datas.list;
             },
             sureSubmit(e) {
-                this.createDataJson.detailList = e
-
+                if (!this.createDataJson.innerMoveStartTime) return this.$messageSelf.message({
+                    type: 'info',
+                    message: "请选择移库时间"
+                })
+                if (!this.createDataJson.moveUser) return this.$messageSelf.message({
+                    type: "info",
+                    message: "请选择移库人"
+                })
+                this.clickSubmit()
+                // this.createDataJson.detailList = e
             },
             movestatusData(res) {
-                return res == 1 ? "待移动" : res ? "移动中" : res ? "已移动" : "未定义"
+                return res == 1 ? "待移动" : res == 2 ? "移动中" : res == 3 ? "已移动" : "未定义"
             },
             tableSelectArrDaiBuHuo(e) {
-                console.log(e)
                 this.multipleSelection = e
             }
         },

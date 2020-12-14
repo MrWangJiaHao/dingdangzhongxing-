@@ -217,7 +217,8 @@
                 let orgNume = {
                     orgNume: "",
                 };
-                this.wieTuoGonShiJson.dropDownBoxData.push(orgNume);
+                console.log(orgNume)
+                // this.wieTuoGonShiJson.dropDownBoxData.push(orgNume);
             },
             //点击产品规格
             specNameClick() {
@@ -294,7 +295,7 @@
             },
             _changeDatas(res) {
                 let {list} = res;
-                // console.log(list);
+
                 this.wieTuoGonShiJson.dropDownBoxData = list;
                 this.specNameJson.dropDownBoxData = list;
                 this.disposeStatusJson.dropDownBoxData = list;

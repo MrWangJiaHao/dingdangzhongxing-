@@ -231,7 +231,6 @@
     import {
         getCookie,
         _getArrTarget,
-        _addArrPush,
     } from "../../utils/validate";
     import tableCommin from "../../components/commin/tableCommin";
 
@@ -442,8 +441,7 @@
                     },
                 ];
                 this.replenishmentNoteJson.queryArr = json;
-                this.replenishmentNoteJson.title =
-                    "补货单" + this.multipleSelection[0].replenishOrderNo;
+                this.replenishmentNoteJson.title = "补货单";
                 this.replenishmentNoteJson.replenishOrderNo = this.multipleSelection[0].replenishOrderNo;
                 this._getdetailsChanPin(this.multipleSelection[0]);
                 this.isReplenishmentNote = true;
@@ -459,6 +457,7 @@
                 this.getTableData();
             },
             jobTaskClearBtn(e) {
+                this.sendOutDataJson.paras = {}
                 if (e) {
                     this.getTableData();
                 }
@@ -502,7 +501,6 @@
                 return datas;
             },
             _changeDatas(datas) {
-                _addArrPush(datas.list.length, datas.list);
                 this.tableData = datas.list;
                 this.pageComponentsData.pageNums = datas.totalRow;
                 //点击生产补货单
