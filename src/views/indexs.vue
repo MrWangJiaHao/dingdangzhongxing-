@@ -618,11 +618,12 @@
             },
             //点击选中
             handleTabsEdit() {
+                console.log('this.activeTabsName', this.activeTabsName)
                 this.addHenxianTables();
                 let router =
-                    this.dataArr[+this.activeName].children.length != 0
-                        ? this.dataArr[+this.activeName].children[0].name
-                        : this.dataArr[+this.activeName].name;
+                    this.dropdownArr[+this.activeTabsName].children.length != 0
+                        ? this.dropdownArr[+this.activeTabsName].children[0].name
+                        : this.dropdownArr[+this.activeTabsName].name;
                 if (!router)
                     return this.$messageSelf.message({
                         message: "该模块在开发中请耐心等候稍后",
@@ -676,16 +677,16 @@
                 console.log("--------dropdownArr--------", this.dropdownArr);
                 this.addHenxianTables();
                 console.log("this.activeName", this.activeName);
-                if (
-                    !this.dataArr[+this.activeName].children.length &&
-                    this.dataArr[+this.activeName].title != "首页"
-                )
-                    return this.$messageSelf.message({
-                        message: "该模块在开发中，请耐心等候",
-                        duration: 500,
-                    });
-                if (this.dataArr[+this.activeName].title == "首页")
-                    return this.$router.push("/index/indexFormJH");
+                // if (
+                //     !this.dataArr[+this.activeName].children.length &&
+                //     this.dataArr[+this.activeName].title != "首页"
+                // )
+                //     return this.$messageSelf.message({
+                //         message: "该模块在开发中，请耐心等候",
+                //         duration: 500,
+                //     });
+                // if (this.dataArr[+this.activeName].title == "首页")
+                //     return this.$router.push("/index/indexFormJH");
                 let json = this.dataArr[+this.activeName];
                 // console.log("点击了第一级的菜单栏");
                 sessionStorage.setItem("activeName", this.activeName);
@@ -719,7 +720,7 @@
                 }
                 this.oldName = +this.activeName;
                 this.handleTabsEdit();
-                console.log("this.mianbaoxieArr", this.mianbaoxieArr);
+                console.log("this.mianbaoxieArr", this.mianbaoxieArr, 'this.activeTabsName', this.activeTabsName);
             },
             clickEventGoRouter(e) {
                 let dataArrJson = this.dropdownArr[+this.activeTabsName].children[e];
