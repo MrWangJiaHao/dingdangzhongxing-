@@ -744,6 +744,10 @@ textarea {
     background-color: #e1eaf5;
 }
 
+.w200 {
+    width: 200px;
+}
+
 /* .pageComponent {
     border: 1px solid rgb(209, 214, 226);
 } */

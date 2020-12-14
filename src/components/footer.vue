@@ -1,7 +1,7 @@
 <template>
     <div class="footer_box">
         <div class="dianJiTuiChu">
-            <img src="../assets/img/userName.png" style="margin-right: 7px" alt/>
+            <img src="../assets/svg/userName.svg" style="margin-right: 7px" alt/>
             <div class="wenZi" @click="loginOutMeg">
                 登录用户&nbsp;
                 <span
@@ -9,11 +9,14 @@
                 >
             </div>
         </div>
-        <div v-show="display" class="loginOut">
-
-            <div @click="loginout" class="clickLoginOutCenter">退出登入</div>
-
-        </div>
+        <transition
+                enter-active-class="animate__animated animate__bounceInUp"
+                leave-active-class="animate__animated animate__bounceOutDown"
+        >
+            <div v-show="display" class="loginOut">
+                <div @click="loginout" class="clickLoginOutCenter">退出登入</div>
+            </div>
+        </transition>
         <div class="dianJiXiaoXi displayalign">
             <div class="imgBox">
                 <img src="../assets/svg/Toast.svg" alt/>

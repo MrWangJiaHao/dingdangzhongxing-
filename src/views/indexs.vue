@@ -13,7 +13,7 @@
         >仓储系统</span
         >
       </span>
-            <div class="el-nav">
+            <div class="el-nav displayalign">
                 <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
                     <el-tab-pane v-for="(navIndex, idx) in dataArr" :key="idx">
                         <div slot="label" v-if="navIndex.children">
@@ -504,7 +504,7 @@
                     {
                         title: "站内消息",
                         name: "/inStationNews/newIndex",
-                        iconCls: require("@/assets/svg/tonjiwenming.svg"),
+                        iconCls: require("@/assets/svg/stationToast.svg"),
                         children: [{
                             title: "站内消息",
                             name: "/inStationNews/newIndex"
@@ -946,6 +946,8 @@
 
     .tabContainer .el-tabs__nav-scroll {
         position: absolute;
+        display: flex;
+        align-items: center;
     }
 
     .tabContainer .el-tabs__nav-wrap.is-scrollable {
@@ -955,8 +957,7 @@
     .tabContainer .el-tabs__nav-wrap {
         position: relative;
         height: 90px;
-        // display: flex;
-        // align-items: center;
+
         overflow: auto;
         scrollbar-width: none;
         -ms-overflow-style: none;
