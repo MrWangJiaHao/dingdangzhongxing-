@@ -610,7 +610,6 @@
         methods: {
             //点击移库单号
             clickInnerMoveNo(data) {
-                console.log(data, "点击移库单号")
                 this.changePageSureData(data)
                 this.isBuHuoSures = true;
                 this.isLooker = true

@@ -35,7 +35,7 @@
                 default: () => {
                     return {
                         dropDownBoxData: [],
-                        select: "asdsa"
+                        select: "",
                     };
                 },
             },
