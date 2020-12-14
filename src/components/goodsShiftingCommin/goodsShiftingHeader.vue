@@ -1,5 +1,5 @@
 <template>
-    <div class="goodsShiftingBox">
+    <div class="goodsShiftingBox mb16">
         <div class="dispalywrap">
             <div class="inline mr11 mb16">
                 <dropDownXiala
@@ -217,7 +217,8 @@
                 let orgNume = {
                     orgNume: "",
                 };
-                this.wieTuoGonShiJson.dropDownBoxData.push(orgNume);
+                console.log(orgNume)
+                // this.wieTuoGonShiJson.dropDownBoxData.push(orgNume);
             },
             //点击产品规格
             specNameClick() {
@@ -294,7 +295,7 @@
             },
             _changeDatas(res) {
                 let {list} = res;
-                // console.log(list);
+
                 this.wieTuoGonShiJson.dropDownBoxData = list;
                 this.specNameJson.dropDownBoxData = list;
                 this.disposeStatusJson.dropDownBoxData = list;
@@ -309,7 +310,7 @@
 
     .goodsShiftingBox {
         min-height: 160px;
-        padding: 20px 30px;
+        padding: 20px 30px 4px 30px;
         position: relative;
         overflow: hidden;
 

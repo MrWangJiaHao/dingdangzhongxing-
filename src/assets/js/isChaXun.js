@@ -36,14 +36,14 @@ class isDisplayNoneBlock {
     clickFun(div, self) {
         div.innerText = "展示"
         div.classList.toggle("isclickMes")
-        self.child.style.bottom = "10" + "px";
+        self.child.style.bottom = "16" + "px";
         self.parent.style.height = 118 + "px";
     }
 
     changeFun(div, self) {
         div.innerText = "收起"
         self.parent.style.height = self.parentHeight + "px";
-        self.child.style.bottom = "34" + "px";
+        self.child.style.bottom = "20" + "px";
         div.classList.toggle("isclickMes")
     }
 }
