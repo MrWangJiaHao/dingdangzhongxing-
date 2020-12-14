@@ -909,7 +909,7 @@ export default {
 }
 .headerHtml {
   position: relative;
-  padding: 0 16px;
+  padding: 0 20px;
   transition: 0.3s;
   .headerInput {
     display: flex;
@@ -924,7 +924,7 @@ export default {
     }
   }
   .header-botton {
-    width: 186px;
+    width: 190px;
     height: 36px;
     position: absolute;
     right: 0;
@@ -986,7 +986,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 16px 16px 0;
+      margin: 16px 20px 16px 0;
       .setUser {
         @include BtnFunction("success");
       }

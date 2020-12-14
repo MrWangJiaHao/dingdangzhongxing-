@@ -25,7 +25,7 @@
           </div>
           <div class="areaName">
             <div class="roleName-text">区域名称：</div>
-            <div class="roleName-checkBox" style="width: 120px">
+            <div class="roleName-checkBox" style="width: 150px">
               <el-select
                 v-model="areaNameValue"
                 placeholder="请选择区域名称"
@@ -43,7 +43,7 @@
           </div>
           <div class="areaType">
             <div class="roleName-text">区域类型：</div>
-            <div class="roleName-checkBox" style="width: 120px">
+            <div class="roleName-checkBox" style="width: 150px">
               <el-select
                 v-model="areaTypeValue"
                 placeholder="请选择区域类型"
@@ -61,7 +61,7 @@
           </div>
           <div class="shelfName">
             <div class="roleName-text">货架名称：</div>
-            <div class="roleName-checkBox" style="width: 120px">
+            <div class="roleName-checkBox" style="width: 150px">
               <el-select
                 v-model="shelfNameValue"
                 placeholder="请选择货架名称"
@@ -128,7 +128,7 @@
           <div class="icon-title-icon">
             <img src="../../assets/img/systemTitlemesa.png" />
           </div>
-          <div class="icon-title-title">库位管理</div>
+          <div class="icon-title-title">查询结果</div>
         </div>
         <div class="someBtn">
           <div class="setUser" @click="printSLCode">打印库位号</div>
@@ -643,13 +643,12 @@ export default {
 .roleName-choose {
   display: flex;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 0 20px;
   flex-wrap: wrap;
   .name_type {
     width: 100%;
     justify-content: space-between;
     display: flex;
-
     .someInputs {
       display: flex;
       align-items: center;
@@ -714,7 +713,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 16px 16px 0;
+      margin: 16px 20px 16px 0;
       .setUser {
         margin-right: 10px;
         @include BtnFunction("success");

@@ -341,11 +341,6 @@ textarea {
 .mr10 {
     margin-right: 10px;
 }
-
-#app .el-checkbox__inner {
-    border-radius: 4px;
-}
-
 .disRight {
     display: flex;
     justify-content: flex-end;

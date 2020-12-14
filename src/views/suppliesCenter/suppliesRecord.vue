@@ -102,7 +102,7 @@
         </div>
         <div class="timeChoose">
           <div class="timeBox zujianBox">
-            <div style="margin-right: 10px">
+            <div>
               <dateTime
                 :dateTimeData="datetimeDates"
                 @getDateTime="getStartTime"
@@ -994,7 +994,7 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 16px 0 10px;
+      margin: 0 20px 0 10px;
     }
   }
   .timeChoose {
@@ -1009,10 +1009,10 @@ export default {
       display: flex;
       align-items: center;
       .line {
-        width: 20px;
+        width: 10px;
         height: 2px;
-        background: #000;
-        margin-right: 10px;
+        background: #d1d6e2;
+        margin: 0 10px;
       }
     }
   }
@@ -1042,7 +1042,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 16px 16px 0;
+      margin: 16px 20px 16px 0;
       .setUser {
         margin-right: 10px;
         @include BtnFunction("success");

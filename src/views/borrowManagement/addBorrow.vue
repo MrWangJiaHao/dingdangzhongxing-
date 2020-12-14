@@ -66,7 +66,7 @@
             tooltip-effect="dark"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -294,7 +294,6 @@ export default {
       .headerBox-input {
         margin: 0 16px;
         display: flex;
-        font-size: 14px;
         flex-wrap: wrap;
         .el-inputBox {
           display: flex;
@@ -306,6 +305,7 @@ export default {
         }
       }
       .header-botton {
+        width: 190px;
         height: 36px;
         display: flex;
         align-items: center;
@@ -335,7 +335,7 @@ export default {
         }
       }
       .tableBox-table {
-        padding: 16px;
+        padding: 16px 20px;
       }
     }
   }

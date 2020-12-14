@@ -406,7 +406,7 @@ export default {
 .roleName-choose {
   display: flex;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 0 20px;
   .name_type {
     display: flex;
     .nameBox {
