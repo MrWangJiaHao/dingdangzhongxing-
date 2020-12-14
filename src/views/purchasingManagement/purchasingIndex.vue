@@ -262,7 +262,6 @@ import {
   pPurchaseOrderSubmitRecord,
   subpPurchaseOrderSubmitRecord,
 } from "../../api/api";
-import { this.$messageSelf.message } from "element-ui";
 import { getCookie, _getArrTarget } from "../../utils/validate";
 
 export default {
