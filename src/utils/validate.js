@@ -387,6 +387,7 @@ export const _childWareType = (nums) => {
             return "其他"
     }
 }
+
 /**
  * 区域类型
  * @param {*} nums 需要判断的

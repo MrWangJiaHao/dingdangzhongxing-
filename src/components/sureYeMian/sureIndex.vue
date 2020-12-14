@@ -16,7 +16,7 @@
                 </div>
                 <div class="mb16">
                     <chanpinmingxi :chanpinminxiJson="chanpinminxiJson" @tableSelectArrs="tableSelectArrs">
-                        <template slot="anniuBtns">
+                        <template v-if="!isLooker" slot="anniuBtns">
                             <span class="goOn mr11 inline" @click="chanpinminxiJson.copyShopping">复制产品</span>
                             <span class="lodopFunClear inline" @click="chanpinminxiJson.removeShopping">删除</span>
                         </template>
@@ -68,21 +68,19 @@
                 default: false
             }
         },
-        data(){
-            return {
-
-            }
+        data() {
+            return {}
         },
         methods: {
             closeBtn() {
                 this.$emit('closeBtnSure')
             },
             clickSubmit() {
-                this.$emit("sureSubmit",this.tableSelectArrs)
+                this.$emit("sureSubmit", this.tableSelectArrs)
             },
-            tableSelectArrs(e){
+            tableSelectArrs(e) {
                 this.tableSelectArrs = e
-                this.$emit('tableSelectArrs',e)
+                this.$emit('tableSelectArrs', e)
             }
         }
     }

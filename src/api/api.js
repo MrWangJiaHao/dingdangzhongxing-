@@ -6,6 +6,7 @@ import {
     ajaxPost,
     getCookie
 } from "../utils/validate"
+
 const getHref = function () {
     let href = window.location.href
     if (href.includes("systemSetting")) {
@@ -57,6 +58,7 @@ export function jurisdicRequest(data) {
         })
     })
 }
+
 //创建和编辑子仓的请求
 export function add_edit_WH_Request(data) {
     return new Promise((resolve, reject) => {
@@ -71,6 +73,7 @@ export function add_edit_WH_Request(data) {
         })
     })
 }
+
 //删除子仓的请求
 export function del_WH_Request(data) {
     return new Promise((resolve, reject) => {
@@ -252,7 +255,6 @@ export function queryEntrustCompany(data) {
         })
     })
 }
-
 
 
 //区域货架查询
@@ -588,6 +590,7 @@ export function queryMateRecordCon(data) {
         })
     })
 }
+
 // 查询物流公司（分页查询）
 export function queryPhyDisCom(data) {
     return new Promise((resolve, reject) => {
@@ -602,6 +605,7 @@ export function queryPhyDisCom(data) {
         })
     })
 }
+
 // 查询物流公司（条件查询）
 export function queryPhyDisComCon(data) {
     return new Promise((resolve, reject) => {
@@ -631,6 +635,7 @@ export function queryStorePhyDis(data) {
         })
     })
 }
+
 // 查询物流公司（条件查询）
 export function queryStorePhyDisCon(data) {
     return new Promise((resolve, reject) => {
@@ -825,6 +830,7 @@ export function findDamageProductPage(data) {
         })
     })
 }
+
 //分页查询列表
 export function queryBreakageList(data) {
     return new Promise((resolve, reject) => {
@@ -839,6 +845,7 @@ export function queryBreakageList(data) {
         })
     })
 }
+
 //保存/修改报损单
 export function saveBreakageOrder(data) {
     return new Promise((resolve, reject) => {
@@ -853,6 +860,7 @@ export function saveBreakageOrder(data) {
         })
     })
 }
+
 //删除报损单
 export function delBreakageOrder(data) {
     return new Promise((resolve, reject) => {
@@ -882,6 +890,7 @@ export function pointBreakageOrder(data) {
         })
     })
 }
+
 //借调管理=>查询物料明细
 export function queryBorrowList(data) {
     return new Promise((resolve, reject) => {
@@ -896,6 +905,7 @@ export function queryBorrowList(data) {
         })
     })
 }
+
 //借调管理=>提交修改借调单
 export function saveBorrowOrder(data) {
     return new Promise((resolve, reject) => {
@@ -910,6 +920,7 @@ export function saveBorrowOrder(data) {
         })
     })
 }
+
 //借调管理=>打印借调单，借调单详情
 export function BorrowOrderDetail(data) {
     return new Promise((resolve, reject) => {
@@ -924,6 +935,7 @@ export function BorrowOrderDetail(data) {
         })
     })
 }
+
 //借调管理=>删除借调单
 export function delBorrowOrder(data) {
     return new Promise((resolve, reject) => {
@@ -938,6 +950,7 @@ export function delBorrowOrder(data) {
         })
     })
 }
+
 //借调管理=>提交 更新借调状态为待审核
 export function submitBorrowOrder(data) {
     return new Promise((resolve, reject) => {
@@ -952,6 +965,7 @@ export function submitBorrowOrder(data) {
         })
     })
 }
+
 //借调管理=>打印借调单
 export function pointBorrowOrder(data) {
     return new Promise((resolve, reject) => {
@@ -982,6 +996,7 @@ export function findRepStatistics(data) {
         })
     })
 }
+
 //统计=>拣货错误明细（分页查询）
 export function findPickOrderMistakeStatistics(data) {
     return new Promise((resolve, reject) => {
@@ -996,6 +1011,7 @@ export function findPickOrderMistakeStatistics(data) {
         })
     })
 }
+
 //统计=>快递拣货量统计（分页查询）
 export function findExprStatistics(data) {
     return new Promise((resolve, reject) => {
@@ -1010,6 +1026,7 @@ export function findExprStatistics(data) {
         })
     })
 }
+
 //统计=>物流费用统计（分页查询）
 export function findExprFeeStatistics(data) {
     return new Promise((resolve, reject) => {
@@ -1024,6 +1041,7 @@ export function findExprFeeStatistics(data) {
         })
     })
 }
+
 //统计=>物流费用明细（分页查询）
 export function findExprFeeDetailStatistics(data) {
     return new Promise((resolve, reject) => {
@@ -1038,6 +1056,7 @@ export function findExprFeeDetailStatistics(data) {
         })
     })
 }
+
 //统计=>发货订单统计（分页查询）
 export function findOrderStatistics(data) {
     return new Promise((resolve, reject) => {
@@ -1052,6 +1071,7 @@ export function findOrderStatistics(data) {
         })
     })
 }
+
 //统计=>发货单品统计（分页查询）
 export function findProdStatistics(data) {
     return new Promise((resolve, reject) => {
@@ -1081,6 +1101,7 @@ export function findPickOrderStatistics(data) {
         })
     })
 }
+
 //统计=>人工统计（复核统计）（分页查询）
 export function findReCheckOrderStatistics(data) {
     return new Promise((resolve, reject) => {
@@ -1112,7 +1133,7 @@ export function inventoryMangementQuery(data) {
 }
 
 /**
- * 
+ *
  * @param {*}  获取查询仓库下的委托公司
  */
 export function getEntrustedcompany() {
@@ -1133,7 +1154,7 @@ export function getEntrustedcompany() {
 
 /**
  * 入库管理下面的委托公司
- * @param {*} getFindWareOrg 
+ * @param {*} getFindWareOrg
  */
 export function getFindWareOrg() {
     if (!getCookie("X-Auth-wareId")) return Message("该管理员没有委托公司权限")
@@ -1154,7 +1175,7 @@ export function getFindWareOrg() {
 
 /**
  *  根据委托公司查询子仓名称
- *  @param {*} orgId 委托公司ordId 
+ *  @param {*} orgId 委托公司ordId
  */
 export function getFindOrgChildWare(orgId) {
     return new Promise((res, rej) => {
@@ -1171,11 +1192,12 @@ export function getFindOrgChildWare(orgId) {
         })
     })
 }
+
 /**
  *  委托公司子仓库产品查询 添加产品
  * http://localhost:8902/wbs-warehouse-manage/v1/pOrgProducts/findOrgProductPage
- * @param {*} datas 
- * 
+ * @param {*} datas
+ *
  */
 export const getfindOrgProductPage = function (data) {
     return new Promise((res, rej) => {
@@ -1250,7 +1272,7 @@ export const getSaveRecord = function (data) {
 /**
  * 打印批次号
  * /wbs-warehouse-manage//v1/putWarehouse/findWareHouseDetailByIds
- * @param {*} datas 
+ * @param {*} datas
  * ajaxPost
  */
 export const getFindWareHouseDetailByIds = function (data, fn) {
@@ -1277,7 +1299,7 @@ export const delRecordByIdArrs = function (data) {
 
 /**
  *  导出为excel v1/putWarehouse/insertExcelData
- * @param {*} data 
+ * @param {*} data
  */
 export const insertExcelData = function (data) {
     return new Promise((res, rej) => {
@@ -1296,7 +1318,7 @@ export const insertExcelData = function (data) {
 
 /**
  *  wbs-warehouse-manage/v1/putWarehouse/findRecordPage
- * @param {*} data 
+ * @param {*} data
  */
 export const putWarehouseFindRecordPage = function (data) {
     return new Promise((res, rej) => {
@@ -1350,8 +1372,8 @@ export const getRecommendSeatByBatchNoAndQualityDate = function (data) {
 }
 /**
  * 出库管理获取添加产品信息
- * @param {*} datas 
-    ///wbs-warehouse-manage/v1/pOutWarehouse/findProdByWare
+ * @param {*} datas
+ ///wbs-warehouse-manage/v1/pOutWarehouse/findProdByWare
  */
 export const getAddfindProdByWare = function (data) {
     return new Promise((res, rej) => {
@@ -1386,7 +1408,7 @@ export const getpOutWarehouseSaveRecord = function (data) {
 /**
  * 出库管理删除出库单
  * /wbs-warehouse-manage/v1/pOutWarehouse/delRecord
- * @param {*} data 
+ * @param {*} data
  */
 export const getpOutWarehouseDelRecord = function (data) {
     return new Promise((res, rej) => {
@@ -1404,7 +1426,7 @@ export const getpOutWarehouseDelRecord = function (data) {
 /**
  * 出库确认导出为excel
  *   //wbs-warehouse-manage/v1/pOutWarehouse/exprotExcel
- * @param {*} data 
+ * @param {*} data
  */
 export const getpOutWarehouseExprotExcel = function (data) {
     return new Promise((res, rej) => {
@@ -1421,7 +1443,7 @@ export const getpOutWarehouseExprotExcel = function (data) {
 }
 
 /**
- * 出库单详情 
+ * 出库单详情
  * @param {*} datas  http://localhost:8902/wbs-warehouse-manage/v1/pOutWarehouse/findOutWareDetailById
  */
 export const getpOutWarehousefindOutWareDetailById = function (id) {
@@ -1462,7 +1484,7 @@ export const getpOutWarehouseconfirmRecord = function (data) {
 /**
  * 出库管理首页 分页and条件查询
  * /wbs-warehouse-manage/v1/pPurchaseOrder/findRecordPageByOrgAndPurcNo
- * @param {*} datas 
+ * @param {*} datas
  */
 export const getpPurchaseOrderFindRecordPageByOrgAndPurcNo = function (data) {
     return new Promise((res, rej) => {
@@ -1480,7 +1502,7 @@ export const getpPurchaseOrderFindRecordPageByOrgAndPurcNo = function (data) {
 /**
  * 分页点击查询详情
  * /wbs-warehouse-manage/v1/pPurchaseOrder/findRecord
- * @param {*} datas 
+ * @param {*} datas
  */
 export const getppPurchaseOrderFindRecord = function (data) {
     return new Promise((res, rej) => {
@@ -1514,8 +1536,8 @@ export const getpPurchaseOrdersaveRecord = function (data) {
 }
 
 /**
- * 采购管理获取委托公司 
- * @param {*} datas 
+ * 采购管理获取委托公司
+ * @param {*} datas
  * /wbs-warehouse-manage/v1/pCommon/findOrgByWareId
  */
 export const getpCommonFindOrgByWareId = function () {
@@ -1587,7 +1609,7 @@ export const pSubPurchaseOrderFindRecord = function (data) {
 }
 /**
  * 删除 采购单
- * @param {*} datas 
+ * @param {*} datas
  */
 
 export const pPurchaseOrderDeleteBatch = function (data, fn) {
@@ -1598,7 +1620,7 @@ export const pPurchaseOrderDeleteBatch = function (data, fn) {
 //=========================================发货规则配置 start ========================================
 /**
  * 分页查询发货规则配置
- * @param {*} datas 
+ * @param {*} datas
  */
 export const pWarehouseRuleFindRecordPage = function (data) {
     return new Promise((res, rej) => {
@@ -1615,7 +1637,7 @@ export const pWarehouseRuleFindRecordPage = function (data) {
 }
 /**
  * 创建/修改发货规则信息
- * @param {*} datas 
+ * @param {*} datas
  */
 export const pWarehouseRuleSaveRecord = function (data) {
     return new Promise((res, rej) => {
@@ -1631,7 +1653,7 @@ export const pWarehouseRuleSaveRecord = function (data) {
     })
 }
 /**
- * 
+ *
  * @param {*} data 删除发货规则
  */
 export const pWarehouseRuleDelRecord = function (data, fn) {
@@ -1640,8 +1662,8 @@ export const pWarehouseRuleDelRecord = function (data, fn) {
 //=========================================发货规则配置 end ========================================
 //=========================================发货管理 start ========================================
 /**
- * //正常发货分页查询 
- * @param {*} datas 
+ * //正常发货分页查询
+ * @param {*} datas
  */
 export const pDeliverGoodsFindNormalRecordPage = function (data) {
     return new Promise((res, rej) => {
@@ -1677,7 +1699,7 @@ export const pDeliverGoodsFindFastRecordPage = function (data) {
 
 /**
  * 订单集计 需要ids
- * 
+ *
  * @param {*} datas /wbs-warehouse-manage/v1/pOrgSubOrder/megerOrder
  */
 export const pOrgSubOrderMegerOrder = function (data) {
@@ -1696,7 +1718,7 @@ export const pOrgSubOrderMegerOrder = function (data) {
 
 /**
  * 打印拣货单
- * @param {*} datas 
+ * @param {*} datas
  */
 export const pOrgPickOrderprintPick = function (data) {
     return new Promise((res, rej) => {
@@ -1892,6 +1914,11 @@ export const pOrgProductsApp = {
     queryAreaOfWS: (data) => queryAreaOfWS(data).then(res => res.data), //获取区域
     getFindOrgChildWare: (data) => getFindOrgChildWare(data).then(res => res),//根据委托公司获取子仓
     // 库内移动 end
+    //站内消息
+    pWarehouseStationInfoSaveRecord: (data) => post({
+        data,
+        url: "/wbs-warehouse-manage/v1/pWarehouseStationInfo/findRecordPage"
+    })
 }
 
 //=========================================货品移位 end ========================================
@@ -1912,6 +1939,7 @@ export function post(datas) {
         })
     })
 }
+
 export function get(datas) {
     let {
         url,
@@ -1929,6 +1957,7 @@ export function get(datas) {
         })
     })
 }
+
 /**
  * 获取用户类型 数据
  */
@@ -1947,6 +1976,7 @@ export function getUserTypeshuju() {
         })
     })
 }
+
 /**
  * 获取子仓名称
  */

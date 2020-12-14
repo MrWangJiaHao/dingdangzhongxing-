@@ -496,6 +496,15 @@
                         ],
                     },
                     {
+                        title: "站内消息",
+                        name: "/inStationNews/newIndex",
+                        iconCls: require("@/assets/svg/tonjiwenming.svg"),
+                        children: [{
+                            title: "站内消息",
+                            name: "/inStationNews/newIndex"
+                        }]
+                    },
+                    {
                         title: "系统管理",
                         name: "/systemSetting/userSetting",
                         iconCls: require("@/assets/svg/systemis.svg"),
@@ -510,6 +519,7 @@
                             },
                         ],
                     },
+
                 ],
                 activeName: 0,
                 activeTabsName: "0",
