@@ -211,6 +211,7 @@
                     },
                     {
                         title: "发货管理",
+                        name: "/deliveryManagement/normalDelivery",
                         iconCls: require("@/assets/svg/fahuoguanli.svg"),
                         children: [
                             {
@@ -343,6 +344,7 @@
                     },
                     {
                         title: "货品移位",
+                        name: "/goodsShifting/jobTask",
                         iconCls: require("@/assets/svg/moveSelf.svg"),
                         children: [
                             {
@@ -358,6 +360,7 @@
                     {
                         title: "报损管理",
                         iconCls: require("@/assets/svg/baoshunguanli.svg"),
+                        name: "/breakageManagement/breakageMain",
                         children: [
                             {
                                 title: "报损管理",
@@ -377,6 +380,7 @@
                     },
                     {
                         title: "借调管理",
+                        name: "/borrowManagement/borrowMain",
                         iconCls: require("@/assets/svg/jiediaoguanli.svg"),
                         children: [
                             {
@@ -388,6 +392,7 @@
                     {
                         title: "库存管理",
                         iconCls: require("@/assets/svg/kuchunguanli.svg"),
+                        name: "/inventoryMangement/productInventory",
                         children: [
                             {
                                 title: "产品库存",
@@ -464,6 +469,7 @@
                     {
                         title: "统计",
                         iconCls: require("@/assets/svg/tonjiwenming.svg"),
+                        name: "/statistics/shipmentStatistics",
                         children: [
                             {
                                 title: "发货统计",
@@ -564,7 +570,7 @@
                 this.activeName = "" + parseInt(n);
             },
             $route: function (n) {
-                console.log(n);
+                console.log(n, "router");
                 if (this.dropdownArr.length) {
                     for (var i = 0; i < this.dropdownArr.length; i++) {
                         if (this.dropdownArr[i].name == n.name) {

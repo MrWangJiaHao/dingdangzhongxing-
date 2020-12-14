@@ -756,3 +756,6 @@ textarea {
     border-radius: 4px;
 }
 
+.fuzzyQueryBox {
+    padding: 20px 30px 4px 30px !important;
+}
