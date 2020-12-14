@@ -56,7 +56,6 @@
 
 <script>
 import { findFailProdDetail } from "../../api/api";
-import { Message } from "element-ui";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 
 export default {
@@ -112,14 +111,14 @@ export default {
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
           if (this.tableData.length === 0) {
-            Message({
+            this.$messageSelf.message({
               type: "error",
               message: "未查询到缺货的订单",
             });
           }
           this.changeData(ok.data.result);
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: "查询失败",
           });

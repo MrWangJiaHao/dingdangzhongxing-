@@ -84,7 +84,6 @@
 <script>
 /*eslint-disable */
 import { childOrderInfor, sellOrderInfor } from "../../api/api";
-import { Message } from "element-ui";
 
 export default {
   beforeRouteEnter(to, from, next) {

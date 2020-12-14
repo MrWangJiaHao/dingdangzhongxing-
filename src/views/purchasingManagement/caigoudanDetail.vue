@@ -224,7 +224,6 @@
 /*eslint-disable */
 import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
 import { mapState } from "vuex";
-import { Message } from "element-ui";
 import { isMobile, isEmail } from "../../utils/validate";
 import { getppPurchaseOrderFindRecord } from "../../api/api";
 export default {

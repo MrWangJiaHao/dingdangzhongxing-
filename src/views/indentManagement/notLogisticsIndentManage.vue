@@ -240,7 +240,6 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { Message } from "element-ui";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import { queryOrderInfor, getExprNo } from "../../api/api";
 import { isMobile } from "../../utils/validate";
@@ -448,7 +447,7 @@ export default {
             );
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -523,14 +522,14 @@ export default {
     },
     educe() {
       //导出表格
-      // if (!this.multipleSelection.length) return Message("请选择要导出的订单");
+      // if (!this.multipleSelection.length) return this.$messageSelf.message("请选择要导出的订单");
       // if (this.multipleSelection.length != 1)
-      //   return Message("一次只能选择一个订单");
-      // if (this.lotNo === "") return Message("请稍等片刻");
+      //   return this.$messageSelf.message("一次只能选择一个订单");
+      // if (this.lotNo === "") return this.$messageSelf.message("请稍等片刻");
       // let oA = document.querySelector(".setUser");
       // oA.setAttribute("href", this.getExcelUrl + this.lotNo);
       if (this.tableData.length === 0) {
-        return Message({
+        return this.$messageSelf.message({
           message: "表格为空不能导出",
           type: "error",
         });
@@ -663,7 +662,7 @@ export default {
         }
       });
       if (!this.multipleSelection.length)
-        return Message("请选择要分配物流的单号");
+        return this.$messageSelf.message("请选择要分配物流的单号");
       this.$messageSelf
         .confirms(
           `共选择${this.multipleSelection.length}个订单，确认获取物流单号吗？`,
@@ -676,19 +675,19 @@ export default {
           this.getExpressNo({ ids: arr });
         })
         .catch(() => {
-          Message("已取消");
+          this.$messageSelf.message("已取消");
         });
     },
     getExpressNo(data) {
       getExprNo(data).then((ok) => {
         if (ok.data.code === "10000") {
-          Message({
+          this.$messageSelf.message({
             type: "success",
             message: "分配成功",
           });
           this.pageQueryFun();
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: "分配失败",
           });

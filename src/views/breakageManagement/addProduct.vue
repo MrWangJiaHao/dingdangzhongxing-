@@ -172,7 +172,6 @@
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { storeMapRelation } from "../../api/api";
 import { reduceFun } from "../../utils/validate";
-import { Message } from "element-ui";
 
 export default {
   components: {
@@ -319,7 +318,7 @@ export default {
       this.$router.push({ path: "/breakageManagement/createBreakageOrder" });
     },
     submit() {
-      if (!this.multipleSelection.length) return Message("请选择报损的产品");
+      if (!this.multipleSelection.length) return this.$messageSelf.message("请选择报损的产品");
       this.$router.push({
         path: "/breakageManagement/createBreakageOrder",
         query: { val: this.multipleSelection, type: "addProd" },

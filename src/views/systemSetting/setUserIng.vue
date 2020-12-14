@@ -291,11 +291,10 @@ export default {
     },
     //取消编辑
     closeEdit() {
-      this.$confirm("是否退出编辑？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      this.$messageSelf
+        .confirms("是否退出编辑？", "提示", {
+          type: "warning",
+        })
         .then(() => {
           this.$store.dispatch("clearEditUser");
           this.closeBtn();

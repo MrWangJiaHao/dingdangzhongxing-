@@ -424,7 +424,6 @@ import {
   areaShelfQuery,
   delStoreMapRelation,
 } from "../../api/api";
-import { Message } from "element-ui";
 import { getCookie } from "../../utils/validate";
 export default {
   components: {
@@ -527,7 +526,7 @@ export default {
           });
         });
       } else {
-        Message({
+        this.$messageSelf.message({
           type: "error",
           message: "未知错误",
         });
@@ -731,7 +730,7 @@ export default {
             }
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: "未知错误",
           });
@@ -771,9 +770,9 @@ export default {
     storeEdit() {
       //存储区编辑操作
       if (!this.storeMultipleSelection.length)
-        return Message("请选择要编辑的库位");
+        return this.$messageSelf.message("请选择要编辑的库位");
       if (this.storeMultipleSelection.length !== 1)
-        return Message({
+        return this.$messageSelf.message({
           message: "每次只能编辑一条库位信息，请重新选择",
           type: "warning",
         });
@@ -785,9 +784,9 @@ export default {
     pickEdit() {
       //拣货区编辑操作
       if (!this.pickMultipleSelection.length)
-        return Message("请选择要编辑的库位");
+        return this.$messageSelf.message("请选择要编辑的库位");
       if (this.pickMultipleSelection.length !== 1)
-        return Message({
+        return this.$messageSelf.message({
           message: "每次只能编辑一条库位信息，请重新选择",
           type: "warning",
         });
@@ -804,17 +803,16 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return Message("请选择要删除的库位");
-      this.$confirm("确定要删除吗？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      if (!arr.length) return this.$messageSelf.message("请选择要删除的库位");
+      this.$messageSelf
+        .confirms("确定要删除吗？", "提示", {
+          type: "warning",
+        })
         .then(() => {
           this.delRequest({ ids: arr });
         })
         .catch(() => {
-          Message("已取消删除");
+          this.$messageSelf.message("已取消删除");
         });
     },
     pickDel() {
@@ -825,31 +823,30 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return Message("请选择要删除的库位");
-      this.$confirm("确定要删除吗？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      if (!arr.length) return this.$messageSelf.message("请选择要删除的库位");
+      this.$messaheSelf
+        .confirms("确定要删除吗？", "提示", {
+          type: "warning",
+        })
         .then(() => {
           this.delRequest({ ids: arr });
         })
         .catch(() => {
-          Message("已取消删除");
+          this.$messageSelf.message("已取消删除");
         });
     },
     delRequest(data) {
       //删除的请求
       delStoreMapRelation(data).then((ok) => {
         if (ok.data.code === "10000") {
-          Message({
+          this.$messageSelf.message({
             type: "success",
             message: "删除成功",
           });
           this.storefenyeQuery();
           this.pickfenyeQuery();
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: "删除失败",
           });

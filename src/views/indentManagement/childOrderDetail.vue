@@ -143,7 +143,6 @@
 
 <script>
 import { childOrderInfor, sellOrderInfor } from "../../api/api";
-import { Message } from "element-ui";
 
 let willBackgroundColor = "#ddd";
 let beforBackgroundColor = "#b0cff9";
@@ -317,7 +316,7 @@ export default {
             });
           }
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "网络异常",
             type: "error",
           });

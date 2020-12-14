@@ -316,7 +316,6 @@ import {
   areaShelfQuery,
   storeMapRelation,
 } from "../../api/api";
-import { Message } from "element-ui";
 import { getCookie } from "../../utils/validate";
 export default {
   beforeRouteEnter(to, from, next) {
@@ -503,7 +502,7 @@ export default {
           });
         });
       } else {
-        Message({
+        this.$messageSelf.message({
           type: "error",
           message: "未知错误",
         });
@@ -687,7 +686,7 @@ export default {
             });
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: "未知错误",
           });
@@ -715,7 +714,7 @@ export default {
             });
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: "未知错误",
           });
@@ -730,13 +729,13 @@ export default {
       prodStoreMap(data).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
-          Message({
+          this.$messageSelf.message({
             type: "success",
             message: "绑定成功",
           });
           this.$router.push("/warehoseconfig/storageLocalMap");
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: "绑定失败",
           });
@@ -754,7 +753,7 @@ export default {
             seatType: "0",
           });
           if (v.prodUnit === "" || v.MaxNumberInput === "") {
-            return Message({
+            return this.$messageSelf.message({
               type: "error",
               message: "请选择存放单位或输入存放数量",
             });
@@ -774,7 +773,7 @@ export default {
           });
           // console.log(this.requestData.seatDatas);
           if (v.prodUnit === "" || v.MaxNumberInput === "") {
-            return Message({
+            return this.$messageSelf.message({
               type: "error",
               message: "请选择存放单位或输入最大存放数",
             });

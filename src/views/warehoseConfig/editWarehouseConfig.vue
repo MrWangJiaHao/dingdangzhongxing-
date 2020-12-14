@@ -298,11 +298,10 @@ export default {
   methods: {
     //返回上一页
     gotoTop() {
-      this.$confirm(`确定返回上一页？`, "提示", {
-        type: "info",
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-      })
+      this.$messageSelf
+        .confirms(`确定返回上一页？`, "提示", {
+          type: "info",
+        })
         .then(() => {
           this.$router.go(-1);
         })

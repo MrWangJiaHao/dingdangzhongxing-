@@ -10,11 +10,10 @@
 export default {
   methods: {
     open() {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      this.$messageSelf
+        .confirms("此操作将永久删除该文件, 是否继续?", "删除提示", {
+          type: "warning",
+        })
         .then(() => {
           this.$message({
             type: "success",

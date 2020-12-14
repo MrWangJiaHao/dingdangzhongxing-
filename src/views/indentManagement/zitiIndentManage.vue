@@ -352,7 +352,6 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { Message } from "element-ui";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import { queryOrderInfor } from "../../api/api";
 import { isMobile } from "../../utils/validate";
@@ -562,7 +561,7 @@ export default {
             );
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -666,14 +665,14 @@ export default {
     },
     educe() {
       //导出表格
-      // if (!this.multipleSelection.length) return Message("请选择要导出的订单");
+      // if (!this.multipleSelection.length) return this.$messageSelf.message("请选择要导出的订单");
       // if (this.multipleSelection.length != 1)
-      //   return Message("一次只能选择一个订单");
-      // if (this.lotNo === "") return Message("请稍等片刻");
+      //   return this.$messageSelf.message("一次只能选择一个订单");
+      // if (this.lotNo === "") return this.$messageSelf.message("请稍等片刻");
       // let oA = document.querySelector(".setUser");
       // oA.setAttribute("href", this.getExcelUrl + this.lotNo);
       if (this.tableData.length === 0) {
-        return Message({
+        return this.$messageSelf.message({
           message: "表格为空不能导出",
           type: "error",
         });

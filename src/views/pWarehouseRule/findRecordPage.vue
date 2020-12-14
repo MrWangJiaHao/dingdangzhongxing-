@@ -61,7 +61,7 @@
         <!-- but按钮 -->
       </div>
       <div class="tableBox" id="findRecord">
-        <div style="background-color: #fff;padding: 16px 20px 16px 20px">
+        <div style="background-color: #fff; padding: 16px 20px 16px 20px">
           <div class="center">
             <el-table
               ref="multipleTable"
@@ -72,8 +72,11 @@
               style="width: 100%"
               @selection-change="handleSelectionChange"
             >
-               
-              <el-table-column  align="center" type="selection" width="82"></el-table-column>
+              <el-table-column
+                align="center"
+                type="selection"
+                width="82"
+              ></el-table-column>
               <el-table-column
                 label="序号"
                 width="71"
@@ -289,22 +292,22 @@ export default {
     clearBtn() {
       if (!this.multipleSelection.length)
         return this.$messageSelf.message("请选择要删除的发货规则配置");
-      this.$confirm("确定要删除该发货规则配置？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      }).then(() => {
-        let arrJson = this._getArrJsonTarget(this.multipleSelection, "id");
-        pWarehouseRuleDelRecord(arrJson, (res) => {
-          res = JSON.parse(res);
-          if (res.code == "10000") {
-            this.$messageSelf.message(res.msg);
-            this.getTableData();
-          } else {
-            this.$messageSelf.message(res.msg);
-          }
+      this.$messageSelf
+        .confirms("确定要删除该发货规则配置？", "提示", {
+          type: "warning",
+        })
+        .then(() => {
+          let arrJson = this._getArrJsonTarget(this.multipleSelection, "id");
+          pWarehouseRuleDelRecord(arrJson, (res) => {
+            res = JSON.parse(res);
+            if (res.code == "10000") {
+              this.$messageSelf.message(res.msg);
+              this.getTableData();
+            } else {
+              this.$messageSelf.message(res.msg);
+            }
+          });
         });
-      });
     },
     _getArrJsonTarget(arr, target) {
       let arrs = [];
