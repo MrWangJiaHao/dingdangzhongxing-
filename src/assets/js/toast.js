@@ -1,6 +1,5 @@
-
 /*eslint-disable */
-const { Message, MessageBox } = require("element-ui");
+const {Message, MessageBox} = require("element-ui");
 
 
 class messageSelf {
@@ -13,6 +12,7 @@ class messageSelf {
             type: "info"
         }
     }
+
     /**
      * 弹框
      * @param {*} json 提示框
@@ -24,9 +24,10 @@ class messageSelf {
         })
         return this
     }
+
     /**
      * 判断数据类型
-     * @param {*} str 
+     * @param {*} str
      */
     isShuLeiXin(str) {
         let isType = Object.prototype.toString.call(str)
@@ -37,13 +38,16 @@ class messageSelf {
         }
         return this
     }
+
     confirms(text = "确定执行此操作吗？", title = "提示", JSON = {}) {
         return MessageBox.confirm(text, title, {
             ...JSON
         })
     }
-    isDataCodeExistence(data) {
+
+    isDataCodeExistence(data, fn) {
         if (data.code === "10000") {
+            fn && fn(data)
             return data.result
         } else {
             return this.message(data.msg)

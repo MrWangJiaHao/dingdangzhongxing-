@@ -26,7 +26,7 @@
 
             <div class="tableBox">
                 <div style="background-color: #fff;padding: 16px 20px 16px 20px">
-                    <tableCommin :tableDataJson="tableDataJson"/>
+                    <tableCommin :tableDataJson="tableDataJson" @tableSelectArr="tableSelectArrDaiBuHuo"/>
                     <!-- 待补货产品 -->
                     <div class="pageComponent">
                         <pagecomponent
@@ -79,6 +79,7 @@
             </transition>
         </div>
         <!-- 创建移库单 & 编辑 end -->
+
         <!-- 补货确认 start -->
         <div v-show="isBuHuoSures" class="bjBox">
             <transition
@@ -603,6 +604,22 @@
             this.getTableData();
         },
         methods: {
+            _clearchanpinminxiJson() {
+                this.chanpinminxiJson.tableDataJsonAndArr.tabledata = []
+                this.createDataJson = {
+                    id: "",//移库单id
+                    innerMoveEndTime: "",//移库开始时间
+                    innerMoveNo: "",//移库单号
+                    innerMoveStartTime: "",//移库结束时间
+                    moveStatus: 1,//移库状态（1-待移动 2-移动中 3已移动)
+                    moveUser: "",//移库人
+                    operatorType: 1,//操作状态(1-新增 2-修改 3-入库确认)
+                    remark: "",//备注
+                    detailList: [],//移库产品明细集合
+                    wareType: "",//仓库类型（1-销售；2-售后；3-残次品）
+                }
+
+            },
             //产品明细
             moveSuretableSelectArrs(e) {
                 this.moveSureChanpinminxiJson.moveSureChanPInarr = e
@@ -618,12 +635,11 @@
             },
             async clickSubmit(e) {
                 this.createDataJson.detailList = e
-                let data = await this.$pOrgProductsApp.pWarehouseInnerMoveSaveRecord(this.createDataJson);
-                if (data.code == "10000") {
-                    this.isOrderNoteFun();
-                } else {
-                    this.$messageSelf.message(data.msg);
-                }
+                let data = await this.$pOrgProductsApp.pWarehouseInnerMoveSaveRecord(this.createDataJson),
+                    self = this
+                this.$messageSelf.isDataCodeExistence(data, (res) => {
+                    self.isOrderNoteFun(res);
+                })
             },
             //编辑
             editOrderNote() {
@@ -631,34 +647,41 @@
                     return this.$messageSelf.message(
                         "请选择要编辑的移库单,并且只能选择一个编辑"
                     );
-                this.editDataJson = this.multipleSelection[0];
+                this.createDataJson = {
+                    ...this.createDataJson,
+                    id: this.multipleSelection[0].id,//移库单id
+                    operatorType: 2,//操作状态(1-新增 2-修改 3-入库确认)
+                }
                 this.isOrderNote = true;
             },
             //删除
             removeIsOrderNode() {
+                let self = this
                 if (!this.multipleSelection.length)
                     return this.$messageSelf.message("请选择要删除的移库单");
-                this.$pOrgProductsApp
-                    .pWarehouseInnerMoveDelRecord({
-                        ids: _getArrTarget(this.multipleSelection, "id"),
-                    })
-                    .then((res) => {
-                        if (res.code == "10000") {
-                            this.$messageSelf.message(res.msg);
-                            this.getTableData();
-                        } else {
-                            this.$messageSelf.message(res.msg);
-                        }
-                    });
+                this.$messageSelf.confirms("确认删除改移库单号？", '提示', {
+                    type: "info"
+                }).then(() => {
+                    this.$pOrgProductsApp
+                        .pWarehouseInnerMoveDelRecord({
+                            ids: _getArrTarget(this.multipleSelection, "id"),
+                        })
+                        .then((res) => {
+                            self.$messageSelf.isDataCodeExistence(res, (res) => {
+                                self.$messageSelf.message(res.msg);
+                                self.getTableData()
+                            })
+                        });
+                })
             },
             //确定移货
             isBuHuoSureJson() {
-                // if (!this.multipleSelection.length || this.multipleSelection.length != 1)
-                //     return this.$messageSelf.message(
-                //         "请选择要确认的移库单,并且只能选择一个确认"
-                //     );
-                // this.BuHuoSureJson = this.multipleSelection[0];
-                // this._getdetailsChanPin(this.multipleSelection[0]);
+                if (!this.multipleSelection.length || this.multipleSelection.length != 1)
+                    return this.$messageSelf.message(
+                        "请选择要确认的移库单,并且只能选择一个确认"
+                    );
+                this.BuHuoSureJson = this.multipleSelection[0];
+                this._getdetailsChanPin(this.multipleSelection[0]);
                 this.isLooker = false;
                 this.isBuHuoSures = true;
             },
@@ -670,8 +693,9 @@
                 this.getTableData();
             },
             isOrderNoteFun() {
-                this.isOrderNote = false;
+                this._clearchanpinminxiJson()
                 this.getTableData();
+                this.isOrderNote = false;
             },
             //打印移库单
             isReplenishmentNoteClick() {
@@ -682,9 +706,9 @@
                 let json = [
                     {
                         queryTitle: "移库单号",
-                        queryCenter: `this.multipleSelection[0].replenishOrderNo
-            ? this.multipleSelection[0].replenishOrderNo
-            : ""`,
+                        queryCenter: this.multipleSelection[0].replenishOrderNo
+                            ? this.multipleSelection[0].replenishOrderNo
+                            : "",
                     },
                     {
                         queryTitle: "移库人（签字）",
@@ -771,10 +795,14 @@
             },
             sureSubmit(e) {
                 this.createDataJson.detailList = e
-                console.log(e, '确认点击了提交')
+
             },
             movestatusData(res) {
                 return res == 1 ? "待移动" : res ? "移动中" : res ? "已移动" : "未定义"
+            },
+            tableSelectArrDaiBuHuo(e) {
+                console.log(e)
+                this.multipleSelection = e
             }
         },
     };
