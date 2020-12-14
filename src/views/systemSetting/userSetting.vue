@@ -77,7 +77,7 @@
     </div>
     <!-- but按钮 -->
     <div class="tableBox">
-      <div style="background-color: #fff;padding: 16px 20px 16px 20px">
+      <div style="background-color: #fff; padding: 16px 20px 16px 20px">
         <div class="center">
           <el-table
             ref="multipleTable"
@@ -343,11 +343,10 @@ export default {
       if (!arr.length) return this.$messageSelf.message("请选择要删除的用户");
       if (arr.length !== 1)
         return this.$messageSelf.message("一次只能删除一个用户");
-      this.$confirm("确定要删除该用户？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      this.$messageSelf
+        .confirms("确定要删除该用户？", "提示", {
+          type: "warning",
+        })
         .then(() => {
           this._clearAjax({ id: arr[0] });
         })

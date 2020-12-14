@@ -262,7 +262,6 @@ import {
   pPurchaseOrderSubmitRecord,
   subpPurchaseOrderSubmitRecord,
 } from "../../api/api";
-import { Message } from "element-ui";
 import { getCookie, _getArrTarget } from "../../utils/validate";
 
 export default {
@@ -343,7 +342,7 @@ export default {
   },
   methods: {
     isCreatePurchasingFn() {
-      if (!getCookie("X-Auth-wareId")) return Message("该登入员没有创建权限");
+      if (!getCookie("X-Auth-wareId")) return this.$messageSelf.message("该登入员没有创建权限");
       this.editDataJson = {};
       this.isCreatePurchasing = true;
     },
@@ -422,31 +421,31 @@ export default {
     //提交
     ExportArr() {
       if (!this.multipleSelection.length && this.multipleSelection.length != 1)
-        return Message("请选择要提交的采购单，并且一次只能提交一个采购单");
+        return this.$messageSelf.message("请选择要提交的采购单，并且一次只能提交一个采购单");
       subpPurchaseOrderSubmitRecord({
         id: this.multipleSelection[0].id,
         disposeStatus: this.multipleSelection[0].disposeStatus,
       }).then((res) => {
         if (res.code == "10000") {
-          Message(res.msg);
+          this.$messageSelf.message(res.msg);
           this.getTableData();
         } else {
-          Message(res.msg);
+          this.$messageSelf.message(res.msg);
         }
       });
     },
     //编辑
     editBtn() {
       if (!this.multipleSelection.length && this.multipleSelection.length != 1)
-        return Message("请选择要编辑的采购单，并且一次只能编辑一个采购单");
+        return this.$messageSelf.message("请选择要编辑的采购单，并且一次只能编辑一个采购单");
       this.editDataJson = this.multipleSelection[0];
       this.isCreatePurchasing = true;
     },
     //删除
     clearBtn() {
       if (!this.multipleSelection.length)
-        return Message("请选择要删除的采购单");
-      this.$confirm("确定要删除该条采购管理？", "提示", {
+        return this.$messageSelf.message("请选择要删除的采购单");
+      this.$messageSelf.confirms("确定要删除该条采购管理？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -457,16 +456,16 @@ export default {
             (res) => {
               res = JSON.parse(res);
               if (res.code == "10000") {
-                Message("删除成功");
+                this.$messageSelf.message("删除成功");
                 this.getTableData();
               } else {
-                return Message(res.msg);
+                return this.$messageSelf.message(res.msg);
               }
             }
           );
         })
         .catch(() => {
-          Message("已取消删除");
+          this.$messageSelf.message("已取消删除");
         });
     },
     //表格发生了变化以及点击了查询按钮

@@ -88,7 +88,6 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { Message } from "element-ui";
 import { queryPhyDisCom, queryPhyDisComCon } from "../../api/api";
 export default {
   components: {
@@ -134,7 +133,7 @@ export default {
             });
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });
@@ -166,7 +165,7 @@ export default {
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result;
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "未知错误",
             type: "error",
           });

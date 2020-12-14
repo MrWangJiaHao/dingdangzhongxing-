@@ -134,7 +134,6 @@
 
 <script>
 import { add_edit_WH_Request } from "../../api/api";
-import { Message } from "element-ui";
 
 export default {
   data() {
@@ -347,12 +346,12 @@ export default {
     },
     submitData() {
       if (this.input1 === "") {
-        return Message({
+        return this.$messageSelf.message({
           type: "error",
           message: "请输入子仓名称",
         });
       } else if (this.value1 === "" || this.value3 === "") {
-        return Message({
+        return this.$messageSelf.message({
           type: "error",
           message: "请选择子仓编号",
         });
@@ -373,13 +372,13 @@ export default {
       add_edit_WH_Request(data).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
-          Message({
+          this.$messageSelf.message({
             type: "success",
             message: "创建成功",
           });
           this.$router.push("/warehoseconfig/childWarehouseAdmin");
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: ok.data.msg,
           });

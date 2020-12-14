@@ -179,7 +179,6 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { Message } from "element-ui";
 import {
   del_WH_Request,
   query_WH_Request,
@@ -350,30 +349,29 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return Message("请选择要删除的子仓");
-      this.$confirm("确定要删除该子仓？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      if (!arr.length) return this.$messageSelf.message("请选择要删除的子仓");
+      this.$messageSelf
+        .confirms("确定要删除该子仓？", "提示", {
+          type: "warning",
+        })
         .then(() => {
           this.delRequest({ ids: arr });
         })
         .catch(() => {
-          Message("已取消删除");
+          this.$messageSelf.message("已取消删除");
         });
     },
     //删除的请求
     delRequest(data) {
       del_WH_Request(data).then((ok) => {
         if (ok.data.code === "10000") {
-          Message({
+          this.$messageSelf.message({
             type: "success",
             message: "删除成功",
           });
           window.location.reload();
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: ok.data.msg ? ok.data.msg : "删除失败",
           });

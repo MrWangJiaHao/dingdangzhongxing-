@@ -765,7 +765,6 @@
 
     .dianjiqiehuan .el-tabs {
         position: relative;
-        top: 1px;
         left: 10px;
         z-index: 10;
     }

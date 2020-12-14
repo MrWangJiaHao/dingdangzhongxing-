@@ -29,7 +29,6 @@
 
 <script>
 import { childOrderInfor } from "../../api/api";
-import { Message } from "element-ui";
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -70,7 +69,7 @@ export default {
             v.operateType = this.subOrderStatusFun(v.operateType);
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             message: "网络异常",
             type: "error",
           });

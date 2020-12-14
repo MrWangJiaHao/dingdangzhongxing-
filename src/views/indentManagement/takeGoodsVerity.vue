@@ -99,7 +99,6 @@
 </template>
 
 <script>
-import { Message } from "element-ui";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 
 export default {
@@ -123,7 +122,7 @@ export default {
     };
   },
   mounted() {
-    Message({
+    this.$messageSelf.message({
       message: "该模块功能暂未开发",
       type: "error",
     });

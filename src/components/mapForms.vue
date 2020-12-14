@@ -32,11 +32,7 @@
         </el-table-column>
         <el-table-column prop="prodCode" label="产品编号" align="center">
         </el-table-column>
-        <el-table-column
-          prop="specName"
-          label="产品规格"
-          align="center"
-        >
+        <el-table-column prop="specName" label="产品规格" align="center">
         </el-table-column>
         <el-table-column prop="braName" label="品牌" align="center">
         </el-table-column>
@@ -57,7 +53,11 @@
           :label="storageTier"
           align="center"
         ></el-table-column>
-        <el-table-column prop="wareSeatCode" :label="wareSeatCode" align="center">
+        <el-table-column
+          prop="wareSeatCode"
+          :label="wareSeatCode"
+          align="center"
+        >
           <template slot-scope="scope">
             <div class="lookDetail">{{ scope.row.wareSeatCode }}</div>
           </template>
@@ -80,10 +80,8 @@
 
 <script>
 import { delStoreMapRelation } from "../api/api";
-import { Message } from "element-ui";
 
 export default {
-  
   props: {
     storageArea: String,
     storageShelf: String,
@@ -106,9 +104,10 @@ export default {
     },
     edit() {
       //编辑操作
-      if (!this.multipleSelection.length) return Message("请选择要编辑的库位");
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message("请选择要编辑的库位");
       if (this.multipleSelection.length !== 1)
-        return Message({
+        return this.$messageSelf.message({
           message: "每次只能编辑一条库位信息，请重新选择",
           type: "warning",
         });
@@ -125,30 +124,29 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return Message("请选择要删除的库位");
-      this.$confirm("确定要删除吗？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      if (!arr.length) return this.$messageSelf.message("请选择要删除的库位");
+      this.$$messageSelf
+        .confirms("确定要删除吗？", "提示", {
+          type: "warning",
+        })
         .then(() => {
           this.delRequest({ ids: arr });
         })
         .catch(() => {
-          Message("已取消删除");
+          this.$messageSelf.message("已取消删除");
         });
     },
     delRequest(data) {
       //删除的请求
       delStoreMapRelation(data).then((ok) => {
         if (ok.data.code === "10000") {
-          Message({
+          this.$messageSelf.message({
             type: "success",
             message: "删除成功",
           });
           window.location.reload();
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: ok.data.msg ? ok.data.msg : "删除失败",
           });
@@ -166,7 +164,6 @@ export default {
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
-    
   },
 };
 </script>

@@ -262,7 +262,6 @@ import {
   queryAreaOfWS,
   areaShelfQuery,
 } from "../../api/api";
-import { Message } from "element-ui";
 import pagecomponent from "../../components/commin/pageComponent";
 export default {
   components: {
@@ -396,7 +395,7 @@ export default {
             });
           });
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: "未知错误",
           });
@@ -425,7 +424,7 @@ export default {
           this.pagingQueryData.pageNumber = res.length;
           this.pageComponentsData.pageNums = res.length;
         } else {
-          Message({
+          this.$messageSelf.message({
             type: "error",
             message: "未知错误",
           });
@@ -452,7 +451,7 @@ export default {
     printSLCode() {
       //打印条形码图片
       if (!this.multipleSelection.length)
-        return Message("请选择要打印条形码的库位");
+        return this.$messageSelf.message("请选择要打印条形码的库位");
       // storageLocalChoose
       let codeArr = [];
       this.multipleSelection.forEach((item) => {
@@ -574,7 +573,7 @@ export default {
     lookDetail(row, column) {
       if (column.property === "seatProdId") {
         if (row.seatProdId === "否") {
-          return Message({
+          return this.$messageSelf.message({
             type: "error",
             message: "该库位还未绑定产品",
           });
