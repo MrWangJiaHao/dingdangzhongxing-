@@ -42,7 +42,7 @@ class isDisplayNoneBlock {
 
     changeFun(div, self) {
         div.innerText = "收起"
-        self.parent.style.height = self.parentHeight + "px";
+        self.parent.style.height = "auto";
         self.child.style.bottom = "34" + "px";
         div.classList.toggle("isclickMes")
     }
