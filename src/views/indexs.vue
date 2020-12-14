@@ -238,6 +238,7 @@
                     },
                     {
                         title: "复核配置",
+                        name: '',
                         iconCls: require("@/assets/svg/fuhepeizhi.svg"),
                         children: [],
                     },
@@ -344,6 +345,7 @@
                     },
                     {
                         title: "货品移位",
+                        name: '/goodsShifting/jobTask',
                         iconCls: require("@/assets/svg/moveSelf.svg"),
                         children: [
                             {
@@ -358,6 +360,7 @@
                     },
                     {
                         title: "报损管理",
+                        name: '/breakageManagement/breakageMain',
                         iconCls: require("@/assets/svg/baoshunguanli.svg"),
                         children: [
                             {
@@ -368,16 +371,19 @@
                     },
                     {
                         title: "仓库作业",
+                        name: '',
                         iconCls: require("@/assets/svg/cankuBookie.svg"),
                         children: [],
                     },
                     {
                         title: "PDA操作",
+                        name: '',
                         iconCls: require("@/assets/svg/PDA.svg"),
                         children: [],
                     },
                     {
                         title: "借调管理",
+                        name: '/borrowManagement/borrowMain',
                         iconCls: require("@/assets/svg/jiediaoguanli.svg"),
                         children: [
                             {
@@ -388,6 +394,7 @@
                     },
                     {
                         title: "库存管理",
+                        name: '/inventoryMangement/productInventory',
                         iconCls: require("@/assets/svg/kuchunguanli.svg"),
                         children: [
                             {
@@ -402,6 +409,7 @@
                     },
                     {
                         title: "库存盘点",
+                        name: '',
                         iconCls: require("@/assets/svg/kuchunpandian.svg"),
                         children: [],
                     },
@@ -454,16 +462,19 @@
                     },
                     {
                         title: "客户信息",
+                        name: '',
                         iconCls: require("@/assets/svg/kehuxinxi.svg"),
                         children: [],
                     },
                     {
                         title: "设备管理",
+                        name: '',
                         iconCls: require("@/assets/svg/shebeoguanli.svg"),
                         children: [],
                     },
                     {
                         title: "统计",
+                        name: '/statistics/shipmentStatistics',
                         iconCls: require("@/assets/svg/tonjiwenming.svg"),
                         children: [
                             {
@@ -635,10 +646,11 @@
                     this.dropdownArr[+this.activeTabsName].children.length != 0
                         ? this.dropdownArr[+this.activeTabsName].children[0].name
                         : this.dropdownArr[+this.activeTabsName].name;
-                if (!router)
-                    return this.$messageSelf.message({
+                if (!router) {
+                    this.$messageSelf.message({
                         message: "该模块在开发中请耐心等候稍后",
                     });
+                }
                 console.log("router", router);
                 this.$router.push(router);
                 let dataArrJson =
@@ -690,14 +702,12 @@
                 console.log("--------dropdownArr--------", this.dropdownArr);
                 this.addHenxianTables();
                 console.log("this.activeName", this.activeName);
-                // if (
-                //     !this.dataArr[+this.activeName].children.length &&
-                //     this.dataArr[+this.activeName].title != "首页"
-                // )
-                //     return this.$messageSelf.message({
-                //         message: "该模块在开发中，请耐心等候",
-                //         duration: 500,
-                //     });
+                if (this.dataArr[+this.activeName].name == '') {
+                    return this.$messageSelf.message({
+                        message: "该模块在开发中，请耐心等候",
+                        duration: 500,
+                    });
+                }
                 // if (this.dataArr[+this.activeName].title == "首页")
                 //     return this.$router.push("/index/indexFormJH");
                 let json = this.dataArr[+this.activeName];
