@@ -113,7 +113,7 @@
                             v-for="(item, idx) in mianbaoxieArr"
                             :key="idx + 'dsa'"
                             :to="{ path: item.name }"
-                    >{{ item.title + 1 }}
+                    >{{ item.title }}
                     </el-breadcrumb-item>
                 </el-breadcrumb>
             </div>
@@ -553,7 +553,7 @@
                 steep: null,
                 leftMoveClick: null,
                 rightMoveClick: null,
-                isZhanneixiaoxi: true
+                isZhanneixiaoxi: false
             };
         },
         mounted() {
@@ -678,11 +678,13 @@
             },
             _isZhanNewStation(data) {
                 let typesStr = _typesStr(data)
-                if (typesStr == "Object" && data.title == "站内消息") {
-                    console.log("这里是站内消息")
-                    return this.isZhanneixiaoxi = false
-                } else {
-                    return this.isZhanneixiaoxi = true
+                if (typesStr == "Object") {
+                    if (data.title == "站内消息") {
+                        return this.isZhanneixiaoxi = true
+                        console.log("这里是站内消息")
+                    } else {
+                        return this.isZhanneixiaoxi = false
+                    }
                 }
             },
             addHenxianTables() {

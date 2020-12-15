@@ -514,7 +514,9 @@
         },
         created() {
             let path = this._isRuku();
-            if (path) {
+            if (path && this.WarehousingType.WarehousingTypeArr[
+                +this.$route.params.type
+                ].WarehousingTypeCenter) {
                 if (this.isOneShou) {
                     this.WarehousingType.WarehousingTypeCenter = this.WarehousingType.WarehousingTypeArr[
                         +this.$route.params.type
