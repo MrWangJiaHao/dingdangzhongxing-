@@ -553,7 +553,7 @@
                 steep: null,
                 leftMoveClick: null,
                 rightMoveClick: null,
-                isZhanneixiaoxi: false
+                isZhanneixiaoxi: sessionStorage.getItem("isZhanneixiaoxi")
             };
         },
         mounted() {
@@ -680,9 +680,10 @@
                 let typesStr = _typesStr(data)
                 if (typesStr == "Object") {
                     if (data.title == "站内消息") {
+                        sessionStorage.setItem("isZhanneixiaoxi", true)
                         return this.isZhanneixiaoxi = true
-                        console.log("这里是站内消息")
                     } else {
+                        sessionStorage.setItem("isZhanneixiaoxi", false)
                         return this.isZhanneixiaoxi = false
                     }
                 }
