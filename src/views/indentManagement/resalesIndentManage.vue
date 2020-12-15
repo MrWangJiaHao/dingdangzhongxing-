@@ -996,12 +996,12 @@ export default {
     yichukuSure() {
       //已出库完成按钮
       if (!this.outMultipleSelection.length)
-        return this.$messageSelf.message("请选择要强制完成的订单");
+        return this.$messageSelf.message({message:"请选择要强制完成的订单",type:"info"});
       this.$messageSelf
         .confirms(
           `共选择${this.outMultipleSelection.length}个退货订单，确认强制完成吗？`,
           "提示",
-          { type: "warning" }
+          { type: "success" }
         )
         .then(() => {
           this.$messageSelf.message("该功能暂时没有");
@@ -1018,7 +1018,7 @@ export default {
         .confirms(
           `共选择${this.unOutMultipleSelection.length}个退货订单，确认强制完成吗？`,
           "提示",
-          { type: "warning" }
+          { type: "success" }
         )
         .then(() => {
           this.$messageSelf.message("该功能暂时没有");

@@ -662,13 +662,18 @@ export default {
         }
       });
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要分配物流的单号");
+        return this.$messageSelf.message({
+          message: "请选择要分配物流的单号",
+          type: "info",
+        });
       this.$messageSelf
         .confirms(
           `共选择${this.multipleSelection.length}个订单，确认获取物流单号吗？`,
           "获取物流单号",
           {
-            type: "warning",
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "success",
           }
         )
         .then(() => {
@@ -831,7 +836,7 @@ export default {
   }
 
   .resultForm {
-    padding:16px 20px;
+    padding: 16px 20px;
     .lookDeatil {
       color: #599af3;
       text-decoration: underline;

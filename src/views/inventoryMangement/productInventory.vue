@@ -218,6 +218,7 @@
 </template>
 
 <script>
+/*eslint-disable */
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { inventoryMangementQuery } from "../../api/api";
 import { clearTimeInput, reduceFun } from "../../utils/validate";
@@ -349,7 +350,23 @@ export default {
     },
     setWarning() {
       //设置高库存预警值
-
+      let arr = [];
+      this.multipleSelection.forEach((item) => {
+        if (!arr.includes(item.id)) {
+          arr.push(item.id);
+        }
+      });
+      if (!arr.length) return this.$messageSelf.message("请选择要设置的产品");
+      this.$messageSelf
+        .confirms("确定要删除该品牌？", "删除确认", {
+          type: "warning",
+        })
+        .then(() => {
+          this.delRequest({ ids: arr });
+        })
+        .catch(() => {
+          this.$messageSelf.message("已取消删除");
+        });
     },
     getPageNum(e) {
       this.queryData.pageNumber = e;

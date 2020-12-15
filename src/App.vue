@@ -239,4 +239,7 @@ input[type="number"] {
 .is-disabled{
   background: none !important;
 }
+.el-pager li.active+li{
+  border-left: 1px solid #d1d6e2 !important;
+}
 </style>
