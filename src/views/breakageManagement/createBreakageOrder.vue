@@ -499,7 +499,7 @@ export default {
         .titleText {
           font-size: 16px;
           position: relative;
-          margin-left: 42px;
+          margin-left: 46px;
         }
         .titleText::before {
           content: "";
@@ -518,12 +518,12 @@ export default {
           }
           .del {
             @include BtnFunction("error");
-            margin-right: 16px;
+            margin-right: 20px;
           }
         }
       }
       .tableBox-table {
-        padding: 16px;
+        padding: 16px 20px;
       }
     }
     .remarkBox {

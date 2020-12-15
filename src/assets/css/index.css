@@ -341,11 +341,6 @@ textarea {
 .mr10 {
     margin-right: 10px;
 }
-
-#app .el-checkbox__inner {
-    border-radius: 4px;
-}
-
 .disRight {
     display: flex;
     justify-content: flex-end;
@@ -744,6 +739,10 @@ textarea {
     background-color: #e1eaf5;
 }
 
+.w200 {
+    width: 200px;
+}
+
 /* .pageComponent {
     border: 1px solid rgb(209, 214, 226);
 } */
@@ -756,3 +755,6 @@ textarea {
     border-radius: 4px;
 }
 
+.fuzzyQueryBox {
+    padding: 20px 30px 4px 30px !important;
+}

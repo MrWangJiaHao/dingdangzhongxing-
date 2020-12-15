@@ -56,7 +56,7 @@
           </div>
           <div class="areaName">
             <div class="roleName-text">存放区域：</div>
-            <div class="roleName-checkBox" style="width: 120px">
+            <div class="roleName-checkBox" style="width: 150px">
               <el-select
                 v-model="placeAreaValue"
                 placeholder="请选择存放区域"
@@ -74,7 +74,7 @@
           </div>
           <div class="areaType">
             <div class="roleName-text">存放货架：</div>
-            <div class="roleName-checkBox" style="width: 120px">
+            <div class="roleName-checkBox" style="width: 150px">
               <el-select
                 v-model="placeShelfValue"
                 placeholder="请选择存放货架"
@@ -95,7 +95,7 @@
             <div class="roleName-checkBox" style="width: 120px">
               <el-select
                 v-model="placeTierValue"
-                placeholder="请选择存放层"
+                placeholder="请选择层数"
                 @change="placeTierValues"
               >
                 <el-option
@@ -110,7 +110,7 @@
           </div>
           <div class="tierChoose">
             <div class="roleName-text">拣货区域：</div>
-            <div class="roleName-checkBox" style="width: 120px">
+            <div class="roleName-checkBox" style="width: 150px">
               <el-select
                 v-model="pickAreaValue"
                 placeholder="请选择拣货区域"
@@ -128,7 +128,7 @@
           </div>
           <div class="storageLocalChoose">
             <div class="roleName-text">拣货货架：</div>
-            <div class="roleName-checkBox" style="width: 120px">
+            <div class="roleName-checkBox" style="width: 150px">
               <el-select
                 v-model="pickShelfValue"
                 placeholder="请选择拣货货架"
@@ -149,7 +149,7 @@
             <div class="roleName-checkBox" style="width: 120px">
               <el-select
                 v-model="pickTierValue"
-                placeholder="请选择拣货层"
+                placeholder="请选择层数"
                 @change="pickTierValue"
               >
                 <el-option
@@ -246,12 +246,14 @@
                     prop="childWareName"
                     label="子仓名称"
                     align="center"
+                    show-overflow-tooltip
                   >
                   </el-table-column>
                   <el-table-column
                     prop="wareAreaName"
                     label="存储区"
                     align="center"
+                    show-overflow-tooltip
                   ></el-table-column>
                   <el-table-column
                     prop="wareSeatCode1"
@@ -267,6 +269,7 @@
                     prop="wareSeatCode"
                     label="存储库位"
                     align="center"
+                    min-width="140"
                   >
                     <template slot-scope="scope">
                       <div class="lookDetail">{{ scope.row.wareSeatCode }}</div>
@@ -281,7 +284,7 @@
                     prop="createTime"
                     label="创建时间"
                     align="center"
-                    min-width="120"
+                    min-width="180"
                   ></el-table-column>
                 </el-table>
                 <div class="pageComponent">
@@ -360,6 +363,7 @@
                     prop="childWareName"
                     label="子仓名称"
                     align="center"
+                    show-overflow-tooltip
                   >
                   </el-table-column>
                   <el-table-column
@@ -381,6 +385,7 @@
                     prop="wareSeatCode"
                     label="拣货库位"
                     align="center"
+                    min-width="140"
                   >
                     <template slot-scope="scope">
                       <div class="lookDetail">{{ scope.row.wareSeatCode }}</div>
@@ -395,7 +400,7 @@
                     prop="createTime"
                     label="创建时间"
                     align="center"
-                    min-width="120"
+                    min-width="180"
                   ></el-table-column>
                 </el-table>
                 <div class="pageComponent">
@@ -929,7 +934,7 @@ export default {
         }
         .someBtn {
           display: flex;
-          margin: 16px 16px 16px 0;
+          margin: 16px 20px 16px 0;
           .setUser {
             margin-right: 10px;
             @include BtnFunction("success");
@@ -963,7 +968,7 @@ export default {
   }
   .roleName-choose {
     display: flex;
-    padding: 0 16px;
+    padding: 0 20px;
     .name_type {
       position: relative;
       display: flex;

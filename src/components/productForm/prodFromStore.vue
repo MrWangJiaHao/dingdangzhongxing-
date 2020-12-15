@@ -9,7 +9,7 @@
       tooltip-effect="dark"
       max-height="300"
     >
-      <el-table-column type="selection" width="55"> </el-table-column>
+      <el-table-column type="selection" width="55" align="center"> </el-table-column>
       <el-table-column label="序号" align="center" type="index" width="55">
       </el-table-column>
       <el-table-column prop="CWName" label="子仓" align="center">

@@ -611,6 +611,7 @@
             //点击移库单号
             clickInnerMoveNo(data) {
                 this.changePageSureData(data)
+                this._getdetailsChanPin(data)
                 this.isBuHuoSures = true;
                 this.isLooker = true
             },
@@ -669,6 +670,9 @@
                 let data = Object.assign({}, this.editDataJson, this.createDataJson)
                 data = Object.assign({}, data, this.multipleSelection[0])
                 console.log(data, "编辑")
+                this._getdetailsChanPin(this.multipleSelection[0], (data) => {
+                    this.chanpinminxiJson.tableDataJsonAndArr.tabledata = data
+                })
                 this.isOrderNote = true;
             },
             //删除
@@ -700,6 +704,7 @@
                             type: "info"
                         }
                     );
+                this.createDataJson.moveStatus = 3
                 this.createDataJson.operatorType = 3
                 this.createDataJson.id = this.multipleSelection[0].id
                 this.createDataJson.wareType = this.multipleSelection[0].wareType
@@ -718,12 +723,13 @@
                     this.moveSureDetailsJson.detailsArr[idx].centers = json[item]
                 })
             },
-            async _getdetailsChanPin(e) {
+            async _getdetailsChanPin(e, fn) {
                 let data = await this.$pOrgProductsApp.pWarehouseInnerMoveFindRecord({
                     id: e.id,
                 });
                 console.log(data, 'dataTable列表错误')
                 if (data.code === "10000") {
+                    fn && fn(data)
                     data.result.forEach(item => {
                         this.chanpinminxiJson.tableDataJsonAndArr.tabledata = item.detailList
                     })
@@ -779,7 +785,6 @@
                 this._getdetailsChanPin(this.multipleSelection[0]);
                 this.isReplenishmentNote = true;
             },
-
             jobTaskHeader(e) {
                 this.sendOutDataJson.paras = Object.assign(
                     {},
@@ -850,7 +855,6 @@
                     message: "请选择移库人"
                 })
                 this.clickSubmit()
-                // this.createDataJson.detailList = e
             },
             movestatusData(res) {
                 return res == 1 ? "待移动" : res == 2 ? "移动中" : res == 3 ? "已移动" : "未定义"

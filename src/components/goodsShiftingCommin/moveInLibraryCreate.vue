@@ -14,8 +14,9 @@
                         @tableSelectArrs="tableSelectArr"
                 >
                     <template slot="anniuBtns">
-            <span class="goOn mr11 inline" @click="isAddcreateChanpinShow"
-            >添加产品</span
+            <span
+                    class="goOn mr11 inline" @click="isAddcreateChanpinShow">
+                添加产品</span
             >
                         <span class="lodopFunClear inline" @click="removeItem">删除</span>
                     </template>

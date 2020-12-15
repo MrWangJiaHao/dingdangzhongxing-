@@ -524,7 +524,7 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 16px 0 10px;
+      margin: 0 20px 0 10px;
     }
   }
 }
@@ -553,7 +553,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 16px 16px 0;
+      margin: 16px 20px 16px 0;
       .setUser {
         margin-right: 10px;
         @include BtnFunction("success");

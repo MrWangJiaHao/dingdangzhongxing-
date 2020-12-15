@@ -1208,7 +1208,7 @@ export default {
 }
 .headerHtml {
   position: relative;
-  padding: 0 16px;
+  padding: 0 20px;
   .headerInput {
     display: flex;
     flex-wrap: wrap;
@@ -1222,7 +1222,7 @@ export default {
     }
   }
   .header-botton {
-    width: 186px;
+    width: 190px;
     height: 36px;
     position: absolute;
     right: 0;
@@ -1235,7 +1235,7 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 16px 0 10px;
+      margin: 0 0 0 10px;
     }
   }
   .timeChoose {
@@ -1283,7 +1283,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 16px 16px 0;
+      margin: 16px 20px 16px 0;
       .setUser {
         @include BtnFunction("success");
       }
@@ -1295,15 +1295,7 @@ export default {
   }
   .formTable {
     background: white;
-    padding: 16px;
-  }
-  .lookDetail {
-    color: #599af3;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  .failCause {
-    color: red;
+    padding: 16px 20px;
   }
 }
 </style>

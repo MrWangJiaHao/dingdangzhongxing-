@@ -21,7 +21,7 @@
         </el-table>
       </div>
       <div class="backBtnBox">
-        <div class="backBtn" @click="back">返回</div>
+        <div class="quxiaoBox" @click="back">返回</div>
       </div>
     </div>
   </div>
@@ -40,7 +40,7 @@ export default {
         if (vm.$route.query.type === "subOrderStatus") {
           let data = vm.$route.query.subOrderStatus;
           vm.subOrderNo = data.subOrderNo;
-          vm.queryFun()
+          vm.queryFun();
         }
       });
     } else {
@@ -157,10 +157,10 @@ export default {
       }
     }
     .backBtnBox {
-     display: flex;
-      justify-content: center;
-      .backBtn {
-        @include BtnFunction("success");
+      display: flex;
+      justify-content: flex-end;
+      .quxiaoBox {
+        @include BtnFunction();
       }
     }
   }

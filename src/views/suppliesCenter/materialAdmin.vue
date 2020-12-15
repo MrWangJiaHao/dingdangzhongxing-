@@ -785,7 +785,7 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 16px 0 10px;
+      margin: 0 20px 0 10px;
     }
   }
 }
@@ -802,7 +802,7 @@ export default {
       .icon-title-icon {
         width: 14px;
         height: 14px;
-        margin: 0 0 0 16px;
+        margin: 0 0 0 20px;
         img {
           width: 100%;
           height: 100%;
@@ -814,7 +814,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 16px 16px 0;
+      margin: 16px 20px 16px 0;
       .setUser {
         margin-right: 10px;
         @include BtnFunction("success");

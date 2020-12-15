@@ -1,5 +1,5 @@
 <template>
-    <div class="goodsShiftingBox">
+    <div class="goodsShiftingBox mb16">
         <div class="dispalywrap">
             <div class="inline mr11 mb16">
                 <dropDownXiala
@@ -310,7 +310,7 @@
 
     .goodsShiftingBox {
         min-height: 160px;
-        padding: 20px 30px;
+        padding: 20px 30px 4px 30px;
         position: relative;
         overflow: hidden;
 

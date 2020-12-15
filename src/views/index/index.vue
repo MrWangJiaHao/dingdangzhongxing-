@@ -237,13 +237,11 @@ export default {
         case 4:
           this.$messageSelf.message({
             message: "该模块还在开发中",
-            type: "warning",
           });
           break;
         case 5:
           this.$messageSelf.message({
             message: "该模块还在开发中",
-            type: "warning",
           });
           break;
       }
@@ -382,6 +380,7 @@ export default {
           .area1-title-icon {
             cursor: pointer;
             font-weight: bold;
+            color: #cbcbcb;
           }
         }
         .ws-area1-echarts {
@@ -424,6 +423,7 @@ export default {
             .area2-title-icon {
               font-weight: bold;
               cursor: pointer;
+              color: #cbcbcb;
             }
           }
         }
@@ -450,6 +450,7 @@ export default {
           .one-title-icon {
             font-weight: bold;
             cursor: pointer;
+            color: #cbcbcb;
           }
         }
         .infor-one-echarts {
@@ -474,6 +475,7 @@ export default {
           .two-title-icon {
             font-weight: bold;
             cursor: pointer;
+            color: #cbcbcb;
           }
         }
       }

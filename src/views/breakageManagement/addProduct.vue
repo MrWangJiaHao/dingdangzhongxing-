@@ -383,6 +383,7 @@ export default {
         }
       }
       .header-botton {
+        width: 190px;
         height: 36px;
         display: flex;
         align-items: center;
@@ -412,7 +413,7 @@ export default {
         }
       }
       .tableBox-table {
-        padding: 16px;
+        padding: 16px 20px;
       }
     }
   }

@@ -2683,10 +2683,7 @@
     overflow: hidden
 }
 
-.el-table-column--selection .cell {
-    padding-left: 14px;
-    padding-right: 14px
-}
+
 
 .el-table-filter {
     border: 1px solid #ebeef5;
