@@ -106,13 +106,13 @@
         </div>
         <!-- 可以删除的导航 -->
         <div class="dianjiqiehuan" v-show="mianbaoxieArr.length">
-            <div class="mianbaoxie">
+            <div class="mianbaoxie" v-show="!isZhanneixiaoxi">
                 <el-breadcrumb separator-class="el-icon-arrow-right">
                     <el-breadcrumb-item
                             v-for="(item, idx) in mianbaoxieArr"
                             :key="idx + 'dsa'"
                             :to="{ path: item.name }"
-                    >{{ item.title }}
+                    >{{ item.title + 1 }}
                     </el-breadcrumb-item>
                 </el-breadcrumb>
             </div>
@@ -133,6 +133,7 @@
     let a = 0;
     import Footer from "../components/footer";
     import {jurisdicRequest} from "../api/api";
+    import {_typesStr} from "../utils/validate";
 
     export default {
         components: {
@@ -542,6 +543,7 @@
                 steep: null,
                 leftMoveClick: null,
                 rightMoveClick: null,
+                isZhanneixiaoxi: true
             };
         },
         mounted() {
@@ -618,7 +620,6 @@
                 } else {
                     this.steep = this.navWidth - this.innersWidth;
                 }
-                console.log(this.steep, "steep");
                 let res = this.navWidth - this.innersWidth;
                 oDiv.style.left = `${-this.steep * a}px`;
                 oDiv.style.transition = "0.5s";
@@ -626,15 +627,12 @@
             _isPanDauanQianMianDaGuoHouMian(max, min) {
             },
             clickItemIdx(e) {
-                console.log(e, "点击item");
             },
             //点击子
             dianji(e) {
-                console.log(e, "dianji");
             },
             //点击选中
             handleTabsEdit() {
-                console.log('this.activeTabsName', this.activeTabsName)
                 this.addHenxianTables();
                 let router =
                     this.dropdownArr[+this.activeTabsName].children.length != 0
@@ -644,8 +642,9 @@
                     return this.$messageSelf.message({
                         message: "该模块在开发中请耐心等候稍后",
                     });
-                console.log("router", router);
                 this.$router.push(router);
+                this._isZhanNewStation(this.mianbaoxieArr)
+                this._isZhanNewStation(this.dropdownArr[+this.activeTabsName])
                 let dataArrJson =
                     this.dropdownArr[+this.activeTabsName].children.length != 0
                         ? this.dropdownArr[+this.activeTabsName].children[0]
@@ -655,7 +654,17 @@
                 if (!this.mianbaoxieArr.includes(mianbaoxieArrJson)) {
                     this.mianbaoxieArr.unshift(mianbaoxieArrJson);
                 }
+                this._isZhanNewStation()
                 this.mianbaoxieArr.splice(1, 1, dataArrJson);
+            },
+            _isZhanNewStation(data) {
+                let typesStr = _typesStr(data)
+                if (typesStr == "Object" && data.title == "站内消息") {
+                    console.log("这里是站内消息")
+                    return this.isZhanneixiaoxi = false
+                } else {
+                    return this.isZhanneixiaoxi = true
+                }
             },
             addHenxianTables() {
                 setTimeout(() => {
@@ -688,11 +697,9 @@
                 this.$router.push(router);
                 console.log("--------dropdownArr--------", router);
             },
-
             handleClick() {
                 console.log("--------dropdownArr--------", this.dropdownArr);
                 this.addHenxianTables();
-                console.log("this.activeName", this.activeName);
                 // if (
                 //     !this.dataArr[+this.activeName].children.length &&
                 //     this.dataArr[+this.activeName].title != "首页"
@@ -736,7 +743,6 @@
                 }
                 this.oldName = +this.activeName;
                 this.handleTabsEdit();
-                console.log("this.mianbaoxieArr", this.mianbaoxieArr, 'this.activeTabsName', this.activeTabsName);
             },
             clickEventGoRouter(e) {
                 let dataArrJson = this.dropdownArr[+this.activeTabsName].children[e];
@@ -747,7 +753,6 @@
                 this.mianbaoxieArr.splice(1, 1, dataArrJson);
                 let router = this.dropdownArr[+this.activeTabsName].children[e].name;
                 this.$router.push(router);
-                console.log("this.mianbaoxieArr", this.mianbaoxieArr);
             },
         },
     };

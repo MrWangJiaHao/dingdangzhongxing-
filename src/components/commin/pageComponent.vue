@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="fenxyechaxun">
         <el-pagination
                 @current-change="handleCurrentChange"
                 :current-page="currentPage"
@@ -36,10 +36,6 @@
 
     .el-pagination .el-pagination__editor.el-input {
         width: 36px;
-    }
-
-    .el-pager .number {
-        margin-right: 6px;
     }
 
     .el-pager .number:last-child {

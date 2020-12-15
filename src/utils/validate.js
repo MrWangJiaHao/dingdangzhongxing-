@@ -367,7 +367,15 @@ export const _addArrPush = (nums = 0, arr, maxnums = 10) => {
     nums++;
     _addArrPush(nums, arr);
 }
-
+/**
+ * 判断数据类型
+ */
+export const _typesStr = (str) => {
+    let type
+    str = Object.prototype.toString.call(str)
+    type = str.substring(8, str.length - 1)
+    return type
+}
 /**
  * 判断子仓类型
  * @param {*} nums 传入的waretype

@@ -491,7 +491,9 @@
         watch: {
             $route(to) {
                 let path = this._isRuku();
-                if (path) {
+                if (path && this.WarehousingType.WarehousingTypeArr[
+                    +to.params.type
+                    ].WarehousingTypeCenter) {
                     this.WarehousingType.WarehousingTypeCenter = this.WarehousingType.WarehousingTypeArr[
                         +to.params.type
                         ].WarehousingTypeCenter;
