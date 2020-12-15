@@ -125,8 +125,8 @@
     </div>
     <div class="submitBtn">
       <div class="submitBtnBox">
-        <el-button @click="goBack">取 消</el-button>
-        <el-button type="primary" @click="submitData">提 交</el-button>
+        <div class="quxiaoBox" @click="goBack">取 消</div>
+        <div class="submitBtn" @click="submitData">提 交</div>
       </div>
     </div>
   </div>
@@ -451,6 +451,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../../assets/scss/btn.scss";
 .childWarehousePage {
   width: 100%;
   background: #eef1f8;
@@ -506,50 +507,49 @@ export default {
         display: flex;
         align-items: center;
         width: 15%;
-        margin-right: 16px;
+        margin-right: 24px;
       }
       .input2 {
         display: flex;
         align-items: center;
-        width: 10%;
-        margin-right: 16px;
+        width: 13%;
+        margin-right: 24px;
       }
       .input3 {
         display: flex;
         align-items: center;
         width: 12.5%;
-        margin-right: 16px;
+        margin-right: 24px;
       }
       .input4 {
         display: flex;
         align-items: center;
         width: 12.5%;
-        margin-right: 16px;
+        margin-right: 24px;
       }
       .input5 {
         display: flex;
         align-items: center;
         width: 12.5%;
-        margin-right: 16px;
+        margin-right: 24px;
       }
       .input6 {
         display: flex;
         align-items: center;
         width: 12.5%;
-        margin-right: 16px;
+        margin-right: 24px;
       }
       .input7 {
         display: flex;
         align-items: center;
         width: 12.5%;
-        margin-right: 16px;
       }
       .input8 {
         display: flex;
         align-items: center;
         transition: 0.5s;
         width: 4%;
-        margin-right: 16px;
+        margin-right: 24px;
       }
     }
     .setRemark {
@@ -565,9 +565,17 @@ export default {
     align-items: center;
     position: relative;
     .submitBtnBox {
+      display: flex;
       position: absolute;
       right: 30px;
       bottom: 20px;
+      .quxiaoBox{
+        @include BtnFunction();
+        margin-right: 10px
+      }
+      .submitBtn{
+        @include BtnFunction("success");
+      }
     }
   }
   span {

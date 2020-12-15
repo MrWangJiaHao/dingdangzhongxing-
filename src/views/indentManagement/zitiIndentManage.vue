@@ -77,7 +77,7 @@
           </div>
           <div class="el-inputBox childrenIndentState">
             <div class="el-inputBox-text">子单状态：</div>
-            <div class="el-inputBox-checkBox" style="width: 120px">
+            <div class="el-inputBox-checkBox" style="width: 150px">
               <el-select
                 v-model="ChildOrderState"
                 placeholder="请选择子单状态"
@@ -104,7 +104,7 @@
           </div>
           <div class="el-inputBox block_hidden telphone">
             <div class="el-inputBox-text">联系电话：</div>
-            <div class="el-inputBox-checkBox" style="width: 120px">
+            <div class="el-inputBox-checkBox" style="width: 140px">
               <el-input
                 v-model="telPhoneValue"
                 placeholder="请输入联系电话"
@@ -124,7 +124,7 @@
           </div>
           <div class="timeChoose el-inputBox">
             <div class="stateChoose">
-              <div class="el-inputBox-checkBox" style="width: 110px">
+              <div class="el-inputBox-checkBox" style="width: 110px;margin-right:10px">
                 <el-select
                   v-model="stateChooseValue"
                   @change="stateChooseValues"
@@ -175,7 +175,7 @@
             <div class="icon-title-icon">
               <img src="../../assets/img/systemTitlemesa.png" />
             </div>
-            <div class="icon-title-title">自提订单信息</div>
+            <div class="icon-title-title">查询结果</div>
           </div>
           <div class="someBtn">
             <div class="takeGoodsDiv" @click="takeGoods">取货确认</div>
@@ -192,7 +192,8 @@
             tooltip-effect="dark"
             @cell-click="lookDetailEvent"
           >
-            <el-table-column type="selection" width="55" align="center"> </el-table-column>
+            <el-table-column type="selection" width="55" align="center">
+            </el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -200,28 +201,38 @@
               width="60"
             >
             </el-table-column>
-            <el-table-column prop="orgName" label="委托公司" align="center">
+            <el-table-column prop="orgName" label="委托公司" align="left">
             </el-table-column>
-            <el-table-column prop="channelName" label="渠道" align="center">
+            <el-table-column prop="channelName" label="渠道" align="left">
             </el-table-column>
             <el-table-column
               prop="orderSourceName"
               label="订单来源"
-              align="center"
+              align="left"
               width="150"
               min-width="150"
             >
             </el-table-column>
-            <el-table-column prop="orderNo" label="订单号" align="center" width="190"
-              min-width="190">
+            <el-table-column
+              prop="orderNo"
+              label="订单号"
+              align="left"
+              width="190"
+              min-width="190"
+            >
               <template slot-scope="scope">
                 <div class="lookDeatil">
                   {{ scope.row.orderNo }}
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="subOrderNo" label="子订单号" align="center" width="190"
-              min-width="190">
+            <el-table-column
+              prop="subOrderNo"
+              label="子订单号"
+              align="left"
+              width="190"
+              min-width="190"
+            >
               <template slot-scope="scope">
                 <div class="lookDeatil">
                   {{ scope.row.subOrderNo }}
@@ -231,8 +242,8 @@
             <el-table-column
               prop="subOrderStatus"
               label="子订单状态"
-              align="center"
-               width="100"
+              align="left"
+              width="100"
               min-width="100"
             >
               <template slot-scope="scope">
@@ -251,25 +262,29 @@
             <el-table-column
               prop="pushTime"
               label="下发时间"
-              align="center" width="180"
+              align="left"
+              width="180"
               min-width="180"
             ></el-table-column>
             <el-table-column
               prop="mergeStartTime"
               label="集计开始时间"
-              align="center" width="180"
+              align="left"
+              width="180"
               min-width="180"
             ></el-table-column>
             <el-table-column
               prop="mergeEndTime"
               label="集计完成时间"
-              align="center" width="180"
+              align="left"
+              width="180"
               min-width="180"
             ></el-table-column>
             <el-table-column
               prop="printTime"
               label="打印时间"
-              align="center" width="180"
+              align="left"
+              width="180"
               min-width="180"
             ></el-table-column>
             <el-table-column
@@ -280,13 +295,15 @@
             <el-table-column
               prop="pickStartTime"
               label="拣货开始时间"
-              align="center" width="180"
+              align="left"
+              width="180"
               min-width="180"
             ></el-table-column>
             <el-table-column
               prop="pickEndTime"
               label="拣货完成时间"
-              align="center" width="180"
+              align="left"
+              width="180"
               min-width="180"
             ></el-table-column>
             <el-table-column
@@ -297,13 +314,15 @@
             <el-table-column
               prop="reCheckStartTime"
               label="复核开始时间"
-              align="center" width="180"
+              align="left"
+              width="180"
               min-width="180"
             ></el-table-column>
             <el-table-column
               prop="reCheckEndTime"
               label="复核完成时间"
-              align="center" width="180"
+              align="left"
+              width="180"
               min-width="180"
             ></el-table-column>
             <el-table-column
@@ -314,10 +333,10 @@
             <el-table-column
               prop="reCheckImageData"
               label="复核照片"
-              align="center"
+              align="left"
             >
               <template slot-scope="scope">
-                <div class="lookDetail">{{ scope.row.reCheckImageData }}</div>
+                <div class="lookDeatil">{{ scope.row.reCheckImageData }}</div>
               </template>
             </el-table-column>
             <el-table-column
@@ -328,7 +347,8 @@
             <el-table-column
               prop=""
               label="取货时间"
-              align="center" width="180"
+              align="left"
+              width="180"
               min-width="180"
             ></el-table-column>
             <el-table-column
@@ -610,7 +630,7 @@ export default {
         // console.log(this.queryData);
         this.pageQueryFun();
       } else {
-        return this.$message.error("请输入正确的手机号");
+        return this.$messageSelf.message("请输入正确的手机号");
       }
     },
     clearInput() {
@@ -795,7 +815,7 @@ export default {
         if (!isMobile(telPhoneValue)) {
           phoneInput.style.borderColor = "red";
           this.testPhone = false;
-          return this.$message.error("请输入正确的手机号");
+          return this.$messageSelf.message("请输入正确的手机号");
         }
       }
       phoneInput.style.borderColor = "#DCDFE6";

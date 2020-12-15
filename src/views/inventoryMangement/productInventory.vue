@@ -132,9 +132,9 @@
               width="60"
             >
             </el-table-column>
-            <el-table-column prop="prodCode" label="产品编码" align="center">
+            <el-table-column prop="prodCode" label="产品编码" align="left">
             </el-table-column>
-            <el-table-column prop="prodName" label="产品名称" align="center">
+            <el-table-column prop="prodName" label="产品名称" align="left">
             </el-table-column>
             <el-table-column
               prop="specName"
@@ -349,6 +349,7 @@ export default {
     },
     setWarning() {
       //设置高库存预警值
+
     },
     getPageNum(e) {
       this.queryData.pageNumber = e;
