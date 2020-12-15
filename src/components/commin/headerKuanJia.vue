@@ -1,14 +1,12 @@
 <template>
-    <div>
-        <div class="fuzzyQueryBox mb16">
-            <div class="biaogeBox">
-                <slot name="biaoBoxCenter"></slot>
-                <div class="btns inline btnArrs tr">
-                    <div class="queryBtn inline mr11 zujianBox" @click="clickQueryUser">
-                        查询
-                    </div>
-                    <div class="clearBtn inline" @click="clearInputAll">清空</div>
+    <div class="fuzzyQueryBox ">
+        <div class="biaogeBox">
+            <slot name="biaoBoxCenter"></slot>
+            <div class="btns inline  btnArrs tr">
+                <div class="queryBtn inline mr11 zujianBox" @click="clickQueryUser">
+                    查询
                 </div>
+                <div class="clearBtn inline" @click="clearInputAll">清空</div>
             </div>
         </div>
     </div>
@@ -32,6 +30,8 @@
 
     .fuzzyQueryBox {
         position: relative;
+        display: flex;
+        align-items: center;
 
         .biaogeBox {
             flex-wrap: wrap;

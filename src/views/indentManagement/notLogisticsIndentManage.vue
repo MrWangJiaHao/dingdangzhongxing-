@@ -146,9 +146,9 @@
           </div>
           <div class="header-botton">
             <!-- <div class="showBtn" @click="clickShow">
-                <span>{{ stateChoose }}</span
-                ><span class="el-icon-caret-bottom caret"></span>
-              </div> -->
+                            <span>{{ stateChoose }}</span
+                            ><span class="el-icon-caret-bottom caret"></span>
+                          </div> -->
             <div class="queryBtn" @click="clickQuery">查询</div>
             <div class="clearBtn" @click="clearInput">清空</div>
           </div>
@@ -243,6 +243,7 @@ import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import { queryOrderInfor, getExprNo } from "../../api/api";
 import { isMobile } from "../../utils/validate";
+
 export default {
   components: {
     pagecomponent,
@@ -662,18 +663,13 @@ export default {
         }
       });
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message({
-          message: "请选择要分配物流的单号",
-          type: "info",
-        });
+        return this.$messageSelf.message("请选择要分配物流的单号");
       this.$messageSelf
         .confirms(
           `共选择${this.multipleSelection.length}个订单，确认获取物流单号吗？`,
           "获取物流单号",
           {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "success",
+            type: "warning",
           }
         )
         .then(() => {
@@ -744,22 +740,27 @@ export default {
   background: #eef1f8;
   padding: 20px 10px;
 }
+
 .headerHtml {
   position: relative;
   padding: 0 20px;
   transition: 0.3s;
+
   .headerInput {
     display: flex;
     flex-wrap: wrap;
+
     .el-inputBox {
       display: flex;
       align-items: center;
       margin: 0 20px 16px 0;
+
       .el-inputBox-text {
         white-space: nowrap;
       }
     }
   }
+
   .header-botton {
     width: 190px;
     height: 36px;
@@ -769,26 +770,32 @@ export default {
 
     display: flex;
     align-items: center;
+
     .queryBtn {
       @include BtnFunction("success");
     }
+
     .clearBtn {
       @include BtnFunction();
       background: #fff;
       margin: 0 16px 0 10px;
     }
   }
+
   .timeChoose {
     display: flex;
     justify-content: space-between;
     margin-right: 20px;
+
     .titleBox {
       font-size: 14px;
     }
+
     .timeBox {
       height: 34px;
       display: flex;
       align-items: center;
+
       .line {
         width: 10px;
         height: 2px;
@@ -798,16 +805,20 @@ export default {
     }
   }
 }
+
 .childWarehouseForm {
   margin: 4px 0 0 0;
   background: white;
+
   .formHeader {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #d1d6e2;
+
     .icon-title {
       display: flex;
       margin: 24px 0 0 0;
+
       .icon-title-icon {
         width: 14px;
         height: 14px;
@@ -818,16 +829,20 @@ export default {
           height: 100%;
         }
       }
+
       .icon-title-title {
         margin: 0 0 0 8px;
       }
     }
+
     .someBtn {
       display: flex;
       margin: 16px 20px 16px 0;
+
       .setUser {
         @include BtnFunction("success");
       }
+
       .takeOrdersDiv {
         margin-right: 10px;
         @include BtnFunction("success");
@@ -837,6 +852,7 @@ export default {
 
   .resultForm {
     padding: 16px 20px;
+
     .lookDeatil {
       color: #599af3;
       text-decoration: underline;

@@ -97,6 +97,13 @@
     position: inherit;
 }
 
+.el-message-box__status.el-icon-success {
+    width: 50px;
+    height: 50px;
+    margin-top: 80px;
+    position: inherit;
+}
+
 .el-message-box__status.el-icon-info {
     width: 56px;
     height: 50px;
@@ -121,6 +128,10 @@
 }
 
 .el-message-box__status.el-icon-info::before {
+    content: " ";
+}
+
+.el-message-box__status.el-icon-success::before {
     content: " ";
 }
 
