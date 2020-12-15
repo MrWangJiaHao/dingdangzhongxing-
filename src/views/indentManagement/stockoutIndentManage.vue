@@ -138,7 +138,7 @@
       </div>
       <div class="formBox">
         <div class="formTabs">
-          <el-tabs type="card" @tab-click="prodAndOrder">
+          <el-tabs type="card">
             <el-tab-pane label="缺货产品">
               <div class="formHeader">
                 <div class="icon-title">
@@ -180,28 +180,28 @@
                   <el-table-column
                     prop="orgName"
                     label="委托公司"
-                    align="center"
+                    align="left"
                   >
                   </el-table-column>
                   <el-table-column
                     prop="prodCode"
                     label="产品编码"
-                    align="center"
+                    align="left"
                   >
                   </el-table-column
                   ><el-table-column
                     prop="prodName"
                     label="产品名称"
-                    align="center"
+                    align="left"
                   >
                   </el-table-column
                   ><el-table-column
                     prop="specName"
                     label="产品规格"
-                    align="center"
+                    align="left"
                   >
                   </el-table-column
-                  ><el-table-column prop="braName" label="品牌" align="center">
+                  ><el-table-column prop="braName" label="品牌" align="left">
                   </el-table-column
                   ><el-table-column
                     prop="inventoryUpper"
@@ -307,7 +307,7 @@
                     align="center"
                   >
                   </el-table-column>
-                  <el-table-column prop="orderNo" label="订单号" align="center" >
+                  <el-table-column prop="orderNo" label="订单号" align="center">
                     <template slot-scope="scope">
                       <div
                         class="lookDeatil"
@@ -390,7 +390,7 @@ export default {
   data() {
     return {
       index: 0,
-      title: "缺货产品信息",
+      title: "查询结果",
       getProdExcelUrl: {
         url:
           "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubOrder/getProdExcel",
@@ -708,9 +708,6 @@ export default {
         },
       });
     },
-    prodAndOrder(item) {
-      this.title = item.label + "信息";
-    },
     getPageNum(e) {
       this.ProdQueryData.pageNumber = e;
     },
@@ -893,7 +890,7 @@ export default {
   .el-tabs--card > .el-tabs__header {
     border: none;
     position: absolute;
-    left: 156px;
+    left: 116px;
     top: 16px;
   }
 }

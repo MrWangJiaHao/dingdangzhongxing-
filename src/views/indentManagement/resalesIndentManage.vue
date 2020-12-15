@@ -117,7 +117,7 @@
           </div>
           <div class="el-inputBox childrenIndent setMargin">
             <div class="el-inputBox-text">退单状态：</div>
-            <div class="el-inputBox-checkBox" style="width: 110px">
+            <div class="el-inputBox-checkBox" style="width: 150px">
               <el-select
                 v-model="resalesOrderStateValue"
                 placeholder="请选择退单状态"
@@ -136,7 +136,7 @@
           </div>
           <div class="el-inputBox childrenIndent">
             <div class="el-inputBox-text">退货类型：</div>
-            <div class="el-inputBox-checkBox" style="width: 120px">
+            <div class="el-inputBox-checkBox" style="width: 150px">
               <el-select
                 v-model="resalesTypeValue"
                 placeholder="请选择退货类型"
@@ -227,13 +227,13 @@
                   <el-table-column
                     prop="orgName"
                     label="委托公司"
-                    align="center"
+                    align="left"
                   >
                   </el-table-column>
                   <el-table-column
                     prop="orderSourceName"
                     label="订单来源"
-                    align="center"
+                    align="left"
                     width="150"
                     min-width="150"
                   >
@@ -241,12 +241,12 @@
                   ><el-table-column
                     prop="backOrderNo"
                     label="退单号"
-                    align="center"
+                    align="left"
                     width="230"
                     min-width="230"
                   >
                     <template slot-scope="scope">
-                      <div class="lookDetail">
+                      <div class="lookDeatil">
                         {{ scope.row.backOrderNo }}
                       </div>
                     </template> </el-table-column
@@ -258,7 +258,7 @@
                     min-width="230"
                   >
                     <template slot-scope="scope">
-                      <div class="lookDetail">
+                      <div class="lookDeatil">
                         {{ scope.row.orderNo }}
                       </div>
                     </template>
@@ -274,7 +274,7 @@
                     <template slot-scope="scope">
                       <div class="subOrderNosList">
                         <div
-                          class="lookDetail subOrderNosStyle"
+                          class="lookDeatil subOrderNosStyle"
                           v-for="(v, i) in scope.row.subOrderNos"
                           :key="i"
                           @click="
@@ -346,7 +346,7 @@
                     show-overflow-tooltip
                     prop="sendAddr"
                     label="发货地址"
-                    align="center"
+                    align="left"
                     width="300"
                     min-width="300"
                   >
@@ -360,7 +360,7 @@
                   <el-table-column
                     prop="orderContactPhone"
                     label="收货人电话"
-                    align="center"
+                    align="left"
                     width="120"
                     min-width="120"
                   >
@@ -369,7 +369,7 @@
                     show-overflow-tooltip
                     prop="orderAddr"
                     label="收货地址"
-                    align="center"
+                    align="left"
                     width="300"
                     min-width="300"
                   >
@@ -377,7 +377,7 @@
                   <el-table-column
                     prop="returnMoneyTime"
                     label="退货时间"
-                    align="center"
+                    align="left"
                     width="180"
                     min-width="180"
                   >
@@ -385,7 +385,7 @@
                   <el-table-column
                     prop=""
                     label="确认时间"
-                    align="center"
+                    align="left"
                     width="180"
                     min-width="180"
                   >
@@ -393,7 +393,7 @@
                   <el-table-column
                     prop=""
                     label="入库时间"
-                    align="center"
+                    align="left"
                     width="180"
                     min-width="180"
                   >
@@ -467,7 +467,7 @@
                     min-width="190"
                   >
                     <template slot-scope="scope">
-                      <div class="lookDetail">
+                      <div class="lookDeatil">
                         {{ scope.row.backOrderNo }}
                       </div>
                     </template> </el-table-column
@@ -479,7 +479,7 @@
                     min-width="190"
                   >
                     <template slot-scope="scope">
-                      <div class="lookDetail">
+                      <div class="lookDeatil">
                         {{ scope.row.orderNo }}
                       </div>
                     </template> </el-table-column
@@ -493,7 +493,7 @@
                     <template slot-scope="scope">
                       <div class="subOrderNosList">
                         <div
-                          class="lookDetail subOrderNosStyle"
+                          class="lookDeatil subOrderNosStyle"
                           v-for="(v, i) in scope.row.subOrderNos"
                           :key="i"
                           @click="
@@ -619,7 +619,7 @@ export default {
   data() {
     return {
       index: 0,
-      title: "已出库信息",
+      title: "查询结果",
       lotNo: "",
       outGetExcelUrl:
         "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pOrgSubBackOrder/getReturnOrderExcel",
@@ -1116,8 +1116,8 @@ export default {
       }
     },
     prodAndOrder(item) {
-      this.title = item.label + "信息";
-      if (item.label === "未出库") {
+      console.log(item)
+      if (item.index === "1") {
         this.resalesOrderStateData = [
           {
             value: "退货中",
@@ -1315,7 +1315,7 @@ export default {
   .el-tabs--card > .el-tabs__header {
     border: none;
     position: absolute;
-    left: 136px;
+    left: 116px;
     top: 16px;
   }
   .el-tabs__header {

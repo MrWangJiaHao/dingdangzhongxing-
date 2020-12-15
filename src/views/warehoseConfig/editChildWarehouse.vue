@@ -100,8 +100,8 @@
     </div>
     <div class="submitBtn">
       <div class="submitBtnBox">
-        <el-button @click="goBack">取 消</el-button>
-        <el-button type="primary" @click="submitData">提 交</el-button>
+        <div class="quxiaoBox" @click="goBack">取 消</div>
+        <div class="submitBtn" @click="submitData">提 交</div>
       </div>
     </div>
   </div>
@@ -427,6 +427,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../../assets/scss/btn.scss";
+
 .childWarehousePage {
   width: 100%;
   background: #eef1f8;
@@ -552,6 +554,14 @@ export default {
       position: absolute;
       right: 30px;
       bottom: 20px;
+      display: flex;
+      .quxiaoBox{
+        @include BtnFunction();
+        margin-right: 10px
+      }
+      .submitBtn{
+        @include BtnFunction("success");
+      }
     }
   }
   .childViewDiv.active {

@@ -491,7 +491,9 @@
         watch: {
             $route(to) {
                 let path = this._isRuku();
-                if (path && JSON.stringify(to.params) != '{}') {
+                if (path && this.WarehousingType.WarehousingTypeArr[
+                    +to.params.type
+                    ].WarehousingTypeCenter) {
                     this.WarehousingType.WarehousingTypeCenter = this.WarehousingType.WarehousingTypeArr[
                         +to.params.type
                         ].WarehousingTypeCenter;
@@ -512,7 +514,9 @@
         },
         created() {
             let path = this._isRuku();
-            if (path) {
+            if (path && this.WarehousingType.WarehousingTypeArr[
+                +this.$route.params.type
+                ].WarehousingTypeCenter) {
                 if (this.isOneShou) {
                     this.WarehousingType.WarehousingTypeCenter = this.WarehousingType.WarehousingTypeArr[
                         +this.$route.params.type

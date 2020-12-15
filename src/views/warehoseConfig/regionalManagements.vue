@@ -88,7 +88,8 @@
         <div v-if="quyuLook">
             <div
                     class="pofixCenter displayCenter"
-                    style="background: rgba(0, 0, 0, 0.4);"
+                    style="background: rgba(0, 0, 0, 0.4);
+                "
             >
                 <div class="quyupinmianBoxMsg">
                     <div class="heiderBoxs p20">
