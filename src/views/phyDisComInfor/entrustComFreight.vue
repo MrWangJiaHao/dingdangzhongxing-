@@ -462,7 +462,7 @@ export default {
 .roleName-choose {
   display: flex;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 0 20px;
   .name_type {
     display: flex;
     .nameBox {
@@ -485,7 +485,7 @@ export default {
           align-items: center;
           .roleName-text {
             margin: 0 10px 0 30px;
-            font-size: 16px;
+            font-size: 14px;
           }
         }
       }
@@ -530,7 +530,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 16px 16px 0;
+      margin: 16px 20px 16px 0;
       .bianjiUser {
         @include BtnFunction("success");
       }

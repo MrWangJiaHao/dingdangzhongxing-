@@ -39,7 +39,7 @@
             tooltip-effect="dark"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -295,7 +295,6 @@ export default {
 #createBreakage {
   .main {
     padding: 20px 10px;
-
     .headerBox {
       margin-bottom: 20px;
       .headerBox-title {
@@ -313,9 +312,8 @@ export default {
         top: 3px;
       }
       .headerBox-input {
-        padding: 0 16px;
+        padding: 0 20px;
         display: flex;
-        font-size: 14px;
         .el-inputBox {
           display: flex;
           align-items: center;
@@ -332,9 +330,8 @@ export default {
         align-items: center;
         justify-content: space-between;
         .titleText {
-          font-size: 16px;
           position: relative;
-          margin-left: 40px;
+          margin-left: 46px;
         }
         .titleText::before {
           content: "";
@@ -353,12 +350,12 @@ export default {
           }
           .del {
             @include BtnFunction("error");
-            margin-right: 16px;
+            margin-right: 20px;
           }
         }
       }
       .tableBox-table {
-        padding: 16px;
+        padding: 16px 20px;
       }
     }
     .remarkBox {

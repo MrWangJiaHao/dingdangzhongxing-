@@ -751,7 +751,7 @@ export default {
 }
 .headerHtml {
   .headerInput {
-    padding: 0 16px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -767,6 +767,7 @@ export default {
     }
   }
   .header-botton {
+    width: 190px;
     display: flex;
     align-items: center;
     position: absolute;
@@ -778,7 +779,7 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 16px 0 10px;
+      margin: 0 0 0 10px;
     }
   }
   .timeChoose {
@@ -825,7 +826,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 16px 16px 0;
+      margin: 16px 20px 16px 0;
       .create {
         @include BtnFunction("success");
         margin-right: 10px;

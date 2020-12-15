@@ -497,7 +497,7 @@ export default {
     @extend .prodNameBox;
   }
   .header-botton {
-    width: 186px;
+    width: 190px;
     height: 36px;
     position: absolute;
     right: 0;
@@ -560,7 +560,7 @@ export default {
     }
     .someBtn {
       display: flex;
-      margin: 16px 16px 16px 0;
+      margin: 16px 20px 16px 0;
       .setUser {
         @include BtnFunction("success");
       }
@@ -572,7 +572,7 @@ export default {
   }
   .formTable {
     background: white;
-    padding: 16px;
+    padding: 16px 20px;
   }
 }
 </style>

@@ -498,7 +498,7 @@
                         +to.params.type
                         ].WarehousingTypeCenter;
                     this.paras.orderSource = to.params.type;
-                } else {
+                } else if (JSON.stringify(to.params) != '{}') {
                     this.WarehousingType.WarehousingTypeCenter = this.transeArr[
                         +to.params.type
                         ].title;

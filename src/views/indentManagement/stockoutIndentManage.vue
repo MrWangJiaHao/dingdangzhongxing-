@@ -307,7 +307,7 @@
                     align="center"
                   >
                   </el-table-column>
-                  <el-table-column prop="orderNo" label="订单号" align="center">
+                  <el-table-column prop="orderNo" label="订单号" align="center" >
                     <template slot-scope="scope">
                       <div
                         class="lookDeatil"
@@ -772,7 +772,7 @@ export default {
 }
 .headerHtml {
   position: relative;
-  padding: 0 16px;
+  padding: 0 20px;
   .headerInput {
     display: flex;
     flex-wrap: wrap;
@@ -786,7 +786,7 @@ export default {
     }
   }
   .header-botton {
-    width: 186px;
+    width: 190px;
     height: 36px;
     position: absolute;
     right: 0;
@@ -799,7 +799,7 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 16px 0 10px;
+      margin: 0 0 0 10px;
     }
   }
   .timeChoose {
@@ -842,12 +842,12 @@ export default {
         }
       }
       .icon-title-title {
-        margin: -1px 0 0 8px;
+        margin: 0 0 0 8px;
       }
     }
     .someBtn {
       display: flex;
-      margin: 16px 16px 16px 0;
+      margin: 16px 20px 16px 0;
       .setUser {
         @include BtnFunction("success");
       }
@@ -859,13 +859,7 @@ export default {
   }
   .formTable {
     background: white;
-    padding: 16px;
-  }
-
-  .lookDeatil {
-    color: #599af3;
-    text-decoration: underline;
-    cursor: pointer;
+    padding: 16px 20px;
   }
   .failCause {
     color: red;

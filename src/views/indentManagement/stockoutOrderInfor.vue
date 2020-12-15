@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="backBtnBox">
-        <div class="backBtn" @click="back">返回</div>
+        <div class="quxiaoBox" @click="back">返回</div>
       </div>
     </div>
   </div>
@@ -99,7 +99,7 @@ export default {
           prodId: "",
         },
       },
-      queryFun: ()=>{},
+      queryFun: () => {},
     };
   },
   mounted() {
@@ -157,13 +157,13 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
 .mian {
-  background: #eef1f8;
   padding: 10px;
   .orderDetaiPage {
     background: #fff;
-    padding: 20px;
+    height: 100%;
     .orderDetailBox {
-      margin-bottom: 20px;
+      padding: 20px;
+      height: 666px;
       .orderDetail-title {
         font-size: 16px;
         position: relative;
@@ -187,17 +187,17 @@ export default {
       }
     }
     .backBtnBox {
+      border-top: 1px solid #d1d6e2;
+      height: 76px;
+      align-items: center;
       width: 100%;
       display: flex;
-      .backBtn {
-        margin: 0 auto;
-        @include BtnFunction("success");
+      justify-content: flex-end;
+      .quxiaoBox {
+        @include BtnFunction();
+        margin-right: 20px;
       }
     }
-  }
-  .pageComponent {
-    text-align: right;
-    background: #ffffff;
   }
 }
 </style>
