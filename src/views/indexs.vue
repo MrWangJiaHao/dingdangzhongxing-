@@ -90,7 +90,7 @@
                 <el-tabs
                         v-model="activeTabsName"
                         type="card"
-                        editable
+
                         @tab-remove="removeTab"
                         @tab-click="handleTabsEdit"
                 >
@@ -595,6 +595,7 @@
                             } else {
                                 this.mianbaoxieArr.push(this.dropdownArr[+this.activeTabsName]);
                             }
+                            this.setStorage()
                             break;
                         }
                     }
@@ -704,6 +705,7 @@
                     ? this.dropdownArr.length - 1 + ""
                     : "0";
                 this.$router.push(router);
+                this.setStorage()
                 console.log("--------dropdownArr--------", router);
             },
 
@@ -939,6 +941,7 @@
         height: 34px;
         color: #333333;
         padding: 0 15px;
+        margin-right: 18px;
     }
 
     .tabContainer .el-tabs--bottom .el-tabs__header.is-bottom {
