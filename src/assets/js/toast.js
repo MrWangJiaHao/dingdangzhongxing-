@@ -28,11 +28,11 @@ class messageSelf {
     /**
      * 提交框
      */
-    // prompts(text = "确定执行此操作吗？", title = "提示", JSON = {}) {
-    //     return MessageBox.prompt(text, title, {
-    //         ...JSON
-    //     })
-    // }
+    prompts(text = "确定执行此操作吗？", title = "提示", JSON = {}) {
+        return MessageBox.prompt(text, title, {
+            ...JSON
+        })
+    }
 
     /**
      * 判断数据类型

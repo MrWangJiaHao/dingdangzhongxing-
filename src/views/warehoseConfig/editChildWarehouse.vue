@@ -552,7 +552,7 @@ export default {
     position: relative;
     .submitBtnBox {
       position: absolute;
-      right: 30px;
+      right: 20px;
       bottom: 20px;
       display: flex;
       .quxiaoBox{

@@ -1117,11 +1117,25 @@ export function findReCheckOrderStatistics(data) {
     })
 }
 
-//库存管理=>
+//库存管理=>产品库存
 export function inventoryMangementQuery(data) {
     return new Promise((resolve, reject) => {
         service.request({
             url: "/wbs-warehouse-manage/v1/pWareOrgProd/findRecordPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//库存管理=>产品库存=>设置高库存预警值
+export function bathUpdateRecord(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWareOrgProd/bathUpdateRecord",
             method: "post",
             data,
         }).then((ok) => {

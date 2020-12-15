@@ -129,7 +129,7 @@ a {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #333;
+  background: rgb(196, 195, 195);
 }
 
 ::-webkit-scrollbar-corner {
@@ -230,16 +230,26 @@ input[type="number"] {
   left: 7px !important;
   top: 2px !important;
 }
-.el-checkbox__input.is-indeterminate .el-checkbox__inner::before{
+.el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
   top: 8px !important;
 }
 .el-table-column--selection .cell {
   padding: 0 !important;
 }
-.is-disabled{
+.is-disabled {
   background: none !important;
 }
-.el-pager li.active+li{
+.el-pagination .el-pager,
+.el-pagination .el-pager li:last-of-type {
+  margin: 0 !important;
+}
+.el-pagination .el-pager li {
+  margin-right: 6px !important;
+}
+.el-pager li.active + li {
   border-left: 1px solid #d1d6e2 !important;
+}
+.failCause {
+  color: red !important;
 }
 </style>

@@ -669,7 +669,7 @@ export default {
           `共选择${this.multipleSelection.length}个订单，确认获取物流单号吗？`,
           "获取物流单号",
           {
-            type: "warning",
+            type: "success",
           }
         )
         .then(() => {
