@@ -692,6 +692,7 @@
             },
             //点击删除
             removeTab(e) {
+                console.log('removeTabitem', e)
                 // let removeSrc = e.substring(e.length, e.length - 1);
                 let removeSrc = e
                 if (!removeSrc) return;
@@ -701,10 +702,12 @@
                     this.dropdownArr[this.dropdownArr.length - 1].children.length != 0
                         ? this.dropdownArr[this.dropdownArr.length - 1].children[0].name
                         : this.dropdownArr[this.dropdownArr.length - 1].name;
-                this.activeTabsName = this.dropdownArr.length
-                    ? this.dropdownArr.length - 1 + ""
-                    : "0";
-                this.$router.push(router);
+                if (this.activeTabsName == e) {
+                    this.activeTabsName = this.dropdownArr.length
+                        ? this.dropdownArr.length - 1 + ""
+                        : "0";
+                    this.$router.push(router);
+                }
                 this.setStorage()
                 console.log("--------dropdownArr--------", router);
             },
