@@ -858,9 +858,7 @@ export default {
     background: white;
     padding: 16px 20px;
   }
-  .failCause {
-    color: red;
-  }
+  
 }
 .pageComponent {
   text-align: right;

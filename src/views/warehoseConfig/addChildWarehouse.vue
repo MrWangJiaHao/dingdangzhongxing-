@@ -567,7 +567,7 @@ export default {
     .submitBtnBox {
       display: flex;
       position: absolute;
-      right: 30px;
+      right: 20px;
       bottom: 20px;
       .quxiaoBox{
         @include BtnFunction();

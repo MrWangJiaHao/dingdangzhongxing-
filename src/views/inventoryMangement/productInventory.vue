@@ -156,30 +156,44 @@
               prop="currInventory"
               label="当前总库存"
               align="center"
+              sortable
             >
             </el-table-column>
             <el-table-column
               prop="practicalInventory"
               label="销售仓实际库存"
               align="center"
+              sortable
+              width="150"
             >
             </el-table-column>
             <el-table-column
               prop="outOfProdNum"
               label="销售仓可用库存"
               align="center"
+              sortable
+              width="150"
             >
+              <template slot-scope="scpoe">
+                <div>
+                  {{ scpoe.row.outOfProdNum }}
+                </div>
+              </template>
             </el-table-column>
             <el-table-column
               prop="lockInventory"
               label="销售仓锁定库存"
               align="center"
+              sortable
+              width="150"
             >
             </el-table-column>
             <el-table-column
               prop="defectiveGoodsInventory"
               label="残次品仓库存"
               align="center"
+              width="150"
+              sortable
             >
             </el-table-column>
             <el-table-column
@@ -218,8 +232,9 @@
 </template>
 
 <script>
+/*eslint-disable */
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { inventoryMangementQuery } from "../../api/api";
+import { inventoryMangementQuery, bathUpdateRecord } from "../../api/api";
 import { clearTimeInput, reduceFun } from "../../utils/validate";
 export default {
   components: {
@@ -286,7 +301,7 @@ export default {
       // console.log(ok);
       if (ok.data.code === "10000") {
         ok.data.result.list.forEach((v) => {
-          this.specNameData.push({ value: v.specName, label: v.specName });
+          this.specNameData.push({ value: v.specId, label: v.specName });
           this.specNameData = reduceFun(this.specNameData);
           // this.braNameData.push({value: v.braId, label: v.braName})
           this.braNameData.push({ value: v.braName, label: v.braName });
@@ -311,27 +326,27 @@ export default {
       });
     },
     entrustCompanys(val) {
-      this.entrustCompany = val;
       this.queryData.paras.orgId = val;
     },
     warningVals(val) {
       this.warningVal = val;
     },
     specNames(val) {
-      this.specName = val;
+      this.queryData.paras.specId = val;
     },
     braNames(val) {
-      this.braName = val;
+      this.queryData.paras.braName = val;
     },
     clickQuery() {
       //点击查询
+      this.queryData.paras.prodName = this.productName;
+      this.queryData.paras.prodCode = this.productCode;
+      this.queryData.paras.inventoryFloor = this.warningVal;
+      this.pageQueryFun();
     },
     clearInput() {
       //点击清空输入框
       clearTimeInput();
-      this.$refs.startTime.clear();
-      this.$refs.endTime.clear();
-      this.tableData = [];
       Object.keys(this.queryData.paras).forEach((v) => {
         this.queryData.paras[v] = "";
       });
@@ -349,7 +364,44 @@ export default {
     },
     setWarning() {
       //设置高库存预警值
-
+      let arr = [];
+      this.multipleSelection.forEach((item) => {
+        if (!arr.includes(item.id)) {
+          arr.push(item.id);
+        }
+      });
+      if (!arr.length)
+        return this.$messageSelf.message({
+          message: "请选择要设置的产品",
+          type: "info",
+        });
+      this.$messageSelf
+        .prompts("最高库存预警值", "批量设置最高库存预警", {
+          // inputPattern: "",
+          // inputErrorMessage: "请输入预警值",
+          inputValidator: (num) => {
+            if (num === null) {
+              return "请输入预警值";
+            }
+          },
+        })
+        .then(({ value }) => {
+          this.setRequest({ ids: arr, inventoryUpper: value });
+        })
+        .catch(() => {
+          this.$messageSelf.message("已取消");
+        });
+    },
+    setRequest(data) {
+      bathUpdateRecord(data).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.$messageSelf.message({ message: "设置成功", type: "success" });
+          this.pageQueryFun();
+        } else {
+          this.$messageSelf.message({ message: "设置失败", type: "error" });
+        }
+      });
     },
     getPageNum(e) {
       this.queryData.pageNumber = e;

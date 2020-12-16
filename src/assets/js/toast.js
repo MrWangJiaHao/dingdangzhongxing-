@@ -1,4 +1,4 @@
-/*eslint-disable */
+ /*eslint-disable */
 const {Message, MessageBox} = require("element-ui");
 
 
@@ -23,6 +23,15 @@ class messageSelf {
             ...this.jsonArr
         })
         return this
+    }
+
+    /**
+     * 提交框
+     */
+    prompts(text = "确定执行此操作吗？", title = "提示", JSON = {}) {
+        return MessageBox.prompt(text, title, {
+            ...JSON
+        })
     }
 
     /**
