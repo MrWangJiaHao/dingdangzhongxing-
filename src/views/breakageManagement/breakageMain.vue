@@ -123,7 +123,7 @@
           <div class="icon-title-icon">
             <img src="../../assets/img/systemTitlemesa.png" />
           </div>
-          <div class="icon-title-title">报损信息</div>
+          <div class="icon-title-title">查询结果</div>
         </div>
         <div class="someBtn">
           <div class="create" @click="create">创建</div>
@@ -143,7 +143,8 @@
           tooltip-effect="dark"
           @cell-click="lookDetailEvent"
         >
-          <el-table-column type="selection" width="55" align="center"> </el-table-column>
+          <el-table-column type="selection" width="55" align="center">
+          </el-table-column>
           <el-table-column label="序号" align="center" type="index" width="60">
           </el-table-column>
           <el-table-column prop="orgName" label="委托公司" align="center">
@@ -166,8 +167,13 @@
           </el-table-column>
           <el-table-column prop="createUser" label="创建人" align="center">
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间" align="center" width="180"
-            min-width="180">
+          <el-table-column
+            prop="createTime"
+            label="创建时间"
+            align="center"
+            width="180"
+            min-width="180"
+          >
           </el-table-column>
           <el-table-column prop="verifyUserName" label="审核人" align="center">
           </el-table-column>
@@ -452,12 +458,10 @@ export default {
       if (!this.multipleSelection.length) {
         return this.$messageSelf.message({
           message: "请选择需要编辑的报损订单",
-          type: "warning",
         });
       } else if (this.multipleSelection.length > 1) {
         return this.$messageSelf.message({
           message: "只能选择一个报损订单进行编辑",
-          type: "warning",
         });
       } else {
         // this.$router.push({
@@ -467,7 +471,6 @@ export default {
         if (this.multipleSelection[0].disposeStatus !== "待审核") {
           return this.$messageSelf.message({
             message: "只有待审核的订单可编辑",
-            type: "warning",
           });
         } else {
           this.$router.push({

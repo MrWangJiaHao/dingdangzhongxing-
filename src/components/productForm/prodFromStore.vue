@@ -1,58 +1,64 @@
 <template>
-  <div>
-    <el-table
-      :data="inforData"
-      border
-      style="width: 100%"
-      @selection-change="handleSelectionChange"
-      :stripe="true"
-      tooltip-effect="dark"
-      max-height="300"
-    >
-      <el-table-column type="selection" width="55" align="center"> </el-table-column>
-      <el-table-column label="序号" align="center" type="index" width="55">
-      </el-table-column>
-      <el-table-column prop="CWName" label="子仓" align="center">
-      </el-table-column>
-      <el-table-column prop="areaName" label="区域" align="center">
-      </el-table-column>
-      <el-table-column prop="shelfName" label="货架" align="center">
-      </el-table-column>
-      <el-table-column prop="tierChoose" label="层" align="center">
-      </el-table-column>
-      <el-table-column
-        prop="storageLocalChoose"
-        label="库位"
-        align="center"
-      ></el-table-column>
-      <el-table-column prop="prodUnit" label="存放单位" align="center">
-        <el-select
-          slot-scope="scope"
-          v-model="scope.row.prodUnit"
-          placeholder="请选择单位"
-          @change="prodUnits"
-        >
-          <el-option
-            v-for="item in prodUnitData"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+  <div class="inputInTable">
+    <div class="tableBox">
+      <el-table
+        :data="inforData"
+        border
+        style="width: 100%"
+        @selection-change="handleSelectionChange"
+        :stripe="true"
+        tooltip-effect="dark"
+        max-height="300"
+      >
+        <el-table-column type="selection" width="55" align="center">
+        </el-table-column>
+        <el-table-column label="序号" align="center" type="index" width="55">
+        </el-table-column>
+        <el-table-column prop="CWName" label="子仓" align="center">
+        </el-table-column>
+        <el-table-column prop="areaName" label="区域" align="center">
+        </el-table-column>
+        <el-table-column prop="shelfName" label="货架" align="center">
+        </el-table-column>
+        <el-table-column prop="tierChoose" label="层" align="center">
+        </el-table-column>
+        <el-table-column
+          prop="storageLocalChoose"
+          label="库位"
+          align="center"
+        ></el-table-column>
+        <el-table-column prop="prodUnit" label="存放单位" align="center">
+          <el-select
+            slot-scope="scope"
+            v-model="scope.row.prodUnit"
+            placeholder="请选择单位"
+            @change="prodUnits"
           >
-          </el-option>
-        </el-select>
-      </el-table-column>
-      <el-table-column prop="MaxNumberInput" label="最大存放数" align="center">
-        <el-input
-          slot-scope="scope"
-          v-model="scope.row.MaxNumberInput"
-        ></el-input>
-      </el-table-column>
-    </el-table>
+            <el-option
+              v-for="item in prodUnitData"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-table-column>
+        <el-table-column
+          prop="MaxNumberInput"
+          label="最大存放数"
+          align="center"
+        >
+          <el-input
+            slot-scope="scope"
+            v-model="scope.row.MaxNumberInput"
+          ></el-input>
+        </el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 
 <script>
-
 export default {
   props: {
     inforData: Array,
@@ -120,5 +126,5 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
 </style>

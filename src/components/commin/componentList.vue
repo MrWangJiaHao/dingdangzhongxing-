@@ -258,14 +258,14 @@ export default {
 };
 </script>
 <style >
-.setUserIngBox .has-gutter .el-table td,
+/* .setUserIngBox .has-gutter .el-table td,
 .el-table th.is-leaf {
   background: #e1eaf5;
 }
 .setUserIngBox .el-table td,
 .el-table th.is-leaf {
   border: 1px solid #d2d6e2;
-}
+} */
 
 </style>
 

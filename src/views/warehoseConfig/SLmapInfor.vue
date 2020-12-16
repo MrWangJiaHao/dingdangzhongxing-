@@ -296,7 +296,9 @@
     <div class="submitBtn">
       <div class="submitBtnBox">
         <el-button @click="goBack" class="canclBtn">返 回</el-button>
-        <el-button type="primary" @click="submitData" class="queryBtn">提 交</el-button>
+        <el-button type="primary" @click="submitData" class="queryBtn"
+          >提 交</el-button
+        >
       </div>
     </div>
   </div>
@@ -815,7 +817,6 @@ export default {
     background: white;
     .productInfor_title {
       position: relative;
-      font-size: 16px;
       margin-left: 25px;
     }
     .productInfor_title:after {
@@ -849,7 +850,6 @@ export default {
       .text_box {
         display: flex;
         align-items: center;
-        font-size: 16px;
         margin-right: 16px;
         white-space: nowrap;
         div:nth-of-type(2) {
@@ -901,15 +901,14 @@ export default {
       }
     }
     .productForm {
-      margin: 16px 0 0 47px;
+      margin: 16px 0 0 42px;
     }
     .selectedForm {
       .selectedForm-title {
-        font-size: 16px;
         line-height: 46px;
       }
       .selectedForm-form {
-        margin: 0 0 0 47px;
+        margin: 0 0 0 42px;
       }
     }
   }
@@ -934,15 +933,17 @@ export default {
 .queryBtn {
   @include BtnFunction("success");
 }
-.canclBtn{
+.canclBtn {
   @include BtnFunction("");
   background: white;
 }
 </style>
 <style lang="scss">
-.submitBtnBox {
-  .el-button:nth-of-type(1) {
-    border: 1px solid #d1d6e2;
+#mapInfor {
+  .submitBtnBox {
+    .el-button:nth-of-type(1) {
+      border: 1px solid #d1d6e2;
+    }
   }
 }
 </style>

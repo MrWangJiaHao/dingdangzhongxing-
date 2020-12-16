@@ -1,46 +1,48 @@
 <template>
-  <div>
-    <el-table
-      :data="tableData"
-      border
-      style="width: 100%"
-      :stripe="true"
-      tooltip-effect="dark"
-      max-height="300"
-    >
-      <el-table-column label="序号" align="center" type="index" width="55">
-      </el-table-column>
-      <el-table-column prop="CWName" label="子仓" align="center">
-      </el-table-column>
-      <el-table-column prop="areaName" label="区域" align="center">
-      </el-table-column>
-      <el-table-column prop="shelfName" label="货架" align="center">
-      </el-table-column>
-      <el-table-column prop="tierChoose" label="层" align="center">
-      </el-table-column>
-      <el-table-column
-        prop="storageLocalChoose"
-        label="库位"
-        align="center"
-      ></el-table-column>
-      <el-table-column prop="prodUnit" label="存放单位" align="center">
-      </el-table-column>
-      <el-table-column
-        prop="MaxNumberInput"
-        label="最大存放数"
-        align="center"
-      ></el-table-column>
-      <el-table-column prop="operation" label="操作" align="center">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-            >删除</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
+  <div class="inputInTable">
+    <div class="tableBox">
+      <el-table
+        :data="tableData"
+        border
+        style="width: 100%"
+        :stripe="true"
+        tooltip-effect="dark"
+        max-height="300"
+      >
+        <el-table-column label="序号" align="center" type="index" width="55">
+        </el-table-column>
+        <el-table-column prop="CWName" label="子仓" align="center">
+        </el-table-column>
+        <el-table-column prop="areaName" label="区域" align="center">
+        </el-table-column>
+        <el-table-column prop="shelfName" label="货架" align="center">
+        </el-table-column>
+        <el-table-column prop="tierChoose" label="层" align="center">
+        </el-table-column>
+        <el-table-column
+          prop="storageLocalChoose"
+          label="库位"
+          align="center"
+        ></el-table-column>
+        <el-table-column prop="prodUnit" label="存放单位" align="center">
+        </el-table-column>
+        <el-table-column
+          prop="MaxNumberInput"
+          label="最大存放数"
+          align="center"
+        ></el-table-column>
+        <el-table-column prop="operation" label="操作" align="center">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
+              >删除</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 
@@ -54,7 +56,7 @@ export default {
         pageSize: 3,
         paras: {},
       },
-      
+
       pageComponentsData: {
         pageNums: 0,
       },
@@ -80,7 +82,7 @@ export default {
         this.$store.dispatch("delPFSRequestAct1", index);
       }
     },
-    
+
     getPageNum(e) {
       this.pagingQueryData.pageNumber = e;
     },

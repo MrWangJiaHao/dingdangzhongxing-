@@ -341,6 +341,7 @@ textarea {
 .mr10 {
     margin-right: 10px;
 }
+
 .disRight {
     display: flex;
     justify-content: flex-end;
@@ -757,4 +758,17 @@ textarea {
 
 .fuzzyQueryBox {
     padding: 20px 30px 4px 30px !important;
+}
+
+.inputInTable .el-table td,
+.inputInTable .el-table th {
+    padding: 4px 0 !important;
+}
+
+.inputInTable .tableBox .el-input__inner {
+    height: 26px;
+}
+
+.inputInTable .tableBox .el-icon-arrow-up:before {
+    margin-bottom: 6px;
 }

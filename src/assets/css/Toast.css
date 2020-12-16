@@ -166,7 +166,8 @@
 
 .el-button--primary {
     color: #FFFFFF;
-    background: linear-gradient(117deg, #52A8FD, #73CFFF);
+    background: linear-gradient(117deg, #52A8FD, #73CFFF) !important;
+    border: none !important;
 }
 
 .el-table__row.el-table__row--striped {

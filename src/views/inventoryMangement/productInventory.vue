@@ -298,13 +298,13 @@ export default {
     this.pageQueryFun();
     this.entrustCompanyData = this.$store.state.orgInfor.orgInforData;
     inventoryMangementQuery(this.queryDataAll).then((ok) => {
-      // console.log(ok);
+      console.log(ok);
       if (ok.data.code === "10000") {
         ok.data.result.list.forEach((v) => {
-          this.specNameData.push({ value: v.specId, label: v.specName });
+          this.specNameData.push({ value: v.specName, label: v.specName });
           this.specNameData = reduceFun(this.specNameData);
           // this.braNameData.push({value: v.braId, label: v.braName})
-          this.braNameData.push({ value: v.braName, label: v.braName });
+          this.braNameData.push({ value: v.tails.braId, label: v.braName });
           this.braNameData = reduceFun(this.braNameData);
         });
       }
@@ -313,7 +313,7 @@ export default {
   methods: {
     pageQueryFun() {
       inventoryMangementQuery(this.queryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = [];
           this.tableData = ok.data.result.list;
@@ -332,10 +332,10 @@ export default {
       this.warningVal = val;
     },
     specNames(val) {
-      this.queryData.paras.specId = val;
+      this.queryData.paras.specName = val;
     },
     braNames(val) {
-      this.queryData.paras.braName = val;
+      this.queryData.paras.braId = val;
     },
     clickQuery() {
       //点击查询
@@ -382,6 +382,8 @@ export default {
           inputValidator: (num) => {
             if (num === null) {
               return "请输入预警值";
+            }else if(!/^\d+$/.test(num)){
+              return "输入数据不合法";
             }
           },
         })
