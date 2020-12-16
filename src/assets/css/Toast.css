@@ -104,6 +104,7 @@
     position: inherit;
 }
 
+
 .el-message-box__status.el-icon-info {
     width: 56px;
     height: 50px;
@@ -157,13 +158,18 @@
     height: 34px !important;
 }
 
+.el-select .el-input .el-select__caret {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .el-icon-arrow-up:before {
     content: " ";
     transition: all 0.5s;
     display: inline-block;
     width: 11px;
     height: 8px;
-    transform-origin: 5px 4px;
     background: url(../svg/dropDown.svg) center center no-repeat;
     background-size: cover;
     transform: rotate(-180deg);

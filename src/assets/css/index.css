@@ -341,6 +341,7 @@ textarea {
 .mr10 {
     margin-right: 10px;
 }
+
 .disRight {
     display: flex;
     justify-content: flex-end;
@@ -741,6 +742,14 @@ textarea {
 
 .w200 {
     width: 200px;
+}
+
+.ptd1620 {
+    padding: 16px 20px;
+}
+
+.plr10 {
+    padding: 0 10px;
 }
 
 /* .pageComponent {
