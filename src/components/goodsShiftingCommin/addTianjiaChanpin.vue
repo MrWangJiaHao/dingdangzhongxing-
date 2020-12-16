@@ -268,7 +268,7 @@
     },
     //点击了提交
     goAJAXCreate() {
-      if (!this.multiputes.length) return this.$messageSelf.message('请选择要提交的产品明细')
+      if (!this.multiputes.length) return this.$messageSelf.message({message:'请选择要提交的产品明细',type:"warning"})
       sessionStorage.setItem(
         "tianjiachanpings",
         JSON.stringify(this.multiputes)

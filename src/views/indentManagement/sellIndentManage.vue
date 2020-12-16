@@ -677,7 +677,7 @@ export default {
         // console.log(this.queryData);
         this.pageQueryFun();
       } else {
-        return this.$messageSelf.message("请输入正确的手机号");
+        return this.$messageSelf.message({message:"请输入正确的手机号",type:"warning"});
       }
     },
     clearInput() {
@@ -766,7 +766,7 @@ export default {
         if (!isMobile(telPhoneValue)) {
           phoneInput.style.borderColor = "red";
           this.testPhone = false;
-          return this.$messageSelf.message("请输入正确的手机号");
+          return this.$messageSelf.message({message:"请输入正确的手机号",type:"warning"});
         }
       }
       phoneInput.style.borderColor = "#DCDFE6";

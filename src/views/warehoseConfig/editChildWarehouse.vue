@@ -378,7 +378,7 @@ export default {
     submitData() {
       if (this.divChecked === false) {
         this.$messageSelf.message({
-          type: "error",
+          type: "warning",
           message: "请先选中一个子仓",
         });
       } else {
@@ -496,7 +496,7 @@ export default {
       .input2 {
         display: flex;
         align-items: center;
-        width: 10%;
+        width: 12.5%;
         margin-right: 16px;
       }
       .input3 {
@@ -555,11 +555,11 @@ export default {
       right: 20px;
       bottom: 20px;
       display: flex;
-      .quxiaoBox{
+      .quxiaoBox {
         @include BtnFunction();
-        margin-right: 10px
+        margin-right: 10px;
       }
-      .submitBtn{
+      .submitBtn {
         @include BtnFunction("success");
       }
     }
@@ -583,9 +583,6 @@ export default {
 .input2 {
   .el-input {
     width: 100%;
-  }
-  .el-checkbox__inner {
-    border-radius: 50%;
   }
 }
 .input3 {

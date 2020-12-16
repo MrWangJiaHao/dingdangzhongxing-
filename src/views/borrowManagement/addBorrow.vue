@@ -66,7 +66,11 @@
             tooltip-effect="dark"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="55" align="center"></el-table-column>
+            <el-table-column
+              type="selection"
+              width="55"
+              align="center"
+            ></el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -233,7 +237,7 @@ export default {
     },
     add() {},
     del() {
-      this.$messageSelf.message("该功能待定");
+      this.$messageSelf.message({ message: "该功能待定", type: "warning" });
     },
     back() {
       this.$router.push({ path: "/borrowManagement/createBorrowOrder" });

@@ -663,13 +663,16 @@ export default {
         }
       });
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要分配物流的单号");
+        return this.$messageSelf.message({
+          message: "请选择要分配物流的单号",
+          type: "warning",
+        });
       this.$messageSelf
         .confirms(
           `共选择${this.multipleSelection.length}个订单，确认获取物流单号吗？`,
           "获取物流单号",
           {
-            type: "success",
+            type: "info",
           }
         )
         .then(() => {

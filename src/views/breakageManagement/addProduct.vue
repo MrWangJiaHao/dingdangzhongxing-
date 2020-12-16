@@ -312,13 +312,14 @@ export default {
     },
     add() {},
     del() {
-      this.$messageSelf.message("该功能待定");
+      this.$messageSelf.message({ message: "该功能待定", type: "warning" });
     },
     back() {
       this.$router.push({ path: "/breakageManagement/createBreakageOrder" });
     },
     submit() {
-      if (!this.multipleSelection.length) return this.$messageSelf.message("请选择报损的产品");
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message({message:"请选择报损的产品",type:"warning"});
       this.$router.push({
         path: "/breakageManagement/createBreakageOrder",
         query: { val: this.multipleSelection, type: "addProd" },

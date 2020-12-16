@@ -69,7 +69,8 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55" align="center"> </el-table-column>
+            <el-table-column type="selection" width="55" align="center">
+            </el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -311,7 +312,10 @@ export default {
     editChildWarehouse() {
       //编辑
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要查看的规格");
+        return this.$messageSelf.message({
+          message: "请选择要查看的规格",
+          type: "warning",
+        });
       if (this.multipleSelection.length !== 1)
         return this.$messageSelf.message({
           message: "每次只能编辑一个规格，请重新选择",
@@ -334,10 +338,14 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return this.$messageSelf.message("请选择要删除的规格");
+      if (!arr.length)
+        return this.$messageSelf.message({
+          message: "请选择要删除的规格",
+          type: "warning",
+        });
       this.$messageSelf
         .confirms("确定要删除该规格？", "删除确认", {
-          type: "warning",
+          type: "info",
         })
         .then(() => {
           this.delRequest({ ids: arr });

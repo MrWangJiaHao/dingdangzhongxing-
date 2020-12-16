@@ -237,7 +237,7 @@ export default {
           let { result } = res;
           this.orgNameJson = result;
         } else {
-          this.$messageSelf.message(res.msg);
+          this.$messageSelf.message({ message: res.msg, type: "error" });
         }
       });
     },
@@ -276,9 +276,15 @@ export default {
     //编辑
     editBtn() {
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要编辑的发货规则配置");
+        return this.$messageSelf.message({
+          message: "请选择要编辑的发货规则配置",
+          type: "warning",
+        });
       if (this.multipleSelection.length != 1)
-        return this.$messageSelf.message("只能选择一个发货规则配置");
+        return this.$messageSelf.message({
+          message: "只能选择一个发货规则配置",
+          type: "warning",
+        });
       sessionStorage.setItem(
         "recordPageEdit",
         JSON.stringify(this.multipleSelection[0])
@@ -291,20 +297,23 @@ export default {
     //删除
     clearBtn() {
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要删除的发货规则配置");
+        return this.$messageSelf.message({
+          message: "请选择要删除的发货规则配置",
+          type: "warning",
+        });
       this.$messageSelf
         .confirms("确定要删除该发货规则配置？", "提示", {
-          type: "warning",
+          type: "info",
         })
         .then(() => {
           let arrJson = this._getArrJsonTarget(this.multipleSelection, "id");
           pWarehouseRuleDelRecord(arrJson, (res) => {
             res = JSON.parse(res);
             if (res.code == "10000") {
-              this.$messageSelf.message(res.msg);
+              this.$messageSelf.message({ message: res.msg, type: "success" });
               this.getTableData();
             } else {
-              this.$messageSelf.message(res.msg);
+              this.$messageSelf.message({ message: res.msg, type: "error" });
             }
           });
         });
@@ -328,7 +337,7 @@ export default {
       if (datas.code == "10000") {
         this.changeDatas(datas.result);
       } else {
-        this.$messageSelf.message(datas.msg);
+        this.$messageSelf.message({ message: datas.msg, type: "error" });
       }
       fn && fn(datas.result);
       return datas;

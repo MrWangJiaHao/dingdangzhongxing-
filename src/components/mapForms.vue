@@ -105,7 +105,7 @@ export default {
     edit() {
       //编辑操作
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要编辑的库位");
+        return this.$messageSelf.message({message:"请选择要编辑的库位",type:"warning"});
       if (this.multipleSelection.length !== 1)
         return this.$messageSelf.message({
           message: "每次只能编辑一条库位信息，请重新选择",
@@ -124,16 +124,16 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return this.$messageSelf.message("请选择要删除的库位");
+      if (!arr.length) return this.$messageSelf.message({message:"请选择要删除的库位",type:"warning"});
       this.$$messageSelf
         .confirms("确定要删除吗？", "提示", {
-          type: "warning",
+          type: "info",
         })
         .then(() => {
           this.delRequest({ ids: arr });
         })
         .catch(() => {
-          this.$messageSelf.message("已取消删除");
+          this.$messageSelf.message({message:"已取消删除",type:"success"});
         });
     },
     delRequest(data) {

@@ -403,33 +403,55 @@ export default {
     },
     getMobile() {
       let mes = isMobile(this.createUserData.userPhone);
-      if (!mes) return this.$messageSelf.message("请输入11位正确的联系电话");
+      if (!mes)
+        return this.$messageSelf.message({
+          message: "请输入11位正确的联系电话",
+          type: "warning",
+        });
     },
     //点击了提交
     async goAJAXCreate() {
       if (!this.createUserData.userName)
-        return this.$messageSelf.message("请输入用户姓名");
+        return this.$messageSelf.message({
+          message: "请输入用户姓名",
+          type: "warning",
+        });
       if (!this.createUserData.userPhone)
-        return this.$messageSelf.message("请输入用户联系电话");
+        return this.$messageSelf.message({
+          message: "请输入用户联系电话",
+          type: "warning",
+        });
       if (!this.createUserData.loginName)
-        return this.$messageSelf.message("请输入用户账号");
+        return this.$messageSelf.message({
+          message: "请输入用户账号",
+          type: "warning",
+        });
       if (!this.createUserData.loginPwd)
-        return this.$messageSelf.message("请输入用户密码");
+        return this.$messageSelf.message({
+          message: "请输入用户密码",
+          type: "warning",
+        });
       if (!this.createUserData.userType)
-        return this.$messageSelf.message("请输入用户角色");
+        return this.$messageSelf.message({
+          message: "请输入用户角色",
+          type: "warning",
+        });
       if (!this.createUserData.userEmail)
-        return this.$messageSelf.message("请输入邮箱地址");
+        return this.$messageSelf.message({
+          message: "请输入邮箱地址",
+          type: "warning",
+        });
       let results = await post({
         url: "http://139.196.176.227:8801/am/v1/pUser/saveRecord",
         data: this.createUserData,
       });
       if (results.code === "10000") {
-        this.$messageSelf.message(results.msg);
+        this.$messageSelf.message({ message: results.msg, type: "success" });
         this.$router.push({
           path: "/systemSetting/userSetting",
         });
       } else {
-        this.$messageSelf.message(results.msg);
+        this.$messageSelf.message({ message: results.msg, type: "error" });
       }
     },
     //点击省
@@ -489,7 +511,11 @@ export default {
     },
     isEmails() {
       let mes = isEmail(this.createUserData.userEmail);
-      if (!mes) return this.$messageSelf.message("请输入正确的邮箱");
+      if (!mes)
+        return this.$messageSelf.message({
+          message: "请输入正确的邮箱",
+          type: "warning",
+        });
     },
     getUserType(e) {
       console.log(e);

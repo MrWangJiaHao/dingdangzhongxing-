@@ -288,7 +288,7 @@
                 if (datas.code == "10000") {
                     this._changeDatas(datas.result);
                 } else {
-                    this.$messageSelf.message(datas.msg);
+                    this.$messageSelf.message({ message: datas.msg, type: "error" });
                 }
                 fn && fn(datas.result);
                 return datas;

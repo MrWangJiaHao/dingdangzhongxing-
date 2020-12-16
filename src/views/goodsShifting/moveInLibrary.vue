@@ -663,7 +663,7 @@
             editOrderNote() {
                 if (!this.multipleSelection.length || this.multipleSelection.length != 1)
                     return this.$messageSelf.message(
-                        {message: "请选择要编辑的移库单,并且只能选择一个编辑", type: "info"}
+                        {message: "请选择要编辑的移库单,并且只能选择一个编辑", type: "warning"}
                     );
                 this.createDataJson.operatorType = 2
 
@@ -701,7 +701,7 @@
                     return this.$messageSelf.message({
                             message:
                                 "请选择要确认的移库单,并且只能选择一个确认",
-                            type: "info"
+                            type: "warning"
                         }
                     );
                 this.createDataJson.moveStatus = 3
@@ -758,7 +758,7 @@
                     return this.$messageSelf.message(
                         {
                             message: "请选择要打印的移库单,以及移库单只能打印一张",
-                            type: "info"
+                            type: "warning"
                         }
                     );
                 let json = [
@@ -847,11 +847,11 @@
             },
             sureSubmit(e) {
                 if (!this.createDataJson.innerMoveStartTime) return this.$messageSelf.message({
-                    type: 'info',
+                    type: 'warning',
                     message: "请选择移库时间"
                 })
                 if (!this.createDataJson.moveUser) return this.$messageSelf.message({
-                    type: "info",
+                    type: "warning",
                     message: "请选择移库人"
                 })
                 this.clickSubmit()

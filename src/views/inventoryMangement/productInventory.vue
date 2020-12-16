@@ -373,7 +373,7 @@ export default {
       if (!arr.length)
         return this.$messageSelf.message({
           message: "请选择要设置的产品",
-          type: "info",
+          type: "warning",
         });
       this.$messageSelf
         .prompts("最高库存预警值", "批量设置最高库存预警", {

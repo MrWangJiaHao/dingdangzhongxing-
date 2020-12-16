@@ -339,7 +339,10 @@ export default {
     editBtn() {
       //编辑角色
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要编辑的账号");
+        return this.$messageSelf.message({
+          message: "请选择要编辑的账号",
+          type: "warning",
+        });
       if (this.multipleSelection.length !== 1)
         return this.$messageSelf.message({
           message: "每次只能编辑一条账号，请重新选择",
@@ -353,7 +356,10 @@ export default {
     },
     goOn() {
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要查看的账号");
+        return this.$messageSelf.message({
+          message: "请选择要查看的账号",
+          type: "warning",
+        });
       if (this.multipleSelection.length !== 1)
         return this.$messageSelf.message({
           message: "每次只能查看一条账号，请重新选择",
@@ -364,12 +370,15 @@ export default {
     //点击删除角色
     clearUser() {
       let arr = this._getIDArr();
-      if (!arr.length) return this.$messageSelf.message("请选择要删除的用户");
+      if (!arr.length) return this.$messageSelf.message({
+          message:"请选择要删除的用户",
+          type: "warning",
+        });
       this.$messageSelf
         .confirms("确定要删除改用户？", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning",
+          type: "info",
         })
         .then(() => {
           this._clearAjax({ id: arr[0] });
@@ -530,7 +539,7 @@ export default {
     }
   }
   .resultForm {
-    padding:16px 20px;
+    padding: 16px 20px;
   }
 }
 </style>

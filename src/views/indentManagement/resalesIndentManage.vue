@@ -996,7 +996,7 @@ export default {
     yichukuSure() {
       //已出库完成按钮
       if (!this.outMultipleSelection.length)
-        return this.$messageSelf.message({message:"请选择要强制完成的订单",type:"info"});
+        return this.$messageSelf.message({message:"请选择要强制完成的订单",type:"warning"});
       this.$messageSelf
         .confirms(
           `共选择${this.outMultipleSelection.length}个退货订单，确认强制完成吗？`,
@@ -1004,35 +1004,35 @@ export default {
           { type: "success" }
         )
         .then(() => {
-          this.$messageSelf.message("该功能暂时没有");
+          this.$messageSelf.message({message:"该功能暂时没有",type:"error"});
         })
         .catch(() => {
-          this.$messageSelf.message("已取消");
+          this.$messageSelf.message({message:"已取消",type:"error"});
         });
     },
     weichukuSure() {
       //未出库完成按钮
       if (!this.unOutMultipleSelection.length)
-        return this.$messageSelf.message("请选择要强制完成的订单");
+        return this.$messageSelf.message({message:"请选择要强制完成的订单",type:"warning"});
       this.$messageSelf
         .confirms(
           `共选择${this.unOutMultipleSelection.length}个退货订单，确认强制完成吗？`,
           "提示",
-          { type: "success" }
+          { type: "info" }
         )
         .then(() => {
-          this.$messageSelf.message("该功能暂时没有");
+          this.$messageSelf.message({message:"该功能暂时没有",type:"error"});
         })
         .catch(() => {
-          this.$messageSelf.message("已取消");
+          this.$messageSelf.message({message:"已取消",type:"error"});
         });
     },
     affirmResales() {
       //确认退货
       if (!this.outMultipleSelection.length)
-        return this.$messageSelf.message("请选择要确认退货的订单");
+        return this.$messageSelf.message({message:"请选择要确认退货的订单",type:"warning"});
       if (this.outMultipleSelection.length !== 1)
-        return this.$messageSelf.message("一次只能选择一个订单");
+        return this.$messageSelf.message({message: "一次只能选择一个订单",type:"warning"});
       this.$router.push({
         path: "/indentManagement/resalesOrderInfor",
         query: {

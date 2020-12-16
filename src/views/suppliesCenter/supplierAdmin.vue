@@ -51,7 +51,8 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55" align="center"> </el-table-column>
+            <el-table-column type="selection" width="55" align="center">
+            </el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -360,7 +361,10 @@ export default {
     editChildWarehouse() {
       //编辑
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要编辑的供应商");
+        return this.$messageSelf.message({
+          message: "请选择要编辑的供应商",
+          type: "warning",
+        });
       if (this.multipleSelection.length !== 1)
         return this.$messageSelf.message({
           message: "每次只能编辑一个供应商信息，请重新选择",
@@ -384,7 +388,9 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return this.$messageSelf.message("请选择要删除的供应商");
+      if (!arr.length) return this.$messageSelf.message({message:"请选择要删除的供应商",
+          type: "warning",
+        });
       this.$messageSelf
         .confirms("确定要删除该供应商？", "删除确认", {
           type: "warning",
@@ -447,7 +453,7 @@ export default {
       if (!isMobile(telPeoplePhone)) {
         this.isPhone = false;
         return this.$messageSelf.message({
-          type: "error",
+          type: "warning",
           message: "请输入正确的手机号",
         });
       }

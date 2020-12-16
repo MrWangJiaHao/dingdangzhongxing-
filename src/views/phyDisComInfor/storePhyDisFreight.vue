@@ -103,7 +103,8 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55" align="center"> </el-table-column>
+            <el-table-column type="selection" width="55" align="center">
+            </el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -111,8 +112,13 @@
               width="60"
             >
             </el-table-column>
-            <el-table-column prop="exprFeeCode" label="模板编号" align="left" width="210"
-              min-width="210">
+            <el-table-column
+              prop="exprFeeCode"
+              label="模板编号"
+              align="left"
+              width="210"
+              min-width="210"
+            >
             </el-table-column>
             <el-table-column prop="exprFeeName" label="模板名称" align="center">
             </el-table-column>
@@ -379,7 +385,11 @@ export default {
     lookDetail() {
       //查看
       this.tableData1 = [];
-      if (!this.multipleSelection.length) return this.$messageSelf.message("请选择要查看模板");
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message({
+          message: "请选择要查看模板",
+          type: "warning",
+        });
       if (this.multipleSelection.length !== 1)
         return this.$messageSelf.message({
           message: "每次只能编辑一个模板，请重新选择",
@@ -577,8 +587,8 @@ export default {
       width: 100%;
       height: 80px;
       padding: 20px 20px;
-      .el-button{
-        border:1px solid #DCDFE6
+      .el-button {
+        border: 1px solid #dcdfe6;
       }
     }
   }

@@ -141,7 +141,8 @@
           :stripe="true"
           tooltip-effect="dark"
         >
-          <el-table-column type="selection" width="55" align="center"> </el-table-column>
+          <el-table-column type="selection" width="55" align="center">
+          </el-table-column>
           <el-table-column label="序号" align="center" type="index" width="60">
           </el-table-column>
           <el-table-column
@@ -478,7 +479,7 @@ export default {
           this.delRequest({ ids: arr });
         })
         .catch(() => {
-          this.$messageSelf.message("取消删除");
+          this.$messageSelf.message({ message: "取消删除", type: "success" });
         });
     },
     delRequest(data) {
@@ -526,7 +527,7 @@ export default {
             this.submitRequest({ ids: arr });
           })
           .catch(() => {
-            this.$messageSelf.message("取消删除");
+            this.$messageSelf.message({message:"取消删除",type:"success"});
           });
       }
     },

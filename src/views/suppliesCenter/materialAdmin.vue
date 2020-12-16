@@ -123,7 +123,8 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55" align="center"> </el-table-column>
+            <el-table-column type="selection" width="55" align="center">
+            </el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -168,14 +169,13 @@
             ></el-table-column>
           </el-table>
           <div class="pageComponent">
-          <pagecomponent
-            :pageComponentsData="pageComponentsData"
-            @getPageNum="getPageNum"
-            @sureSuccssBtn="sureSuccssBtn"
-          ></pagecomponent>
+            <pagecomponent
+              :pageComponentsData="pageComponentsData"
+              @getPageNum="getPageNum"
+              @sureSuccssBtn="sureSuccssBtn"
+            ></pagecomponent>
+          </div>
         </div>
-        </div>
-        
       </div>
     </div>
 
@@ -659,7 +659,10 @@ export default {
     editChildWarehouse() {
       //编辑
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要查看物料");
+        return this.$messageSelf.message({
+          message: "请选择要查看物料",
+          type: "warning",
+        });
       if (this.multipleSelection.length !== 1)
         return this.$messageSelf.message({
           message: "每次只能编辑一个物料信息，请重新选择",
@@ -687,7 +690,10 @@ export default {
         }
       });
       if (!arr.length)
-        return this.$messageSelf.message("请选择要删除的物料信息");
+        return this.$messageSelf.message({
+          message: "请选择要删除的物料信息",
+          type: "warning",
+        });
       this.$messageSelf
         .confirms("确定要删除该物料信息？", "删除提示", {
           type: "warning",

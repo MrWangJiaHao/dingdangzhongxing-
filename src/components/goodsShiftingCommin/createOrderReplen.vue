@@ -405,9 +405,21 @@ export default {
     },
     isAddcreateChanpinShow() {
       let { orgName, childWareName, wareAreaName } = this.sendoutJson;
-      if (!orgName) return this.$messageSelf.message("请选择委托公司");
-      if (!childWareName) return this.$messageSelf.message("请选择子仓名称");
-      if (!wareAreaName) return this.$messageSelf.message("请选择区域名称");
+      if (!orgName)
+        return this.$messageSelf.message({
+          message: "请选择委托公司",
+          type: "warning",
+        });
+      if (!childWareName)
+        return this.$messageSelf.message({
+          message: "请选择子仓名称",
+          type: "warning",
+        });
+      if (!wareAreaName)
+        return this.$messageSelf.message({
+          message: "请选择区域名称",
+          type: "warning",
+        });
       this.isAddcreateChanpin = true;
     },
     closeBtn() {
@@ -415,7 +427,10 @@ export default {
     },
     async clickSubmit() {
       if (!this.muitiplites.length)
-        return this.$messageSelf.message("请选择要添加的产品明细");
+        return this.$messageSelf.message({
+          message: "请选择要添加的产品明细",
+          type: "warning",
+        });
       this.sendoutJson.detailList = this.muitiplites;
 
       if (this._isBuHuoZuoYe) {
@@ -430,10 +445,10 @@ export default {
         this.sendoutJson
       );
       if (data.code == "10000") {
-        this.$messageSelf.message(data.msg);
+        this.$messageSelf.message({ messge: data.msg, type: "success" });
         this.closeBtn();
       } else {
-        this.$messageSelf.message(data.msg);
+        this.$messageSelf.message({ message: data.msg, type: "error" });
       }
     },
   },

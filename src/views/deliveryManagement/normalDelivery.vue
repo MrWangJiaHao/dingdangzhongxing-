@@ -229,12 +229,14 @@ export default {
       })
         .then((res) => {
           if (res.code == "10000") {
-            this.$messageSelf.message(res.msg);
+            this.$messageSelf.message({ message: res.msg, type: "success" });
           } else {
-            this.$messageSelf.message(res.msg);
+            this.$messageSelf.message({ message: res.msg, type: "error" });
           }
         })
-        .catch((err) => this.$messageSelf.message("出错拉~~"));
+        .catch((err) =>
+          this.$messageSelf.message({ message: "出错拉~~", type: "error" })
+        );
     },
 
     goToDetailOut(e) {
@@ -269,7 +271,10 @@ export default {
     //集计
     warehousingConfirmation() {
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要集计的拣货单单");
+        return this.$messageSelf.message({
+          message: "请选择要集计的拣货单单",
+          type: "warning",
+        });
       this.$messageSelf
         .confirms(
           ` 共集计${this.multipleSelection.length}个订单，可生成${this.multipleSelection.length}张拣货单，确认集计吗？<div id='checkboxID'> <input checked  id='checkbox' type='checkbox' /> 打印集计单</div>`,
@@ -301,7 +306,7 @@ export default {
       if (datas.code == "10000") {
         this._changeDatas(datas.result);
       } else {
-        this.$messageSelf.message(datas.msg);
+        this.$messageSelf.message({ message: datas.msg, type: "error" });
       }
       fn && fn(datas);
       return datas;

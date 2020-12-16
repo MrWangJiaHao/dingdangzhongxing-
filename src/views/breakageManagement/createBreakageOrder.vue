@@ -544,17 +544,17 @@ export default {
       height: 80px;
     }
   }
-  .el-table td,
-  .el-table th {
-    padding: 4px 0 !important;
-  }
-  .tableBox {
-    .el-input__inner {
-      height: 26px;
-    }
-    .el-icon-arrow-up:before {
-      margin-bottom: 6px;
-    }
-  }
+  // .el-table td,
+  // .el-table th {
+  //   padding: 4px 0 !important;
+  // }
+  // .tableBox {
+  //   .el-input__inner {
+  //     height: 26px;
+  //   }
+  //   .el-icon-arrow-up:before {
+  //     margin-bottom: 6px;
+  //   }
+  // }
 }
 </style>

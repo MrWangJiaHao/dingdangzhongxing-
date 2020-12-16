@@ -252,4 +252,17 @@ input[type="number"] {
 .failCause {
   color: red !important;
 }
+//全局修改placeholder颜色
+::-webkit-input-placeholder {
+  color: #9b9b9b !important;
+}
+::-moz-input-placeholder {
+  color: #9b9b9b !important;
+}
+::-o-input-placeholder {
+  color: #9b9b9b !important;
+}
+::-ms-input-placeholder {
+  color: #9b9b9b !important;
+}
 </style>

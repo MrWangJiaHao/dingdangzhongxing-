@@ -669,7 +669,7 @@ export default {
     prodGoPurchase() {
       //缺货产品转采购
       if (!this.prodMultipleSelection.length)
-        return this.$messageSelf.message("请选择需采购的产品");
+        return this.$messageSelf.message({message:"请选择需采购的产品",type:"warning"});
       this.$router.push({
         path: "/purchasingManagement/purchasingIndex",
         query: {

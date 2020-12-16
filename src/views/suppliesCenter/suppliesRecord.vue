@@ -857,7 +857,10 @@ export default {
       //编辑
       this.title = "编辑物料记录";
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要编辑的物料记录");
+        return this.$messageSelf.message({
+          message: "请选择要编辑的物料记录",
+          type: "warning",
+        });
       if (this.multipleSelection.length !== 1)
         return this.$messageSelf.message({
           message: "每次只能编辑一个物料记录信息，请重新选择",
@@ -937,9 +940,7 @@ export default {
       for (let i = 0; i < input.length; i++) {
         input[i].value = "";
       }
-      let elInput = document.querySelectorAll(
-        ".el-input__inner"
-      );
+      let elInput = document.querySelectorAll(".el-input__inner");
       for (let i = 0; i < elInput.length; i++) {
         elInput[i].value = "";
       }

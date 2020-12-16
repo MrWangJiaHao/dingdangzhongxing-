@@ -457,11 +457,11 @@ export default {
     edit() {
       if (!this.multipleSelection.length) {
         return this.$messageSelf.message({
-          message: "请选择需要编辑的报损订单",
+          message: "请选择需要编辑的报损订单",type:"warning"
         });
       } else if (this.multipleSelection.length > 1) {
         return this.$messageSelf.message({
-          message: "只能选择一个报损订单进行编辑",
+          message: "只能选择一个报损订单进行编辑",type:"warning"
         });
       } else {
         // this.$router.push({
@@ -470,7 +470,7 @@ export default {
         // });
         if (this.multipleSelection[0].disposeStatus !== "待审核") {
           return this.$messageSelf.message({
-            message: "只有待审核的订单可编辑",
+            message: "只有待审核的订单可编辑",type:"warning"
           });
         } else {
           this.$router.push({
@@ -488,7 +488,7 @@ export default {
         }
       });
       if (!arr.length)
-        return this.$messageSelf.message("请选择要删除的报损订单");
+        return this.$messageSelf.message({message:"请选择要删除的报损订单",type:"warning"});
       this.$messageSelf
         .confirms(
           `确定要删除这${this.multipleSelection.length}条报损单号？`,
@@ -501,7 +501,7 @@ export default {
           this.delRequest({ ids: arr });
         })
         .catch(() => {
-          this.$messageSelf.message("取消删除");
+          this.$messageSelf.message({message:"取消删除",type:"success"});
         });
     },
     delRequest(data) {

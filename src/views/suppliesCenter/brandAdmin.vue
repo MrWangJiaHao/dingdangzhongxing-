@@ -51,7 +51,8 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55" align="center"> </el-table-column>
+            <el-table-column type="selection" width="55" align="center">
+            </el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -295,10 +296,14 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return this.$messageSelf.message("请选择要删除的品牌");
+      if (!arr.length)
+        return this.$messageSelf.message({
+          message: "请选择要删除的品牌",
+          type: "warning",
+        });
       this.$messageSelf
         .confirms("确定要删除该品牌？", "删除确认", {
-          type: "warning",
+          type: "info",
         })
         .then(() => {
           this.delRequest({ ids: arr });
