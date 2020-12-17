@@ -329,7 +329,7 @@
             //点击查看角色
             lookUser() {
                 if (!this.multipleSelection.length)
-                    return this.$messageSelf.message("请选择要查看的账号");
+                    return this.$messageSelf.message({message: "请选择要查看的账号", type: "warning"});
                 if (this.multipleSelection.length !== 1)
                     return this.$messageSelf.message({
                         message: "每次只能查看一条账号，请重新选择",

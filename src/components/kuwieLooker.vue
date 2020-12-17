@@ -9,7 +9,7 @@
                         </div>
                         <div v-for="(zuS, index) in item.groups" :key="index" class="center-box">
                             <div class="disinb">
-                                <div class="border displayCenter kuweiName" v-for="Nums in 9" :key="Nums"
+                                <div class="border  displayCenter kuweiName" v-for="Nums in 9" :key="Nums"
                                 >
                                     {{ "0" + Nums }}
                                 </div>
@@ -38,7 +38,7 @@
                             </span>
                             <!-- 组与组之间的距离 -->
                             <div class=" disinb">
-                                <div class="border kuweiName displayCenter" v-for="Nums in 9" :key="Nums"
+                                <div class="border kuweiName oneMesAble displayCenter" v-for="Nums in 9" :key="Nums"
                                 >
                                     {{ "0" + Nums }}
                                 </div>
@@ -110,6 +110,7 @@
     .kouweiCss.Down {
         bottom: 0;
     }
+
 
     .paishu {
         font-size: 16px;
