@@ -760,6 +760,12 @@ textarea {
     border: 1px solid rgb(209, 214, 226);
 }
 
+.overAuto {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
 .parentBox .centersBox .input {
     border-radius: 4px;
 }

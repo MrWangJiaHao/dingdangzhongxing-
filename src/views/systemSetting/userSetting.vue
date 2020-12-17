@@ -270,11 +270,11 @@
                     pageNums: 0, //一共多少条 //默认一页10条
                 },
                 datetimeDate: {
-                    placeholder: "请选择结束时间",
+                    placeholder: "请选择结束创建时间",
                 },
                 datetimeDates: {
                     title: "创建时间",
-                    placeholder: "请选择开始时间",
+                    placeholder: "请选择开始创建时间",
                 },
                 LODOP: null,
                 EwmArray: [],
@@ -469,7 +469,6 @@
             //点击查询按钮
             clickQueryUser() {
                 this.fasonPagIngQueryData();
-                console.log(this.pagingQueryData, "点击查询");
             },
             //点击清空按钮
             clearInputAll() {
@@ -477,22 +476,10 @@
                 this.pagingQueryData.paras.loginName = "";
                 this.pagingQueryData.paras.createEndTime = "";
                 this.pagingQueryData.paras.createStartTime = "";
-                this.clearTimeInput();
-                this.fasonPagIngQueryData();
+                this.pagingQueryData.paras.createUser = ""
                 this.$refs.startTime.clear();
                 this.$refs.endTime.clear();
-            },
-            clearTimeInput() {
-                let input = document.getElementsByClassName("ivu-input");
-                for (let i = 0; i < input.length; i++) {
-                    input[i].value = "";
-                }
-                let elInput = document.querySelectorAll(
-                    ".el-input--suffix .el-input__inner"
-                );
-                for (let i = 0; i < elInput.length; i++) {
-                    elInput[i].value = "";
-                }
+                this.fasonPagIngQueryData();
             },
             getStartTime(e) {
                 this.pagingQueryData.paras.createStartTime = e;
