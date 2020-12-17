@@ -574,7 +574,6 @@
         },
         created() {
             this.dropdownArr.unshift(this.dataArr[0]);
-            this.addHenxianTables();
             this.mianbaoxieArr.unshift();
         },
         watch: {
@@ -649,7 +648,6 @@
             },
             //点击选中
             handleTabsEdit() {
-                this.addHenxianTables();
                 let router =
                     this.dropdownArr[+this.activeTabsName].children.length != 0
                         ? this.dropdownArr[+this.activeTabsName].children[0].name
@@ -726,7 +724,6 @@
             },
             handleClick() {
                 console.log("--------dropdownArr--------", this.dropdownArr);
-                this.addHenxianTables();
                 console.log("this.activeName", this.activeName);
                 if (this.dataArr[+this.activeName].name == '') {
                     return this.$messageSelf.message({

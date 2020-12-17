@@ -162,7 +162,9 @@
                         class="pofixCenter displayCenter"
                         style="background: rgba(0, 0, 0, 0.4)"
                 >
-                    <div class="quyupinmianBoxMsg">
+                    <div class="quyupinmianBoxMsg" :style="{
+                        width:kuwieDatas.kuwie.length?'':'1000px'
+                    }">
                         <div class="heiderBoxs p20">
                             <div class="closeTitle">库位平面图</div>
                             <div class="closeIcon" @click="kuwieLook = !kuwieLook"></div>
@@ -322,7 +324,6 @@
         },
         watch: {
             $route(to, from) {
-                console.log(from);
                 if (
                     from.path == "/warehoseconfig/createWarehouseConfig" ||
                     from.path == "/warehoseconfig/editWarehouseConfig"
@@ -352,23 +353,23 @@
                 kuwieLook: false, //库位平面图 显示
                 kuwieDataJson: {},
                 tableData: [
-                    {
-                        childWareName: "子仓名称",
-                        childWareId: "子仓id",
-                        wareAreaType: "区域类型（1-存储区；2-拣货区）",
-                        wareAreaName: "区域名称",
-                        wareAreaLength: "区域长度",
-                        wareAreaWidth: "区域宽度",
-                        x: "区域x坐标(距西距离)",
-                        y: "区域y坐标(距北距离)",
-                        rowNum: "区域摆放的货架总排数",
-                        shelfNum: "区域内的总货架数",
-                        seatNum: 1100,
-                        useSeat: 100,
-                        noSeat: 0,
-                        createUser: "创建人",
-                        createTime: "",
-                    },
+                    // {
+                    //     childWareName: "子仓名称",
+                    //     childWareId: "子仓id",
+                    //     wareAreaType: "区域类型（1-存储区；2-拣货区）",
+                    //     wareAreaName: "区域名称",
+                    //     wareAreaLength: "区域长度",
+                    //     wareAreaWidth: "区域宽度",
+                    //     x: "区域x坐标(距西距离)",
+                    //     y: "区域y坐标(距北距离)",
+                    //     rowNum: "区域摆放的货架总排数",
+                    //     shelfNum: "区域内的总货架数",
+                    //     seatNum: 1100,
+                    //     useSeat: 100,
+                    //     noSeat: 0,
+                    //     createUser: "创建人",
+                    //     createTime: "",
+                    // },
                 ],
                 wareAreaTypeJson: [
                     {
