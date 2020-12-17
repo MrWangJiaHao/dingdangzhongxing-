@@ -306,7 +306,7 @@
         methods: {
             locotpUserEWM() {
                 if (this.multipleSelection.length == 0)
-                    return this.$messageSelf.message("请选择要打印的二维码");
+                    return this.$messageSelf.message({message: "请选择要打印的二维码", type: "warning"});
                 let arr = this._getIDArr();
                 this.EwmArray = this.multipleSelection;
                 setTimeout(() => {
@@ -341,9 +341,9 @@
             //点击删除角色
             clearUser() {
                 let arr = this._getIDArr();
-                if (!arr.length) return this.$messageSelf.message("请选择要删除的用户");
+                if (!arr.length) return this.$messageSelf.message({message: "请选择要删除的用户", type: "warning",});
                 if (arr.length !== 1)
-                    return this.$messageSelf.message("一次只能删除一个用户");
+                    return this.$messageSelf.message({message: "一次只能删除一个用户", type: "warning"});
                 this.$messageSelf
                     .confirms("确定要删除该用户？", "提示", {
                         type: "warning",
@@ -391,7 +391,7 @@
             editBtn() {
                 if (!this.multipleSelection.length && this.multipleSelection.length != 1)
                     return this.$messageSelf.message(
-                        "请选择要编辑的账号,每次自能选择一条账号进行编辑"
+                        {message: "请选择要编辑的账号,每次自能选择一条账号进行编辑", type: "warning"}
                     );
                 let id = this.multipleSelection[0].id;
                 this.fasonEdit({id}, "iseditUserIng");
@@ -498,8 +498,7 @@
         },
     };
 </script>
-<style>
-</style>
+
 <style lang='scss' scoped>
     @import "../../assets/scss/btn.scss";
 
