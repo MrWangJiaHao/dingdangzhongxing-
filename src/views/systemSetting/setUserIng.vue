@@ -186,7 +186,12 @@
         </div>
     </div>
 </template>
-
+<style>
+    .noneIconTitle {
+        display: flex;
+        white-space: nowrap;
+    }
+</style>
 <script>
     import searchBox from "../../components/commin/searchBox"; //搜索框
     import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
@@ -487,6 +492,7 @@
             background: #fff;
             max-width: 1000px;
             overflow: auto;
+            max-height: 750px;
 
             .centerBox {
                 padding: 30px 20px;

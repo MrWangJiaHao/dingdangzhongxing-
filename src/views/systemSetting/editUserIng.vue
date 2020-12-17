@@ -136,8 +136,8 @@
                     <!-- 用户账号 -->
                     <div class="displayalign">
                         <div class="noneIconTitle mr11">
-                            <span style="visibility: hidden">你好</span>密码
-                            <span style="color: red">*</span>:
+                            <span class="visibilityHidden">你好</span>密码
+                            <span class="colred">*</span>:
                         </div>
                         <div>
                             <el-input
@@ -380,19 +380,8 @@
             },
             //取消编辑
             closeEdit() {
-                this.$messageSelf
-                    .confirms("是否退出编辑？", "提示", {
-                        confirmButtonText: "确定",
-                        cancelButtonText: "取消",
-                        type: "warning",
-                    })
-                    .then(() => {
-                        this.$store.dispatch("clearEditUser");
-                        this.$parent._data.iseditUserIng = false;
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
+                this.$store.dispatch("clearEditUser");
+                this.$parent._data.iseditUserIng = false;
             },
             getUserName(e) {
                 if (!e) return this.$messageSelf.message("请输入用户姓名");

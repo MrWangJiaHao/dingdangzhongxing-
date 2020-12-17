@@ -766,6 +766,14 @@ textarea {
     overflow: auto;
 }
 
+.colred {
+    color: red;
+}
+
+.visibilityHidden {
+    visibility: hidden
+}
+
 .parentBox .centersBox .input {
     border-radius: 4px;
 }

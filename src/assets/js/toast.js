@@ -1,4 +1,4 @@
- /*eslint-disable */
+/*eslint-disable */
 const {Message, MessageBox} = require("element-ui");
 
 
@@ -6,10 +6,9 @@ class messageSelf {
     constructor() {
         this.jsonArr = {
             message: "",
-            showClose: true,
-            duration: 1500,
+            duration: 1000,
             offset: 400,
-            type: "info"
+            type: "info",
         }
     }
 
