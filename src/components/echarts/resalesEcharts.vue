@@ -14,17 +14,17 @@ export default {
   },
   methods: {
     resalesEcharts() {
-      // let data = [4000, 5000, 3000, 2000, 1000, 4000, 6666];
-      let data = [];
-      // let data2 = [3000, 5000, 4444, 5555, 6666, 2222, 3333];
-      let data2 = [];
+      let data = [4000, 5000, 3000, 2000, 1000, 4000, 6666];
+      // let data = [];
+      let data2 = [3000, 5000, 4444, 5555, 6666, 2222, 3333];
+      // let data2 = [];
       let myEcharts = this.$echarts.init(
         document.getElementById("resalesEcharts")
       );
       let option = {
         legend: {
-          top: "top",
-          right: 0,
+          top: 18,
+          right: 18,
           data: [
             {
               name: "已退数",
@@ -41,18 +41,7 @@ export default {
           },
         },
         tooltip: {},
-        dataset: {
-          //   source: [
-          //     ["product", "已退数", "待退数"],
-          //     ["委托方1", 5813, 6174],
-          //     ["委托方2", 5813, 6174],
-          //     ["委托方3", 5831, 6734],
-          //     ["委托方4", 5831, 6374],
-          //     ["委托方5", 5831, 6734],
-          //     ["委托方6", 5831, 6734],
-          //     ["委托方7", 5831, 6734],
-          //   ],
-        },
+        dataset: {},
         xAxis: {
           data: [
             {
@@ -122,14 +111,17 @@ export default {
               color: "#999",
             },
           },
+          boundaryGap: false,
         },
         yAxis: {
           name: "单位：件", //坐标轴名称
+          nameLocation: "end", //坐标轴名称显示位置。
           nameTextStyle: {
             color: "#999999",
             fontSize: 14,
-            align: "center",
+            align: "right",
             verticalAlign: "bottom",
+            padding: [0, 18, 0, 0],
           },
           axisLine: {
             //坐标轴轴线相关设置。
@@ -144,11 +136,13 @@ export default {
           },
           min: 0,
           max: 7000,
-          nameGap: 20, //坐标轴名称与轴线之间的距离。
+          nameGap: 24, //坐标轴名称与轴线之间的距离。
           axisLabel: {
+            inside: false,
             textStyle: {
               color: "#999",
             },
+            margin: 42,
           },
         },
         series: [
@@ -156,6 +150,7 @@ export default {
             name: "已退数",
             type: "bar",
             barWidth: 20,
+            barGap: "20%",
             itemStyle: {
               normal: {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -207,6 +202,6 @@ export default {
 #resalesEcharts {
   /* width: 936px; */
   height: 484px;
-  padding: 18px 18px 28px 28px;
+  padding: 0 0 0 10px;
 }
 </style>

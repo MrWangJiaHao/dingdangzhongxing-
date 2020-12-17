@@ -347,7 +347,6 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
 .mian {
-  background: #eef1f8;
   padding: 10px;
   .orderDetaiPage {
     background: #fff;

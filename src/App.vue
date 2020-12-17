@@ -252,6 +252,12 @@ input[type="number"] {
 .failCause {
   color: red !important;
 }
+//全局修改鼠标移入表格后的背景色
+.el-table--enable-row-hover .el-table__body tr:hover > td {
+  background-color: #d6e4f4 !important;
+}
+//全局修改点击表格某行后的背景色
+
 //全局修改placeholder颜色
 ::-webkit-input-placeholder {
   color: #9b9b9b !important;

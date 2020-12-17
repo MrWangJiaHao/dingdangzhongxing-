@@ -435,6 +435,7 @@ export default {
       margin: 0 0 0 16px;
       .infor-one {
         flex: 1;
+        overflow: hidden;
         height: 560px;
         border-radius: 4px;
         background: white;

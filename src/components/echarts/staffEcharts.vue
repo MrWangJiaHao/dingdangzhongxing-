@@ -4,51 +4,54 @@
     <div class="echarts-buttom">
       <div class="buttom-left">
         <div></div>
-        <div>10</div>
+        <div>{{ pickPeopleNum }}</div>
         <div>拣货</div>
       </div>
       <div class="buttom-right">
         <div></div>
-        <div>20</div>
+        <div>{{ reCheckPeopleNum }}</div>
         <div>复核</div>
       </div>
     </div>
-    <div class="isNoData">
+    <!-- <div class="isNoData">
       <div class="dataImg">
         <img src="../../assets/img/nopeople.png" alt="" />
       </div>
       <div class="dataText">暂无统计人员</div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import { indexRequest } from "../../api/api";
+// import { indexRequest } from "../../api/api";
 export default {
   data() {
-    return {};
+    return {
+      pickPeopleNum: 90, //拣货人数
+      reCheckPeopleNum: 20, //复核人数
+    };
   },
   mounted() {
-    let indexQueryData = {
-      searchEndTime: "",
-      searchStartTime: "",
-      wareId: "",
-    };
-    indexRequest(indexQueryData).then((ok) => {
-      let oDiv1 = document.querySelector(".echarts-buttom");
-      let oDiv2 = document.querySelector("#staffEcharts");
-      let oDiv3 = document.querySelector(".isNoData");
+    // let indexQueryData = {
+    //   searchEndTime: "",
+    //   searchStartTime: "",
+    //   wareId: "",
+    // };
+    // indexRequest(indexQueryData).then((ok) => {
+    //   let oDiv1 = document.querySelector(".echarts-buttom");
+    //   let oDiv2 = document.querySelector("#staffEcharts");
+    //   let oDiv3 = document.querySelector(".isNoData");
 
-      if (ok.data.code === "10000") {
-        oDiv1.style.dispaly = "none";
-        oDiv2.style.dispaly = "none";
-        oDiv3.style.dispaly = "block";
-      } else {
-        oDiv1.style.dispaly = "block";
-        oDiv2.style.dispaly = "block";
-        oDiv3.style.dispaly = "flex";
-      }
-    });
+    //   if (ok.data.code === "10000") {
+    //     oDiv1.style.dispaly = "none";
+    //     oDiv2.style.dispaly = "none";
+    //     oDiv3.style.dispaly = "block";
+    //   } else {
+    //     oDiv1.style.dispaly = "block";
+    //     oDiv2.style.dispaly = "block";
+    //     oDiv3.style.dispaly = "flex";
+    //   }
+    // });
     this.staffEcharts();
   },
   methods: {
@@ -62,10 +65,10 @@ export default {
       let color = ["#599af3", "#b9d5fa"];
       let echartData = [
         {
-          value: "90",
+          value: this.pickPeopleNum,
         },
         {
-          value: "30",
+          value: this.reCheckPeopleNum,
         },
       ];
 
@@ -188,13 +191,13 @@ export default {
 <style lang="scss" scoped>
 #staffEcharts {
   height: 234px;
-  display: none;
+  // display: none;
 }
 
 .echarts-buttom {
   // width: 323px;
   height: 170px;
-  display: none;
+  display: flex;
   justify-content: space-around;
   align-items: center;
   .buttom-left {

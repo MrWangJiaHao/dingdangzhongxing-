@@ -120,10 +120,7 @@ export default {
                 "X-Auth-wareName",
                 ok.data.result.user.wareFullName
               );
-              this.isLoading = true;
-              setTimeout(() => {
                 this.$router.push("/index");
-              }, 1500);
               //四个小时后清除用户名和密码
               setTimeout(() => {
                 this.$cookie.delete("userName");
