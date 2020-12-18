@@ -33,6 +33,7 @@ export default {
     });
     this.addHenxianTables();
   },
+  mounted() {},
   methods: {
     addHenxianTables() {
       setTimeout(() => {

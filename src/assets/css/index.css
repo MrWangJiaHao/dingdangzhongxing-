@@ -44,7 +44,7 @@ abbr {
 }
 
 body {
-    font: 14px Arial;
+    font: 14px Arial !important;
     color: #333;
     height: 100%;
 }
