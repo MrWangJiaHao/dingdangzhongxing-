@@ -43,7 +43,7 @@
           <el-checkbox v-model="checked" @change="clickNumber"
             >数字：</el-checkbox
           >
-          <el-select v-model="value3" filterable placeholder="">
+          <el-select v-model="value3" filterable>
             <el-option
               v-for="item in childWarehouseNumber"
               :key="item.value"
@@ -636,6 +636,9 @@ export default {
   .el-input {
     width: 100%;
     display: none;
+  }
+  .el-select{
+    min-width: 66px;
   }
   .el-checkbox__inner {
     border-radius: 50%;

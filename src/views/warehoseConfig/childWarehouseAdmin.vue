@@ -340,10 +340,14 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return this.$messageSelf.message("请选择要删除的子仓");
+      if (!arr.length)
+        return this.$messageSelf.message({
+          message: "请选择要删除的子仓",
+          type: "warning",
+        });
       this.$messageSelf
         .confirms("确定要删除该子仓？", "提示", {
-          type: "warning",
+          type: "info",
         })
         .then(() => {
           this.delRequest({ ids: arr });

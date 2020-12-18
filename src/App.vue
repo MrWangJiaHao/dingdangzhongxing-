@@ -263,10 +263,13 @@ input[type="number"] {
 ::-webkit-input-placeholder {
   color: #9b9b9b !important;
 }
-::-moz-input-placeholder {
+input::-moz-placeholder {
   color: #9b9b9b !important;
 }
-::-o-input-placeholder {
+input:-moz-placeholder {
+  color: #9b9b9b !important;
+}
+::-o-placeholder {
   color: #9b9b9b !important;
 }
 ::-ms-input-placeholder {
