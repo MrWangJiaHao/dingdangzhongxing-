@@ -1,107 +1,104 @@
 <template>
-    <div class="setUserIngBox">
-        <div class="setUserIngBoxCenter">
-            <div class="headerBox">
-                <div class="closeTitle">编辑用户</div>
-                <div class="closeIcon" @click="closeBtn"></div>
-            </div>
-
-            <div class="centerBox">
-                <div class="setTitle">个人信息</div>
-                <div class="gerxinxiBox">
-                    <div class="xinxiBitian">
-                        <div>
-                            <div class="displayalign">
-                                <div class="noneIconTitle mr11">
-                                    用户姓名
-                                    <span style="color: red">*</span>:
-                                </div>
-                                <div class="mr20">
-                                    <el-input
-                                            placeholder="请输入用户姓名"
-                                            v-model="createUserData.userName"
-                                            clearable
-                                    ></el-input>
+    <div>
+        <kuanjiaClick titles="编辑用户" @closeBtn="closeBtn" @clickSubmit="goAJAXCreate">
+            <template slot="centerKuanjia">
+                <div class="centerBox">
+                    <div class="setTitle">个人信息</div>
+                    <div class="gerxinxiBox">
+                        <div class="xinxiBitian">
+                            <div>
+                                <div class="displayalign">
+                                    <div class="noneIconTitle mr11">
+                                        用户姓名
+                                        <span style="color: red">*</span>:
+                                    </div>
+                                    <div class="mr20">
+                                        <el-input
+                                                placeholder="请输入用户姓名"
+                                                v-model="createUserData.userName"
+                                                clearable
+                                                maxlength="30"
+                                        ></el-input>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- 用户姓名 -->
-                        <div>
-                            <div class="displayalign">
-                                <div class="noneIconTitle mr11">
-                                    联系电话
-                                    <span style="color: red">*</span>:
-                                </div>
-                                <div class="mr20">
-                                    <el-input
-                                            placeholder="请输入联系电话"
-                                            v-model="createUserData.userPhone"
-                                            clearable
-                                    ></el-input>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 联系电话 -->
-                    </div>
-                    <div class="cityBoxCenter">
-                        <div class="mr20">
-                            <div class="displayalign">
-                                <div class="noneIconTitle mr11">
-                                    居住地址
-                                    <span style="visibility: hidden">*</span>:
-                                </div>
-                                <div>
-                                    <el-select
-                                            v-model="createUserData.provinceName"
-                                            slot="prepend"
-                                            @focus="setProvinceCode"
-                                            @input="getProvinceCode"
-                                    >
-                                        <el-option
-                                                v-for="(item, idx) in dropDowProvince.dropDownBoxData"
-                                                :key="idx"
-                                                :label="item.areaName ? item.areaName : item"
-                                                :value="idx"
-                                        ></el-option>
-                                    </el-select>
+                            <!-- 用户姓名 -->
+                            <div>
+                                <div class="displayalign">
+                                    <div class="noneIconTitle mr11">
+                                        联系电话
+                                        <span style="color: red">*</span>:
+                                    </div>
+                                    <div class="mr20">
+                                        <el-input
+                                                placeholder="请输入联系电话"
+                                                v-model="createUserData.userPhone"
+                                                clearable
+                                        ></el-input>
+                                    </div>
                                 </div>
                             </div>
+                            <!-- 联系电话 -->
                         </div>
-                        <!-- 省 -->
-                        <div class="mr20">
-                            <el-select
-                                    v-model="createUserData.cityName"
-                                    @input="getCityCode"
-                                    @focus="setCityCode"
-                                    slot="prepend"
-                            >
-                                <el-option
-                                        v-for="(item, idx) in dropDowCity.dropDownBoxData"
-                                        :key="idx"
-                                        :label="item.areaName ? item.areaName : item"
-                                        :value="idx"
-                                ></el-option>
-                            </el-select>
+                        <div class="cityBoxCenter">
+                            <div class="mr20">
+                                <div class="displayalign">
+                                    <div class="noneIconTitle mr11">
+                                        居住住址
+                                        <span class="visibilityHidden">*</span>:
+                                    </div>
+                                    <div>
+                                        <el-select
+                                                v-model="createUserData.provinceName"
+                                                slot="prepend"
+                                                @focus="setProvinceCode"
+                                                @input="getProvinceCode"
+                                        >
+                                            <el-option
+                                                    v-for="(item, idx) in dropDowProvince.dropDownBoxData"
+                                                    :key="idx"
+                                                    :label="item.areaName ? item.areaName : item"
+                                                    :value="idx"
+                                            ></el-option>
+                                        </el-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 省 -->
+                            <div class="mr20">
+                                <el-select
+                                        v-model="createUserData.cityName"
+                                        @input="getCityCode"
+                                        @focus="setCityCode"
+                                        slot="prepend"
+                                >
+                                    <el-option
+                                            v-for="(item, idx) in dropDowCity.dropDownBoxData"
+                                            :key="idx"
+                                            :label="item.areaName ? item.areaName : item"
+                                            :value="idx"
+                                    ></el-option>
+                                </el-select>
+                            </div>
+                            <!-- 市 -->
+                            <div>
+                                <el-select
+                                        v-model="createUserData.areaName"
+                                        @input="getAreaCode"
+                                        @focus="setAreaCode"
+                                        slot="prepend"
+                                >
+                                    <el-option
+                                            v-for="(item, idx) in dropDowDistrictCount.dropDownBoxData"
+                                            :key="idx"
+                                            :label="item.areaName ? item.areaName : item"
+                                            :value="idx"
+                                    ></el-option>
+                                </el-select>
+                            </div>
+                            <!-- 区/县 -->
                         </div>
-                        <!-- 市 -->
-                        <div>
-                            <el-select
-                                    v-model="createUserData.areaName"
-                                    @input="getAreaCode"
-                                    @focus="setAreaCode"
-                                    slot="prepend"
-                            >
-                                <el-option
-                                        v-for="(item, idx) in dropDowDistrictCount.dropDownBoxData"
-                                        :key="idx"
-                                        :label="item.areaName ? item.areaName : item"
-                                        :value="idx"
-                                ></el-option>
-                            </el-select>
-                        </div>
-                        <!-- 区/县 -->
-                    </div>
-                    <div class="textAreaBox">
+                        <div class="textAreaBox">
             <textarea
                     :placeholder="
                 createUserData.userAddr
@@ -111,91 +108,93 @@
                     v-model="createUserData.userAddr"
                     maxlength="200"
             ></textarea>
+                        </div>
+                        <!-- 居住地址 -->
                     </div>
-                    <!-- 居住地址 -->
                 </div>
-            </div>
-            <!-- 个人信息 -->
-            <div class="mb20 centerBox">
-                <div class="setTitle">账号信息</div>
-                <div class="displayalign mb20">
-                    <div class="displayalign">
-                        <div class="noneIconTitle mr11">
-                            用户账号
-                            <span style="color: red">*</span>:
-                        </div>
-                        <div class="mr20">
-                            <el-input
-                                    :placeholder="createUserData.loginName"
-                                    v-model="createUserData.loginName"
-                                    clearable
-                                    disabled
-                            ></el-input>
-                        </div>
-                    </div>
-                    <!-- 用户账号 -->
-                    <div class="displayalign">
-                        <div class="noneIconTitle mr11">
-                            <span class="visibilityHidden">你好</span>密码
-                            <span class="colred">*</span>:
-                        </div>
-                        <div>
-                            <el-input
-                                    placeholder="请输入密码"
-                                    v-model="createUserData.loginPwd"
-                                    clearable
-                                    type="text"
-                                    @focus="isPWDkuan"
-                            ></el-input>
-                        </div>
-                    </div>
-                    <!-- 密码 -->
-                </div>
-                <!-- 必须 -->
-                <div class="displayalign mb20">
-                    <div class="displayalign">
+                <!-- 个人信息 -->
+                <div class="mb20 centerBox">
+                    <div class="setTitle">账号信息</div>
+                    <div class="displayalign mb20">
                         <div class="displayalign">
                             <div class="noneIconTitle mr11">
-                                用户角色
-                                <span style="color: red">*</span>:
+                                用户账号
+                                <span class="colred">*</span>:
                             </div>
                             <div class="mr20">
-                                <dropDownUserType
-                                        :dropDowBox="dropDowUserType"
-                                        @getDropDownData="getUserType"
-                                ></dropDownUserType>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 用户角色 -->
-                    <div>
-                        <div class="displayalign">
-                            <div class="noneIconTitle mr11">
-                                用户邮箱
-                                <span style="color: red">*</span>:
-                            </div>
-                            <div>
                                 <el-input
-                                        placeholder="请输入邮箱"
-                                        v-model="createUserData.userEmail"
+                                        :placeholder="createUserData.loginName"
+                                        v-model="createUserData.loginName"
                                         clearable
-                                        type="email"
+                                        disabled
                                 ></el-input>
                             </div>
                         </div>
-                    </div>
-                    <!-- 邮箱地址 -->
-                </div>
-                <!-- 账号信息 -->
-                <div>
-                    <div class="dispalyFlex mb20">
-                        <div class="noneIconTitle mr11 fosi0">
-                            <span class="fosi14" style="visibility: hidden">你好</span>
-                            <span class="fosi14">备注</span>
-                            <span class="fosi14" style="visibility: hidden">好</span>
-                            <span class="fosi14">:</span>
+                        <!-- 用户账号 -->
+                        <div class="displayalign">
+                            <div class="noneIconTitle mr11">
+                                <span class="visibilityHidden">你好</span>密码
+                                <span class="colred">*</span>:
+                            </div>
+                            <div>
+                                <el-input
+                                        placeholder="请输入密码"
+                                        v-model="createUserData.loginPwd"
+                                        clearable
+                                        type="text"
+                                        maxlength="30"
+                                        @focus="isPWDkuan"
+                                ></el-input>
+                            </div>
                         </div>
-                        <div class="bzTetxArea">
+                        <!-- 密码 -->
+                    </div>
+                    <!-- 必须 -->
+                    <div class="displayalign mb20">
+                        <div class="displayalign">
+                            <div class="displayalign">
+                                <div class="noneIconTitle mr11">
+                                    用户角色
+                                    <span class="colred">*</span>:
+                                </div>
+                                <div class="mr20">
+                                    <dropDownUserType
+                                            :dropDowBox="dropDowUserType"
+                                            @getDropDownData="getUserType"
+                                    ></dropDownUserType>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 用户角色 -->
+                        <div>
+                            <div class="displayalign">
+                                <div class="noneIconTitle mr11">
+                                    用户邮箱
+                                    <span class="colred">*</span>:
+                                </div>
+                                <div>
+                                    <el-input
+                                            max-length="30"
+                                            placeholder="请输入邮箱"
+                                            v-model="createUserData.userEmail"
+                                            clearable
+                                            type="email"
+                                    ></el-input>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 邮箱地址 -->
+                    </div>
+                    <!-- 账号信息 -->
+                    <div>
+                        <div class="dispalyFlex mb20">
+                            <div class="noneIconTitle mr11 fosi0">
+                                <span class="fosi14 visibilityHidden">你好</span>
+                                <span class="fosi14">备注</span>
+                                <span class="fosi14 visibilityHidden">*</span>
+                                <span class="fosi14">:</span>
+                            </div>
+                            <div class="bzTetxArea">
               <textarea
                       :placeholder="
                   createUserData.remark ? createUserData.remark : '未录入备注'
@@ -203,18 +202,14 @@
                       v-model="createUserData.remark"
                       maxlength="200"
               ></textarea>
+                            </div>
                         </div>
                     </div>
+                    <!-- 备注 -->
                 </div>
-                <!-- 备注 -->
-            </div>
-            <!-- 账号信息 -->
-            <div class="disRight mr20 mb20">
-                <div class="quxiaoBox mr20" @click="closeBtn">取消</div>
-                <div class="tijiaoBox" @click="goAJAXCreate">提交</div>
-            </div>
-            <!-- btn -->
-        </div>
+                <!-- 账号信息 -->
+            </template>
+        </kuanjiaClick>
     </div>
 </template>
 
@@ -223,11 +218,13 @@
     import {post} from "../../api/api";
     import {mapState} from "vuex";
     import dropDownUserType from "../../components/commin/dropDownUserType"; //用户管理下拉框
+    import kuanjiaClick from "../../components/commin/kuanjiaClick";
 
     export default {
         name: "createUsering",
         components: {
             dropDownUserType,
+            kuanjiaClick
         },
         props: {
             editUserIngJson: {
@@ -263,7 +260,7 @@
                     //下拉框需要的json
                     dropDownBoxData: [],
                     placeholder: "请选择用户角色",
-                    disabled: true,
+                    disabled: false,
                     value: "",
                 },
                 searchMobile: {
@@ -319,6 +316,7 @@
         },
         created() {
             console.log(this.editUserIngJson);
+            this.$store.dispatch("getusertype");
 
             let probinceData = this.fasonCodeAjax(this.getProvinceData);
             probinceData.then((data) => {
@@ -434,7 +432,7 @@
                         type: "warning",
                     });
                 let results = await post({
-                    url: "http://139.196.176.227:8801/am/v1/pUser/saveRecord",
+                    url: "am/v1/pUser/saveRecord",
                     data: this.createUserData,
                 });
                 if (results.code === "10000") {
@@ -449,20 +447,16 @@
             },
             //点击省
             setProvinceCode() {
-                console.log("点击省", this.getProvinceData);
                 this.fasonCodeAjax(this.getProvinceData);
             },
             //点击市
             setCityCode() {
-                console.log(this.getProvinceData + "点击市");
                 this.fasonCodeAjax(this.getProvinceData).then((data) => {
                     this.dropDowCity.dropDownBoxData = data;
                 });
             },
             //直接点击区
             setAreaCode() {
-                console.log("点击区");
-                console.log(this.getCityCodeData);
                 this.fasonCodeAjax(this.getCityCodeData).then((data) => {
                     this.dropDowDistrictCount.dropDownBoxData = data;
                 });
@@ -494,7 +488,7 @@
             //发送省市 ajax
             async fasonCodeAjax(data) {
                 let provinceDatas = await post({
-                    url: "http://139.196.176.227:8801/am/v1/pArea/findRecord",
+                    url: "am/pArea/findRecord",
                     data,
                 });
                 return provinceDatas.result;
@@ -511,7 +505,6 @@
                     });
             },
             getUserType(e) {
-                console.log(e);
                 this.createUserData.userType = e.codeValue;
             },
         },
@@ -534,18 +527,6 @@
         }
 
         .setUserIngBoxCenter {
-            position: absolute;
-            left: 50%;
-            top: 144px;
-            transform: translateX(-50%);
-            background: #fff;
-            max-width: 1000px;
-            overflow: auto;
-
-            .centerBox {
-                padding: 30px 20px;
-            }
-
             .setTitle {
                 margin-bottom: 18px;
             }

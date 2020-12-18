@@ -448,3 +448,20 @@ export const _disposeStatus = (nums) => {
             return "已补货"
     }
 }
+/**
+ * 删除语录
+ * @param arr
+ */
+export const clearArr = (arr) => {
+    let str
+    if (
+        _typesStr(arr) != "Array"
+    ) {
+        return new Error("不是数组")
+    } else if (arr.length == 1) {
+        str = "是否确定删除此信息"
+    } else {
+        str = "是否确定删除这" + arr.length + "条信息"
+    }
+    return str
+}

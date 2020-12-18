@@ -422,7 +422,7 @@ export default {
   .line {
     width: 20px;
     height: 2px;
-    background: #fff;
+    background: #D1D6E2;
     margin-right: 10px;
   }
   .btns {

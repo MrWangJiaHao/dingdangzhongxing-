@@ -9,9 +9,9 @@
                         </div>
                         <div v-for="(zuS, index) in item.groups" :key="index" class="center-box">
                             <div class="disinb">
-                                <div class="border  displayCenter kuweiName" v-for="Nums in 9" :key="Nums"
+                                <div class="border  displayCenter kuweiName" v-for="Nums in rightCenter" :key="Nums"
                                 >
-                                    {{ "0" + Nums }}
+                                    {{ Nums }}
                                 </div>
                             </div>
 
@@ -38,9 +38,10 @@
                             </span>
                             <!-- 组与组之间的距离 -->
                             <div class=" disinb">
-                                <div class="border kuweiName oneMesAble displayCenter" v-for="Nums in 9" :key="Nums"
+                                <div class="border kuweiName oneMesAble displayCenter" v-for="Nums in leftCenter"
+                                     :key="Nums"
                                 >
-                                    {{ "0" + Nums }}
+                                    {{ Nums }}
                                 </div>
                             </div>
                         </div>
@@ -72,6 +73,12 @@
     import {getzicanParent, isNums} from "../utils/validate";
 
     export default {
+        data() {
+            return {
+                rightCenter: ["01", "03", "05", "07", "09"],
+                leftCenter: ["02", "04", "06", "08", "10"],
+            }
+        },
         props: {
             kuwieLookerDataJson: Object,
         },

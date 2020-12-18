@@ -85,82 +85,91 @@
         </div>
         <!-- but按钮 -->
 
-        <div v-if="quyuLook">
+        <div v-show="quyuLook" class="bjBox">
             <div
+                    v-show="quyuLook"
                     class="pofixCenter displayCenter"
-                    style="background: rgba(0, 0, 0, 0.4);
-                "
             >
-                <div class="quyupinmianBoxMsg">
-                    <div class="heiderBoxs p20">
-                        <div class="closeTitle">区域平面图</div>
-                        <div class="closeIcon" @click="quyuLook = !quyuLook"></div>
-                    </div>
-                    <div class="bkf p20 botD1">
-                        <div class="setTitle mb20">货架编号</div>
-                        <div class="displayalign flexBetWeen">
-                            <div class="displayalign">
-                                <div class="mr20">
-                                    <div class="displayalign">
-                                        <div class="noneIconTitle mr11">
-                                            子仓名称
-                                            <span style="visibility: hidden">*</span>:
-                                        </div>
-                                        <div class="w160">
-                                            <el-select
-                                                    v-model="
+                <transition
+                        enter-active-class="animate__animated animate__zoomIn"
+                        leave-active-class="animate__animated animate__zoomOut"
+                >
+                    <div v-if="quyuLook" class="quyupinmianBoxMsg">
+                        <div class="heiderBoxs p20">
+                            <div class="closeTitle">区域平面图</div>
+                            <div class="closeIcon" @click="quyuLook = !quyuLook"></div>
+                        </div>
+                        <div class="bkf p20 botD1">
+                            <div class="setTitle mb20">货架编号</div>
+                            <div class="displayalign flexBetWeen">
+                                <div class="displayalign">
+                                    <div class="mr20">
+                                        <div class="displayalign">
+                                            <div class="noneIconTitle mr11">
+                                                子仓名称
+                                                <span class="visibilityHidden">*</span>:
+                                            </div>
+                                            <div class="w160">
+                                                <el-select
+                                                        v-model="
                           quyuzicanNameOfSubWareHouse.nameOfSubWareHouseName
                         "
-                                                    slot="prepend"
-                                                    :placeholder="nameOfSubWareHouse.placeholder"
-                                                    @input="getZicankuOfSunWareHouseWareId"
-                                            >
-                                                <el-option
-                                                        v-for="(
+                                                        slot="prepend"
+                                                        :placeholder="nameOfSubWareHouse.placeholder"
+                                                        @input="getZicankuOfSunWareHouseWareId"
+                                                >
+                                                    <el-option
+                                                            v-for="(
                             item, idx
                           ) in quyuzicanNameOfSubWareHouse.nameOfSubwareHouseData"
-                                                        :key="idx"
-                                                        :label="item.childWareName"
-                                                        :value="idx"
-                                                ></el-option>
-                                            </el-select>
+                                                            :key="idx"
+                                                            :label="item.childWareName"
+                                                            :value="idx"
+                                                    ></el-option>
+                                                </el-select>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="displayalign">
+                                        <div class="noneIconTitle mr11">区域类型:</div>
+                                        <el-radio v-model="quyuleixingMsg" label="1">存储区</el-radio>
+                                        <el-radio v-model="quyuleixingMsg" label="2">拣货区</el-radio>
+                                    </div>
                                 </div>
-                                <div class="displayalign">
-                                    <div class="noneIconTitle mr11">区域类型:</div>
-                                    <div class="mr20">存储区</div>
-                                    <div>拣货区</div>
-                                </div>
+                                <div class="bianjiUser" @click="dinjichaxunquyutu">查询</div>
                             </div>
-                            <div class="bianjiUser" @click="dinjichaxunquyutu">查询</div>
+                        </div>
+                        <div class="centers bkf p20 botD1" v-if="quyuDatas.regionalManage.length">
+                            <div class="displayalign mb20">
+                                {{quyuMsg}}区域平面图（
+                                <div class="juli">上北、下南、左西、右东</div>
+                                ）
+                            </div>
+                            <div class="zuti bkf p20">
+                                <quyuLooker :quyuDatas="quyuDatas"></quyuLooker>
+                            </div>
+                        </div>
+                        <div class="p20 bkf tr">
+                            <div class="bianjiUser tr disinb" @click="quyuLook = !quyuLook">
+                                关闭
+                            </div>
                         </div>
                     </div>
-                    <div class="centers bkf p20 botD1">
-                        <div class="displayalign mb20">
-                            委托公司1/销售仓/拣货区区域平面图（
-                            <div class="juli">上北、下南、左西、右东</div>
-                            ）
-                        </div>
-                        <div class="zuti bkf p20">
-                            <quyuLooker :quyuDatas="quyuDatas"></quyuLooker>
-                        </div>
-                    </div>
-                    <div class="p20 bkf tr">
-                        <div class="bianjiUser tr disinb" @click="quyuLook = !quyuLook">
-                            关闭
-                        </div>
-                    </div>
-                </div>
+                </transition>
+
             </div>
             <!-- 关闭部分 -->
         </div>
         <!-- 区域平面图 -->
-        <div v-show="kuwieLook" style="background: rgba(0, 0, 0, 0.4)">
-            <div v-if="kuwieLook">
+        <div v-show="kuwieLook" class="bjBox">
+
+            <transition
+                    enter-active-class="animate__animated animate__zoomIn"
+                    leave-active-class="animate__animated animate__zoomOut"
+            >
                 <div
+                        v-if="kuwieLook"
                         class="pofixCenter displayCenter"
-                        style="background: rgba(0, 0, 0, 0.4)"
                 >
                     <div class="quyupinmianBoxMsg" :style="{
                         width:kuwieDatas.kuwie.length?'':'1000px'
@@ -175,18 +184,19 @@
                                 <kuwieLooker :kuwieLookerDataJson="kuwieDatas"/>
                             </div>
                         </div>
-                        <div class="p20 bkf tc">
+                        <div class="p20 bkf tr">
                             <div class="bianjiUser tr disinb" @click="kuwieLook = !kuwieLook">
                                 关闭
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </transition>
+
         </div>
         <!-- 库位平面图 -->
         <div class="tableBox">
-            <div style="background-color: #fff;padding: 16px 20px 16px 20px">
+            <div class="tableBoxCol">
                 <div class="center">
                     <el-table
                             ref="multipleTable"
@@ -212,6 +222,7 @@
                         <el-table-column
                                 label="子仓名称"
                                 prop="childWareName"
+                                width="120"
                                 show-overflow-tooltip
                         />
                         <el-table-column
@@ -341,6 +352,7 @@
                     },
                     regionalManage: [],
                 }, //区域平面图 data
+                chaxunLockese: false,
                 kuwieDatas: {
                     quyu: {
                         wareAreaLength: 5,
@@ -348,29 +360,13 @@
                     },
                     kuwie: [],
                 }, //库位平面图 data
+                quyuMsg: "",
+                quyuleixingMsg: "1",
                 isJianhuio: true, //是不是拣货区
                 quyuLook: false, //区域平面图 显示
                 kuwieLook: false, //库位平面图 显示
                 kuwieDataJson: {},
-                tableData: [
-                    // {
-                    //     childWareName: "子仓名称",
-                    //     childWareId: "子仓id",
-                    //     wareAreaType: "区域类型（1-存储区；2-拣货区）",
-                    //     wareAreaName: "区域名称",
-                    //     wareAreaLength: "区域长度",
-                    //     wareAreaWidth: "区域宽度",
-                    //     x: "区域x坐标(距西距离)",
-                    //     y: "区域y坐标(距北距离)",
-                    //     rowNum: "区域摆放的货架总排数",
-                    //     shelfNum: "区域内的总货架数",
-                    //     seatNum: 1100,
-                    //     useSeat: 100,
-                    //     noSeat: 0,
-                    //     createUser: "创建人",
-                    //     createTime: "",
-                    // },
-                ],
+                tableData: [],
                 wareAreaTypeJson: [
                     {
                         wareAreaName: "存储区",
@@ -455,6 +451,9 @@
                     id: this.quyuzicanNameOfSubWareHouse.nameOfSubwareHouseData[e]
                         .childWareId,
                 });
+                this.quyuMsg = `${this.quyuzicanNameOfSubWareHouse.nameOfSubwareHouseData[e].tails.wareName}/${this.quyuzicanNameOfSubWareHouse.nameOfSubwareHouseData[e].wareAreaType}`
+                console.log(this.quyuzicanNameOfSubWareHouse.nameOfSubwareHouseData[e].wareAreaType)
+                this.quyuleixingMsg = this.quyuzicanNameOfSubWareHouse.nameOfSubwareHouseData[e].wareAreaType == "存储区" ? "1" : "2"
                 this.regionalManage = await this._getQuYuData(json);
             },
             dinjichaxunquyutu() {
@@ -479,12 +478,26 @@
             },
             //点击查看区域平面图
             areaPlan() {
+                this.quyuDatas = {
+                    warehouseAdmin: {
+                        wareAreaWidth: 0,
+                        wareAreaLength: 0,
+                    },
+                    regionalManage: [],
+                }//区域平面图 data
                 this.quyuLook = !this.quyuLook;
             },
             //点击查看库位平面图
             warehousePlan() {
+                this.kuwieDatas = {
+                    quyu: {
+                        wareAreaLength: 5,
+                        wareAreaWidth: 4,
+                    },
+                    kuwie: [],
+                } //库位平面图 data
                 if (!this.multipleSelection.length)
-                    return this.$messageSelf.message("请选择看那个库位的平面图");
+                    return this.$messageSelf.message({message: "请选择看那个库位的平面图", type: "warning"});
                 if (this.multipleSelection.length !== 1)
                     return this.$messageSelf.message("只能选择一个库位查看库位图");
 
@@ -513,7 +526,7 @@
             //点击删除子仓
             clearWarehouseplan() {
                 let arr = this._getIDArr();
-                if (!arr.length) return this.$messageSelf.message("请选择要删除的用户");
+                if (!arr.length) return this.$messageSelf.message({message: "请选择要删除的用户", type: "warning"});
                 this.$messageSelf
                     .confirms("确定要删除该区域管理？", "提示", {
                         confirmButtonText: "确定",
@@ -537,11 +550,9 @@
                     this.$messageSelf.message({
                         type: "success",
                         message: res.msg,
-                        duration: 1000,
-                        onClose() {
-                            window.location.reload();
-                        },
+                        duration: 1000
                     });
+                    this.fasonPagIngQueryData();
                 } else {
                     this.$messageSelf.message(res.msg);
                 }
@@ -570,9 +581,9 @@
             //点击创建按钮
             createSubWarehouse() {
                 if (this.multipleSelection.length == 0)
-                    return this.$messageSelf.message("请选择在那个子仓下创建区域");
+                    return this.$messageSelf.message({message: "请选择在那个子仓下创建区域", type: "warning"});
                 if (this.multipleSelection.length > 1)
-                    return this.$messageSelf.message("每次只能在一个子仓下创建区域");
+                    return this.$messageSelf.message({message: "每次只能在一个子仓下创建区域", type: "warning"});
                 this._getChildWidth({
                     wareId: getCookie("X-Auth-wareId"),
                     id: this.multipleSelection[0].childWareId,
@@ -592,7 +603,7 @@
                     data,
                 });
                 if (this.zicandaixao.length == 0)
-                    return this.$messageSelf.message("网络较慢，请稍后重试");
+                    return this.$messageSelf.message({message: "网络较慢，请稍后重试", type: "error"});
                 console.log(this.zicandaixao, "his.zicandaixao");
                 if (datas.code === "10000") {
                     localStorage.setItem(
@@ -615,9 +626,9 @@
             //点击编辑按钮
             async editBtn() {
                 if (this.multipleSelection.length == 0)
-                    return this.$messageSelf.message("请选择在哪一个区域下编辑");
+                    return this.$messageSelf.message({message: "请选择在哪一个区域下编辑", type: "warning"});
                 if (this.multipleSelection.length > 1)
-                    return this.$messageSelf.message("每次只能编辑一个区域，请重新选择");
+                    return this.$messageSelf.message({message: "每次只能编辑一个区域，请重新选择", type: "warning"});
 
                 let datas = await this._getChildWidth({
                     wareId: getCookie("X-Auth-wareId"),
@@ -783,6 +794,12 @@
 </style>
 <style lang='scss' scoped>
     @import "../../assets/scss/btn.scss";
+
+    .quyupinmianBoxMsg {
+        min-width: 1000px;
+        max-height: 600px;
+        overflow: auto;
+    }
 
     .userSettingBox {
         background-color: #eef1f8;
