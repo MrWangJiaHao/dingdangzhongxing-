@@ -26,8 +26,8 @@ export default {
 
       var data = [1000, 5000, 1000, 7000, 3000, 6000, 500];
       var data2 = [4000, 1000, 6000, 2000, 3500, 2000, 6000];
-      // var data = [];
-      // var data2 = [];
+      // var data = [0, 0, 0, 0, 0, 0, 0];
+      // var data2 = [0, 0, 0, 0, 0, 0, 0];
 
       let option = {
         animation: true,
@@ -51,9 +51,41 @@ export default {
         },
         tooltip: {
           show: true,
+          trigger: "axis",
+          axisPointer: {
+            type: "none",
+          },
           triggerOn: "mousemove",
-          position: function (pt) {
-            return [pt[0], 130];
+          padding: 0,
+          extraCssText: "box-shadow:0px 0px 6px 1px rgba(0, 0, 0, 0.24)",
+          backgroundColor: "#fff",
+          formatter: function (param) {
+            //自定义tooltip内容
+            var text = "";
+            text +=
+              '<div style="display:flex;align-items:center;justity-content:center;border-radius: 8px;background:white;width:206px;height:132px;color:black;padding:30px">' +
+              "<div style='margin-right:30px;width:56px'>" +
+              "<div style='width:10px;height:10px;background:#599af3;border-radius:50%;margin:0 auto'>" +
+              "</div>" +
+              "<div style='font-size:14px;font-weight:bolder;text-align:center;line-height:48px'>" +
+              param[0].value +
+              "</div>" +
+              "<div style='color:#9b9b9b;font-size:14px'>" +
+              "应发货数" +
+              "</div>" +
+              "</div>" +
+              "<div>" +
+              "<div style='width:10px;height:10px;background:#f76f23;border-radius:50%;margin:0 auto'>" +
+              "</div>" +
+              "<div style='font-size:14px;font-weight:bolder;;text-align:center;line-height:48px'>" +
+              param[1].value +
+              "</div style='width:56px'>" +
+              "<div style='color:#9b9b9b;font-size:14px'>" +
+              "待发货数" +
+              "</div>" +
+              "</div>" +
+              "</div>";
+            return text;
           },
         },
         xAxis: {
@@ -114,14 +146,11 @@ export default {
           boundaryGap: false, //坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样。
 
           axisPointer: {
+            show: true,
             snap: true, //坐标轴指示器是否自动吸附到点上。默认自动判断
+            type: "none",
             label: {
-              show: true, //是否显示文本标签。如果 tooltip.axisPointer.type 设置为 'cross' 则默认显示标签，否则默认不显示。
-              formatter: function (params) {
-                //文本标签文字的格式化器。
-                return echarts.format.formatTime("yyyy-MM-dd", params.value);
-              },
-              backgroundColor: "#004E52", //文本标签的背景颜色
+              show: false, //是否显示文本标签。如果 tooltip.axisPointer.type 设置为 'cross' 则默认显示标签，否则默认不显示。
             },
             handle: {
               show: false, //当 show 设为 true 时开启，这时显示手柄，并且 axisPointer 会一直显示。
@@ -204,8 +233,8 @@ export default {
             verticalAlign: "bottom",
           },
           boundaryGap: false,
-          // min: 0,
-          // max: 7000,
+          min: 0,
+          max: 7000,
           nameGap: 24, //坐标轴名称与轴线之间的距离。
           // show:false,//是否显示Y轴
           axisLine: {
@@ -223,7 +252,6 @@ export default {
           },
           axisLabel: {
             inside: false,
-            formatter: "{value}", //刻度标签的内容格式器，支持字符串模板和回调函数两种形式。
             textStyle: {
               color: "#999",
             },
@@ -236,6 +264,7 @@ export default {
           {
             type: "inside",
             throttle: 100, //设置触发视图刷新的频率。单位为毫秒（ms）。
+            disabled: true,//禁用区域内放大缩小
           },
         ],
         series: [

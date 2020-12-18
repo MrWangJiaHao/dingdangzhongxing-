@@ -23,7 +23,7 @@
           </div>
           <div class="typeBox">
             <div class="roleName-text">子仓类型：</div>
-            <div class="roleName-checkBox" style="width: 120px">
+            <div class="roleName-checkBox" style="width: 150px">
               <el-select
                 v-model="typeValue"
                 placeholder="请选择子仓类型"
@@ -194,32 +194,21 @@ export default {
       childWarehouseName: [],
       childWarehouseType: [
         {
-          value: "全部",
-          label: "全部",
-        },
-        {
-          value: "销售",
+          value: "1",
           label: "销售",
         },
+
         {
-          value: "残次品",
-          label: "残次品",
-        },
-        {
-          value: "售后",
+          value: "2",
           label: "售后",
         },
         {
-          value: "备货",
-          label: "备货",
-        },
-        {
-          value: "验货",
-          label: "验货",
+          value: "3",
+          label: "残次品",
         },
       ],
       nameValue: "",
-      typeValue: "全部",
+      typeValue: "",
       tableData: [],
       multipleSelection: [],
       pagingQueryData: {
@@ -299,6 +288,7 @@ export default {
     },
     selectType(val) {
       this.typeValue = val;
+      this.tjQueryData.wareType = val;
     },
     clickQuery() {
       //点击查询
@@ -330,6 +320,7 @@ export default {
       this.tableData = [];
       this.queryRes = [];
       this.tjQueryData.id = "";
+      this.tjQueryData.wareType = "";
       this.requestMethods();
     },
     createChildWarehouse() {
@@ -349,10 +340,14 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return this.$messageSelf.message("请选择要删除的子仓");
+      if (!arr.length)
+        return this.$messageSelf.message({
+          message: "请选择要删除的子仓",
+          type: "warning",
+        });
       this.$messageSelf
         .confirms("确定要删除该子仓？", "提示", {
-          type: "warning",
+          type: "info",
         })
         .then(() => {
           this.delRequest({ ids: arr });
@@ -384,6 +379,7 @@ export default {
     },
     sureSuccssBtn(e) {
       this.pagingQueryData.pageNumber = e;
+      this.requestMethods();
     },
     changeData(data) {
       this.changePageData(data); //用来改变分页器的条数

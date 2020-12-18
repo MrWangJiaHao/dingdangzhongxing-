@@ -40,7 +40,45 @@ export default {
             color: "#999999", //字体颜色
           },
         },
-        tooltip: {},
+        tooltip: {
+          show: true,
+          triggerOn: "mousemove",
+          trigger:"axis",
+          axisPointer:{
+            type:"none",
+          },
+          padding: 0,
+          extraCssText: "box-shadow:0px 0px 6px 1px rgba(0, 0, 0, 0.24)",
+          backgroundColor: "#fff",
+          formatter: function (param) {
+            //自定义tooltip内容
+            var text = "";
+            text +=
+              '<div style="display:flex;align-items:center;justity-content:center;border-radius: 8px;background:white;width:206px;height:132px;color:black;padding:30px 36px">' +
+              "<div style='margin-right:48px;width:42px'>" +
+              "<div style='width:10px;height:10px;background:#599af3;border-radius:50%;margin:0 auto'>" +
+              "</div>" +
+              "<div style='font-size:14px;font-weight:bolder;text-align:center;line-height:48px'>" +
+              param[0].value+
+              "</div>" +
+              "<div style='color:#9b9b9b;font-size:14px'>" +
+              "已退数" +
+              "</div>" +
+              "</div>" +
+              "<div>" +
+              "<div style='width:10px;height:10px;background:#f76f23;border-radius:50%;margin:0 auto'>" +
+              "</div>" +
+              "<div style='font-size:14px;font-weight:bolder;;text-align:center;line-height:48px'>" +
+              param[1].value +
+              "</div style='width:42px'>" +
+              "<div style='color:#9b9b9b;font-size:14px'>" +
+              "待退数" +
+              "</div>" +
+              "</div>" +
+              "</div>";
+            return text;
+          },
+        },
         dataset: {},
         xAxis: {
           data: [

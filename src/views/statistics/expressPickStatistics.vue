@@ -331,7 +331,7 @@ export default {
 }
 .headerHtml {
   position: relative;
-  padding: 0 16px;
+  padding: 0 20px;
   transition: 0.3s;
   .headerInput {
     display: flex;

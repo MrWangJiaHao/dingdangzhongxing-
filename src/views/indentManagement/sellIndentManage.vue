@@ -124,7 +124,10 @@
           </div>
           <div class="timeChoose el-inputBox">
             <div class="stateChoose">
-              <div class="el-inputBox-checkBox" style="width: 110px;margin-right:10px">
+              <div
+                class="el-inputBox-checkBox"
+                style="width: 110px; margin-right: 10px"
+              >
                 <el-select
                   v-model="stateChooseValue"
                   @change="stateChooseValues"
@@ -677,7 +680,10 @@ export default {
         // console.log(this.queryData);
         this.pageQueryFun();
       } else {
-        return this.$messageSelf.message({message:"请输入正确的手机号",type:"warning"});
+        return this.$messageSelf.message({
+          message: "请输入正确的手机号",
+          type: "warning",
+        });
       }
     },
     clearInput() {
@@ -709,6 +715,14 @@ export default {
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
+      // value.forEach((val, index) => {
+      //   this.tableData.forEach((v, i) => {
+      //     if (val.id == v.id) {
+      //       console.log(i);
+      //       console.log(v.id);
+      //     }
+      //   });
+      // });
       // let data = {
       //   subOrderNo: "",
       // };
@@ -766,7 +780,10 @@ export default {
         if (!isMobile(telPhoneValue)) {
           phoneInput.style.borderColor = "red";
           this.testPhone = false;
-          return this.$messageSelf.message({message:"请输入正确的手机号",type:"warning"});
+          return this.$messageSelf.message({
+            message: "请输入正确的手机号",
+            type: "warning",
+          });
         }
       }
       phoneInput.style.borderColor = "#DCDFE6";

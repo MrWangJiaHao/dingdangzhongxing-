@@ -470,7 +470,7 @@ export default {
   padding: 20px 10px;
 }
 .headerHtml {
-  padding: 0 16px;
+  padding: 0 20px;
   transition: 0.3s;
   position: relative;
   .headerInput {
@@ -598,7 +598,7 @@ export default {
   .el-tabs--card > .el-tabs__header {
     border: none;
     position: absolute;
-    left: 126px;
+    left: 118px;
     top: 16px;
   }
 }
