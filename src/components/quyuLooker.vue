@@ -7,7 +7,7 @@
         width: quyuDatas.warehouseAdmin.wareAreaWidth
           ? quyuDatas.warehouseAdmin.wareAreaWidth * (10000 / 85) + 'px'
           : '1000px',
-        height: quyuDatas.warehouseAdmin.wareAreaLength * (10000 / 85) + 'px'?quyuDatas.warehouseAdmin.wareAreaLength * (10000 / 85) + 'px':'750px',
+        height: quyuDatas.warehouseAdmin.wareAreaLength * (10000 / 85) + 'px'?quyuDatas.warehouseAdmin.wareAreaLength * (10000 / 85) + 'px':'600px',
         overflow:'auto'
       }"
         >

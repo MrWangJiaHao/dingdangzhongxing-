@@ -1,7 +1,7 @@
 class isDisplayNoneBlock {
     constructor() {
         this.number = 1
-        this.text = "展示";
+        this.text = "展开";
         this.parentHeight = 0
         this.parent = null
     }

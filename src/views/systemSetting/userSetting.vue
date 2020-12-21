@@ -1,4 +1,3 @@
-/*eslint-disable*/
 <template>
     <div class="userSettingBox">
         <div class="fuzzyQueryBox mb16">
@@ -77,7 +76,7 @@
         </div>
         <!-- but按钮 -->
         <div class="tableBox">
-            <div style="background-color: #fff; padding: 16px 20px 16px 20px">
+            <div class="tableBoxCol">
                 <div class="center">
                     <el-table
                             ref="multipleTable"
@@ -204,20 +203,17 @@
                 </div>
             </transition>
         </div>
-
         <!-- 查看 end -->
     </div>
 </template>
 
 <script>
-    /*eslint-disable*/
     import dateTime from "../../components/commin/dateTime.vue"; //时间
     import pagecomponent from "../../components/commin/pageComponent"; //分页器
     import EWM from "../../components/EWM"; //分页器
 
-    import {post, logins} from "../../api/api";
+    import {post} from "../../api/api";
     import {mapState} from "vuex";
-    import {ajaxPost} from "../../utils/validate";
     import getEwmRes from "../../components/getEwmRes";
     import setUserIng from "./setUserIng"; //创建
     import editUserIng from "./editUserIng"; //编辑
@@ -295,6 +291,7 @@
                     },
                 },
                 editUserIngJson: {},
+                removeShift: []
             };
         },
         async created() {
@@ -340,16 +337,18 @@
             },
             //点击删除角色
             clearUser() {
-                let arr = this._getIDArr();
+                let arr = this.multipleSelection;
                 if (!arr.length) return this.$messageSelf.message({message: "请选择要删除的用户", type: "warning",});
-                if (arr.length !== 1)
-                    return this.$messageSelf.message({message: "一次只能删除一个用户", type: "warning"});
                 this.$messageSelf
-                    .confirms("确定要删除该用户？", "提示", {
+                    .confirms(this.$clearArr(arr), "提示", {
                         type: "warning",
                     })
                     .then(() => {
-                        this._clearAjax({id: arr[0]});
+                        let removeData = this.$getJsonTarget(arr, "id", 'id')
+
+                        removeData.forEach((item, idx) => {
+                            this._clearAjax(item, idx, removeData.length);
+                        })
                     })
                     .catch((err) => {
                         this.$messageSelf.message("已取消删除");
@@ -365,26 +364,23 @@
                 return arr;
             },
             //发送删除的ajax
-            async _clearAjax(data) {
+            async _clearAjax(data, idx, length) {
                 let datas = await post({
-                        url: "http://139.196.176.227:8801/am/v1/pUser/delRecord",
-                        data,
-                    }),
-                    self = this;
-                if (datas.code === "10000") {
-                    this.$messageSelf.message({
-                        type: "success",
-                        message: datas.msg,
-                        duration: 1000,
-                        onClose() {
-                            self.fasonPagIngQueryData();
-                        },
-                    });
-                } else {
-                    this.$messageSelf.message({
-                        type: "error",
-                        message: datas.msg ? datas.msg : "删除失败",
-                    });
+                    url: "/am/v1/pUser/delRecord",
+                    data,
+                });
+                this.removeShift.push(datas)
+                console.log(idx, length)
+                if (idx == length - 1) {
+                    this.removeShift.forEach((item, idx) => {
+                        if (item.code == "10000") {
+                            return this.$messageSelf.message({
+                                message: "该用户登录信息已删除成功"
+                            })
+                        }
+                    })
+                    this.removeShift = []
+                    this.fasonPagIngQueryData();
                 }
             },
             //点击编辑按钮
@@ -398,7 +394,7 @@
             },
             async fasonEdit(data, path) {
                 let datas = await post({
-                    url: "http://139.196.176.227:8801/am/v1/pUser/findRecord",
+                    url: "/am/v1/pUser/findRecord",
                     data,
                 });
                 if (datas.code === "10000") {
@@ -411,7 +407,7 @@
             //发送获取列表的消息
             async fasonPagIngQueryData() {
                 let datas = await post({
-                    url: "http://139.196.176.227:8801/am/v1/pUser/findWHRecordPage",
+                    url: "/am/v1/pUser/findWHRecordPage",
                     data: {...this.pagingQueryData, userType: 4},
                 });
                 if (datas.code === "10000") {

@@ -63,7 +63,7 @@
                     <div class="displayalign mb20">
                         <div class="noneIconTitle mr11">
                             区域名称
-                            <span style="color: red">*</span>:
+                            <span class="colred">*</span>:
                         </div>
                         <div class="mr20 w120">
                             <el-input
@@ -79,7 +79,7 @@
                     <div class="displayalign mb20">
                         <div class="noneIconTitle mr11">
                             区域类型
-                            <span style="color: red">*</span>:
+                            <span class="colred">*</span>:
                         </div>
                         <div class="mr20 w120">
                             <el-select
@@ -101,7 +101,7 @@
                     <div class="displayalign mb20">
                         <div class="noneIconTitle mr11">
                             区域编号
-                            <span style="color: red">*</span>:
+                            <span class="colred">*</span>:
                         </div>
                         <div class="mr20 w120">
                             <el-select
@@ -169,7 +169,7 @@
                     <div class="displayalign mb20 mr11">
                         <div class="noneIconTitle mr11">
                             区域宽度
-                            <span style="color: red">*</span>:
+                            <span class="colred">*</span>:
                         </div>
                         <div class="displayalign w120">
                             <el-input
@@ -186,7 +186,7 @@
                     <div class="displayalign mb20 mr11">
                         <div class="noneIconTitle mr11">
                             据北距离
-                            <span style="color: red">*</span>:
+                            <span class="colred">*</span>:
                         </div>
                         <div class="displayalign w120">
                             <el-input
@@ -203,7 +203,7 @@
                     <div class="displayalign mb20 mr11">
                         <div class="noneIconTitle mr11">
                             据西距离
-                            <span style="color: red">*</span>:
+                            <span class="colred">*</span>:
                         </div>
                         <div class="displayalign w120">
                             <el-input

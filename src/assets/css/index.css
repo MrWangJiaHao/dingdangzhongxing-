@@ -542,7 +542,6 @@ textarea {
     width: 100%;
     top: 0;
     height: 100%;
-    background: rgb(238, 241, 248);
     z-index: 111;
 }
 
@@ -772,6 +771,19 @@ textarea {
 
 .visibilityHidden {
     visibility: hidden
+}
+
+.tableBoxCol {
+    background-color: #fff;
+    padding: 16px 20px 16px 20px;
+}
+
+.ptl3020 {
+    padding: 30px 20px;
+}
+
+.backFF {
+    background-color: #fff;
 }
 
 .parentBox .centersBox .input {

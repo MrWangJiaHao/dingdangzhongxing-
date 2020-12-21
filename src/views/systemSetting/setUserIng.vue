@@ -1,189 +1,184 @@
 <template>
-    <div class="setUserIngBox">
-        <div class="setUserIngBoxCenter">
-            <div class="headerBox">
-                <div class="closeTitle">创建用户</div>
-                <div class="closeIcon" @click="closeBtn"></div>
-            </div>
-
-            <div class="centerBox">
-                <div class="setTitle">个人信息</div>
-                <div class="gerxinxiBox">
-                    <div class="xinxiBitian">
-                        <div>
-                            <div class="displayalign">
-                                <div class="noneIconTitle mr11">
-                                    用户姓名
-                                    <span style="color: red">*</span>:
-                                </div>
-                                <div class="mr20">
-                                    <searchBox
-                                            :searchCenter="searchName"
-                                            @getSearchCenterShuJu="getUserName"
-                                    ></searchBox>
+    <div>
+        <kuanjiaClick titles="创建用户" @closeBtn="closeBtn" @clickSubmit="goAJAXCreate">
+            <template slot="centerKuanjia">
+                <div class="centerBox">
+                    <div class="setTitle">个人信息</div>
+                    <div class="gerxinxiBox">
+                        <div class="xinxiBitian">
+                            <div>
+                                <div class="displayalign">
+                                    <div class="noneIconTitle mr11">
+                                        用户姓名
+                                        <span class="colred">*</span>:
+                                    </div>
+                                    <div class="mr20">
+                                        <searchBox
+                                                :searchCenter="searchName"
+                                                @getSearchCenterShuJu="getUserName"
+                                        ></searchBox>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- 用户姓名 -->
-                        <div>
-                            <div class="displayalign">
-                                <div class="noneIconTitle mr11">
-                                    联系电话
-                                    <span style="color: red">*</span>:
-                                </div>
-                                <div class="mr20">
-                                    <el-input
-                                            placeholder="请输入联系电话"
-                                            v-model="createUserData.userPhone"
-                                            clearable
-                                            @blur="getMobile"
-                                            @input="isMobilePanduan"
-                                    ></el-input>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 联系电话 -->
-                    </div>
-                    <div class="cityBoxCenter">
-                        <div class="mr20">
-                            <div class="displayalign">
-                                <div class="noneIconTitle mr11">
-                                    居住地址
-                                    <span style="visibility: hidden">*</span>:
-                                </div>
-                                <div>
-                                    <dropDowbox
-                                            :dropDowBox="dropDowProvince"
-                                            @getDropDownData="getProvinceCode"
-                                            @cliclInput="setProvinceCode"
-                                    ></dropDowbox>
+                            <!-- 用户姓名 -->
+                            <div>
+                                <div class="displayalign">
+                                    <div class="noneIconTitle mr11">
+                                        联系电话
+                                        <span class="colred">*</span>:
+                                    </div>
+                                    <div class="mr20">
+                                        <el-input
+                                                placeholder="请输入联系电话"
+                                                v-model="createUserData.userPhone"
+                                                clearable
+                                                @blur="getMobile"
+                                                @input="isMobilePanduan"
+                                        ></el-input>
+                                    </div>
                                 </div>
                             </div>
+                            <!-- 联系电话 -->
                         </div>
-                        <!-- 省 -->
-                        <div class="mr20">
-                            <dropDowbox
-                                    :dropDowBox="dropDowCity"
-                                    @getDropDownData="getCityCode"
-                                    @cliclInput="setCityCode"
-                            ></dropDowbox>
+                        <div class="cityBoxCenter">
+                            <div class="mr20">
+                                <div class="displayalign">
+                                    <div class="noneIconTitle mr11">
+                                        居住住址
+                                        <span class="visibilityHidden">*</span>:
+                                    </div>
+                                    <div>
+                                        <dropDowbox
+                                                :dropDowBox="dropDowProvince"
+                                                @getDropDownData="getProvinceCode"
+                                                @cliclInput="setProvinceCode"
+                                        ></dropDowbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 省 -->
+                            <div class="mr20">
+                                <dropDowbox
+                                        :dropDowBox="dropDowCity"
+                                        @getDropDownData="getCityCode"
+                                        @cliclInput="setCityCode"
+                                ></dropDowbox>
+                            </div>
+                            <!-- 市 -->
+                            <div>
+                                <dropDowbox
+                                        :dropDowBox="dropDowDistrictCount"
+                                        @getDropDownData="getAreaCode"
+                                        @cliclInput="setAreaCode"
+                                ></dropDowbox>
+                            </div>
+                            <!-- 区/县 -->
                         </div>
-                        <!-- 市 -->
-                        <div>
-                            <dropDowbox
-                                    :dropDowBox="dropDowDistrictCount"
-                                    @getDropDownData="getAreaCode"
-                                    @cliclInput="setAreaCode"
-                            ></dropDowbox>
-                        </div>
-                        <!-- 区/县 -->
-                    </div>
-                    <div class="textAreaBox">
+                        <div class="textAreaBox">
             <textarea
                     placeholder="请输入详细地址"
                     v-model="createUserData.userAddr"
                     maxlength="200"
             ></textarea>
+                        </div>
+                        <!-- 居住地址 -->
                     </div>
-                    <!-- 居住地址 -->
                 </div>
-            </div>
-            <!-- 个人信息 -->
-            <div class="mb20 centerBox">
-                <div class="setTitle">账号信息</div>
-                <div class="displayalign mb20">
-                    <div class="displayalign">
-                        <div class="noneIconTitle mr11">
-                            用户账号
-                            <span style="color: red">*</span>:
-                        </div>
-                        <div class="mr20">
-                            <searchBox
-                                    :searchCenter="searchzhanhao"
-                                    @getSearchCenterShuJu="getLoginName"
-                            ></searchBox>
-                        </div>
-                    </div>
-                    <!-- 用户账号 -->
-                    <div class="displayalign">
-                        <div class="noneIconTitle mr11">
-                            <span style="visibility: hidden">你好</span>密码
-                            <span style="color: red">*</span>:
-                        </div>
-                        <div>
-                            <el-input
-                                    placeholder="请输入密码"
-                                    v-model="createUserData.loginPwd"
-                                    clearable
-                                    type="password"
-                            ></el-input>
-                        </div>
-                    </div>
-                    <!-- 密码 -->
-                </div>
-                <!-- 必须 -->
-                <div class="displayalign mb20">
-                    <div class="displayalign">
+                <!-- 个人信息 -->
+                <div class="mb20 centerBox">
+                    <div class="setTitle">账号信息</div>
+                    <div class="displayalign mb20">
                         <div class="displayalign">
                             <div class="noneIconTitle mr11">
-                                用户角色
-                                <span style="color: red">*</span>:
+                                用户账号
+                                <span class="colred">*</span>:
                             </div>
                             <div class="mr20">
-                                <dropDownUserType
-                                        :dropDowBox="dropDowUserType"
-                                        @getDropDownData="getUserType"
-                                ></dropDownUserType>
+                                <searchBox
+                                        :searchCenter="searchzhanhao"
+                                        @getSearchCenterShuJu="getLoginName"
+                                        maxlength="30"
+                                ></searchBox>
                             </div>
                         </div>
-                    </div>
-                    <!-- 用户角色 -->
-                    <div>
+                        <!-- 用户账号 -->
                         <div class="displayalign">
                             <div class="noneIconTitle mr11">
-                                用户邮箱
-                                <span style="color: red">*</span>:
+                                <span class="visibilityHidden">你好</span>密码
+                                <span class="colred">*</span>:
                             </div>
                             <div>
                                 <el-input
-                                        placeholder="请输入邮箱"
-                                        v-model="createUserData.userEmail"
+                                        placeholder="请输入密码"
+                                        maxlength="30"
+                                        v-model="createUserData.loginPwd"
                                         clearable
-                                        @blur="isEmails"
-                                        type="email"
+                                        type="password"
                                 ></el-input>
                             </div>
                         </div>
+                        <!-- 密码 -->
                     </div>
-                    <!-- 邮箱地址 -->
-                </div>
-                <!-- 账号信息 -->
-                <div>
-                    <div class="dispalyFlex mb20">
-                        <div class="noneIconTitle mr11 fosi0">
-                            <span class="fosi14" style="visibility: hidden">你好</span>
-                            <span class="fosi14">备注</span>
-                            <span class="fosi14" style="visibility: hidden">好</span>
-                            <span class="fosi14">:</span>
+                    <!-- 必须 -->
+                    <div class="displayalign mb20">
+                        <div class="displayalign">
+                            <div class="displayalign">
+                                <div class="noneIconTitle mr11">
+                                    用户角色
+                                    <span class="colred">*</span>:
+                                </div>
+                                <div class="mr20">
+                                    <dropDownUserType
+                                            :dropDowBox="dropDowUserType"
+                                            @getDropDownData="getUserType"
+                                    ></dropDownUserType>
+                                </div>
+                            </div>
                         </div>
-                        <div class="bzTetxArea">
+                        <!-- 用户角色 -->
+                        <div>
+                            <div class="displayalign">
+                                <div class="noneIconTitle mr11">
+                                    用户邮箱
+                                    <span class="colred">*</span>:
+                                </div>
+                                <div>
+                                    <el-input
+                                            placeholder="请输入邮箱"
+                                            v-model="createUserData.userEmail"
+                                            clearable
+                                            maxlength="30"
+                                            @blur="isEmails"
+                                            type="email"
+                                    ></el-input>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 邮箱地址 -->
+                    </div>
+                    <!-- 账号信息 -->
+                    <div>
+                        <div class="dispalyFlex mb20">
+                            <div class="noneIconTitle dispalyFlex mr11 fosi0">
+                                <span class="fosi14 visibilityHidden">你好</span>
+                                <span class="fosi14">备注</span>
+                                <span class="fosi14 visibilityHidden">*</span>
+                                <span class="fosi14">:</span>
+                            </div>
+                            <div class="bzTetxArea">
               <textarea
                       placeholder="请输入备注"
                       v-model="createUserData.remark"
                       maxlength="200"
               ></textarea>
+                            </div>
                         </div>
                     </div>
+                    <!-- 备注 -->
                 </div>
-                <!-- 备注 -->
-            </div>
-            <!-- 账号信息 -->
-            <div class="disRight mr20 mb20">
-                <div class="quxiaoBox mr20" @click="closeBtn">取消</div>
-                <div class="tijiaoBox" @click="goAJAXCreate">提交</div>
-            </div>
-            <!-- btn -->
-        </div>
+                <!-- 账号信息 -->
+            </template>
+        </kuanjiaClick>
     </div>
 </template>
 <style>
@@ -193,6 +188,9 @@
     }
 </style>
 <script>
+    import kuanjiaClick from "../../components/commin/kuanjiaClick";
+
+
     import searchBox from "../../components/commin/searchBox"; //搜索框
     import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
     import dropDownUserType from "../../components/commin/dropDownUserType"; //用户管理下拉框
@@ -207,6 +205,7 @@
             dropDowbox,
             searchBox,
             dropDownUserType,
+            kuanjiaClick,
         },
         data() {
             return {
@@ -279,6 +278,8 @@
             };
         },
         async created() {
+            this.$store.dispatch("getusertype");
+
             let probinceData = this.fasonCodeAjax();
             probinceData.then((data) => {
                 this.dropDowProvince.dropDownBoxData = data;
@@ -376,7 +377,7 @@
                     });
 
                 let results = await post({
-                    url: "http://139.196.176.227:8801/am/v1/pUser/saveRecord",
+                    url: "/am/v1/pUser/saveRecord",
                     data: this.createUserData,
                 });
                 if (results.code === "10000") {
@@ -444,7 +445,7 @@
             //发送省市 ajax
             async fasonCodeAjax() {
                 let provinceDatas = await post({
-                    url: "http://139.196.176.227:8801/am/v1/pArea/findRecord",
+                    url: "/am/v1/pArea/findRecord",
                     data: this.getProvinceData,
                 });
                 return provinceDatas.result;
@@ -473,42 +474,10 @@
     @import "../../assets/scss/btn.scss";
 
     .setUserIngBox {
-        .headerBox {
-            height: 50px;
-            border-radius: 3px;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgb(236, 241, 247);
-            border-bottom: 1px solid #d1d6e2;
-        }
-
         .setUserIngBoxCenter {
-            position: absolute;
-            left: 50%;
-            top: 144px;
-            transform: translateX(-50%);
-            background: #fff;
-            max-width: 1000px;
-            overflow: auto;
-            max-height: 750px;
-
-            .centerBox {
-                padding: 30px 20px;
-            }
-
-            .setTitle {
-                margin-bottom: 18px;
-            }
-
             .gerxinxiBox {
                 display: flex;
                 flex-direction: column;
-
-                > div {
-                    margin-bottom: 18px;
-                }
 
                 .xinxiBitian {
                     display: flex;
@@ -518,11 +487,6 @@
                         margin-right: 20px;
                     }
                 }
-            }
-
-            .cityBoxCenter {
-                display: flex;
-                align-items: center;
             }
         }
 
@@ -545,7 +509,7 @@
 
         .bzTetxArea {
             font-size: 14px;
-            width: 72%;
+            width: 81%;
             height: 80px;
 
             > textarea {

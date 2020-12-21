@@ -349,7 +349,7 @@
                     outWareStatusArr: [],
                 },
                 putstatusJson: {
-                    placeholder: "请选择用户状态",
+                    placeholder: "请选择入库状态",
                     putstatus: "",
                     putstatusArr: [
                         {
@@ -466,7 +466,7 @@
                     placeholder: "请选择入库开始时间",
                 },
                 putEndTimeData: {
-                    placeholder: "请选择入库时间结束时间 ",
+                    placeholder: "请选择入库结束时间 ",
                 },
                 paras: {
                     orgName: "", //委托公司

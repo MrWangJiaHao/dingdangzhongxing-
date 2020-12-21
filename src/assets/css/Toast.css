@@ -129,20 +129,26 @@
 .el-message-box__message {
     padding-bottom: 40px;
 }
-.el-message-box__message p{
+
+.el-message-box__message p {
     /* line-height: 60px;font-size: 16px; */
 }
-.el-message-box__input{
+
+.el-message-box__input {
     margin-bottom: 90px;
     width: 100%;
     padding: 0;
 }
-.el-message-box__errormsg{
+
+.el-message-box__errormsg {
     text-align: center;
 }
-.el-message-box__input .el-input{
-    width: 200px;margin-left: 130px;
+
+.el-message-box__input .el-input {
+    width: 200px;
+    margin-left: 130px;
 }
+
 .el-message-box__status.el-icon-warning::before {
     content: " ";
 }
@@ -160,7 +166,7 @@
 }
 
 
-.el-message-box__status+.el-message-box__message {
+.el-message-box__status + .el-message-box__message {
     padding-left: 0;
     padding-right: 0;
 }
@@ -210,4 +216,8 @@
     background-size: cover;
     width: 10px;
     height: 10px;
+}
+
+.ivu-btn-small {
+    margin-left: 5px;
 }
