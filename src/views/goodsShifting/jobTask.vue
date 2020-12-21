@@ -122,6 +122,7 @@
               <el-table-column
                 label="补货人"
                 prop="replenishUserName"
+                width="100"
                 show-overflow-tooltip
               >
                 <span slot-scope="scoped">

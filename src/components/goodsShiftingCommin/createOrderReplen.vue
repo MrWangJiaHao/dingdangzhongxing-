@@ -25,7 +25,7 @@
           </chanpinmingxi>
         </div>
         <!-- 产品明细 -->
-        <div class="pd20 mb16">
+        <div class=" centerBox botD1 mb16 ">
           <remarksInput
             @changeInputs="changeInputs"
             :searchCenter="searchCenter"

@@ -605,11 +605,18 @@ textarea {
     padding-bottom: 10px;
 
 }
-
+.wn130{
+    width: 130px;
+}
 .botD1 {
     border-bottom: 1px solid #D1D6E2;
 }
-
+.w125{
+    width: 125px;
+}
+.w150{
+    width: 150px;
+}
 /* 横线 */
 .transverseLine {
     width: 1px;
@@ -805,4 +812,7 @@ textarea {
 
 .inputInTable .tableBox .el-icon-arrow-up:before {
     margin-bottom: 6px;
+}
+input.el-input__inner{
+    color: #9b9b9b;
 }
