@@ -49,16 +49,24 @@
         </div>
       </div>
     </div>
+    <!-- <transition>
+      <Loading v-if="isLoading"></Loading>
+    </transition> -->
   </div>
 </template>
 
 <script>
 import { login, getFindWareOrg } from "@/api/api.js";
-import { reduceFun } from "../../utils/validate";
+// import Loading from "@/components/loading/loading";
+import { reduceFun } from '../../utils/validate';
+
 export default {
+  // components: {
+  //   Loading,
+  // },
   data() {
     return {
-      isLoading: false,
+      // isLoading: false,
       dataForm: {
         userName: "",
         password: "",
