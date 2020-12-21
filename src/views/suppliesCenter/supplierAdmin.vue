@@ -106,7 +106,11 @@
     </div>
 
     <!-- 弹框 -->
-    <el-dialog title="供应商信息" :visible.sync="dialogFormVisible">
+    <el-dialog
+      title="供应商信息"
+      :visible.sync="dialogFormVisible"
+      custom-class="animate__animated animate__zoomIn"
+    >
       <div class="dialogBox">
         <div class="boxTitle"><span>基础信息</span></div>
         <div class="boxContent">
@@ -170,10 +174,9 @@
           </div>
         </div>
       </div>
-
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="okBtn">确 定</el-button>
+        <div @click="dialogFormVisible = false" class="quxiaoBox">取 消</div>
+        <div @click="okBtn" class="sureBtn">确 定</div>
       </div>
     </el-dialog>
   </div>
@@ -284,7 +287,7 @@ export default {
       if (!this.isPhone)
         return this.$messageSelf.message({
           message: "请输入正确的手机号",
-          type: "error",
+          type: "warning",
         });
       this.dialogFormVisible = false;
 
@@ -388,7 +391,9 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return this.$messageSelf.message({message:"请选择要删除的供应商",
+      if (!arr.length)
+        return this.$messageSelf.message({
+          message: "请选择要删除的供应商",
           type: "warning",
         });
       this.$messageSelf
@@ -565,6 +570,8 @@ export default {
 </style>
 
 <style lang="scss">
+@import "../../assets/scss/btn.scss";
+
 #supplierAdmin {
   .el-dialog__wrapper {
     // background: #eef1f8;
@@ -732,7 +739,19 @@ export default {
       width: 100%;
       height: 76px;
       padding: 0 20px;
-      margin: 19px 0 0 0;
+      .dialog-footer {
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        .quxiaoBox {
+          @include BtnFunction();
+        }
+        .sureBtn {
+          @include BtnFunction("success");
+          margin-left: 10px;
+        }
+      }
     }
   }
 }

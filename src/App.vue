@@ -17,7 +17,6 @@ export default {
     };
   },
   created() {
-
     if (localStorage.getItem("data")) {
       //replaceState替换数据 Object.assign合并对象
       this.$store.replaceState(
@@ -275,3 +274,4 @@ input:-moz-placeholder {
   color: #9b9b9b !important;
 }
 </style>
+
