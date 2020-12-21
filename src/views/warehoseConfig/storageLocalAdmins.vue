@@ -218,9 +218,9 @@
             @sureSuccssBtn="sureSuccssBtn"
           ></pagecomponent>
         </div>
-        <transition>
+        <!-- <transition>
           <Loading v-if="isLoading"></Loading>
-        </transition>
+        </transition> -->
       </div>
     </div>
     <div
@@ -254,7 +254,7 @@
 </template>
 
 <script>
-import Loading from "@/components/loading/loading";
+// import Loading from "@/components/loading/loading";
 import {
   querySLInfor,
   query_WH_Request,
@@ -266,11 +266,11 @@ import pagecomponent from "../../components/commin/pageComponent";
 export default {
   components: {
     pagecomponent,
-    Loading,
+    // Loading,
   },
   data() {
     return {
-      isLoading: true,
+      // isLoading: true,
       showTizoxinma: false,
       tiaoxinmaSrc:
         "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=",
