@@ -16,28 +16,28 @@
           prop="pickOrderCount"
           label="拣货数量(单)"
           align="center"
-          min-width="110"
+          min-width="130"
           sortable
         ></el-table-column>
         <el-table-column
           prop="pickError"
           label="拣货错误"
           align="center"
-          min-width="100"
+          min-width="120"
           sortable
         ></el-table-column>
         <el-table-column
           prop="pickTimeCount"
           label="耗时(min)"
           align="center"
-          min-width="100"
+          min-width="130"
           sortable
         ></el-table-column>
         <el-table-column
           prop="efficiency"
           label="效率(min/单)"
           align="center"
-          min-width="110"
+          min-width="130"
           sortable
         ></el-table-column>
         <el-table-column

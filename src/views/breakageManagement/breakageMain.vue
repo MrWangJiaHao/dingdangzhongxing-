@@ -729,7 +729,6 @@ export default {
 @import "../../assets/scss/btn.scss";
 .pointBox {
   position: fixed;
-
   left: 0;
   top: 0;
   right: 0;
@@ -749,7 +748,6 @@ export default {
 // }
 
 #mianPage {
-  background: #eef1f8;
   padding: 20px 10px;
 }
 .headerHtml {

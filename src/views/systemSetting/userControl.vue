@@ -49,7 +49,8 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55"> </el-table-column>
+            <el-table-column type="selection" width="55" align="center">
+            </el-table-column>
             <el-table-column
               label="序号"
               width="180"
@@ -84,7 +85,12 @@
 
     <!-- 创建角色的弹窗 -->
     <div class="createRole">
-      <el-dialog :title="title" :visible.sync="centerDialogVisible" width="30%">
+      <el-dialog
+        :title="title"
+        :visible.sync="centerDialogVisible"
+        custom-class="animate__animated animate__zoomIn"
+        width="30%"
+      >
         <div class="createRolePage">
           <div class="roleName-input">
             <span>角色名称：</span>
@@ -100,15 +106,21 @@
           </div>
         </div>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="centerDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="pupopBox">确 定</el-button>
+          <div @click="centerDialogVisible = false" class="quxiaoBox">
+            取 消
+          </div>
+          <div @click="okBtn" class="sureBtn">确 定</div>
         </span>
       </el-dialog>
     </div>
 
     <!-- 设置权限弹窗 -->
     <div class="setqxDiv">
-      <el-dialog title="设置权限" :visible.sync="centerDialogVisibleC">
+      <el-dialog
+        title="设置权限"
+        :visible.sync="centerDialogVisibleC"
+        custom-class="animate__animated animate__zoomIn"
+      >
         <div class="AuthorityPage">
           <div class="mainBox">
             <div class="authName">
@@ -144,13 +156,15 @@
                   >
                 </el-checkbox-group>
               </div>
+              <div class="dialog-footer">
+                <div @click="centerDialogVisibleC = false" class="quxiaoBox">
+                  取 消
+                </div>
+                <div @click="pupopBoxC" class="sureBtn">确 定</div>
+              </div>
             </div>
           </div>
         </div>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="centerDialogVisibleC = false">取 消</el-button>
-          <el-button type="primary" @click="pupopBoxC">确 定</el-button>
-        </span>
       </el-dialog>
     </div>
   </div>
@@ -370,8 +384,9 @@ export default {
     //点击删除角色
     clearUser() {
       let arr = this._getIDArr();
-      if (!arr.length) return this.$messageSelf.message({
-          message:"请选择要删除的用户",
+      if (!arr.length)
+        return this.$messageSelf.message({
+          message: "请选择要删除的用户",
           type: "warning",
         });
       this.$messageSelf
@@ -382,10 +397,6 @@ export default {
         })
         .then(() => {
           this._clearAjax({ id: arr[0] });
-        })
-        .catch((err) => {
-          this.$messageSelf.message("已取消删除");
-          console.log(err);
         });
     },
     _getIDArr() {
@@ -414,10 +425,10 @@ export default {
       });
     },
     //创建角色
-    async pupopBox() {
+    async okBtn() {
       if (this.inputContent === "") {
         return this.$messageSelf.message({
-          type: "error",
+          type: "warning",
           message: "角色名称不能为空",
         });
       }
@@ -440,7 +451,7 @@ export default {
         data: pupopBoxInfor,
       });
       if (createRoleData.code === "10000") {
-        this.$messageSelf.message("创建成功");
+        this.$messageSelf.message({ message: "创建成功", type: "success" });
       } else {
         this.$messageSelf.message(createRoleData.msg);
       }
@@ -544,17 +555,35 @@ export default {
 }
 </style>
 <style lang="scss">
+@import "../../assets/scss/btn.scss";
+
 #roleAdminPage {
   .createRole {
     .el-dialog__wrapper {
       .el-dialog__header {
         background: #eef1f8;
+        border-bottom: 1px solid #e1e6eb;
       }
       .el-dialog__footer {
-        background: #eef1f8;
+        border-top: 1px solid #e1e6eb;
+        width: 100%;
+        height: 76px;
+        padding: 0 20px;
+        .dialog-footer {
+          height: 100%;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          .quxiaoBox {
+            @include BtnFunction();
+          }
+          .sureBtn {
+            @include BtnFunction("success");
+            margin-left: 10px;
+          }
+        }
       }
       .el-dialog__body {
-        background: #eef1f8;
         .roleName-input span {
           font-size: 16px;
         }
@@ -597,18 +626,15 @@ export default {
   }
   .setqxDiv {
     .el-dialog__wrapper {
-      background: #eef1f8;
       .el-dialog {
         width: 870px;
-        height: 560px;
-        box-shadow: 0px 0px 10px 5px #e4e6e9;
-        border-radius: 5px;
+        height: 457px;
         .el-dialog__header {
           padding: 0 20px;
           font-weight: 600;
-          height: 50px;
+          height: 41px;
           width: 100%;
-          line-height: 50px;
+          line-height: 41px;
           background: #ecf1f7;
           border-bottom: 1px #e1e6eb solid;
           .el-dialog__headerbtn {
@@ -619,29 +645,39 @@ export default {
           padding: 0;
           .mainBox {
             display: flex;
-            height: 520px;
-            height: 440px;
             .authName {
+              height: 416px;
               width: 300px;
               overflow-y: auto;
+              background: #eef1f8;
+              // padding: 26px 0 0 30px;
+              .el-tree {
+                background: none;
+              }
             }
             .authChoose {
-              background: #eef1f8;
+              position: relative;
               width: 670px;
-              height: 440px;
-              border-bottom: 1px #e1e6eb solid;
+              height: 416px;
               border-left: 1px #e1e6eb solid;
             }
           }
-        }
-        .el-dialog__footer {
-          .el-button {
-            margin-top: 19px;
+          .dialog-footer {
+            height: 50px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            position: absolute;
+            bottom: 16px;
+            right: 20px;
+            .quxiaoBox {
+              @include BtnFunction();
+            }
+            .sureBtn {
+              @include BtnFunction("success");
+              margin-left: 10px;
+            }
           }
-          width: 100%;
-          height: 76px;
-          padding: 0 20px;
-          background: #eef1f8;
         }
       }
     }

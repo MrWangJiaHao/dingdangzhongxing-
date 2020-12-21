@@ -145,7 +145,8 @@
           tooltip-effect="dark"
           @cell-click="lookDetail"
         >
-          <el-table-column type="selection" width="55" align="center"> </el-table-column>
+          <el-table-column type="selection" width="55" align="center">
+          </el-table-column>
           <el-table-column label="序号" align="center" type="index" width="55">
           </el-table-column>
           <el-table-column prop="childWareName" label="子仓名称" align="center">
@@ -370,6 +371,7 @@ export default {
       let queryData = this.pagingQueryData;
       querySLInfor(queryData).then((ok) => {
         // console.log(ok);
+      this.tableData = [];
         this.tableData = ok.data.result.list;
         this.changeData(ok.data.result);
         if (this.tableData.length > 0) {
@@ -414,7 +416,6 @@ export default {
   methods: {
     clickQuery() {
       //点击查询
-      this.tableData = [];
       let SLInforData = this.SLInforData;
       querySLInforCon(SLInforData).then((ok) => {
         if (ok.data.code === "10000") {
@@ -445,13 +446,18 @@ export default {
       this.SLInforData.wareShelfId = "";
       this.SLInforData.shelfLevelNum = "";
       this.SLInforData.id = "";
-      this.tableData = [];
+      this.areaNameData = [];
+      this.shelfNameData = [];
+      this.storageLocalChooseData = [];
       this.updateData();
     },
     printSLCode() {
       //打印条形码图片
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要打印条形码的库位");
+        return this.$messageSelf.message({
+          message: "请选择要打印条形码的库位",
+          type: "warning",
+        });
       // storageLocalChoose
       let codeArr = [];
       this.multipleSelection.forEach((item) => {
@@ -611,9 +617,7 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/scss/btn.scss";
 #storageLocalAdmin {
-  background: #eef1f8;
   padding: 20px 10px;
-  height: 100%;
 }
 .publicStyle {
   margin: 0 20px 16px 0;
@@ -673,9 +677,9 @@ export default {
       @extend .publicStyle;
     }
     .roleName-botton {
-      height: 36px;
       display: flex;
-      align-items: center;
+      align-items: flex-end;
+      margin-bottom: 16px;
       .queryBtn {
         @include BtnFunction("success");
       }

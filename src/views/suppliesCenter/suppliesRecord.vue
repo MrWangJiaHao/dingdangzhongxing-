@@ -222,7 +222,11 @@
     </div>
 
     <!-- 弹框 -->
-    <el-dialog :title="title" :visible.sync="dialogFormVisible">
+    <el-dialog
+      :title="title"
+      :visible.sync="dialogFormVisible"
+      custom-class="animate__animated animate__zoomIn"
+    >
       <div class="dialogBox">
         <div class="boxTitle">
           <span>物料记录信息</span>
@@ -313,8 +317,8 @@
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="okBtn">确 定</el-button>
+        <div @click="dialogFormVisible = false" class="quxiaoBox">取 消</div>
+        <div @click="okBtn" class="sureBtn">确 定</div>
       </div>
     </el-dialog>
   </div>
@@ -1068,6 +1072,8 @@ export default {
 </style>
 
 <style lang="scss">
+@import "../../assets/scss/btn.scss";
+
 #mateAdmin {
   .titleBox {
     font-size: 14px;
@@ -1129,7 +1135,7 @@ export default {
                 width: 104px;
                 background: #ecf1f7;
                 border-right: 1px solid #d1d6e2;
-                line-height: 36px;
+                line-height: 34px;
                 color: #000;
                 text-align: center;
               }
@@ -1151,7 +1157,7 @@ export default {
             color: red;
             position: absolute;
             left: 15px;
-            top: 3px;
+            top: 0px;
           }
 
           .addStar1 {
@@ -1162,7 +1168,7 @@ export default {
             color: red;
             position: absolute;
             left: 30px;
-            top: 3px;
+            top: 0px;
           }
 
           .addStar2 {
@@ -1173,7 +1179,7 @@ export default {
             color: red;
             position: absolute;
             left: 10px;
-            top: 3px;
+            top: 0px;
           }
         }
       }
@@ -1182,7 +1188,19 @@ export default {
       width: 100%;
       height: 76px;
       padding: 0 20px;
-      margin: 19px 0 0 0;
+      .dialog-footer {
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        .quxiaoBox {
+          @include BtnFunction();
+        }
+        .sureBtn {
+          @include BtnFunction("success");
+          margin-left: 10px;
+        }
+      }
     }
   }
 }

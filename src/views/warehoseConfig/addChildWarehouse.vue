@@ -23,91 +23,107 @@
         <div class="newChildWarehouseText">新建子仓</div>
       </div>
       <div class="someInput">
-        <div class="input1 addStar">
+        <div class="setInput addStar">
           <span>子仓名称：</span>
           <el-input v-model="input1" placeholder="请输入子仓名称"></el-input>
         </div>
-        <div class="input2 addStar">
+        <div class="setInput addStar">
           <span>子仓编号：</span>
-          <el-select v-model="value1" filterable placeholder="请选择子仓编号">
-            <el-option
-              v-for="item in childWarehouseSerial"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
+          <div style="width: 80px">
+            <el-select v-model="value1" filterable>
+              <el-option
+                v-for="item in childWarehouseSerial"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
         </div>
-        <div class="input8 addStar">
+        <div class="setInput addStar setTransition">
           <el-checkbox v-model="checked" @change="clickNumber"
             >数字：</el-checkbox
           >
-          <el-select v-model="value3" filterable>
-            <el-option
-              v-for="item in childWarehouseNumber"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
+          <div style="width: 70px">
+            <el-select v-model="value3" filterable>
+              <el-option
+                v-for="item in childWarehouseNumber"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
         </div>
-        <div class="input3 addStar">
+        <div class="setInput addStar">
           <span>子仓长：</span>
-          <el-input
-            v-model="input2"
-            placeholder="请输入长度"
-            type="number"
-            @blur="childWarehouseViewEvent"
-          ></el-input>
+          <div style="width: 110px">
+            <el-input
+              v-model="input2"
+              placeholder="请输入长度"
+              type="number"
+              @blur="childWarehouseViewEvent"
+            ></el-input>
+          </div>
           <span>m</span>
         </div>
-        <div class="input4 addStar">
+        <div class="setInput addStar">
           <span>子仓宽：</span>
-          <el-input
-            v-model="input3"
-            placeholder="请输入宽度"
-            type="number"
-            @blur="childWarehouseViewEvent"
-          ></el-input>
+          <div style="width: 110px">
+            <el-input
+              v-model="input3"
+              placeholder="请输入宽度"
+              type="number"
+              @blur="childWarehouseViewEvent"
+            ></el-input>
+          </div>
           <span>m</span>
         </div>
-        <div class="input5 addStar">
+        <div class="setInput addStar">
           <span>子仓类型：</span>
-          <el-select
-            v-model="value2"
-            filterable
-            placeholder="请选择子仓类型"
-            @change="value2Event"
-          >
-            <el-option
-              v-for="item in childWarehouseType"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+          <div style="width: 150px">
+            <el-select
+              v-model="value2"
+              filterable
+              placeholder="请选择子仓类型"
+              @change="value2Event"
             >
-            </el-option>
-          </el-select>
+              <el-option
+                v-for="item in childWarehouseType"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
         </div>
-        <div class="input6 addStar">
+        <div class="setInput addStar">
           <span>距北距离：</span>
-          <el-input
-            v-model="input4"
-            placeholder="请输入长度"
-            type="number"
-            @blur="childWarehouseViewEvent"
-          ></el-input>
+          <div style="width: 110px">
+            <el-input
+              v-model="input4"
+              placeholder="请输入长度"
+              type="number"
+              @blur="childWarehouseViewEvent"
+            ></el-input>
+          </div>
+
           <span>m</span>
         </div>
-        <div class="input7 addStar">
+        <div class="setInput addStar">
           <span>距西距离：</span>
-          <el-input
-            v-model="input5"
-            placeholder="请输入长度"
-            type="number"
-            @blur="childWarehouseViewEvent"
-          ></el-input>
+          <div style="width: 110px">
+            <el-input
+              v-model="input5"
+              placeholder="请输入长度"
+              type="number"
+              @blur="childWarehouseViewEvent"
+            ></el-input>
+          </div>
+
           <span>m</span>
         </div>
       </div>
@@ -139,7 +155,7 @@ export default {
   data() {
     return {
       textarea: "",
-      checked: false,
+      checked: true,
       input1: "",
       input2: "",
       input3: "",
@@ -251,7 +267,7 @@ export default {
           label: "Z",
         },
       ],
-      value1: "",
+      value1: "A",
 
       childWarehouseType: [
         {
@@ -386,13 +402,13 @@ export default {
       });
     },
     clickNumber(v) {
-      let input8 = document.querySelector(".input8");
-      let input8_input = document.querySelector(".input8 .el-input");
+      let input8 = document.querySelector(".setTransition");
+      let input8_input = document.querySelector(".setTransition .el-input");
       if (v) {
-        input8.style.width = "8%";
+        input8.style.width = "142px";
         input8_input.style.display = "block";
       } else {
-        input8.style.width = "4%";
+        input8.style.width = "70px";
         input8_input.style.display = "none";
       }
     },
@@ -428,6 +444,10 @@ export default {
         };
         ScrollTop(230, 300);
         let oDiv = document.querySelector(".temporarily_no");
+        let previewDiv = document.querySelector(".previewDiv");
+        if (previewDiv !== null) {
+          oDiv.removeChild(previewDiv);
+        }
         let childDiv = document.createElement("div");
         childDiv.style.width = (this.input2 * oDiv.offsetWidth) / 200 + "px";
         childDiv.style.height = (this.input3 * oDiv.offsetWidth) / 200 + "px";
@@ -442,7 +462,7 @@ export default {
           (this.input3 * oDiv.offsetWidth) / 200 + "px";
         childDiv.style.fontSize = "10px";
         childDiv.innerHTML = this.input1;
-        childDiv.className = "childViewDiv";
+        childDiv.className = "previewDiv";
         oDiv.append(childDiv);
       }
     },
@@ -483,8 +503,7 @@ export default {
       border: 1px #d8dce7 dotted;
       border-radius: 10px;
       .temporarily_no {
-        text-align: center;
-        line-height: 930px;
+        height: 930px;
         font-size: 22px;
         position: relative;
       }
@@ -501,55 +520,14 @@ export default {
     .someInput {
       display: flex;
       align-items: center;
-      margin: 0 0 16px 0;
-      height: 38px;
-      .input1 {
+      flex-wrap: wrap;
+      .setInput {
         display: flex;
         align-items: center;
-        width: 15%;
-        margin-right: 24px;
+        margin: 0 24px 16px 0;
       }
-      .input2 {
-        display: flex;
-        align-items: center;
-        width: 13%;
-        margin-right: 24px;
-      }
-      .input3 {
-        display: flex;
-        align-items: center;
-        width: 12.5%;
-        margin-right: 24px;
-      }
-      .input4 {
-        display: flex;
-        align-items: center;
-        width: 12.5%;
-        margin-right: 24px;
-      }
-      .input5 {
-        display: flex;
-        align-items: center;
-        width: 12.5%;
-        margin-right: 24px;
-      }
-      .input6 {
-        display: flex;
-        align-items: center;
-        width: 12.5%;
-        margin-right: 24px;
-      }
-      .input7 {
-        display: flex;
-        align-items: center;
-        width: 12.5%;
-      }
-      .input8 {
-        display: flex;
-        align-items: center;
-        transition: 0.5s;
-        width: 4%;
-        margin-right: 24px;
+      .setTransition {
+        transition: 0.3s;
       }
     }
     .setRemark {
@@ -569,11 +547,11 @@ export default {
       position: absolute;
       right: 20px;
       bottom: 20px;
-      .quxiaoBox{
+      .quxiaoBox {
         @include BtnFunction();
-        margin-right: 10px
+        margin-right: 10px;
       }
-      .submitBtn{
+      .submitBtn {
         @include BtnFunction("success");
       }
     }
@@ -594,52 +572,7 @@ export default {
 }
 </style>
 <style lang="scss">
-.input1 {
-  .el-input__inner {
-    width: 100%;
-  }
-}
-.input2 {
-  .el-input {
-    width: 100%;
-  }
-  .el-checkbox__inner {
-    border-radius: 50%;
-  }
-}
-.input3 {
-  .el-input {
-    width: 100%;
-  }
-}
-.input4 {
-  .el-input {
-    width: 100%;
-  }
-}
-.input5 {
-  .el-input {
-    width: 100%;
-  }
-}
-.input6 {
-  .el-input {
-    width: 100%;
-  }
-}
-.input7 {
-  .el-input {
-    width: 100%;
-  }
-}
-.input8 {
-  .el-input {
-    width: 100%;
-    display: none;
-  }
-  .el-select{
-    min-width: 66px;
-  }
+.setTransition {
   .el-checkbox__inner {
     border-radius: 50%;
   }

@@ -1,6 +1,6 @@
 <template>
   <!-- 这是品牌管理页面 -->
-  <div id="supplierAdmin">
+  <div id="brandAdmin">
     <div class="roleName">
       <div class="roleName-choose">
         <div class="name_type">
@@ -92,7 +92,7 @@
     </div>
 
     <!-- 弹框 -->
-    <el-dialog :title="title" :visible.sync="dialogFormVisible">
+    <el-dialog :title="title" :visible.sync="dialogFormVisible" custom-class="animate__animated animate__zoomIn">
       <div class="dialogBox">
         <div class="boxTitle"><span>基础信息</span></div>
         <div class="boxContent">
@@ -120,8 +120,8 @@
       </div>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="okBtn">确 定</el-button>
+        <div @click="dialogFormVisible = false" class="quxiaoBox">取 消</div>
+        <div @click="okBtn" class="sureBtn">确 定</div>
       </div>
     </el-dialog>
   </div>
@@ -352,7 +352,7 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/scss/btn.scss";
-#supplierAdmin {
+#brandAdmin {
   background: #eef1f8;
   padding: 20px 10px;
 }
@@ -453,7 +453,9 @@ export default {
 </style>
 
 <style lang="scss">
-#supplierAdmin {
+@import "../../assets/scss/btn.scss";
+
+#brandAdmin {
   .el-dialog__wrapper {
     // background: #eef1f8;
   }
@@ -582,7 +584,19 @@ export default {
       width: 100%;
       height: 76px;
       padding: 0 20px;
-      margin: 19px 0 0 0;
+      .dialog-footer {
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        .quxiaoBox {
+          @include BtnFunction();
+        }
+        .sureBtn {
+          @include BtnFunction("success");
+          margin-left: 10px;
+        }
+      }
     }
   }
 }

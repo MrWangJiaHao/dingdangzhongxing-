@@ -352,9 +352,6 @@ export default {
         .then(() => {
           this.delRequest({ ids: arr });
         })
-        .catch(() => {
-          this.$messageSelf.message("已取消删除");
-        });
     },
     //删除的请求
     delRequest(data) {
@@ -364,7 +361,7 @@ export default {
             type: "success",
             message: "删除成功",
           });
-          window.location.reload();
+          this.requestMethods();
         } else {
           this.$messageSelf.message({
             type: "error",
