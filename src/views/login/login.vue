@@ -49,21 +49,13 @@
         </div>
       </div>
     </div>
-    <transition>
-      <Loading v-if="isLoading"></Loading>
-    </transition>
   </div>
 </template>
 
 <script>
 import { login, getFindWareOrg } from "@/api/api.js";
-import Loading from "@/components/loading/loading";
-import { reduceFun } from '../../utils/validate';
-
+import { reduceFun } from "../../utils/validate";
 export default {
-  components: {
-    Loading,
-  },
   data() {
     return {
       isLoading: false,
@@ -120,7 +112,7 @@ export default {
                 "X-Auth-wareName",
                 ok.data.result.user.wareFullName
               );
-                this.$router.push("/index");
+              this.$router.push("/index");
               //四个小时后清除用户名和密码
               setTimeout(() => {
                 this.$cookie.delete("userName");
@@ -140,7 +132,7 @@ export default {
                       label: v.orgName,
                     });
                   });
-                  orgArr = reduceFun(orgArr)
+                  orgArr = reduceFun(orgArr);
                   this.$store.dispatch("orgInforRequest", orgArr);
                 }
               });
