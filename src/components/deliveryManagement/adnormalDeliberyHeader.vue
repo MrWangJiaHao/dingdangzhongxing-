@@ -429,7 +429,7 @@ export default {
     display: inline-block;
     position: absolute;
     right: 30px;
-    bottom: 26px;
+    bottom: 20px;
     .queryBtn {
       display: inline-block;
       @include BtnFunction("success");

@@ -522,8 +522,8 @@ export default {
 }
 
 .manualBox {
-  border-top: 1px solid #d1d6e2;
-  background-color: rgb(232, 233, 236);
+  // border-top: 1px solid #d1d6e2;
+  // background-color: rgb(232, 233, 236);
 }
 
 .btnArr {

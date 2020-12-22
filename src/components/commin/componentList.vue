@@ -32,7 +32,7 @@
                 {{ ReplenishmentNote.title }}
               </div>
               <div
-                style="position: absolute; top: 10px; right: 0px; z-index: -1"
+                style="position: absolute; top: 4px; right: 0px; z-index: -1"
               >
                 <img
                   :src="

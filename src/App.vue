@@ -1,15 +1,13 @@
 <template>
   <div id="app">
-    <router-view v-if="isRouterAlive" />
+    <router-view />
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {
-      isRouterAlive: true,
-    };
+    return {};
   },
   provide() {
     return {
@@ -31,7 +29,10 @@ export default {
       localStorage.setItem("data", JSON.stringify(this.$store.state));
     });
   },
-  mounted() {},
+
+  mounted() {
+    console.log(document.querySelectorAll(".el-table__body"))
+  },
   methods: {
     addHenxianTables() {
       setTimeout(() => {
@@ -152,7 +153,6 @@ input[type="number"] {
 .el-table--border,
 .el-table--group {
   border: 1px solid #d2d6e2 !important;
-  // border-bottom: none !important;
 }
 
 /*全局设置表格一行的高度*/
@@ -272,6 +272,13 @@ input:-moz-placeholder {
 }
 ::-ms-input-placeholder {
   color: #9b9b9b !important;
+}
+.el-table::before {
+  height: 0 !important;
+}
+.el-table--border::after,
+.el-table--group::after {
+  width: 0 !important;
 }
 </style>
 

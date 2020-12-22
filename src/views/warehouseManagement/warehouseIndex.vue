@@ -433,9 +433,7 @@ export default {
       // getpOutWarehouseDelRecord
       this.$messageSelf
         .confirms("确定要删除该出库单号？", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
+          type: "info",
         })
         .then(() => {
           getpOutWarehouseDelRecord({ id: this.multipleSelection[0].id }).then(
@@ -492,8 +490,8 @@ export default {
 }
 
 .manualBox {
-  border-top: 1px solid #d1d6e2;
-  background-color: rgb(232, 233, 236);
+  // border-top: 1px solid #d1d6e2;
+  // background-color: rgb(232, 233, 236);
 }
 
 .btnArr {

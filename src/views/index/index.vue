@@ -150,7 +150,7 @@ export default {
       wareId: "",
     };
     indexRequest(indexQueryData).then((ok) => {
-      console.log(ok);
+      // console.log(ok);
       if (ok.data.code === "10000") {
         this.inforArr2[0].number = ok.data.result.prodOrder;
         this.inforArr2[1].number = ok.data.result.megerOrder;

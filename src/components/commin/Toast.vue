@@ -12,7 +12,7 @@ export default {
     open() {
       this.$messageSelf
         .confirms("此操作将永久删除该文件, 是否继续?", "删除提示", {
-          type: "warning",
+          type: "info",
         })
         .then(() => {
           this.$message({

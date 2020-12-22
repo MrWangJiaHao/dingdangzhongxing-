@@ -494,7 +494,7 @@ export default {
           `确定要删除这${this.multipleSelection.length}条报损单号？`,
           "删除确认",
           {
-            type: "warning",
+            type: "info",
           }
         )
         .then(() => {

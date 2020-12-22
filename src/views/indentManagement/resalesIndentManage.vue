@@ -1001,7 +1001,7 @@ export default {
         .confirms(
           `共选择${this.outMultipleSelection.length}个退货订单，确认强制完成吗？`,
           "提示",
-          { type: "success" }
+          { type: "info" }
         )
         .then(() => {
           this.$messageSelf.message({message:"该功能暂时没有",type:"error"});

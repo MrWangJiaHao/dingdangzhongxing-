@@ -240,6 +240,7 @@ export default {
     });
   },
   mounted() {
+   
     this.requestMethods = () => {
       let queryData = this.pagingQueryData;
       query_WH_Request(queryData).then((ok) => {

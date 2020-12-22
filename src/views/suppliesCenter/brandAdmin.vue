@@ -34,7 +34,7 @@
             <div class="icon-title-icon">
               <img src="../../assets/img/systemTitlemesa.png" />
             </div>
-            <div class="icon-title-title">品牌信息</div>
+            <div class="icon-title-title">查询结果</div>
           </div>
           <div class="someBtn">
             <div class="setUser" @click="createChildWarehouse">创建</div>

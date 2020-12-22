@@ -806,3 +806,7 @@ textarea {
 .inputInTable .tableBox .el-icon-arrow-up:before {
     margin-bottom: 6px;
 }
+.el-pagination button, .el-pagination span:not([class*=suffix]){
+    line-height: 26px;
+    vertical-align:unset
+}
