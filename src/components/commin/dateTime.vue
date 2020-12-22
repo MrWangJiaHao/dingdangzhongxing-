@@ -12,6 +12,7 @@
         ref="time"
         :disabled="dateTimeData.disabled"
         :transfer="transfer"
+        style="width: 180px"
       ></Date-picker>
     </div>
   </div>
@@ -85,9 +86,6 @@ export default {
 </script>
 
 <style lang='scss'>
-.ivu-input-inner-container {
-  width: 225px;
-}
 .ivu-input-suffix {
   display: flex;
   align-items: center;

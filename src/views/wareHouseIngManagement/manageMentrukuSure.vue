@@ -1,242 +1,236 @@
 <template>
     <div class="setUserIngBox" id="manageMenyrukuSures">
-        <div class="setUserIngBoxCenter">
-            <div class="headerBox">
-                <div class="closeTitle">
-                    {{ !isrukuDetails ? "入库确认" : "入库详情" }}
-                </div>
-                <div class="closeIcon" @click="closeBtn"></div>
-            </div>
-
-            <div class="centerBox">
-                <div class="setTitle mb20">
-                    {{ !isrukuDetails ? "入库确认" : "入库详情" }}
-                </div>
-                <div class="gerxinxiBox">
-                    <div class="xinxiBitian">
-                        <div class="dispalywrap rukuquerenparent">
-                            <div
-                                    v-for="(key, item, idx) in rukuSureJsonFn"
-                                    :key="idx"
-                                    class="displayalign parentBox"
-                            >
-                                <div class="titleBox" v-html="shezhizitiwiered(item)"></div>
-                                <div class="centersBox">
-                                    <div v-if="item == '*入库人'">
-                                        <input
-                                                v-model="createUserData.putUser"
-                                                class="input"
-                                                placeholder="请输入入库人"
-                                        />
-                                    </div>
-                                    <div v-else-if="item == '*入库时间'">
-                                        <dateTime
-                                                style="height: 28px"
-                                                :dateTimeData="dateTimeData"
-                                                :valueDataStart="createUserData.expectedSendTime"
-                                                @getDateTime="getDateTimeExpectedSendTime"
-                                        />
-                                    </div>
-                                    <div v-else-if="item == '*批次号'">
-                                        <input
-                                                v-model="createUserData.batchNo"
-                                                class="input"
-                                                placeholder="请输入批次号"
-                                        />
-                                    </div>
-                                    <div v-else>
-                                        {{ key() }}
+        <kuanjiaClick :titles='!isrukuDetails ? "入库确认" : "入库详情"' @closeBtn="closeBtn"
+                      :is-looker="isrukuDetails" width="1100px" @clickSubmit="goAJAXCreate">
+            <template slot="centerKuanjia">
+                <div class="centerBox">
+                    <div class="setTitle mb20">
+                        {{ !isrukuDetails ? "入库确认" : "入库详情" }}
+                    </div>
+                    <div class="gerxinxiBox">
+                        <div class="xinxiBitian">
+                            <div class="dispalywrap rukuquerenparent">
+                                <div
+                                        v-for="(key, item, idx) in rukuSureJsonFn"
+                                        :key="idx"
+                                        class="displayalign parentBox"
+                                >
+                                    <div class="titleBox" v-html="shezhizitiwiered(item)"></div>
+                                    <div class="centersBox">
+                                        <div v-if="item == '*入库人'">
+                                            <input
+                                                    v-model="createUserData.putUser"
+                                                    class="input"
+                                                    placeholder="请输入入库人"
+                                            />
+                                        </div>
+                                        <div v-else-if="item == '*入库时间'">
+                                            <dateTime
+                                                    style="height: 28px"
+                                                    :dateTimeData="dateTimeData"
+                                                    :valueDataStart="createUserData.expectedSendTime"
+                                                    @getDateTime="getDateTimeExpectedSendTime"
+                                            />
+                                        </div>
+                                        <div v-else-if="item == '*批次号'">
+                                            <input
+                                                    v-model="createUserData.batchNo"
+                                                    class="input"
+                                                    placeholder="请输入批次号"
+                                            />
+                                        </div>
+                                        <div v-else>
+                                            {{ key() }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- 个人信息 -->
-            <div class="centerBox ">
-                <div class="clearfix">
-                    <div class="setTitle fl">产品明细</div>
-                    <div v-if="!isrukuDetails" class="fr mb20">
-                        <div class="tijiaoBox disinb mr20" @click="copyChanpin">
-                            复制产品
+                <!-- 个人信息 -->
+                <div class="centerBox ">
+                    <div class="clearfix">
+                        <div class="setTitle fl">产品明细</div>
+                        <div v-if="!isrukuDetails" class="fr mb20">
+                            <div class="tijiaoBox disinb mr20" @click="copyChanpin">
+                                复制产品
+                            </div>
+                            <div class="tijiaoBox disinb mr20" @click="addChanpin">
+                                添加产品
+                            </div>
+                            <div class="remove disinb" @click="goClearRemove">删除</div>
                         </div>
-                        <div class="tijiaoBox disinb mr20" @click="addChanpin">
-                            添加产品
-                        </div>
-                        <div class="remove disinb" @click="goClearRemove">删除</div>
+                    </div>
+                    <div class="mb20" id="bjTableWraper">
+                        <el-table
+                                ref="multipleTable"
+                                :data="tabledata"
+                                :stripe="true"
+                                :border="true"
+                                tooltip-effect="dark"
+                                @selection-change="handleSelectionChange"
+                        >
+                            <el-table-column
+                                    type="selection"
+                                    align="center"
+                                    width="82"
+                            ></el-table-column>
+                            <el-table-column
+                                    label="序号"
+                                    type="index"
+                                    align="center"
+                                    width="71"
+                                    show-overflow-tooltip
+                            />
+                            <el-table-column
+                                    label="产品编码"
+                                    prop="prodCode"
+                                    show-overflow-tooltip
+                            />
+                            <el-table-column
+                                    label="产品名称"
+                                    property="prodName"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="产品规格"
+                                    prop="specName"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="品牌"
+                                    prop="braName"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="申请入库数量"
+                                    prop="prodNum"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="存储区库位产品数量"
+                                    prop="braName"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="残次品库位产品数量"
+                                    prop="damagedNum"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="存储区库位最大存放数"
+                                    prop="damagedNum"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="残次品库位最大存放数"
+                                    prop="maxNum"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="推荐入库库位"
+                                    prop="recommendedLocation"
+                                    width="180"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="实际入库库位"
+                                    prop="recommendSeatNo"
+                                    show-overflow-tooltip
+                                    width="180"
+                            >
+                                <div v-if="!isrukuDetails" slot-scope="scoped">
+                                    <el-select
+                                            v-model="scoped.row.recommendSeatNo"
+                                            @focus="getkuweimes(scoped.row, scoped.$index)"
+                                            @change="kuweiChanges"
+                                            placeholder="请选择实际入库库位"
+                                    >
+                                        <el-option
+                                                v-for="(item, idx) in scoped.row.kueirArr"
+                                                :key="idx"
+                                                :label="item.recommendSeatNo"
+                                                :value="idx"
+                                        >
+                                        </el-option>
+                                    </el-select>
+                                </div>
+                            </el-table-column>
+                            <el-table-column
+                                    label="实际入库数量*"
+                                    prop="actualNum"
+                                    show-overflow-tooltip
+                            >
+                                <div v-if="!isrukuDetails" slot-scope="scope">
+                                    <el-input
+                                            v-model="scope.row.actualNum"
+                                            placeholder="实际入库数量"
+                                    ></el-input>
+                                </div>
+                            </el-table-column>
+                            <el-table-column
+                                    label="残次品数量"
+                                    prop="damagedNum"
+                                    show-overflow-tooltip
+                            >
+                                <div v-if="!isrukuDetails" slot-scope="scoped">
+                                    <el-input
+                                            v-model="scoped.row.damagedNum"
+                                            placeholder="请输入残次品数量"
+                                    ></el-input>
+                                </div>
+                            </el-table-column>
+                            <el-table-column
+                                    label="残次品库位"
+                                    prop="damagedSeatNo"
+                                    width="180"
+                                    show-overflow-tooltip
+                            >
+                                <div v-if="!isrukuDetails" slot-scope="scoped">
+                                    <el-select
+                                            v-model="scoped.row.damagedSeatNo"
+                                            placeholder="请选择残次品库位"
+                                    >
+                                        <el-option
+                                                v-for="item in prodUnitData"
+                                                :key="item"
+                                                :label="item"
+                                                :value="item"
+                                        >
+                                        </el-option>
+                                    </el-select>
+                                </div>
+                            </el-table-column>
+                            <el-table-column
+                                    label="生产日期"
+                                    prop="manuTime"
+                                    show-overflow-tooltip
+                                    width="200"
+                            >
+                                <div
+                                        v-if="!isrukuDetails"
+                                        slot-scope="scoped"
+                                        @click="getDataSelentIndex(scoped.$index)"
+                                >
+                                    <dateTime
+                                            :dateTimeData="dateTimeData"
+                                            v-model="scoped.row.actualNum"
+                                            @getDateTime="getDateSelectTime"
+                                    />
+                                </div>
+                            </el-table-column>
+                        </el-table>
                     </div>
                 </div>
-                <div class="mb20" id="bjTableWraper">
-                    <el-table
-                            ref="multipleTable"
-                            :data="tabledata"
-                            :stripe="true"
-                            :border="true"
-                            tooltip-effect="dark"
-                            @selection-change="handleSelectionChange"
-                    >
-                        <el-table-column
-                                type="selection"
-                                align="center"
-                                width="82"
-                        ></el-table-column>
-                        <el-table-column
-                                label="序号"
-                                type="index"
-                                align="center"
-                                width="71"
-                                show-overflow-tooltip
-                        />
-                        <el-table-column
-                                label="产品编码"
-                                prop="prodCode"
-                                show-overflow-tooltip
-                        />
-                        <el-table-column
-                                label="产品名称"
-                                property="prodName"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="产品规格"
-                                prop="specName"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="品牌"
-                                prop="braName"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="申请入库数量"
-                                prop="prodNum"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="存储区库位产品数量"
-                                prop="braName"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="残次品库位产品数量"
-                                prop="damagedNum"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="存储区库位最大存放数"
-                                prop="damagedNum"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="残次品库位最大存放数"
-                                prop="maxNum"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="推荐入库库位"
-                                prop="recommendedLocation"
-                                width="180"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="实际入库库位"
-                                prop="recommendSeatNo"
-                                show-overflow-tooltip
-                                width="180"
-                        >
-                            <div v-if="!isrukuDetails" slot-scope="scoped">
-                                <el-select
-                                        v-model="scoped.row.recommendSeatNo"
-                                        @focus="getkuweimes(scoped.row, scoped.$index)"
-                                        @change="kuweiChanges"
-                                        placeholder="请选择实际入库库位"
-                                >
-                                    <el-option
-                                            v-for="(item, idx) in scoped.row.kueirArr"
-                                            :key="idx"
-                                            :label="item.recommendSeatNo"
-                                            :value="idx"
-                                    >
-                                    </el-option>
-                                </el-select>
-                            </div>
-                        </el-table-column>
-                        <el-table-column
-                                label="实际入库数量*"
-                                prop="actualNum"
-                                show-overflow-tooltip
-                        >
-                            <div v-if="!isrukuDetails" slot-scope="scope">
-                                <el-input
-                                        v-model="scope.row.actualNum"
-                                        placeholder="实际入库数量"
-                                ></el-input>
-                            </div>
-                        </el-table-column>
-                        <el-table-column
-                                label="残次品数量"
-                                prop="damagedNum"
-                                show-overflow-tooltip
-                        >
-                            <div v-if="!isrukuDetails" slot-scope="scoped">
-                                <el-input
-                                        v-model="scoped.row.damagedNum"
-                                        placeholder="请输入残次品数量"
-                                ></el-input>
-                            </div>
-                        </el-table-column>
-                        <el-table-column
-                                label="残次品库位"
-                                prop="damagedSeatNo"
-                                width="180"
-                                show-overflow-tooltip
-                        >
-                            <div v-if="!isrukuDetails" slot-scope="scoped">
-                                <el-select
-                                        v-model="scoped.row.damagedSeatNo"
-                                        placeholder="请选择残次品库位"
-                                >
-                                    <el-option
-                                            v-for="item in prodUnitData"
-                                            :key="item"
-                                            :label="item"
-                                            :value="item"
-                                    >
-                                    </el-option>
-                                </el-select>
-                            </div>
-                        </el-table-column>
-                        <el-table-column
-                                label="生产日期"
-                                prop="manuTime"
-                                show-overflow-tooltip
-                                width="200"
-                        >
-                            <div
-                                    v-if="!isrukuDetails"
-                                    slot-scope="scoped"
-                                    @click="getDataSelentIndex(scoped.$index)"
-                            >
-                                <dateTime
-                                        :dateTimeData="dateTimeData"
-                                        v-model="scoped.row.actualNum"
-                                        @getDateTime="getDateSelectTime"
-                                />
-                            </div>
-                        </el-table-column>
-                    </el-table>
-                </div>
-            </div>
-            <div>
-                <div class="dispalyFlex mb20">
-                    <div class="noneIconTitle mr11 fosi0">
+                <div class="dispalyFlex centerBox mb16">
+                    <div class="noneIconTitle mr11  fosi0">
                         <span class="fosi14" style="visibility: hidden">你好</span>
                         <span class="fosi14">备注</span>
                         <span class="fosi14" style="visibility: hidden">好</span>
                         <span class="fosi14">:</span>
                     </div>
-                    <div class="bzTetxArea">
+                    <div class="bzTetxArea mb16">
             <textarea
                     placeholder="请输入备注"
                     v-model="createUserData.remark"
@@ -244,26 +238,25 @@
             ></textarea>
                     </div>
                 </div>
-            </div>
-            <!-- 备注 -->
-            <!-- 账号信息 -->
-            <div class="disRight mr20 mb20">
-                <div class="quxiaoBox mb20 mr20" @click="closeBtn">
-                    {{ !isrukuDetails ? "取消" : "返回" }}
-                </div>
-                <div v-if="!isrukuDetails" class="tijiaoBox mb20" @click="goAJAXCreate">
-                    提交
-                </div>
-            </div>
-            <!-- btn -->
-            <!-- 添加产品 start -->
-            <transition name="fade">
-                <div v-show="addChanpins" ref="parentSelect" class="addChanpinClass">
-                    <choiceSelect ref="childSelect" @tables="tablesArr"/>
+                <!-- 备注 -->
+            </template>
+        </kuanjiaClick>
+
+        <!-- 添加产品 start -->
+        <div v-show="addChanpins" class="bjBox">
+            <transition
+                    enter-active-class="animate__animated animate__zoomIn"
+                    leave-active-class="animate__animated animate__zoomOut"
+            >
+                <div v-if="addChanpins">
+                    <div>
+                        <choiceSelect ref="childSelect" @tables="tablesArr"/>
+                    </div>
                 </div>
             </transition>
-            <!-- 添加产品 end -->
         </div>
+
+        <!-- 添加产品 end -->
     </div>
 </template>
 <style>
@@ -279,7 +272,6 @@
     import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
 
     import {
-        post,
         getFindWareOrg,
         getFindOrgChildWare,
         getfindOrgProductPage,
@@ -287,6 +279,7 @@
     } from "../../api/api";
     import choiceSelect from "../../components/manual/choiceSelect";
     import {_removeData} from "../../utils/validate";
+    import kuanjiaClick from "../../components/commin/kuanjiaClick";
 
     export default {
         name: "createUsering",
@@ -296,6 +289,7 @@
             dropDownUserType,
             choiceSelect,
             dateTime,
+            kuanjiaClick
         },
         data() {
             return {
@@ -658,11 +652,15 @@
 
     .rukuquerenparent {
         width: 100%;
+        border-left: 1px solid #d1d6e2;
+        border-top: 1px solid #d1d6e2;
 
         .parentBox {
             width: 33.3%;
             color: #333333;
             border: 1px solid #d1d6e2;
+            border-left: none;
+            border-top: none;
 
             .titleBox {
                 padding: 12px 20px 12px 0;

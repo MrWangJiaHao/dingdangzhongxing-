@@ -2,7 +2,7 @@
     <div class="setUserIngBox">
         <div
                 class="setUserIngBoxCenter"
-                :style="{ maxWidth: width || '1000px', top: top || ' 144px' }"
+                :style="{ maxWidth: width || '1000px' }"
         >
             <div class="headerBox">
                 <div class="closeTitle">
@@ -13,11 +13,11 @@
             <slot name="centerKuanjia"></slot>
             <!-- 账号信息 -->
             <div class="disRight mr20 ">
-                <div class="quxiaoBox mr20 mb20" @click="closeBtn">
+                <div v-if="isLookerShow" class="quxiaoBox mr20 mb20" @click="closeBtn">
                     {{ isLooker ? "返回" : "取消" }}
                 </div>
                 <div class="tijiaoBox mb20" v-if="!isLooker" @click="goAJAXCreate">
-                    提交
+                    {{print}}
                 </div>
             </div>
             <!-- btn -->
@@ -47,6 +47,14 @@
                 type: String,
                 default: "144px",
             },
+            print: {
+                type: String,
+                default: "提交"
+            },
+            isLookerShow: {
+                type: Boolean,
+                default: true
+            }
         },
         methods: {
             closeBtn() {
@@ -75,22 +83,9 @@
             border-bottom: 1px solid #d1d6e2;
         }
 
-        .addChanpinClass {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 980px;
-            z-index: 44;
-            background: #f8f8f8;
-            transform: translate(-50%, -50%);
-        }
-
         .setUserIngBoxCenter {
-            position: relative;
-            left: 50%;
             max-height: 600px;
             overflow: auto;
-            transform: translateX(-50%);
             background-color: #fff;
 
             .centerBox {

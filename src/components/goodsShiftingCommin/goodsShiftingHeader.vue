@@ -59,12 +59,11 @@
                 />
             </div>
             <!-- 补货类型 -->
-
             <div class="inline mr11 mb16">
                 <div class="displayalign zujianBox">
                     <div class="noneIconTitle mr11">创建时间:</div>
                     <div class="mr20 displayalign">
-                        <div style="margin-right: 10px">
+                        <div class="mr10">
                             <dateTime
                                     :dateTimeData="createStartTime"
                                     @getDateTime="getcreateStartTime"
@@ -288,7 +287,7 @@
                 if (datas.code == "10000") {
                     this._changeDatas(datas.result);
                 } else {
-                    this.$messageSelf.message({ message: datas.msg, type: "error" });
+                    this.$messageSelf.message({message: datas.msg, type: "error"});
                 }
                 fn && fn(datas.result);
                 return datas;

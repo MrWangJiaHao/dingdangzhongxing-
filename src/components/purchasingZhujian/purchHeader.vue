@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="fuzzyQueryBox">
+        <div class="fuzzyQueryBox purchasing">
             <div class="biaogeBox">
                 <div class="displayalign mb16 zujianBox">
                     <div class="noneIconTitle mr11">委托公司:</div>
@@ -138,7 +138,7 @@
                     <div class="displayalign zujianBox">
                         <div class="noneIconTitle mr11">期望到货时间:</div>
                         <div class="mr20 displayalign">
-                            <div style="margin-right: 10px">
+                            <div class="mr10">
                                 <dateTime
                                         :dateTimeData="expectedSendStartTimeData"
                                         @getDateTime="getexpectedSendStartTime"
@@ -414,7 +414,12 @@
         },
     };
 </script>
+<style>
+    .purchasing .ivu-date-picker {
+        width: 210px !important;
+    }
 
+</style>
 <style lang='scss' scoped>
     @import "../../assets/scss/btn.scss";
 

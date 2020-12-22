@@ -5,7 +5,7 @@
                 @closeBtn="closeBtn"
                 :isLooker="isLooker"
                 @clickSubmit="clickSubmit"
-                :width="'1080px'"
+                :width="'1100px'"
         >
             <template slot="centerKuanjia">
                 <div class="mb16">
@@ -63,6 +63,7 @@
                     {
                         titles: "补货时间",
                         type: "date",
+                        width: "180px",
                         disabled: false,
                         centers: (() =>
                             this.BuHuoSureJson.replenishStartTime || "请输入补货订单详情")(),
@@ -131,22 +132,27 @@
                             {
                                 types: "prodName",
                                 label: "储存区库位产品数量",
+                                width: 150
                             },
                             {
                                 types: "prodName",
-                                label: "补货库位产品数量",
+                                label: "补货库位产品数量", width: 150
+
                             },
                             {
                                 types: "prodName",
-                                label: "补货预警值",
+                                label: "补货预警值", width: 150
+
                             },
                             {
                                 types: "prodName",
-                                label: "最大补货数量",
+                                label: "最大补货数量", width: 150
+
                             },
                             {
                                 types: "prodName",
-                                label: "申请补货数量",
+                                label: "申请补货数量", width: 150
+
                             },
                             {
                                 types: "prodName",
@@ -210,7 +216,7 @@
                     },
                 },
                 buhuoSure: null,
-                isBUhuoDna: false
+                isBUhuoDna: false,
             };
         },
         props: {
@@ -244,18 +250,17 @@
                 this.chanpinminxiJson.tableDataJsonAndArr.tabledata = this.tabledatasArr;
             }
             this._isTableMes();
-            this.isBuHUODanXianQin()
+            this.isBuHUODanXianQin();
         },
         computed: {},
         methods: {
             isBuHUODanXianQin() {
-                let _href = window.location.href
+                let _href = window.location.href;
                 if (_href.includes("/jobTask")) {
-                    this.isBUhuoDna = true
+                    this.isBUhuoDna = true;
                 } else {
-                    this.isBUhuoDna = false
+                    this.isBUhuoDna = false;
                 }
-
             },
             _isTableMes() {
                 if (this.isLooker) {
@@ -280,7 +285,7 @@
                             res.code === "10000" && self.closeBtn();
                         });
                 }
-                this.$emit('sureSubmit')
+                this.$emit("sureSubmit");
             },
         },
     };

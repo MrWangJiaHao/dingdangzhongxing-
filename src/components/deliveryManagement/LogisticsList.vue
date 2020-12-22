@@ -196,7 +196,6 @@ export default {
   .setUserIngBoxCenter {
     position: relative;
     left: 50%;
-    top: 144px;
     transform: translateX(-50%);
     background: #fff;
     width: 574px;

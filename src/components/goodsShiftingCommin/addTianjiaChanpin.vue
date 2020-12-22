@@ -104,6 +104,7 @@ export default {
           {
             types: "prodCode",
             label: "产品编码",
+            width: 200,
           },
           {
             types: "prodName",
@@ -195,6 +196,7 @@ export default {
         {
           types: "prodCode",
           label: "产品编码",
+          width: 200,
         },
         {
           types: "prodName",

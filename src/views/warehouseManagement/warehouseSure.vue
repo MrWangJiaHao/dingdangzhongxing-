@@ -1,235 +1,227 @@
 <template>
     <div class="setUserIngBox" id="chukuSure">
-        <div class="setUserIngBoxCenter">
-            <div class="headerBox">
-                <div class="closeTitle">
-                    {{ !isDetails ? "出库确认" : "出库单详情" }}
-                </div>
-                <div class="closeIcon" @click="closeBtn"></div>
-            </div>
-
-            <div class="centerBox ">
-                <div class="setTitle">{{ !isDetails ? "出库确认" : "出库单详情" }}</div>
-                <div class="gerxinxiBox">
-                    <div class="xinxiBitian">
-                        <div class="dispalywrap rukuquerenparent">
-                            <div
-                                    v-for="(key, item, idx) in isDetailsFn()"
-                                    :key="idx"
-                                    class="displayalign parentBox"
-                            >
+        <kuanjiaClick :titles='!isDetails ? "出库确认" : "出库单详情"' :isLooker="isDetails"
+                      @closeBtn="closeBtn" @clickSubmit="goAJAXCreate" width="1100px">
+            <template slot="centerKuanjia">
+                <div class="centerBox">
+                    <div class="setTitle">{{ !isDetails ? "出库确认" : "出库单详情" }}</div>
+                    <div class="gerxinxiBox">
+                        <div class="xinxiBitian">
+                            <div class="dispalywrap rukuquerenparent">
                                 <div
-                                        class="titleBox ellipsis"
-                                        v-html="shezhizitiwiered(item)"
-                                ></div>
-                                <div class="centersBox">
-                                    <div v-if="item == '*取货人'">
-                                        <input
-                                                v-model="createUserData.takeUser"
-                                                class="input"
-                                                placeholder="请输入取货人"
-                                        />
-                                    </div>
-                                    <div v-else-if="item == '*取货人联系电话'">
-                                        <el-input
-                                                type="number"
-                                                @input="takePhoneChange"
-                                                @blur="blurTakePhone"
-                                                v-model="createUserData.takePhone"
-                                                placeholder="请输入取货人联系电话"
-                                        >
-                                        </el-input>
-                                    </div>
-                                    <div v-else-if="item == '*出库人'">
-                                        <input
-                                                v-model="createUserData.outWareUser"
-                                                class="input"
-                                                placeholder="请输入出库人"
-                                        />
-                                    </div>
-                                    <div v-else-if="item == '*出库时间'">
-                                        <div v-if="!isDetails">
-                                            <dateTime
-                                                    :valueDataStart="createUserData.outWareTime"
-                                                    :dateTimeData="dateTimeData"
-                                                    @getDateTime="getDateTimeExpectedSendTime"
+                                        v-for="(key, item, idx) in isDetailsFn()"
+                                        :key="idx"
+                                        class="displayalign parentBox"
+                                >
+                                    <div
+                                            class="titleBox ellipsis"
+                                            v-html="shezhizitiwiered(item)"
+                                    ></div>
+                                    <div class="centersBox">
+                                        <div v-if="item == '*取货人'">
+                                            <input
+                                                    v-model="createUserData.takeUser"
+                                                    class="input"
+                                                    placeholder="请输入取货人"
                                             />
                                         </div>
-                                        <div v-else>
-                                            {{ createUserData.outWareTime }}
+                                        <div v-else-if="item == '*取货人联系电话'">
+                                            <el-input
+                                                    type="number"
+                                                    @input="takePhoneChange"
+                                                    @blur="blurTakePhone"
+                                                    v-model="createUserData.takePhone"
+                                                    placeholder="请输入取货人联系电话"
+                                            >
+                                            </el-input>
                                         </div>
-                                    </div>
-                                    <div v-else>
-                                        {{ key() }}
+                                        <div v-else-if="item == '*出库人'">
+                                            <input
+                                                    v-model="createUserData.outWareUser"
+                                                    class="input"
+                                                    placeholder="请输入出库人"
+                                            />
+                                        </div>
+                                        <div v-else-if="item == '*出库时间'">
+                                            <div v-if="!isDetails">
+                                                <dateTime
+                                                        :valueDataStart="createUserData.outWareTime"
+                                                        :dateTimeData="dateTimeData"
+                                                        @getDateTime="getDateTimeExpectedSendTime"
+                                                />
+                                            </div>
+                                            <div v-else>
+                                                {{ createUserData.outWareTime }}
+                                            </div>
+                                        </div>
+                                        <div v-else>
+                                            {{ key() }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- 个人信息 -->
-            <div id="bjTableWraper " class="centerBox mb20 ">
-                <div class="clearfix">
-                    <div class="setTitle fl">产品明细</div>
-                    <div class="mb20 fr">
-                        <div
-                                class="tijiaoBox disinb mr20"
-                                v-if="!isDetails"
-                                @click="copyChanpin"
-                        >
-                            复制产品
-                        </div>
-                        <div
-                                class="remove disinb"
-                                v-if="!isDetails"
-                                @click="goClearRemove"
-                        >
-                            删除
+                <!-- 个人信息 -->
+
+                <div id="bjTableWraper " class="centerBox mb20">
+                    <div class="clearfix">
+                        <div class="setTitle fl">产品明细</div>
+                        <div class="mb20 fr">
+                            <div
+                                    class="tijiaoBox disinb mr20"
+                                    v-if="!isDetails"
+                                    @click="copyChanpin"
+                            >
+                                复制产品
+                            </div>
+                            <div class="remove disinb" v-if="!isDetails" @click="goClearRemove">
+                                删除
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="mb20">
-                    <el-table
-                            ref="multipleTable"
-                            :data="tabledata"
-                            :stripe="true"
-                            :border="true"
-                            tooltip-effect="dark"
-                            style="width: 100%; overflow: auto"
-                            @selection-change="handleSelectionChange"
-                    >
-                        <el-table-column
-                                v-if="!isDetails"
-                                type="selection"
-                                align="center"
-                                width="82"
-                        ></el-table-column>
-                        <el-table-column
-                                label="序号"
-                                type="index"
-                                align="center"
-                                width="71"
-                                :index="indexMethod"
-                                show-overflow-tooltip
-                        />
-                        <el-table-column
-                                label="产品编码"
-                                prop="prodCode"
-                                show-overflow-tooltip
-                        />
-                        <el-table-column
-                                label="产品名称"
-                                property="prodName"
-                                width="140"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="产品规格"
-                                prop="specName"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="品牌"
-                                prop="braName"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="低库存预警值"
-                                prop="prodNum"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="销售仓可用库存"
-                                prop="braName"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="推荐库位产品数量"
-                                prop="damagedNum"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="申请出库数量"
-                                prop="prodNum"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="实际出库数量*"
-                                prop="actualProdNum"
-                                width="200"
-                                show-overflow-tooltip
+                    <div class="mb20">
+                        <el-table
+                                ref="multipleTable"
+                                :data="tabledata"
+                                :stripe="true"
+                                :border="true"
+                                tooltip-effect="dark"
+                                style="width: 100%; overflow: auto"
+                                @selection-change="handleSelectionChange"
                         >
-                            <el-input
+                            <el-table-column
                                     v-if="!isDetails"
-                                    slot-scope="scoped"
-                                    v-model="scoped.row.actualProdNum"
-                            ></el-input>
-                        </el-table-column>
-                        <el-table-column
-                                label="推荐库位"
-                                prop="actualSeatNo"
-                                width="180"
-                                show-overflow-tooltip
-                        ></el-table-column>
-                        <el-table-column
-                                label="批次号"
-                                prop="batchNo"
-                                show-overflow-tooltip
-                                width="200"
-                        >
-                            <div slot-scope="scoped">
+                                    type="selection"
+                                    align="center"
+                                    width="82"
+                            ></el-table-column>
+                            <el-table-column
+                                    label="序号"
+                                    type="index"
+                                    align="center"
+                                    width="71"
+                                    :index="indexMethod"
+                                    show-overflow-tooltip
+                            />
+                            <el-table-column
+                                    label="产品编码"
+                                    prop="prodCode"
+                                    show-overflow-tooltip
+                            />
+                            <el-table-column
+                                    label="产品名称"
+                                    property="prodName"
+                                    width="140"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="产品规格"
+                                    prop="specName"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="品牌"
+                                    prop="braName"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="低库存预警值"
+                                    prop="prodNum"
+                                    show-overflow-tooltip
+                                    width="150"
+                                    align="center"
+                            ></el-table-column>
+                            <el-table-column
+                                    label="销售仓可用库存"
+                                    prop="braName"
+                                    width="150"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="推荐库位产品数量"
+                                    prop="damagedNum"
+                                    width="150"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="申请出库数量"
+                                    prop="prodNum"
+                                    width="150"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="实际出库数量*"
+                                    prop="actualProdNum"
+                                    width="200"
+                                    show-overflow-tooltip
+                            >
                                 <el-input
                                         v-if="!isDetails"
-                                        v-model="scoped.row.batchNo"
-                                        placeholder="请输入批次号"
-                                >
-                                </el-input>
-                            </div>
-                        </el-table-column>
-                        <el-table-column
-                                label="生产日期*"
-                                prop="manufTime"
-                                width="200"
-                                show-overflow-tooltip
-                        >
-                            <div
-                                    v-if="!isDetails"
-                                    slot-scope="scope"
-                                    @click="manufTimeClick(scope.row)"
-                            >
-                                <dateTime
-                                        :valueDataStart="scope.row.manufTime"
-                                        :dateTimeData="dateTimeData"
-                                        @getDateTime="getManufTimeClickSendTime"
-                                />
-                            </div>
-                        </el-table-column>
-                        <el-table-column
-                                label="实际出库库位"
-                                prop="actualSeatNo"
-                                show-overflow-tooltip
-                                width="200"
-                        >
-                            <div v-if="!isDetails" slot-scope="scoped">
-                                <el-input
-                                        v-model="scoped.row.actualSeatNo"
-                                        placeholder="请输入实际出库库位"
+                                        slot-scope="scoped"
+                                        v-model="scoped.row.actualProdNum"
                                 ></el-input>
-                            </div>
-                        </el-table-column>
-                    </el-table>
+                            </el-table-column>
+                            <el-table-column
+                                    label="推荐库位"
+                                    prop="actualSeatNo"
+                                    width="180"
+                                    show-overflow-tooltip
+                            ></el-table-column>
+                            <el-table-column
+                                    label="批次号"
+                                    prop="batchNo"
+                                    show-overflow-tooltip
+                                    width="200"
+                            >
+                                <div slot-scope="scoped">
+                                    <el-input
+                                            v-if="!isDetails"
+                                            v-model="scoped.row.batchNo"
+                                            placeholder="请输入批次号"
+                                    >
+                                    </el-input>
+                                </div>
+                            </el-table-column>
+                            <el-table-column
+                                    label="生产日期*"
+                                    prop="manufTime"
+                                    width="200"
+                                    show-overflow-tooltip
+                            >
+                                <div
+                                        v-if="!isDetails"
+                                        slot-scope="scope"
+                                        @click="manufTimeClick(scope.row)"
+                                >
+                                    <dateTime
+                                            :valueDataStart="scope.row.manufTime"
+                                            :dateTimeData="dateTimeData"
+                                            @getDateTime="getManufTimeClickSendTime"
+                                    />
+                                </div>
+                            </el-table-column>
+                            <el-table-column
+                                    label="实际出库库位"
+                                    prop="actualSeatNo"
+                                    show-overflow-tooltip
+                                    width="200"
+                            >
+                                <div v-if="!isDetails" slot-scope="scoped">
+                                    <el-input
+                                            v-model="scoped.row.actualSeatNo"
+                                            placeholder="请输入实际出库库位"
+                                    ></el-input>
+                                </div>
+                            </el-table-column>
+                        </el-table>
+                    </div>
                 </div>
-            </div>
-            <!-- 账号信息 -->
-            <div class="disRight mb20 mr20">
-                <div class="quxiaoBox mb20 mr20" @click="closeBtn">
-                    {{ !isDetails ? "取消" : "返回" }}
-                </div>
-                <div v-if="!isDetails" class="tijiaoBox mb20" @click="goAJAXCreate">
-                    提交
-                </div>
-            </div>
+                <!-- 账号信息 -->
+            </template>
+        </kuanjiaClick>
+        <div class="setUserIngBoxCenter">
             <!-- btn -->
             <!-- 添加产品 start -->
             <transition name="fade">
@@ -251,8 +243,8 @@
     }
 </style>
 <script>
-    /*eslint-disable */
     import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
+    import kuanjiaClick from "../../components/commin/kuanjiaClick";
     import {_removeData, isMobile} from "../../utils/validate";
     import {
         getFindWareOrg,
@@ -269,6 +261,7 @@
         components: {
             choiceSelect,
             dateTime,
+            kuanjiaClick,
         },
         data() {
             return {
@@ -286,74 +279,74 @@
                 },
                 rukuSure: {
                     出库单号: () =>
-                        this.createUserData.outWareNo ? this.createUserData.outWareNo : "- -",
+                        this.createUserData.outWareNo ? this.createUserData.outWareNo : "———",
                     委托公司: () =>
-                        this.createUserData.orgName ? this.createUserData.orgName : "- -",
+                        this.createUserData.orgName ? this.createUserData.orgName : "———",
                     出库状态: () =>
                         this.createUserData.outWareStatus ? "已出库" : "未出库",
                     出库类型: () =>
                         this.createUserData.outWareType
                             ? this.createUserData.outWareType
-                            : "- -",
+                            : "———",
                     "&nbsp;收货人": () =>
-                        this.createUserData.takeUser ? this.createUserData.takeUser : "- -",
+                        this.createUserData.takeUser ? this.createUserData.takeUser : "———",
                     收货人联系电话: () =>
-                        this.$route.query.takePhone ? this.createUserData.takePhone : "- -",
+                        this.$route.query.takePhone ? this.createUserData.takePhone : "———",
                     "*取货人": () =>
-                        this.createUserData.takeUser ? this.createUserData.takeUser : "- -",
+                        this.createUserData.takeUser ? this.createUserData.takeUser : "———",
                     "*取货人联系电话": () =>
-                        this.createUserData.takePhone ? this.createUserData.takePhone : "- -",
+                        this.createUserData.takePhone ? this.createUserData.takePhone : "———",
                     "*出库人": () =>
                         this.createUserData.outWareUser
                             ? this.createUserData.outWareUser
-                            : "- -",
+                            : "———",
                     "*出库时间": () =>
                         this.createUserData.outWareTime
                             ? this.createUserData.outWareTime
-                            : "- -",
+                            : "———",
                 },
                 feizhitiJson: {
                     出库单号: () =>
-                        this.createUserData.outWareNo ? this.createUserData.outWareNo : "- -",
+                        this.createUserData.outWareNo ? this.createUserData.outWareNo : "———",
                     委托公司: () =>
-                        this.createUserData.orgName ? this.createUserData.orgName : "- -",
+                        this.createUserData.orgName ? this.createUserData.orgName : "———",
                     出库状态: () =>
                         this.createUserData.outWareStatus ? "已出库" : "未出库",
                     出库类型: () =>
-                        his.createUserData.outWareType
+                        this.createUserData.outWareType
                             ? this.createUserData.outWareType
-                            : "- -",
+                            : "———",
                     "&nbsp;收货人": () =>
-                        this.createUserData.takeUser ? this.createUserData.takeUser : "- -",
+                        this.createUserData.takeUser ? this.createUserData.takeUser : "———",
                     收货人联系电话: () =>
-                        this.createUserData.takePhone ? this.createUserData.takePhone : "- -",
+                        this.createUserData.takePhone ? this.createUserData.takePhone : "———",
                     "*出库人": () =>
                         this.createUserData.outWareUser
                             ? this.createUserData.outWareUser
-                            : "- -",
+                            : "———",
                     "*出库时间": () =>
                         this.createUserData.outWareTime
                             ? this.createUserData.outWareTime
-                            : "- -",
+                            : "———",
                 },
                 detailChuKu: {
                     出库单号: () =>
-                        this.createUserData.outWareNo ? this.createUserData.outWareNo : "- -",
+                        this.createUserData.outWareNo ? this.createUserData.outWareNo : "———",
                     委托公司: () =>
-                        this.createUserData.orgName ? this.createUserData.orgName : "- -",
+                        this.createUserData.orgName ? this.createUserData.orgName : "———",
                     订单状态: () => this.createUserData.outWareStatus,
                     创建时间: () =>
-                        this.$route.query.takeUser ? this.createUserData.takeUser : "- -",
+                        this.$route.query.takeUser ? this.createUserData.takeUser : "———",
                     创建人: () =>
-                        this.createUserData.takeUser ? this.createUserData.takeUser : "- -",
+                        this.createUserData.takeUser ? this.createUserData.takeUser : "———",
                     出库人: () =>
                         this.createUserData.outWareUser
                             ? this.createUserData.outWareUser
-                            : "- -",
+                            : "———",
                     出库时间: () =>
                         this.createUserData.outWareTime
                             ? this.createUserData.outWareTime
-                            : "- -",
+                            : "———",
                 },
                 multipleSelection: [],
                 tabledata: [],
@@ -524,7 +517,11 @@
                 } else if (this.multipleSelection.length != 1) {
                     return this.$messageSelf.message("每次只能复制一个产品");
                 } else {
-                    this.tabledata = _removeData(this.tabledata, this.multipleSelection, true)
+                    this.tabledata = _removeData(
+                        this.tabledata,
+                        this.multipleSelection,
+                        true
+                    );
                 }
             },
             select(e, row) {
@@ -735,11 +732,15 @@
 
     .rukuquerenparent {
         width: 100%;
+        border-top: 1px solid #d1d6e2;
+        border-left: 1px solid #d1d6e2;
 
         .parentBox {
             width: 33.3%;
             color: #333333;
             border: 1px solid #d1d6e2;
+            border-top: none;
+            border-left: none;
 
             .titleBox {
                 padding: 12px 20px 12px 0;
