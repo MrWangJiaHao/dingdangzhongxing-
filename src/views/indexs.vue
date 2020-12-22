@@ -3,15 +3,7 @@
     <div class="tabContainer">
       <span class="imgbox ellipsis displayalign" @click="goToIndex">
         <img src="@/assets/img/logo.png" style="margin-right: 5px" />
-        <span
-          style="
-            color: #fff;
-            font-size: 18px;
-            line-height: 90px;
-            user-select: none;
-          "
-          >仓储系统</span
-        >
+        <span class="xitonwenzi">仓储系统</span>
       </span>
       <div class="el-nav displayalign">
         <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
@@ -562,6 +554,7 @@ export default {
       steep: null,
       leftMoveClick: null,
       rightMoveClick: null,
+      tableIdx: 0,
       isZhanneixiaoxi: sessionStorage.getItem("isZhanneixiaoxi"),
     };
   },
@@ -642,36 +635,63 @@ export default {
         this.navWidth = TabNavs.offsetWidth;
         let inners = document.querySelector(".el-tabs__nav-wrap.is-top"); //父层
         this.innersWidth = inners.offsetWidth;
-        this.Nums = Math.ceil(this.navWidth / this.innersWidth);
+        this.Nums = Math.ceil(this.navWidth / this.innersWidth); //(倍数)
       });
     },
     leftMove() {
-      a = 0;
       this.leftMoveClick = true;
       this.rightMoveClick = false;
       let oDiv = document.querySelector(".el-tabs__nav-scroll");
-      oDiv.style.left = "0";
       oDiv.style.transition = "0.5s";
+      oDiv.style.left = `${this._returnLeft()}px`;
+    },
+    _returnLeft: function () {
+      let steep;
+      let ispandaun =
+        Math.abs(this.navWidth - this.innersWidth) > this.innersWidth;
+      let ress = this.navWidth - this.innersWidth * (a - 1);
+      if (this.Nums <= 2) {
+        steep = 0;
+      } else {
+        if (a == 0) return;
+        a--;
+        if (ispandaun && !a) {
+          steep = 0;
+        } else if (ispandaun && a) {
+          steep = this.innersWidth * a;
+        } else {
+          steep = this.navWidth - this.innersWidth;
+        }
+      }
+      return -steep;
     },
     rightMove() {
       this.leftMoveClick = false;
       this.rightMoveClick = true;
       let oDiv = document.querySelector(".el-tabs__nav-scroll");
-      a++;
-      if (this.Nums == a) {
-        this.steep = this.navWidth - this.navWidth * (this.Nums - 1);
-        a = 0;
-      } else {
-        this.steep = this.navWidth - this.innersWidth;
-      }
-      let res = this.navWidth - this.innersWidth;
-      oDiv.style.left = `${-this.steep * a}px`;
+      oDiv.style.left = `${this._rightMoveSteep()}px`;
       oDiv.style.transition = "0.5s";
     },
-    _isPanDauanQianMianDaGuoHouMian(max, min) {},
-    clickItemIdx(e) {},
-    //点击子
-    dianji(e) {},
+    _rightMoveSteep: function () {
+      let steep;
+      let ispandaun =
+        Math.abs(this.navWidth - this.innersWidth) > this.innersWidth;
+      if (this.Nums <= 2) {
+        steep = this.navWidth - this.innersWidth;
+      } else {
+        if (a == this.Nums) return;
+        a++;
+        let ress = this.navWidth - this.innersWidth * (a - 1);
+        if (ispandaun && a == this.Nums) {
+          steep = this.navWidth - this.innersWidth;
+        } else if (ispandaun && a == this.Nums - 1) {
+          steep = ress;
+        } else {
+          steep = this.innersWidth * a;
+        }
+      }
+      return -steep;
+    },
     //点击选中
     handleTabsEdit() {
       let router =
@@ -685,8 +705,6 @@ export default {
       }
       console.log("router", router);
       this.$router.push(router);
-      this._isZhanNewStation(this.mianbaoxieArr);
-      this._isZhanNewStation(this.dropdownArr[+this.activeTabsName]);
       let dataArrJson =
         this.dropdownArr[+this.activeTabsName].children.length != 0
           ? this.dropdownArr[+this.activeTabsName].children[0]
@@ -694,10 +712,9 @@ export default {
       this.mianbaoxieArr = [];
       let mianbaoxieArrJson = this.dropdownArr[+this.activeTabsName];
       if (!this.Heavy({ list: this.mianbaoxieArr, data: mianbaoxieArrJson })) {
-        this.mianbaoxieArr.unshift(mianbaoxieArrJson);
       }
-      this._isZhanNewStation();
       this.mianbaoxieArr.splice(1, 1, dataArrJson);
+      this._isZhanNewStation(this.dropdownArr[+this.activeTabsName]);
       this.setStorage();
     },
     _isZhanNewStation(data) {
@@ -729,7 +746,6 @@ export default {
     },
     //点击删除
     removeTab(e) {
-      console.log("removeTabitem", e);
       // let removeSrc = e.substring(e.length, e.length - 1);
       let removeSrc = e;
       if (!removeSrc) return;
@@ -757,15 +773,9 @@ export default {
           duration: 500,
         });
       }
-      // if (this.dataArr[+this.activeName].title == "首页")
-      //     return this.$router.push("/index/indexFormJH");
       let json = this.dataArr[+this.activeName];
       // console.log("点击了第一级的菜单栏");
-      // sessionStorage.setItem("activeName", this.activeName);
       let router = this.dataArr[+this.activeName].name;
-      // this.dataArr[+this.activeName].children.length != 0
-      //   ? this.dataArr[+this.activeName].children[0].name
-      //   : this.dataArr[+this.activeName].name;
       this.$router.push(router);
       // console.log(router);
       //跳转路由
@@ -862,6 +872,12 @@ export default {
 };
 </script>
 <style lang='scss'>
+.xitonwenzi {
+  color: #fff;
+  font-size: 18px;
+  line-height: 90px;
+  user-select: none;
+}
 .popper__arrow {
   left: 50% !important;
   transform: translate(-50%);
@@ -890,8 +906,8 @@ export default {
 }
 
 #clickBox .el-tabs__header .el-tabs__item.is-active {
-  border-bottom-color: #ced4de;
   background: #eef1f8;
+  border-bottom: #000;
 }
 
 .mianbaoxie {
@@ -900,10 +916,6 @@ export default {
 
 .dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item:first-child {
   border-left: 1px solid #ced4de !important;
-}
-
-.dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item {
-  border-bottom: none;
 }
 
 .dianjiqiehuan .el-breadcrumb__inner.is-link {
@@ -989,7 +1001,10 @@ export default {
 .tabContainer .el-dropdown {
   color: white;
 }
-
+.el-tabs__nav-next,
+.el-tabs__nav-prev {
+  line-height: 34px;
+}
 .dianjiCenters .el-tabs__item {
   line-height: 34px;
   height: 34px;
@@ -1002,9 +1017,9 @@ export default {
   margin: 0;
 }
 
-.tabContainer .el-tabs__content {
-  display: none;
-}
+// .tabContainer .el-tabs__content {
+//   display: none;
+// }
 
 .tabContainer .el-tabs--card > .el-tabs__header .el-tabs__nav {
   border: none;
@@ -1067,7 +1082,6 @@ export default {
 .tabContainer .el-tabs__nav-wrap {
   position: relative;
   height: 90px;
-
   overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;

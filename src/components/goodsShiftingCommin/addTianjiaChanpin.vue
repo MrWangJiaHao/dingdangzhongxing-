@@ -11,7 +11,7 @@
         <div>
           <createMonent :chuanjianJsonAndArr="chuanjianJsonAndArr">
             <template slot="btnsArr">
-              <div class=" dispalyFlex mb16">
+              <div class="dispalyFlex mb16">
                 <span class="goOn inline mr11">查询</span>
                 <span class="lodopFunClear inline" @click="clearInputs">
                   清空
@@ -23,7 +23,7 @@
           <div class="tr mt20 pd20">
             <span class="lodopFunClear inline" @click="removeTarget">删除</span>
           </div>
-          <div class="pd20 centerBox mb16">
+          <div class="pd20 botD1 centerBox mb16">
             <table-commin
               :tableDataJson="tableDataJson"
               @tableSelectArr="tableSelectArr"
@@ -44,13 +44,13 @@
 </template>
 
 <script>
-  /* eslint-disable */
-  import createMonent from "../commin/createMonent"; //创建上面
-  import kuanjiaClick from "../commin/kuanjiaClick"; //点击架子
-  import TableCommin from "../commin/tableCommin.vue";
-  import pageComponent from "../commin/pageComponent";
+/* eslint-disable */
+import createMonent from "../commin/createMonent"; //创建上面
+import kuanjiaClick from "../commin/kuanjiaClick"; //点击架子
+import TableCommin from "../commin/tableCommin.vue";
+import pageComponent from "../commin/pageComponent";
 
-  export default {
+export default {
   props: {
     sendoutJson: {
       type: Object,
@@ -66,20 +66,20 @@
             types: "search",
             input: "",
             placeholder: "请输入产品编码",
-            w320:"w160"
+            w320: "w150",
           },
           {
             title: "产品名称",
             types: "search",
             input: "",
             placeholder: "请输入产品名称",
-            w320:"w160"
+            w320: "w150",
           },
           {
             title: "产品规格",
             types: "xiala",
             select: "",
-            w320:"w160",
+            w320: "w150",
             placeholder: "请选择产品规格",
             dropDownXialaClickFun() {},
             getDropDownChangeDataFun() {},
@@ -139,33 +139,32 @@
   },
   created() {
     this._tableDataArrs();
-    this._hrefDatas()
+    this._hrefDatas();
   },
-  computed:{
+  computed: {
     //委托公司
-    _inputArrMoveInLibrary(){
+    _inputArrMoveInLibrary() {
       return [
         {
           title: "委托公司",
           types: "search",
           input: "",
           placeholder: "请选择委托公司",
-          w320:'w320'
+          w320: "w320",
         },
         {
           title: "产品编码",
           types: "search",
           input: "",
           placeholder: "请输入产品编码",
-          w320:'w160'
+          w320: "w160",
         },
         {
           title: "产品名称",
           types: "search",
           input: "",
           placeholder: "请输入产品名称",
-          w320:'w160'
-
+          w320: "w160",
         },
         {
           title: "产品规格",
@@ -174,12 +173,12 @@
           placeholder: "请选择产品规格",
           dropDownXialaClickFun() {},
           getDropDownChangeDataFun() {},
-          w320:'w160'
-        }
-      ]
+          w320: "w160",
+        },
+      ];
     },
     //产品明细，table
-    _changpingmingxiData(){
+    _changpingmingxiData() {
       return [
         {
           types: "selection",
@@ -191,38 +190,37 @@
         },
         {
           types: "orgName",
-          label: '委托公司'
+          label: "委托公司",
         },
         {
           types: "prodCode",
-          label: '产品编码'
+          label: "产品编码",
         },
         {
-          types: 'prodName',
-          label: '产品名称'
+          types: "prodName",
+          label: "产品名称",
         },
         {
-          types: 'specName',
-          label: '产品规格'
+          types: "specName",
+          label: "产品规格",
         },
         {
-          types: 'braName',
-          label: '品牌'
-        }
-        ,
+          types: "braName",
+          label: "品牌",
+        },
         {
-          types: 'currInventory',
-          label: '销售仓可用库存'
-        }
-      ]
-    }
+          types: "currInventory",
+          label: "销售仓可用库存",
+        },
+      ];
+    },
   },
   methods: {
-    _hrefDatas(){
-      let _href = window.location.href
-      if(_href.includes('/moveInLibrary')){
-      this.chuanjianJsonAndArr.inputArr=  this._inputArrMoveInLibrary
-      this.tableDataJson.typeData = this._changpingmingxiData
+    _hrefDatas() {
+      let _href = window.location.href;
+      if (_href.includes("/moveInLibrary")) {
+        this.chuanjianJsonAndArr.inputArr = this._inputArrMoveInLibrary;
+        this.tableDataJson.typeData = this._changpingmingxiData;
       }
     },
     clearInputs() {
@@ -268,12 +266,16 @@
     },
     //点击了提交
     goAJAXCreate() {
-      if (!this.multiputes.length) return this.$messageSelf.message({message:'请选择要提交的产品明细',type:"warning"})
+      if (!this.multiputes.length)
+        return this.$messageSelf.message({
+          message: "请选择要提交的产品明细",
+          type: "warning",
+        });
       sessionStorage.setItem(
         "tianjiachanpings",
         JSON.stringify(this.multiputes)
       );
-      this.$emit('clickSubmitFun',this.multiputes)
+      this.$emit("clickSubmitFun", this.multiputes);
       this.closeBtn();
     },
   },
