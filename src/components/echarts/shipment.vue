@@ -277,7 +277,7 @@ export default {
             sampling: "average", //取过滤点的平均值
             itemStyle: {
               //折线拐点标志的样式。
-              color: "#9bb2e0",
+              color: "#599AF3",
             },
             // stack: "a", //数据堆叠，同个类目轴上系列配置相同的stack值后，后一个系列的值会在前一个系列的值上相加。
             areaStyle: {
@@ -285,7 +285,7 @@ export default {
               color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                 {
                   offset: 0,
-                  color: "#9bb2e0",
+                  color: "#599AF3",
                 },
                 {
                   offset: 1,
@@ -308,13 +308,13 @@ export default {
             symbolSize: 5,
             sampling: "average",
             itemStyle: {
-              color: "#fbb897",
+              color: "#F88852",
             },
             areaStyle: {
               color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                 {
                   offset: 0,
-                  color: "#fbb897",
+                  color: "#F88852",
                 },
                 {
                   offset: 1,

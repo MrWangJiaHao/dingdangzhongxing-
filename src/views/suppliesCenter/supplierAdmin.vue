@@ -34,7 +34,7 @@
             <div class="icon-title-icon">
               <img src="../../assets/img/systemTitlemesa.png" />
             </div>
-            <div class="icon-title-title">供应商信息</div>
+            <div class="icon-title-title">查询结果</div>
           </div>
           <div class="someBtn">
             <div class="setUser" @click="createChildWarehouse">创建</div>
@@ -398,7 +398,7 @@ export default {
         });
       this.$messageSelf
         .confirms("确定要删除该供应商？", "删除确认", {
-          type: "warning",
+          type: "info",
         })
         .then(() => {
           this.delRequest({ ids: arr });

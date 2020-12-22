@@ -133,7 +133,7 @@
             <div class="icon-title-icon">
               <img src="../../assets/img/systemTitlemesa.png" />
             </div>
-            <div class="icon-title-title">物料记录信息</div>
+            <div class="icon-title-title">查询结果</div>
           </div>
           <div class="someBtn">
             <div class="setUser" @click="createChildWarehouse">创建</div>
@@ -175,7 +175,8 @@
               align="center"
             >
             </el-table-column>
-            <el-table-column prop="specName" label="规格" align="center">
+            <el-table-column prop="specName" label="规格" align="center" width="180"
+              min-width="180">
             </el-table-column>
             <el-table-column
               prop="materielType"
@@ -187,14 +188,15 @@
             </el-table-column>
             <el-table-column prop="supName" label="供应商" align="center">
             </el-table-column>
-            <el-table-column prop="type" label="类型" align="center">
+            <el-table-column prop="type" label="类型" align="center" width="80">
             </el-table-column>
-            <el-table-column prop="num" label="数量" align="center">
+            <el-table-column prop="num" label="数量" align="center" width="80">
             </el-table-column>
             <el-table-column
               prop="actualInventory"
               label="实际库存"
               align="center"
+              width="100"
             >
             </el-table-column>
             <el-table-column prop="" label="领取人" align="center">
@@ -208,6 +210,8 @@
               prop="createTime"
               label="创建时间"
               align="center"
+              width="180"
+              min-width="180"
             ></el-table-column>
           </el-table>
           <div class="pageComponent">
@@ -888,7 +892,7 @@ export default {
         return this.$messageSelf.message("请选择要删除的物料信息");
       this.$messageSelf
         .confirms("确定要删除该物料信息？", "删除确认", {
-          type: "warning",
+          type: "info",
         })
         .then(() => {
           this.delRequest({ ids: arr });

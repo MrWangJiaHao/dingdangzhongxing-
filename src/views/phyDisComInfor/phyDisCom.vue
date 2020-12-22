@@ -34,7 +34,7 @@
             <div class="icon-title-icon">
               <img src="../../assets/img/systemTitlemesa.png" />
             </div>
-            <div class="icon-title-title">物流公司信息</div>
+            <div class="icon-title-title">查询结果</div>
           </div>
         </div>
         <div class="resultForm">
@@ -248,7 +248,7 @@ export default {
   }
 }
 .childWarehouseForm {
-  margin: 16px 0 0 0;
+  margin: 20px 0 0 0;
   background: white;
   .formHeader {
     height: 50px;

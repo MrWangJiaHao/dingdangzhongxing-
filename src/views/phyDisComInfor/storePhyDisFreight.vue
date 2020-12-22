@@ -88,7 +88,7 @@
             <div class="icon-title-icon">
               <img src="../../assets/img/systemTitlemesa.png" />
             </div>
-            <div class="icon-title-title">仓库物流运费模板信息</div>
+            <div class="icon-title-title">查询结果</div>
           </div>
           <div class="someBtn">
             <div class="bianjiUser" @click="lookDetail">查看</div>
@@ -163,7 +163,7 @@
     </div>
 
     <!-- 弹框 -->
-    <el-dialog title="配送区域查看" :visible.sync="dialogFormVisible">
+    <el-dialog title="配送区域查看" :visible.sync="dialogFormVisible" custom-class="animate__animated animate__zoomIn">
       <div class="dialogForm">
         <el-table
           :data="tableData1"
@@ -519,7 +519,7 @@ export default {
   }
 }
 .childWarehouseForm {
-  margin: 16px 0 0 0;
+  margin: 20px 0 0 0;
   background: white;
   .formHeader {
     display: flex;

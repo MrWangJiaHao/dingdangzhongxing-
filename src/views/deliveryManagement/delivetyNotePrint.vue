@@ -3,7 +3,7 @@
     <div class="manualBox">
       <div class="displayJucenMes">
         <div class="pd20 mtb20">
-          <div class="zujianBox mb20">
+          <div class="zujianBox">
             <div class="displayalign zujianBox">
               <div class="noneIconTitle nowrap mr11">拣货单号:</div>
               <div class="mr20">
@@ -17,7 +17,7 @@
           <!-- 拣货单号 -->
         </div>
         <div class="tr pd20 mr11" style="">
-          <div class="btns mb20">
+          <div class="btns">
             <div class="bianjiUser disinb zujianBox" @click="queryBtns">
               查询
             </div>
@@ -284,8 +284,8 @@ export default {
 }
 
 .manualBox {
-  border-top: 1px solid #d1d6e2;
-  background-color: rgb(232, 233, 236);
+  // border-top: 1px solid #d1d6e2;
+  // background-color: rgb(232, 233, 236);
 }
 
 .btnArr {

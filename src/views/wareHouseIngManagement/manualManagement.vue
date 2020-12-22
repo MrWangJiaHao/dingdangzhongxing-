@@ -495,9 +495,7 @@ export default {
 
       this.$messageSelf
         .confirms("确定要删除该入库单号？", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
+          type: "info",
         })
         .then(() => {
           delRecordByIdArrs({
@@ -550,8 +548,8 @@ export default {
 }
 
 .manualBox {
-  border-top: 1px solid #d1d6e2;
-  background-color: rgb(232, 233, 236);
+  // border-top: 1px solid #d1d6e2;
+  // background-color: rgb(232, 233, 236);
 }
 .btnArr {
   padding: 0 10px;

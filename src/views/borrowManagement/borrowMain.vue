@@ -473,7 +473,7 @@ export default {
         .confirms(
           `确定要删除这${this.multipleSelection.length}条借调单号？`,
           "删除确认",
-          { type: "warning" }
+          { type: "info" }
         )
         .then(() => {
           this.delRequest({ ids: arr });

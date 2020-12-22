@@ -811,7 +811,7 @@ export default {
       if (!arr.length) return this.$messageSelf.message("请选择要删除的库位");
       this.$messageSelf
         .confirms("确定要删除吗？", "提示", {
-          type: "warning",
+          type: "info",
         })
         .then(() => {
           this.delRequest({ ids: arr });

@@ -351,7 +351,7 @@ export default {
         });
       this.$messageSelf
         .confirms(this.$clearArr(arr), "提示", {
-          type: "warning",
+          type: "info",
         })
         .then(() => {
           let removeData = this.$getJsonTarget(arr, "id", "id");
@@ -382,7 +382,7 @@ export default {
       this.removeShift.push(datas);
       console.log(idx, length);
       if (idx == length - 1) {
-        this.removeShift.forEach((item, idx) => {
+        this.removeShift.forEach((item) => {
           if (item.code == "10000") {
             return this.$messageSelf.message({
               message: "该用户登录信息已删除成功",
@@ -510,8 +510,8 @@ export default {
 @import "../../assets/scss/btn.scss";
 
 .userSettingBox {
-  border-top: 1px solid #d1d6e2;
-  background-color: #eef1f8;
+  // border-top: 1px solid #d1d6e2;
+  // background-color: #eef1f8;
 
   .fuzzyQueryBox {
     display: flex;

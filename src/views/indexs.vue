@@ -99,13 +99,13 @@
     <!-- 可以删除的导航 -->
     <div
       class="dianjiqiehuan"
-      v-show="mianbaoxieArr.length && !isZhanneixiaoxi"
+      v-show="
+        mianbaoxieArr.length &&
+        mianbaoxieArr[0].title !== mianbaoxieArr[1].title
+      "
     >
-      <div class="mianbaoxie">
-        <el-breadcrumb
-          separator-class="el-icon-arrow-right"
-          v-show="!isZhanneixiaoxi"
-        >
+      <div class="mianbaoxie" v-show="!isZhanneixiaoxi">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item
             v-for="(item, idx) in mianbaoxieArr"
             :key="idx + 'dsa'"
@@ -117,8 +117,11 @@
     </div>
     <!-- 面包屑导航 -->
     <keep-alive>
-      <router-view></router-view>
+      <!-- 需要缓存的视图组件 -->
+      <router-view v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
+    <!-- 不需要缓存的视图组件 -->
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
     <div class="footerCom">
       <Footer></Footer>
     </div>
@@ -570,6 +573,7 @@ export default {
     this.activeName = sessionStorage.getItem("activeName");
     this.getStorage();
     this._getMesAge();
+    // this.changeTableBorder();
   },
   created() {
     this.dropdownArr.unshift(this.dataArr[0]);
@@ -603,6 +607,25 @@ export default {
     },
   },
   methods: {
+    changeTableBorder() {
+      // let myDiv = document.querySelectorAll(".el-table__body");
+      // setTimeout(() => {
+      //   if (!myDiv[0].offsetWidth > 1860) {
+      //     console.log(123);
+      //   } else {
+      //     document
+      //       .querySelector(".el-table--border")
+      //       .style.setProperty("border", "none", "important");
+      //     document
+      //       .querySelector(".el-table--border")
+      //       .style.setProperty("border-top", "1px solid #d2d6e2", "important");
+      //     document
+      //       .querySelector(".el-table--border")
+      //       .style.setProperty("border-left", "1px solid #d2d6e2", "important");
+      //   }
+      // }, 800);
+    },
+    
     goToIndex() {
       this.$router.push("/index/indexFormJH");
     },

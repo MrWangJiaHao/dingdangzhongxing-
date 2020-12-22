@@ -224,49 +224,49 @@
             <el-table-column
               prop="predictWeightCount"
               label="预估总重量（kg）"
-              align="center"
+              align="right"
               min-width="140"
             >
             </el-table-column>
             <el-table-column
               prop="predictFeeCount"
               label="预估总运费（元）"
-              align="center"
+              align="right"
               min-width="140"
             >
             </el-table-column>
             <el-table-column
               prop="weightCount"
               label="称重总重量（kg）"
-              align="center"
+              align="right"
               min-width="140"
             >
             </el-table-column>
             <el-table-column
               prop="feeCount"
               label="实际总费用（元）"
-              align="center"
+              align="right"
               min-width="140"
             >
             </el-table-column>
             <el-table-column
               prop="weightDiff"
               label="重量总差（kg）"
-              align="center"
+              align="right"
               min-width="140"
             >
             </el-table-column>
             <el-table-column
               prop="feeDiff"
               label="运费总差（元）"
-              align="center"
+              align="right"
               min-width="140"
             >
             </el-table-column>
             <el-table-column prop="chargeMan" label="揽件人" align="center">
             </el-table-column>
             <el-table-column
-              prop="feeDiff"
+              prop="orderDeliveryTime"
               label="揽件时间"
               align="center"
               width="180"

@@ -161,114 +161,8 @@ export default {
       input3: "",
       input4: "",
       input5: "",
-      childWarehouseSerial: [
-        {
-          value: "A",
-          label: "A",
-        },
-        {
-          value: "B",
-          label: "B",
-        },
-        {
-          value: "C",
-          label: "C",
-        },
-        {
-          value: "D",
-          label: "D",
-        },
-        {
-          value: "E",
-          label: "E",
-        },
-        {
-          value: "F",
-          label: "F",
-        },
-        {
-          value: "G",
-          label: "G",
-        },
-        {
-          value: "H",
-          label: "H",
-        },
-        {
-          value: "I",
-          label: "I",
-        },
-        {
-          value: "J",
-          label: "J",
-        },
-        {
-          value: "K",
-          label: "K",
-        },
-        {
-          value: "L",
-          label: "L",
-        },
-        {
-          value: "M",
-          label: "M",
-        },
-        {
-          value: "N",
-          label: "N",
-        },
-        {
-          value: "O",
-          label: "O",
-        },
-        {
-          value: "P",
-          label: "P",
-        },
-        {
-          value: "Q",
-          label: "Q",
-        },
-        {
-          value: "R",
-          label: "R",
-        },
-        {
-          value: "S",
-          label: "S",
-        },
-        {
-          value: "T",
-          label: "T",
-        },
-        {
-          value: "U",
-          label: "U",
-        },
-        {
-          value: "V",
-          label: "V",
-        },
-        {
-          value: "W",
-          label: "W",
-        },
-        {
-          value: "X",
-          label: "X",
-        },
-        {
-          value: "Y",
-          label: "Y",
-        },
-        {
-          value: "Z",
-          label: "Z",
-        },
-      ],
+      childWarehouseSerial: [],
       value1: "A",
-
       childWarehouseType: [
         {
           value: "1",
@@ -284,49 +178,64 @@ export default {
         },
       ],
       value2: "",
-      childWarehouseNumber: [
-        {
-          value: "1",
-          label: "1",
-        },
-        {
-          value: "2",
-          label: "2",
-        },
-        {
-          value: "3",
-          label: "3",
-        },
-        {
-          value: "4",
-          label: "4",
-        },
-        {
-          value: "5",
-          label: "5",
-        },
-        {
-          value: "6",
-          label: "6",
-        },
-        {
-          value: "7",
-          label: "7",
-        },
-        {
-          value: "8",
-          label: "8",
-        },
-        {
-          value: "9",
-          label: "9",
-        },
-      ],
+      childWarehouseNumber: [],
       value3: "1",
       childWarehouseList: "",
     };
   },
+  created() {},
   mounted() {
+    let letterArr = [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "M",
+      "N",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "T",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "Z",
+    ];
+    let numberArr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    for (let i = 0; i < letterArr.length; i++) {
+      this.childWarehouseSerial.push({
+        value: letterArr[i],
+        label: letterArr[i],
+      });
+    }
+    for (let i = 0; i < numberArr.length; i++) {
+      this.childWarehouseNumber.push({
+        value: numberArr[i],
+        label: numberArr[i],
+      });
+    }
+    this.changeSize();
+
+    window.addEventListener(
+      "resize",
+      () => {
+        this.changeSize();
+      },
+      false
+    );
+
     //获取平面图的div
     let oDiv = document.querySelector(".temporarily_no");
     this.childWarehouseList = this.$store.state.CWAdminRequest.queryData.list;
@@ -357,6 +266,11 @@ export default {
     }
   },
   methods: {
+    changeSize() {
+      let setArea = document.querySelector(".setArea");
+      setArea.style.width = "100%";
+      setArea.style.height = setArea.offsetWidth / 2 + "px";
+    },
     goBack() {
       this.$router.replace("/warehoseconfig/childWarehouseAdmin");
     },
@@ -497,13 +411,13 @@ export default {
       }
     }
     .setArea {
-      width: 100%;
-      height: 930px;
+      // width: 100%;
+      // height: 930px;
       background: #eef1f8;
       border: 1px #d8dce7 dotted;
       border-radius: 10px;
       .temporarily_no {
-        height: 930px;
+        // height: 930px;
         font-size: 22px;
         position: relative;
       }
