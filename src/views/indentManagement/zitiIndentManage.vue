@@ -124,7 +124,10 @@
           </div>
           <div class="timeChoose el-inputBox">
             <div class="stateChoose">
-              <div class="el-inputBox-checkBox" style="width: 110px;margin-right:10px">
+              <div
+                class="el-inputBox-checkBox"
+                style="width: 110px; margin-right: 10px"
+              >
                 <el-select
                   v-model="stateChooseValue"
                   @change="stateChooseValues"
@@ -159,14 +162,14 @@
               <!-- 结束时间 -->
             </div>
           </div>
-          <div class="header-botton">
-            <!-- <div class="showBtn" @click="clickShow">
+        </div>
+        <div class="header-botton">
+          <!-- <div class="showBtn" @click="clickShow">
               <span>{{ stateChoose }}</span
               ><span class="el-icon-caret-bottom caret"></span>
             </div> -->
-            <div class="queryBtn" @click="clickQuery">查询</div>
-            <div class="clearBtn" @click="clearInput">清空</div>
-          </div>
+          <div class="queryBtn" @click="clickQuery">查询</div>
+          <div class="clearBtn" @click="clearInput">清空</div>
         </div>
       </div>
       <div class="childWarehouseForm">
@@ -630,7 +633,10 @@ export default {
         // console.log(this.queryData);
         this.pageQueryFun();
       } else {
-        return this.$messageSelf.message({message:"请输入正确的手机号",type:"warning"});
+        return this.$messageSelf.message({
+          message: "请输入正确的手机号",
+          type: "warning",
+        });
       }
     },
     clearInput() {
@@ -815,7 +821,10 @@ export default {
         if (!isMobile(telPhoneValue)) {
           phoneInput.style.borderColor = "red";
           this.testPhone = false;
-          return this.$messageSelf.message({message:"请输入正确的手机号",type:"warning"});
+          return this.$messageSelf.message({
+            message: "请输入正确的手机号",
+            type: "warning",
+          });
         }
       }
       phoneInput.style.borderColor = "#DCDFE6";
@@ -928,6 +937,8 @@ export default {
   padding: 20px 10px;
 }
 .headerHtml {
+  display: flex;
+  justify-content: space-between;
   position: relative;
   padding: 0 20px;
   transition: 0.3s;
@@ -944,21 +955,16 @@ export default {
     }
   }
   .header-botton {
-    width: 190px;
-    height: 36px;
-    position: absolute;
-    right: 0;
-    bottom: 16px;
-
+    margin-bottom: 16px;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     .queryBtn {
       @include BtnFunction("success");
     }
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 16px 0 10px;
+      margin: 0 0 0 10px;
     }
   }
   .timeChoose {
