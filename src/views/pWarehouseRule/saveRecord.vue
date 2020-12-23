@@ -388,7 +388,6 @@
     };
 </script>
 <style>
-
     #app #dindanlaiyuan .el-radio__input.is-checked .el-radio__inner {
         background: #fff;
     }

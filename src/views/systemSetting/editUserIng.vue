@@ -214,6 +214,7 @@
 </template>
 
 <script>
+    /*eslint-disable*/
     import {isMobile, isEmail} from "../../utils/validate";
     import {post} from "../../api/api";
     import {mapState} from "vuex";

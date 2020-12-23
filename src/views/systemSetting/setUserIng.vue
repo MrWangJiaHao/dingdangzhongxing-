@@ -188,6 +188,7 @@
     }
 </style>
 <script>
+    /*eslint-disable*/
     import kuanjiaClick from "../../components/commin/kuanjiaClick";
 
 

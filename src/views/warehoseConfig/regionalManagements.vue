@@ -307,6 +307,7 @@
 </template>
 
 <script>
+    /*eslint-disable*/
     import pagecomponent from "../../components/commin/pageComponent"; //分页器
     import {post} from "../../api/api";
     import {mapState} from "vuex";

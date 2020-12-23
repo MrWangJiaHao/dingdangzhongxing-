@@ -203,6 +203,7 @@
 </template>
 
 <script>
+    /*eslint-disable*/
     import dateTime from "../../components/commin/dateTime.vue"; //时间
     import pagecomponent from "../../components/commin/pageComponent"; //分页器
     import kuanjiaClick from "../../components/commin/kuanjiaClick";

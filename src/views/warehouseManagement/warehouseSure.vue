@@ -243,6 +243,7 @@
     }
 </style>
 <script>
+    /*eslint-disable*/
     import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
     import kuanjiaClick from "../../components/commin/kuanjiaClick";
     import {_removeData, isMobile} from "../../utils/validate";

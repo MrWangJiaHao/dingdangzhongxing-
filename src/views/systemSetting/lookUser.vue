@@ -209,6 +209,7 @@
 </template>
 
 <script>
+    /*eslint-disable*/
     import kuanjiaClick from "../../components/commin/kuanjiaClick";
     import {mapState} from "vuex";
 

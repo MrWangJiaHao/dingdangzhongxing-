@@ -211,6 +211,7 @@
 </template>
 
 <script>
+  /*eslint-disable*/
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import {
@@ -220,7 +221,7 @@ import {
   saveBreakageOrder,
 } from "../../api/api";
 import BreakageOrder from "../../components/commin/componentList";
-// import { _getExportExcels } from "../../utils/validate";
+
 export default {
   components: {
     pagecomponent,

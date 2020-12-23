@@ -169,6 +169,7 @@
 </template>
 
 <script>
+  /*eslint-disable*/
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { storeMapRelation } from "../../api/api";
 import { reduceFun } from "../../utils/validate";

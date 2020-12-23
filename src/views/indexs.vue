@@ -2,7 +2,7 @@
     <div id="headerMain">
         <div class="tabContainer">
       <span class="imgbox ellipsis displayalign" @click="goToIndex">
-        <img src="@/assets/img/logo.png" style="margin-right: 5px"/>
+        <img src="@/assets/img/logo.png" style="margin-right: 5px;margin-top: -2px"/>
         <span class="xitonwenzi">仓储系统</span>
       </span>
             <div class="el-nav displayalign">
@@ -18,12 +18,12 @@
                             >
                 <span class="el-dropdown-link">
                   <img
-                          style="margin-right: 8px"
+                          style="margin-right: 8px;margin-top: -4px"
                           :src="navIndex.iconCls"
                           width="16"
                           height="16"
                   />
-                  <div style="display: inline-block">
+                  <div style="display: inline-block;line-height: 34px">
                     {{ navIndex.title }}
                   </div>
                 </span>
@@ -40,11 +40,11 @@
                 <span class="el-dropdown-link">
                   <img
                           :src="navIndex.iconCls"
-                          style="margin-right: 8px"
+                          style="margin-right: 8px;margin-top: -4px"
                           width="16"
                           height="16"
                   />
-                  <div style="display: inline-block">
+                  <div style="display: inline-block;line-height: 34px">
                     {{ navIndex.title }}
                   </div>
                 </span>

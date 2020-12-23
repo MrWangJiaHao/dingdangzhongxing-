@@ -171,6 +171,7 @@
 </template>
 
 <script>
+  /*eslint-disable*/
 import { post, delRole, jurisdicRequest } from "../../api/api";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 
