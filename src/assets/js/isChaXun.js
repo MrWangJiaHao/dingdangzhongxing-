@@ -17,6 +17,7 @@ class isDisplayNoneBlock {
         this.parent.style.marginBottom = 16 + "px";
         console.log(this.parentHeight, 'isChaXun')
         if (parentHeight > 105) {
+            parent.style.height = 105 + "px";
             this.createDomPush(child);
         }
     }
@@ -37,18 +38,16 @@ class isDisplayNoneBlock {
         div.innerText = "展示"
         div.classList.toggle("isclickMes")
         self.parent.style.marginBottom = 16 + "px";
-        console.log(self.parentHeight, 'clickFun')
         self.parent.style.height = 104 + "px";
+        self.child.style.bottom = "0" + "px";
     }
 
     changeFun(div, self) {
-        console.log(self.parentHeight, 'changeFun')
         div.innerText = "收起";
-        self.parent.style.height = self.parentHeight + "px";
-
-        self.parent.style.marginBottom = 0 + "px";
-
         div.classList.toggle("isclickMes")
+        self.parent.style.height = self.parentHeight + "px";
+        self.child.style.bottom = 20 + "px";
+        self.parent.style.marginBottom = 0 + "px";
     }
 }
 

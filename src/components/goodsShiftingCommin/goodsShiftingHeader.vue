@@ -204,11 +204,6 @@
         created() {
             this.getTableData();
         },
-        mounted() {
-            this.$nextTick(() => {
-                this.$isChaXun.isChaXun(document.querySelector(".btnArrs"));
-            });
-        },
         methods: {
             //委托公司
             weiTuoGonShiClick() {

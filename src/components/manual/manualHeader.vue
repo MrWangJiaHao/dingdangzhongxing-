@@ -527,15 +527,8 @@
                 this.paras.outWareType = this.$route.params.type;
                 this.isOneShou = false;
             }
-            this.addZhanKaiRes(".btnArrs");
         },
         methods: {
-            addZhanKaiRes(child) {
-                this.$nextTick(() => {
-                    child = document.querySelector(child);
-                    this.$isChaXun.isChaXun(child);
-                });
-            },
             getoutWareStatus() {
             },
             outWareTimeStart(e) {

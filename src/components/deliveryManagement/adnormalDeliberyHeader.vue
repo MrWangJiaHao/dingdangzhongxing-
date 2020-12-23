@@ -278,15 +278,8 @@
         },
         created() {
             this._getMes();
-            this.addZhanKaiRes(".btnArrs");
         },
         methods: {
-            addZhanKaiRes(child) {
-                this.$nextTick(() => {
-                    child = document.querySelector(child);
-                    this.$isChaXun.isChaXun(child);
-                });
-            },
             changeorderAddr(e) {
                 this.paras.orderAddr = addressJson.orderAddrArr[e].orderAddr;
             },

@@ -403,15 +403,8 @@
         },
         created() {
             this._getMes();
-            this.addZhanKaiRes(".btnArrs");
         },
         methods: {
-            addZhanKaiRes(child) {
-                this.$nextTick(() => {
-                    child = document.querySelector(child);
-                    this.$isChaXun.isChaXun(child);
-                });
-            },
             changeorderAddr(e) {
                 this.paras.orderAddr = this.addressJson.orderAddrArr[e].orderAddr;
             },
@@ -564,32 +557,32 @@
             },
         },
     };
-    let flag = 1;
-
-    //判断需不需要添加
-    function createZhangkaiD(child) {
-        let parent = child.parentNode;
-        let parentHeight = parent.offsetHeight;
-        if (parentHeight >= 118) {
-            parent.style.height = 118 + "px";
-            createDomPush(child);
-        }
-    }
-
+    // let flag = 1;
     //
-    function createDomPush(child) {
-        let text = flag % 2 != 0 ? "展开" : "收起";
-        let div = document.createElement("div");
-        div.innerText = text;
-        div.className = "inline mr11 clickMes";
-        child.insertBefore(div, child.children[0]);
-        div.addEventListener("click", clickFun, false);
-    }
-
-    //isClickMes
-    function clickFun() {
-        flag++;
-    }
+    // //判断需不需要添加
+    // function createZhangkaiD(child) {
+    //     let parent = child.parentNode;
+    //     let parentHeight = parent.offsetHeight;
+    //     if (parentHeight >= 118) {
+    //         parent.style.height = 118 + "px";
+    //         createDomPush(child);
+    //     }
+    // }
+    //
+    // //
+    // function createDomPush(child) {
+    //     let text = flag % 2 != 0 ? "展开" : "收起";
+    //     let div = document.createElement("div");
+    //     div.innerText = text;
+    //     div.className = "inline mr11 clickMes";
+    //     child.insertBefore(div, child.children[0]);
+    //     div.addEventListener("click", clickFun, false);
+    // }
+    //
+    // //isClickMes
+    // function clickFun() {
+    //     flag++;
+    // }
 </script>
 
 <style lang='scss' scoped>
