@@ -12,7 +12,7 @@
                         <div class="bianjiUser" @click="printstockinlist">打印出库单</div>
                         <a
                                 class="daochuMes disinb"
-                                :href="sessionStorage.getItem('baseUrl')+'/wbs-warehouse-manage/v1/pOutWarehouse/exprotExcel'"
+                                :href="baseUrl+'/wbs-warehouse-manage/v1/pOutWarehouse/exprotExcel'"
                         >导出</a>
                         <span v-if="$route.params.type == 0" class="mr10"></span>
                         <div
@@ -242,6 +242,7 @@
                 pageComponentsData: {
                     pageNums: 0, //一共多少条 //默认一页10条
                 },
+                baseUrl: sessionStorage.getItem("baseUrl"),
                 sendOutDataJson: {
                     paras: {
                         orgName: "",

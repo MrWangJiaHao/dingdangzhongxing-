@@ -100,7 +100,8 @@
         <div
                 class="dianjiqiehuan"
                 v-show="
-        mianbaoxieArr.length &&
+        mianbaoxieArr.length &&  mianbaoxieArr[1]
+        &&  mianbaoxieArr[0]&&
         mianbaoxieArr[0].title !== mianbaoxieArr[1].title
       "
         >
@@ -573,11 +574,11 @@
             this.activeName = sessionStorage.getItem("activeName");
             this.getStorage();
             this._getMesAge();
-            // this.changeTableBorder();
         },
         created() {
             this.dropdownArr.unshift(this.dataArr[0]);
             this.mianbaoxieArr.unshift();
+            this.addHenxianTables()
         },
         watch: {
             activeName: function (n) {
@@ -607,25 +608,6 @@
             },
         },
         methods: {
-            changeTableBorder() {
-                // let myDiv = document.querySelectorAll(".el-table__body");
-                // setTimeout(() => {
-                //   if (!myDiv[0].offsetWidth > 1860) {
-                //     console.log(123);
-                //   } else {
-                //     document
-                //       .querySelector(".el-table--border")
-                //       .style.setProperty("border", "none", "important");
-                //     document
-                //       .querySelector(".el-table--border")
-                //       .style.setProperty("border-top", "1px solid #d2d6e2", "important");
-                //     document
-                //       .querySelector(".el-table--border")
-                //       .style.setProperty("border-left", "1px solid #d2d6e2", "important");
-                //   }
-                // }, 800);
-            },
-
             goToIndex() {
                 this.$router.push("/index/indexFormJH");
             },
@@ -692,6 +674,7 @@
             },
             //点击选中
             handleTabsEdit() {
+                this.addHenxianTables()
                 let router =
                     this.dropdownArr[+this.activeTabsName].children.length != 0
                         ? this.dropdownArr[+this.activeTabsName].children[0].name

@@ -1,7 +1,7 @@
 <template>
     <div class="userSettingBox">
-        <div class="fuzzyQueryBox mb16">
-            <div class="biaogeBox">
+        <headerKuanJia @clickQueryUser="clickQueryUser" @clearInputAll="clearInputAll">
+            <template>
                 <div class="displayalign zujianBox">
                     <div class="noneIconTitle mr11">用户账号:</div>
                     <div class="mr20">
@@ -55,15 +55,8 @@
                     <!-- 结束时间 -->
                 </div>
                 <!-- 创建时间 -->
-                <div class="btns">
-                    <div class="queryBtn mr11 zujianBox" @click="clickQueryUser">
-                        查询
-                    </div>
-                    <div class="clearBtn" @click="clearInputAll">清空</div>
-                </div>
-
-            </div>
-        </div>
+            </template>
+        </headerKuanJia>
         <!-- 头部 -->
         <div class="btnArr">
             <div class="backFF">
@@ -161,7 +154,7 @@
                                         float: left;
                                         margin-right: 20px;
                                         margin-bottom: 20px;
-                                        width: 220px;
+                                        width: 260px;
                                       ">
                             <getEwmRes :ewmArr="item" :idx="idx"/>
                         </div>
@@ -170,10 +163,6 @@
             </kuanjiaClick>
         </div>
         <!-- 二维码 -->
-        <div class="lineBox">
-            <div class="line"></div>
-        </div>
-        <!-- 创建 start -->
         <!-- 采购单详情页 start -->
         <div v-show="isSetUserIng" class="bjBox">
             <transition
@@ -217,6 +206,7 @@
     import dateTime from "../../components/commin/dateTime.vue"; //时间
     import pagecomponent from "../../components/commin/pageComponent"; //分页器
     import kuanjiaClick from "../../components/commin/kuanjiaClick";
+    import headerKuanJia from "../../components/commin/headerKuanJia";
 
     import {post} from "../../api/api";
     import {mapState} from "vuex";
@@ -233,7 +223,8 @@
             setUserIng,
             editUserIng,
             lookUser,
-            kuanjiaClick
+            kuanjiaClick,
+            headerKuanJia
         },
         computed: {
             ...mapState(["editUser", "userTypeArr"]),
@@ -540,17 +531,13 @@
                 margin-right: 10px;
             }
 
-            .btns {
-                display: flex;
+            .queryBtn {
+                @include BtnFunction("success");
+            }
 
-                .queryBtn {
-                    @include BtnFunction("success");
-                }
-
-                .clearBtn {
-                    @include BtnFunction();
-                    background: #fff;
-                }
+            .clearBtn {
+                @include BtnFunction();
+                background: #fff;
             }
         }
 

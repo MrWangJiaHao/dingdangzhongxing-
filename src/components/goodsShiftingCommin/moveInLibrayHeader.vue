@@ -46,7 +46,6 @@
 </template>
 
 <script>
-    /*eslint-disable */
     import headerKuanJia from "../commin/headerKuanJia"; //头部框架
     import dropDownXiala from "../headerCommin/xialaHeader"; //下拉框
     import searchBox from "../headerCommin/inputHeader"; //下拉框

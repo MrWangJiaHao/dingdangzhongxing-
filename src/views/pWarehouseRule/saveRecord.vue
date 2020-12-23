@@ -1,136 +1,114 @@
 <template>
-    <div class="setUserIngBox">
-        <div class="setUserIngBoxCenter">
-            <div class="headerBox">
-                <div class="closeTitle">
-                    {{ editSavaRecord ? "编辑发货规则" : "创建发货规则" }}
-                </div>
-                <div class="closeIcon" @click="closeBtn"></div>
-            </div>
-
-            <div
-                    v-for="(item, idx) in CenterJson"
-                    :key="idx"
-                    style="padding: 15px 20px 10px 20px; border-bottom: 1px solid #d1d6e2"
-            >
-                <div>
-                    <div v-if="item.title" class="setTitle">
-                        {{ item.title }}
-                    </div>
-                    <div v-if="item.ruleUsers">
-                        <div
-                                v-for="(items, idxs) in item.ruleUsers"
-                                :key="idxs"
-                                class="displayalign"
-                        >
-                            <div class="noneIconTitle mr20">
-                                {{ items.title }}
-                                <span v-if="items.isImportant" style="color: red">*</span>
+    <div class="setUserIngBox" id="dindanlaiyuan">
+        <kuanjiaClick :titles='editSavaRecord ? "编辑发货规则" : "创建发货规则"'
+                      @closeBtn="closeBtn"
+                      width="1100" @clickSubmit="goAJAXCreate">
+            <template>
+                <div class="mt20"></div>
+                <div
+                        class="mb20"
+                        v-for="(item, idx) in CenterJson"
+                        :key="idx"
+                        style="padding: 0 20px 0px 20px; border-bottom: 1px solid #d1d6e2"
+                >
+                    <div>
+                        <div v-if="item.title" class="setTitle">
+                            {{ item.title }}
+                        </div>
+                        <div v-if="item.ruleUsers">
+                            <div
+                                    v-for="(items, idxs) in item.ruleUsers"
+                                    :key="idxs"
+                                    class="displayalign"
+                            >
+                                <div class="noneIconTitle mr20">
+                                    {{ items.title }}
+                                    <span v-if="items.isImportant" class="colred">*</span>
+                                </div>
+                                <div v-if="items.placeholder">
+                                    <el-input
+                                            v-model="sendDataJson.ruleName"
+                                            :placeholder="items.placeholder"
+                                            :disabled="lookerRecord ? true : false"
+                                            :maxlength="items.maxlength"
+                                    >
+                                    </el-input>
+                                </div>
+                                <div v-else-if="items.ruleUsers" id="guizheuser">
+                                    <div class="displayalign  mb20 mt20">
+                                        <el-checkbox
+                                                style="margin-right: 30px"
+                                                :indeterminate="isIndeterminate"
+                                                v-model="itemsRuleUsers"
+                                                @change="handleCheckAllChange"
+                                        >全选
+                                        </el-checkbox>
+                                        <el-checkbox-group
+                                                v-model="sendDataJson.orgIds"
+                                                @change="handleCheckedCitiesChange"
+                                        >
+                                            <el-checkbox
+                                                    v-for="(city, idx) in items.ruleUsers"
+                                                    :label="city.id"
+                                                    :key="idx"
+                                            >
+                                                {{ city.orgFullName }}
+                                            </el-checkbox>
+                                        </el-checkbox-group>
+                                    </div>
+                                    <!-- 规则使用者 -->
+                                </div>
                             </div>
-                            <div v-if="items.placeholder">
-                                <el-input
-                                        class="w160"
-                                        v-model="sendDataJson.ruleName"
-                                        :placeholder="items.placeholder"
-                                        :disabled="lookerRecord ? true : false"
-                                        :maxlength="items.maxlength"
-                                >
-                                </el-input>
+                            <div v-if="item.ruleUsers[0].titleName">
+                                <div class="ml11">
+                                    <el-radio v-model="sendDataJson.orderSource" label="1">按渠道</el-radio>
+                                    <el-radio v-model="sendDataJson.orderSource" label="2">按订单来源</el-radio>
+                                </div>
+                                <div class="mb20"></div>
+                                <!-- 订单来源 -->
                             </div>
-                            <div v-else-if="items.ruleUsers">
-                                <div class="displayalign mb20 mt20">
-                                    <el-checkbox
-                                            style="margin-right: 20px"
-                                            :indeterminate="isIndeterminate"
-                                            v-model="itemsRuleUsers"
-                                            @change="handleCheckAllChange"
-                                    >全选
-                                    </el-checkbox>
+                            <div v-if="item.ruleUsers[0].jijiguizheCenter">
+                                <div class=" ml11">
                                     <el-checkbox-group
-                                            v-model="sendDataJson.orgIds"
-                                            @change="handleCheckedCitiesChange"
+                                            v-model="sendDataJson.guizheArr"
+                                            @change="handleCheckedguizheArr"
                                     >
                                         <el-checkbox
-                                                v-for="(city, idx) in items.ruleUsers"
+                                                style="display: block;margin-bottom: 20px"
+                                                v-for="(city, idx) in item.ruleUsers"
                                                 :label="city.id"
                                                 :key="idx"
                                         >
-                                            {{ city.orgFullName }}
+                                            <div v-html="changeInput(city.jijiguizheCenter)"></div>
                                         </el-checkbox>
                                     </el-checkbox-group>
                                 </div>
-                                <!-- 规则使用者 -->
                             </div>
+                            <!-- 订单集计规则 -->
                         </div>
-                        <div v-if="item.ruleUsers[0].titleName">
-                            <div class="mt20 ml11" id="dindanlaiyuan">
-                                <el-checkbox-group
-                                        v-model="sendDataJson.laiyuanArr"
-                                        @change="handleCheckedlaiyuanArr"
+                        <div v-if="item.placeholder" class="displayalign mb20">
+                            <div class="noneIconTitle mr20 ">
+                                {{ item.title }}
+                                <span v-if="item.isImportant" class="colred">*</span>
+                            </div>
+                            <div v-if="item.placeholder" class="">
+                                <el-input
+                                        class="w160"
+                                        v-model="sendDataJson.orderNum"
+                                        :placeholder="item.placeholder"
+                                        :maxlength="item.maxlength"
+                                        :disabled="lookerRecord ? true : false"
+                                        type="number"
+                                        @input="orderNumChange(item.maxlength)"
                                 >
-                                    <el-checkbox
-                                            style="display: block; border-radius: 50%"
-                                            v-for="(city, idx) in item.ruleUsers"
-                                            :label="city.id"
-                                            :key="idx"
-                                    >
-                                        {{ city.titleName }}
-                                    </el-checkbox>
-                                </el-checkbox-group>
+                                </el-input>
                             </div>
-                            <!-- 订单来源 -->
+                            <!-- 订单数量 -->
                         </div>
-                        <div v-if="item.ruleUsers[0].jijiguizheCenter">
-                            <div class="mt20 ml11">
-                                <el-checkbox-group
-                                        v-model="sendDataJson.guizheArr"
-                                        @change="handleCheckedguizheArr"
-                                >
-                                    <el-checkbox
-                                            style="display: block"
-                                            v-for="(city, idx) in item.ruleUsers"
-                                            :label="city.id"
-                                            :key="idx"
-                                    >
-                                        <div v-html="changeInput(city.jijiguizheCenter)"></div>
-                                    </el-checkbox>
-                                </el-checkbox-group>
-                            </div>
-                        </div>
-                        <!-- 订单集计规则 -->
-                    </div>
-                    <div v-if="item.placeholder" class="displayalign mb20">
-                        <div class="noneIconTitle mr20">
-                            {{ item.title }}
-                            <span v-if="item.isImportant" style="color: red">*</span>
-                        </div>
-                        <div v-if="item.placeholder">
-                            <el-input
-                                    class="w160"
-                                    v-model="sendDataJson.orderNum"
-                                    :placeholder="item.placeholder"
-                                    :maxlength="item.maxlength"
-                                    :disabled="lookerRecord ? true : false"
-                                    type="number"
-                                    @input="orderNumChange(item.maxlength)"
-                            >
-                            </el-input>
-                        </div>
-                        <!-- 订单数量 -->
                     </div>
                 </div>
-            </div>
-
-            <div class="disRight mr20 mt20 mb20">
-                <div class="quxiaoBox mb20 mr20" @click="closeBtn">
-                    {{ lookerRecord ? "返回" : "取消" }}
-                </div>
-                <div v-if="!lookerRecord" class="tijiaoBox mb20" @click="goAJAXCreate">
-                    提交
-                </div>
-            </div>
-            <!-- btn -->
-        </div>
+            </template>
+        </kuanjiaClick>
     </div>
 </template>
 
@@ -138,11 +116,11 @@
     /*eslint-disable */
     import {getCookie} from "../../utils/validate";
     import {pWarehouseRuleSaveRecord, getFindWareOrg} from "../../api/api";
-    import {Container} from "element-ui";
+    import kuanjiaClick from "../../components/commin/kuanjiaClick";
 
     export default {
         name: "createUsering",
-        components: {},
+        components: {kuanjiaClick},
         data() {
             return {
                 prodNumIndex: 5, //产品订单种类大于 多少的订单 集计规则
@@ -152,7 +130,7 @@
                     orderSource: "", //订单来源合并规则
                     orgIds: [], //发货规则应用委托公司id集合
                     guizheArr: [], //订单集计规则
-                    laiyuanArr: [], //订单来源
+                    laiyuanArr: "", //订单来源
                     prodMeger: 0, //订单产品重合度集计(按照订单中商品交集最大数集计)
                     prodNum: null, // 订单中产品种类大于x的订单，分出单独发货
                     wareId: getCookie("X-Auth-wareId"),
@@ -295,8 +273,9 @@
                     this.sendDataJson,
                     this.editAndLookdata
                 );
+
+                this.sendDataJson.orderSource = `${this.editAndLookdata.orderSource}`
                 this.sendDataJson.orgIds = this.editAndLookdata.orgIds;
-                this.sendDataJson.laiyuanArr.push(`${this.editAndLookdata.orderSource}`);
                 this._changeDindanJIji();
             },
             _changeDindanJIji() {
@@ -323,14 +302,6 @@
                     }' placeholder="请输入订单数量" />`
                 );
                 return e;
-            },
-            //订单来源
-            handleCheckedlaiyuanArr(e) {
-                if (this.sendDataJson.laiyuanArr.length > 1) {
-                    this.sendDataJson.laiyuanArr.shift();
-                }
-                this.sendDataJson.laiyuanArr = e;
-                this.sendDataJson.orderSource = e[0];
             },
             //订单规则
             handleCheckedguizheArr(e) {
@@ -417,8 +388,20 @@
     };
 </script>
 <style>
-    #dindanlaiyuan .el-checkbox__inner {
-        border-radius: 50%;
+
+    #app #dindanlaiyuan .el-radio__input.is-checked .el-radio__inner {
+        background: #fff;
+    }
+
+    #app #dindanlaiyuan .el-checkbox__inner::after {
+        height: 7px !important;
+        left: 4px !important;
+        top: 1px !important;
+    }
+
+    #app #dindanlaiyuan .el-checkbox__inner {
+        width: 14px !important;
+        height: 14px !important;
     }
 
     #input {
@@ -426,6 +409,12 @@
         width: 130px;
         margin: 0 5px;
         border-radius: 6px;
+    }
+
+    .el-radio__input.is-checked .el-radio__inner::after {
+        width: 10px;
+        height: 10px;
+        background: #409EFF;
     }
 
     .is-disabled {
