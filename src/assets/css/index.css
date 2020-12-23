@@ -843,6 +843,7 @@ textarea {
 input.el-input__inner {
     color: #9b9b9b;
 }
-.el-pagination .el-pagination__jump{
+
+.el-pagination .el-pagination__jump {
     margin-left: 10px !important;
 }

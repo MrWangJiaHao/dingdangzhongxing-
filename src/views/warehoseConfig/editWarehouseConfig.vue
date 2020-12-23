@@ -211,7 +211,7 @@
             </div>
             <!-- 输入部分 -->
             <div class="zujianBox tr">
-                <div class="zujianBox disinb fanhiu" @click="gotoTop">返回</div>
+                <div class="zujianBox disinb fanhiu mr20" @click="gotoTop">返回</div>
                 <div class="disinb tijiao" @click="submitData">提交</div>
             </div>
             <!-- btn -->
@@ -277,7 +277,6 @@
             let createWareHuseData = JSON.parse(
                 sessionStorage.getItem("createWareHuseData")
             );
-            console.log(createWareHuseData);
             if (createWareHuseData) {
                 this.activeNum = createWareHuseData.idx;
                 this.createWarehouseJson.childWareId = createWareHuseData.childWareId;
@@ -301,19 +300,7 @@
         methods: {
             //返回上一页
             gotoTop() {
-                this.$messageSelf
-                    .confirms(`确定返回上一页？`, "提示", {
-                        type: "info",
-                    })
-                    .then(() => {
-                        this.$router.go(-1);
-                    })
-                    .catch(() => {
-                        this.$this.$messageSelf.message({
-                            type: "info",
-                            message: "已取消返回上一页",
-                        });
-                    });
+                this.$router.go(-1);
             },
             async pWarehouseArea() {
                 let datas = await post({

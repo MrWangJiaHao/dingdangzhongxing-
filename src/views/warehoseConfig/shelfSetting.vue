@@ -1,4 +1,3 @@
-/* 货架设置 */
 <template>
     <div class="shelfSettingBox">
         <div class="displayalign shelfSettingTopBox">
@@ -124,7 +123,7 @@
                 >
                     <div class="flexNocenterBetWeen" style="width: 80%">
                         <div>
-                            <div class="createDom disinb line40 fl mr20">
+                            <div class="createDom disinb   nowrap line40 fl mr20">
                                 第{{ isNums(idx) }}组货架:
                             </div>
                         </div>
@@ -135,7 +134,7 @@
                                     class="displayalign mb20"
                             >
                                 <div class="displayalign">
-                                    <div class="noneIconTitle mr11">货架名称:</div>
+                                    <div class="noneIconTitle nowrap mr11">货架名称:</div>
                                     <div class="mr20">
                                         <el-select
                                                 v-model="items.shelfName"
@@ -156,21 +155,21 @@
                                 </div>
                                 <!-- 货架名称 -->
                                 <div class="displayalign">
-                                    <div class="noneIconTitle mr11">货架类型:</div>
+                                    <div class="noneIconTitle nowrap mr11">货架类型:</div>
                                     <div class="mr20">
                                         <el-input disabled v-model="items.shelfType"></el-input>
                                     </div>
                                 </div>
                                 <!-- 货架类型 -->
                                 <div class="displayalign">
-                                    <div class="noneIconTitle mr11">可用数量:</div>
+                                    <div class="noneIconTitle nowrap mr11">可用数量:</div>
                                     <div class="mr20">
                                         <el-input disabled v-model="items.canNum"></el-input>
                                     </div>
                                 </div>
                                 <!-- 可用数量 -->
                                 <div class="displayalign">
-                                    <div class="noneIconTitle mr11">货架数量:</div>
+                                    <div class="noneIconTitle nowrap mr11">货架数量:</div>
                                     <div class="mr20">
                                         <el-input v-model="items.shelfNum"></el-input>
                                     </div>
@@ -232,12 +231,11 @@
         <!-- js 主体部分 -->
         <div
                 v-show="sendOutData.rowData[0].groupData.length"
-                class="displayCenter"
-                style="background: #fff"
+                class=" backFF p20"
         >
-            <div class="pt20">
-                <div class="disinb removeSetting mr20" @click="gotoSanYiye">返回</div>
-                <div class="disinb addSetting" @click="shelfSubmit">提交</div>
+            <div class="disRight ">
+                <div class="disinb quxiaoBox mr20" @click="gotoSanYiye">返回</div>
+                <div class="disinb tijiaoBox" @click="shelfSubmit">提交</div>
             </div>
         </div>
         <!-- 提交按钮或者返回按钮 -->
@@ -245,9 +243,10 @@
 </template>
 
 <script>
+    /*eslint-disable */
     import {getCookie} from "../../utils/validate";
     import {post} from "../../api/api";
-    /*eslint-disable */
+
     export default {
         data() {
             return {
@@ -327,7 +326,7 @@
                 //获取子仓id
                 let datas = await post({
                     url:
-                        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/findRecordPage",
+                        "/wbs-warehouse-manage/v1/pWarehouseArea/findRecordPage",
                     data: this.sendOutData,
                 });
 
@@ -337,7 +336,7 @@
             async getquyuId() {
                 let datas = await post({
                     url:
-                        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/findRecordPage",
+                        "/wbs-warehouse-manage/v1/pWarehouseArea/findRecordPage",
                     data: this.sendOutData,
                 });
 
@@ -346,18 +345,7 @@
             },
             //返回上一页
             gotoSanYiye() {
-                this.$messageSelf
-                    .confirms("确认返回上一页", "提示", {
-                        confirmButtonText: "确定",
-                        cancelButtonText: "取消",
-                        type: "info",
-                    })
-                    .then(() => {
-                        this.$router.go(-1);
-                    })
-                    .catch(() => {
-                        this.$messageSelf.message("已取消返回");
-                    });
+                this.$router.go(-1);
             },
             //获取货架名称
             //`${index},${idx},${idxs}`.split(",");
@@ -374,7 +362,6 @@
                 });
             },
             //区域名称input
-            //`${index},${idx},${idxs}`.split(",");
             getAreaValue(e) {
                 this.shelfDataE = e;
                 this.sendOutData.rowData[this.rowDataIndex].groupData[
@@ -394,7 +381,7 @@
             async _mingc(data, fn) {
                 let datas = await post({
                     url:
-                        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseShelf/findRecord",
+                        "/wbs-warehouse-manage/v1/pWarehouseShelf/findRecord",
                     data,
                 });
                 if (datas.code == "10000") {
@@ -620,7 +607,7 @@
             async submitDataJson(data) {
                 let datas = await post({
                     url:
-                        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/saveRecord",
+                        "/wbs-warehouse-manage/v1/pWarehouseSeat/saveRecord",
                     data,
                 });
                 if (datas.code == "10000") {
@@ -689,5 +676,14 @@
             @include BtnFunction();
             border: 1px solid #d1d6e2;
         }
+    }
+
+    .quxiaoBox {
+        border: 1px solid rgb(209, 214, 226);
+        @include BtnFunction();
+    }
+
+    .tijiaoBox {
+        @include BtnFunction("success");
     }
 </style>
