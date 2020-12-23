@@ -153,7 +153,7 @@
               </el-select>
             </div>
           </div>
-          <div class="timeChoose el-inputBox" style="width: 500px">
+          <div class="timeChoose el-inputBox">
             <div class="el-inputBox-text">退货时间：</div>
             <div class="timeBox zujianBox">
               <div>
@@ -177,8 +177,13 @@
           </div>
         </div>
         <div class="header-botton">
-          <div class="queryBtn" @click="clickQuery">查询</div>
-          <div class="clearBtn" @click="clearInput">清空</div>
+          <div class="bottons">
+            <div class="showBtn" @click="clickShow">
+              <span>{{ stateChoose }}</span>
+            </div>
+            <div class="queryBtn" @click="clickQuery">查询</div>
+            <div class="clearBtn" @click="clearInput">清空</div>
+          </div>
         </div>
       </div>
       <div class="formBox">
@@ -742,6 +747,7 @@ export default {
       },
       startTime: "",
       endTime: "",
+      stateChoose: "展开",
     };
   },
   mounted() {
@@ -1163,6 +1169,35 @@ export default {
         ];
       }
     },
+    clickShow() {
+      this.index++;
+      let showDiv = document.querySelectorAll(".block_hidden");
+      let caret = document.querySelector(".caret");
+      let headerBtn = document.querySelector(".header-botton");
+      let headerHtml = document.querySelector(".headerHtml");
+      if (this.index % 2 !== 0) {
+        this.stateChoose = "收起";
+        // showDiv.forEach((v) => {
+        //   setTimeout(() => {
+        //     v.style.display = "flex";
+        //   }, 300);
+        // });
+        caret.style.transform = "rotateZ(180deg)";
+        // headerBtn.style.position = "absolute";
+        // headerBtn.style.top = "116px";
+        headerHtml.style.height = "150px";
+      } else {
+        this.stateChoose = "展开";
+        // showDiv.forEach((v) => {
+        //   v.style.display = "none";
+        // });
+        caret.style.transform = "rotateZ(0)";
+        // headerBtn.style.position = "absolute";
+        // headerBtn.style.top = "50px";
+        // headerBtn.style.right = "0";
+        headerHtml.style.height = "96px";
+      }
+    },
     getPageNum(e) {
       this.QueryData.pageNumber = e;
     },
@@ -1221,6 +1256,7 @@ export default {
   padding: 20px 10px;
 }
 .headerHtml {
+  height: 96px;
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -1241,13 +1277,39 @@ export default {
     margin-bottom: 16px;
     display: flex;
     align-items: flex-end;
-    .queryBtn {
-      @include BtnFunction("success");
-    }
-    .clearBtn {
-      @include BtnFunction();
-      background: #fff;
-      margin: 0 0 0 10px;
+    .bottons {
+      display: flex;
+      align-items: center;
+      .showBtn {
+        width: 50px;
+        display: flex;
+        white-space: nowrap;
+        color: #888;
+        position: relative;
+        cursor: pointer;
+        span:after {
+          content: "";
+          margin-left: 4px;
+          transition: all 0.5s;
+          display: inline-block;
+          transform-origin: 5px 3px;
+          width: 11px;
+          height: 8px;
+          background: url("../../assets/svg/dropDown.svg") center center
+            no-repeat;
+          background-size: cover;
+          transform: rotate(0deg);
+          border-radius: 2px;
+        }
+      }
+      .queryBtn {
+        @include BtnFunction("success");
+      }
+      .clearBtn {
+        @include BtnFunction();
+        background: #fff;
+        margin: 0 0 0 10px;
+      }
     }
   }
   .timeChoose {
@@ -1270,6 +1332,7 @@ export default {
   }
 }
 .formBox {
+  z-index: 2;
   margin: 4px 0;
   position: relative;
   .formHeader {

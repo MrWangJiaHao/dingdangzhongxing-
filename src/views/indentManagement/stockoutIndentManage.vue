@@ -303,7 +303,7 @@
                     align="center"
                   >
                   </el-table-column>
-                  <el-table-column prop="orderNo" label="订单号" align="center">
+                  <el-table-column prop="orderNo" label="订单号" align="left">
                     <template slot-scope="scope">
                       <div
                         class="lookDeatil"
@@ -316,7 +316,7 @@
                   <el-table-column
                     prop="subOrderNo"
                     label="子订单号"
-                    align="center"
+                    align="left"
                   >
                     <template slot-scope="scope">
                       <div
@@ -342,7 +342,7 @@
                   <el-table-column
                     prop="reason"
                     label="失败原因"
-                    align="center"
+                    align="left"
                   >
                     <template slot-scope="scope">
                       <div class="failCause">
