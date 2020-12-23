@@ -7,7 +7,7 @@
           <div class="headerBox-input">
             <div class="el-inputBox">
               <div class="el-inputBox-text">物料类型：</div>
-              <div class="el-inputBox-checkBox" style="width: 120px">
+              <div class="el-inputBox-checkBox" style="width: 150px">
                 <el-select
                   v-model="mateType"
                   placeholder="请选择物料类型"
@@ -26,14 +26,14 @@
             </div>
             <div class="el-inputBox">
               <div class="el-inputBox-text">物料编码：</div>
-              <div class="el-inputBox-checkBox" style="width: 120px">
+              <div class="el-inputBox-checkBox" style="width: 140px">
                 <el-input v-model="mateCode" placeholder="请输入物料编码">
                 </el-input>
               </div>
             </div>
             <div class="el-inputBox">
               <div class="el-inputBox-text">物料名称：</div>
-              <div class="el-inputBox-checkBox" style="width: 120px">
+              <div class="el-inputBox-checkBox" style="width: 140px">
                 <el-input v-model="mateName" placeholder="请输入物料名称">
                 </el-input>
               </div>

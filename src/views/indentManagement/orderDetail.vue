@@ -1,5 +1,5 @@
 <template>
-  <div class="mian">
+  <div class="orderDetailMain">
     <div class="orderDetaiPage">
       <div class="orderDetailBox">
         <div class="orderDetail-title">订单详情</div>
@@ -159,7 +159,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
-.mian {
+.orderDetailMain {
   background: #eef1f8;
   padding: 10px;
   .orderDetaiPage {

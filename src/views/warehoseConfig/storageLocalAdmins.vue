@@ -264,6 +264,7 @@ import {
   areaShelfQuery,
 } from "../../api/api";
 import pagecomponent from "../../components/commin/pageComponent";
+import { reduceFun } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -371,7 +372,7 @@ export default {
       let queryData = this.pagingQueryData;
       querySLInfor(queryData).then((ok) => {
         // console.log(ok);
-      this.tableData = [];
+        this.tableData = [];
         this.tableData = ok.data.result.list;
         this.changeData(ok.data.result);
         if (this.tableData.length > 0) {
@@ -392,10 +393,11 @@ export default {
           this.childStoreData = ok.data.result.list;
           this.childStoreData.forEach((v) => {
             this.childWarehouseName.push({
-              value: v.childWareName,
+              value: v.id,
               label: v.childWareName,
             });
           });
+          this.childWarehouseName = reduceFun(this.childWarehouseName);
         } else {
           this.$messageSelf.message({
             type: "error",

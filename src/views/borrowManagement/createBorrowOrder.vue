@@ -30,7 +30,7 @@
             <div class="del" @click="del">删除</div>
           </div>
         </div>
-        <div class="tableBox-table">
+        <div class="tableBox-table tableInInput">
           <el-table
             :data="tableData"
             border
@@ -38,6 +38,7 @@
             :stripe="true"
             tooltip-effect="dark"
             @selection-change="handleSelectionChange"
+            max-height="400"
           >
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column
@@ -365,20 +366,7 @@ export default {
         margin-bottom: 10px;
       }
     }
-    .backBtnBox {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin-top: 16px;
-      .backBtn {
-        margin: 0 16px 0 0;
-        @include BtnFunction("");
-        background: white;
-      }
-      .submitBtn {
-        @include BtnFunction("success");
-      }
-    }
+    
   }
 }
 </style>

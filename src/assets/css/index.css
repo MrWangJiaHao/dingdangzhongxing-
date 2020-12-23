@@ -720,10 +720,6 @@ textarea {
     transform: rotate(-180deg);
 }
 
-/* .el-table td, .el-table th.is-leaf{
-  border: 0.5px solid #D1D6E2!important;
-} */
-
 .w160 {
     width: 175px;
 }
@@ -743,7 +739,7 @@ textarea {
 .ivu-input {
     font-size: 14px !important;
     padding: 0 30px 0 10px !important;
-    color: #9b9b9b;
+    /* color: #9b9b9b; */
 
 }
 
@@ -773,10 +769,6 @@ textarea {
 .plr10 {
     padding: 0 10px;
 }
-
-/* .pageComponent {
-    border: 1px solid rgb(209, 214, 226);
-} */
 
 .quxiaoBox {
     border: 1px solid rgb(209, 214, 226);
@@ -814,11 +806,6 @@ textarea {
     padding: 0 0 10px 0;
 }
 
-/*. {*/
-/*    border-bottom: 1px solid #d2d6e2;*/
-/*    padding: 0 0 10px 0*/
-/*}*/
-
 .parentBox .centersBox .input {
     border-radius: 4px;
 }
@@ -827,22 +814,19 @@ textarea {
     padding: 20px 30px 4px 30px !important;
 }
 
-.inputInTable .el-table td,
-.inputInTable .el-table th {
+.tableInInput .el-table td,
+.tableInInput .el-table th {
     padding: 4px 0 !important;
 }
 
-.inputInTable .tableBox .el-input__inner {
+.tableInInput .el-input__inner {
     height: 26px;
 }
 
-.inputInTable .tableBox .el-icon-arrow-up:before {
+.tableInInput .el-icon-arrow-up:before {
     margin-bottom: 6px;
 }
 
-input.el-input__inner {
+/* input.el-input__inner {
     color: #9b9b9b;
-}
-.el-pagination .el-pagination__jump{
-    margin-left: 10px !important;
-}
+} */

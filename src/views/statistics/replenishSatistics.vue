@@ -23,7 +23,6 @@
               </el-select>
             </div>
           </div>
-
           <div class="el-inputBox">
             <div class="el-inputBox-text">产品名称：</div>
             <div class="el-inputBox-checkBox" style="width: 400px">
@@ -66,11 +65,12 @@
               <!-- 结束时间 -->
             </div>
           </div>
-          <div class="header-botton">
+          
+        </div>
+        <div class="header-botton">
             <div class="queryBtn" @click="clickQuery">查询</div>
             <div class="clearBtn" @click="clearInput">清空</div>
           </div>
-        </div>
       </div>
       <div class="childWarehouseForm">
         <div class="formHeader">
@@ -266,6 +266,8 @@ export default {
   padding: 20px 10px;
 }
 .headerHtml {
+  display: flex;
+  justify-content: space-between;
   position: relative;
   padding: 0 20px;
   transition: 0.3s;
@@ -282,13 +284,9 @@ export default {
     }
   }
   .header-botton {
-    width: 190px;
-    height: 36px;
-    position: absolute;
-    right: 0;
-    bottom: 16px;
+    margin-bottom: 16px;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     .queryBtn {
       @include BtnFunction("success");
     }

@@ -719,7 +719,7 @@
                             if (!item.children[0].children.length) {
                                 item.children[0].innerHTML = item.children[0].innerHTML
                                     ? item.children[0].innerHTML
-                                    : "———";
+                                    : "——";
                             }
                         });
                     });

@@ -52,7 +52,7 @@
             <div class="del" @click="del">删除</div>
           </div>
         </div>
-        <div class="tableBox-table">
+        <div class="tableBox-table tableInInput">
           <el-table
             :data="tableData"
             border
@@ -168,6 +168,7 @@
           </el-table>
         </div>
       </div>
+
       <div class="remarkBox">
         <div class="remark">备注：</div>
         <div class="textarea">
@@ -534,7 +535,6 @@ export default {
       }
     }
   }
-  
 }
 </style>
 <style lang="scss">

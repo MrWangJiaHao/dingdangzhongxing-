@@ -30,24 +30,22 @@ export default {
     });
   },
 
-  mounted() {
-    
-  },
+  mounted() {},
   methods: {
     addHenxianTables() {
-      setTimeout(() => {
-        this.$nextTick(() => {
-          let tablesCenter = document.getElementsByTagName("td");
-          tablesCenter = Array.from(tablesCenter);
-          tablesCenter.forEach((item) => {
-            if (!item.children[0].children.length) {
-              item.children[0].innerHTML = item.children[0].innerHTML
-                ? item.children[0].innerHTML
-                : "———";
-            }
-          });
-        });
-      }, 700);
+      // setTimeout(() => {
+      //   this.$nextTick(() => {
+      //     let tablesCenter = document.getElementsByTagName("td");
+      //     tablesCenter = Array.from(tablesCenter);
+      //     tablesCenter.forEach((item) => {
+      //       if (!item.children[0].children.length) {
+      //         item.children[0].innerHTML = item.children[0].innerHTML
+      //           ? item.children[0].innerHTML
+      //           : "——";
+      //       }
+      //     });
+      //   });
+      // }, 700);
     },
     reload() {
       this.isRouterAlive = false;
@@ -193,20 +191,30 @@ input[type="number"] {
   height: 36px !important;
   background: #ffffff !important;
 }
+.el-pagination .el-pagination__jump {
+  margin-left: 10px !important;
+}
+.el-pagination .el-pagination__jump .el-input__inner {
+  border: 1px solid #d2d6e2 !important;
+  width: 34px !important;
+}
+.el-pagination .el-pagination__editor.el-input {
+  margin: 0 12px !important;
+}
 
 //全局设置返回提交按钮css样式
 .footerBtnBox {
+  z-index: 9999999;
   height: 66px !important;
   .backBtnBox {
     position: fixed !important;
     bottom: 30px !important;
-    background: #fff !important;
+    background: #eef1f8 !important;
     width: 100% !important;
     display: flex !important;
     align-items: center !important;
     justify-content: flex-end !important;
     height: 66px !important;
-    border-top: 1px solid #ced4de !important;
     .backBtn {
       margin: 0 16px 0 0 !important;
       @include BtnFunction("");
@@ -249,6 +257,11 @@ input[type="number"] {
 .el-pager li.active + li {
   border-left: 1px solid #d1d6e2 !important;
 }
+.el-pagination__total {
+  margin-right: 20px !important;
+  line-height: 28px !important;
+  color: #686868 !important;
+}
 .failCause {
   color: red !important;
 }
@@ -276,7 +289,7 @@ input:-moz-placeholder {
 }
 .el-table::before {
   // height: 0 !important;
-  background-color:#d1d6e2 !important;
+  background-color: #d1d6e2 !important;
 }
 .el-table--border::after,
 .el-table--group::after {
@@ -289,6 +302,12 @@ input:-moz-placeholder {
 .el-table__footer,
 .el-table__header {
   border-collapse: collapse !important;
+}
+
+//修改下拉框鼠标滑过背景色
+.el-select-dropdown__item.hover,
+.el-select-dropdown__item:hover {
+  background: #ecf5ff !important;
 }
 </style>
 

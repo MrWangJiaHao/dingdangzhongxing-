@@ -59,24 +59,22 @@
         </div>
         <div class="setInput addStar">
           <span>子仓长：</span>
-          <div style="width: 110px">
+          <div style="width: 110px; margin-right: 10px">
             <el-input
               v-model="input2"
               placeholder="请输入长度"
               type="number"
-              @blur="childWarehouseViewEvent"
             ></el-input>
           </div>
           <span>m</span>
         </div>
         <div class="setInput addStar">
           <span>子仓宽：</span>
-          <div style="width: 110px">
+          <div style="width: 110px; margin-right: 10px">
             <el-input
               v-model="input3"
               placeholder="请输入宽度"
               type="number"
-              @blur="childWarehouseViewEvent"
             ></el-input>
           </div>
           <span>m</span>
@@ -102,12 +100,11 @@
         </div>
         <div class="setInput addStar">
           <span>距北距离：</span>
-          <div style="width: 110px">
+          <div style="width: 110px; margin-right: 10px">
             <el-input
               v-model="input4"
               placeholder="请输入长度"
               type="number"
-              @blur="childWarehouseViewEvent"
             ></el-input>
           </div>
 
@@ -115,12 +112,11 @@
         </div>
         <div class="setInput addStar">
           <span>距西距离：</span>
-          <div style="width: 110px">
+          <div style="width: 110px; margin-right: 10px">
             <el-input
               v-model="input5"
               placeholder="请输入长度"
               type="number"
-              @blur="childWarehouseViewEvent"
             ></el-input>
           </div>
 
@@ -244,83 +240,12 @@ export default {
       "resize",
       () => {
         this.changeSize();
+        this.saveDiv();
       },
       false
     );
 
-    this.childWarehouseList = this.$store.state.CWAdminRequest.queryData.list;
-    let childWarehouseList = this.childWarehouseList;
-    let oDiv = document.querySelector(".temporarily_no");
-    for (let i = 0; i < childWarehouseList.length; i++) {
-      let childDiv = document.createElement("div");
-      childDiv.style.width =
-        (childWarehouseList[i].wareLength * oDiv.offsetWidth) / 200 + "px";
-      childDiv.style.height =
-        (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
-      childDiv.style.background = "white";
-      childDiv.style.position = "absolute";
-      childDiv.style.left =
-        (childWarehouseList[i].westDistance * oDiv.offsetWidth) / 200 + "px";
-      childDiv.style.top =
-        (childWarehouseList[i].northDistance * oDiv.offsetWidth) / 200 + "px";
-      childDiv.style.cursor = "pointer";
-      childDiv.style.textAlign = "center";
-      childDiv.style.border = "1px solid #ddd";
-      childDiv.style.borderRadius =
-        childWarehouseList[i].wareLength * 0.2 + "px";
-      childDiv.style.lineHeight =
-        (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
-      childDiv.style.fontSize = "10px";
-      childDiv.innerHTML = childWarehouseList[i].childWareName;
-      childDiv.className = "childViewDiv";
-      oDiv.append(childDiv);
-    }
-    let childViewDiv = document.querySelectorAll(".childViewDiv");
-    childViewDiv.forEach((v, i) => {
-      v.onclick = () => {
-        this.input1 = childWarehouseList[i].childWareName; //子仓名称
-        this.input4 = childWarehouseList[i].northDistance; //距北距离
-        this.input5 = childWarehouseList[i].westDistance; //距西距离
-        this.input2 = childWarehouseList[i].wareLength; //子仓长度
-        this.input3 = childWarehouseList[i].wareWidth; //子仓宽度
-        this.value2 = childWarehouseList[i].wareType; //仓库类型
-        this.textarea = childWarehouseList[i].remark; //备注
-        this.value1 = childWarehouseList[i].childWareCode.substring(0, 1); //子仓编号字母
-        this.value3 = childWarehouseList[i].childWareCode.substring(1); //子仓编号数字
-        this.editId = childWarehouseList[i].id; //选中子仓的id
-        this.divChecked = true;
-        // v.style.background = "#367fff";
-        // v.style.border = "1px solid #0555c2";
-        // v.style.color = "white";
-      };
-    });
-    // $(".childViewDiv").each((v, i) => {
-    //   $(i).click(() => {
-    //     this.input1 = childWarehouseList[v].childWareName; //子仓名称
-    //     this.input4 = childWarehouseList[v].northDistance; //距北距离
-    //     this.input5 = childWarehouseList[v].westDistance; //距西距离
-    //     this.input2 = childWarehouseList[v].wareLength; //子仓长度
-    //     this.input3 = childWarehouseList[v].wareWidth; //子仓宽度
-    //     this.value2 = childWarehouseList[v].wareType; //仓库类型
-    //     this.textarea = childWarehouseList[v].remark; //备注
-    //     this.value1 = childWarehouseList[v].childWareCode.substring(0, 1); //子仓编号字母
-    //     this.value3 = childWarehouseList[v].childWareCode.substring(1); //子仓编号数字
-    //     this.editId = childWarehouseList[v].id; //选中子仓的id
-    //     this.divChecked = true;
-    //     $(i)
-    //       .css({
-    //         background: "#367fff",
-    //         border: "1px solid #0555c2",
-    //         color: "white",
-    //       })
-    //       .siblings()
-    //       .css({
-    //         background: "white",
-    //         border: "1px solid #ddd",
-    //         color: "black",
-    //       });
-    //   });
-    // });
+    this.saveDiv();
   },
   methods: {
     changeSize() {
@@ -330,6 +255,87 @@ export default {
     },
     goBack() {
       this.$router.replace("/warehoseconfig/childWarehouseAdmin");
+    },
+    saveDiv() {
+      let oDiv = document.querySelector(".temporarily_no");
+      let editchildViewDiv = document.querySelectorAll(".childViewDiv");
+      editchildViewDiv.forEach((v) => {
+        if (v !== null) {
+          oDiv.removeChild(v);
+        }
+      });
+      this.childWarehouseList = this.$store.state.CWAdminRequest.queryData.list;
+      let childWarehouseList = this.childWarehouseList;
+      for (let i = 0; i < childWarehouseList.length; i++) {
+        let childDiv = document.createElement("div");
+        childDiv.style.width =
+          (childWarehouseList[i].wareLength * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.height =
+          (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.background = "white";
+        childDiv.style.position = "absolute";
+        childDiv.style.left =
+          (childWarehouseList[i].westDistance * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.top =
+          (childWarehouseList[i].northDistance * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.cursor = "pointer";
+        childDiv.style.textAlign = "center";
+        childDiv.style.border = "1px solid #ddd";
+        childDiv.style.borderRadius =
+          childWarehouseList[i].wareLength * 0.2 + "px";
+        childDiv.style.lineHeight =
+          (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.fontSize = "10px";
+        childDiv.innerHTML = childWarehouseList[i].childWareName;
+        childDiv.className = "childViewDiv";
+        oDiv.append(childDiv);
+      }
+      let childViewDiv = document.querySelectorAll(".childViewDiv");
+      childViewDiv.forEach((v, i) => {
+        v.onclick = () => {
+          this.input1 = childWarehouseList[i].childWareName; //子仓名称
+          this.input4 = childWarehouseList[i].northDistance; //距北距离
+          this.input5 = childWarehouseList[i].westDistance; //距西距离
+          this.input2 = childWarehouseList[i].wareLength; //子仓长度
+          this.input3 = childWarehouseList[i].wareWidth; //子仓宽度
+          this.value2 = childWarehouseList[i].wareType; //仓库类型
+          this.textarea = childWarehouseList[i].remark; //备注
+          this.value1 = childWarehouseList[i].childWareCode.substring(0, 1); //子仓编号字母
+          this.value3 = childWarehouseList[i].childWareCode.substring(1); //子仓编号数字
+          this.editId = childWarehouseList[i].id; //选中子仓的id
+          this.divChecked = true;
+          // v.style.background = "#367fff";
+          // v.style.border = "1px solid #0555c2";
+          // v.style.color = "white";
+        };
+      });
+      // $(".childViewDiv").each((v, i) => {
+      //   $(i).click(() => {
+      //     this.input1 = childWarehouseList[v].childWareName; //子仓名称
+      //     this.input4 = childWarehouseList[v].northDistance; //距北距离
+      //     this.input5 = childWarehouseList[v].westDistance; //距西距离
+      //     this.input2 = childWarehouseList[v].wareLength; //子仓长度
+      //     this.input3 = childWarehouseList[v].wareWidth; //子仓宽度
+      //     this.value2 = childWarehouseList[v].wareType; //仓库类型
+      //     this.textarea = childWarehouseList[v].remark; //备注
+      //     this.value1 = childWarehouseList[v].childWareCode.substring(0, 1); //子仓编号字母
+      //     this.value3 = childWarehouseList[v].childWareCode.substring(1); //子仓编号数字
+      //     this.editId = childWarehouseList[v].id; //选中子仓的id
+      //     this.divChecked = true;
+      //     $(i)
+      //       .css({
+      //         background: "#367fff",
+      //         border: "1px solid #0555c2",
+      //         color: "white",
+      //       })
+      //       .siblings()
+      //       .css({
+      //         background: "white",
+      //         border: "1px solid #ddd",
+      //         color: "black",
+      //       });
+      //   });
+      // });
     },
     submitData() {
       if (this.divChecked === false) {
@@ -366,6 +372,9 @@ export default {
           }
         });
       }
+    },
+    value2Event(val) {
+      this.value2 = val;
     },
     clickNumber(v) {
       let input8 = document.querySelector(".setTransition");
@@ -437,7 +446,7 @@ export default {
       .setInput {
         display: flex;
         align-items: center;
-        margin: 0 16px 16px 0;
+        margin: 0 28px 16px 0;
       }
       .setTransition {
         transition: 0.3s;
@@ -476,6 +485,16 @@ export default {
   }
   span {
     white-space: nowrap;
+  }
+  .addStar {
+    position: relative;
+  }
+  .addStar::before {
+    content: "*";
+    font-size: 20px;
+    color: red;
+    position: absolute;
+    left: -8px;
   }
 }
 </style>

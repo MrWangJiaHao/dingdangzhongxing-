@@ -59,7 +59,7 @@
         </div>
         <div class="setInput addStar">
           <span>子仓长：</span>
-          <div style="width: 110px">
+          <div style="width: 110px; margin-right: 10px">
             <el-input
               v-model="input2"
               placeholder="请输入长度"
@@ -71,7 +71,7 @@
         </div>
         <div class="setInput addStar">
           <span>子仓宽：</span>
-          <div style="width: 110px">
+          <div style="width: 110px; margin-right: 10px">
             <el-input
               v-model="input3"
               placeholder="请输入宽度"
@@ -102,7 +102,7 @@
         </div>
         <div class="setInput addStar">
           <span>距北距离：</span>
-          <div style="width: 110px">
+          <div style="width: 110px; margin-right: 10px">
             <el-input
               v-model="input4"
               placeholder="请输入长度"
@@ -115,7 +115,7 @@
         </div>
         <div class="setInput addStar">
           <span>距西距离：</span>
-          <div style="width: 110px">
+          <div style="width: 110px; margin-right: 10px">
             <el-input
               v-model="input5"
               placeholder="请输入长度"
@@ -232,44 +232,54 @@ export default {
       "resize",
       () => {
         this.changeSize();
+        this.saveDiv();
       },
       false
     );
-
-    //获取平面图的div
-    let oDiv = document.querySelector(".temporarily_no");
-    this.childWarehouseList = this.$store.state.CWAdminRequest.queryData.list;
-    let childWarehouseList = this.childWarehouseList;
-    for (let i = 0; i < childWarehouseList.length; i++) {
-      let childDiv = document.createElement("div");
-      childDiv.style.width =
-        (childWarehouseList[i].wareLength * oDiv.offsetWidth) / 200 + "px";
-      childDiv.style.height =
-        (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
-      childDiv.style.background = "white";
-      childDiv.style.position = "absolute";
-      childDiv.style.left =
-        (childWarehouseList[i].westDistance * oDiv.offsetWidth) / 200 + "px";
-      childDiv.style.top =
-        (childWarehouseList[i].northDistance * oDiv.offsetWidth) / 200 + "px";
-      childDiv.style.cursor = "pointer";
-      childDiv.style.textAlign = "center";
-      childDiv.style.border = "1px solid #ddd";
-      childDiv.style.borderRadius =
-        childWarehouseList[i].wareLength * 0.2 + "px";
-      childDiv.style.lineHeight =
-        (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
-      childDiv.style.fontSize = "10px";
-      childDiv.innerHTML = childWarehouseList[i].childWareName;
-      childDiv.className = "childViewDiv";
-      oDiv.append(childDiv);
-    }
+    this.saveDiv();
   },
   methods: {
     changeSize() {
       let setArea = document.querySelector(".setArea");
       setArea.style.width = "100%";
       setArea.style.height = setArea.offsetWidth / 2 + "px";
+    },
+    saveDiv() {
+      let oDiv = document.querySelector(".temporarily_no");
+      let childViewDiv = document.querySelectorAll(".childViewDiv");
+      childViewDiv.forEach((v) => {
+        // console.log(v);
+        if (v !== null) {
+          oDiv.removeChild(v);
+        }
+      });
+      //获取平面图的div
+      this.childWarehouseList = this.$store.state.CWAdminRequest.queryData.list;
+      let childWarehouseList = this.childWarehouseList;
+      for (let i = 0; i < childWarehouseList.length; i++) {
+        let childDiv = document.createElement("div");
+        childDiv.style.width =
+          (childWarehouseList[i].wareLength * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.height =
+          (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.background = "white";
+        childDiv.style.position = "absolute";
+        childDiv.style.left =
+          (childWarehouseList[i].westDistance * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.top =
+          (childWarehouseList[i].northDistance * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.cursor = "pointer";
+        childDiv.style.textAlign = "center";
+        childDiv.style.border = "1px solid #ddd";
+        childDiv.style.borderRadius =
+          childWarehouseList[i].wareLength * 0.2 + "px";
+        childDiv.style.lineHeight =
+          (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.fontSize = "10px";
+        childDiv.innerHTML = childWarehouseList[i].childWareName;
+        childDiv.className = "childViewDiv";
+        oDiv.append(childDiv);
+      }
     },
     goBack() {
       this.$router.replace("/warehoseconfig/childWarehouseAdmin");
@@ -438,7 +448,7 @@ export default {
       .setInput {
         display: flex;
         align-items: center;
-        margin: 0 24px 16px 0;
+        margin: 0 28px 16px 0;
       }
       .setTransition {
         transition: 0.3s;

@@ -1,6 +1,6 @@
 <template>
   <div class="inputInTable">
-    <div class="tableBox">
+    <div class="tableBox tableInInput">
       <el-table
         :data="inforData"
         border

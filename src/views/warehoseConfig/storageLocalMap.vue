@@ -1042,7 +1042,7 @@ export default {
   .el-tabs--card > .el-tabs__header {
     border: none;
     position: absolute;
-    left: 126px;
+    left: 118px;
     top: 20px;
   }
   .el-tabs__header {

@@ -1171,31 +1171,16 @@ export default {
     },
     clickShow() {
       this.index++;
-      let showDiv = document.querySelectorAll(".block_hidden");
-      let caret = document.querySelector(".caret");
-      let headerBtn = document.querySelector(".header-botton");
+      let showDiv = document.querySelector(".showBtn");
       let headerHtml = document.querySelector(".headerHtml");
       if (this.index % 2 !== 0) {
         this.stateChoose = "收起";
-        // showDiv.forEach((v) => {
-        //   setTimeout(() => {
-        //     v.style.display = "flex";
-        //   }, 300);
-        // });
-        caret.style.transform = "rotateZ(180deg)";
-        // headerBtn.style.position = "absolute";
-        // headerBtn.style.top = "116px";
-        headerHtml.style.height = "150px";
+        headerHtml.style.height = "auto";
+        showDiv.classList.toggle("hiddenBtn");
       } else {
         this.stateChoose = "展开";
-        // showDiv.forEach((v) => {
-        //   v.style.display = "none";
-        // });
-        caret.style.transform = "rotateZ(0)";
-        // headerBtn.style.position = "absolute";
-        // headerBtn.style.top = "50px";
-        // headerBtn.style.right = "0";
         headerHtml.style.height = "96px";
+        showDiv.classList.toggle("hiddenBtn");
       }
     },
     getPageNum(e) {
@@ -1261,6 +1246,7 @@ export default {
   justify-content: space-between;
   position: relative;
   padding: 0 20px;
+  transition: 0.3s;
   .headerInput {
     display: flex;
     flex-wrap: wrap;
@@ -1289,7 +1275,7 @@ export default {
         cursor: pointer;
         span:after {
           content: "";
-          margin-left: 4px;
+          margin-left: 5px;
           transition: all 0.5s;
           display: inline-block;
           transform-origin: 5px 3px;
@@ -1299,6 +1285,22 @@ export default {
             no-repeat;
           background-size: cover;
           transform: rotate(0deg);
+          border-radius: 2px;
+        }
+      }
+      .hiddenBtn {
+        span:after {
+          content: "";
+          transform: rotate(180deg);
+          margin-left: 5px;
+          transition: all 0.5s;
+          display: inline-block;
+          transform-origin: 5px 3px;
+          width: 11px;
+          height: 8px;
+          background: url("../../assets/svg/dropDown.svg") center center
+            no-repeat;
+          background-size: cover;
           border-radius: 2px;
         }
       }
