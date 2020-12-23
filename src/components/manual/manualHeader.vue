@@ -311,6 +311,7 @@
 </template>
 
 <script>
+    /* eslint-disable */
     import {getEntrustedcompany} from "../../api/api";
     import dateTime from "../../components/commin/dateTime.vue"; //时间
     import headerKuanJia from "../commin/headerKuanJia"; //头部框架

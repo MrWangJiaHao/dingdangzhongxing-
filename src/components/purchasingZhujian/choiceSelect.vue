@@ -241,7 +241,6 @@
             prodNameQuerySearch(e, cb) {
                 this.$nextTick(() => {
                     this._sendOutAsync({prodName: e}).then((res) => {
-                        let arr = [];
                         res.list.forEach((item) => {
                             item.value = item.prodName;
                         });
@@ -257,7 +256,6 @@
             prodCodeQuerySearch(e, cb) {
                 this.$nextTick(() => {
                     this._sendOutAsync({prodName: e}).then((res) => {
-                        let arr = [];
                         res.list.forEach((item) => {
                             item.value = item.prodCode;
                         });
@@ -273,7 +271,6 @@
             specNameQuerySearch(e, cb) {
                 this.$nextTick(() => {
                     this._sendOutAsync({specName: e}).then((res) => {
-                        let arr = [];
                         res.list.forEach((item) => {
                             item.value = item.specName;
                         });
