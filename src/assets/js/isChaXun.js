@@ -16,9 +16,11 @@ class isDisplayNoneBlock {
         this.parent = parent
         this.parent.style.marginBottom = 16 + "px";
         console.log(this.parentHeight, 'isChaXun')
-        if (parentHeight > 105) {
+        if (parentHeight > 126) {
             parent.style.height = 105 + "px";
             this.createDomPush(child);
+        } else {
+            parent.style.height = 105 + "px";
         }
     }
 
