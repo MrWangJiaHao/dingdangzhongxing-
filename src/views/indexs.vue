@@ -16,17 +16,17 @@
                 v-if="navIndex.children.length > 1"
                 @command="clickEventGoRouter"
               >
-                <span class="el-dropdown-link">
-                  <img
-                    style="margin-right: 8px"
-                    :src="navIndex.iconCls"
-                    width="16"
-                    height="16"
-                  />
-                  <div style="display: inline-block">
+                <div
+                  class="el-dropdown-link"
+                  style="display: flex; align-items: center"
+                >
+                  <div style="margin-right: 8px">
+                    <img :src="navIndex.iconCls" width="16" height="16" />
+                  </div>
+                  <div style="margin-top:1px">
                     {{ navIndex.title }}
                   </div>
-                </span>
+                </div>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item
                     v-for="(itemCenter, idx) in navIndex.children"
@@ -37,17 +37,17 @@
                 </el-dropdown-menu>
               </el-dropdown>
               <div v-else>
-                <span class="el-dropdown-link">
-                  <img
-                    :src="navIndex.iconCls"
-                    style="margin-right: 8px"
-                    width="16"
-                    height="16"
-                  />
-                  <div style="display: inline-block">
+                <div
+                  class="el-dropdown-link"
+                  style="display: flex; align-items: center"
+                >
+                  <div style="margin-right: 8px">
+                    <img :src="navIndex.iconCls" />
+                  </div>
+                  <div style="margin-top:1px">
                     {{ navIndex.title }}
                   </div>
-                </span>
+                </div>
               </div>
             </div>
           </el-tab-pane>
@@ -97,13 +97,9 @@
       </div>
     </div>
     <!-- 可以删除的导航 -->
-    <div
-      class="dianjiqiehuan"
-      v-show="
-        mianbaoxieArr.length &&
-        mianbaoxieArr[0].title !== mianbaoxieArr[1].title
-      "
-    >
+
+    <!-- mianbaoxieArr[0].title !== mianbaoxieArr[1].title -->
+    <div class="dianjiqiehuan" v-show="mianbaoxieArr.length && mianbaoxieArr[0].title !== mianbaoxieArr[1].title">
       <div class="mianbaoxie" v-show="!isZhanneixiaoxi">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item
@@ -608,6 +604,9 @@ export default {
   },
   methods: {
     changeTableBorder() {
+      setTimeout(() => {
+      console.log(document.querySelector(".has-gutter tr").offsetWidth);
+    }, 500);
       // let myDiv = document.querySelectorAll(".el-table__body");
       // setTimeout(() => {
       //   if (!myDiv[0].offsetWidth > 1860) {
@@ -625,7 +624,7 @@ export default {
       //   }
       // }, 800);
     },
-    
+
     goToIndex() {
       this.$router.push("/index/indexFormJH");
     },

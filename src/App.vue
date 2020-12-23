@@ -31,7 +31,7 @@ export default {
   },
 
   mounted() {
-    console.log(document.querySelectorAll(".el-table__body"))
+    
   },
   methods: {
     addHenxianTables() {
@@ -153,6 +153,7 @@ input[type="number"] {
 .el-table--border,
 .el-table--group {
   border: 1px solid #d2d6e2 !important;
+  border-bottom: none !important;
 }
 
 /*全局设置表格一行的高度*/
@@ -274,11 +275,20 @@ input:-moz-placeholder {
   color: #9b9b9b !important;
 }
 .el-table::before {
-  height: 0 !important;
+  // height: 0 !important;
+  background-color:#d1d6e2 !important;
 }
 .el-table--border::after,
 .el-table--group::after {
   width: 0 !important;
+}
+.el-table__row td:last-child {
+  border-right: none !important;
+}
+.el-table__body,
+.el-table__footer,
+.el-table__header {
+  border-collapse: collapse !important;
 }
 </style>
 

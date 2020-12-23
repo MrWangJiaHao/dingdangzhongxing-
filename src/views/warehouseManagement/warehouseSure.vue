@@ -370,7 +370,6 @@
                     detailList: [],
                     batchNo: "",
                     putWareId: "",
-                    takeUser: "",
                     recommendSeatId: "",
                     id: (() => this.$route.query.id)(),
                     operatorType: 3,

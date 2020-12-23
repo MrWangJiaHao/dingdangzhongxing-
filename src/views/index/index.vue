@@ -339,7 +339,7 @@ export default {
         .area-img {
           width: 117px;
           height: 89px;
-          margin: 26px auto 10px;
+          margin: 30px auto 20px;
           position: relative;
           img {
             position: absolute;
@@ -357,6 +357,7 @@ export default {
           color: #919191;
           font-size: 16px;
           text-align: center;
+          margin-top: 8px;
         }
       }
     }
