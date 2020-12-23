@@ -169,10 +169,10 @@
               </el-input>
             </div>
           </div>
-          <div class="roleName-botton">
-            <div class="queryBtn" @click="clickQuery">查询</div>
-            <div class="clearBtn" @click="clearInput">清空</div>
-          </div>
+        </div>
+        <div class="roleName-botton">
+          <div class="queryBtn" @click="clickQuery">查询</div>
+          <div class="clearBtn" @click="clearInput">清空</div>
         </div>
       </div>
       <!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
@@ -968,6 +968,7 @@ export default {
   }
   .roleName-choose {
     display: flex;
+    justify-content: space-between;
     padding: 0 20px;
     .name_type {
       position: relative;
@@ -1006,21 +1007,19 @@ export default {
       .pickSL {
         @extend .publicStyle;
       }
-      .roleName-botton {
-        height: 36px;
-        position: absolute;
-        right: 0;
-        bottom: 16px;
-        display: flex;
-        align-items: center;
-        .queryBtn {
-          @include BtnFunction("success");
-        }
-        .clearBtn {
-          @include BtnFunction();
-          background: #fff;
-          margin: 0 0 0 10px;
-        }
+    }
+    .roleName-botton {
+      display: flex;
+      align-items: center;
+      align-items: flex-end;
+      margin-bottom: 16px;
+      .queryBtn {
+        @include BtnFunction("success");
+      }
+      .clearBtn {
+        @include BtnFunction();
+        background: #fff;
+        margin: 0 0 0 10px;
       }
     }
   }

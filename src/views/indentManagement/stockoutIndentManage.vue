@@ -130,10 +130,10 @@
               <!-- 结束时间 -->
             </div>
           </div>
-          <div class="header-botton">
-            <div class="queryBtn" @click="clickQuery">查询</div>
-            <div class="clearBtn" @click="clearInput">清空</div>
-          </div>
+        </div>
+        <div class="header-botton">
+          <div class="queryBtn" @click="clickQuery">查询</div>
+          <div class="clearBtn" @click="clearInput">清空</div>
         </div>
       </div>
       <div class="formBox">
@@ -177,11 +177,7 @@
                     width="60"
                   >
                   </el-table-column>
-                  <el-table-column
-                    prop="orgName"
-                    label="委托公司"
-                    align="left"
-                  >
+                  <el-table-column prop="orgName" label="委托公司" align="left">
                   </el-table-column>
                   <el-table-column
                     prop="prodCode"
@@ -669,7 +665,10 @@ export default {
     prodGoPurchase() {
       //缺货产品转采购
       if (!this.prodMultipleSelection.length)
-        return this.$messageSelf.message({message:"请选择需采购的产品",type:"warning"});
+        return this.$messageSelf.message({
+          message: "请选择需采购的产品",
+          type: "warning",
+        });
       this.$router.push({
         path: "/purchasingManagement/purchasingIndex",
         query: {
@@ -768,6 +767,8 @@ export default {
   padding: 20px 10px;
 }
 .headerHtml {
+  display: flex;
+  justify-content: space-between;
   position: relative;
   padding: 0 20px;
   .headerInput {
@@ -783,13 +784,9 @@ export default {
     }
   }
   .header-botton {
-    width: 190px;
-    height: 36px;
-    position: absolute;
-    right: 0;
-    bottom: 16px;
+    margin-bottom: 16px;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     .queryBtn {
       @include BtnFunction("success");
     }
@@ -858,7 +855,6 @@ export default {
     background: white;
     padding: 16px 20px;
   }
-  
 }
 .pageComponent {
   text-align: right;

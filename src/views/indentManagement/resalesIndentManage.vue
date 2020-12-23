@@ -175,10 +175,10 @@
               <!-- 结束时间 -->
             </div>
           </div>
-          <div class="header-botton">
-            <div class="queryBtn" @click="clickQuery">查询</div>
-            <div class="clearBtn" @click="clearInput">清空</div>
-          </div>
+        </div>
+        <div class="header-botton">
+          <div class="queryBtn" @click="clickQuery">查询</div>
+          <div class="clearBtn" @click="clearInput">清空</div>
         </div>
       </div>
       <div class="formBox">
@@ -224,11 +224,7 @@
                     width="60"
                   >
                   </el-table-column>
-                  <el-table-column
-                    prop="orgName"
-                    label="委托公司"
-                    align="left"
-                  >
+                  <el-table-column prop="orgName" label="委托公司" align="left">
                   </el-table-column>
                   <el-table-column
                     prop="orderSourceName"
@@ -996,7 +992,10 @@ export default {
     yichukuSure() {
       //已出库完成按钮
       if (!this.outMultipleSelection.length)
-        return this.$messageSelf.message({message:"请选择要强制完成的订单",type:"warning"});
+        return this.$messageSelf.message({
+          message: "请选择要强制完成的订单",
+          type: "warning",
+        });
       this.$messageSelf
         .confirms(
           `共选择${this.outMultipleSelection.length}个退货订单，确认强制完成吗？`,
@@ -1004,16 +1003,22 @@ export default {
           { type: "info" }
         )
         .then(() => {
-          this.$messageSelf.message({message:"该功能暂时没有",type:"error"});
+          this.$messageSelf.message({
+            message: "该功能暂时没有",
+            type: "error",
+          });
         })
         .catch(() => {
-          this.$messageSelf.message({message:"已取消",type:"error"});
+          this.$messageSelf.message({ message: "已取消", type: "error" });
         });
     },
     weichukuSure() {
       //未出库完成按钮
       if (!this.unOutMultipleSelection.length)
-        return this.$messageSelf.message({message:"请选择要强制完成的订单",type:"warning"});
+        return this.$messageSelf.message({
+          message: "请选择要强制完成的订单",
+          type: "warning",
+        });
       this.$messageSelf
         .confirms(
           `共选择${this.unOutMultipleSelection.length}个退货订单，确认强制完成吗？`,
@@ -1021,18 +1026,27 @@ export default {
           { type: "info" }
         )
         .then(() => {
-          this.$messageSelf.message({message:"该功能暂时没有",type:"error"});
+          this.$messageSelf.message({
+            message: "该功能暂时没有",
+            type: "error",
+          });
         })
         .catch(() => {
-          this.$messageSelf.message({message:"已取消",type:"error"});
+          this.$messageSelf.message({ message: "已取消", type: "error" });
         });
     },
     affirmResales() {
       //确认退货
       if (!this.outMultipleSelection.length)
-        return this.$messageSelf.message({message:"请选择要确认退货的订单",type:"warning"});
+        return this.$messageSelf.message({
+          message: "请选择要确认退货的订单",
+          type: "warning",
+        });
       if (this.outMultipleSelection.length !== 1)
-        return this.$messageSelf.message({message: "一次只能选择一个订单",type:"warning"});
+        return this.$messageSelf.message({
+          message: "一次只能选择一个订单",
+          type: "warning",
+        });
       this.$router.push({
         path: "/indentManagement/resalesOrderInfor",
         query: {
@@ -1116,7 +1130,7 @@ export default {
       }
     },
     prodAndOrder(item) {
-      console.log(item)
+      console.log(item);
       if (item.index === "1") {
         this.resalesOrderStateData = [
           {
@@ -1207,6 +1221,8 @@ export default {
   padding: 20px 10px;
 }
 .headerHtml {
+  display: flex;
+  justify-content: space-between;
   position: relative;
   padding: 0 20px;
   .headerInput {
@@ -1222,13 +1238,9 @@ export default {
     }
   }
   .header-botton {
-    width: 190px;
-    height: 36px;
-    position: absolute;
-    right: 0;
-    bottom: 16px;
+    margin-bottom: 16px;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     .queryBtn {
       @include BtnFunction("success");
     }
