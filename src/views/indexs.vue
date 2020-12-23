@@ -5,50 +5,53 @@
         <img src="@/assets/img/logo.png" style="margin-right: 5px"/>
         <span class="xitonwenzi">仓储系统</span>
       </span>
-      <div class="el-nav displayalign">
-        <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane v-for="(navIndex, idx) in dataArr" :key="idx">
-            <div slot="label" v-if="navIndex.children">
-              <el-dropdown
-                placement="bottom"
-                trigger="click"
-                class="displayalign"
-                v-if="navIndex.children.length > 1"
-                @command="clickEventGoRouter"
-              >
-                <div
-                  class="el-dropdown-link"
-                  style="display: flex; align-items: center"
-                >
-                  <div style="margin-right: 8px">
-                    <img :src="navIndex.iconCls" width="16" height="16" />
-                  </div>
-                  <div style="margin-top:1px">
+            <div class="el-nav displayalign">
+                <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
+                    <el-tab-pane v-for="(navIndex, idx) in dataArr" :key="idx">
+                        <div slot="label" v-if="navIndex.children">
+                            <el-dropdown
+                                    placement="bottom"
+                                    trigger="click"
+                                    class="displayalign"
+                                    v-if="navIndex.children.length > 1"
+                                    @command="clickEventGoRouter"
+                            >
+                <span class="el-dropdown-link">
+                  <img
+                          style="margin-right: 8px"
+                          :src="navIndex.iconCls"
+                          width="16"
+                          height="16"
+                  />
+                  <div style="display: inline-block">
                     {{ navIndex.title }}
                   </div>
-                </div>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item
-                    v-for="(itemCenter, idx) in navIndex.children"
-                    :key="idx"
-                    :command="idx"
-                    >{{ itemCenter.title }}
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-              <div v-else>
-                <div
-                  class="el-dropdown-link"
-                  style="display: flex; align-items: center"
-                >
-                  <div style="margin-right: 8px">
-                    <img :src="navIndex.iconCls" />
-                  </div>
-                  <div style="margin-top:1px">
+                </span>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item
+                                            v-for="(itemCenter, idx) in navIndex.children"
+                                            :key="idx"
+                                            :command="idx"
+                                    >{{ itemCenter.title }}
+                                    </el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
+                            <div v-else>
+                <span class="el-dropdown-link">
+                  <img
+                          :src="navIndex.iconCls"
+                          style="margin-right: 8px"
+                          width="16"
+                          height="16"
+                  />
+                  <div style="display: inline-block">
                     {{ navIndex.title }}
                   </div>
-                </div>
-              </div>
+                </span>
+                            </div>
+                        </div>
+                    </el-tab-pane>
+                </el-tabs>
             </div>
             <div class="el-lr">
                 <div
