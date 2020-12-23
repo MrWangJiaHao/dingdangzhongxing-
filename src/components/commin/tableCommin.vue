@@ -50,16 +50,14 @@
                 :dropDowBox="tableItem.dropDowBox"
                 :drop="tableItem.drop"
                 :select="scoped.row.drop"
-                @getDropDownData="
-                  tableItem.getDropDownData
-                "
-                @cliclInput="tableItem.cliclInput(scoped.row,scoped.$index)  "
+                @getDropDownData="tableItem.getDropDownData"
+                @cliclInput="tableItem.cliclInput(scoped.row, scoped.$index)"
               ></dropDownXiala>
             </div>
             <div v-else-if="tableItem.flag == 'date'">
               <dateTime
                 :dateTimeData="tableItem.dateTimeData"
-                @getDateTime="tableItem.getDateTime  "
+                @getDateTime="tableItem.getDateTime"
                 style="height: 28px"
               />
             </div>
@@ -91,7 +89,7 @@
               {{ scope.row[tableItem.types] || "1" }}
             </ex-slot>
             <span v-else>
-              {{ scope.row[tableItem.types] || "--" }}
+              {{ scope.row[tableItem.types] || "———" }}
             </span>
           </span>
         </el-table-column>

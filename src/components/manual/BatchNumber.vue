@@ -1,17 +1,17 @@
 <template>
     <div class="setUserIngBox">
         <div class="setUserIngBoxCenter">
-            <div class="headerBox mb10">
-                <div class="closeTitle">打印批次号</div>
-                <div class="closeIcon" @click="closeBtn"></div>
-            </div>
-            <div style="border-bottom: 1px solid #d2d6e2; padding: 0 0 0px 0">
-                <div id="printCenter" style="text-align: center">
-                    <div style="width: 780px">
-                        <div
-                                v-for="(item, idx) in parintBatchNumberArrs"
-                                :key="idx"
-                                style="
+            <kuanjiaClick titles="打印批次号" @closeBtn="closeBtn" :isLookerShow="false"
+                          print="打印"
+                          width="1100" @clickSubmit="printWarehouseReceipt">
+                <template slot="centerKuanjia">
+                    <div class="mb16" style="border-bottom: 1px solid #d2d6e2; padding: 0 0 0px 0">
+                        <div id="printCenter" style="text-align: center">
+                            <div style="width: 780px;margin-top: 16px">
+                                <div
+                                        v-for="(item, idx) in parintBatchNumberArrs"
+                                        :key="idx"
+                                        style="
                 position: relative;
                 padding: 20px;
                 display: inline-block;
@@ -24,48 +24,46 @@
                 text-align: left;
                 border: 1px solid #d1d6e2;
               "
-                        >
-                            <div style="margin-bottom: 10px">
-                                产品名称：{{ item.prodName }}
-                            </div>
-                            <div style="margin-bottom: 10px">规 格：{{ item.specName }}</div>
-                            <div style="margin-bottom: 10px">
-                                委托公司：{{ item.supName }}
-                            </div>
-                            <div style="margin-bottom: 10px">批次号：{{ item.batchNo }}</div>
-                            <div
-                                    style="
+                                >
+                                    <div style="margin-bottom: 10px">
+                                        产品名称：{{ item.prodName }}
+                                    </div>
+                                    <div style="margin-bottom: 10px">规 格：{{ item.specName }}</div>
+                                    <div style="margin-bottom: 10px">
+                                        委托公司：{{ item.supName }}
+                                    </div>
+                                    <div style="margin-bottom: 10px">批次号：{{ item.batchNo }}</div>
+                                    <div
+                                            style="
                   height: 50px;
                   z-index: -1;
                   overflow: hidden;
                 "
-                            >
-                                <img
-                                        width="300"
-                                        height="100"
-                                        style="margin-left: -40px"
-                                        :src="
+                                    >
+                                        <img
+                                                width="300"
+                                                height="100"
+                                                style="margin-left: -40px"
+                                                :src="
                     'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
                     item.batchNo
                   "
-                                />
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <!-- 打印的内容 -->
                     </div>
-                </div>
-                <!-- 打印的内容 -->
-
-                <div class="tr" style="padding: 20px 20px 20px 0">
-                    <div class="tijiaoBox mt20 disinb" @click="printWarehouseReceipt">
-                        打印
-                    </div>
-                </div>
-            </div>
+                </template>
+            </kuanjiaClick>
         </div>
     </div>
 </template>
 
 <script>
+    import kuanjiaClick from "../../components/commin/kuanjiaClick";
+
     export default {
         data() {
             return {
@@ -73,6 +71,9 @@
                 Newtime: "",
                 parintBatchNumberArrs: [],
             };
+        },
+        components: {
+            kuanjiaClick
         },
         created() {
             this._changeTime();
@@ -145,11 +146,6 @@
         }
 
         .setUserIngBoxCenter {
-            position: relative;
-            left: 50%;
-            top: 144px;
-            transform: translateX(-50%);
-            background: #fff;
             width: 800px;
             overflow-y: auto;
             max-height: 750px;

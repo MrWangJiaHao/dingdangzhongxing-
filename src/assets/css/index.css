@@ -144,6 +144,7 @@ textarea {
 
 #app .manualBox {
     background-color: #eef1f8;
+    border-top: none;
 }
 
 .ellipsis {
@@ -313,6 +314,10 @@ textarea {
     right: 0;
     left: 0;
     z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 }
 
 .meiyiyetitle::before {
@@ -605,18 +610,31 @@ textarea {
     padding-bottom: 10px;
 
 }
-.wn130{
+
+.wn130 {
     width: 130px;
 }
+
+.w140 {
+    width: 140px;
+}
+
 .botD1 {
     border-bottom: 1px solid #D1D6E2;
 }
-.w125{
+
+#app .btns {
+    right: 30px;
+}
+
+.w125 {
     width: 125px;
 }
-.w150{
+
+.w150 {
     width: 150px;
 }
+
 /* 横线 */
 .transverseLine {
     width: 1px;
@@ -729,6 +747,8 @@ textarea {
 .ivu-input {
     font-size: 14px !important;
     padding: 0 30px 0 10px !important;
+    color: #9b9b9b;
+
 }
 
 .fuzzyQueryBox .line {
@@ -793,6 +813,16 @@ textarea {
     background-color: #fff;
 }
 
+.bordershouhuodan {
+    border-bottom: 1px solid #d2d6e2;
+    padding: 0 0 10px 0;
+}
+
+/*. {*/
+/*    border-bottom: 1px solid #d2d6e2;*/
+/*    padding: 0 0 10px 0*/
+/*}*/
+
 .parentBox .centersBox .input {
     border-radius: 4px;
 }
@@ -813,6 +843,7 @@ textarea {
 .inputInTable .tableBox .el-icon-arrow-up:before {
     margin-bottom: 6px;
 }
-input.el-input__inner{
+
+input.el-input__inner {
     color: #9b9b9b;
 }

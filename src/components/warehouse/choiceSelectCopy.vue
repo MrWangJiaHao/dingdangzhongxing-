@@ -1,6 +1,6 @@
 <template>
     <div ref="childSelect" class="displayCenter choiceSelectBox">
-        <div style="width: 100%">
+        <div>
             <div class="headerBox mb20">
                 <div class="closeTitle">选择产品</div>
                 <div class="closeIcon" @click="closeBtn"></div>
@@ -76,11 +76,12 @@
                         style="width: 100%"
                         @selection-change="handleSelectionChange"
                 >
-                    <el-table-column type="selection" width="82"></el-table-column>
+                    <el-table-column type="selection" align="center" width="82"></el-table-column>
                     <el-table-column
                             label="序号"
                             type="index"
                             width="71"
+                            align="center"
                             show-overflow-tooltip
                     />
                     <el-table-column
