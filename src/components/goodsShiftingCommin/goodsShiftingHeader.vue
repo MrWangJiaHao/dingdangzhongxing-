@@ -1,124 +1,122 @@
 <template>
-    <div class="goodsShiftingBox mb16">
-        <div class="dispalywrap">
-            <div class="inline mr11 mb16">
-                <dropDownXiala
-                        :w320="'w320'"
-                        :dropDowBox="wieTuoGonShiJson"
-                        @cliclInput="weiTuoGonShiClick"
-                        @getDropDownData="weiTuoGonShiInput"
-                        :drop="'orgName'"
-                />
-            </div>
-            <!-- 委托公司 -->
-            <div class="inline mr11 mb16">
-                <searchBox
-                        @changeInputs="changereplenishOrderNo"
-                        :searchCenter="buhuodanhaoJson"
-                />
-            </div>
-            <!-- 补货单号 -->
-            <div class="inline mr11 mb16">
-                <searchBox
-                        @changeInputs="changprodNumeJson"
-                        :searchCenter="prodNumeJson"
-                />
-            </div>
-            <!-- 产品名称 -->
-            <div class="inline mr11 mb16">
-                <searchBox
-                        @changeInputs="changprodCodeJson"
-                        :searchCenter="prodCodeJson"
-                />
-            </div>
-            <!-- 产品编码 -->
-            <div class="inline mr11 mb16">
-                <dropDownXiala
-                        :dropDowBox="specNameJson"
-                        @cliclInput="specNameClick"
-                        @getDropDownData="specNameqInput"
-                        :drop="'specName'"
-                />
-            </div>
-            <!-- 请选择产品规格 -->
-            <div class="inline mr11 mb16">
-                <dropDownXiala
-                        :dropDowBox="disposeStatusJson"
-                        @cliclInput="disposeStatusClick"
-                        @getDropDownData="disposeStatusInput"
-                        :drop="'disposeStatus'"
-                />
-            </div>
-            <!-- 补货状态 -->
-            <div class="inline mr11 mb16">
-                <dropDownXiala
-                        :dropDowBox="orderSourceJson"
-                        @cliclInput="orderSourceClick"
-                        @getDropDownData="orderSourceInput"
-                        :drop="'orderSource'"
-                />
-            </div>
-            <!-- 补货类型 -->
-            <div class="inline mr11 mb16">
-                <div class="displayalign zujianBox">
-                    <div class="noneIconTitle mr11">创建时间:</div>
-                    <div class="mr20 displayalign">
-                        <div class="mr10">
-                            <dateTime
-                                    :dateTimeData="createStartTime"
-                                    @getDateTime="getcreateStartTime"
-                                    ref="createStartTime"
-                            />
+    <div>
+        <headerKuanJia @clickQueryUser="queryCenter" @clearInputAll="clearInters">
+            <template>
+                <div class="inline mr11 mb16">
+                    <dropDownXiala
+                            :w320="'w320'"
+                            :dropDowBox="wieTuoGonShiJson"
+                            @cliclInput="weiTuoGonShiClick"
+                            @getDropDownData="weiTuoGonShiInput"
+                            :drop="'orgName'"
+                    />
+                </div>
+                <!-- 委托公司 -->
+                <div class="inline mr11 mb16">
+                    <searchBox
+                            @changeInputs="changereplenishOrderNo"
+                            :searchCenter="buhuodanhaoJson"
+                    />
+                </div>
+                <!-- 补货单号 -->
+                <div class="inline mr11 mb16">
+                    <searchBox
+                            @changeInputs="changprodNumeJson"
+                            :searchCenter="prodNumeJson"
+                    />
+                </div>
+                <!-- 产品名称 -->
+                <div class="inline mr11 mb16">
+                    <searchBox
+                            @changeInputs="changprodCodeJson"
+                            :searchCenter="prodCodeJson"
+                    />
+                </div>
+                <!-- 产品编码 -->
+                <div class="inline mr11 mb16">
+                    <dropDownXiala
+                            :dropDowBox="specNameJson"
+                            @cliclInput="specNameClick"
+                            @getDropDownData="specNameqInput"
+                            :drop="'specName'"
+                    />
+                </div>
+                <!-- 请选择产品规格 -->
+                <div class="inline mr11 mb16">
+                    <dropDownXiala
+                            :dropDowBox="disposeStatusJson"
+                            @cliclInput="disposeStatusClick"
+                            @getDropDownData="disposeStatusInput"
+                            :drop="'disposeStatus'"
+                    />
+                </div>
+                <!-- 补货状态 -->
+                <div class="inline mr11 mb16">
+                    <dropDownXiala
+                            :dropDowBox="orderSourceJson"
+                            @cliclInput="orderSourceClick"
+                            @getDropDownData="orderSourceInput"
+                            :drop="'orderSource'"
+                    />
+                </div>
+                <!-- 补货类型 -->
+                <div class="inline mr11 mb16">
+                    <div class="displayalign zujianBox">
+                        <div class="noneIconTitle mr11">创建时间:</div>
+                        <div class="mr20 displayalign">
+                            <div class="mr10">
+                                <dateTime
+                                        :dateTimeData="createStartTime"
+                                        @getDateTime="getcreateStartTime"
+                                        ref="createStartTime"
+                                />
+                            </div>
+                            <!-- 开始时间 -->
+                            <div class="line"></div>
+                            <div>
+                                <dateTime
+                                        :dateTimeData="createEndTime"
+                                        @getDateTime="getcreateEndTime"
+                                        ref="createEndTime"
+                                />
+                            </div>
+                            <!-- 结束时间 -->
                         </div>
-                        <!-- 开始时间 -->
-                        <div class="line"></div>
-                        <div>
-                            <dateTime
-                                    :dateTimeData="createEndTime"
-                                    @getDateTime="getcreateEndTime"
-                                    ref="createEndTime"
-                            />
-                        </div>
-                        <!-- 结束时间 -->
                     </div>
                 </div>
-            </div>
-            <!-- 下发时间 -->
-            <div class="inline mr11 mb16">
-                <div class="displayalign zujianBox">
-                    <div class="noneIconTitle mr11">补货开始时间:</div>
-                    <div class="mr20 displayalign">
-                        <div style="margin-right: 10px">
-                            <dateTime
-                                    :dateTimeData="replenishStartTime"
-                                    @getDateTime="getreplenishStartTime"
-                                    ref="replenishStartTime"
-                            />
+                <!-- 下发时间 -->
+                <div class="inline mr11 mb16">
+                    <div class="displayalign zujianBox">
+                        <div class="noneIconTitle mr11">补货开始时间:</div>
+                        <div class="mr20 displayalign">
+                            <div style="margin-right: 10px">
+                                <dateTime
+                                        :dateTimeData="replenishStartTime"
+                                        @getDateTime="getreplenishStartTime"
+                                        ref="replenishStartTime"
+                                />
+                            </div>
+                            <!-- 开始时间 -->
+                            <div class="line"></div>
+                            <div>
+                                <dateTime
+                                        :dateTimeData="replenishEndTime"
+                                        @getDateTime="getreplenishEndTime"
+                                        ref="replenishEndTime"
+                                />
+                            </div>
+                            <!-- 结束时间 -->
                         </div>
-                        <!-- 开始时间 -->
-                        <div class="line"></div>
-                        <div>
-                            <dateTime
-                                    :dateTimeData="replenishEndTime"
-                                    @getDateTime="getreplenishEndTime"
-                                    ref="replenishEndTime"
-                            />
-                        </div>
-                        <!-- 结束时间 -->
                     </div>
                 </div>
-            </div>
-            <!-- 补货开始时间 -->
-        </div>
-        <div class="tr btns btnArrs">
-            <div class="queryBtn mr11" @click="queryCenter">查询</div>
-            <div class="clearBtn" @click="clearInters">清空</div>
-        </div>
-        <!-- 补获作业 header -->
+                <!-- 补货开始时间 -->
+            </template>
+        </headerKuanJia>
     </div>
 </template>
 
 <script>
+    import headerKuanJia from "../../components/commin/headerKuanJia";
     import dropDownXiala from "../commin/dropDownXiala"; //下拉框
     import searchBox from "../commin/searvhBoxs"; //下拉框
     import dateTime from "../../components/commin/dateTime.vue"; //时间
@@ -127,6 +125,7 @@
             dropDownXiala,
             searchBox,
             dateTime,
+            headerKuanJia
         },
         data() {
             return {

@@ -11,6 +11,7 @@
                 <div class="closeIcon" @click="closeBtn"></div>
             </div>
             <slot name="centerKuanjia"></slot>
+            <slot></slot>
             <!-- 账号信息 -->
             <div class="disRight mr20 ">
                 <div v-if="isLookerShow" class="quxiaoBox mr20 mb20" @click="closeBtn">

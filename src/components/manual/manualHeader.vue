@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="fuzzyQueryBox">
-            <div class="biaogeBox">
+        <headerKuanJia @clickQueryUser="clickQueryUser" @clearInputAll="clearInputAll">
+            <template>
                 <div class="displayalign mb16 zujianBox">
                     <div class="noneIconTitle mr11">委托公司:</div>
                     <div class="mr20 w320">
@@ -305,25 +305,20 @@
                     </div>
                 </div>
                 <!-- 复核完成时间 -->
-            </div>
-            <div class="btns inline btnArrs tr">
-                <div class="queryBtn inline mr11 zujianBox" @click="clickQueryUser">
-                    查询
-                </div>
-                <div class="clearBtn inline" @click="clearInputAll">清空</div>
-            </div>
-        </div>
+            </template>
+        </headerKuanJia>
     </div>
 </template>
 
 <script>
-    /*eslint-disable */
     import {getEntrustedcompany} from "../../api/api";
     import dateTime from "../../components/commin/dateTime.vue"; //时间
+    import headerKuanJia from "../commin/headerKuanJia"; //头部框架
 
     export default {
         components: {
             dateTime,
+            headerKuanJia
         },
         data() {
             return {

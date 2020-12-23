@@ -1,7 +1,7 @@
 <template>
     <div class="userSettingBox">
-        <div class="fuzzyQueryBox mb16">
-            <div class="biaogeBox">
+        <headerKuanJia @clickQueryUser="clickQueryUser" @clearInputAll="clearInputAll">
+            <template>
                 <div class="displayalign zujianBox">
                     <div class="noneIconTitle mr11">子仓名称:</div>
                     <div class="mr20 w160">
@@ -24,7 +24,7 @@
                 <div class="zujianBox">
                     <div class="displayalign zujianBox">
                         <div class="noneIconTitle mr11">区域类型:</div>
-                        <div class="mr20 w140">
+                        <div class="mr20 w150">
                             <el-select
                                     v-model="wareAreaTypeJson.wareAreaName"
                                     placeholder="请选择区域类型"
@@ -44,7 +44,7 @@
                 <div class="zujianBox">
                     <div class="displayalign zujianBox">
                         <div class="noneIconTitle mr11">区域名称:</div>
-                        <div class="mr20 w140">
+                        <div class="mr20 w160">
                             <el-select
                                     v-model="pagingQueryData.paras.wareAreaName"
                                     slot="prepend"
@@ -63,12 +63,8 @@
                     </div>
                 </div>
                 <!-- 区域名称 -->
-            </div>
-            <div class="btns mr11">
-                <div class="queryBtn zujianBox mr11" @click="clickQueryUser">查询</div>
-                <div class="clearBtn" @click="clearInputAll">清空</div>
-            </div>
-        </div>
+            </template>
+        </headerKuanJia>
         <!-- 头部 -->
         <div class="btnArr">
             <div style="background-color: #fff">
@@ -306,29 +302,25 @@
                 <!-- 表格主体 -->
             </div>
         </div>
-
         <!-- table表格 -->
-        <div class="lineBox">
-            <div class="line"></div>
-        </div>
     </div>
 </template>
 
 <script>
-    /*eslint-disable*/
     import pagecomponent from "../../components/commin/pageComponent"; //分页器
-
-    import {post, logins} from "../../api/api";
+    import {post} from "../../api/api";
     import {mapState} from "vuex";
     import quyuLooker from "../../components/quyuLooker";
     import kuwieLooker from "../../components/kuwieLooker";
-    import {ajaxPost, getCookie, _addArrPush} from "../../utils/validate";
+    import {getCookie} from "../../utils/validate";
+    import headerKuanJia from "../../components/commin/headerKuanJia";
 
     export default {
         components: {
             pagecomponent,
             quyuLooker,
             kuwieLooker,
+            headerKuanJia
         },
         computed: {
             ...mapState(["editUser", "warehouseConfig"]),
