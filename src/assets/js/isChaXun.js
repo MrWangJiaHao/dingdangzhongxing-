@@ -15,9 +15,8 @@ class isDisplayNoneBlock {
         this.parentHeight = parentHeight
         this.parent = parent
         this.parent.style.marginBottom = 16 + "px";
-        console.log(parentHeight, "查询按钮父层的height，是否超过104px")
+        console.log(this.parentHeight, 'isChaXun')
         if (parentHeight > 105) {
-            parent.style.height = 104 + "px";
             this.createDomPush(child);
         }
     }
@@ -38,13 +37,17 @@ class isDisplayNoneBlock {
         div.innerText = "展示"
         div.classList.toggle("isclickMes")
         self.parent.style.marginBottom = 16 + "px";
+        console.log(self.parentHeight, 'clickFun')
         self.parent.style.height = 104 + "px";
     }
 
     changeFun(div, self) {
+        console.log(self.parentHeight, 'changeFun')
         div.innerText = "收起";
         self.parent.style.height = self.parentHeight + "px";
+
         self.parent.style.marginBottom = 0 + "px";
+
         div.classList.toggle("isclickMes")
     }
 }
