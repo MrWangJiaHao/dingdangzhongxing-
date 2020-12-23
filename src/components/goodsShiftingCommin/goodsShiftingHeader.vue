@@ -63,7 +63,7 @@
                 <div class="inline mr11 mb16">
                     <div class="displayalign zujianBox">
                         <div class="noneIconTitle mr11">创建时间:</div>
-                        <div class="mr20 displayalign">
+                        <div class=" displayalign">
                             <div class="mr10">
                                 <dateTime
                                         :dateTimeData="createStartTime"

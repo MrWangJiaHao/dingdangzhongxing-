@@ -144,20 +144,25 @@
         <div v-show="ewms" class="bjBox">
             <kuanjiaClick titles="打印二维码" @closeBtn="closeBtnEwm" :isLookerShow="false"
                           print="打印"
-                          width="1100" @clickSubmit="_printWarehouseReceipt">
+                          width="900"
+                          @clickSubmit="_printWarehouseReceipt">
                 <template slot="centerKuanjia">
-                    <div v-if="ewms" id="ewms" class="clearfix ewmsCenters">
-                        <div
-                                v-for="(item, idx) in EwmArray"
-                                :key="idx"
-                                style="
+                    <div style="width: 900px;margin: 0 auto">
+
+                        <div v-if="ewms" id="ewms" class="clearfix ewmsCenters">
+                            <div
+                                    v-for="(item, idx) in EwmArray"
+                                    :key="idx"
+                                    style="
                                         float: left;
                                         margin-right: 20px;
                                         margin-bottom: 20px;
                                         width: 260px;
                                       ">
-                            <getEwmRes :ewmArr="item" :idx="idx"/>
+                                <getEwmRes :ewmArr="item" :idx="idx"/>
+                            </div>
                         </div>
+
                     </div>
                 </template>
             </kuanjiaClick>

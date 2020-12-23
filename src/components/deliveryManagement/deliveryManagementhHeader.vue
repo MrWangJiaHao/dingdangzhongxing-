@@ -105,7 +105,7 @@
                 <div class="noneIconTitle mr11">物流公司:</div>
                 <div class="mr20">
                     <el-select
-                            class="w140"
+                            class="w150"
                             v-model="paras.exprName"
                             slot="prepend"
                             placeholder="请选择物流公司"
@@ -170,7 +170,7 @@
               </span>
 
                         <el-select
-                                class="w140"
+                                class="w150"
                                 v-model="paras.orderAddr"
                                 slot="prepend"
                                 placeholder="请选择收货地址"
@@ -204,7 +204,7 @@
               </span>
 
                         <el-select
-                                class="w140"
+                                class="w150"
                                 v-model="paras.systemProdName"
                                 slot="prepend"
                                 placeholder="请选择产品名称"
@@ -228,6 +228,7 @@
                 <div class="noneIconTitle mr11">物流打印状态:</div>
                 <div class="mr20">
                     <el-select
+                            class="w190"
                             v-model="paras.printExprStatus"
                             slot="prepend"
                             placeholder="请选择物物流打印状态"

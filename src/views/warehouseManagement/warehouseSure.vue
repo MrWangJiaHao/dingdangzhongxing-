@@ -1,7 +1,7 @@
 <template>
     <div class="setUserIngBox" id="chukuSure">
         <kuanjiaClick :titles='!isDetails ? "出库确认" : "出库单详情"' :isLooker="isDetails"
-                      @closeBtn="closeBtn" @clickSubmit="goAJAXCreate" width="1100px">
+                      @closeBtn="closeBtn" @clickSubmit="goAJAXCreate" width="1120px">
             <template slot="centerKuanjia">
                 <div class="centerBox">
                     <div class="setTitle">{{ !isDetails ? "出库确认" : "出库单详情" }}</div>

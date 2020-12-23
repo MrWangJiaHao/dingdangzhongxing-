@@ -305,7 +305,7 @@
             async pWarehouseArea() {
                 let datas = await post({
                     url:
-                        "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/findRecord",
+                        "/wbs-warehouse-manage/v1/pWarehouseArea/findRecord",
                     data: this.chaxunDataJson,
                 });
                 this.changeDataRes(datas.result[0]);

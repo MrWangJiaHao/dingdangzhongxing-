@@ -3,7 +3,7 @@
         <div class="setUserIngBoxCenter">
             <kuanjiaClick titles="打印收货单" @closeBtn="closeBtn" :isLookerShow="false"
                           print="打印"
-                          width="1100" @clickSubmit="printWarehouseReceipt">
+                          width="1030" @clickSubmit="printWarehouseReceipt">
                 <template slot="centerKuanjia">
                     <div class="bordershouhuodan mb16">
                         <div id="printCenters" style="padding: 20px">
@@ -198,7 +198,7 @@
                                                     border
                                                     highlight-current-row
                                             >
-                                                <el-table-column type="index" label="序号" width="50">
+                                                <el-table-column type="index" label="序号" align="center" width="50">
                                                 </el-table-column>
                                                 <el-table-column property="prodFullName" label="产品名称">
                                                 </el-table-column>
@@ -274,22 +274,7 @@
         created() {
             this._changeTime();
         },
-        mounted() {
-            this.$nextTick(() => {
-                let listArrs = JSON.parse(sessionStorage.getItem("listArrs"));
-                console.log(listArrs, "收货单");
-                this.listArrs = listArrs;
-                this.tableDatas = listArrs.detailList;
-                let cells = document
-                    .getElementById("printCenters")
-                    .getElementsByClassName("cell");
 
-                let array = Array.from(cells);
-                array.forEach((item) => {
-                    item.style = "text-align:center;";
-                });
-            });
-        },
         methods: {
             closeBtn() {
                 this.$parent._data.Receipt = false;

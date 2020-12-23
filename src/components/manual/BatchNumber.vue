@@ -3,7 +3,7 @@
         <div class="setUserIngBoxCenter">
             <kuanjiaClick titles="打印批次号" @closeBtn="closeBtn" :isLookerShow="false"
                           print="打印"
-                          width="1100" @clickSubmit="printWarehouseReceipt">
+                          width="780px" @clickSubmit="printWarehouseReceipt">
                 <template slot="centerKuanjia">
                     <div class="mb16" style="border-bottom: 1px solid #d2d6e2; padding: 0 0 0px 0">
                         <div id="printCenter" style="text-align: center">

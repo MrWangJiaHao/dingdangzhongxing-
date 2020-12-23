@@ -153,8 +153,29 @@ textarea {
     transition: all .5s;
 }
 
+.w160 {
+    width: 160px;
+}
+
+.w170 {
+    width: 170px;
+}
+
+.w180 {
+    width: 180px;
+}
+
+.w190 {
+    width: 190px;
+}
+
 .el-input__inner:hover {
     border-color: #409EFF;
+}
+
+.el-table {
+    border: 1px solid #d2d6e2;
+    border-bottom: none;
 }
 
 .nowrap {
@@ -803,6 +824,10 @@ textarea {
 
 .ptl3020 {
     padding: 30px 20px;
+}
+
+.textAlignJustify {
+    text-align-last: justify;
 }
 
 .backFF {

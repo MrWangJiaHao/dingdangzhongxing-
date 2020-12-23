@@ -3,7 +3,8 @@
         <div class="setUserIngBoxCenter">
             <kuanjiaClick titles="打印发货清单" @closeBtn="closeBtn" :isLookerShow="false"
                           print="打印"
-                          width="1100" @clickSubmit="printWarehouseReceipt">
+                          width="574"
+                          @clickSubmit="printWarehouseReceipt">
                 <template slot="centerKuanjia">
                     <div id="printCenter" class="displayColom botD1 mb16 centerBox">
                         <div
@@ -107,9 +108,7 @@
 </template>
 
 <script>
-    /*
-     eslint-disable
-     */
+    /* eslint-disable*/
     import JsBarcode from "jsbarcode";
     import kuanjiaClick from "../../components/commin/kuanjiaClick";
 

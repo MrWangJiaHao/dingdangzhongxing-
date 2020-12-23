@@ -2,7 +2,7 @@
     <div class="setUserIngBox" id="dindanlaiyuan">
         <kuanjiaClick :titles='editSavaRecord ? "编辑发货规则" : "创建发货规则"'
                       @closeBtn="closeBtn"
-                      width="1100" @clickSubmit="goAJAXCreate">
+                      width="540" @clickSubmit="goAJAXCreate">
             <template>
                 <div class="mt20"></div>
                 <div
@@ -22,8 +22,8 @@
                                     class="displayalign"
                             >
                                 <div class="noneIconTitle mr20">
-                                    {{ items.title }}
                                     <span v-if="items.isImportant" class="colred">*</span>
+                                    {{ items.title }}
                                 </div>
                                 <div v-if="items.placeholder">
                                     <el-input
@@ -88,8 +88,8 @@
                         </div>
                         <div v-if="item.placeholder" class="displayalign mb20">
                             <div class="noneIconTitle mr20 ">
-                                {{ item.title }}
                                 <span v-if="item.isImportant" class="colred">*</span>
+                                {{ item.title }}
                             </div>
                             <div v-if="item.placeholder" class="">
                                 <el-input

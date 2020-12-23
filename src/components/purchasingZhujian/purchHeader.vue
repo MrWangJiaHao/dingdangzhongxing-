@@ -165,7 +165,7 @@
                     <div class="displayalign zujianBox">
                         <div class="noneIconTitle mr11">实际到货时间:</div>
                         <div class="mr20 displayalign">
-                            <div style="margin-right: 10px">
+                            <div class="mr10">
                                 <dateTime
                                         :dateTimeData="putStartTimeData"
                                         @getDateTime="getputStartTime"
