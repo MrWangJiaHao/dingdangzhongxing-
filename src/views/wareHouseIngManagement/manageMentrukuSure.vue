@@ -1,7 +1,7 @@
 <template>
     <div class="setUserIngBox" id="manageMenyrukuSures">
         <kuanjiaClick :titles='!isrukuDetails ? "入库确认" : "入库详情"' @closeBtn="closeBtn"
-                      :is-looker="isrukuDetails" width="1100px" @clickSubmit="goAJAXCreate">
+                      :is-looker="isrukuDetails" width="1120px" @clickSubmit="goAJAXCreate">
             <template slot="centerKuanjia">
                 <div class="centerBox">
                     <div class="setTitle mb20">
@@ -85,11 +85,13 @@
                             />
                             <el-table-column
                                     label="产品编码"
+                                    width="160"
                                     prop="prodCode"
                                     show-overflow-tooltip
                             />
                             <el-table-column
                                     label="产品名称"
+                                    width="150"
                                     property="prodName"
                                     show-overflow-tooltip
                             ></el-table-column>

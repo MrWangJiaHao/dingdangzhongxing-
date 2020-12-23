@@ -2,7 +2,7 @@
     <div id="headerMain">
         <div class="tabContainer">
       <span class="imgbox ellipsis displayalign" @click="goToIndex">
-        <img src="@/assets/img/logo.png" style="margin-right: 5px"/>
+        <img src="@/assets/img/logo.png" style="margin-right: 5px;margin-top: -2px"/>
         <span class="xitonwenzi">仓储系统</span>
       </span>
             <div class="el-nav displayalign">
@@ -18,12 +18,12 @@
                             >
                 <span class="el-dropdown-link">
                   <img
-                          style="margin-right: 8px"
+                          style="margin-right: 8px;margin-top: -4px"
                           :src="navIndex.iconCls"
                           width="16"
                           height="16"
                   />
-                  <div style="display: inline-block">
+                  <div style="display: inline-block;line-height: 34px">
                     {{ navIndex.title }}
                   </div>
                 </span>
@@ -40,11 +40,11 @@
                 <span class="el-dropdown-link">
                   <img
                           :src="navIndex.iconCls"
-                          style="margin-right: 8px"
+                          style="margin-right: 8px;margin-top: -4px"
                           width="16"
                           height="16"
                   />
-                  <div style="display: inline-block">
+                  <div style="display: inline-block;line-height: 34px">
                     {{ navIndex.title }}
                   </div>
                 </span>
@@ -576,15 +576,19 @@
             this._getMesAge();
         },
         created() {
+            let data = new Date().getTime()
+            console.log(data, "时间搓")
             this.dropdownArr.unshift(this.dataArr[0]);
             this.mianbaoxieArr.unshift();
             this.addHenxianTables()
-        },
+        }
+        ,
         watch: {
             activeName: function (n) {
                 // console.log("------------activeName------------", n, this.dropdownArr);
                 this.activeName = "" + parseInt(n);
-            },
+            }
+            ,
             $route: function (n) {
                 console.log(n, "router");
                 if (this.dropdownArr.length) {
@@ -605,12 +609,15 @@
                         }
                     }
                 }
-            },
-        },
+            }
+            ,
+        }
+        ,
         methods: {
             goToIndex() {
                 this.$router.push("/index/indexFormJH");
-            },
+            }
+            ,
             _getMesAge() {
                 this.$nextTick(() => {
                     let TabNavs = document.querySelector(".el-tabs__nav-scroll"); //子层
@@ -619,14 +626,16 @@
                     this.innersWidth = inners.offsetWidth;
                     this.Nums = Math.ceil(this.navWidth / this.innersWidth); //(倍数)
                 });
-            },
+            }
+            ,
             leftMove() {
                 this.leftMoveClick = true;
                 this.rightMoveClick = false;
                 let oDiv = document.querySelector(".el-tabs__nav-scroll");
                 oDiv.style.transition = "0.5s";
                 oDiv.style.left = `${this._returnLeft()}px`;
-            },
+            }
+            ,
             _returnLeft: function () {
                 let steep;
                 let ispandaun =
@@ -644,14 +653,16 @@
                     }
                 }
                 return -steep;
-            },
+            }
+            ,
             rightMove() {
                 this.leftMoveClick = false;
                 this.rightMoveClick = true;
                 let oDiv = document.querySelector(".el-tabs__nav-scroll");
                 oDiv.style.left = `${this._rightMoveSteep()}px`;
                 oDiv.style.transition = "0.5s";
-            },
+            }
+            ,
             _rightMoveSteep: function () {
                 let steep;
                 let ispandaun =
@@ -671,7 +682,8 @@
                     }
                 }
                 return -steep;
-            },
+            }
+            ,
             //点击选中
             handleTabsEdit() {
                 this.addHenxianTables()
@@ -697,7 +709,8 @@
                 this.mianbaoxieArr.splice(1, 1, dataArrJson);
                 this._isZhanNewStation(this.dropdownArr[+this.activeTabsName]);
                 this.setStorage();
-            },
+            }
+            ,
             _isZhanNewStation(data) {
                 let typesStr = _typesStr(data);
                 if (typesStr == "Object") {
@@ -709,7 +722,8 @@
                         return (this.isZhanneixiaoxi = false);
                     }
                 }
-            },
+            }
+            ,
             addHenxianTables() {
                 setTimeout(() => {
                     this.$nextTick(() => {
@@ -724,7 +738,8 @@
                         });
                     });
                 }, 700);
-            },
+            }
+            ,
             //点击删除
             removeTab(e) {
                 // let removeSrc = e.substring(e.length, e.length - 1);
@@ -744,7 +759,8 @@
                 }
                 this.setStorage();
                 console.log("--------dropdownArr--------", router);
-            },
+            }
+            ,
             handleClick() {
                 console.log("--------dropdownArr--------", this.dropdownArr);
                 console.log("this.activeName", this.activeName);
@@ -787,7 +803,8 @@
                 this.handleTabsEdit();
                 this.setStorage();
                 console.log("this.mianbaoxieArr", this.mianbaoxieArr);
-            },
+            }
+            ,
             clickEventGoRouter(e) {
                 let dataArrJson = this.dropdownArr[+this.activeTabsName].children[e];
                 let mianbaoxieArrJson = this.dropdownArr[+this.activeTabsName];
@@ -799,7 +816,8 @@
                 this.$router.push(router);
                 this.setStorage();
                 console.log("this.mianbaoxieArr", this.mianbaoxieArr);
-            },
+            }
+            ,
             // 本地存储
             setStorage: function () {
                 sessionStorage.setItem("activeName", this.activeName);
@@ -816,7 +834,8 @@
                     JSON.stringify(this.mianbaoxieArr)
                     )
                     : "";
-            },
+            }
+            ,
             // 获取本地缓存
             getStorage: function () {
                 if (sessionStorage.getItem("activeName"))
@@ -829,7 +848,8 @@
                     this.mianbaoxieArr = JSON.parse(
                         sessionStorage.getItem("mianbaoxieArr")
                     );
-            },
+            }
+            ,
             // 数组json去重
             Heavy: function (data) {
                 var list = data.list;
@@ -848,9 +868,12 @@
                 if (index == list.length - 1) {
                     return false;
                 }
-            },
-        },
-    };
+            }
+            ,
+        }
+        ,
+    }
+    ;
 </script>
 <style lang='scss'>
     .xitonwenzi {

@@ -3,7 +3,7 @@
         <div class="setUserIngBoxCenter">
             <kuanjiaClick titles="打印入库单" @closeBtn="closeBtn" :isLookerShow="false"
                           print="打印"
-                          width="1100" @clickSubmit="printWarehouseReceipt">
+                          width="1034" @clickSubmit="printWarehouseReceipt">
                 <template slot="centerKuanjia">
                     <div class="bordershouhuodan mb16">
                         <div id="printCenter" style="padding: 20px">
@@ -35,7 +35,7 @@
                                     >
                                         <img
                                                 :src="
-                    'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
+                    baseurl+'/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
                     listArrs.putWareNo
                   "
                                                 width="300"
@@ -256,7 +256,7 @@
                                                 <el-table-column
                                                         property="prodCode"
                                                         label="产品编码"
-                                                        style="width: 80px"
+                                                        width="160"
                                                 >
                                                 </el-table-column>
                                                 <el-table-column
@@ -339,6 +339,7 @@
                 tableDatas: [],
                 Newtime: "",
                 listArrs: {},
+                baseurl: sessionStorage.getItem("baseUrl")
             };
         },
         components: {

@@ -105,7 +105,7 @@
                 <div class="noneIconTitle mr11">物流公司:</div>
                 <div class="mr20">
                     <el-select
-                            class="w140"
+                            class="w150"
                             v-model="paras.exprName"
                             slot="prepend"
                             placeholder="请选择物流公司"
@@ -170,7 +170,7 @@
               </span>
 
                         <el-select
-                                class="w140"
+                                class="w150"
                                 v-model="paras.orderAddr"
                                 slot="prepend"
                                 placeholder="请选择收货地址"
@@ -204,7 +204,7 @@
               </span>
 
                         <el-select
-                                class="w140"
+                                class="w150"
                                 v-model="paras.systemProdName"
                                 slot="prepend"
                                 placeholder="请选择产品名称"
@@ -228,6 +228,7 @@
                 <div class="noneIconTitle mr11">物流打印状态:</div>
                 <div class="mr20">
                     <el-select
+                            class="w190"
                             v-model="paras.printExprStatus"
                             slot="prepend"
                             placeholder="请选择物物流打印状态"
@@ -402,15 +403,8 @@
         },
         created() {
             this._getMes();
-            this.addZhanKaiRes(".btnArrs");
         },
         methods: {
-            addZhanKaiRes(child) {
-                this.$nextTick(() => {
-                    child = document.querySelector(child);
-                    this.$isChaXun.isChaXun(child);
-                });
-            },
             changeorderAddr(e) {
                 this.paras.orderAddr = this.addressJson.orderAddrArr[e].orderAddr;
             },
@@ -563,32 +557,32 @@
             },
         },
     };
-    let flag = 1;
-
-    //判断需不需要添加
-    function createZhangkaiD(child) {
-        let parent = child.parentNode;
-        let parentHeight = parent.offsetHeight;
-        if (parentHeight >= 118) {
-            parent.style.height = 118 + "px";
-            createDomPush(child);
-        }
-    }
-
+    // let flag = 1;
     //
-    function createDomPush(child) {
-        let text = flag % 2 != 0 ? "展开" : "收起";
-        let div = document.createElement("div");
-        div.innerText = text;
-        div.className = "inline mr11 clickMes";
-        child.insertBefore(div, child.children[0]);
-        div.addEventListener("click", clickFun, false);
-    }
-
-    //isClickMes
-    function clickFun() {
-        flag++;
-    }
+    // //判断需不需要添加
+    // function createZhangkaiD(child) {
+    //     let parent = child.parentNode;
+    //     let parentHeight = parent.offsetHeight;
+    //     if (parentHeight >= 118) {
+    //         parent.style.height = 118 + "px";
+    //         createDomPush(child);
+    //     }
+    // }
+    //
+    // //
+    // function createDomPush(child) {
+    //     let text = flag % 2 != 0 ? "展开" : "收起";
+    //     let div = document.createElement("div");
+    //     div.innerText = text;
+    //     div.className = "inline mr11 clickMes";
+    //     child.insertBefore(div, child.children[0]);
+    //     div.addEventListener("click", clickFun, false);
+    // }
+    //
+    // //isClickMes
+    // function clickFun() {
+    //     flag++;
+    // }
 </script>
 
 <style lang='scss' scoped>

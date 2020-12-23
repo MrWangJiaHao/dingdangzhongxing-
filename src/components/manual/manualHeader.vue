@@ -311,6 +311,7 @@
 </template>
 
 <script>
+    /* eslint-disable */
     import {getEntrustedcompany} from "../../api/api";
     import dateTime from "../../components/commin/dateTime.vue"; //时间
     import headerKuanJia from "../commin/headerKuanJia"; //头部框架
@@ -526,15 +527,8 @@
                 this.paras.outWareType = this.$route.params.type;
                 this.isOneShou = false;
             }
-            this.addZhanKaiRes(".btnArrs");
         },
         methods: {
-            addZhanKaiRes(child) {
-                this.$nextTick(() => {
-                    child = document.querySelector(child);
-                    this.$isChaXun.isChaXun(child);
-                });
-            },
             getoutWareStatus() {
             },
             outWareTimeStart(e) {

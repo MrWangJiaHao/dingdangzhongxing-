@@ -1,7 +1,7 @@
 <template>
     <div ref="childSelect" class="displayCenter choiceSelectBox">
         <div>
-            <kuanjiaClick titles="选择产品" @closeBtn="closeBtn" @clickSubmit="clickSubmit">
+            <kuanjiaClick titles="选择产品" width="1000" @closeBtn="closeBtn" @clickSubmit="clickSubmit">
                 <template slot="centerKuanjia">
                     <div class="displayalign centerBox mb20 pd20 ptl3020">
                         <div>

@@ -155,7 +155,7 @@ import {
   pOrgSubOrderMegerOrder,
   pOrgPickOrderprintPick,
 } from "../../api/api";
-import { getCookie, _getArrTarget } from "../../utils/validate";
+import { getCookie } from "../../utils/validate";
 
 export default {
   components: {

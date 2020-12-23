@@ -1,7 +1,7 @@
 <template>
     <div class="setUserIngBox" id="chukuSure">
         <kuanjiaClick :titles='!isDetails ? "出库确认" : "出库单详情"' :isLooker="isDetails"
-                      @closeBtn="closeBtn" @clickSubmit="goAJAXCreate" width="1100px">
+                      @closeBtn="closeBtn" @clickSubmit="goAJAXCreate" width="1120px">
             <template slot="centerKuanjia">
                 <div class="centerBox">
                     <div class="setTitle">{{ !isDetails ? "出库确认" : "出库单详情" }}</div>
@@ -243,6 +243,7 @@
     }
 </style>
 <script>
+    /*eslint-disable*/
     import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
     import kuanjiaClick from "../../components/commin/kuanjiaClick";
     import {_removeData, isMobile} from "../../utils/validate";

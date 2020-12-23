@@ -5,7 +5,7 @@
                 <manualHeader @getParasJson="getParasJson" :tableData="tableData"/>
             </div>
             <div class="btnArr">
-                <div style="background-color: #fff">
+                <div class="backFF">
                     <div class="meiyiyetitle">入库管理</div>
                     <div class="btnClick">
                         <div class="setUser" @click="warehousingConfirmation">出库确认</div>

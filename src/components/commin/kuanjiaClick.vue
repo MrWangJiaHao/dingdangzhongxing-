@@ -2,18 +2,19 @@
     <div class="setUserIngBox">
         <div
                 class="setUserIngBoxCenter"
-                :style="{ maxWidth: width || '1000px' }"
+                :style="{  maxWidth: width? isPX(width) :'1000px'}"
         >
-            <div class="headerBox">
+            <div class="headerBox" :style="{ width:width ? isPX(width):'1000px'}">
                 <div class="closeTitle">
                     {{ titles }}
                 </div>
                 <div class="closeIcon" @click="closeBtn"></div>
             </div>
+            <div class="heightLine"></div>
             <slot name="centerKuanjia"></slot>
             <slot></slot>
             <!-- 账号信息 -->
-            <div class="disRight mr20 ">
+            <div class="disRight btnsSure mr20 ">
                 <div v-if="isLookerShow" class="quxiaoBox mr20 mb20" @click="closeBtn">
                     {{ isLooker ? "返回" : "取消" }}
                 </div>
@@ -42,7 +43,7 @@
             },
             width: {
                 type: String,
-                default: "1000px",
+                default: "",
             },
             top: {
                 type: String,
@@ -58,6 +59,9 @@
             }
         },
         methods: {
+            isPX(mes) {
+                return mes.includes("px") ? mes : mes + "px"
+            },
             closeBtn() {
                 this.$emit("closeBtn", false);
             },
@@ -71,23 +75,38 @@
 <style lang='scss' scoped>
     @import "../../assets/scss/btn.scss";
 
+    .btnsSure {
+        position: absolute;
+        bottom: 0px;
+        right: 10px;
+        z-index: 100;
+    }
+
     .setUserIngBox {
+        position: relative;
+
         .headerBox {
             height: 50px;
             border-radius: 3px;
             padding: 0 20px;
             display: flex;
             align-items: center;
-            position: relative;
+            position: fixed;
+            z-index: 100;
             justify-content: space-between;
             background: rgb(236, 241, 247);
             border-bottom: 1px solid #d1d6e2;
+        }
+
+        .heightLine {
+            height: 50px;
         }
 
         .setUserIngBoxCenter {
             max-height: 600px;
             overflow: auto;
             background-color: #fff;
+            padding-bottom: 54px;
 
             .centerBox {
                 padding: 30px 20px;
@@ -154,6 +173,7 @@
         .quxiaoBox {
             border: 1px solid rgb(209, 214, 226);
             @include BtnFunction();
+            background: #fff;
         }
 
         .tijiaoBox {

@@ -2,9 +2,8 @@
     <div class="setUserIngBox">
         <div class="setUserIngBoxCenter">
             <kuanjiaClick :titles='editCreateWarehouse ? "编辑出库单" : "创建出库单"'
-                          @closeBtn="closeBtn" @clickSubmit="goAJAXCreate" width="1100px">
+                          @closeBtn="closeBtn" @clickSubmit="goAJAXCreate" width="1000px">
                 <template slot="centerKuanjia">
-
                     <div class="centerBox ">
                         <div class="setTitle">
                             {{ editCreateWarehouse ? "编辑出库单" : "创建出库单" }}

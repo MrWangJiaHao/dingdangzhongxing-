@@ -2,7 +2,7 @@
     <div class="setUserIngBox">
         <kuanjiaClick titles="打印出库单" @closeBtn="closeBtn" :isLookerShow="false"
                       print="打印"
-                      width="1100" @clickSubmit="printWarehouseReceipt">
+                      width="1000" @clickSubmit="printWarehouseReceipt">
             <template slot="centerKuanjia">
                 <div class="mb16 centerBox">
                     <div id="printCenter" style="padding: 20px">

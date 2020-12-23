@@ -238,8 +238,8 @@
                     width="150"
                     min-width="150"
                   >
-                  </el-table-column
-                  ><el-table-column
+                  </el-table-column>
+                  <el-table-column
                     prop="backOrderNo"
                     label="退单号"
                     align="left"
@@ -250,8 +250,9 @@
                       <div class="lookDeatil">
                         {{ scope.row.backOrderNo }}
                       </div>
-                    </template> </el-table-column
-                  ><el-table-column
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     prop="orderNo"
                     label="订单号"
                     align="center"
@@ -296,32 +297,32 @@
                     label="退单状态"
                     align="center"
                   >
-                  </el-table-column
-                  ><el-table-column
+                  </el-table-column>
+                  <el-table-column
                     prop="returnType"
                     label="退货类型"
                     align="center"
                     width="110"
                     min-width="110"
                   >
-                  </el-table-column
-                  ><el-table-column
+                  </el-table-column>
+                  <el-table-column
                     prop="exprName"
                     label="退货物流公司"
                     align="center"
                     width="110"
                     min-width="110"
                   >
-                  </el-table-column
-                  ><el-table-column
+                  </el-table-column>
+                  <el-table-column
                     prop="exprNo"
                     label="退货物流单号"
                     align="center"
                     width="190"
                     min-width="190"
                   >
-                  </el-table-column
-                  ><el-table-column
+                  </el-table-column>
+                  <el-table-column
                     prop="nickName"
                     label="用户昵称"
                     align="center"
@@ -459,8 +460,8 @@
                     width="150"
                     min-width="150"
                   >
-                  </el-table-column
-                  ><el-table-column
+                  </el-table-column>
+                  <el-table-column
                     prop="backOrderNo"
                     label="退单号"
                     align="center"
@@ -471,8 +472,9 @@
                       <div class="lookDeatil">
                         {{ scope.row.backOrderNo }}
                       </div>
-                    </template> </el-table-column
-                  ><el-table-column
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     prop="orderNo"
                     label="订单号"
                     align="center"
@@ -483,8 +485,9 @@
                       <div class="lookDeatil">
                         {{ scope.row.orderNo }}
                       </div>
-                    </template> </el-table-column
-                  ><el-table-column
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     prop="subOrderNos"
                     label="子单号"
                     align="center"
@@ -507,36 +510,37 @@
                           {{ v }}
                         </div>
                       </div>
-                    </template> </el-table-column
-                  ><el-table-column
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     prop="disposeStatus"
                     label="退单状态"
                     align="center"
                   >
-                  </el-table-column
-                  ><el-table-column
+                  </el-table-column>
+                  <el-table-column
                     prop="returnType"
                     label="退货类型"
                     align="center"
                   >
-                  </el-table-column
-                  ><el-table-column
+                  </el-table-column>
+                  <el-table-column
                     prop="exprName"
                     label="物流公司"
                     align="center"
                     width="110"
                     min-width="110"
                   >
-                  </el-table-column
-                  ><el-table-column
+                  </el-table-column>
+                  <el-table-column
                     prop="exprNo"
                     label="物流单号"
                     align="center"
                     width="190"
                     min-width="190"
                   >
-                  </el-table-column
-                  ><el-table-column
+                  </el-table-column>
+                  <el-table-column
                     prop="nickName"
                     label="用户昵称"
                     align="center"
@@ -612,6 +616,7 @@ import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import { findBackOrderPage, findReturnOrderPage } from "../../api/api";
 import { getCookie } from "../../utils/validate";
+
 export default {
   components: {
     pagecomponent,
@@ -1240,13 +1245,12 @@ export default {
   background: #eef1f8;
   padding: 20px 10px;
 }
+
 .headerHtml {
   height: 96px;
   display: flex;
   justify-content: space-between;
   position: relative;
-  padding: 0 20px;
-  transition: 0.3s;
   .headerInput {
     display: flex;
     flex-wrap: wrap;
@@ -1260,9 +1264,9 @@ export default {
     }
   }
   .header-botton {
-    margin-bottom: 16px;
     display: flex;
     align-items: flex-end;
+    margin-bottom: 16px;
     .bottons {
       display: flex;
       align-items: center;
@@ -1275,6 +1279,7 @@ export default {
         cursor: pointer;
         span:after {
           content: "";
+          transform: rotate(0deg);
           margin-left: 5px;
           transition: all 0.5s;
           display: inline-block;
@@ -1284,7 +1289,6 @@ export default {
           background: url("../../assets/svg/dropDown.svg") center center
             no-repeat;
           background-size: cover;
-          transform: rotate(0deg);
           border-radius: 2px;
         }
       }
@@ -1314,62 +1318,73 @@ export default {
       }
     }
   }
-  .timeChoose {
-    display: flex;
+}
+
+.timeChoose {
+  display: flex;
+  height: 34px;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 20px;
+  .timeBox {
     height: 34px;
-    justify-content: space-between;
+    display: flex;
     align-items: center;
-    margin-right: 20px;
-    .timeBox {
-      height: 34px;
-      display: flex;
-      align-items: center;
-      .line {
-        width: 10px;
-        height: 2px;
-        background: #d1d6e2;
-        margin: 0 10px;
-      }
+    .line {
+      width: 10px;
+      height: 2px;
+      background: #d1d6e2;
+      margin: 0 10px;
     }
   }
 }
+
 .formBox {
   z-index: 2;
   margin: 4px 0;
   position: relative;
+
   .formHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #d1d6e2;
     background: white;
+
     .icon-title {
       display: flex;
+
       .icon-title-icon {
         width: 14px;
         height: 14px;
         margin: 0 0 0 20px;
+
         img {
           width: 100%;
           height: 100%;
         }
       }
+
       .icon-title-title {
         margin: 0 0 0 8px;
       }
     }
+
     .someBtn {
       display: flex;
       margin: 16px 20px 16px 0;
+
       .setUser {
         @include BtnFunction("success");
       }
+
       .takeOrdersDiv {
         margin-right: 10px;
         @include BtnFunction("success");
       }
     }
   }
+
   .formTable {
     background: white;
     padding: 16px 20px;
@@ -1378,26 +1393,31 @@ export default {
 </style>
 <style lang="scss">
 @import "../../assets/scss/btn.scss";
+
 #resalesMianPage {
   .el-tabs__item.is-active {
     @include BtnFunction("success");
     border: 1px solid transparent;
   }
+
   .el-tabs__item {
     @include BtnFunction("");
     background: white;
     margin-right: 10px;
     border: 1px solid #d1d6e2;
   }
+
   .el-tabs--card > .el-tabs__header {
     border: none;
     position: absolute;
     left: 116px;
     top: 16px;
   }
+
   .el-tabs__header {
     margin: 0;
   }
+
   .entrustCompany {
     .el-select {
       width: 100%;
