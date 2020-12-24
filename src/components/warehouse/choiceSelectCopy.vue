@@ -1,10 +1,7 @@
 <template>
-    <div ref="childSelect" class="displayCenter choiceSelectBox">
-        <div>
-            <div class="headerBox mb20">
-                <div class="closeTitle">选择产品</div>
-                <div class="closeIcon" @click="closeBtn"></div>
-            </div>
+    <kuanjiaClick titles="选择产品" @closeBtn="closeBtn" @clickSubmit="clickSubmit" width="1000">
+        <template>
+
             <div class="displayalign centerBox mb20 pd20" style="padding: 30px 20px">
                 <div>
                     <div class="displayalign ellipsis">
@@ -61,11 +58,9 @@
                     <div class="disinb quxiaoBox" @click="clearChanPinMinChen">清空</div>
                 </div>
             </div>
-
             <div class="btn tr mb20 pd20">
                 <div class="disinb remove" @click="clearRemovetable">删除</div>
             </div>
-
             <div class="mb20 centerBox pd20">
                 <el-table
                         ref="multipleTable"
@@ -128,12 +123,8 @@
                 </div>
             </div>
 
-            <div class="disRight mr20 mb20">
-                <div class="disinb quxiaoBox mr11" @click="closeBtn">返回</div>
-                <div class="disinb tijiaoBox" @click="clickSubmit">提交</div>
-            </div>
-        </div>
-    </div>
+        </template>
+    </kuanjiaClick>
 </template>
 
 <script>
@@ -145,6 +136,7 @@
     } from "../../api/api";
     import {getCookie} from "../../utils/validate";
     import pageComponent from "../commin/pageComponent";
+    import kuanjiaClick from "../../components/commin/kuanjiaClick";
 
     export default {
         data() {
@@ -178,8 +170,9 @@
             this.sendoutDataAsync();
         },
         components: {
-            // searchBox,
+
             pageComponent,
+            kuanjiaClick
         },
         methods: {
             async _chanpinmingc(dataJson) {

@@ -127,7 +127,7 @@
                             ></el-table-column>
                             <el-table-column
                                     label="当前库位产品数量"
-                                    width="119"
+                                    width="200"
                                     prop="currInventory"
                                     show-overflow-tooltip
                             ></el-table-column>
@@ -138,7 +138,7 @@
                                     show-overflow-tooltip
                             ></el-table-column>
                             <el-table-column
-                                    label="入库数量*"
+                                    label="*入库数量"
                                     width="119"
                                     prop="prodNum"
                                     show-overflow-tooltip
@@ -194,9 +194,9 @@
                 <div>
                     <div class="dispalyFlex centerBox mb20">
                         <div class="noneIconTitle mr11 fosi0">
-                            <span class="fosi14" style="visibility: hidden">你好</span>
+                            <span class="fosi14 visibilityHidden">你好</span>
                             <span class="fosi14">备注</span>
-                            <span class="fosi14" style="visibility: hidden">好</span>
+                            <span class="fosi14 visibilityHidden">好</span>
                             <span class="fosi14">:</span>
                         </div>
                         <div class="bzTetxArea">
@@ -220,8 +220,6 @@
             >
                 <div
                         v-if="addChanpins"
-                        ref="parentSelect"
-                        class="addChanpinClass animate__animated"
                 >
                     <choiceSelect ref="childSelect"/>
                 </div>

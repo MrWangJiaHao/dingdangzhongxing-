@@ -1,7 +1,7 @@
 <template>
     <div class="userSettingBox">
-        <headerKuanJia @clickQueryUser="clickQueryUser" @clearInputAll="clearInputAll">
-            <template>
+        <div class="fuzzyQueryBox clearfix mb16 ">
+            <div class="biaogeBox dispalywrap fl">
                 <div class="displayalign zujianBox">
                     <div class="noneIconTitle mr11">用户账号:</div>
                     <div class="mr20">
@@ -55,9 +55,14 @@
                     <!-- 结束时间 -->
                 </div>
                 <!-- 创建时间 -->
-            </template>
-        </headerKuanJia>
-        <!-- 头部 -->
+            </div>
+            <div class="btns inline  btnArrs fr">
+                <div class="queryBtn inline mr11 zujianBox"   @click="clickQueryUser">
+                    查询
+                </div>
+                <div class="clearBtn inline" @click="clearInputAll">清空</div>
+            </div>
+        </div>
         <div class="btnArr">
             <div class="backFF">
                 <div class="meiyiyetitle">系统管理</div>

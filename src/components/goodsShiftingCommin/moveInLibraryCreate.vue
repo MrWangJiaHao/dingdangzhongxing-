@@ -31,17 +31,12 @@
             </template>
         </kuanjiaClick>
         <div v-if="isAddcreateChanpin" class="bjBox">
-            <transition
-                    enter-active-class="animate__animated animate__zoomIn"
-                    leave-active-class="animate__animated animate__zoomOut"
-            >
-                <div v-if="isAddcreateChanpin">
-                    <addTianjiaChanpin
-                            :sendoutJson="sendoutJson"
-                            @clickSubmitFun="clickSubmitFun"
-                    />
-                </div>
-            </transition>
+            <div v-if="isAddcreateChanpin">
+                <addTianjiaChanpin
+                        :sendoutJson="sendoutJson"
+                        @clickSubmitFun="clickSubmitFun"
+                />
+            </div>
         </div>
     </div>
 </template>

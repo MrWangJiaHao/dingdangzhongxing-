@@ -1,12 +1,14 @@
 <template>
     <div class="footer_box">
         <div class="dianJiTuiChu">
-            <img src="../assets/svg/userName.svg" style="margin-right: 7px" alt/>
-            <div class="wenZi" @click="loginOutMeg">
-                登录用户&nbsp;
-                <span
-                >wms_ss:<span class="ml11"> {{ userName }}</span></span
-                >
+            <div class="displayalign">
+                <img src="../assets/svg/userName.svg" style="margin-right: 7px" alt/>
+                <div class="wenZi" @click="loginOutMeg">
+                    登录用户&nbsp;
+                    <span
+                    >wms_ss:<span class="ml11"> {{ userName }}</span></span
+                    >
+                </div>
             </div>
         </div>
         <transition
@@ -52,7 +54,7 @@
             let {pageNumber, pageSize} = this;
             let {result} = await post({
                 url:
-                    "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseStationInfo/findRecordPage",
+                    "/wbs-warehouse-manage/v1/pWarehouseStationInfo/findRecordPage",
                 data: {
                     pageNumber,
                     pageSize,
@@ -151,17 +153,19 @@
         .dianJiTuiChu {
             display: flex;
             align-items: center;
+            justify-content: center;
             user-select: none;
             margin-left: 21px;
 
             .imgBox {
                 margin-right: 7px;
                 width: 14px;
-                height: 16px;
+                height: 14px;
+                margin-top: -2px;
 
                 img {
-                    width: 100%;
-                    height: 100%;
+                    width: 14px;
+                    height: 14px;
                 }
             }
 
@@ -216,6 +220,7 @@
             .imgBox {
                 width: 16px;
                 height: 14px;
+                margin-top: -2px;
 
                 img {
                     width: 100%;

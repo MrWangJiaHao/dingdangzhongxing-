@@ -18,7 +18,7 @@
                             >
                 <span class="el-dropdown-link">
                   <img
-                          style="margin-right: 8px;margin-top: -4px"
+                          style="margin-right: 8px;margin-top: -1px"
                           :src="navIndex.iconCls"
                           width="16"
                           height="16"
@@ -40,7 +40,7 @@
                 <span class="el-dropdown-link">
                   <img
                           :src="navIndex.iconCls"
-                          style="margin-right: 8px;margin-top: -4px"
+                          style="margin-right: 8px;margin-top: -1px"
                           width="16"
                           height="16"
                   />
@@ -102,7 +102,7 @@
                 v-show="
         mianbaoxieArr.length &&  mianbaoxieArr[1]
         &&  mianbaoxieArr[0]&&
-        mianbaoxieArr[0].title !== mianbaoxieArr[1].title
+        mianbaoxieArr[0].title !== mianbaoxieArr[1].titles
       "
         >
             <div class="mianbaoxie" v-show="!isZhanneixiaoxi">
@@ -714,7 +714,8 @@
             _isZhanNewStation(data) {
                 let typesStr = _typesStr(data);
                 if (typesStr == "Object") {
-                    if (data.title == "站内消息") {
+                    console.log(data.name)
+                    if (data.name.includes("/newIndex")) {
                         sessionStorage.setItem("isZhanneixiaoxi", true);
                         return (this.isZhanneixiaoxi = true);
                     } else {
@@ -756,6 +757,10 @@
                         ? this.dropdownArr.length - 1 + ""
                         : "0";
                     this.$router.push(router);
+                } else {
+                    if (this.activeTabsName > this.dropdownArr.length - 1) {
+                        this.activeTabsName = this.dropdownArr.length - 1 + ""
+                    }
                 }
                 this.setStorage();
                 console.log("--------dropdownArr--------", router);
@@ -979,6 +984,7 @@
 
     #headerMain {
         position: relative;
+        height: 100%;
 
         .tabContainer {
             display: flex;
