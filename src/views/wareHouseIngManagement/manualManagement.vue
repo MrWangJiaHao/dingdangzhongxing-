@@ -185,7 +185,7 @@
         </div>
         <!-- 批次号 -->
         <!-- 创建&&编辑 start -->
-        <div v-show="iscreateManagement" class="bjBox">
+        <div v-show="iscreateManagement" :class="popUpShows?'bjBox':'bjBoxs'">
             <transition
                     enter-active-class="animate__animated animate__zoomIn"
                     leave-active-class="animate__animated animate__zoomOut"
@@ -238,7 +238,7 @@
         delRecordByIdArrs,
     } from "../../api/api";
 
-    import {_getArrTarget, _getExportExcels} from "../../utils/validate";
+    import {_getArrTarget, _getExportExcels, popUpShow, popUpCount} from "../../utils/validate";
 
     export default {
         components: {
@@ -259,6 +259,7 @@
                 Receipt: false,
                 ReceiptIds: "",
                 BatchNumber: false,
+                bjzhezhaoRes: sessionStorage.setItem('zhezhao', 1),
                 BatchNumberIds: "",
                 tableData: [
                     {
@@ -351,12 +352,19 @@
                 ],
             };
         },
+        computed: {
+            popUpShows() {
+                console.log(popUpShow(1))
+                return popUpShow(1)
+            }
+        },
         created() {
             if (this.thisOneShow) {
                 let type = this.$route.params.type;
                 this.sendOutDataJson.paras.orderSource = type;
                 this.thisOneShow = false;
             }
+            popUpCount(1)
             this.getTableData();
         },
         watch: {
