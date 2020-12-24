@@ -467,7 +467,7 @@ export const removeSessageItem = (name) => {
  * @param {*} name 获取sess
  */
 export const getSessageItem = (name) => {
-    JSON.parse(sessionStorage.getItem(name))
+    sessionStorage.getItem(name)
 }
 /**
  *
@@ -475,19 +475,19 @@ export const getSessageItem = (name) => {
  * @param isDown 未知
  */
 export const popUpCount = (count = 1, isDown = true) => {
-
-    setSessageItem("popUpCount", JSON.stringify(count))
+    setSessageItem("popUpCount", count)
 }
 
 /**
  * 判断json是否等于
  */
 export const popUpShow = (target = 1) => {
-    let count = getSessageItem("popUpCount")
+    let count = +sessionStorage.getItem("popUpCount")
+    console.log(count, "count", target, 'target')
     if (count == target) {
-        return true
-    } else {
         return false
+    } else {
+        return true
     }
 }
 

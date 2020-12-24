@@ -576,8 +576,6 @@
             this._getMesAge();
         },
         created() {
-            let data = new Date().getTime()
-            console.log(data, "时间搓")
             this.dropdownArr.unshift(this.dataArr[0]);
             this.mianbaoxieArr.unshift();
             this.addHenxianTables()

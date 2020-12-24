@@ -194,6 +194,7 @@
                     <createManagement
                             :orderSources="sendOutDataJson.paras.orderSource"
                             @closeCreate="closeCreate"
+                            @addchangping="addchangping"
                             :edifManageMent="edifManageMent"
                     />
                 </div>
@@ -202,7 +203,7 @@
         <!-- 创建&&编辑 end -->
 
         <!-- 入库确认&&入库详情 start -->
-        <div v-show="ismanageMentrukuSure" class="bjBox">
+        <div v-show="ismanageMentrukuSure" :class="popUpShows?'bjBox':'bjBoxs'">
             <transition
                     enter-active-class="animate__animated animate__zoomIn"
                     leave-active-class="animate__animated animate__zoomOut"
@@ -354,8 +355,7 @@
         },
         computed: {
             popUpShows() {
-                console.log(popUpShow(1))
-                return popUpShow(1)
+                return this.isShowUpSgows(1)
             }
         },
         created() {
@@ -364,7 +364,7 @@
                 this.sendOutDataJson.paras.orderSource = type;
                 this.thisOneShow = false;
             }
-            popUpCount(1)
+            this.popUpCounts()
             this.getTableData();
         },
         watch: {
@@ -381,6 +381,12 @@
                     this.getTableData();
                 }
             },
+            isShowUpSgows(target) {
+                return popUpShow(target)
+            },
+            popUpCounts() {
+                popUpCount(1)
+            },
             gotoRuKudetails(row) {
                 this._getFindRecord(row.id).then(() => {
                     sessionStorage.setItem(
@@ -393,6 +399,9 @@
             getPageNum(e) {
                 this.sendOutDataJson.pageNumber = e;
                 this.getTableData();
+            },
+            addchangping(e) { //点击添加产品
+                this.isShowUpSgows(2)
             },
             sureSuccssBtn(e) {
                 this.sendOutDataJson.pageNumber = e;
@@ -416,6 +425,7 @@
                         this.ismanageMentrukuSure = true;
                     });
                 }
+                this.popUpCounts()
             },
             //打印入库单:
             printstockinlist() {
@@ -484,11 +494,13 @@
 
             //创建入库单
             CreateStockInOrder() {
+                this.popUpCounts()
                 this.edifManageMent = false;
                 this.iscreateManagement = true;
             },
             //编辑
             editBtn() {
+                this.popUpCounts()
                 if (!this.multipleSelection.length)
                     return this.$messageSelf.message("请选择要编辑的入库单");
                 if (this.multipleSelection.length != 1)
@@ -504,7 +516,6 @@
             clearBtn() {
                 if (!this.multipleSelection.length)
                     return this.$messageSelf.message("请选择要删除的入库单");
-
                 this.$messageSelf
                     .confirms("确定要删除该入库单号？", "提示", {
                         type: "info",

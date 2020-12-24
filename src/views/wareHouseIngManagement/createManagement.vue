@@ -213,7 +213,7 @@
         </kuanjiaClick>
 
         <!-- 添加产品 start -->
-        <div v-show="addChanpins" class="bjBox">
+        <div v-show="addChanpins" :class="popUpShows?'bjBox':'bjBoxs'">
             <transition
                     enter-active-class="animate__animated animate__zoomIn"
                     leave-active-class="animate__animated animate__zoomOut"
@@ -245,7 +245,7 @@
     import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
     import dropDownUserType from "../../components/commin/dropDownUserType"; //用户管理下拉框
     import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
-    import {getCookie} from "../../utils/validate";
+    import {getCookie, popUpShow, popUpCount} from "../../utils/validate";
     import {
         getFindWareOrg,
         getFindOrgChildWare,
@@ -335,6 +335,11 @@
                 default: false,
             },
         },
+        computed: {
+            popUpShows() {
+                return this.isPopUpShow()
+            }
+        },
         async created() {
             if (this.edifManageMent) {
                 let EditData = JSON.parse(sessionStorage.getItem("manualManageMentEdit"));
@@ -351,6 +356,7 @@
                 this.tabledata = this.tables;
                 this.createUserData.detailList = this.tables;
             }
+
         },
         destroyed() {
             sessionStorage.removeItem("manualManageMentEdit");
@@ -368,6 +374,9 @@
             },
         },
         methods: {
+            isPopUpShow() {
+                return popUpShow(1)
+            },
             //获取产品明细
             _getFindWareHouseDetailByIds(Json) {
                 getFindWareHouseDetailByIds({ids: Json.id}, (data) => {
@@ -489,6 +498,8 @@
                 if (!sessionStorage.getItem("createManagementChildWareId"))
                     return this.$messageSelf.message("请选择子仓名称");
                 this.addChanpins = true;
+                popUpCount(1)
+                this.$emit("addchangping", false)
                 sessionStorage.setItem("orgId", this.createUserData.orgId);
             },
             //关闭

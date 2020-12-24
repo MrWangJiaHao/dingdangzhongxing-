@@ -2,7 +2,7 @@
     <div class="setUserIngBox">
         <kuanjiaClick titles="打印出库单" @closeBtn="closeBtn" :isLookerShow="false"
                       print="打印"
-                      width="1000" @clickSubmit="printWarehouseReceipt">
+                      width="1080" @clickSubmit="printWarehouseReceipt">
             <template slot="centerKuanjia">
                 <div class="mb16 centerBox">
                     <div id="printCenter" style="padding: 20px">
@@ -330,21 +330,7 @@
         created() {
             this._changeTime();
         },
-        mounted() {
-            this.$nextTick(() => {
-                let listArrs = JSON.parse(sessionStorage.getItem("listArrs"));
-                console.log(listArrs, "出库单");
-                this.listArrs = listArrs;
-                this.tableDatas = listArrs.tails.pOutWarehouseDetail;
-                let cells = document
-                    .getElementById("printCenter")
-                    .getElementsByClassName("cell");
-                let array = Array.from(cells);
-                array.forEach((item) => {
-                    item.style = "text-align:center;";
-                });
-            });
-        },
+
         methods: {
             closeBtn() {
                 this.$parent._data.WarehouseReceipts = false;
