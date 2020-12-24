@@ -1,7 +1,7 @@
 <template>
     <div class="setUserIngBox" id="chukuSure">
         <kuanjiaClick :titles='!isDetails ? "出库确认" : "出库单详情"' :isLooker="isDetails"
-                      @closeBtn="closeBtn" @clickSubmit="goAJAXCreate" width="1120px">
+                      @closeBtn="closeBtn" @clickSubmit="goAJAXCreate" width="1250px">
             <template slot="centerKuanjia">
                 <div class="centerBox">
                     <div class="setTitle">{{ !isDetails ? "出库确认" : "出库单详情" }}</div>
@@ -744,7 +744,7 @@
 
             .titleBox {
                 padding: 12px 20px 12px 0;
-                width: 106px;
+                width: 140px;
                 border-right: 1px solid #d1d6e2;
                 background-color: #ecf1f7;
                 text-align: right;

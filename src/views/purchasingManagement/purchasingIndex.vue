@@ -17,7 +17,7 @@
                 <!-- but按钮 -->
             </div>
             <div class="tableBox">
-                <div style="background-color: #fff; padding: 16px 20px 16px 20px">
+                <div class="tableBoxCol">
                     <div id="tableBox" class="center">
                         <el-table
                                 ref="multipleTable"
@@ -35,74 +35,76 @@
                             ></el-table-column>
                             <el-table-column label="展开" width="71" type="expand">
                                 <template slot-scope="scope">
-                                    <el-table
-                                            border
-                                            :data="detailsData"
-                                            tooltip-effect="dark"
-                                            :load="changeDetail(scope.row, scope.$index)"
-                                            default-expand-all
-                                            :tree-props="{
+                                    <div id="tableCenters">
+                                        <el-table
+                                                border
+                                                :data="detailsData"
+                                                tooltip-effect="dark"
+                                                :load="changeDetail(scope.row, scope.$index)"
+                                                default-expand-all
+                                                :tree-props="{
                       children: 'children',
                       hasChildren: 'hasChildren',
                     }"
-                                    >
-                                        <el-table-column
-                                                type="index"
-                                                label="序号"
-                                                width="70"
-                                                align="center"
-                                                show-overflow-tooltip
                                         >
-                                        </el-table-column>
-                                        <el-table-column
-                                                prop="address"
-                                                label="产品编码"
-                                                show-overflow-tooltip
-                                        >
-                                        </el-table-column>
-                                        <el-table-column
-                                                prop="address"
-                                                label="产品名称"
-                                                show-overflow-tooltip
-                                        >
-                                        </el-table-column>
-                                        <el-table-column
-                                                prop="address"
-                                                label="品牌"
-                                                show-overflow-tooltip
-                                        >
-                                        </el-table-column>
-                                        <el-table-column
-                                                prop="address"
-                                                label="产品规格"
-                                                show-overflow-tooltip
-                                        >
-                                        </el-table-column>
-                                        <el-table-column
-                                                prop="address"
-                                                label="销售仓可用库存"
-                                                show-overflow-tooltip
-                                        >
-                                        </el-table-column>
-                                        <el-table-column
-                                                prop="address"
-                                                label="低库存预警值"
-                                                show-overflow-tooltip
-                                        >
-                                        </el-table-column>
-                                        <el-table-column
-                                                prop="address"
-                                                label="高库存预警值"
-                                                show-overflow-tooltip
-                                        >
-                                        </el-table-column>
-                                        <el-table-column
-                                                prop="address"
-                                                label="申请采购数量"
-                                                show-overflow-tooltip
-                                        >
-                                        </el-table-column>
-                                    </el-table>
+                                            <el-table-column
+                                                    type="index"
+                                                    label="序号"
+                                                    width="70"
+                                                    align="center"
+                                                    show-overflow-tooltip
+                                            >
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="address"
+                                                    label="产品编码"
+                                                    show-overflow-tooltip
+                                            >
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="address"
+                                                    label="产品名称"
+                                                    show-overflow-tooltip
+                                            >
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="address"
+                                                    label="品牌"
+                                                    show-overflow-tooltip
+                                            >
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="address"
+                                                    label="产品规格"
+                                                    show-overflow-tooltip
+                                            >
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="address"
+                                                    label="销售仓可用库存"
+                                                    show-overflow-tooltip
+                                            >
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="address"
+                                                    label="低库存预警值"
+                                                    show-overflow-tooltip
+                                            >
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="address"
+                                                    label="高库存预警值"
+                                                    show-overflow-tooltip
+                                            >
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="address"
+                                                    label="申请采购数量"
+                                                    show-overflow-tooltip
+                                            >
+                                            </el-table-column>
+                                        </el-table>
+                                    </div>
                                 </template>
                             </el-table-column>
 
@@ -250,6 +252,27 @@
     .el-icon.el-icon-arrow-right::before {
         content: "-";
     }
+
+    #tableCenters .el-table {
+        border: none !important;
+    }
+
+    #purchasingIndexss .el-table__expanded-cell {
+        border-right: none !important;
+    }
+
+    /*#app #tableCenters .el-table td:last-child {*/
+    /*    border-right: none !important;*/
+    /*}*/
+
+    /*#app #tableCenters .el-table td, .el-table th.is-leaf {*/
+    /*    border-right: none !important;*/
+    /*}*/
+
+    /*#app #tableCenters .el-table td:first-child {*/
+    /*    border-left: none !important;*/
+    /*}*/
+
 </style>
 <script>
     /*eslint-disable */

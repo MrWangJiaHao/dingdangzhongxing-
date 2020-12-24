@@ -124,13 +124,13 @@
 </template>
 
 <script>
+    /*eslint-disable */
     import {
         getfindOrgProductPage,
         queryProductInfor,
         getSaveRecord,
     } from "../../api/api";
-    import {getCookie} from "../../utils/validate";
-    /*eslint-disable */
+    import {getCookie, popUpShow, popUpCount} from "../../utils/validate";
     import pageComponent from "../commin/pageComponent";
     import kuanjiaClick from "../../components/commin/kuanjiaClick";
 
@@ -169,6 +169,9 @@
             kuanjiaClick
         },
         methods: {
+            popUpCounts() {
+                popUpCount(3)
+            },
             async _chanpinmingc(dataJson) {
                 let datas = await queryProductInfor({
                     data: {
@@ -193,7 +196,6 @@
             prodNameQuerySearch(e, cb) {
                 this.$nextTick(() => {
                     this._sendOutAsync({prodName: e}).then((res) => {
-                        let arr = [];
                         res.list.forEach((item) => {
                             item.value = item.prodName;
                         });
@@ -210,7 +212,6 @@
             prodCodeQuerySearch(e, cb) {
                 this.$nextTick(() => {
                     this._sendOutAsync({prodName: e}).then((res) => {
-                        let arr = [];
                         res.list.forEach((item) => {
                             item.value = item.prodCode;
                         });
@@ -226,7 +227,6 @@
             specNameQuerySearch(e, cb) {
                 this.$nextTick(() => {
                     this._sendOutAsync({specName: e}).then((res) => {
-                        let arr = [];
                         res.list.forEach((item) => {
                             item.value = item.specName;
                         });

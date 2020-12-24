@@ -315,27 +315,6 @@ export const _removeData = (data, target, isAdd = false) => {
     return data;
 }
 
-/**
- * 创建sess
- * @param {*} name
- * @param {*} data
- */
-export const setSessageItem = (name, data) => {
-    sessionStorage.setItem(name, data)
-}
-/**
- *
- * @param {*} name 删除sess
- */
-export const removeSessageItem = (name) => {
-    sessionStorage.removeItem(name)
-}
-/**
- * @param {*} name 获取sess
- */
-export const getSessageItem = (name) => {
-    sessionStorage.getItem(name)
-}
 
 /**
  * [{id:''},[id:'']]
@@ -465,3 +444,50 @@ export const clearArr = (arr) => {
     }
     return str
 }
+/**
+ * 增加session
+ * @param isDown 是否是减数的
+ */
+/**
+ * 创建sess
+ * @param {*} name
+ * @param {*} data
+ */
+export const setSessageItem = (name, data) => {
+    sessionStorage.setItem(name, data)
+}
+/**
+ *
+ * @param {*} name 删除sess
+ */
+export const removeSessageItem = (name) => {
+    sessionStorage.removeItem(name)
+}
+/**
+ * @param {*} name 获取sess
+ */
+export const getSessageItem = (name) => {
+    sessionStorage.getItem(name)
+}
+/**
+ *
+ * @param count 1
+ * @param isDown 未知
+ */
+export const popUpCount = (count = 1, isDown = true) => {
+    setSessageItem("popUpCount", count)
+}
+
+/**
+ * 判断json是否等于
+ */
+export const popUpShow = (target = 1) => {
+    let count = +sessionStorage.getItem("popUpCount")
+    console.log(count, "count", target, 'target')
+    if (count == target) {
+        return false
+    } else {
+        return true
+    }
+}
+

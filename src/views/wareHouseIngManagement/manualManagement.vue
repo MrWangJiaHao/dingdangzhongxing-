@@ -185,7 +185,7 @@
         </div>
         <!-- 批次号 -->
         <!-- 创建&&编辑 start -->
-        <div v-show="iscreateManagement" class="bjBox">
+        <div v-show="iscreateManagement" :class="popUpShows?'bjBox':'bjBoxs'">
             <transition
                     enter-active-class="animate__animated animate__zoomIn"
                     leave-active-class="animate__animated animate__zoomOut"
@@ -194,6 +194,7 @@
                     <createManagement
                             :orderSources="sendOutDataJson.paras.orderSource"
                             @closeCreate="closeCreate"
+                            @addchangping="addchangping"
                             :edifManageMent="edifManageMent"
                     />
                 </div>
@@ -202,7 +203,7 @@
         <!-- 创建&&编辑 end -->
 
         <!-- 入库确认&&入库详情 start -->
-        <div v-show="ismanageMentrukuSure" class="bjBox">
+        <div v-show="ismanageMentrukuSure" :class="popUpShows?'bjBox':'bjBoxs'">
             <transition
                     enter-active-class="animate__animated animate__zoomIn"
                     leave-active-class="animate__animated animate__zoomOut"
@@ -238,7 +239,7 @@
         delRecordByIdArrs,
     } from "../../api/api";
 
-    import {_getArrTarget, _getExportExcels} from "../../utils/validate";
+    import {_getArrTarget, _getExportExcels, popUpShow, popUpCount} from "../../utils/validate";
 
     export default {
         components: {
@@ -259,6 +260,7 @@
                 Receipt: false,
                 ReceiptIds: "",
                 BatchNumber: false,
+                bjzhezhaoRes: sessionStorage.setItem('zhezhao', 1),
                 BatchNumberIds: "",
                 tableData: [
                     {
@@ -351,12 +353,18 @@
                 ],
             };
         },
+        computed: {
+            popUpShows() {
+                return this.isShowUpSgows(1)
+            }
+        },
         created() {
             if (this.thisOneShow) {
                 let type = this.$route.params.type;
                 this.sendOutDataJson.paras.orderSource = type;
                 this.thisOneShow = false;
             }
+            this.popUpCounts()
             this.getTableData();
         },
         watch: {
@@ -373,6 +381,12 @@
                     this.getTableData();
                 }
             },
+            isShowUpSgows(target) {
+                return popUpShow(target)
+            },
+            popUpCounts() {
+                popUpCount(1)
+            },
             gotoRuKudetails(row) {
                 this._getFindRecord(row.id).then(() => {
                     sessionStorage.setItem(
@@ -385,6 +399,9 @@
             getPageNum(e) {
                 this.sendOutDataJson.pageNumber = e;
                 this.getTableData();
+            },
+            addchangping(e) { //点击添加产品
+                this.isShowUpSgows(2)
             },
             sureSuccssBtn(e) {
                 this.sendOutDataJson.pageNumber = e;
@@ -408,6 +425,7 @@
                         this.ismanageMentrukuSure = true;
                     });
                 }
+                this.popUpCounts()
             },
             //打印入库单:
             printstockinlist() {
@@ -476,11 +494,13 @@
 
             //创建入库单
             CreateStockInOrder() {
+                this.popUpCounts()
                 this.edifManageMent = false;
                 this.iscreateManagement = true;
             },
             //编辑
             editBtn() {
+                this.popUpCounts()
                 if (!this.multipleSelection.length)
                     return this.$messageSelf.message("请选择要编辑的入库单");
                 if (this.multipleSelection.length != 1)
@@ -496,7 +516,6 @@
             clearBtn() {
                 if (!this.multipleSelection.length)
                     return this.$messageSelf.message("请选择要删除的入库单");
-
                 this.$messageSelf
                     .confirms("确定要删除该入库单号？", "提示", {
                         type: "info",
