@@ -132,7 +132,6 @@ export default {
   background: white;
   .productInfor_title {
     position: relative;
-    font-size: 16px;
     margin-left: 25px;
   }
   .productInfor_title:after {
@@ -150,7 +149,6 @@ export default {
     .text_box {
       display: flex;
       align-items: center;
-      font-size: 16px;
       margin-right: 16px;
       div:nth-of-type(1) {
         white-space: nowrap;

@@ -559,10 +559,6 @@ export default {
   },
   watch: {},
   methods: {
-    // changeTableBgc() {
-    //   let checkBoxEvent = document.querySelectorAll(".el-checkbox__inner");
-    //   console.log(checkBoxEvent);
-    // },
     pageQueryFun() {
       let queryData = this.queryData;
       queryOrderInfor(queryData).then((ok) => {

@@ -107,7 +107,9 @@
         font-family: PingFang SC;
         font-weight: 400;
         cursor: pointer;
-        color: #454545;
         text-align: center;
+        line-height: 26px !important;
+  color: #686868 !important;
+
     }
 </style>

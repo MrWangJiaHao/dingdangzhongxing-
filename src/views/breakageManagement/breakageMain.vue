@@ -111,10 +111,10 @@
             <!-- 结束时间 -->
           </div>
         </div>
-        <div class="header-botton">
-          <div class="queryBtn" @click="clickQuery">查询</div>
-          <div class="clearBtn" @click="clearInput">清空</div>
-        </div>
+      </div>
+      <div class="header-botton">
+        <div class="queryBtn" @click="clickQuery">查询</div>
+        <div class="clearBtn" @click="clearInput">清空</div>
       </div>
     </div>
     <div class="childWarehouseForm">
@@ -458,11 +458,13 @@ export default {
     edit() {
       if (!this.multipleSelection.length) {
         return this.$messageSelf.message({
-          message: "请选择需要编辑的报损订单",type:"warning"
+          message: "请选择需要编辑的报损订单",
+          type: "warning",
         });
       } else if (this.multipleSelection.length > 1) {
         return this.$messageSelf.message({
-          message: "只能选择一个报损订单进行编辑",type:"warning"
+          message: "只能选择一个报损订单进行编辑",
+          type: "warning",
         });
       } else {
         // this.$router.push({
@@ -471,7 +473,8 @@ export default {
         // });
         if (this.multipleSelection[0].disposeStatus !== "待审核") {
           return this.$messageSelf.message({
-            message: "只有待审核的订单可编辑",type:"warning"
+            message: "只有待审核的订单可编辑",
+            type: "warning",
           });
         } else {
           this.$router.push({
@@ -489,7 +492,10 @@ export default {
         }
       });
       if (!arr.length)
-        return this.$messageSelf.message({message:"请选择要删除的报损订单",type:"warning"});
+        return this.$messageSelf.message({
+          message: "请选择要删除的报损订单",
+          type: "warning",
+        });
       this.$messageSelf
         .confirms(
           `确定要删除这${this.multipleSelection.length}条报损单号？`,
@@ -502,7 +508,7 @@ export default {
           this.delRequest({ ids: arr });
         })
         .catch(() => {
-          this.$messageSelf.message({message:"取消删除",type:"success"});
+          this.$messageSelf.message({ message: "取消删除", type: "success" });
         });
     },
     delRequest(data) {
@@ -752,8 +758,10 @@ export default {
   padding: 20px 10px;
 }
 .headerHtml {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
   .headerInput {
-    padding: 0 20px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -769,12 +777,9 @@ export default {
     }
   }
   .header-botton {
-    width: 190px;
     display: flex;
-    align-items: center;
-    position: absolute;
-    right: 0;
-    bottom: 16px;
+    align-items: flex-end;
+    margin-bottom: 16px;
     .queryBtn {
       @include BtnFunction("success");
     }

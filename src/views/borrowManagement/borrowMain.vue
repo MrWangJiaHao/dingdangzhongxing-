@@ -110,11 +110,12 @@
             <!-- 结束时间 -->
           </div>
         </div>
-        <div class="header-botton">
+        
+      </div>
+      <div class="header-botton">
           <div class="queryBtn" @click="clickQuery">查询</div>
           <div class="clearBtn" @click="clearInput">清空</div>
         </div>
-      </div>
     </div>
     <div class="childWarehouseForm">
       <div class="formHeader">
@@ -666,8 +667,10 @@ export default {
   padding: 20px 10px;
 }
 .headerHtml {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
   .headerInput {
-    padding: 0 20px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -683,12 +686,9 @@ export default {
     }
   }
   .header-botton {
-    width: 190px;
+    margin-bottom: 16px;
     display: flex;
-    align-items: center;
-    position: absolute;
-    right: 0;
-    bottom: 16px;
+    align-items: flex-end;
     .queryBtn {
       @include BtnFunction("success");
     }
