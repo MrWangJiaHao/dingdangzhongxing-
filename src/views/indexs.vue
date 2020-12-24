@@ -757,6 +757,10 @@
                         ? this.dropdownArr.length - 1 + ""
                         : "0";
                     this.$router.push(router);
+                } else {
+                    if (this.activeTabsName > this.dropdownArr.length - 1) {
+                        this.activeTabsName = this.dropdownArr.length - 1 + ""
+                    }
                 }
                 this.setStorage();
                 console.log("--------dropdownArr--------", router);
