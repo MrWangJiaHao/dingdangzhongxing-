@@ -65,7 +65,7 @@
         </el-table>
       </div>
       <div class="backBtnBox">
-        <div class="backBtn" @click="back">返回</div>
+        <div class="quxiaoBox" @click="back">返回</div>
       </div>
     </div>
   </div>
@@ -146,9 +146,9 @@ export default {
     }
     .backBtnBox {
       display: flex;
-      justify-content: center;
-      .backBtn {
-        @include BtnFunction("success");
+      justify-content: flex-end;
+      .quxiaoBox {
+        @include BtnFunction();
       }
     }
   }

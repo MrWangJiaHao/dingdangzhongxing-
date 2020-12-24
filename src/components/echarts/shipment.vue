@@ -1,7 +1,6 @@
 <template>
   <div class="shipment">
     <div id="shipments">
-      <div class="noData"></div>
     </div>
   </div>
 </template>
@@ -170,6 +169,8 @@ export default {
           },
           axisLabel: {
             interval: 0, //X轴内容过多造成内容缺失时加上这个内容就会显示出来
+            align:"left",
+            rich:{}
           },
         },
         yAxis: {
@@ -338,13 +339,7 @@ export default {
 
 <style scoped>
 #shipments {
-  width: 100%;
   height: 486px;
 }
-.noData {
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  background: red;
-}
+
 </style>

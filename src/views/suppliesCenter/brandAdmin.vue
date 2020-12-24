@@ -121,7 +121,7 @@
 
       <div slot="footer" class="dialog-footer">
         <div @click="dialogFormVisible = false" class="quxiaoBox">取 消</div>
-        <div @click="okBtn" class="sureBtn">确 定</div>
+        <div @click="okBtn" class="sureBtn">提 交</div>
       </div>
     </el-dialog>
   </div>

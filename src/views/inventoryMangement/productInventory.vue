@@ -132,9 +132,19 @@
               width="60"
             >
             </el-table-column>
-            <el-table-column prop="prodCode" label="产品编码" align="left">
+            <el-table-column
+              prop="prodCode"
+              label="产品编码"
+              align="left"
+              width="160"
+            >
             </el-table-column>
-            <el-table-column prop="prodName" label="产品名称" align="left">
+            <el-table-column
+              prop="prodName"
+              label="产品名称"
+              align="left"
+              width="150"
+            >
             </el-table-column>
             <el-table-column
               prop="specName"
@@ -157,6 +167,7 @@
               label="当前总库存"
               align="center"
               sortable
+              width="120"
             >
             </el-table-column>
             <el-table-column
@@ -175,7 +186,7 @@
               width="150"
             >
               <template slot-scope="scpoe">
-                <div>
+                <div class="canuseNum">
                   {{ scpoe.row.outOfProdNum }}
                 </div>
               </template>
@@ -209,6 +220,11 @@
               width="150"
               min-width="150"
             >
+              <template slot-scope="scpoe">
+                <div class="inventoryFloor">
+                  {{ scpoe.row.inventoryFloor }}
+                </div>
+              </template>
             </el-table-column>
             <el-table-column
               prop="inventoryUpper"
@@ -296,9 +312,10 @@ export default {
   },
   mounted() {
     this.pageQueryFun();
+
     this.entrustCompanyData = this.$store.state.orgInfor.orgInforData;
     inventoryMangementQuery(this.queryDataAll).then((ok) => {
-      console.log(ok);
+      // console.log(ok);
       if (ok.data.code === "10000") {
         ok.data.result.list.forEach((v) => {
           this.specNameData.push({ value: v.specName, label: v.specName });
@@ -318,6 +335,7 @@ export default {
           this.tableData = [];
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
+          this.setNumColor();
           this.tableData.forEach((v) => {
             //销售仓实际库存=销售仓当前库存-销售仓锁定库存
             v.practicalInventory = v.currInventory - v.lockInventory;
@@ -390,9 +408,7 @@ export default {
         .then(({ value }) => {
           this.setRequest({ ids: arr, inventoryUpper: value });
         })
-        .catch(() => {
-          this.$messageSelf.message("已取消");
-        });
+        .catch(() => {});
     },
     setRequest(data) {
       bathUpdateRecord(data).then((ok) => {
@@ -404,6 +420,16 @@ export default {
           this.$messageSelf.message({ message: "设置失败", type: "error" });
         }
       });
+    },
+    //可用库存低于库存预警值时表格内文字红色显示
+    setNumColor() {
+      // setTimeout(() => {
+      //   document.querySelectorAll(".canuseNum").forEach((v, i) => {
+      //     document.querySelectorAll(".inventoryFloor").forEach((vv) => {
+
+      //     });
+      //   });
+      // }, 500);
     },
     getPageNum(e) {
       this.queryData.pageNumber = e;
