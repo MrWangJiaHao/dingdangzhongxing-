@@ -1131,6 +1131,7 @@ export function inventoryMangementQuery(data) {
         })
     })
 }
+
 //库存管理=>产品库存=>设置高库存预警值
 export function bathUpdateRecord(data) {
     return new Promise((resolve, reject) => {
@@ -1928,11 +1929,17 @@ export const pOrgProductsApp = {
     queryAreaOfWS: (data) => queryAreaOfWS(data).then(res => res.data), //获取区域
     getFindOrgChildWare: (data) => getFindOrgChildWare(data).then(res => res),//根据委托公司获取子仓
     // 库内移动 end
-    //站内消息
+    //站内消息 start
     pWarehouseStationInfoSaveRecord: (data) => post({
         data,
         url: "/wbs-warehouse-manage/v1/pWarehouseStationInfo/findRecordPage"
+    }),
+    //站内消息修改
+    pWarehouseStationInfo: (data) => post({
+        data,
+        url: "/wbs-warehouse-manage/v1/pWarehouseStationInfo/saveRecord"
     })
+    //站内消息 end
 }
 
 //=========================================货品移位 end ========================================

@@ -615,6 +615,14 @@ const routes = [{
                 keepAlive: true
             },
         },
+        {
+            path: "/InStationNews/newCenter",
+            name: "/InStationNews/newCenter",
+            component: () => import("../views/InStationNews/newCenter"),
+            meta: {
+                keepAlive: true
+            },
+        }
         //----------------------------------------------------------站内消息 end-------------------------------------------------------------------------------------
     ]
 },

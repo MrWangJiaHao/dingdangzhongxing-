@@ -45,7 +45,7 @@
                                                 height="100"
                                                 style="margin-left: -40px"
                                                 :src="
-                    'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
+                    baseurl+'/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
                     item.batchNo
                   "
                                         />
@@ -70,6 +70,7 @@
                 tableDatas: [],
                 Newtime: "",
                 parintBatchNumberArrs: [],
+                baseurl: sessionStorage.getItem('baseUrl')
             };
         },
         components: {

@@ -5,7 +5,7 @@
                 <manualHeader @getParasJson="getParasJson" :tableData="tableData"/>
             </div>
             <div class="btnArr">
-                <div style="background-color: #fff">
+                <div class="backFF">
                     <div class="meiyiyetitle">入库管理</div>
                     <div class="btnClick">
                         <div class="setUser" @click="warehousingConfirmation">入库确认</div>
@@ -41,7 +41,7 @@
                 <!-- but按钮 -->
             </div>
             <div class="tableBox">
-                <div style="background-color: #fff; padding: 16px 20px 16px 20px">
+                <div class="tableBoxCol">
                     <div class="center">
                         <el-table
                                 ref="multipleTable"
@@ -96,6 +96,7 @@
                                     label="期望入库开始时间"
                                     prop="expectedSendTime"
                                     show-overflow-tooltip
+                                    width="250"
                             ></el-table-column>
                             <el-table-column
                                     label="入库状态"
@@ -112,11 +113,13 @@
                             <el-table-column
                                     label="入库开始时间"
                                     prop="putStartTime"
+                                    width="250"
                                     show-overflow-tooltip
                             ></el-table-column>
                             <el-table-column
                                     label="入库完成时间"
                                     prop="putEndTime"
+                                    width="250"
                                     show-overflow-tooltip
                             ></el-table-column>
                             <el-table-column

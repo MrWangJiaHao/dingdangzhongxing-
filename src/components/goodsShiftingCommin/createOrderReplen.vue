@@ -6,11 +6,8 @@
                 @clickSubmit="clickSubmit"
         >
             <template slot="centerKuanjia">
-                <div>
-                    <createMonent :chuanjianJsonAndArr="chuanjianJsonAndArr"/>
-                </div>
+                <createMonent :chuanjianJsonAndArr="chuanjianJsonAndArr"/>
                 <!-- 创建补货单 -->
-
                 <div class="mb16">
                     <chanpinmingxi
                             :chanpinminxiJson="chanpinminxiJson"
@@ -35,14 +32,9 @@
             </template>
         </kuanjiaClick>
         <div v-show="isAddcreateChanpin" class="bjBox">
-            <transition
-                    enter-active-class="animate__animated animate__zoomIn"
-                    leave-active-class="animate__animated animate__zoomOut"
-            >
-                <div v-if="isAddcreateChanpin">
-                    <addTianjiaChanpin :sendoutJson="sendoutJson"/>
-                </div>
-            </transition>
+            <div v-if="isAddcreateChanpin">
+                <addTianjiaChanpin :sendoutJson="sendoutJson"/>
+            </div>
         </div>
     </div>
 </template>

@@ -152,7 +152,7 @@
                                     show-overflow-tooltip
                             ></el-table-column>
                             <el-table-column
-                                    label="实际出库数量*"
+                                    label="*实际出库数量"
                                     prop="actualProdNum"
                                     width="200"
                                     show-overflow-tooltip
@@ -185,7 +185,7 @@
                                 </div>
                             </el-table-column>
                             <el-table-column
-                                    label="生产日期*"
+                                    label="*生产日期"
                                     prop="manufTime"
                                     width="200"
                                     show-overflow-tooltip

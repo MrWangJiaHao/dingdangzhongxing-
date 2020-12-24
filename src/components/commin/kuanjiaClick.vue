@@ -4,7 +4,7 @@
                 class="setUserIngBoxCenter"
                 :style="{  maxWidth: width? isPX(width) :'1000px'}"
         >
-            <div class="headerBox" :style="{ width:width ? isPX(width):'1000px'}">
+            <div class="headerBox" :style="{ minWidth:width ? isPX(width):'1000px'}">
                 <div class="closeTitle">
                     {{ titles }}
                 </div>
@@ -14,7 +14,7 @@
             <slot name="centerKuanjia"></slot>
             <slot></slot>
             <!-- 账号信息 -->
-            <div class="disRight btnsSure mr20 ">
+            <div class="disRight btnsSure  ">
                 <div v-if="isLookerShow" class="quxiaoBox mr20 mb20" @click="closeBtn">
                     {{ isLooker ? "返回" : "取消" }}
                 </div>
@@ -78,7 +78,6 @@
     .btnsSure {
         position: absolute;
         bottom: 0px;
-        right: 10px;
         z-index: 100;
     }
 
@@ -103,6 +102,7 @@
         }
 
         .setUserIngBoxCenter {
+            min-height: 600px;
             max-height: 600px;
             overflow: auto;
             background-color: #fff;
@@ -179,5 +179,13 @@
         .tijiaoBox {
             @include BtnFunction("success");
         }
+    }
+
+    .btnsSure {
+        width: 100%;
+        height: 74px;
+        background: #fff;
+        padding-top: 20px;
+        padding-right: 30px;
     }
 </style>
