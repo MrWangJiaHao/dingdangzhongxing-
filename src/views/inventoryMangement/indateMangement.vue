@@ -284,99 +284,110 @@
         <div class="boxContent">
           <div class="content_one">
             <div class="name_con">
-              <div class="name_con_title addStar">委托公司</div>
-              <el-input
-                v-model="dialogorgName"
-              ></el-input>
+              <div class="name_con_title">
+                <span class="addStar">委托公司</span>
+              </div>
+              <el-input v-model="dialogorgName"></el-input>
             </div>
             <div class="name_con">
-              <div class="name_con_title addStar">产品编码</div>
-              <el-input
-                v-model="dialogProdCode"
-              ></el-input>
+              <div class="name_con_title">
+                <span class="addStar">产品编码</span>
+              </div>
+              <el-input v-model="dialogProdCode"></el-input>
             </div>
             <div class="name_con">
-              <div class="name_con_title addStar">产品名称</div>
-              <el-input
-                v-model="dialogProdName"
-              ></el-input>
-            </div>
-          </div>
-          <div class="content_one">
-            
-            <div class="name_con">
-              <div class="name_con_title addStar">产品规格</div>
-              <el-input
-                v-model="dialogProdSpec"
-              ></el-input>
-            </div>
-            <div class="name_con">
-              <div class="name_con_title addStar">存储区库存</div>
-              <el-input
-                v-model="dialogInventory"
-              ></el-input>
-            </div>
-            <div class="name_con">
-              <div class="name_con_title addStar">生产日期</div>
-              <el-input
-                v-model="dialogManuTime"
-                placeholder="请输入物料名称"
-              ></el-input>
+              <div class="name_con_title">
+                <span class="addStar">产品名称</span>
+              </div>
+              <el-input v-model="dialogProdName"></el-input>
             </div>
           </div>
           <div class="content_one">
             <div class="name_con">
-              <div class="name_con_title addStar">物料名称</div>
+              <div class="name_con_title">
+                <span class="addStar">产品规格</span>
+              </div>
+              <el-input v-model="dialogProdSpec"></el-input>
+            </div>
+            <div class="name_con">
+              <div class="name_con_title">
+                <span class="addStar">存储区库存</span>
+              </div>
+              <el-input v-model="dialogInventory"></el-input>
+            </div>
+            <div class="name_con">
+              <div class="name_con_title">
+                <span class="addStar">生产日期</span>
+              </div>
+              <el-input v-model="dialogManuTime"></el-input>
+            </div>
+          </div>
+          <div class="content_one">
+            <div class="name_con">
+              <div class="name_con_title">
+                <span class="addStar">到期日期</span>
+              </div>
+              <el-input v-model="dialogExpireTime"></el-input>
+            </div>
+            <div class="name_con">
+              <div class="name_con_title">
+                <span class="addStar">保质期(月)</span>
+              </div>
+              <el-input v-model="dialogQualityDate"></el-input>
+            </div>
+            <div class="name_con">
+              <div class="name_con_title">
+                <span class="addStar">库存编号</span>
+              </div>
+              <el-input v-model="dialogSeatCode"></el-input>
+            </div>
+          </div>
+
+          <div class="content_one">
+            <div class="name_con">
+              <div class="name_con_title">
+                <span class="addStar">正确批次号</span>
+              </div>
               <el-input
-                v-model="dialogMateName"
-                placeholder="请输入物料名称"
+                v-model="dialogBatchNo"
+                placeholder="请输入批次号"
               ></el-input>
             </div>
             <div class="name_con">
-              <div class="name_con_title addStar">物料名称</div>
+              <div class="name_con_title">
+                <span class="addStar">纠错数量</span>
+              </div>
               <el-input
-                v-model="dialogMateName"
-                placeholder="请输入物料名称"
-              ></el-input>
-            </div>
-            <div class="name_con">
-              <div class="name_con_title addStar">物料编号</div>
-              <el-input
-                v-model="dialogMateCode"
-                placeholder="请输入物料编号"
+                v-model="errorNum"
+                placeholder="请输入纠错数量"
               ></el-input>
             </div>
           </div>
           <div class="content_one">
             <div class="name_con">
-              <div class="name_con_title addStar">物料名称</div>
-              <el-input
-                v-model="dialogMateName"
-                placeholder="请输入物料名称"
-              ></el-input>
+              <div class="name_con_title">
+                <span class="addStar">正确生产日期</span>
+              </div>
+              <div class="rightBox">
+                <dateTime
+                  :dateTimeData="datetimeDates"
+                  @getDateTime="getStartTime"
+                  ref="startTime"
+                />
+              </div>
             </div>
             <div class="name_con">
-              <div class="name_con_title addStar">物料名称</div>
-              <el-input
-                v-model="dialogMateName"
-                placeholder="请输入物料名称"
-              ></el-input>
+              <div class="name_con_title">
+                <span class="addStar">正确到期日期</span>
+              </div>
+              <div class="rightBox">
+                <dateTime
+                  :dateTimeData="datetimeDates1"
+                  @getDateTime="getEndTime"
+                  ref="endTime"
+                />
+              </div>
             </div>
-            <div class="name_con">
-              <div class="name_con_title addStar">物料编号</div>
-              <el-input
-                v-model="dialogMateCode"
-                placeholder="请输入物料编号"
-              ></el-input>
-            </div>
-          </div>
-          <div class="content_one">
-            <div class="remarkInforTitle">纠错数量</div>
-            <el-input
-              placeholder="请输入纠错数量"
-              v-model="errorNum"
-            >
-            </el-input>
           </div>
           <div class="remarkInforBox content_one">
             <div class="remarkInforTitle">备注信息</div>
@@ -405,23 +416,35 @@
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { usefulLifeManagment, setExpireTime } from "../../api/api";
 import { clearTimeInput, reduceFun } from "../../utils/validate";
+import dateTime from "../../components/commin/dateTime.vue"; //时间
+
 export default {
   components: {
     pagecomponent,
+    dateTime,
   },
   data() {
     return {
       title: "批次有效期修改",
       dialogFormVisible: false,
-      errorNum:"",
-      dialogorgName:"",
-      dialogProdCode:"",
-      dialogProdName:"",
-      dialogProdSpec:"",
-      dialogInventory:"",
-      dialogManuTime:"",
-
-
+      errorNum: "",
+      dialogorgName: "",
+      dialogProdCode: "",
+      dialogProdName: "",
+      dialogProdSpec: "",
+      dialogInventory: "",
+      dialogManuTime: "",
+      dialogExpireTime: "",
+      dialogQualityDate: "",
+      dialogSeatCode: "",
+      dialogBatchNo: "",
+      remarkInfor: "",
+      datetimeDates: {
+        placeholder: "请选择正确生产日期",
+      },
+      datetimeDates1: {
+        placeholder: "请选择正确到期日期",
+      },
       entrustCompany: "",
       productCode: "",
       productName: "",
@@ -481,15 +504,8 @@ export default {
       },
     };
   },
-  computed: {
-    // isExpireFun(manuTime, expireTime) {
-    // //   let isExpire =
-    // //     expireTime.split(" ")[0] - manuTime.split(" ")[0] > 0 ? "否" : "是";
-    // },
-  },
   mounted() {
     this.pageQueryFun();
-
     this.entrustCompanyData = this.$store.state.orgInfor.orgInforData;
   },
   methods: {
@@ -543,6 +559,7 @@ export default {
     saveBatch() {
       //批次有效期修改
       this.dialogFormVisible = true;
+
     },
     setExpire() {
       //设置临期值
@@ -599,6 +616,12 @@ export default {
     changePageData(data) {
       let { totalRow } = data;
       this.pageComponentsData.pageNums = totalRow;
+    },
+    getStartTime(e) {
+      console.log(e);
+    },
+    getEndTime(e) {
+      console.log(e);
     },
   },
 };
@@ -739,15 +762,26 @@ export default {
               border-radius: 3px;
               margin-right: 20px;
               .name_con_title {
-                width: 104px;
+                width: 114px;
                 background: #ecf1f7;
                 border-right: 1px solid #d1d6e2;
-                line-height: 36px;
+                line-height: 34px;
                 color: #000;
-                text-align: center;
+                text-align: right;
+                padding: 0 10px 0 0;
+                white-space: nowrap;
+              }
+              .rightBox {
+                width: 230px;
+                .ivu-input {
+                  border: none;
+                }
+                .ivu-select-dropdown{
+                    z-index: 3000 !important;
+                }
               }
               .el-input {
-                width: 167px;
+                width: 157px;
                 .el-input__inner {
                   border: none;
                   color: #000;
@@ -759,7 +793,7 @@ export default {
             border: 1px solid #d1d6e2;
             border-radius: 3px;
             .remarkInforTitle {
-              width: 104px;
+              width: 114px;
               background: #ecf1f7;
               border-right: 1px solid #d1d6e2;
               line-height: 84px;
@@ -777,30 +811,9 @@ export default {
             content: "*";
             color: red;
             position: absolute;
-            left: 15px;
-            top: 3px;
-          }
-
-          .addStar1 {
-            position: relative;
-          }
-          .addStar1::before {
-            content: "*";
-            color: red;
-            position: absolute;
-            left: 30px;
-            top: 3px;
-          }
-
-          .addStar2 {
-            position: relative;
-          }
-          .addStar2::before {
-            content: "*";
-            color: red;
-            position: absolute;
-            left: 10px;
-            top: 3px;
+            font-size: 20px;
+            left: -8px;
+            top: -30%;
           }
         }
       }

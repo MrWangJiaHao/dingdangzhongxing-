@@ -203,7 +203,6 @@
                   @selection-change="storeHandleSelectionChange"
                   :stripe="true"
                   tooltip-effect="dark"
-                  @cell-click="lookDetail"
                 >
                   <el-table-column type="selection" width="55" align="center">
                   </el-table-column>
@@ -272,7 +271,12 @@
                     min-width="140"
                   >
                     <template slot-scope="scope">
-                      <div class="lookDetail">{{ scope.row.wareSeatCode }}</div>
+                      <div
+                        class="lookDeatil"
+                        @click="lookSeatCodeInfor(scope.row)"
+                      >
+                        {{ scope.row.wareSeatCode }}
+                      </div>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -320,7 +324,6 @@
                   @selection-change="pickHandleSelectionChange"
                   :stripe="true"
                   tooltip-effect="dark"
-                  @cell-click="lookDetail"
                 >
                   <el-table-column type="selection" width="55" align="center">
                   </el-table-column>
@@ -416,11 +419,24 @@
         </el-tabs>
       </div>
     </div>
+    <el-dialog
+      :title="title"
+      :visible.sync="dialogFormVisible"
+      custom-class="animate__animated animate__zoomIn"
+    >
+      <div class="dialogBox">
+        <storageLocalDetail :seatCodeData="seatCodeData"></storageLocalDetail>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <div @click="dialogFormVisible = false" class="quxiaoBox">关 闭</div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent";
+import storageLocalDetail from "./storageLocalDetail";
 import {
   query_WH_Request,
   storeMapRelation,
@@ -433,9 +449,13 @@ import { getCookie } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
+    storageLocalDetail,
   },
   data() {
     return {
+      title: "库位信息",
+      seatCodeData: "",
+      dialogFormVisible: false,
       storeTableData: [],
       pickTableData: [],
       storageArea1: "存储区",
@@ -858,13 +878,9 @@ export default {
         }
       });
     },
-    lookDetail(row, column) {
-      if (column.property === "wareSeatCode") {
-        this.$router.push({
-          path: "/storageLocalMap/storageLocalDetail",
-          query: { kuwei: row },
-        });
-      }
+    lookSeatCodeInfor(data) {
+      this.seatCodeData = data;
+      this.dialogFormVisible = true;
     },
 
     getPageNum(e) {
@@ -1051,6 +1067,117 @@ export default {
   .entrustCompany {
     .el-select {
       width: 100%;
+    }
+  }
+}
+</style>
+<style lang="scss">
+@import "../../assets/scss/btn.scss";
+
+#mateAdmin {
+  .el-dialog__wrapper {
+    // background: #eef1f8;
+  }
+  .el-dialog {
+    width: 900px;
+    height: 466px;
+    // box-shadow: 0 0 5px 3px #e1e2e5;
+    border-radius: 4px;
+    .el-dialog__header {
+      padding: 0 20px;
+      font-weight: 600;
+      height: 50px;
+      width: 100%;
+      line-height: 50px;
+      background: #ecf1f7;
+      .el-dialog__headerbtn {
+        top: 0;
+      }
+    }
+    .el-dialog__body {
+      width: 100%;
+      height: 336px;
+      border-top: 1px solid #d1d6e2;
+      border-bottom: 1px solid #d1d6e2;
+      padding: 0 20px;
+      .dialogBox {
+        .productInfor {
+          padding: 16px;
+          background: white;
+          .productInfor_title {
+            position: relative;
+            margin-left: 25px;
+          }
+          .productInfor_title:after {
+            content: "";
+            width: 15px;
+            height: 15px;
+            position: absolute;
+            background: url("../../assets/img/systemTitlemesa.png") no-repeat;
+            left: -25px;
+            top: 3px;
+          }
+          .inputDiv {
+            margin-top: 16px;
+            display: flex;
+            .text_box {
+              display: flex;
+              align-items: center;
+              margin-right: 16px;
+              div:nth-of-type(1) {
+                white-space: nowrap;
+              }
+              div:nth-of-type(2) {
+                display: inline-block;
+                width: 190px;
+                height: 40px;
+                line-height: 40px;
+                border-radius: 4px;
+                padding: 0 30px 0 15px;
+                color: rgb(96, 98, 102);
+                border: 1px solid #dcdfe6;
+                background: #eeeeee;
+              }
+            }
+          }
+        }
+        .detailTable {
+          .tableBox {
+            margin-top: 16px;
+            table {
+              border: 1px solid #ebeef5;
+              text-align: center;
+              border-collapse: collapse;
+              font-size: 16px;
+              tr {
+                border: 1px solid rgb(61, 60, 60);
+                td {
+                  border: 1px solid rgb(170, 166, 166);
+                  padding: 10px 40px;
+                  white-space: nowrap;
+                }
+                td:nth-of-type(even) {
+                  background: #eeeeee;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .el-dialog__footer {
+      width: 100%;
+      height: 76px;
+      padding: 0 20px;
+      .dialog-footer {
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        .quxiaoBox {
+          @include BtnFunction();
+        }
+      }
     }
   }
 }

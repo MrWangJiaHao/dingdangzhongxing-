@@ -302,7 +302,7 @@
             <el-table-column
               prop="exprFee"
               label="预估运费（元）"
-              align="center"
+              align="right"
               width="120"
               min-width="120"
             ></el-table-column>

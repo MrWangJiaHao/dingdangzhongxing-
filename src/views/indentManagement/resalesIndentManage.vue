@@ -565,7 +565,7 @@
                   <el-table-column
                     prop="orderAddr"
                     label="收货地址"
-                    align="center"
+                    align="left"
                     width="300"
                     min-width="300"
                   >

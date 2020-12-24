@@ -7,25 +7,25 @@
         <div class="inputDiv">
           <div class="text_box">
             <div>委托公司：</div>
-            <div>{{ data.orgName }}</div>
+            <div>{{ seatCodeData.orgName }}</div>
           </div>
           <div class="text_box">
             <div>产品编号：</div>
-            <div>{{ data.prodCode }}</div>
+            <div>{{ seatCodeData.prodCode }}</div>
           </div>
           <div class="text_box">
             <div>产品名称：</div>
-            <div>{{ data.prodFullName }}</div>
+            <div>{{ seatCodeData.prodFullName }}</div>
           </div>
           <div class="text_box">
             <div>规格：</div>
-            <div>{{ data.specName }}</div>
+            <div>{{ seatCodeData.specName }}</div>
           </div>
         </div>
         <div class="inputDiv">
           <div class="text_box">
             <div>品牌：</div>
-            <div>{{ data.braName }}</div>
+            <div>{{ seatCodeData.braName }}</div>
           </div>
           <div class="text_box">
             <div>长：</div>
@@ -48,73 +48,81 @@
         <table>
           <tr>
             <td class="tdName">子仓名称</td>
-            <td class="tdInfor">{{ data.childWareName }}</td>
+            <td class="tdInfor">{{ seatCodeData.childWareName }}</td>
             <td class="tdName">子仓类型</td>
             <td class="tdInfor">
-              {{ data.wareType === 1 ? "销售仓" : data.wareType === 2 ? "售后仓" :data.wareType === 3 ? "残次品仓" : "——"}}
+              {{
+                seatCodeData.wareType === 1
+                  ? "销售仓"
+                  : seatCodeData.wareType === 2
+                  ? "售后仓"
+                  : seatCodeData.wareType === 3
+                  ? "残次品仓"
+                  : "——"
+              }}
             </td>
             <td class="tdName">区域类型</td>
             <td class="tdInfor"></td>
           </tr>
           <tr>
             <td class="tdName">区域名称</td>
-            <td class="tdInfor">{{ data.wareAreaName }}</td>
+            <td class="tdInfor">{{ seatCodeData.wareAreaName }}</td>
             <td class="tdName">区域编号</td>
             <td class="tdInfor">
-              {{ (data.wareSeatCode || "").split("-")[0] }}
+              {{ (seatCodeData.wareSeatCode || "").split("-")[0] }}
             </td>
             <td class="tdName">存放单位</td>
-            <td class="tdInfor">{{data.prodUnit}}</td>
+            <td class="tdInfor">{{ seatCodeData.prodUnit }}</td>
           </tr>
           <tr>
             <td class="tdName">最大存放数</td>
-            <td class="tdInfor">{{ data.maxNum }}</td>
+            <td class="tdInfor">{{ seatCodeData.maxNum }}</td>
             <td class="tdName">补货预警值</td>
-            <td class="tdInfor">{{ data.inventoryFloor }}</td>
+            <td class="tdInfor">{{ seatCodeData.inventoryFloor }}</td>
             <td class="tdName">货架编码</td>
             <td class="tdInfor">
-              {{ (data.wareSeatCode || "").split("-")[2] }}
+              {{ (seatCodeData.wareSeatCode || "").split("-")[2] }}
             </td>
           </tr>
           <tr>
             <td class="tdName">层</td>
             <td class="tdInfor">
-              {{ (data.wareSeatCode || "").split("-")[3] }}
+              {{ (seatCodeData.wareSeatCode || "").split("-")[3] }}
             </td>
             <td class="tdName">库位</td>
-            <td class="tdInfor">{{ data.wareSeatCode }}</td>
+            <td class="tdInfor">{{ seatCodeData.wareSeatCode }}</td>
             <td class="tdName"></td>
             <td class="tdInfor"></td>
           </tr>
         </table>
       </div>
     </div>
-    <div class="btnBox">
-      <div class="backBtn" @click="clickBack">返回</div>
-    </div>
   </div>
 </template>
 
 <script>
 export default {
-  beforeRouteEnter(to, form, next) {
-    if (form.name === "/warehoseconfig/storageLocalMap") {
-      next((vm) => {
-        vm.data = vm.$route.query.kuwei;
-      });
-    } else {
-      next((vm) => {
-        vm.$router.push("/warehoseconfig/storageLocalMap");
-      });
-    }
+  // beforeRouteEnter(to, form, next) {
+  //   if (form.name === "/warehoseconfig/storageLocalMap") {
+  //     next((vm) => {
+  //       vm.data = vm.$route.query.kuwei;
+  //     });
+  //   } else {
+  //     next((vm) => {
+  //       vm.$router.push("/warehoseconfig/storageLocalMap");
+  //     });
+  //   }
+  // },
+  props: {
+    seatCodeData: Object,
   },
   data() {
     return {
-      data: {},
+      // data: {},
     };
   },
   mounted() {
-    console.log(this.data);
+    console.log(this.seatCodeData);
   },
   methods: {
     clickBack() {
