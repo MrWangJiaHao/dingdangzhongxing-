@@ -254,7 +254,6 @@ export default {
 #indexMain {
   padding: 0 0 16px 0;
   position: relative;
-  height: 100%;
   background: #eef1f8;
   .indexContainer {
     width: 100%;
@@ -364,10 +363,9 @@ export default {
     .warehouseStatistics {
       height: 480px;
       display: flex;
-      margin: 0 16px 16px 16px;
+      padding: 0 16px 16px 16px;
       .ws-area1 {
-        width: 20.45%;
-        height: 480px;
+        width: 20.5%;
         border-radius: 4px;
         background: white;
         margin: 0 16px 0 0;
@@ -389,8 +387,7 @@ export default {
         }
       }
       .ws-area2 {
-        width: 79.48%;
-        height: 480px;
+        width: 78.7%;
         border-radius: 4px;
         background: white;
         padding: 0 30px;

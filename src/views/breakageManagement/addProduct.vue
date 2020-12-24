@@ -26,7 +26,7 @@
             </div>
             <div class="el-inputBox">
               <div class="el-inputBox-text">区域名称：</div>
-              <div class="el-inputBox-checkBox" style="width: 120px">
+              <div class="el-inputBox-checkBox" style="width: 150px">
                 <el-select
                   v-model="areaName"
                   placeholder="请选择区域名称"
@@ -45,7 +45,7 @@
             </div>
             <div class="el-inputBox">
               <div class="el-inputBox-text">区域类型：</div>
-              <div class="el-inputBox-checkBox" style="width: 120px">
+              <div class="el-inputBox-checkBox" style="width: 150px">
                 <el-select
                   v-model="areaType"
                   placeholder="请选择区域类型"
@@ -385,11 +385,10 @@ export default {
         }
       }
       .header-botton {
-        width: 190px;
-        height: 36px;
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         font-size: 14px;
+        margin-bottom: 16px;
         .queryBtn {
           @include BtnFunction("success");
         }

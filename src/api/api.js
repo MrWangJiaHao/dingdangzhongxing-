@@ -1146,6 +1146,40 @@ export function bathUpdateRecord(data) {
     })
 }
 
+//库存管理=>有效期管理（分页查询）
+export function usefulLifeManagment(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWarehouseSeatProd/findRecordPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//库存管理=>有效期管理=>修改临期值
+export function setExpireTime(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWarehouseSeatProd/setExpireTime",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+
+
+
+
 /**
  *
  * @param {*}  获取查询仓库下的委托公司

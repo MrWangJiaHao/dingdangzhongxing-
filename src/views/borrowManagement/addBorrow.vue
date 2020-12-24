@@ -275,6 +275,7 @@ export default {
 
 #createBreakage {
   .main {
+    background: #eef1f8;
     padding: 20px 10px;
     .headerBox {
       .headerBox-title {

@@ -40,7 +40,11 @@
             @selection-change="handleSelectionChange"
             max-height="400"
           >
-            <el-table-column type="selection" width="55" align="center"></el-table-column>
+            <el-table-column
+              type="selection"
+              width="55"
+              align="center"
+            ></el-table-column>
             <el-table-column
               label="序号"
               align="center"
@@ -201,10 +205,7 @@ export default {
             });
           })
           .catch(() => {
-            return this.$messageSelf.message({
-              message: "取消删除",
-              type: "error",
-            });
+            console.log("取消");
           });
       }
     },
@@ -295,6 +296,7 @@ export default {
 
 #createBreakage {
   .main {
+    background: #eef1f8;
     padding: 20px 10px;
     .headerBox {
       margin-bottom: 20px;
@@ -366,7 +368,6 @@ export default {
         margin-bottom: 10px;
       }
     }
-    
   }
 }
 </style>
