@@ -28,7 +28,7 @@ class isDisplayNoneBlock {
         let self = this
         let div = document.createElement("div");
         div.innerText = this.text;
-        div.className = "inline mr11 clickMes";
+        div.className = "inline tr mb8 mr11 clickMes";
         child.insertBefore(div, child.children[0]);
         div.addEventListener("click", () => {
             self.number++

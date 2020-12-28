@@ -26,7 +26,7 @@
                                         </div>
                                         <div v-else-if="item == '*入库时间'">
                                             <dateTime
-                                                    style="height: 28px"
+                                                    style="height: 28px;"
                                                     :dateTimeData="dateTimeData"
                                                     :valueDataStart="createUserData.expectedSendTime"
                                                     @getDateTime="getDateTimeExpectedSendTime"
@@ -588,7 +588,7 @@
 <style>
     #manageMenyrukuSures
     .ivu-input-wrapper.ivu-input-wrapper-default.ivu-input-type.ivu-date-picker-editor {
-        width: 172px;
+        width: 190px;
         height: 28px !important;
     }
 

@@ -12,7 +12,7 @@
                     ref="time"
                     :disabled="dateTimeData.disabled"
                     :transfer="transfer"
-                    style="width: 230px"
+                    style="width: 190px"
             ></Date-picker>
         </div>
     </div>

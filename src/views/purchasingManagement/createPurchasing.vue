@@ -13,8 +13,8 @@
                                 <div>
                                     <div class="displayalign ellipsis">
                                         <div class="noneIconTitle mr11">
-                                            委托公司
-                                            <span class="colred">*</span>:
+                                            <span class="colred">*</span>
+                                            委托公司:
                                         </div>
                                         <div class="mr20">
                                             <el-select
@@ -39,7 +39,7 @@
                                 <div>
                                     <div class="displayalign ellipsis">
                                         <div class="noneIconTitle mr11">
-                                            期望到货时间<span class="colred">*</span>:
+                                            <span class="colred">*</span>期望到货时间:
                                         </div>
                                         <div class="mr20">
                                             <dateTime
@@ -54,9 +54,11 @@
                             </div>
                             <div class="dispalyFlex mb20">
                                 <div class="noneIconTitle mr11">
+                                    <span class="colred">*</span>
+                                    <span>备</span>
                                     <span class="visibilityHidden">你好</span>
-                                    <span class="">备注</span>
-                                    <span class="colred">*</span>:
+                                    <span class="">注</span>
+                                    :
                                 </div>
                                 <div class="bzTetxArea">
               <textarea
@@ -69,7 +71,7 @@
                         </div>
                     </div>
                     <!-- 个人信息 -->
-                    <div class="centerBox mb20" id="bjTableWraper">
+                    <div class="ptb3020 mb20" id="bjTableWraper">
                         <div class="clearfix">
                             <div class="setTitle fl">产品明细</div>
                             <div class="mb20 fr">
@@ -145,7 +147,7 @@
                                         show-overflow-tooltip
                                 ></el-table-column>
                                 <el-table-column
-                                        label="申请采购数量*"
+                                        label="*申请采购数量"
                                         width="119"
                                         prop="prodNum"
                                         show-overflow-tooltip
@@ -154,10 +156,10 @@
                                     </el-input>
                                 </el-table-column>
                                 <el-table-column
-                                        label="期望到货时间*"
+                                        label="*期望到货时间"
                                         prop="recommendSeatNo"
                                         show-overflow-tooltip
-                                        width="220"
+                                        width="260"
                                 >
                                     <div slot-scope="scope" @click="tablesClickDatas(scope.$index)">
                                         <dateTime
@@ -391,7 +393,6 @@
 
             .centerBox {
                 padding: 30px 20px;
-                border-bottom: 1px solid #dcdfe6;
             }
 
             .setTitle {
@@ -452,9 +453,6 @@
             }
         }
 
-        #bjTableWraper {
-            border-bottom: 1px solid #dcdfe6;
-        }
 
         .quxiaoBox {
             border: 1px solid rgb(209, 214, 226);

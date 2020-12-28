@@ -1,5 +1,5 @@
 <template>
-    <div class="searchBox">
+    <div class="searchBox ">
         <div class="titleBox ellipsis">备注:</div>
         <textarea
                 style="height: 80px"
@@ -61,7 +61,7 @@
     };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
     .searchBox {
         display: flex;
 

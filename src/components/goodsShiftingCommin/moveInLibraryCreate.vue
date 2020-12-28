@@ -21,7 +21,7 @@
                     </template>
                 </chanpinmingxi>
                 <!-- 产品明细 -->
-                <div class="pd20 mt20 mb16">
+                <div class="p20s  mb20">
                     <remarksInput
                             @changeInputs="beizhuObj.changeInputs"
                             :searchCenter="beizhuObj.searchCenter"

@@ -6,10 +6,9 @@
             <template>
                 <div class="mt20"></div>
                 <div
-                        class="mb20"
+                        class="mb20 padBottom"
                         v-for="(item, idx) in CenterJson"
                         :key="idx"
-                        style="padding: 0 20px 0px 20px; border-bottom: 1px solid #d1d6e2"
                 >
                     <div>
                         <div v-if="item.title" class="setTitle">
@@ -86,7 +85,7 @@
                             </div>
                             <!-- 订单集计规则 -->
                         </div>
-                        <div v-if="item.placeholder" class="displayalign mb20">
+                        <div v-if="item.placeholder" class="displayalign dindanshulian mb20">
                             <div class="noneIconTitle mr20 ">
                                 <span v-if="item.isImportant" class="colred">*</span>
                                 {{ item.title }}
@@ -390,6 +389,10 @@
 <style>
     #app #dindanlaiyuan .el-radio__input.is-checked .el-radio__inner {
         background: #fff;
+    }
+
+    #dindanlaiyuan .setUserIngBoxCenter .padBottom:last-child {
+        border-bottom: none;
     }
 
     #app #dindanlaiyuan .el-checkbox__inner::after {

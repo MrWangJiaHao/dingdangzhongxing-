@@ -197,8 +197,16 @@ textarea {
     padding: 0 30px;
 }
 
+.ptb3020 {
+    padding: 30px 20px;
+}
+
 .fon36 {
     font-size: 36px;
+}
+
+.p20s {
+    padding: 20px;
 }
 
 .dis {
@@ -669,6 +677,11 @@ textarea {
     border-bottom: 1px solid #D1D6E2;
 }
 
+.padBottom {
+    padding: 0 20px 0px 20px;
+    border-bottom: 1px solid #d1d6e2;
+}
+
 .he83 {
     height: 83px;
 }
@@ -889,6 +902,10 @@ textarea {
 .bordershouhuodan {
     border-bottom: 1px solid #d2d6e2;
     padding: 0 0 10px 0;
+}
+
+.mb8 {
+    margin-bottom: 8px;
 }
 
 .parentBox .centersBox .input {

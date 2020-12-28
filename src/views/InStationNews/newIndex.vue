@@ -185,7 +185,7 @@
                 this.$router.push({
                     path: "/InStationNews/newCenter",
                     query: {
-                        data: row
+                        data:JSON.stringify(row)
                     }
                 })
             },

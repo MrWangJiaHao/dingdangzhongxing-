@@ -1,7 +1,7 @@
 <template>
     <div class="setUserIngBox" id="manageMenyrukuSure">
         <div class="setUserIngBoxCenter">
-            <kuanjiaClick titles="打印采购单" @closeBtn="closeBtn"
+            <kuanjiaClick titles="采购单详情" @closeBtn="closeBtn"
                           width="1100" :is-looker="true">
                 <template slot="centerKuanjia">
                     <div class="centerBox">
@@ -168,7 +168,7 @@
                                         show-overflow-tooltip
                                 ></el-table-column>
                                 <el-table-column
-                                        label="实际到货数量1"
+                                        label="实际到货数量"
                                         width="120"
                                         prop="damagedNum"
                                         show-overflow-tooltip
@@ -194,11 +194,11 @@
                         </div>
                     </div>
                     <div>
-                        <div class="dispalyFlex mb20">
+                        <div class="dispalyFlex ptb20 mb20">
                             <div class="noneIconTitle mr11 fosi0">
-                                <span class="fosi14" style="visibility: hidden">你好</span>
+                                <span class="fosi14 visibilityHidden">你好</span>
                                 <span class="fosi14">备注</span>
-                                <span class="fosi14" style="visibility: hidden">好</span>
+                                <span class="fosi14 visibilityHidden">好</span>
                                 <span class="fosi14">:</span>
                             </div>
                             <div class="bzTetxArea">

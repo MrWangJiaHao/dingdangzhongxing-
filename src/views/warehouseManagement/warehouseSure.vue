@@ -665,7 +665,7 @@
 <style>
     #chukuSure
     .ivu-input-wrapper.ivu-input-wrapper-default.ivu-input-type.ivu-date-picker-editor {
-        width: 172px;
+        width: 190px;
         height: 28px;
     }
 

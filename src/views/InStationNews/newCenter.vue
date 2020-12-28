@@ -1,12 +1,16 @@
 <template>
     <div class="outerCenter p10">
+        <div class="">
+
+        </div>
         <div class="backFF botD1 he83">
         </div>
         <div class="backFF centesBoxOuter">
             <div class="pt50 displayCenter centerBox">
                 <div class="w1000  inline">
                     <div class="pt60">
-                        <div>{{dataMsg.lastModifyUser}}</div>
+                        <!--<div>{{dataMsg.lastModifyUser}}</div>-->
+                        <div>{{dataMsg.title}}</div>
                         <div>{{dataMsg.content}}</div>
                     </div>
                     <div class="tr ">
@@ -16,6 +20,7 @@
             </div>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -24,7 +29,7 @@
         data() {
             return {
                 dataMsg: (() =>
-                        this.$route.query.data
+                        JSON.parse(this.$route.query.data)
                 )(),
                 sendOutDataJson: {
                     enableStatus: 1

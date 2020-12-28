@@ -28,7 +28,7 @@
                 <!-- but按钮 -->
             </div>
             <div class="tableBox">
-                <div style="background-color: #fff; padding: 16px 20px 16px 20px">
+                <div class="tableBoxCol">
                     <div v-if="!daibuhuochanping" class="center">
                         <el-table
                                 ref="multipleTable"

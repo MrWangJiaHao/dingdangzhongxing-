@@ -14,7 +14,7 @@
             <slot name="centerKuanjia"></slot>
             <slot></slot>
             <!-- 账号信息 -->
-            <div class="disRight btnsSure  ">
+            <div class="disRight btnsSure ">
                 <div v-if="isLookerShow" class="quxiaoBox mr20 mb20" @click="closeBtn">
                     {{ isLooker ? "返回" : "取消" }}
                 </div>
@@ -79,10 +79,12 @@
         position: absolute;
         bottom: 0px;
         z-index: 100;
+        border-top: 1px solid #D1D6E2;
     }
 
     .setUserIngBox {
         position: relative;
+        overflow: hidden;
 
         .headerBox {
             height: 50px;

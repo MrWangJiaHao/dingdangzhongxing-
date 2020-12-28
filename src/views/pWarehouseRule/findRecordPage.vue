@@ -1,45 +1,58 @@
 <template>
     <div>
-        <headerKuanJia @clickQueryUser="getParasJson" @clearInputAll="clearChaxun">
-            <div class="displayalign mr10">
-                <div class="titleBox">委托公司：</div>
-                <div class="displayalign w320 mr20">
-                    <el-select
-                            class="w320"
-                            v-model="sendOutDataJson.paras.orgName"
-                            @focus="getAsyncFindWareOrg"
-                            @change="changeWareOrgName"
-                            placeholder="请选择委托公司"
-                    >
-                        <el-option
-                                v-for="(item, idx) in orgNameJson"
-                                :key="idx"
-                                :label="item.orgFullName"
-                                :value="idx"
+
+
+        <div class="fuzzyQueryBox clearfix mb16 ">
+            <div class="biaogeBox dispalywrap fl">
+                <div class="displayalign mr10">
+                    <div class="titleBox">委托公司：</div>
+                    <div class="displayalign w320 mr20">
+                        <el-select
+                                class="w320"
+                                v-model="sendOutDataJson.paras.orgName"
+                                @focus="getAsyncFindWareOrg"
+                                @change="changeWareOrgName"
+                                placeholder="请选择委托公司"
                         >
-                        </el-option>
-                    </el-select>
+                            <el-option
+                                    v-for="(item, idx) in orgNameJson"
+                                    :key="idx"
+                                    :label="item.orgFullName"
+                                    :value="idx"
+                            >
+                            </el-option>
+                        </el-select>
+                    </div>
+                </div>
+                <div class="displayalign">
+                    <div class="titleBox">发货规则：</div>
+                    <div class="mr20 w160">
+                        <el-select
+                                v-model="sendOutDataJson.paras.ruleName"
+                                placeholder="请选择发货规则"
+                                @focus="rulesFun"
+                        >
+                            <el-option
+                                    v-for="(item, idx) in ruleNameJson"
+                                    :key="idx"
+                                    :label="item"
+                                    :value="item"
+                            >
+                            </el-option>
+                        </el-select>
+                    </div>
                 </div>
             </div>
-            <div class="displayalign">
-                <div class="titleBox">发货规则：</div>
-                <div class="mr20 w160">
-                    <el-select
-                            v-model="sendOutDataJson.paras.ruleName"
-                            placeholder="请选择发货规则"
-                            @focus="rulesFun"
-                    >
-                        <el-option
-                                v-for="(item, idx) in ruleNameJson"
-                                :key="idx"
-                                :label="item"
-                                :value="item"
-                        >
-                        </el-option>
-                    </el-select>
+            <div class="btns inline tr  btnArrs fr">
+                <div class="btnsress">
+                    <div class="queryBtn inline mr11 zujianBox"   @click="getParasJson">
+                        查询
+                    </div>
+                    <div class="clearBtn inline" @click="clearChaxun">清空</div>
                 </div>
+
             </div>
-        </headerKuanJia>
+        </div>
         <div class="btnArr">
             <div class="backFF">
                 <div class="meiyiyetitle">发货规则配置</div>
@@ -342,6 +355,10 @@
 <style lang="scss">
     #findRecord .is-disabled {
         background-color: #e1eaf5;
+    }
+
+    .btnsress {
+        margin-left: 60px;
     }
 </style>
 <style lang='scss' scoped>
