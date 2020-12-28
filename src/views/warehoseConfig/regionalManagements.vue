@@ -1,7 +1,7 @@
 <template>
-    <div class="userSettingBox">
-        <headerKuanJia @clickQueryUser="clickQueryUser" @clearInputAll="clearInputAll">
-            <template>
+    <div class="userSettingBox mb16">
+        <div class="fuzzyQueryBox clearfix mb16 ">
+            <div class="biaogeBox dispalywrap fl">
                 <div class="displayalign zujianBox">
                     <div class="noneIconTitle mr11">子仓名称:</div>
                     <div class="mr20 w160">
@@ -63,11 +63,20 @@
                     </div>
                 </div>
                 <!-- 区域名称 -->
-            </template>
-        </headerKuanJia>
+            </div>
+            <div class="btns inline  btnArrs fr">
+                <div class="nowrap">
+                    <div class="queryBtn inline mr11 zujianBox"   @click="clickQueryUser">
+                        查询
+                    </div>
+                    <div class="clearBtn inline" @click="clearInputAll">清空</div>
+                </div>
+
+            </div>
+        </div>
         <!-- 头部 -->
         <div class="btnArr">
-            <div style="background-color: #fff">
+            <div class="backFF">
                 <div class="meiyiyetitle">区域管理</div>
                 <div class="btnClick">
                     <div class="goOn" @click="shelfSetting">货架设置</div>
@@ -91,65 +100,61 @@
                         leave-active-class="animate__animated animate__zoomOut"
                 >
                     <div v-if="quyuLook" class="quyupinmianBoxMsg">
-                        <div class="heiderBoxs p20">
-                            <div class="closeTitle">区域平面图</div>
-                            <div class="closeIcon" @click="quyuLook = !quyuLook"></div>
-                        </div>
-                        <div class="bkf p20 botD1">
-                            <div class="setTitle mb20">货架编号</div>
-                            <div class="displayalign flexBetWeen">
-                                <div class="displayalign">
-                                    <div class="mr20">
+                        <kuanjiaClick titles="区域平面图" @closeBtn="quyuLook = !quyuLook" @clickSubmit=""
+                                      :isLookerShow="false" print="关闭">
+                            <template>
+                                <div class="bkf p20 botD1">
+                                    <div class="setTitle mb20">货架编号</div>
+                                    <div class="displayalign flexBetWeen">
                                         <div class="displayalign">
-                                            <div class="noneIconTitle mr11">
-                                                子仓名称
-                                                <span class="visibilityHidden">*</span>:
-                                            </div>
-                                            <div class="w160">
-                                                <el-select
-                                                        v-model="
+                                            <div class="mr20">
+                                                <div class="displayalign">
+                                                    <div class="noneIconTitle mr11">
+                                                        子仓名称
+                                                        <span class="visibilityHidden">*</span>:
+                                                    </div>
+                                                    <div class="w160">
+                                                        <el-select
+                                                                v-model="
                           quyuzicanNameOfSubWareHouse.nameOfSubWareHouseName
                         "
-                                                        slot="prepend"
-                                                        :placeholder="nameOfSubWareHouse.placeholder"
-                                                        @input="getZicankuOfSunWareHouseWareId"
-                                                >
-                                                    <el-option
-                                                            v-for="(
+                                                                slot="prepend"
+                                                                :placeholder="nameOfSubWareHouse.placeholder"
+                                                                @input="getZicankuOfSunWareHouseWareId"
+                                                        >
+                                                            <el-option
+                                                                    v-for="(
                             item, idx
                           ) in quyuzicanNameOfSubWareHouse.nameOfSubwareHouseData"
-                                                            :key="idx"
-                                                            :label="item.childWareName"
-                                                            :value="idx"
-                                                    ></el-option>
-                                                </el-select>
+                                                                    :key="idx"
+                                                                    :label="item.childWareName"
+                                                                    :value="idx"
+                                                            ></el-option>
+                                                        </el-select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="displayalign">
+                                                <div class="noneIconTitle mr11">区域类型:</div>
+                                                <el-radio v-model="quyuleixingMsg" label="1">存储区</el-radio>
+                                                <el-radio v-model="quyuleixingMsg" label="2">拣货区</el-radio>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="displayalign">
-                                        <div class="noneIconTitle mr11">区域类型:</div>
-                                        <el-radio v-model="quyuleixingMsg" label="1">存储区</el-radio>
-                                        <el-radio v-model="quyuleixingMsg" label="2">拣货区</el-radio>
+                                        <div class="bianjiUser" @click="dinjichaxunquyutu">查询</div>
                                     </div>
                                 </div>
-                                <div class="bianjiUser" @click="dinjichaxunquyutu">查询</div>
-                            </div>
-                        </div>
-                        <div class="centers bkf p20 botD1" v-if="quyuDatas.regionalManage.length">
-                            <div class="displayalign mb20">
-                                {{quyuMsg}}区域平面图（
-                                <div class="juli">上北、下南、左西、右东</div>
-                                ）
-                            </div>
-                            <div class="zuti bkf p20">
-                                <quyuLooker :quyuDatas="quyuDatas"></quyuLooker>
-                            </div>
-                        </div>
-                        <div class="p20 bkf tr">
-                            <div class="bianjiUser tr disinb" @click="quyuLook = !quyuLook">
-                                关闭
-                            </div>
-                        </div>
+                                <div class="centers bkf p20 botD1" v-if="quyuDatas.regionalManage.length">
+                                    <div class="displayalign mb20">
+                                        {{quyuMsg}}区域平面图（
+                                        <div class="juli">上北、下南、左西、右东</div>
+                                        ）
+                                    </div>
+                                    <div class="zuti bkf p20">
+                                        <quyuLooker :quyuDatas="quyuDatas"></quyuLooker>
+                                    </div>
+                                </div>
+                            </template>
+                        </kuanjiaClick>
                     </div>
                 </transition>
 
@@ -167,25 +172,19 @@
                         v-if="kuwieLook"
                         class="pofixCenter displayCenter"
                 >
-                    <div class="quyupinmianBoxMsg" :style="{
+                    <kuanjiaClick titles="库位平面图" @closeBtn="kuwieLook = !kuwieLook" @clickSubmit=""
+                                  :isLookerShow="false" print="关闭">
+                        <div class="quyupinmianBoxMsgs" :style="{
                         width:kuwieDatas.kuwie.length?'':'1000px'
                     }">
-                        <div class="heiderBoxs p20">
-                            <div class="closeTitle">库位平面图</div>
-                            <div class="closeIcon" @click="kuwieLook = !kuwieLook"></div>
-                        </div>
-                        <div class="bkf p20 botD1">
-                            <div class="setTitle mb20">库位编号</div>
-                            <div>
-                                <kuwieLooker :kuwieLookerDataJson="kuwieDatas"/>
+                            <div class="bkf p20 ">
+                                <div class="setTitle mb20">库位编号</div>
+                                <div>
+                                    <kuwieLooker :kuwieLookerDataJson="kuwieDatas"/>
+                                </div>
                             </div>
                         </div>
-                        <div class="p20 bkf tr">
-                            <div class="bianjiUser tr disinb" @click="kuwieLook = !kuwieLook">
-                                关闭
-                            </div>
-                        </div>
-                    </div>
+                    </kuanjiaClick>
                 </div>
             </transition>
 
@@ -315,13 +314,15 @@
     import kuwieLooker from "../../components/kuwieLooker";
     import {getCookie} from "../../utils/validate";
     import headerKuanJia from "../../components/commin/headerKuanJia";
+    import kuanjiaClick from "../../components/commin/kuanjiaClick";
 
     export default {
         components: {
             pagecomponent,
             quyuLooker,
             kuwieLooker,
-            headerKuanJia
+            headerKuanJia,
+            kuanjiaClick
         },
         computed: {
             ...mapState(["editUser", "warehouseConfig"]),
@@ -791,7 +792,11 @@
     .quyupinmianBoxMsg {
         min-width: 1000px;
         max-height: 600px;
-        overflow: auto;
+    }
+
+    .quyupinmianBoxMsgs {
+        min-width: 1000px;
+
     }
 
     .userSettingBox {

@@ -22,7 +22,7 @@
                     </chanpinmingxi>
                 </div>
                 <!-- 产品明细 -->
-                <div class="centerBox botD1 mb16">
+                <div class="centerBox mb16">
                     <remarksInput
                             @changeInputs="changeInputs"
                             :searchCenter="searchCenter"
@@ -270,7 +270,7 @@
                             },
                             {
                                 types: "prodName",
-                                label: "申请补货数量*",
+                                label: "*申请补货数量",
                                 width: 250,
                                 flag: "input",
                                 placeholder: "请输入申请补货数量",

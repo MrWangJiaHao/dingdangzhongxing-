@@ -611,6 +611,30 @@ export default {
       }
     },
   },
+  computed: {
+    _getNavDataArr() {
+      let activeMes = document.querySelectorAll(
+          "#headerMain .el-nav .el-tabs__item"
+        ),
+        resultrArr = [],
+        sultNums;
+      activeMes = Array.from(activeMes);
+      activeMes.forEach((item) => {
+        resultrArr.push(item.getBoundingClientRect().width);
+      });
+      sultNums = Math.ceil(activeMes.length / this.Nums);
+      let idx = 0;
+
+      for (let i = 0; i < sultNums; i++) {
+        let datames = [];
+        // activeMes.forEach(item=>{})
+      }
+
+      console.log(sultNums);
+      return resultrArr;
+    },
+    _resData(start = 0, numers = 7) {},
+  },
   methods: {
     goToIndex() {
       this.$router.push("/index/indexFormJH");

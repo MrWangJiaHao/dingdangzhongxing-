@@ -12,7 +12,7 @@
                     ref="time"
                     :disabled="dateTimeData.disabled"
                     :transfer="transfer"
-                    style="width: 230px"
+                    :style="{width: isPx}"
             ></Date-picker>
         </div>
     </div>
@@ -31,6 +31,10 @@
 
     export default {
         props: {
+            width: {
+                type: String,
+                default: "190px"
+            },
             dateTimeData: {
                 type: Object,
                 default: () => {
@@ -51,6 +55,9 @@
         },
         computed: {
             ...mapState(["systemTime"]),
+            isPx() {
+                return this.width.includes("px") ? this.width : this.width + 'px'
+            }
         },
         data() {
             return {

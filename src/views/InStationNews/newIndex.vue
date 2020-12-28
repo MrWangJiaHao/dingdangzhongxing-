@@ -12,8 +12,9 @@
             </div>
         </div>
         <!--  btn arr -->
-        <headerKuanjia @clickQueryUser="clickQueryUser" @clearInputAll="clearInputAll">
-            <template slot="biaoBoxCenter">
+
+        <div class="fuzzyQueryBoxs clearfix  ">
+            <div class="biaogeBox dispalywrap ">
                 <inputHeader :buhuodanhaoJson="titleshoushuoJson" ref="titleInputs"
                              @changereplenishOrderNo="titleInput"></inputHeader>
                 <!--标题-->
@@ -31,9 +32,18 @@
                 <xialaHeader ref="xiaoxiZhuanTais" @weiTuoGonShiClick="xiaoxiZhuantai"
                              :xialaJson="stationJson"></xialaHeader>
                 <!--消息状态-->
-            </template>
-        </headerKuanjia>
-        <!--header-->
+            </div>
+
+            <div class="btns   btnArrs ">
+                <div class="nowrap">
+                    <div class="queryBtn inline mr11 zujianBox"   @click="clickQueryUser">
+                        查询
+                    </div>
+                    <div class="clearBtn inline" @click="clearInputAll">清空</div>
+
+                </div>
+            </div>
+        </div>
         <innerCenter title="查询结果"></innerCenter>
         <!--  内容  -->
         <div class="plr10">
@@ -185,7 +195,7 @@
                 this.$router.push({
                     path: "/InStationNews/newCenter",
                     query: {
-                        data: row
+                        data: JSON.stringify(row)
                     }
                 })
             },

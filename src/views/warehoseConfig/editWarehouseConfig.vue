@@ -51,7 +51,7 @@
                 <div class="createTitle noUser">
                     <div class="meiyiyetitle displayCenter"></div>
                     <!-- 图像 -->
-                    <div class="noneIconTitle">新建子仓</div>
+                    <div class="noneIconTitle">编辑区域</div>
                     <!-- 子仓区域-->
                 </div>
                 <!--新建子仓 title部分  -->

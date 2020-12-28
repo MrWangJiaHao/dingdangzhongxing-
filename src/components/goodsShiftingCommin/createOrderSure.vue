@@ -5,7 +5,7 @@
                 @closeBtn="closeBtn"
                 :isLooker="isLooker"
                 @clickSubmit="clickSubmit"
-                width="1080"
+                width="1180"
         >
             <template slot="centerKuanjia">
                 <div class="mb16">

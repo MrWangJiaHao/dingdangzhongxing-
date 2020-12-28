@@ -1,8 +1,8 @@
 <template>
     <div id="fahuoguanli">
         <div class="manualBox">
-            <headerKuanJia @clickQueryUser="queryBtns" @clearInputAll="clearBtns">
-                <template>
+            <div class="fuzzyQueryBoxs clearfix mb16 ">
+                <div class="biaogeBox dispalywrap ">
                     <div class="zujianBox">
                         <div class="displayalign zujianBox">
                             <div class="noneIconTitle nowrap mr11">拣货单号:</div>
@@ -14,9 +14,18 @@
                             </div>
                         </div>
                     </div>
-                </template>
-            </headerKuanJia>
+                </div>
 
+                <div class="btns   btnArrs ">
+                    <div class="nowrap">
+                        <div class="queryBtn inline mr11 zujianBox"   @click="queryBtns">
+                            查询
+                        </div>
+                        <div class="clearBtn inline" @click="clearBtns">清空</div>
+
+                    </div>
+                </div>
+            </div>
             <div class="btnArr">
                 <div class="backFF">
                     <div class="meiyiyetitle">发货单打印</div>

@@ -1,12 +1,21 @@
 <template>
-    <div class="outerCenter p10">
-        <div class="backFF botD1 he83">
+    <div class="outerCenter ">
+        <div class="mianbaoxie  botD1">
+            <div class="ptb10 mianbaoxiaetitles">
+                <span class="mianbaixiazhanneixiaoxi displayalign zhanniaoxititle">站内消息</span>
+                <span class="mianbaixiazhanneixiaoxi gtboxCenters">&gt;</span>
+                <span class="mianbaixiazhanneixiaoxi">消息内容</span>
+            </div>
         </div>
-        <div class="backFF centesBoxOuter">
-            <div class="pt50 displayCenter centerBox">
+        <div class="ptb10 mt10">
+            <div class="backFF he83 botD1"></div>
+        </div>
+        <div class=" ptb10  centesBoxOuter">
+            <div class="pt50 backFF displayCenter ptb3020">
                 <div class="w1000  inline">
                     <div class="pt60">
-                        <div>{{dataMsg.lastModifyUser}}</div>
+                        <!--<div>{{dataMsg.lastModifyUser}}</div>-->
+                        <div class="line40">{{dataMsg.title}}</div>
                         <div>{{dataMsg.content}}</div>
                     </div>
                     <div class="tr ">
@@ -16,6 +25,7 @@
             </div>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -24,7 +34,7 @@
         data() {
             return {
                 dataMsg: (() =>
-                        this.$route.query.data
+                        JSON.parse(this.$route.query.data)
                 )(),
                 sendOutDataJson: {
                     enableStatus: 1
@@ -57,7 +67,26 @@
         height: 100%;
     }
 
-    .outerCenter {
-        height: 70%;
+    .mianbaixiazhanneixiaoxi {
+        color: #606266;
+        font-weight: bold;
+    }
+
+    .zhanniaoxititle::before {
+        content: "";
+        display: inline-block;
+        width: 3px;
+        height: 16px;
+        background: #5a9af4;
+        margin-right: 10px;
+    }
+
+    .mianbaoxiaetitles {
+        display: flex;
+        align-items: center;
+    }
+
+    .gtboxCenters {
+        padding: 0 10px;
     }
 </style>

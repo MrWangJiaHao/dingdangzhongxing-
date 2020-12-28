@@ -1,14 +1,18 @@
 <template>
-    <div class="fuzzyQueryBox clearfix  ">
-        <div class="biaogeBox dispalywrap fl">
+    <div class="fuzzyQueryBoxs clearfix  ">
+        <div class="biaogeBox dispalywrap ">
             <slot name="biaoBoxCenter"></slot>
             <slot></slot>
         </div>
-        <div class="btns inline  btnArrs fr">
-            <div class="queryBtn inline mr11 zujianBox"   @click="clickQueryUser">
-                查询
+
+        <div class="btns   btnArrs ">
+            <div class="nowrap">
+                <div class="queryBtn inline mr11 zujianBox"   @click="clickQueryUser">
+                    查询
+                </div>
+                <div class="clearBtn inline" @click="clearInputAll">清空</div>
+
             </div>
-            <div class="clearBtn inline" @click="clearInputAll">清空</div>
         </div>
     </div>
 </template>
@@ -41,8 +45,16 @@
 <style lang='scss' scope>
     @import "../../assets/scss/btn.scss";
 
-    .fuzzyQueryBox {
+    .fuzzyQueryBoxs {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        overflow: hidden;
         position: relative;
+        padding: 20px 30px 4px 30px;
+    }
+
+    .fuzzyQueryBox {
         overflow: hidden;
 
         .line {
@@ -53,10 +65,19 @@
         }
     }
 
+    .biaogeBox {
+        width: 100%;
+    }
+
     .btns {
-        position: absolute;
-        right: 30px;
-        bottom: 0px;
+        width: 0%;
+        height: 100%;
+        text-align: right;
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        z-index: 100;
 
         .queryBtn {
             display: inline-block;

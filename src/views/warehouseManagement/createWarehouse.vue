@@ -184,7 +184,7 @@
                         </div>
                     </div>
 
-                    <div class="centerBox mb16">
+                    <div class=" ptb20 mb16">
                         <div class="dispalyFlex ">
                             <div class="noneIconTitle mr11 fosi0">
                                 <span class="fosi14 visibilityHidden">你好</span>

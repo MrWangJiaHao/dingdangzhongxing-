@@ -23,7 +23,6 @@
             </div>
             <!-- 暂无子仓 -->
             <div class="overAuto">
-
                 <div
                         v-if="createSetting.length"
                         class="wareHouseCenter noneZican"
@@ -55,17 +54,18 @@
                 <div class="createTitle noUser">
                     <div class="meiyiyetitle displayCenter"></div>
                     <!-- 图像 -->
-                    <div class="noneIconTitle">新建子仓</div>
+                    <div class="noneIconTitle">新建区域</div>
                     <!-- 子仓区域-->
                 </div>
                 <!--新建子仓 title部分  -->
                 <div class="shuruTitle dispalywrap">
                     <div class="displayalign mb20">
                         <div class="noneIconTitle mr11">
+                            <span class="colred">*</span>
                             区域名称
-                            <span class="colred">*</span>:
+                            :
                         </div>
-                        <div class="mr20 w120">
+                        <div class="mr20 w150">
                             <el-input
                                     maxlength="30"
                                     placeholder="请输入区域名称"
@@ -78,10 +78,11 @@
                     <!-- 区域名称 createWarehouseJson.wareAreaName -->
                     <div class="displayalign mb20">
                         <div class="noneIconTitle mr11">
+                            <span class="colred">*</span>
                             区域类型
-                            <span class="colred">*</span>:
+                            :
                         </div>
-                        <div class="mr20 w120">
+                        <div class="mr20 w150">
                             <el-select
                                     v-model="wareAreaCodeChange.wareAreaName"
                                     placeholder="请选择区域类型"
@@ -100,10 +101,11 @@
                     <!-- 区域类型 createWarehouseJson.wareAreaType -->
                     <div class="displayalign mb20">
                         <div class="noneIconTitle mr11">
+                            <span class="colred">*</span>
                             区域编号
-                            <span class="colred">*</span>:
+                            :
                         </div>
-                        <div class="mr20 w120">
+                        <div class="mr20 w150">
                             <el-select
                                     v-model="wareAreaCodeChange.STR"
                                     placeholder="请选择字母编号"
@@ -131,7 +133,7 @@
                             </div>
                             <span class="noneIconTitle">数字:</span>
                         </div>
-                        <div class="mr20 w120">
+                        <div class="mr20 w150">
                             <el-select
                                     v-model="wareAreaCodeChange.NUM"
                                     placeholder="请选择数字编号"
@@ -151,10 +153,11 @@
                     <!-- IS数字 createWarehouseJson.wareAreaCode-->
                     <div class="displayalign mb20">
                         <div class="noneIconTitle mr11">
+                            <span class="colred">*</span>
                             区域长度
-                            <span style="color: red">*</span>:
+                            :
                         </div>
-                        <div class="displayalign mr20 w120">
+                        <div class="displayalign mr20 w140">
                             <el-input
                                     placeholder="请输入子仓长度"
                                     type="number"
@@ -168,10 +171,11 @@
                     <!-- 区域长度 createWarehouseJson.wareAreaLength m-->
                     <div class="displayalign mb20 mr11">
                         <div class="noneIconTitle mr11">
+                            <span class="colred">*</span>
                             区域宽度
-                            <span class="colred">*</span>:
+                            :
                         </div>
-                        <div class="displayalign w120">
+                        <div class="displayalign w150">
                             <el-input
                                     placeholder="请输入子仓宽度"
                                     type="number"
@@ -185,10 +189,11 @@
                     <!-- 区域宽度 createWarehouseJson.wareAreaWidth m-->
                     <div class="displayalign mb20 mr11">
                         <div class="noneIconTitle mr11">
+                            <span class="colred">*</span>
                             据北距离
-                            <span class="colred">*</span>:
+                            :
                         </div>
-                        <div class="displayalign w120">
+                        <div class="displayalign w150">
                             <el-input
                                     placeholder="请输入据北距离"
                                     v-model="createWarehouseJson.y"
@@ -202,10 +207,11 @@
                     <!-- 据北距离 m createWarehouseJson.y -->
                     <div class="displayalign mb20 mr11">
                         <div class="noneIconTitle mr11">
+                            <span class="colred">*</span>
                             据西距离
-                            <span class="colred">*</span>:
+                            :
                         </div>
-                        <div class="displayalign w120">
+                        <div class="displayalign w150">
                             <el-input
                                     placeholder="请输入据西距离"
                                     type="number"
