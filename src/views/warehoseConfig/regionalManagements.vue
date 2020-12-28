@@ -65,7 +65,7 @@
                 <!-- 区域名称 -->
             </div>
             <div class="btns inline  btnArrs fr">
-                <div>
+                <div class="nowrap">
                     <div class="queryBtn inline mr11 zujianBox"   @click="clickQueryUser">
                         查询
                     </div>

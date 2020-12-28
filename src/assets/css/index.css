@@ -183,6 +183,14 @@ textarea {
     white-space: nowrap;
 }
 
+.ptb10 {
+    padding: 0 10px;
+}
+
+.mt10 {
+    margin-top: 10px;
+}
+
 .el-input__icon {
     line-height: 34px;
 }
@@ -320,6 +328,8 @@ textarea {
     font-family: Hiragino Sans GB;
     font-weight: normal;
     color: #454545;
+    display: flex;
+    align-items: center;
 }
 
 #bjTableWraper .el-table__body-wrapper.is-scrolling-left {
@@ -812,6 +822,10 @@ textarea {
 .isclickMes::after {
     content: "";
     transform: rotate(-180deg);
+}
+
+.pd30 {
+    padding: 30px 0;
 }
 
 .w160 {

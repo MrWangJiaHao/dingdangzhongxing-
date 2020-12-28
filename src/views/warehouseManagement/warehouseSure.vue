@@ -65,7 +65,7 @@
                 </div>
                 <!-- 个人信息 -->
 
-                <div id="bjTableWraper " class="centerBox mb20">
+                <div id="bjTableWraper " class="ptb3020 mb20">
                     <div class="clearfix">
                         <div class="setTitle fl">产品明细</div>
                         <div class="mb20 fr">

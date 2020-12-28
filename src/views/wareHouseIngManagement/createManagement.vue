@@ -192,7 +192,7 @@
                     </div>
                 </div>
                 <div>
-                    <div class="dispalyFlex centerBox mb20">
+                    <div class="dispalyFlex ptb3020 mb20">
                         <div class="noneIconTitle mr11 fosi0">
                             <span class="fosi14 visibilityHidden">你好</span>
                             <span class="fosi14">备注</span>

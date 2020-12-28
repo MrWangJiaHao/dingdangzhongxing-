@@ -270,7 +270,7 @@
                             },
                             {
                                 types: "prodName",
-                                label: "申请补货数量*",
+                                label: "*申请补货数量",
                                 width: 250,
                                 flag: "input",
                                 placeholder: "请输入申请补货数量",

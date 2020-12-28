@@ -6,8 +6,7 @@
         </div>
 
         <div class="btns   btnArrs ">
-            <div>
-
+            <div class="nowrap">
                 <div class="queryBtn inline mr11 zujianBox"   @click="clickQueryUser">
                     查询
                 </div>
@@ -67,17 +66,18 @@
     }
 
     .biaogeBox {
-        width: 85%;
+        width: 100%;
     }
 
     .btns {
-        width: 15%;
+        width: 0%;
         height: 100%;
         text-align: right;
         position: relative;
         display: flex;
         align-items: flex-end;
         justify-content: flex-end;
+        z-index: 100;
 
         .queryBtn {
             display: inline-block;

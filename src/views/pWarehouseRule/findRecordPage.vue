@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="btns inline tr  btnArrs fr">
-                <div class="btnsress">
+                <div class="btnsress nowrap">
                     <div class="queryBtn inline mr11 zujianBox"   @click="getParasJson">
                         查询
                     </div>

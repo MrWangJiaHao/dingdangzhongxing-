@@ -355,6 +355,30 @@ export const _typesStr = (str) => {
     type = str.substring(8, str.length - 1)
     return type
 }
+
+/**
+ * 数组去重
+ * @param {*} array 数组
+ * @param {*} key 去重的 key
+ */
+export const Heavy = function (array, key) {
+    var result = [array[0]];
+    for (var i = 1; i < array.length; i++) {
+        var item = array[i];
+        var repeat = false;
+        for (var j = 0; j < result.length; j++) {
+            if (item[key] == result[j][key]) {
+                repeat = true;
+                break;
+            }
+        }
+        if (!repeat) {
+            result.push(item);
+        }
+    }
+    return result;
+}
+
 /**
  * 判断子仓类型
  * @param {*} nums 传入的waretype
@@ -444,10 +468,7 @@ export const clearArr = (arr) => {
     }
     return str
 }
-/**
- * 增加session
- * @param isDown 是否是减数的
- */
+
 /**
  * 创建sess
  * @param {*} name
@@ -456,6 +477,7 @@ export const clearArr = (arr) => {
 export const setSessageItem = (name, data) => {
     sessionStorage.setItem(name, data)
 }
+
 /**
  *
  * @param {*} name 删除sess

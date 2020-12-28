@@ -468,9 +468,18 @@
                     },
                     {
                         title: "客户信息",
-                        name: "",
+                        name: "/customerInformation/delegationInformation",
                         iconCls: require("@/assets/svg/kehuxinxi.svg"),
-                        children: [],
+                        children: [
+                            {
+                                title: "委托公司",
+                                name: "/customerInformation/delegationInformation",
+                            },
+                            {
+                                title: "产品信息",
+                                name: "/customerInformation/productInformation",
+                            }
+                        ],
                     },
                     {
                         title: "设备管理",
@@ -585,8 +594,7 @@
             activeName: function (n) {
                 // console.log("------------activeName------------", n, this.dropdownArr);
                 this.activeName = "" + parseInt(n);
-            }
-            ,
+            },
             $route: function (n) {
                 console.log(n, "router");
                 if (this.dropdownArr.length) {
@@ -611,6 +619,30 @@
             ,
         }
         ,
+        computed: {
+            _getNavDataArr() {
+                let activeMes = document.querySelectorAll("#headerMain .el-nav .el-tabs__item"),
+                    resultrArr = [],
+                    sultNums
+                activeMes = Array.from(activeMes)
+                activeMes.forEach(item => {
+                    resultrArr.push(item.getBoundingClientRect().width)
+                })
+                sultNums = Math.ceil(activeMes.length / this.Nums)
+                let idx = 0
+
+                for (let i = 0; i < sultNums; i++) {
+                    let datames = [];
+                    // activeMes.forEach(item=>{})
+                }
+
+                console.log(sultNums)
+                return resultrArr
+            },
+            _resData(start = 0, numers = 7) {
+
+            }
+        },
         methods: {
             goToIndex() {
                 this.$router.push("/index/indexFormJH");
@@ -659,8 +691,7 @@
                 let oDiv = document.querySelector(".el-tabs__nav-scroll");
                 oDiv.style.left = `${this._rightMoveSteep()}px`;
                 oDiv.style.transition = "0.5s";
-            }
-            ,
+            },
             _rightMoveSteep: function () {
                 let steep;
                 let ispandaun =
@@ -764,6 +795,16 @@
                 console.log("--------dropdownArr--------", router);
             }
             ,
+            isPadIngs() {
+                let activeMes = document.querySelectorAll("#headerMain .el-tabs__item")[+this.activeName]
+                let m = activeMes.offsetWidth;
+                let datas = this._getNavDataArr
+                // let x = m - z
+                //z == ???
+                // let oDiv = document.querySelector(".el-tabs__nav-scroll");
+                // oDiv.style.left = `-${widthMes}px`;
+                // oDiv.style.transition = "0.2s";
+            },
             handleClick() {
                 console.log("--------dropdownArr--------", this.dropdownArr);
                 console.log("this.activeName", this.activeName);
@@ -782,7 +823,7 @@
                 if (!this.Heavy({list: this.dropdownArr, data: json})) {
                     this.dropdownArr.push(this.dataArr[+this.activeName]);
                     this.activeTabsName = this.dropdownArr.length - 1 + "";
-                    console.log("this.activeTabsName0", this.activeTabsName);
+                    // console.log("this.activeTabsName0", this.activeTabsName);
                 } else {
                     if (this.dropdownArr.length) {
                         for (var i = 0; i < this.dropdownArr.length; i++) {
@@ -805,7 +846,8 @@
                 this.oldName = +this.activeName;
                 this.handleTabsEdit();
                 this.setStorage();
-                console.log("this.mianbaoxieArr", this.mianbaoxieArr);
+                this.isPadIngs()
+                // console.log("this.mianbaoxieArr", this.mianbaoxieArr);
             }
             ,
             clickEventGoRouter(e) {

@@ -15,6 +15,7 @@
                         <a class="lodopFunClear disinb" id="rukudanExcel" @click="ExportArr"
                         >导出</a
                         >
+                        <div v-show="$route.params.type == 0" class="mr10"></div>
                         <div
                                 class="goOn"
                                 v-if="$route.params.type == 0"
@@ -23,14 +24,14 @@
                             创建入库单
                         </div>
                         <div
-                                class="lodopFunClear"
+                                class="lodopFunClear mr10"
                                 v-if="$route.params.type == 0"
                                 @click="editBtn"
                         >
                             编辑
                         </div>
                         <div
-                                class="remove"
+                                class="remove "
                                 v-if="$route.params.type == 0"
                                 @click="clearBtn"
                         >
@@ -629,7 +630,6 @@
     }
 
     .lodopFunClear {
-        margin-right: 10px;
         @include BtnFunction("success");
     }
 </style>

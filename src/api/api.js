@@ -1178,9 +1178,6 @@ export function setExpireTime(data) {
 }
 
 
-
-
-
 /**
  *
  * @param {*}  获取查询仓库下的委托公司
@@ -1972,8 +1969,19 @@ export const pOrgProductsApp = {
     pWarehouseStationInfo: (data) => post({
         data,
         url: "/wbs-warehouse-manage/v1/pWarehouseStationInfo/saveRecord"
-    })
+    }),
     //站内消息 end
+    //客户信息 start /wbs-warehouse-manage/v1/pOrg/findRecordPage
+    pOrgfindRecordPage: (data) => post({
+        data,
+        url: "/wbs-warehouse-manage/v1/pOrg/findRecordPage"
+    }),//分页查询委托公司信息
+    //wbs-warehouse-manage/v1/pOrgProducts/findRecordPage 分页查询产品信息
+    pOrgProductsfindRecordPage: (data) => post({
+        data,
+        url: "/wbs-warehouse-manage/v1/pOrgProducts/findRecordPage"
+    })
+    //客户信息 end
 }
 
 //=========================================货品移位 end ========================================

@@ -89,7 +89,7 @@
                     <div class="displayalign zujianBox">
                         <div class="noneIconTitle mr11">补货开始时间:</div>
                         <div class="mr20 displayalign">
-                            <div style="margin-right: 10px">
+                            <div class="mr10">
                                 <dateTime
                                         :dateTimeData="replenishStartTime"
                                         @getDateTime="getreplenishStartTime"

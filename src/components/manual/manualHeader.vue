@@ -192,6 +192,7 @@
                             <div class="line"></div>
                             <div>
                                 <dateTime
+                                        width="210"
                                         :dateTimeData="expectedSendEndTimeData"
                                         @getDateTime="getexpectedSendEndTime"
                                         ref="expectedEnd"

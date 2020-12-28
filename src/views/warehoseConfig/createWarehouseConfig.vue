@@ -23,7 +23,6 @@
             </div>
             <!-- 暂无子仓 -->
             <div class="overAuto">
-
                 <div
                         v-if="createSetting.length"
                         class="wareHouseCenter noneZican"
@@ -134,7 +133,7 @@
                             </div>
                             <span class="noneIconTitle">数字:</span>
                         </div>
-                        <div class="mr20 w140">
+                        <div class="mr20 w150">
                             <el-select
                                     v-model="wareAreaCodeChange.NUM"
                                     placeholder="请选择数字编号"

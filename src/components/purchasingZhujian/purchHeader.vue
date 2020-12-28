@@ -142,6 +142,7 @@
                                 <dateTime
                                         :dateTimeData="expectedSendStartTimeData"
                                         @getDateTime="getexpectedSendStartTime"
+                                        width="200"
                                         ref="expectedStart"
                                 />
                             </div>
@@ -149,7 +150,7 @@
                             <div class="line"></div>
                             <div>
                                 <dateTime
-
+                                        width="210"
                                         :dateTimeData="expectedSendEndTimeData"
                                         @getDateTime="getexpectedSendEndTime"
                                         ref="expectedEnd"
@@ -167,6 +168,7 @@
                         <div class="mr20 displayalign">
                             <div class="mr10">
                                 <dateTime
+                                        width="200"
                                         :dateTimeData="putStartTimeData"
                                         @getDateTime="getputStartTime"
                                         ref="putStart"
@@ -176,6 +178,7 @@
                             <div class="line"></div>
                             <div>
                                 <dateTime
+                                        width="200"
                                         :dateTimeData="putEndTimeData"
                                         @getDateTime="getputEndTime"
                                         ref="putEnd"
@@ -285,7 +288,7 @@
                     placeholder: "请选择实际到货开始时间",
                 },
                 putEndTimeData: {
-                    placeholder: "请选择实际到货时间结束时间 ",
+                    placeholder: "请选择实际到货结束时间",
                 },
                 paras: {
                     purcNo: "", //采购单号
