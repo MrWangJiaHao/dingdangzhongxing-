@@ -241,16 +241,15 @@
             >
             </el-table-column>
             <el-table-column
-              prop="expireTime"
+              prop=""
               label="临期值"
               align="center"
               width="100"
               min-width="100"
-              ><template slot-scope="scpoe">
-                <div>
-                  {{ scpoe.row.expireTime }}
-                </div>
-              </template>
+              >
+              
+              
+
             </el-table-column>
             <el-table-column
               prop="isExpire"
@@ -412,7 +411,6 @@
 </template>
 
 <script>
-/*eslint-disable */
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { usefulLifeManagment, setExpireTime } from "../../api/api";
 import { clearTimeInput, reduceFun } from "../../utils/validate";
@@ -559,7 +557,6 @@ export default {
     saveBatch() {
       //批次有效期修改
       this.dialogFormVisible = true;
-
     },
     setExpire() {
       //设置临期值
@@ -575,7 +572,7 @@ export default {
         });
 
       this.$messageSelf
-        .prompts("产品临期值", "设置产品临期值", {
+        .prompts("", "设置产品临期值", {
           inputValidator: (num) => {
             if (num === null) {
               return "请输入预警值";
@@ -776,8 +773,8 @@ export default {
                 .ivu-input {
                   border: none;
                 }
-                .ivu-select-dropdown{
-                    z-index: 3000 !important;
+                .ivu-select-dropdown {
+                  z-index: 3000 !important;
                 }
               }
               .el-input {
@@ -793,6 +790,7 @@ export default {
             border: 1px solid #d1d6e2;
             border-radius: 3px;
             .remarkInforTitle {
+              text-align: right;
               width: 114px;
               background: #ecf1f7;
               border-right: 1px solid #d1d6e2;
@@ -800,8 +798,11 @@ export default {
               padding: 0 16px;
               color: #000;
             }
-            .el-textarea__inner {
-              border: none;
+            .el-textarea {
+              width: 746px;
+              .el-textarea__inner {
+                border: none;
+              }
             }
           }
           .addStar {

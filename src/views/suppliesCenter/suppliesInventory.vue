@@ -6,7 +6,7 @@
         <div class="name_type">
           <div class="nameBox">
             <div class="roleName-text">物料类型：</div>
-            <div class="roleName-checkBox">
+            <div class="roleName-checkBox" style="width:150px">
               <el-select
                 v-model="mateTypeValue"
                 placeholder="请选择物料类型"
@@ -101,10 +101,9 @@
           </div>
           <div class="nameBox">
             <div class="roleName-text">低库存预警：</div>
-            <div class="roleName-checkBox">
+            <div class="roleName-checkBox" style="width:120px">
               <el-select
                 v-model="inventoryFloorValue"
-                placeholder="请选择低库存预警"
                 @change="inventoryFloors"
                 clearable
               >
@@ -488,10 +487,11 @@ export default {
   .name_type {
     display: flex;
     padding: 0 0 0 16px;
+    flex-wrap: wrap;
     .nameBox {
       display: flex;
       align-items: center;
-      margin: 0 16px 0 0;
+      margin: 0 20px 16px 0;
       .roleName-text {
         font-size: 14px;
         white-space: nowrap;
@@ -517,7 +517,8 @@ export default {
 
   .roleName-botton {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+    margin-bottom: 20px;
     .queryBtn {
       @include BtnFunction("success");
     }
@@ -529,7 +530,7 @@ export default {
   }
 }
 .childWarehouseForm {
-  margin: 20px 0 0 0;
+  margin: 4px 0 0 0;
   background: white;
   .formHeader {
     display: flex;

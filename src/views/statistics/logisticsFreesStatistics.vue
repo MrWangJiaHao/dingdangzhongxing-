@@ -63,7 +63,7 @@
           </div>
           <div class="el-inputBox">
             <div class="el-inputBox-text">物流公司：</div>
-            <div class="el-inputBox-checkBox" style="width: 120px">
+            <div class="el-inputBox-checkBox" style="width: 150px">
               <el-select
                 v-model="expressName"
                 placeholder="请选择物流公司"
@@ -164,31 +164,31 @@
             <el-table-column
               prop="predictFeeCount"
               label="预估总运费（元）"
-              align="center"
+              align="right"
             >
             </el-table-column>
             <el-table-column
               prop="weightCount"
               label="称重总重量（kg）"
-              align="center"
+              align="right"
             >
             </el-table-column>
             <el-table-column
               prop="feeCount"
               label="实际总费用（元）"
-              align="center"
+              align="right"
             >
             </el-table-column>
             <el-table-column
               prop="weightDiff"
               label="重量总差（kg）"
-              align="center"
+              align="right"
             >
             </el-table-column>
             <el-table-column
               prop="feeDiff"
               label="运费总差（元）"
-              align="center"
+              align="right"
             >
             </el-table-column>
           </el-table>

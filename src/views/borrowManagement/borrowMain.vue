@@ -1,5 +1,5 @@
 <template>
-  <div id="mianPage">
+  <div id="borrowMain">
     <!-- 这是借调管理页面 -->
     <div class="headerHtml">
       <div class="headerInput">
@@ -110,12 +110,11 @@
             <!-- 结束时间 -->
           </div>
         </div>
-        
       </div>
       <div class="header-botton">
-          <div class="queryBtn" @click="clickQuery">查询</div>
-          <div class="clearBtn" @click="clearInput">清空</div>
-        </div>
+        <div class="queryBtn" @click="clickQuery">查询</div>
+        <div class="clearBtn" @click="clearInput">清空</div>
+      </div>
     </div>
     <div class="childWarehouseForm">
       <div class="formHeader">
@@ -123,7 +122,7 @@
           <div class="icon-title-icon">
             <img src="../../assets/img/systemTitlemesa.png" />
           </div>
-          <div class="icon-title-title">借调信息</div>
+          <div class="icon-title-title">查询结果</div>
         </div>
         <div class="someBtn">
           <div class="create" @click="create">创建</div>
@@ -167,7 +166,6 @@
           <el-table-column
             prop="createTime"
             label="创建时间"
-            align="center"
             width="180"
             min-width="180"
           >
@@ -177,7 +175,6 @@
           <el-table-column
             prop="verifyTime"
             label="审核时间"
-            align="center"
             width="180"
             min-width="180"
           ></el-table-column>
@@ -191,7 +188,7 @@
         </div>
       </div>
     </div>
-    <div class="pointBox" v-show="pointIsShow">
+    <!-- <div class="pointBox" v-show="pointIsShow">
       <transition
         enter-active-class="animate__animated animate__zoomIn"
         leave-active-class="animate__animated animate__zoomOut"
@@ -203,8 +200,20 @@
           @getiswuliudanOne="getiswuliudanOne"
         ></BreakageOrder>
       </transition>
-    </div>
-    <div class="pointBox" v-show="lookDetailIsShow">
+    </div> -->
+    <el-dialog
+      :visible.sync="pointIsShow"
+      custom-class="animate__animated animate__zoomIn"
+    >
+      <BreakageOrder
+        v-show="pointIsShow"
+        :tabledatasArr="tabledatasArr"
+        :ReplenishmentNote="replenishmentNoteJson"
+        @getiswuliudanOne="getiswuliudanOne"
+      ></BreakageOrder>
+    </el-dialog>
+
+    <!-- <div class="pointBox" v-show="lookDetailIsShow">
       <transition
         enter-active-class="animate__animated animate__zoomIn"
         leave-active-class="animate__animated animate__zoomOut"
@@ -217,7 +226,19 @@
           @BorrowOrderDetailIsShow="BorrowOrderDetailIsShow"
         ></BorrowOrderDetailPage>
       </transition>
-    </div>
+    </div> -->
+    <el-dialog
+      :visible.sync="lookDetailIsShow"
+      custom-class="animate__animated animate__zoomIn"
+    >
+      <BorrowOrderDetailPage
+        v-show="lookDetailIsShow"
+        :tableData="detailTableData"
+        :dataJson="detailObject"
+        :title="detailTitle"
+        @BorrowOrderDetailIsShow="BorrowOrderDetailIsShow"
+      ></BorrowOrderDetailPage>
+    </el-dialog>
   </div>
 </template>
 
@@ -480,7 +501,6 @@ export default {
           this.delRequest({ ids: arr });
         })
         .catch(() => {
-          this.$messageSelf.message({ message: "取消删除", type: "success" });
         });
     },
     delRequest(data) {
@@ -528,7 +548,7 @@ export default {
             this.submitRequest({ ids: arr });
           })
           .catch(() => {
-            this.$messageSelf.message({message:"取消删除",type:"success"});
+            this.$messageSelf.message({ message: "取消删除", type: "success" });
           });
       }
     },
@@ -662,7 +682,7 @@ export default {
   background: rgba(0, 0, 0, 0.3);
 }
 
-#mianPage {
+#borrowMain {
   background: #eef1f8;
   padding: 20px 10px;
 }
@@ -768,9 +788,17 @@ export default {
 }
 </style>
 <style lang="scss">
-.entrustCompany {
-  .el-select {
-    width: 100%;
+#borrowMain {
+  .entrustCompany {
+    .el-select {
+      width: 100%;
+    }
+  }
+  .el-dialog__header {
+    display: none;
+  }
+  .el-dialog__body {
+    padding: 0;
   }
 }
 </style>

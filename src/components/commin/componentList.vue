@@ -31,7 +31,7 @@
                                 {{ ReplenishmentNote.title }}
                             </div>
                             <div
-                                    style="position: absolute; top: 10px; right: 0px; z-index: -1"
+                                    style="position: absolute; top: 4px; right: 0px; z-index: -1"
                             >
                                 <img
                                         :src="
@@ -119,7 +119,7 @@
                                             border
                                             highlight-current-row
                                     >
-                                        <el-table-column type="index" label="序号" width="50">
+                                        <el-table-column type="index" label="序号" width="50" align="center">
                                         </el-table-column>
                                         <template
                                                 v-for="(tableItem, tableIdx) in items.basicJsonArr"

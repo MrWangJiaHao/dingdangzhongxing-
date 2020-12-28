@@ -145,7 +145,7 @@
                 align="center"
               >
               </el-table-column
-              ><el-table-column prop="orgAddr" label="联系地址" align="center">
+              ><el-table-column prop="orgAddr" label="联系地址" align="left">
               </el-table-column
               ><el-table-column prop="channelName" label="渠道" align="center">
               </el-table-column
@@ -509,7 +509,7 @@ export default {
     .clearBtn {
       @include BtnFunction();
       background: #fff;
-      margin: 0 16px 0 10px;
+      margin: 0 0 0 10px;
     }
   }
   .timeChoose {

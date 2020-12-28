@@ -77,7 +77,8 @@
             <el-table-column
               prop="createTime"
               label="创建时间"
-              align="center"
+              width="180"
+              min-width="180"
             ></el-table-column>
           </el-table>
           <div class="pageComponent">
@@ -92,7 +93,11 @@
     </div>
 
     <!-- 弹框 -->
-    <el-dialog :title="title" :visible.sync="dialogFormVisible" custom-class="animate__animated animate__zoomIn">
+    <el-dialog
+      :title="title"
+      :visible.sync="dialogFormVisible"
+      custom-class="animate__animated animate__zoomIn"
+    >
       <div class="dialogBox">
         <div class="boxTitle"><span>基础信息</span></div>
         <div class="boxContent">
@@ -507,13 +512,16 @@ export default {
               border: 1px solid #d1d6e2;
               margin-right: 20px;
               width: 394px;
+              border-radius: 3px;
+
               .setSupplierName {
                 width: 104px;
                 background: #ecf1f7;
                 border-right: 1px solid #d1d6e2;
-                line-height: 36px;
+                line-height: 34px;
+                padding: 0 16px;
                 color: #000;
-                text-align: center;
+                text-align: right;
               }
               .el-input {
                 width: 288px;
@@ -527,40 +535,6 @@ export default {
               display: flex;
             }
           }
-          .comAddr {
-            width: 404px;
-            border: 1px solid #d1d6e2;
-            border-radius: 3px;
-            .comAddrName {
-              width: 104px;
-              background: #ecf1f7;
-              border-right: 1px solid #d1d6e2;
-              line-height: 36px;
-              padding: 0 16px;
-              color: #000;
-            }
-            .el-cascader {
-              width: 300px;
-              .el-input__inner {
-                border: none;
-              }
-            }
-          }
-          .xiangxiAddr {
-            border: 1px solid #d1d6e2;
-            border-radius: 3px;
-            .XXAddrName {
-              width: 104px;
-              background: #ecf1f7;
-              border-right: 1px solid #d1d6e2;
-              line-height: 36px;
-              padding: 0 16px;
-              color: #000;
-            }
-            .el-input__inner {
-              border: none;
-            }
-          }
           .remarkInforBox {
             border: 1px solid #d1d6e2;
             border-radius: 3px;
@@ -571,10 +545,14 @@ export default {
               line-height: 94px;
               padding: 0 16px;
               color: #000;
+              text-align: right;
             }
-            .el-textarea__inner {
-              border: none;
-              color: #000;
+            .el-textarea {
+              width: 754px;
+              .el-textarea__inner {
+                border: none;
+                color: #000;
+              }
             }
           }
         }

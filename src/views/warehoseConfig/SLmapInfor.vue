@@ -810,7 +810,6 @@ export default {
 
 #mapInfor {
   background: #eef1f8;
-  height: 100%;
   padding: 10px;
   .productInfor {
     padding: 16px;
@@ -855,8 +854,8 @@ export default {
         div:nth-of-type(2) {
           display: inline-block;
           width: 190px;
-          height: 40px;
-          line-height: 40px;
+          height: 34px;
+          line-height: 34px;
           border-radius: 4px;
           padding: 0 30px 0 15px;
           color: rgb(96, 98, 102);

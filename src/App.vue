@@ -154,12 +154,16 @@
         border: 1px solid #d2d6e2 !important;
         border-bottom: none !important;
     }
+    .el-table th{
+        height: 36px !important;
+    }
 
     /*全局设置表格一行的高度*/
     .el-table td,
     .el-table th {
         padding: 6px 0 !important;
     }
+    
 
     /*全局设置表格内容不换行 */
     .el-table .cell {
@@ -172,10 +176,10 @@
         background: #e1eaf5 !important;
     }
 
-    #app .el-table td,
+    .el-table td,
     .el-table th.is-leaf {
-        border-right: 1px solid #d2d6e2;
-        border-bottom: 1px solid #d2d6e2;
+        border-right: 1px solid #d2d6e2 !important;
+        border-bottom: 1px solid #d2d6e2 !important;
     }
 
     /**全局设置表格斑马线背景色 */
@@ -229,7 +233,7 @@
             }
 
             .submitBtn {
-                margin: 0 10px 0 0 !important;
+                margin: 0 30px 0 0 !important;
                 @include BtnFunction("success");
             }
         }

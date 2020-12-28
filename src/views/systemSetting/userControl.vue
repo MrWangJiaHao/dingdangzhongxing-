@@ -89,20 +89,22 @@
         :title="title"
         :visible.sync="centerDialogVisible"
         custom-class="animate__animated animate__zoomIn"
-        width="30%"
+        width="576px"
       >
         <div class="createRolePage">
-          <div class="roleName-input">
-            <span>角色名称：</span>
-            <input type="text" v-model="inputContent" />
-          </div>
-          <div class="accreditMenu">
-            <span>授权菜单：</span>
-            <span @click="setQuanxian"> 设置权限 </span>
+          <div class="nameandmeun">
+            <div class="roleName-input">
+              <span>角色名称：</span>
+              <input type="text" v-model="inputContent" />
+            </div>
+            <div class="accreditMenu">
+              <span>授权菜单：</span>
+              <span @click="setQuanxian"> 设置权限 </span>
+            </div>
           </div>
           <div class="remarks">
             <div>备注：</div>
-            <textarea v-model="textareaContent"></textarea>
+            <textarea v-model="textareaContent" ></textarea>
           </div>
         </div>
         <span slot="footer" class="dialog-footer">
@@ -171,7 +173,7 @@
 </template>
 
 <script>
-  /*eslint-disable*/
+/*eslint-disable*/
 import { post, delRole, jurisdicRequest } from "../../api/api";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 
@@ -563,10 +565,10 @@ export default {
     .el-dialog__wrapper {
       .el-dialog__header {
         background: #eef1f8;
-        border-bottom: 1px solid #e1e6eb;
+        border-bottom: 1px solid #d1d6e2;
       }
       .el-dialog__footer {
-        border-top: 1px solid #e1e6eb;
+        border-top: 1px solid #d1d6e2;
         width: 100%;
         height: 76px;
         padding: 0 20px;
@@ -585,38 +587,47 @@ export default {
         }
       }
       .el-dialog__body {
+        padding: 20px;
+        .nameandmeun{
+          display: flex;
+          align-items: center;
+        }
+        .roleName-input{
+          margin-right: 20px;
+        }
         .roleName-input span {
           font-size: 16px;
         }
         .roleName-input input {
-          border: 1px solid #999;
+          border: 1px solid #d1d6e2;
           width: 200px;
           height: 30px;
           border-radius: 5px;
           text-indent: 1em;
         }
         .accreditMenu {
-          margin: 0 0 20px 0;
           span:nth-of-type(1) {
             font-size: 16px;
           }
           span:nth-of-type(2) {
             display: inline-block;
-            border: 1px solid #999;
-            padding: 5px;
+            border: 1px solid #d1d6e2;
+            padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
           }
         }
         .remarks {
           display: flex;
+          align-items: center;
           textarea {
-            border: 1px solid #999;
-            width: 200px;
-            height: 50px;
+            border: 1px solid #d1d6e2;
+            height: 60px;
+            padding: 10px;
           }
           div {
             font-size: 16px;
+            white-space: nowrap;
           }
         }
       }

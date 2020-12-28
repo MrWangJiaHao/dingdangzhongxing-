@@ -1,7 +1,6 @@
 <template>
   <div class="shipment">
-    <div id="shipments">
-    </div>
+    <div id="shipments"></div>
   </div>
 </template>
 
@@ -14,9 +13,9 @@ export default {
   },
   mounted() {
     this.shipmentsEcharts();
-    let oDiv = document.querySelector("#shipments");
-    let firstDiv = oDiv.firstChild;
-    firstDiv.setAttribute("class", "canvasDiv");
+    window.addEventListener("resize", () => {
+      this.shipmentsEcharts();
+    });
   },
   methods: {
     shipmentsEcharts() {
@@ -169,8 +168,8 @@ export default {
           },
           axisLabel: {
             interval: 0, //X轴内容过多造成内容缺失时加上这个内容就会显示出来
-            align:"left",
-            rich:{}
+            align: "left",
+            rich: {},
           },
         },
         yAxis: {
@@ -265,7 +264,7 @@ export default {
           {
             type: "inside",
             throttle: 100, //设置触发视图刷新的频率。单位为毫秒（ms）。
-            disabled: true,//禁用区域内放大缩小
+            disabled: true, //禁用区域内放大缩小
           },
         ],
         series: [
@@ -341,5 +340,4 @@ export default {
 #shipments {
   height: 486px;
 }
-
 </style>

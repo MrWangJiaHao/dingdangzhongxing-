@@ -73,7 +73,7 @@
       </div>
     </div>
     <div class="backBtnBox">
-      <div class="backBtn" @click="back">返回</div>
+      <div class="quxiaoBox" @click="back">关闭</div>
     </div>
   </div>
 </template>
@@ -102,12 +102,8 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
 .mian {
-  width: 1000px;
-  height: 658px;
-  position: relative;
-  left: 0;
-  top: 66px;
-  transform: translateX(46%);
+  width: 960px;
+  height: 580px;
   .titleStyle {
     width: 100%;
     height: 50px;
@@ -115,16 +111,18 @@ export default {
     line-height: 50px;
     padding: 0 20px;
     font-size: 18px;
+    font-weight: bold;
     border-bottom: 1px solid #d1d6e2;
   }
   .orderDetaiPage::-webkit-scrollbar {
     width: 0 !important;
   }
   .orderDetaiPage {
+    overflow-y: auto;
     background: #fff;
-    padding: 20px;
+    padding: 20px 20px 0 20px;
     overflow: scroll;
-    height: 530px;
+    height: 500px;
     .orderDetailBox {
       margin-bottom: 20px;
       .orderDetail-title {
@@ -132,9 +130,6 @@ export default {
         color: #52a8fd;
         position: relative;
         margin: 0 0 20px 10px;
-      }
-      .remarkBox {
-        height: 20px;
       }
       .orderDetail-title::before {
         content: "";
@@ -148,18 +143,15 @@ export default {
     }
   }
   .backBtnBox {
-    position: absolute;
-    bottom: 0;
-    left: 0;
     width: 100%;
     height: 78px;
     border-top: 1px solid #d1d6e2;
     background: #fff;
     display: flex;
     justify-content: flex-end;
-    .backBtn {
+    .quxiaoBox {
       margin: 20px;
-      @include BtnFunction("success");
+      @include BtnFunction();
     }
   }
   table {

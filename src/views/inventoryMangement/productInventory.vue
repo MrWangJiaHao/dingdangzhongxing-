@@ -211,6 +211,7 @@
               prop="afterSaleInventory"
               label="售后仓库存"
               align="center"
+              width="100"
             >
             </el-table-column>
             <el-table-column
@@ -394,7 +395,7 @@ export default {
           type: "warning",
         });
       this.$messageSelf
-        .prompts("最高库存预警值", "批量设置最高库存预警", {
+        .prompts("", "批量设置最高库存预警", {
           // inputPattern: "",
           // inputErrorMessage: "请输入预警值",
           inputValidator: (num) => {

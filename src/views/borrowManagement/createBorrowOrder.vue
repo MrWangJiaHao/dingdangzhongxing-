@@ -24,7 +24,7 @@
       </div>
       <div class="tableBox">
         <div class="tableBox-title">
-          <div class="titleText">明细</div>
+          <div class="titleText">查询结果</div>
           <div class="titleBtn">
             <div class="add" @click="add">添加产品</div>
             <div class="del" @click="del">删除</div>
@@ -363,8 +363,9 @@ export default {
     }
     .remarkBox {
       margin-top: 20px;
+            padding: 0 20px;
+
       .remark {
-        font-size: 16px;
         margin-bottom: 10px;
       }
     }

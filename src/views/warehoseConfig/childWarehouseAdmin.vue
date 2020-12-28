@@ -135,14 +135,14 @@
             <el-table-column
               prop="size"
               label="已使用面积(㎡)"
-              align="center"
+              align="right"
               width="120"
               min-width="120"
             ></el-table-column>
             <el-table-column
               prop="unUsedArea"
               label="未使用面积(㎡)"
-              align="center"
+              align="right"
               width="120"
               min-width="120"
             ></el-table-column>
@@ -159,7 +159,6 @@
             <el-table-column
               prop="createTime"
               label="创建时间"
-              align="center"
               width="180"
               min-width="180"
             ></el-table-column>

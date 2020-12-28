@@ -135,7 +135,6 @@
             <el-table-column
               prop="effectStartTime"
               label="生效日期"
-              align="center"
               width="180"
               min-width="180"
             >
@@ -189,13 +188,13 @@
           <el-table-column
             prop="firstHeavy"
             label="首重(5KG)"
-            align="center"
+            align="right"
             width="120"
           ></el-table-column>
           <el-table-column
             prop="continuedHeavy"
             label="续重(每1KG)"
-            align="center"
+            align="right"
             width="120"
           ></el-table-column>
           <el-table-column

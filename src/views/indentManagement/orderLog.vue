@@ -16,7 +16,7 @@
           </el-table-column>
           <el-table-column prop="operateUser" label="操作人" align="center">
           </el-table-column>
-          <el-table-column prop="operateTime" label="操作时间" align="center">
+          <el-table-column prop="operateTime" label="操作时间">
           </el-table-column>
         </el-table>
       </div>

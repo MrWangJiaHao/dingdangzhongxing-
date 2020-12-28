@@ -54,7 +54,12 @@
       </div>
       <div class="tableBox">
         <div class="titleBtn">
-          <div class="add"></div>
+          <div class="icon-title">
+            <div class="icon-title-icon">
+              <img src="../../assets/img/systemTitlemesa.png" />
+            </div>
+            <div class="icon-title-title">查询结果</div>
+          </div>
           <div class="del" @click="del">删除</div>
         </div>
         <div class="tableBox-table">
@@ -334,6 +339,17 @@ export default {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        .icon-title {
+          display: flex;
+          .icon-title-icon {
+            width: 14px;
+            height: 14px;
+            margin: 0 0 0 20px;
+          }
+          .icon-title-title {
+            margin: 0 0 0 8px;
+          }
+        }
         .del {
           @include BtnFunction("error");
           margin-right: 20px;

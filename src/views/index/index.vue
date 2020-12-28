@@ -2,7 +2,6 @@
   <div id="indexMain">
     <!-- 这是首页的页面 -->
     <div class="indexContainer">
-      <Breadcrumd></Breadcrumd>
       <div class="numberInfor1">
         <div class="numberInfor1-data">
           <div class="numberInfor1-img">
@@ -107,7 +106,6 @@
 
 <script>
 import "../../assets/iconfont/iconfont.css"; //引入字体图标文件
-import Breadcrumd from "../../components/breadcrumd"; //引入面包屑组件
 import Shipment from "../../components/echarts/shipment"; //引用发货量统计echarts组件
 import ResalesEcharts from "../../components/echarts/resalesEcharts.vue"; //引用退货量统计echarts组件
 import StaffEcharts from "../../components/echarts/staffEcharts.vue"; //引用发货人员统计echarts组件
@@ -122,7 +120,6 @@ import pullGoods from "@/assets/img/pullGoods.png";
 import { indexRequest } from "../../api/api";
 export default {
   components: {
-    Breadcrumd,
     ResalesEcharts,
     StaffEcharts,
     Shipment,
@@ -168,8 +165,12 @@ export default {
       }
     });
     this.timeFormate();
+    this.delMargin();
   },
   methods: {
+    delMargin() {
+      document.querySelector(".numberInfor2").lastChild.style.margin = "0";
+    },
     timeFormate() {
       // 获取当前时间函数
       let year = new Date().getFullYear();
@@ -252,18 +253,15 @@ export default {
 
 <style scoped lang="scss">
 #indexMain {
-  padding: 0 0 16px 0;
+  padding: 16px;
   position: relative;
   background: #eef1f8;
   .indexContainer {
-    width: 100%;
-    margin: 0 auto;
     position: relative;
-    height: 100%;
     .numberInfor1 {
       height: 80px;
       border-radius: 4px;
-      margin: 16px;
+      margin: 0 0 16px 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -327,7 +325,7 @@ export default {
     .numberInfor2 {
       height: 239px;
       display: flex;
-      margin: 0 0 16px 16px;
+      margin: 0 0 16px 0;
       .numberInfor2-area {
         cursor: pointer;
         flex: 1;
@@ -363,9 +361,10 @@ export default {
     .warehouseStatistics {
       height: 480px;
       display: flex;
-      padding: 0 16px 16px 16px;
+      padding: 0 0 16px 0;
       .ws-area1 {
         width: 20.5%;
+        // width: 384px;
         border-radius: 4px;
         background: white;
         margin: 0 16px 0 0;
@@ -388,6 +387,7 @@ export default {
       }
       .ws-area2 {
         width: 78.7%;
+        // flex: 1;
         border-radius: 4px;
         background: white;
         padding: 0 30px;
@@ -430,10 +430,8 @@ export default {
     .echartsInfor {
       height: 560px;
       display: flex;
-      margin: 0 0 0 16px;
       .infor-one {
-        flex: 1;
-        overflow: hidden;
+        width: 50%;
         height: 560px;
         border-radius: 4px;
         background: white;
@@ -457,11 +455,11 @@ export default {
         }
       }
       .infor-two {
-        flex: 1;
+        width: 50%;
+
         height: 560px;
         border-radius: 4px;
         background: white;
-        margin: 0 16px 0 0;
         .infor-two-title {
           width: 100%;
           height: 76px;

@@ -7,6 +7,20 @@
     display: flex;
     flex-direction: column;
 }
+.el-message-box {
+    width: 460px;
+    height: 310px;
+}
+
+.el-message-box__content {
+    display: flex;
+    flex-direction: column;
+}
+
+.el-message-box__container {
+    text-align: center;
+}
+
 
 .el-message__icon {
     margin-top: 32px;
@@ -74,19 +88,6 @@
     background-size: cover;
 }
 
-.el-message-box {
-    width: 460px;
-    height: 310px;
-}
-
-.el-message-box__content {
-    display: flex;
-    flex-direction: column;
-}
-
-.el-message-box__container {
-    text-align: center;
-}
 
 .el-message-box__status.el-icon-warning {
     background: url(../img/shibais.png) center center no-repeat;
@@ -96,21 +97,19 @@
     position: inherit;
 }
 
+/*图标位置大小修改*/
 .el-message-box__status.el-icon-success {
     width: 50px;
     height: 50px;
     margin-top: 80px;
     position: inherit;
 }
-
-
 .el-message-box__status.el-icon-info {
     width: 56px;
     height: 50px;
     margin-top: 80px;
     position: inherit;
 }
-
 .el-message-box__status.el-icon-error {
     width: 50px;
     height: 50px;
@@ -122,22 +121,24 @@
     border-color: #409EFF;
 }
 
+.el-message-box{
+    position: relative;
+}
+
 .el-message-box__btns {
-    margin: -0 20px 0px 0;
+    position: absolute;
+    right: 10px;
+    bottom: 20px;
 }
 
 .el-message-box__message {
-    padding-bottom: 40px;
-}
-
-.el-message-box__message p {
-    /* line-height: 60px;font-size: 16px; */
+    padding-bottom: 16px;
 }
 
 .el-message-box__input {
-    margin-bottom: 90px;
     width: 100%;
     padding: 0;
+    margin-top: 90px;
 }
 
 .el-message-box__errormsg {

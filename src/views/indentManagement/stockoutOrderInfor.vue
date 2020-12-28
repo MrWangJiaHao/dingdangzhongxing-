@@ -158,6 +158,7 @@ export default {
 @import "../../assets/scss/btn.scss";
 .mian {
   padding: 10px;
+  background: #eef1f8;
   .orderDetaiPage {
     background: #fff;
     height: 100%;

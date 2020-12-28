@@ -1,5 +1,5 @@
 <template>
-  <div id="mianPage">
+  <div id="breakageMain">
     <!-- 这是报损管理页面 -->
     <div class="headerHtml">
       <div class="headerInput">
@@ -170,7 +170,6 @@
           <el-table-column
             prop="createTime"
             label="创建时间"
-            align="center"
             width="180"
             min-width="180"
           >
@@ -180,7 +179,6 @@
           <el-table-column
             prop="verifyTime"
             label="审核时间"
-            align="center"
             width="180"
             min-width="180"
           ></el-table-column>
@@ -194,7 +192,7 @@
         </div>
       </div>
     </div>
-    <div class="pointBox" v-show="pointIsShow">
+    <!-- <div class="pointBox" v-show="pointIsShow">
       <transition
         enter-active-class="animate__animated animate__zoomIn"
         leave-active-class="animate__animated animate__zoomOut"
@@ -206,12 +204,23 @@
           @getiswuliudanOne="getiswuliudanOne"
         ></BreakageOrder>
       </transition>
-    </div>
+    </div> -->
+    <el-dialog
+      :visible.sync="pointIsShow"
+      custom-class="animate__animated animate__zoomIn"
+    >
+      <BreakageOrder
+        v-show="pointIsShow"
+        :tabledatasArr="tabledatasArr"
+        :ReplenishmentNote="replenishmentNoteJson"
+        @getiswuliudanOne="getiswuliudanOne"
+      ></BreakageOrder>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-  /*eslint-disable*/
+/*eslint-disable*/
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import {
@@ -507,9 +516,7 @@ export default {
         .then(() => {
           this.delRequest({ ids: arr });
         })
-        .catch(() => {
-          this.$messageSelf.message({ message: "取消删除", type: "success" });
-        });
+        .catch(() => {});
     },
     delRequest(data) {
       delBreakageOrder(data).then((ok) => {
@@ -754,7 +761,7 @@ export default {
 //   opacity: 0;
 // }
 
-#mianPage {
+#breakageMain {
   padding: 20px 10px;
 }
 .headerHtml {
@@ -859,9 +866,17 @@ export default {
 }
 </style>
 <style lang="scss">
-.entrustCompany {
-  .el-select {
-    width: 100%;
+#breakageMain {
+  .entrustCompany {
+    .el-select {
+      width: 100%;
+    }
+  }
+  .el-dialog__header {
+    display: none;
+  }
+  .el-dialog__body {
+    padding: 0;
   }
 }
 </style>

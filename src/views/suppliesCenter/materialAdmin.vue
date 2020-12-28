@@ -165,7 +165,8 @@
             <el-table-column
               prop="createTime"
               label="创建时间"
-              align="center"
+              width="180"
+              min-width="180"
             ></el-table-column>
           </el-table>
           <div class="pageComponent">
@@ -192,7 +193,9 @@
         <div class="boxContent">
           <div class="content_one">
             <div class="name_con">
-              <div class="name_con_title addStar">物料类型</div>
+              <div class="name_con_title">
+                <span class="addStar">物料类型</span>
+              </div>
               <el-select
                 v-model="dialogMateType"
                 clearable
@@ -209,14 +212,18 @@
               </el-select>
             </div>
             <div class="name_con">
-              <div class="name_con_title addStar">物料名称</div>
+              <div class="name_con_title">
+                <span class="addStar">物料名称</span>
+              </div>
               <el-input
                 v-model="dialogMateName"
                 placeholder="请输入物料名称"
               ></el-input>
             </div>
             <div class="name_con">
-              <div class="name_con_title addStar">物料编号</div>
+              <div class="name_con_title">
+                <span class="addStar">物料编号</span>
+              </div>
               <el-input
                 v-model="dialogMateCode"
                 placeholder="请输入物料编号"
@@ -225,7 +232,9 @@
           </div>
           <div class="content_one">
             <div class="name_con">
-              <div class="name_con_title">品牌</div>
+              <div class="name_con_title">
+                <span class="addStar">品牌</span>
+              </div>
               <el-select
                 v-model="dialogBrandName"
                 placeholder="请选择品牌"
@@ -241,7 +250,9 @@
               </el-select>
             </div>
             <div class="name_con">
-              <div class="name_con_title">供应商</div>
+              <div class="name_con_title">
+                <span class="addStar">供应商</span>
+              </div>
               <el-select
                 v-model="dialogSupValue"
                 clearable
@@ -258,7 +269,9 @@
               </el-select>
             </div>
             <div class="name_con">
-              <div class="name_con_title addStar1">规格</div>
+              <div class="name_con_title addStar1">
+                <span class="addStar">规格</span>
+              </div>
               <el-select
                 v-model="dialogSpecValue"
                 clearable
@@ -276,14 +289,18 @@
             </div>
           </div>
           <div class="earlyWarnBox">
-            <div class="earlyWarn addStar2">低库存预警值</div>
+            <div class="earlyWarn addStar2">
+              <span class="addStar">低库存预警值</span>
+            </div>
             <el-input
               v-model="dialogEarlyWarnValue"
               placeholder="请输入低库存预警值"
             ></el-input>
           </div>
           <div class="remarkInforBox content_one">
-            <div class="remarkInforTitle">备注信息</div>
+            <div class="remarkInforTitle">
+              <span class="">备注信息</span>
+            </div>
             <el-input
               type="textarea"
               placeholder="请输入备注信息"
@@ -759,10 +776,11 @@ export default {
   .name_type {
     display: flex;
     padding: 0 0 0 16px;
+    flex-wrap: wrap;
     .nameBox {
       display: flex;
       align-items: center;
-      margin: 0 16px 0 0;
+      margin: 0 20px 16px 0;
       .roleName-text {
         font-size: 14px;
         white-space: nowrap;
@@ -788,7 +806,8 @@ export default {
 
   .roleName-botton {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+    margin-bottom: 16px;
     .queryBtn {
       @include BtnFunction("success");
     }
@@ -800,7 +819,7 @@ export default {
   }
 }
 .childWarehouseForm {
-  margin: 20px 0 0 0;
+  margin: 4px 0 0 0;
   background: white;
   .formHeader {
     display: flex;
@@ -858,7 +877,6 @@ export default {
   .el-dialog {
     width: 900px;
     height: 466px;
-    // box-shadow: 0 0 5px 3px #e1e2e5;
     border-radius: 4px;
     .el-dialog__header {
       padding: 0 20px;
@@ -908,7 +926,7 @@ export default {
                 width: 104px;
                 background: #ecf1f7;
                 border-right: 1px solid #d1d6e2;
-                line-height: 36px;
+                line-height: 34px;
                 color: #000;
                 text-align: center;
               }
@@ -942,17 +960,20 @@ export default {
               }
             }
           }
-
           .remarkInforBox {
             border: 1px solid #d1d6e2;
             border-radius: 3px;
             .remarkInforTitle {
-              width: 104px;
+              width: 118px;
               background: #ecf1f7;
               border-right: 1px solid #d1d6e2;
               line-height: 84px;
               padding: 0 16px;
               color: #000;
+              text-align: right;
+            }
+            .el-textarea {
+              width: 740px;
             }
             .el-textarea__inner {
               border: none;
@@ -965,30 +986,9 @@ export default {
             content: "*";
             color: red;
             position: absolute;
-            left: 15px;
-            top: 3px;
-          }
-
-          .addStar1 {
-            position: relative;
-          }
-          .addStar1::before {
-            content: "*";
-            color: red;
-            position: absolute;
-            left: 30px;
-            top: 3px;
-          }
-
-          .addStar2 {
-            position: relative;
-          }
-          .addStar2::before {
-            content: "*";
-            color: red;
-            position: absolute;
-            left: 10px;
-            top: 3px;
+            font-size: 20px;
+            left: -8px;
+            top: -30%;
           }
         }
       }

@@ -240,6 +240,5 @@ export default {
 #resalesEcharts {
   /* width: 936px; */
   height: 484px;
-  padding: 0 0 0 10px;
 }
 </style>

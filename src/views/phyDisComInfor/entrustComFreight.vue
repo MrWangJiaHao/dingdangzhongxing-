@@ -124,7 +124,6 @@
             <el-table-column
               prop="effectStartTime"
               label="生效日期"
-              align="center"
             >
             </el-table-column>
             <el-table-column
@@ -176,13 +175,13 @@
           <el-table-column
             prop="firstHeavy"
             label="首重(5KG)"
-            align="center"
+            align="right"
             width="120"
           ></el-table-column>
           <el-table-column
             prop="continuedHeavy"
             label="续重(每1KG)"
-            align="center"
+            align="right"
             width="120"
           ></el-table-column>
           <el-table-column
@@ -282,7 +281,7 @@ export default {
     this.queryFun = () => {
       let pagingQueryData = this.pagingQueryData;
       queryStorePhyDis(pagingQueryData).then((ok) => {
-        // console.log(ok);
+        console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = ok.data.result;
           this.tableData.sort(this.creatCompare("orgName"));

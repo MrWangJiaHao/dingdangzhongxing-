@@ -89,6 +89,7 @@
 
 <style lang='scss'>
     .ivu-input-suffix {
+        width: 26px;
         display: flex;
         align-items: center;
 

@@ -287,7 +287,6 @@
                   <el-table-column
                     prop="createTime"
                     label="创建时间"
-                    align="center"
                     min-width="180"
                   ></el-table-column>
                 </el-table>
@@ -402,7 +401,6 @@
                   <el-table-column
                     prop="createTime"
                     label="创建时间"
-                    align="center"
                     min-width="180"
                   ></el-table-column>
                 </el-table>
@@ -922,7 +920,6 @@ export default {
 #storageLocalMap {
   padding: 20px 10px;
   background: #eef1f8;
-  height: 100%;
   .formBox {
     position: relative;
     .childWarehouseForm {
@@ -1074,14 +1071,9 @@ export default {
 <style lang="scss">
 @import "../../assets/scss/btn.scss";
 
-#mateAdmin {
-  .el-dialog__wrapper {
-    // background: #eef1f8;
-  }
+#storageLocalMap {
   .el-dialog {
     width: 900px;
-    height: 466px;
-    // box-shadow: 0 0 5px 3px #e1e2e5;
     border-radius: 4px;
     .el-dialog__header {
       padding: 0 20px;
@@ -1096,74 +1088,11 @@ export default {
     }
     .el-dialog__body {
       width: 100%;
-      height: 336px;
       border-top: 1px solid #d1d6e2;
       border-bottom: 1px solid #d1d6e2;
-      padding: 0 20px;
-      .dialogBox {
-        .productInfor {
-          padding: 16px;
-          background: white;
-          .productInfor_title {
-            position: relative;
-            margin-left: 25px;
-          }
-          .productInfor_title:after {
-            content: "";
-            width: 15px;
-            height: 15px;
-            position: absolute;
-            background: url("../../assets/img/systemTitlemesa.png") no-repeat;
-            left: -25px;
-            top: 3px;
-          }
-          .inputDiv {
-            margin-top: 16px;
-            display: flex;
-            .text_box {
-              display: flex;
-              align-items: center;
-              margin-right: 16px;
-              div:nth-of-type(1) {
-                white-space: nowrap;
-              }
-              div:nth-of-type(2) {
-                display: inline-block;
-                width: 190px;
-                height: 40px;
-                line-height: 40px;
-                border-radius: 4px;
-                padding: 0 30px 0 15px;
-                color: rgb(96, 98, 102);
-                border: 1px solid #dcdfe6;
-                background: #eeeeee;
-              }
-            }
-          }
-        }
-        .detailTable {
-          .tableBox {
-            margin-top: 16px;
-            table {
-              border: 1px solid #ebeef5;
-              text-align: center;
-              border-collapse: collapse;
-              font-size: 16px;
-              tr {
-                border: 1px solid rgb(61, 60, 60);
-                td {
-                  border: 1px solid rgb(170, 166, 166);
-                  padding: 10px 40px;
-                  white-space: nowrap;
-                }
-                td:nth-of-type(even) {
-                  background: #eeeeee;
-                }
-              }
-            }
-          }
-        }
-      }
+      padding: 20px;
+      height: 407px;
+      overflow-y: auto;
     }
     .el-dialog__footer {
       width: 100%;

@@ -130,7 +130,6 @@
             <el-table-column
               prop="pickStartTime"
               label="拣货开始时间"
-              align="center"
               width="180"
               min-width="180"
             >
@@ -138,7 +137,6 @@
             <el-table-column
               prop="pickEndTime"
               label="拣货结束时间"
-              align="center"
               width="180"
               min-width="180"
             >
@@ -164,7 +162,6 @@
             <el-table-column
               prop="reCheckStartTime"
               label="复核开始时间"
-              align="center"
               width="180"
               min-width="180"
             >
@@ -172,7 +169,6 @@
             <el-table-column
               prop="reCheckEndTime"
               label="复核结束时间"
-              align="center"
               width="180"
               min-width="180"
             >

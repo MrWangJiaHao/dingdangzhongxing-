@@ -352,7 +352,6 @@
                   ><el-table-column
                     prop="pullTime"
                     label="下发时间"
-                    align="center"
                     width="180"
                     min-width="180"
                   ></el-table-column>

@@ -149,7 +149,6 @@
             style="width: 100%"
             @selection-change="handleSelectionChange"
             :stripe="true"
-            empty-text="加载中请稍等"
             tooltip-effect="dark"
           >
             <el-table-column type="selection" width="55" align="center">
@@ -161,7 +160,13 @@
               width="60"
             >
             </el-table-column>
-            <el-table-column prop="orgName" label="所属公司" align="center">
+            <el-table-column
+              prop="orgName"
+              label="所属公司"
+              align="center"
+              width="170"
+              min-width="170"
+            >
             </el-table-column>
             <el-table-column
               prop="materielName"
@@ -175,8 +180,13 @@
               align="center"
             >
             </el-table-column>
-            <el-table-column prop="specName" label="规格" align="center" width="180"
-              min-width="180">
+            <el-table-column
+              prop="specName"
+              label="规格"
+              align="center"
+              width="180"
+              min-width="180"
+            >
             </el-table-column>
             <el-table-column
               prop="materielType"
@@ -209,7 +219,6 @@
             <el-table-column
               prop="createTime"
               label="创建时间"
-              align="center"
               width="180"
               min-width="180"
             ></el-table-column>
@@ -238,7 +247,9 @@
         <div class="boxContent">
           <div class="content_one">
             <div class="name_con">
-              <div class="name_con_title addStar">所属公司</div>
+              <div class="name_con_title">
+                <span class="addStar">所属公司</span>
+              </div>
               <el-select
                 v-model="dialogBelongCompany"
                 clearable
@@ -256,7 +267,9 @@
             </div>
 
             <div class="name_con">
-              <div class="name_con_title addStar">物料名称</div>
+              <div class="name_con_title">
+                <span class="addStar">物料名称</span>
+              </div>
               <el-select
                 v-model="dialogMateName"
                 clearable
@@ -273,35 +286,47 @@
               </el-select>
             </div>
             <div class="name_con">
-              <div class="name_con_title addStar">物料编号</div>
+              <div class="name_con_title">
+                <span class="addStar">物料编号</span>
+              </div>
               <el-input v-model="dialogMateCode" :disabled="true"></el-input>
             </div>
           </div>
           <div class="content_one">
             <div class="name_con">
-              <div class="name_con_title">供应商</div>
+              <div class="name_con_title">
+                <span class="addStar">供应商</span>
+              </div>
               <el-input v-model="dialogSupValue" :disabled="true"></el-input>
             </div>
             <div class="name_con">
-              <div class="name_con_title addStar1">规格</div>
+              <div class="name_con_title">
+                <span class="addStar">规格</span>
+              </div>
               <el-input v-model="dialogSpecValue" :disabled="true"></el-input>
             </div>
 
             <div class="name_con">
-              <div class="name_con_title">品牌</div>
+              <div class="name_con_title">
+                <span class="addStar">品牌</span>
+              </div>
               <el-input v-model="dialogBrandValue" :disabled="true"></el-input>
             </div>
           </div>
           <div class="content_one">
             <div class="name_con">
-              <div class="name_con_title addStar1">数量</div>
+              <div class="name_con_title">
+                <span class="addStar">数量</span>
+              </div>
               <el-input
                 v-model="dialogQuantity"
                 placeholder="请输入数量"
               ></el-input>
             </div>
             <div class="name_con">
-              <div class="name_con_title addStar1">类型</div>
+              <div class="name_con_title">
+                <span class="addStar">类型</span>
+              </div>
               <el-select
                 v-model="dialogTypeValue"
                 clearable
@@ -1160,30 +1185,9 @@ export default {
             content: "*";
             color: red;
             position: absolute;
-            left: 15px;
-            top: 0px;
-          }
-
-          .addStar1 {
-            position: relative;
-          }
-          .addStar1::before {
-            content: "*";
-            color: red;
-            position: absolute;
-            left: 30px;
-            top: 0px;
-          }
-
-          .addStar2 {
-            position: relative;
-          }
-          .addStar2::before {
-            content: "*";
-            color: red;
-            position: absolute;
-            left: 10px;
-            top: 0px;
+            font-size: 20px;
+            left: -8px;
+            top: -30%;
           }
         }
       }

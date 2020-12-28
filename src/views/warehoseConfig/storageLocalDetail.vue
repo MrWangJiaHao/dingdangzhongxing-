@@ -21,8 +21,6 @@
             <div>规格：</div>
             <div>{{ seatCodeData.specName }}</div>
           </div>
-        </div>
-        <div class="inputDiv">
           <div class="text_box">
             <div>品牌：</div>
             <div>{{ seatCodeData.braName }}</div>
@@ -102,17 +100,6 @@
 
 <script>
 export default {
-  // beforeRouteEnter(to, form, next) {
-  //   if (form.name === "/warehoseconfig/storageLocalMap") {
-  //     next((vm) => {
-  //       vm.data = vm.$route.query.kuwei;
-  //     });
-  //   } else {
-  //     next((vm) => {
-  //       vm.$router.push("/warehoseconfig/storageLocalMap");
-  //     });
-  //   }
-  // },
   props: {
     seatCodeData: Object,
   },
@@ -136,36 +123,39 @@ export default {
 @import "../../assets/scss/btn.scss";
 
 .productInfor {
-  padding: 16px;
   background: white;
   .productInfor_title {
+    font-size: 16px;
+    color: #5bb2fe;
+    font-weight: 600;
+    margin-left: 10px;
     position: relative;
-    margin-left: 25px;
   }
   .productInfor_title:after {
     content: "";
-    width: 15px;
-    height: 15px;
+    width: 3px;
+    height: 100%;
+    background: #5bb2fe;
     position: absolute;
-    background: url("../../assets/img/systemTitlemesa.png") no-repeat;
-    left: -25px;
-    top: 3px;
+    left: -10px;
+    top: 0px;
   }
   .inputDiv {
     margin-top: 16px;
     display: flex;
+    flex-wrap: wrap;
     .text_box {
       display: flex;
       align-items: center;
-      margin-right: 16px;
+      margin: 0 20px 16px 0;
       div:nth-of-type(1) {
         white-space: nowrap;
       }
       div:nth-of-type(2) {
         display: inline-block;
         width: 190px;
-        height: 40px;
-        line-height: 40px;
+        height: 34px;
+        line-height: 34px;
         border-radius: 4px;
         padding: 0 30px 0 15px;
         color: rgb(96, 98, 102);
@@ -178,20 +168,27 @@ export default {
 .detailTable {
   .tableBox {
     margin-top: 16px;
-
     table {
-      border: 1px solid #ebeef5;
+      border: 1px solid #d1d6e2;
       text-align: center;
       border-collapse: collapse;
       font-size: 16px;
       tr {
-        border: 1px solid rgb(61, 60, 60);
+        border: 1px solid #d1d6e2;
         td {
-          border: 1px solid rgb(170, 166, 166);
-          padding: 10px 40px;
+          border: 1px solid #d1d6e2;
+          line-height: 34px;
+          white-space: nowrap;
+        }
+        td:nth-of-type(odd) {
+          background: #ecf1f7;
+          padding: 0 16px;
+          text-align: right;
         }
         td:nth-of-type(even) {
-          background: #eeeeee;
+          width: 177px;
+          text-align: left;
+          padding: 0 16px;
         }
       }
     }

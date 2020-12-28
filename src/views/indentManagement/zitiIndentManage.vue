@@ -265,28 +265,24 @@
             <el-table-column
               prop="pushTime"
               label="下发时间"
-              align="left"
               width="180"
               min-width="180"
             ></el-table-column>
             <el-table-column
               prop="mergeStartTime"
               label="集计开始时间"
-              align="left"
               width="180"
               min-width="180"
             ></el-table-column>
             <el-table-column
               prop="mergeEndTime"
               label="集计完成时间"
-              align="left"
               width="180"
               min-width="180"
             ></el-table-column>
             <el-table-column
               prop="printTime"
               label="打印时间"
-              align="left"
               width="180"
               min-width="180"
             ></el-table-column>
@@ -298,14 +294,12 @@
             <el-table-column
               prop="pickStartTime"
               label="拣货开始时间"
-              align="left"
               width="180"
               min-width="180"
             ></el-table-column>
             <el-table-column
               prop="pickEndTime"
               label="拣货完成时间"
-              align="left"
               width="180"
               min-width="180"
             ></el-table-column>
@@ -317,14 +311,12 @@
             <el-table-column
               prop="reCheckStartTime"
               label="复核开始时间"
-              align="left"
               width="180"
               min-width="180"
             ></el-table-column>
             <el-table-column
               prop="reCheckEndTime"
               label="复核完成时间"
-              align="left"
               width="180"
               min-width="180"
             ></el-table-column>
@@ -350,7 +342,6 @@
             <el-table-column
               prop=""
               label="取货时间"
-              align="left"
               width="180"
               min-width="180"
             ></el-table-column>
