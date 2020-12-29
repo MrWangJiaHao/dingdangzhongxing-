@@ -91,7 +91,7 @@
                                 type="selection"
                                 align="center"
                                 width="82"
-                                 fixed="left"
+                                fixed="left"
                         ></el-table-column>
                         <el-table-column
                                 label="序号"
@@ -530,7 +530,6 @@
 
     .userSettingBox {
         .fuzzyQueryBox {
-            display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
