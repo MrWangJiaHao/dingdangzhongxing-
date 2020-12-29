@@ -1,6 +1,6 @@
 <template>
     <div class="dropDownBox">
-        <div v-if="title !== ''" class="titleBox">{{ title }}</div>
+        <div v-if="title !== ''" class="titleBoxCenters">{{ title }}</div>
         <div
                 class="input_box"
                 :class="w320 ? w320 : dropDowBox.w320 ? dropDowBox.w320 : ''"
@@ -76,7 +76,7 @@
         height: 100%;
     }
 
-    .titleBox {
+    .titleBoxCenters {
         margin-right: 11px;
     }
 </style>

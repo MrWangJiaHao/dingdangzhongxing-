@@ -1,6 +1,6 @@
 <template>
     <div class="dateTimeBox displayalign">
-        <div v-if="title !== ''" class="titleBox">{{ title }}</div>
+        <div v-if="title !== ''" class="titleBoxTime">{{ title }}</div>
         <div>
             <Date-picker
                     type="datetime"
@@ -118,7 +118,7 @@
         display: flex;
         align-items: center;
 
-        .titleBox {
+        .titleBoxTime {
             margin-right: 11px;
         }
     }
