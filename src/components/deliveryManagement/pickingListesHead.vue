@@ -112,7 +112,7 @@
                         <div class="mr20 displayalign">
                             <div style="margin-right: 10px">
                                 <dateTime
-                                        :dateTimeData="pushStartTime"
+                                        :dateTimeData="pushsssstartTime"
                                         @getDateTime="getpushStartTime"
                                         ref="putStart"
                                 />
@@ -121,7 +121,7 @@
                             <div class="line"></div>
                             <div>
                                 <dateTime
-                                        :dateTimeData="pushEndTime"
+                                        :dateTimeData="pushssssEndTime"
                                         @getDateTime="getpushEndTime"
                                         ref="putEnd"
                                 />
@@ -188,10 +188,12 @@
                     addressJsonCenter: "",
                 },
                 systemProdName: {systemProdNameArr: []},
-                PayStartTime: {placeholder: "请输入支付开始时间"},
-                payEndTime: {placeholder: "请输入支付结束时间"},
-                pushStartTime: {placeholder: "请选择下发开始时间"},
-                pushEndTime: {placeholder: "请选择下发结束时间"},
+                PayStartTime: {placeholder: "请输入创建开始时间"},
+                payEndTime: {placeholder: "请输入创建结束时间"},
+                pushStartTime: {placeholder: "请选择开始打印时间"},
+                pushEndTime: {placeholder: "请选择结束打印时间"},
+                pushsssstartTime: {placeholder: "请选择开始拣货时间"},
+                pushssssEndTime: {placeholder: "请选择结束拣货时间"},
                 paras: {
                     wareId: getCookie("X-Auth-wareId"),
                     orgId: "",

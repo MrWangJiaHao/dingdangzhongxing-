@@ -13,8 +13,8 @@
         </div>
         <!--  btn arr -->
 
-        <div class="fuzzyQueryBoxs clearfix  ">
-            <div class="biaogeBox dispalywrap ">
+        <div class="fuzzysss clearfix  ">
+            <div class="biaogeBox fl inline dispalywrap ">
                 <inputHeader :buhuodanhaoJson="titleshoushuoJson" ref="titleInputs"
                              @changereplenishOrderNo="titleInput"></inputHeader>
                 <!--标题-->
@@ -34,7 +34,7 @@
                 <!--消息状态-->
             </div>
 
-            <div class="btns   btnArrs ">
+            <div class="btns fr inline btnArrs ">
                 <div class="nowrap">
                     <div class="queryBtn inline mr11 zujianBox"   @click="clickQueryUser">
                         查询
@@ -58,7 +58,13 @@
         </div>
     </div>
 </template>
-
+<style>
+    .fuzzysss {
+        overflow: hidden;
+        position: relative;
+        padding: 20px 30px 4px 30px;
+    }
+</style>
 <script>
     /* eslint-disable */
     import headerKuanjia from "../../components/commin/headerKuanJia";
