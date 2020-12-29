@@ -86,6 +86,10 @@ export default {
             return text;
           },
         },
+        grid:{
+          left:"10%",
+          right:"4%",
+        },
         xAxis: {
           //X坐标轴刻度相关设置。
           data: [
@@ -231,6 +235,8 @@ export default {
             fontSize: 14,
             align: "right",
             verticalAlign: "bottom",
+            padding: [0, -3, 0, 0],
+
           },
           boundaryGap: false,
           min: 0,

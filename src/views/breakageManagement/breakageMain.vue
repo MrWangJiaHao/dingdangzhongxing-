@@ -143,7 +143,7 @@
           tooltip-effect="dark"
           @cell-click="lookDetailEvent"
         >
-          <el-table-column type="selection" width="55" align="center">
+          <el-table-column type="selection" width="82" align="center" fixed="left">
           </el-table-column>
           <el-table-column label="序号" align="center" type="index" width="60">
           </el-table-column>
@@ -265,6 +265,7 @@ export default {
               {
                 types: "prodCode",
                 centerStr: "产品编码",
+                width:200
               },
               {
                 types: "prodName",

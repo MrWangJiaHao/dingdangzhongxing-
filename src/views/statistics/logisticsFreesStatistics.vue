@@ -130,13 +130,13 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55" align="center">
+            <el-table-column type="selection" width="82" align="center"  fixed="left">
             </el-table-column>
             <el-table-column
               label="序号"
               align="center"
               type="index"
-              width="60"
+              width="71"
             >
             </el-table-column>
             <el-table-column prop="orgName" label="委托公司" align="center">
@@ -147,6 +147,7 @@
               prop="orderSourceName"
               label="订单来源"
               align="center"
+              width="160"
             >
             </el-table-column>
             <el-table-column prop="exprName" label="物流公司" align="center">
@@ -157,38 +158,44 @@
             </el-table-column>
             <el-table-column
               prop="predictWeightCount"
-              label="预估总重量（kg）"
-              align="center"
+              label="预估总重量(kg)"
+              align="right"
+              width="140"
             >
             </el-table-column>
             <el-table-column
               prop="predictFeeCount"
-              label="预估总运费（元）"
+              label="预估总运费(元)"
               align="right"
+              width="140"
             >
             </el-table-column>
             <el-table-column
               prop="weightCount"
-              label="称重总重量（kg）"
+              label="称重总重量(kg)"
               align="right"
+              width="140"
             >
             </el-table-column>
             <el-table-column
               prop="feeCount"
-              label="实际总费用（元）"
+              label="实际总费用(元)"
               align="right"
+              width="140"
             >
             </el-table-column>
             <el-table-column
               prop="weightDiff"
-              label="重量总差（kg）"
+              label="重量总差(kg)"
               align="right"
+              width="140"
             >
             </el-table-column>
             <el-table-column
               prop="feeDiff"
-              label="运费总差（元）"
+              label="运费总差(元)"
               align="right"
+              width="140"
             >
             </el-table-column>
           </el-table>

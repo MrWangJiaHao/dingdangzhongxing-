@@ -220,7 +220,7 @@
                   tooltip-effect="dark"
                   @cell-click="outLookDetailEvent"
                 >
-                  <el-table-column type="selection" width="55" align="center">
+                  <el-table-column type="selection" width="82" align="center" fixed="left">
                   </el-table-column>
                   <el-table-column
                     label="序号"
@@ -435,7 +435,7 @@
                   tooltip-effect="dark"
                   @cell-click="unOutLookDetailEvent"
                 >
-                  <el-table-column type="selection" width="55" align="center">
+                  <el-table-column type="selection" width="82" align="center" fixed="left">
                   </el-table-column>
                   <el-table-column
                     label="序号"
@@ -1245,6 +1245,7 @@ export default {
   display: flex;
   justify-content: space-between;
   position: relative;
+  padding: 0 20px;
   .headerInput {
     display: flex;
     flex-wrap: wrap;
@@ -1260,7 +1261,7 @@ export default {
   .header-botton {
     display: flex;
     align-items: flex-end;
-    margin:0 20px 16px 0;
+    margin:0 0 16px 0;
     .bottons {
       display: flex;
       align-items: center;

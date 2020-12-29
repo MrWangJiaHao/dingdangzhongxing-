@@ -31,7 +31,7 @@
                                 {{ ReplenishmentNote.title }}
                             </div>
                             <div
-                                    style="position: absolute; top: 4px; right: 0px; z-index: -1"
+                                    style="position: absolute; top: 4px; right: 10px; z-index: -1"
                             >
                                 <img
                                         :src="
@@ -171,7 +171,7 @@
             </div>
             <!-- 打印的内容 -->
 
-            <div class="tr" style="padding: 20px 20px 20px 0">
+            <div class="tr" style="padding: 0 20px 20px 0">
                 <div class="tijiaoBox mt20 disinb" @click="printWarehouseReceipt">
                     打印
                 </div>

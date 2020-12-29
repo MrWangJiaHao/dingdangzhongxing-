@@ -151,13 +151,13 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55" align="center">
+            <el-table-column type="selection" width="82" align="center" fixed="left">
             </el-table-column>
             <el-table-column
               label="序号"
               align="center"
               type="index"
-              width="60"
+              width="71"
             >
             </el-table-column>
             <el-table-column
@@ -171,7 +171,9 @@
             <el-table-column
               prop="materielName"
               label="物料名称"
-              align="center"
+              align="left"
+              width="150"
+              show-overflow-tooltip
             >
             </el-table-column>
             <el-table-column
@@ -196,7 +198,13 @@
             </el-table-column>
             <el-table-column prop="braName" label="品牌" align="center">
             </el-table-column>
-            <el-table-column prop="supName" label="供应商" align="center">
+            <el-table-column
+              prop="supName"
+              label="供应商"
+              align="center"
+              width="160"
+              show-overflow-tooltip
+            >
             </el-table-column>
             <el-table-column prop="type" label="类型" align="center" width="80">
             </el-table-column>
@@ -1156,17 +1164,21 @@ export default {
             display: flex;
             .name_con {
               display: flex;
-              margin-bottom: 16px;
+              margin: 0 20px 16px 0;
               border: 1px solid #d1d6e2;
               border-radius: 3px;
-              margin-right: 20px;
               .name_con_title {
                 width: 104px;
                 background: #ecf1f7;
                 border-right: 1px solid #d1d6e2;
                 line-height: 34px;
                 color: #000;
-                text-align: center;
+                padding: 0 16px;
+                text-align: right;
+                white-space: nowrap;
+              }
+              .el-select {
+                width: 167px;
               }
               .el-input {
                 width: 167px;
@@ -1176,18 +1188,6 @@ export default {
                 }
               }
             }
-          }
-
-          .addStar {
-            position: relative;
-          }
-          .addStar::before {
-            content: "*";
-            color: red;
-            position: absolute;
-            font-size: 20px;
-            left: -8px;
-            top: -30%;
           }
         }
       }

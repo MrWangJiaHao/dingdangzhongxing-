@@ -73,8 +73,9 @@
           >
             <el-table-column
               type="selection"
-              width="55"
+              width="82"
               align="center"
+               fixed="left"
             ></el-table-column>
             <el-table-column
               label="序号"
@@ -94,14 +95,14 @@
             <el-table-column
               prop="materielName"
               label="物料名称"
-              align="center"
+              align="left"
             >
             </el-table-column>
             <el-table-column prop="specName" label="物料规格" align="center">
             </el-table-column>
             <el-table-column prop="braName" label="品牌" align="center">
             </el-table-column>
-            <el-table-column prop="supName" label="供应商" align="center">
+            <el-table-column prop="supName" label="供应商" align="center" show-overflow-tooltip>
             </el-table-column>
             <el-table-column
               prop="actualInventory"

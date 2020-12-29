@@ -30,6 +30,7 @@
                 type="selection"
                 align="center"
                 width="82"
+                 fixed="left"
               ></el-table-column>
               <el-table-column
                 label="序号"

@@ -15,6 +15,8 @@
                         v-if="tableItem.types == 'selection'"
                         :key="tableIdx"
                         type="selection"
+                         fixed="left"
+                         width="82"
                         :align="tableItem.align || 'center'"
                         :label="tableItem.label"
                 />

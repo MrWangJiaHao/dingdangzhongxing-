@@ -23,12 +23,12 @@
         <div class="newChildWarehouseText">新建子仓</div>
       </div>
       <div class="someInput">
-        <div class="setInput addStar">
-          <span>子仓名称：</span>
+        <div class="setInput">
+          <span class="addStar">子仓名称：</span>
           <el-input v-model="input1" placeholder="请输入子仓名称"></el-input>
         </div>
-        <div class="setInput addStar">
-          <span>子仓编号：</span>
+        <div class="setInput">
+          <span class="addStar">子仓编号：</span>
           <div style="width: 80px">
             <el-select v-model="value1" filterable>
               <el-option
@@ -41,9 +41,11 @@
             </el-select>
           </div>
         </div>
-        <div class="setInput addStar setTransition">
-          <el-checkbox v-model="checked" @change="clickNumber"
-            >数字：</el-checkbox
+        <div class="setInput setTransition">
+          <span class="addStar"
+            ><el-checkbox v-model="checked" @change="clickNumber"
+              >数字：</el-checkbox
+            ></span
           >
           <div style="width: 70px">
             <el-select v-model="value3" filterable>
@@ -57,8 +59,8 @@
             </el-select>
           </div>
         </div>
-        <div class="setInput addStar">
-          <span>子仓长：</span>
+        <div class="setInput">
+          <span class="addStar">子仓长：</span>
           <div style="width: 110px; margin-right: 10px">
             <el-input
               v-model="input2"
@@ -69,8 +71,8 @@
           </div>
           <span>m</span>
         </div>
-        <div class="setInput addStar">
-          <span>子仓宽：</span>
+        <div class="setInput">
+          <span class="addStar">子仓宽：</span>
           <div style="width: 110px; margin-right: 10px">
             <el-input
               v-model="input3"
@@ -81,8 +83,8 @@
           </div>
           <span>m</span>
         </div>
-        <div class="setInput addStar">
-          <span>子仓类型：</span>
+        <div class="setInput">
+          <span class="addStar">子仓类型：</span>
           <div style="width: 150px">
             <el-select
               v-model="value2"
@@ -100,8 +102,8 @@
             </el-select>
           </div>
         </div>
-        <div class="setInput addStar">
-          <span>距北距离：</span>
+        <div class="setInput">
+          <span class="addStar">距北距离：</span>
           <div style="width: 110px; margin-right: 10px">
             <el-input
               v-model="input4"
@@ -113,8 +115,8 @@
 
           <span>m</span>
         </div>
-        <div class="setInput addStar">
-          <span>距西距离：</span>
+        <div class="setInput">
+          <span class="addStar">距西距离：</span>
           <div style="width: 110px; margin-right: 10px">
             <el-input
               v-model="input5"
@@ -483,15 +485,8 @@ export default {
   span {
     white-space: nowrap;
   }
-  .addStar {
-    position: relative;
-  }
   .addStar::before {
-    content: "*";
-    font-size: 20px;
-    color: red;
-    position: absolute;
-    left: -8px;
+    top: 0 !important;
   }
 }
 </style>

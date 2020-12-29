@@ -204,14 +204,9 @@
                   :stripe="true"
                   tooltip-effect="dark"
                 >
-                  <el-table-column type="selection" width="55" align="center">
+                  <el-table-column type="selection" width="82" align="center" fixed="left">
                   </el-table-column>
-                  <el-table-column
-                    label="序号"
-                    align="center"
-                    type="index"
-                    width="55"
-                  >
+                  <el-table-column label="序号" align="center" type="index" width="71">
                   </el-table-column>
                   <el-table-column
                     prop="orgName"
@@ -325,14 +320,9 @@
                   :stripe="true"
                   tooltip-effect="dark"
                 >
-                  <el-table-column type="selection" width="55" align="center">
+                  <el-table-column type="selection" width="82" align="center" fixed="left">
                   </el-table-column>
-                  <el-table-column
-                    label="序号"
-                    align="center"
-                    type="index"
-                    width="55"
-                  >
+                  <el-table-column label="序号" align="center" type="index" width="71">
                   </el-table-column>
                   <el-table-column
                     prop="orgName"

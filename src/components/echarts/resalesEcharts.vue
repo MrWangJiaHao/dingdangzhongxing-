@@ -80,6 +80,10 @@ export default {
           },
         },
         dataset: {},
+        grid:{
+          left:"9%",
+          right:"1%",
+        },
         xAxis: {
           data: [
             {
@@ -143,13 +147,14 @@ export default {
           axisTick: {
             inside: false, //坐标轴刻度是否朝内，默认朝外。
             show: false, //是否显示坐标轴刻度。
+            // alignWidthLabel:false
           },
           axisLabel: {
             textStyle: {
               color: "#999",
             },
           },
-          boundaryGap: false,
+          boundaryGap: true,
         },
         yAxis: {
           name: "单位：件", //坐标轴名称
@@ -159,7 +164,7 @@ export default {
             fontSize: 14,
             align: "right",
             verticalAlign: "bottom",
-            padding: [0, 18, 0, 0],
+            padding: [0, -23, 0, 0],
           },
           axisLine: {
             //坐标轴轴线相关设置。
@@ -180,7 +185,7 @@ export default {
             textStyle: {
               color: "#999",
             },
-            margin: 42,
+            margin: 0,
           },
         },
         series: [
