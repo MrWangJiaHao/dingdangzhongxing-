@@ -152,7 +152,7 @@
           <el-table-column
             prop="damageOrderNo"
             label="报损单号"
-            min-width="100"
+            min-width="150"
             align="center"
           >
             <template slot-scope="scope">

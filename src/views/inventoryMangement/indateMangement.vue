@@ -769,7 +769,7 @@ export default {
                 white-space: nowrap;
               }
               .rightBox {
-                width: 230px;
+                width: 190px;
                 .ivu-input {
                   border: none;
                 }

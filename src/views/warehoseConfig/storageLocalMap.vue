@@ -253,6 +253,7 @@
                     label="存储区"
                     align="center"
                     show-overflow-tooltip
+                    width="150"
                   ></el-table-column>
                   <el-table-column
                     prop="wareSeatCode1"
@@ -372,6 +373,8 @@
                     prop="wareAreaName"
                     label="拣货区"
                     align="center"
+                    width="150"
+                    show-overflow-tooltip
                   ></el-table-column>
                   <el-table-column
                     prop="wareSeatCode1"
