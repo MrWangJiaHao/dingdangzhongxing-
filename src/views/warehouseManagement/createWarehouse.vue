@@ -601,9 +601,6 @@
                     display: flex;
                     align-items: center;
 
-                    > div {
-                        margin-right: 20px;
-                    }
                 }
             }
 

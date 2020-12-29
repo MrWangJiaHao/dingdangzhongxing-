@@ -1,27 +1,37 @@
 <template>
     <div>
-
-        <div class="fuzzyQueryBoxs clearfix  ">
-            <div class="biaogeBox dispalywrap ">
+        <headerKuanJia @clickQueryUser="clickQueryUser " @clearInputAll="clearInputAll">
+            <template>
                 <xialaHeader :xialaJson="delegationJson" @weiTuoGonShiClick="weiTuoGonShiClick"></xialaHeader>
-            </div>
-            <div class="btns   btnArrs ">
-                <div class="nowrap">
-                    <div class="queryBtn inline mr11 zujianBox"   @click="clickQueryUser">
-                        查询
-                    </div>
-                    <div class="clearBtn inline" @click="clearInputAll">清空</div>
-                </div>
-            </div>
-        </div>
-        <!--        header top-->
-        <div class="btnArr   pd10">
+                <inputHeader :buhuodanhaoJson="{
+                    title: '产品名称',
+                    placeholder:'请输入产品名称'
+                }"></inputHeader>
+                <inputHeader :buhuodanhaoJson="{
+                    title: '产品编码',
+                    placeholder:'请输入产品编码'
+                }"></inputHeader>
+                <xialaHeader :xialaJson="{
+                    title:'产品规格',
+                    placeholder:'请选择产品规格'
+                }" @weiTuoGonShiClick="weiTuoGonShiClick"></xialaHeader>
+                <xialaHeader :xialaJson="{
+                    title:'品牌',
+                    placeholder:'请选择品牌'
+                }" @weiTuoGonShiClick="weiTuoGonShiClick"></xialaHeader>
+                <xialaHeader :xialaJson="{
+                    title:'组合类型',
+                    placeholder:'请选择组合类型'
+                }" @weiTuoGonShiClick="weiTuoGonShiClick"></xialaHeader>
+            </template>
+        </headerKuanJia>
+        <!-- header top-->
+        <div class="btnArr pd10">
             <div class="backFF botD1 pd20">
                 <div class="meiyiyetitle pd30">产品信息</div>
             </div>
             <!-- but按钮 -->
         </div>
-
         <div class="tableBox pd10">
             <div class="tableBoxCol">
                 <tableCommin
@@ -45,16 +55,18 @@
     import xialaHeader from "../../components/headerCommin/xialaHeader";
     import tableCommin from "../../components/commin/tableCommin";
     import pageComponent from "../../components/commin/pageComponent";
-    // Heavy
+    import inputHeader from "../../components/headerCommin/inputHeader";
     import {Heavy} from "../../utils/validate";
-
+    import headerKuanJia from "../../components/commin/headerKuanJia";
 
     export default {
         name: "delegationInformation",
         components: {
             xialaHeader,
             tableCommin,
-            pageComponent
+            pageComponent,
+            inputHeader,
+            headerKuanJia
         },
         data() {
             let self = this
@@ -125,7 +137,13 @@
                     pageNumber: 1,
                     pageSize: 10,
                     paras: {
-                        id: ""
+                        id: "",
+                        orgId: "",
+                        prodName: "",
+                        prodCode: "",
+                        prodType: "",
+                        braId: "",
+                        specId: ""
                     }
                 }
             }

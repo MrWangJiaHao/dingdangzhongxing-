@@ -1,14 +1,18 @@
 <template>
     <div class="setUserIngBox" id="dindanlaiyuan">
-        <kuanjiaClick :titles='editSavaRecord ? "编辑发货规则" : "创建发货规则"'
+        <kuanjiaClick :titles='lookerRecord?"查看发货规则配置":editSavaRecord ? "编辑发货规则" : "创建发货规则" '
+                      
                       @closeBtn="closeBtn"
-                      width="540" @clickSubmit="goAJAXCreate">
+                      :is-looker="lookerRecord"
+                      print="关闭"
+                      width="1000" @clickSubmit="goAJAXCreate">
             <template>
                 <div class="mt20"></div>
                 <div
-                        class="mb20 padBottom"
+                        class="mb20 w980  pd20"
                         v-for="(item, idx) in CenterJson"
                         :key="idx"
+                        :class="item.title!='订单数量'?'botD1':''"
                 >
                     <div>
                         <div v-if="item.title" class="setTitle">
@@ -86,11 +90,11 @@
                             <!-- 订单集计规则 -->
                         </div>
                         <div v-if="item.placeholder" class="displayalign dindanshulian mb20">
-                            <div class="noneIconTitle mr20 ">
+                            <div class="noneIconTitle mr20 mb20">
                                 <span v-if="item.isImportant" class="colred">*</span>
                                 {{ item.title }}
                             </div>
-                            <div v-if="item.placeholder" class="">
+                            <div v-if="item.placeholder" class="mb20">
                                 <el-input
                                         class="w160"
                                         v-model="sendDataJson.orderNum"

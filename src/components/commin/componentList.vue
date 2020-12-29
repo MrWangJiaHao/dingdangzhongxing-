@@ -34,8 +34,8 @@
                                     style="position: absolute; top: 4px; right: 10px; z-index: -1"
                             >
                                 <img
-                                        :src="
-                    'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
+                                        :src="baseurl+
+                    '/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
                     ReplenishmentNote.replenishOrderNo
                   "
                                         width="300"
@@ -186,6 +186,7 @@
         data() {
             return {
                 Newtime: "",
+                baseurl: sessionStorage.getItem("baseUrl")
             };
         },
         props: {

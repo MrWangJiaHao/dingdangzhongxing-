@@ -1,6 +1,6 @@
 <template>
   <div class="dropDownBox">
-    <div v-if="title!==''" class="titleBox">{{title}}</div>
+    <div v-if="title!==''" class="titleBoxCenter">{{title}}</div>
     <div class="input_box">
       <el-select
         v-model="select"
@@ -62,7 +62,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-.dropDownBox .titleBox {
+.dropDownBox .titleBoxCenter {
   margin-right: 11px;
 }
 </style>

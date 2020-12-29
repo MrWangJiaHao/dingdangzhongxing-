@@ -1,5 +1,5 @@
 <template>
-    <headerKuanJia @clickQueryUser="clickQueryUser" @clearInputAll="clearInputAll">
+    <headerKuanJia @clickQueryUser="clickQueryUser" left-width="98%" @clearInputAll="clearInputAll">
         <template>
             <div class="displayalign mb16 zujianBox">
                 <div class="noneIconTitle mr11">委托公司:</div>

@@ -1,12 +1,13 @@
 <template>
-    <div class="setUserIngBox">
-        <div class="setUserIngBoxCenter">
+    <div class="">
+        <div>
             <kuanjiaClick titles="打印发货清单" @closeBtn="closeBtn" :isLookerShow="false"
                           print="打印"
-                          width="574"
+                          width="490"
+                          min-height="552"
                           @clickSubmit="printWarehouseReceipt">
                 <template slot="centerKuanjia">
-                    <div id="printCenter" class="displayColom botD1 mb16 centerBox">
+                    <div id="printCenter" style="width: 490px" class="displayColom  mt20">
                         <div
                                 style="
             width: 450px;
@@ -172,7 +173,7 @@
                 const sums = [];
                 columns.forEach((column, index) => {
                     if (index === 0) {
-                        sums[index] = "总价";
+                        sums[index] = "合计";
                         return;
                     }
                     const values = data.map((item) => Number(item[column.property]));
@@ -186,7 +187,7 @@
                             }
                         }, 0);
                     } else {
-                        sums[index] = "--";
+                        sums[index] = "——";
                     }
                 });
                 return sums;
@@ -254,7 +255,7 @@
             left: 50%;
             transform: translateX(-50%);
             background: #fff;
-            width: 574px;
+
             overflow: auto;
 
             .centerBox {

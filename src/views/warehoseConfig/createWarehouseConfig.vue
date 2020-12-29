@@ -65,11 +65,12 @@
                             区域名称
                             :
                         </div>
-                        <div class="mr20 w150">
+                        <div class="mr20 w170">
                             <el-input
                                     maxlength="30"
                                     placeholder="请输入区域名称"
                                     @input="createDomTestWareName"
+                                    class="mr10"
                                     v-model="createWarehouseJson.wareAreaName"
                                     clearable
                             ></el-input>
@@ -77,12 +78,12 @@
                     </div>
                     <!-- 区域名称 createWarehouseJson.wareAreaName -->
                     <div class="displayalign mb20">
-                        <div class="noneIconTitle mr11">
+                        <div class="noneIconTitle  mr11">
                             <span class="colred">*</span>
                             区域类型
                             :
                         </div>
-                        <div class="mr20 w150">
+                        <div class="mr20 w170">
                             <el-select
                                     v-model="wareAreaCodeChange.wareAreaName"
                                     placeholder="请选择区域类型"
@@ -157,28 +158,30 @@
                             区域长度
                             :
                         </div>
-                        <div class="displayalign mr20 w140">
+                        <div class="displayalign mr20 w180">
                             <el-input
                                     placeholder="请输入子仓长度"
                                     type="number"
+                                    class="mr10"
                                     v-model="createWarehouseJson.wareAreaLength"
                                     clearable
                                     @input="createDomTestwareAreaLength"
                             ></el-input>
-                            <span class="M">m</span>
+                            <div class="M mr10">m</div>
                         </div>
                     </div>
                     <!-- 区域长度 createWarehouseJson.wareAreaLength m-->
-                    <div class="displayalign mb20 mr11">
+                    <div class="displayalign mb20 mr20">
                         <div class="noneIconTitle mr11">
                             <span class="colred">*</span>
                             区域宽度
                             :
                         </div>
-                        <div class="displayalign w150">
+                        <div class="displayalign w160">
                             <el-input
                                     placeholder="请输入子仓宽度"
                                     type="number"
+                                    class="mr10"
                                     v-model="createWarehouseJson.wareAreaWidth"
                                     @input="createDomTestwareAreaWidth"
                                     clearable
@@ -187,17 +190,19 @@
                         <span class="M">m</span>
                     </div>
                     <!-- 区域宽度 createWarehouseJson.wareAreaWidth m-->
-                    <div class="displayalign mb20 mr11">
+                    <div class="displayalign mb20 mr20">
                         <div class="noneIconTitle mr11">
                             <span class="colred">*</span>
                             据北距离
                             :
                         </div>
-                        <div class="displayalign w150">
+                        <div class="displayalign w160">
                             <el-input
                                     placeholder="请输入据北距离"
                                     v-model="createWarehouseJson.y"
                                     type="number"
+                                    class="mr10"
+
                                     @input="createDomTesty"
                                     clearable
                             ></el-input>
@@ -205,16 +210,18 @@
                         <span class="M">m</span>
                     </div>
                     <!-- 据北距离 m createWarehouseJson.y -->
-                    <div class="displayalign mb20 mr11">
+                    <div class="displayalign mb20 ">
                         <div class="noneIconTitle mr11">
                             <span class="colred">*</span>
                             据西距离
                             :
                         </div>
-                        <div class="displayalign w150">
+                        <div class="displayalign w160">
                             <el-input
                                     placeholder="请输入据西距离"
                                     type="number"
+                                    class="mr10"
+
                                     v-model="createWarehouseJson.x"
                                     @input="createDomTestX"
                                     clearable

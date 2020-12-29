@@ -1,154 +1,196 @@
 <template>
-  <div id="fahuoguanli">
-    <div class="manualBox">
-      <div>
-        <manualHeader @getParasJson="getParasJson" :tableData="tableData" />
+  <div class="manualBox">
+    <manualHeader @getParasJson="getParasJson" :tableData="tableData" />
+    <div class="btnArr">
+      <div style="background-color: #fff">
+        <div class="meiyiyetitle">拣货单管理</div>
+        <div class="btnClick">
+          <div class="setUser mr11" @click="TovoidClick">作废</div>
+          <div class="setUser" @click="printPicking">打印拣货单</div>
+        </div>
       </div>
-      <div class="btnArr">
-        <div style="background-color: #fff">
-          <div class="meiyiyetitle">拣货单管理</div>
-          <div class="btnClick">
-            <div class="setUser mr11" @click="TovoidClick">作废</div>
-            <div class="setUser" @click="printPicking">打印拣货单</div>
+      <!-- but按钮 -->
+    </div>
+    <div class="tableBox">
+      <div style="background-color: #fff; padding: 16px 20px 16px 20px">
+        <div class="center">
+          <el-table
+            ref="multipleTable"
+            :data="tableData"
+            :stripe="true"
+            :border="true"
+            tooltip-effect="dark"
+            style="width: 100%"
+            @selection-change="handleSelectionChange"
+          >
+            <el-table-column
+              type="selection"
+              align="center"
+              width="82"
+              fixed="left"
+            ></el-table-column>
+            <el-table-column
+              label="序号"
+              type="index"
+              align="center"
+              width="71"
+              show-overflow-tooltip
+            />
+            <el-table-column
+              label="拣货单号"
+              width="119"
+              prop="pickOrderNo"
+              show-overflow-tooltip
+            />
+            <el-table-column
+              width="119"
+              label="拣货单状态"
+              prop="printExprStatus"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+            <div slot-scope="scoped">
+              {{ scoped.row.printExprStatus ? "已打印" : "未打印" }}
+            </div>
+            <!-- but按钮 -->
+          </el-table>
+        </div>
+        <div class="tableBox">
+          <div class="tableBoxCol">
+            <div class="center">
+              <el-table
+                ref="multipleTable"
+                :data="tableData"
+                :stripe="true"
+                :border="true"
+                tooltip-effect="dark"
+                style="width: 100%"
+                @selection-change="handleSelectionChange"
+              >
+                <el-table-column
+                  type="selection"
+                  align="center"
+                  width="82"
+                ></el-table-column>
+                <el-table-column
+                  label="序号"
+                  type="index"
+                  align="center"
+                  width="71"
+                  show-overflow-tooltip
+                />
+                <el-table-column
+                  label="拣货单号"
+                  width="119"
+                  prop="pickOrderNo"
+                  show-overflow-tooltip
+                />
+                <el-table-column
+                  width="119"
+                  label="拣货单状态"
+                  prop="printExprStatus"
+                  show-overflow-tooltip
+                >
+                  <div slot-scope="scoped">
+                    {{ scoped.row.printExprStatus ? "已打印" : "未打印" }}
+                  </div>
+                </el-table-column>
+                <el-table-column
+                  width="119"
+                  label="打印次数"
+                  prop="orderCount"
+                  align="center"
+                  show-overflow-tooltip
+                ></el-table-column>
+                <el-table-column
+                  label="订单数量"
+                  align="center"
+                  prop="orderCount"
+                  show-overflow-tooltip
+                >
+                </el-table-column>
+                <el-table-column
+                  label="产品种类"
+                  prop="subOrderNo"
+                  show-overflow-tooltip
+                >
+                  <span slot-scope="scoped">
+                    <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
+                      {{ scoped.row.subOrderNo }}
+                    </div>
+                  </span>
+                </el-table-column>
+                <el-table-column
+                  width="119"
+                  label="产品数量"
+                  align="center"
+                  prop="prodCount"
+                  show-overflow-tooltip
+                ></el-table-column>
+                <el-table-column
+                  label="创建时间"
+                  width="250"
+                  prop="createTime"
+                ></el-table-column>
+                <el-table-column
+                  label="打印时间"
+                  width="160"
+                  prop="printTime"
+                ></el-table-column>
+                <el-table-column
+                  label="打印人"
+                  width="250"
+                  prop="pickUserName"
+                  show-overflow-tooltip
+                ></el-table-column>
+                <el-table-column
+                  label="拣货开始时间"
+                  prop="pickStartTime"
+                  width="250"
+                  show-overflow-tooltip
+                ></el-table-column>
+                <el-table-column
+                  label="拣货完成时间"
+                  prop="pickEndTime"
+                  width="250"
+                  show-overflow-tooltip
+                ></el-table-column>
+                <el-table-column
+                  label="拣货人员"
+                  prop="pickUserName"
+                  width="250"
+                  show-overflow-tooltip
+                ></el-table-column>
+              </el-table>
+            </div>
+            <!-- 表格主体 -->
+            <div class="pageComponent">
+              <pagecomponent
+                :pageComponentsData="pageComponentsData"
+                @getPageNum="getPageNum"
+                @sureSuccssBtn="sureSuccssBtn"
+              />
+            </div>
           </div>
         </div>
-        <!-- but按钮 -->
+        <!-- table-biaoge -->
       </div>
-      <div class="tableBox">
-        <div style="background-color: #fff; padding: 16px 20px 16px 20px">
-          <div class="center">
-            <el-table
-              ref="multipleTable"
-              :data="tableData"
-              :stripe="true"
-              :border="true"
-              tooltip-effect="dark"
-              style="width: 100%"
-              @selection-change="handleSelectionChange"
-            >
-              <el-table-column
-                type="selection"
-                align="center"
-                width="82"
-                 fixed="left"
-              ></el-table-column>
-              <el-table-column
-                label="序号"
-                type="index"
-                align="center"
-                width="71"
-                show-overflow-tooltip
-              />
-              <el-table-column
-                label="拣货单号"
-                width="119"
-                prop="pickOrderNo"
-                show-overflow-tooltip
-              />
-              <el-table-column
-                width="119"
-                label="拣货单状态"
-                prop="printExprStatus"
-                show-overflow-tooltip
-              >
-                <div slot-scope="scoped">
-                  {{ scoped.row.printExprStatus ? "已打印" : "未打印" }}
-                </div>
-              </el-table-column>
-              <el-table-column
-                width="119"
-                label="打印次数"
-                prop="orderCount"
-                align="center"
-                show-overflow-tooltip
-              ></el-table-column>
-              <el-table-column
-                label="订单数量"
-                align="center"
-                prop="orderCount"
-                show-overflow-tooltip
-              >
-              </el-table-column>
-              <el-table-column
-                label="产品种类"
-                prop="subOrderNo"
-                show-overflow-tooltip
-              >
-                <span slot-scope="scoped">
-                  <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
-                    {{ scoped.row.subOrderNo }}
-                  </div>
-                </span>
-              </el-table-column>
-              <el-table-column
-                width="119"
-                label="产品数量"
-                align="center"
-                prop="prodCount"
-                show-overflow-tooltip
-              ></el-table-column>
-              <el-table-column
-                label="创建时间"
-                width="250"
-                prop="createTime"
-              ></el-table-column>
-              <el-table-column
-                label="打印时间"
-                width="160"
-                prop="printTime"
-              ></el-table-column>
-              <el-table-column
-                label="打印人"
-                width="250"
-                prop="pickUserName"
-                show-overflow-tooltip
-              ></el-table-column>
-              <el-table-column
-                label="拣货开始时间"
-                prop="pickStartTime"
-                width="250"
-                show-overflow-tooltip
-              ></el-table-column>
-              <el-table-column
-                label="拣货完成时间"
-                prop="pickEndTime"
-                width="250"
-                show-overflow-tooltip
-              ></el-table-column>
-              <el-table-column
-                label="拣货人员"
-                prop="pickUserName"
-                width="250"
-                show-overflow-tooltip
-              ></el-table-column>
-            </el-table>
-          </div>
-          <!-- 表格主体 -->
-          <div class="pageComponent">
-            <pagecomponent
-              :pageComponentsData="pageComponentsData"
-              @getPageNum="getPageNum"
-              @sureSuccssBtn="sureSuccssBtn"
+      <!-- 拣货单 start -->
+      <div v-show="isJianHuoDanShow" class="bjBox">
+        <transition
+          enter-active-class="animate__animated animate__zoomIn"
+          leave-active-class="animate__animated animate__zoomOut"
+        >
+          <div v-if="isJianHuoDanShow">
+            <pickingList
+              :detailsJianHuoDan="detailsJianHuoDan"
+              @getiscaigoudanDetail="getiscaigoudanDetail"
             />
           </div>
-        </div>
+        </transition>
       </div>
-      <!-- table-biaoge -->
+      <!-- 拣货单 end -->
     </div>
-    <!-- 拣货单 start -->
-    <div v-show="isJianHuoDanShow" class="bjBox">
-      <transition
-        enter-active-class="animate__animated animate__zoomIn"
-        leave-active-class="animate__animated animate__zoomOut"
-      >
-        <div v-if="isJianHuoDanShow">
-          <div>
-            <pickingList @getiscaigoudanDetail="getiscaigoudanDetail" />
-          </div>
-        </div>
-      </transition>
-    </div>
-    <!-- 拣货单 end -->
   </div>
 </template>
 
@@ -162,7 +204,6 @@ import {
   pDeliverGoodsUpdatePrintExprStatus,
   pOrgPickOrderPickCancle,
 } from "../../api/api";
-import { _getArrTarget } from "../../utils/validate";
 
 export default {
   components: {
@@ -177,6 +218,7 @@ export default {
       pageComponentsData: {
         pageNums: 0, //一共多少条 //默认一页10
       },
+      detailsJianHuoDan: {},
       sendOutDataJson: {
         paras: {
           orgName: "",
@@ -237,10 +279,10 @@ export default {
       ])
         .then((res) => {
           if (res.code == "10000") {
-            this.$messageSelf.message({message:res.msg,type:"success"});
+            this.$messageSelf.message({ message: res.msg, type: "success" });
             this.getTableData();
           } else {
-            this.$messageSelf.message({message:res.msg,type:"error"});
+            this.$messageSelf.message({ message: res.msg, type: "error" });
           }
         })
         .catch((err) => err);
@@ -257,13 +299,17 @@ export default {
       ])
         .then((res) => {
           if (res.code == "10000") {
-            this.$messageSelf.message({message:res.msg,type:"success"});
+            this.detailsJianHuoDan = this.multipleSelection[0];
+            this.isJianHuoDanShow = true;
+            console.log(res);
             this.getTableData();
           } else {
-            this.$messageSelf.message({message:res.msg,type:"error"});
+            this.$messageSelf.message({ message: res.msg, type: "error" });
           }
         })
-        .catch((err) => this.$messageSelf.message({message:"出错啦~~",type:"error"}));
+        .catch((err) =>
+          this.$messageSelf.message({ message: "出错啦~~", type: "error" })
+        );
     },
     goToDetailOut(e) {
       sessionStorage.setItem("warehouseDetails", JSON.stringify(e));
@@ -282,7 +328,10 @@ export default {
     //打印拣货单
     printPicking() {
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message({message:"请选择要打印的拣货单~~",type:"warning"});
+        return this.$messageSelf.message({
+          message: "请选择要打印的拣货单~~",
+          type: "warning",
+        });
       this.$messageSelf
         .confirms(
           `共选中${this.multipleSelection.length}笔拣货单，${this.multipleSelection.length}笔订单，确认打印吗？`,
@@ -306,11 +355,10 @@ export default {
     //获取table表格内容
     async getTableData(fn) {
       let datas = await pOrgPickOrderfindRecordPage(this.sendOutDataJson);
-      console.log(datas, "拣货单管理");
       if (datas.code == "10000") {
         this._changeDatas(datas.result);
       } else {
-        this.$messageSelf.message({message:datas.msg,type:"error"});
+        this.$messageSelf.message({ message: datas.msg, type: "error" });
       }
       fn && fn(datas);
       return datas;
@@ -332,11 +380,6 @@ export default {
   display: flex;
   align-self: center;
   justify-content: center;
-}
-
-.manualBox {
-  // border-top: 1px solid #d1d6e2;
-  // background-color: rgb(232, 233, 236);
 }
 
 .btnArr {

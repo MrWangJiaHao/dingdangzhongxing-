@@ -17,10 +17,10 @@ class isDisplayNoneBlock {
         this.parent.style.marginBottom = 16 + "px";
         console.log(this.parentHeight, 'isChaXun')
         if (parentHeight > 126) {
-            parent.style.height = 105 + "px";
+            parent.style.height = 110 + "px";
             this.createDomPush(child);
         } else {
-            parent.style.height = 105 + "px";
+            parent.style.height = 110 + "px";
         }
     }
 
@@ -40,7 +40,7 @@ class isDisplayNoneBlock {
         div.innerText = "展示"
         div.classList.toggle("isclickMes")
         self.parent.style.marginBottom = 16 + "px";
-        self.parent.style.height = 104 + "px";
+        self.parent.style.height = 110 + "px";
         self.child.style.bottom = "0" + "px";
     }
 

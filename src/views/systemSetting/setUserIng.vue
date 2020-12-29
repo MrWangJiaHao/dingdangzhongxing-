@@ -3,15 +3,16 @@
         <kuanjiaClick titles="创建用户" @closeBtn="closeBtn" @clickSubmit="goAJAXCreate">
             <template slot="centerKuanjia">
                 <div class="w1000">
-                    <div class="centerBox">
+                    <div class="centerBox botD1">
                         <div class="setTitle">个人信息</div>
                         <div class="gerxinxiBox">
                             <div class="xinxiBitian">
                                 <div>
                                     <div class="displayalign">
                                         <div class="noneIconTitle mr11">
+                                            <span class="colred">*</span>
                                             用户姓名
-                                            <span class="colred">*</span>:
+                                            :
                                         </div>
                                         <div class="mr20">
                                             <searchBox
@@ -24,9 +25,9 @@
                                 <!-- 用户姓名 -->
                                 <div>
                                     <div class="displayalign">
-                                        <div class="noneIconTitle mr11">
+                                        <div class="noneIconTitle mr11"><span class="colred">*</span>
                                             联系电话
-                                            <span class="colred">*</span>:
+                                            :
                                         </div>
                                         <div class="mr20">
                                             <el-input
@@ -45,8 +46,9 @@
                                 <div class="mr20">
                                     <div class="displayalign">
                                         <div class="noneIconTitle mr11">
+                                            <span class="visibilityHidden">*</span>
                                             居住住址
-                                            <span class="visibilityHidden">*</span>:
+                                            :
                                         </div>
                                         <div>
                                             <dropDowbox
@@ -76,11 +78,11 @@
                                 <!-- 区/县 -->
                             </div>
                             <div class="textAreaBox">
-            <textarea
-                    placeholder="请输入详细地址"
-                    v-model="createUserData.userAddr"
-                    maxlength="200"
-            ></textarea>
+                                <textarea
+                                        placeholder="请输入详细地址"
+                                        v-model="createUserData.userAddr"
+                                        maxlength="200"
+                                ></textarea>
                             </div>
                             <!-- 居住地址 -->
                         </div>
@@ -91,8 +93,9 @@
                         <div class="displayalign mb20">
                             <div class="displayalign">
                                 <div class="noneIconTitle mr11">
+                                    <span class="colred">*</span>
                                     用户账号
-                                    <span class="colred">*</span>:
+                                    :
                                 </div>
                                 <div class="mr20">
                                     <searchBox
@@ -105,8 +108,10 @@
                             <!-- 用户账号 -->
                             <div class="displayalign">
                                 <div class="noneIconTitle mr11">
-                                    <span class="visibilityHidden">你好</span>密码
-                                    <span class="colred">*</span>:
+                                    <span class="visibilityHidden">你好</span>
+                                    <span class="colred">*</span>
+                                    密码
+                                    :
                                 </div>
                                 <div>
                                     <el-input
@@ -125,8 +130,9 @@
                             <div class="displayalign">
                                 <div class="displayalign">
                                     <div class="noneIconTitle mr11">
+                                        <span class="colred">*</span>
                                         用户角色
-                                        <span class="colred">*</span>:
+                                        :
                                     </div>
                                     <div class="mr20">
                                         <dropDownUserType
@@ -140,8 +146,9 @@
                             <div>
                                 <div class="displayalign">
                                     <div class="noneIconTitle mr11">
+                                        <span class="colred">*</span>
                                         用户邮箱
-                                        <span class="colred">*</span>:
+                                        :
                                     </div>
                                     <div>
                                         <el-input
@@ -160,13 +167,10 @@
                         <!-- 账号信息 -->
                         <div>
                             <div class="dispalyFlex mb20">
-                                <div class="noneIconTitle dispalyFlex mr11 fosi0">
-                                    <span class="fosi14 visibilityHidden">你好</span>
-                                    <span class="fosi14">备注</span>
-                                    <span class="fosi14 visibilityHidden">*</span>
-                                    <span class="fosi14">:</span>
+                                <div class="w69 tr">
+                                    备注:
                                 </div>
-                                <div class="bzTetxArea">
+                                <div class="bzTetxArea ml11">
               <textarea
                       placeholder="请输入备注"
                       v-model="createUserData.remark"
@@ -486,18 +490,15 @@
                     display: flex;
                     align-items: center;
 
-                    > div {
-                        margin-right: 20px;
-                    }
                 }
             }
         }
 
         .textAreaBox {
             font-size: 14px;
-            width: 72%;
+            width: 67%;
             height: 40px;
-            margin-left: 80px;
+            display: flex;
 
             > textarea {
                 color: #606266;
@@ -512,7 +513,7 @@
 
         .bzTetxArea {
             font-size: 14px;
-            width: 81%;
+            width: 67%;
             height: 80px;
 
             > textarea {

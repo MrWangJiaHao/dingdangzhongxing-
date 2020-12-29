@@ -1,8 +1,8 @@
 <template>
     <div id="fahuoguanli">
         <div class="manualBox">
-            <div class="fuzzyQueryBoxs clearfix mb16 ">
-                <div class="biaogeBox dispalywrap ">
+            <div class="fuzzyQuerywrap clearfix mb16 ">
+                <div class="biaogeBox fl inline  dispalywrap">
                     <div class="zujianBox">
                         <div class="displayalign zujianBox">
                             <div class="noneIconTitle nowrap mr11">拣货单号:</div>
@@ -15,8 +15,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="btns   btnArrs ">
+                <div class="btns fr inline btnArrs ">
                     <div class="nowrap">
                         <div class="queryBtn inline mr11 zujianBox"   @click="queryBtns">
                             查询
@@ -53,12 +52,12 @@
                                     type="selection"
                                     align="center"
                                     width="82"
-                                     fixed="left"
+                                    fixed="left"
                             ></el-table-column>
                             <el-table-column
                                     label="序号"
                                     type="index"
-                                    
+                                    width="82"
                                     align="center"
                                     show-overflow-tooltip
                             />
@@ -190,9 +189,10 @@
                 pDeliverGoodsprintDeliverGoods([
                     {id: this.multipleSelection[0].id},
                 ]).then((res) => {
-                    if (res.code == "10000") {
-                        this.$messageSelf.message({message: res.msg, type: "success"});
-                    }
+                    console.log(res)
+                    // if (res.code == "10000") {
+                    //     this.$messageSelf.message({message: res.msg, type: "success"});
+                    // }
                 });
             },
             goToDetailOut(e) {
@@ -283,6 +283,14 @@
         display: flex;
         align-self: center;
         justify-content: center;
+    }
+
+    .fuzzyQuerywrap {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        overflow: hidden;
+        position: relative;
+        padding: 20px 30px 4px 30px;
     }
 
     .manualBox {

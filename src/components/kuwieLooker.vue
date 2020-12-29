@@ -25,15 +25,15 @@
                             >
                                 {{ zuS.shelfDist }}m
                             </div>
-                            <span class="kouweiCss" v-if="zuS.shelfDist">
+                            <span class="kouweiCss" v-if="zuS.shelfDist && item.groups.length != 1">
                                 S口
                             </span>
                             <span class="kouweiCss Down"
-                                  v-if="zuS.shelfDist"
+                                  v-if="zuS.shelfDist && item.groups.length != 1"
                             >
                                 B口
                             </span>
-                            <span class="centerWenZi" v-if="zuS.shelfDist">
+                            <span class="centerWenZi" v-if="zuS.shelfDist && item.groups.length != 1">
                                 A0101
                             </span>
                             <!-- 组与组之间的距离 -->

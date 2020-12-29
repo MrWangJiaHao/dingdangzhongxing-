@@ -2,7 +2,7 @@
     <div>
         <headerKuanJia @clickQueryUser="queryCenter" @clearInputAll="clearInters">
             <template>
-                <div class="inline mr11 mb16">
+                <div class="inline mr20 mb16">
                     <dropDownXiala
                             :w320="'w320'"
                             :dropDowBox="wieTuoGonShiJson"
@@ -12,28 +12,28 @@
                     />
                 </div>
                 <!-- 委托公司 -->
-                <div class="inline mr11 mb16">
+                <div class="inline mr20 mb16">
                     <searchBox
                             @changeInputs="changereplenishOrderNo"
                             :searchCenter="buhuodanhaoJson"
                     />
                 </div>
                 <!-- 补货单号 -->
-                <div class="inline mr11 mb16">
+                <div class="inline mr20 mb16">
                     <searchBox
                             @changeInputs="changprodNumeJson"
                             :searchCenter="prodNumeJson"
                     />
                 </div>
                 <!-- 产品名称 -->
-                <div class="inline mr11 mb16">
+                <div class="inline mr20 mb16">
                     <searchBox
                             @changeInputs="changprodCodeJson"
                             :searchCenter="prodCodeJson"
                     />
                 </div>
                 <!-- 产品编码 -->
-                <div class="inline mr11 mb16">
+                <div class="inline mr20 mb16">
                     <dropDownXiala
                             :dropDowBox="specNameJson"
                             @cliclInput="specNameClick"
@@ -42,7 +42,7 @@
                     />
                 </div>
                 <!-- 请选择产品规格 -->
-                <div class="inline mr11 mb16">
+                <div class="inline mr20 mb16">
                     <dropDownXiala
                             :dropDowBox="disposeStatusJson"
                             @cliclInput="disposeStatusClick"
@@ -51,7 +51,7 @@
                     />
                 </div>
                 <!-- 补货状态 -->
-                <div class="inline mr11 mb16">
+                <div class="inline mr20 mb16">
                     <dropDownXiala
                             :dropDowBox="orderSourceJson"
                             @cliclInput="orderSourceClick"
@@ -60,7 +60,7 @@
                     />
                 </div>
                 <!-- 补货类型 -->
-                <div class="inline mr11 mb16">
+                <div class="inline mr20 mb16">
                     <div class="displayalign zujianBox">
                         <div class="noneIconTitle mr11">创建时间:</div>
                         <div class=" displayalign">
@@ -85,7 +85,7 @@
                     </div>
                 </div>
                 <!-- 下发时间 -->
-                <div class="inline mr11 mb16">
+                <div class="inline mr20 mb16">
                     <div class="displayalign zujianBox">
                         <div class="noneIconTitle mr11">补货开始时间:</div>
                         <div class="mr20 displayalign">

@@ -614,11 +614,21 @@ textarea {
     z-index: 111;
 }
 
+.disspaceBetween {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .postionCen {
     position: absolute;
     left: 50%;
     height: 50%;
     transform: translate(-50%, -50%);
+}
+
+#app .centerBox {
+    padding: 20px;
 }
 
 .heiderBoxs {
@@ -888,6 +898,26 @@ textarea {
     overflow: auto;
 }
 
+.w70 {
+    width: 92px;
+}
+
+.w69 {
+    width: 69px;
+}
+
+.w155 {
+    width: 155px;
+}
+
+.w160s {
+    width: 160px;
+}
+
+.w170 {
+    width: 170px;
+}
+
 .colred {
     color: red;
 }
@@ -907,6 +937,24 @@ textarea {
 
 .textAlignJustify {
     text-align-last: justify;
+}
+
+.ml10 {
+    margin-left: 11px;
+}
+
+.borderTnone {
+    border: 1px solid #D1D6E2;
+    border-top: none;
+
+}
+
+.w980 {
+    width: 987px;
+}
+
+.w196 {
+    width: 196px;
 }
 
 .backFF {

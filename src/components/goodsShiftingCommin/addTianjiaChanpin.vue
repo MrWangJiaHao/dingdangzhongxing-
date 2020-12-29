@@ -3,25 +3,37 @@
             titles="添加产品"
             @closeBtn="closeBtn"
             @clickSubmit="goAJAXCreate"
-            width="1000"
+            width="1100"
     >
         <template slot="centerKuanjia">
-            <div style="width: 1000px">
-                <createMonent :chuanjianJsonAndArr="chuanjianJsonAndArr">
-                    <template slot="btnsArr">
-                        <div class="dispalyFlex mb16">
-                            <span class="goOn inline mr11">查询</span>
-                            <span class="lodopFunClear inline" @click="clearInputs">
+            <div style="width: 1100px">
+                <div id="creReplensss">
+
+                    <createMonent :chuanjianJsonAndArr="chuanjianJsonAndArr">
+                        <template>
+                            <div class="setTitle mtb20 pd20">
+                                选择产品
+                            </div>
+                        </template>
+                        <template slot="btnsArr">
+                            <div class="dispalyFlex mb16">
+                                <span class="tijiaoBox inline mr11">查询</span>
+                                <span class=" quxiaoBox inline" @click="clearInputs">
                   清空
                 </span>
-                        </div>
-                    </template>
-                </createMonent>
-                <!-- 上部分 -->
-                <div class="tr mt20 pd20">
-                    <span class="lodopFunClear inline" @click="removeTarget">删除</span>
+                            </div>
+                        </template>
+                    </createMonent>
                 </div>
-                <div class="pd20 botD1 centerBox mb16">
+
+                <!-- 上部分 -->
+                <div class="disspaceBetween pd20 mt20">
+                    <div class="setTitle ">
+                        产品明细
+                    </div>
+                    <span class="remove mb20 inline" @click="removeTarget">删除</span>
+                </div>
+                <div class="pd20   ">
                     <table-commin
                             :tableDataJson="tableDataJson"
                             @tableSelectArr="tableSelectArr"
@@ -285,20 +297,21 @@
         },
     };
 </script>
-
+<style>
+    #app #creReplensss .el-input__inner {
+        height: 34px;
+    }
+</style>
 <style lang='scss' scoped>
     @import "../../assets/scss/btn.scss";
 
-    .goOn {
-        @include BtnFunction("success");
-    }
 
-    .goOnmes {
-        border: 1px solid #000;
+    .quxiaoBox {
         @include BtnFunction();
     }
 
-    .lodopFunClear {
-        @include BtnFunction("error");
+
+    .tijiaoBox {
+        @include BtnFunction("success");
     }
 </style>

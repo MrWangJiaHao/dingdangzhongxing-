@@ -284,6 +284,7 @@
                         <el-table-column
                                 label="创建人"
                                 width="120"
+                                align="center"
                                 prop="createUser"
                                 show-overflow-tooltip
                         ></el-table-column>
@@ -804,7 +805,6 @@
         background-color: #eef1f8;
 
         .fuzzyQueryBox {
-            display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;

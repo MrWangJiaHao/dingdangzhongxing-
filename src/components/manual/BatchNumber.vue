@@ -1,13 +1,14 @@
 <template>
     <div class="setUserIngBox">
-        <div class="setUserIngBoxCenter">
+        <div>
             <kuanjiaClick titles="打印批次号" @closeBtn="closeBtn" :isLookerShow="false"
                           print="打印"
-                          width="800" @clickSubmit="printWarehouseReceipt">
+                          width="660"
+                          min-height="380" @clickSubmit="printWarehouseReceipt">
                 <template slot="centerKuanjia">
-                    <div class="mb16">
+                    <div style="width: 660px">
                         <div id="printCenter" style="text-align: center">
-                            <div style="width: 780px;margin-top: 16px">
+                            <div style="margin-top: 20px">
                                 <div
                                         v-for="(item, idx) in parintBatchNumberArrs"
                                         :key="idx"
@@ -15,7 +16,6 @@
                 position: relative;
                 padding: 20px;
                 display: inline-block;
-                margin-left: 20px;
                 margin-bottom: 20px;
                 width: 300px;
                 color: #333333;
@@ -24,6 +24,9 @@
                 text-align: left;
                 border: 1px solid #d1d6e2;
               "
+                                        :style="{
+                                            marginRight: idx % 2 ?0:'20px'
+                                        }"
                                 >
                                     <div style="margin-bottom: 10px">
                                         产品名称：{{ item.prodName }}
