@@ -70,7 +70,7 @@
             <el-table-column
               prop="expAddr"
               label="物流公司地址"
-              align="center"
+              align="left"
             ></el-table-column>
           </el-table>
           <div class="pageComponent">
