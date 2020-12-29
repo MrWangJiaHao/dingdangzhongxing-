@@ -805,7 +805,6 @@
         background-color: #eef1f8;
 
         .fuzzyQueryBox {
-            display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;

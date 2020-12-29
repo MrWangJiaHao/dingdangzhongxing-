@@ -1,11 +1,15 @@
 <template>
     <div class="fuzzyQueryBoxs clearfix  ">
-        <div class="biaogeBox dispalywrap ">
+        <div class="biaogeBox dispalywrap " :style="{
+            width:leftWidth?leftWidth:'94%'
+        }">
             <slot name="biaoBoxCenter"></slot>
             <slot></slot>
         </div>
 
-        <div class="btns   btnArrs ">
+        <div class="btns   btnArrs " :style="{
+            width:isBaifenhao
+        }">
             <div class="nowrap">
                 <div class="queryBtn inline mr11 zujianBox"   @click="clickQueryUser">
                     查询
@@ -19,6 +23,18 @@
 
 <script>
     export default {
+        props: {
+            leftWidth: {
+                type: String,
+                default: "96%"
+            }
+        },
+        computed: {
+            isBaifenhao() {
+                let idx = this.leftWidth.includes("%") ? this.leftWidth.substring(0, 2) : this.leftWidth
+                return 100 - +idx + "%"
+            }
+        },
         created() {
             this.addZhanKaiRes(".btnArrs");
         },
@@ -70,12 +86,8 @@
         }
     }
 
-    .biaogeBox {
-        width: 90%;
-    }
 
     .btns {
-        width: 10%;
         height: 100%;
         text-align: right;
         position: relative;

@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <div class="fuzzyQueryBoxs clearfix  ">
             <div class="biaogeBox dispalywrap ">
                 <xialaHeader :xialaJson="delegationJson" @weiTuoGonShiClick="weiTuoGonShiClick"></xialaHeader>
