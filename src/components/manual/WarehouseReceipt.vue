@@ -5,7 +5,7 @@
                           print="打印"
                           width="1034" @clickSubmit="printWarehouseReceipt">
                 <template slot="centerKuanjia">
-                    <div class="bordershouhuodan mb16">
+                    <div class=" mb16">
                         <div id="printCenter" style="padding: 20px">
                             <div class="ptb20" style="border: 1px solid #d2d6e2; width: 1000px">
                                 <div
@@ -64,7 +64,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right:16px;
                     "
                                             >
                                                 {{ listArrs.orgName }}
@@ -88,7 +88,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right: 16px;
                     "
                                             >
                                                 {{ listArrs.putWareNo }}
@@ -112,7 +112,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right: 16px;
                     "
                                             >
                                                 {{ listArrs.orderNo }}
@@ -136,7 +136,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right: 16px;
                     "
                                             >
                                                 {{ listArrs.batchNo }}
@@ -160,7 +160,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right: 16px;
                     "
                                             >
                                                 {{ WarehousingType }}
@@ -184,7 +184,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right: 16px;
                       width: 130px;
                       border-bottom: 1px solid #000;
                     "
@@ -208,7 +208,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right:16px;
                       width: 130px;
                       border-bottom: 1px solid #000;
                     "
@@ -232,7 +232,7 @@
                       display: inline-block;
                       color: #4897e4;
                       font-size: 16px;
-                      line-height: 16px;
+                      padding-top: 20px ;
                     "
                                             >
                                                 基础信息

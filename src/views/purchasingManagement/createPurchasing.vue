@@ -4,7 +4,7 @@
             <kuanjiaClick :titles='!edif ? "编辑采购单" : "创建采购单"' @closeBtn="closeBtn" @clickSubmit="goAJAXCreate">
                 <template slot="centerKuanjia">
 
-                    <div class="centerBox mb20">
+                    <div class="p20 botD1 ">
                         <div class="setTitle">
                             {{ !edif ? "编辑采购单" : "创建采购单" }}
                         </div>
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <!-- 个人信息 -->
-                    <div class="ptb3020 mb20" id="bjTableWraper">
+                    <div class="p20 " id="bjTableWraper">
                         <div class="clearfix">
                             <div class="setTitle fl">产品明细</div>
                             <div class="mb20 fr">
@@ -442,7 +442,7 @@
 
         .bzTetxArea {
             font-size: 14px;
-            width: 72%;
+            width: 78%;
             height: 80px;
 
             > textarea {

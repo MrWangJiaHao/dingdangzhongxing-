@@ -4,7 +4,7 @@
             <div class="biaogeBox dispalywrap fl">
                 <div class="displayalign zujianBox">
                     <div class="noneIconTitle mr11">用户账号:</div>
-                    <div class="mr20">
+                    <div class="mr20 w210">
                         <el-input
                                 placeholder="请输入要查询的用户账号"
                                 v-model="pagingQueryData.paras.loginName"
@@ -152,22 +152,28 @@
                           width="900"
                           @clickSubmit="_printWarehouseReceipt">
                 <template slot="centerKuanjia">
-                    <div style="width: 900px;margin: 0 auto">
-
-                        <div v-if="ewms" id="ewms" class="clearfix ewmsCenters">
-                            <div
-                                    v-for="(item, idx) in EwmArray"
-                                    :key="idx"
-                                    style="
+                    <div id="ewms" style="width:900px;">
+                        <div style="width: 900px;" class="displayCenter">
+                            <div v-if="ewms" class="clearfix tc ewmsCenters "
+                            >
+                                <div
+                                        v-for="(item, idx) in EwmArray"
+                                        :key="idx"
+                                        style="
                                         float: left;
-                                        margin-right: 20px;
+                                        text-align: left;
                                         margin-bottom: 20px;
                                         width: 260px;
-                                      ">
-                                <getEwmRes :ewmArr="item" :idx="idx"/>
+                                      "
+                                        :style="{
+                                            marginRight:EwmArray.length-1 == idx?'':'20px'
+                                        }
+                                "
+                                >
+                                    <getEwmRes :ewmArr="item" :idx="idx"/>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </template>
             </kuanjiaClick>
@@ -300,6 +306,10 @@
         },
         methods: {
             locotpUserEWM() {
+                if (!this.multipleSelection.length) return this.$messageSelf.message({
+                    messages: "请选择要打印的二维码",
+                    type: "warning"
+                })
                 this.EwmArray = []
                 this.ewms = true
                 this.EwmArray = this.multipleSelection;
@@ -510,7 +520,6 @@
     };
 </script>
 <style>
-
     .ewmsCenters {
         padding: 20px;
     }

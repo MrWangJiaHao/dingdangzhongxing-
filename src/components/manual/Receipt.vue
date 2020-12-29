@@ -5,7 +5,7 @@
                           print="打印"
                           width="1030" @clickSubmit="printWarehouseReceipt">
                 <template slot="centerKuanjia">
-                    <div class="bordershouhuodan mb16">
+                    <div class=" mb16">
                         <div id="printCenters" style="padding: 20px">
                             <div class="ptb20" style="border: 1px solid #d2d6e2; width: 1000px">
                                 <div
@@ -35,7 +35,7 @@
                                     >
                                         <img
                                                 :src="
-                    'http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
+                    href+'/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
                     listArrs.putWareNo
                   "
                                                 width="300"
@@ -64,7 +64,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right: 16px;
                     "
                                             >
                                                 {{ listArrs.orgName }}
@@ -88,7 +88,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right:16px;
                     "
                                             >
                                                 {{ listArrs.putWareNo }}
@@ -112,7 +112,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right: 16px;
                     "
                                             >
                                                 {{ WarehousingType }}
@@ -136,7 +136,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right: 16px;
                       width: 130px;
                       border-bottom: 1px solid #000;
                     "
@@ -149,7 +149,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 10px;
+                      margin-right: 16px;
                     "
                                             >
                                                 入库号时间:
@@ -160,7 +160,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right: 16px;
                       width: 130px;
                       border-bottom: 1px solid #000;
                     "
@@ -263,6 +263,7 @@
                 tableDatas: [],
                 Newtime: "",
                 listArrs: {},
+                href: sessionStorage.getItem("baseUrl")
             };
         },
         props: {

@@ -22,6 +22,11 @@
         created() {
             this.addZhanKaiRes(".btnArrs");
         },
+        watch: {
+            $router() {
+                this.addZhanKaiRes(".btnArrs");
+            }
+        },
         methods: {
             clickQueryUser() {
                 this.$emit("clickQueryUser", true);
@@ -66,11 +71,11 @@
     }
 
     .biaogeBox {
-        width: 100%;
+        width: 92%;
     }
 
     .btns {
-        width: 0%;
+        width: 8%;
         height: 100%;
         text-align: right;
         position: relative;

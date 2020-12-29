@@ -161,7 +161,7 @@
                 margin-right: 7px;
                 width: 14px;
                 height: 14px;
-                margin-top: -2px;
+                margin-top: -4px;
 
                 img {
                     width: 14px;
@@ -220,7 +220,7 @@
             .imgBox {
                 width: 16px;
                 height: 14px;
-                margin-top: -2px;
+                margin-top: -4px;
 
                 img {
                     width: 100%;

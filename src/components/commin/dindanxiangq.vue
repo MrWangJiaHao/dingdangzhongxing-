@@ -17,7 +17,7 @@
                             <div class="centersBox">
                                 <div v-if="item.type == 'date'">
                                     <dateTime
-                                            style="height: 28px;!important; "
+                                            width="200"
                                             :style="{ width: item.width ? item.width : '170px' }"
                                             :valueDataStart="item.centers"
                                             :dateTimeData="{
@@ -81,10 +81,6 @@
     };
 </script>
 <style>
-    #CentersBox .ivu-input-inner-container {
-        width: 180px;
-        height: 28px;
-    }
 
     #CentersBox .ivu-input {
         height: 28px !important;
@@ -134,6 +130,7 @@
         width: 100%;
         border-top: 1px solid #d1d6e2;
         border-left: 1px solid #d1d6e2;
+
         .parentBox {
             width: 33.3%;
             color: #333333;

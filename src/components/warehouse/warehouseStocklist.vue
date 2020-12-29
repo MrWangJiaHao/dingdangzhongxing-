@@ -63,7 +63,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right: 16px;
                     "
                                         >
                                             {{ listArrs.orgName }}
@@ -87,7 +87,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right: 16px;
                     "
                                         >
                                             {{ listArrs.outWareNo }}
@@ -111,7 +111,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right: 16px;
                     "
                                         >
                                             {{ listArrs.orderNo }}
@@ -159,7 +159,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right: 16px;
                     "
                                         >
                                             {{ WarehousingType }}
@@ -183,7 +183,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right: 16px;
                       width: 130px;
                       border-bottom: 1px solid #000;
                     "
@@ -207,7 +207,7 @@
                       font-size: 14px;
                       color: #343434;
                       line-height: 26px;
-                      margin-right: 50px;
+                      margin-right: 16px;
                       width: 130px;
                       border-bottom: 1px solid #000;
                     "

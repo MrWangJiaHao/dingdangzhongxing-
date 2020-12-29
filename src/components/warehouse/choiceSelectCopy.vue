@@ -2,66 +2,75 @@
     <kuanjiaClick titles="选择产品" @closeBtn="closeBtn" @clickSubmit="clickSubmit" width="1000">
         <template>
 
-            <div class="displayalign centerBox mb20 pd20" style="padding: 30px 20px">
-                <div>
-                    <div class="displayalign ellipsis">
-                        <div class="noneIconTitle mr11">产品名称:</div>
-                        <div class="mr20">
-                            <el-autocomplete
-                                    class="inline-input"
-                                    v-model="sendoutDatas.paras.prodName"
-                                    :fetch-suggestions="prodNameQuerySearch"
-                                    placeholder="请输入产品名称"
-                                    :trigger-on-focus="false"
-                                    @select="prodNameHandleSelect"
-                            ></el-autocomplete>
+            <div class="p20s botD1 mb20  ">
+                <div class="setTitle ">
+                    选择产品
+                </div>
+                <div class=" mb20 displayalign ">
+
+                    <div>
+                        <div class="displayalign ellipsis">
+                            <div class="noneIconTitle mr11">产品名称:</div>
+                            <div class="mr20">
+                                <el-autocomplete
+                                        class="inline-input"
+                                        v-model="sendoutDatas.paras.prodName"
+                                        :fetch-suggestions="prodNameQuerySearch"
+                                        placeholder="请输入产品名称"
+                                        :trigger-on-focus="false"
+                                        @select="prodNameHandleSelect"
+                                ></el-autocomplete>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- 产品名称 -->
-                <div>
-                    <div class="displayalign ellipsis">
-                        <div class="noneIconTitle mr11">产品编码:</div>
-                        <div class="mr20">
-                            <el-autocomplete
-                                    class="inline-input"
-                                    v-model="sendoutDatas.paras.prodCode"
-                                    :fetch-suggestions="prodCodeQuerySearch"
-                                    placeholder="请输入产品编码"
-                                    :trigger-on-focus="false"
-                                    @select="prodCodeHandleSelect"
-                            ></el-autocomplete>
+                    <!-- 产品名称 -->
+                    <div>
+                        <div class="displayalign ellipsis">
+                            <div class="noneIconTitle mr11">产品编码:</div>
+                            <div class="mr20">
+                                <el-autocomplete
+                                        class="inline-input"
+                                        v-model="sendoutDatas.paras.prodCode"
+                                        :fetch-suggestions="prodCodeQuerySearch"
+                                        placeholder="请输入产品编码"
+                                        :trigger-on-focus="false"
+                                        @select="prodCodeHandleSelect"
+                                ></el-autocomplete>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- 产品名称 -->
-                <div>
-                    <div class="displayalign ellipsis">
-                        <div class="noneIconTitle mr11">产品规格:</div>
-                        <div class="mr20">
-                            <el-autocomplete
-                                    class="inline-input"
-                                    v-model="sendoutDatas.paras.specName"
-                                    :fetch-suggestions="specNameQuerySearch"
-                                    placeholder="请输入产品规格"
-                                    :trigger-on-focus="false"
-                                    @select="specNameHandleSelect"
-                            ></el-autocomplete>
+                    <!-- 产品名称 -->
+                    <div>
+                        <div class="displayalign ellipsis">
+                            <div class="noneIconTitle mr11">产品规格:</div>
+                            <div class="mr20">
+                                <el-autocomplete
+                                        class="inline-input"
+                                        v-model="sendoutDatas.paras.specName"
+                                        :fetch-suggestions="specNameQuerySearch"
+                                        placeholder="请输入产品规格"
+                                        :trigger-on-focus="false"
+                                        @select="specNameHandleSelect"
+                                ></el-autocomplete>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- 产品规格 -->
-                <div class="displayalign">
-                    <div class="disinb tijiaoBox mr11" @click="sendoutDataAsync">
-                        查询
+                    <!-- 产品规格 -->
+                    <div class="displayalign">
+                        <div class="disinb tijiaoBox mr11" @click="sendoutDataAsync">
+                            查询
+                        </div>
+                        <div class="disinb quxiaoBox" @click="clearChanPinMinChen">清空</div>
                     </div>
-                    <div class="disinb quxiaoBox" @click="clearChanPinMinChen">清空</div>
                 </div>
             </div>
-            <div class="btn tr mb20 pd20">
-                <div class="disinb remove" @click="clearRemovetable">删除</div>
+            <div class=" disspaceBetween pd20">
+                <div class="setTitle ">
+                    产品明细
+                </div>
+                <div class="mb20 mb16 remove" @click="clearRemovetable">删除</div>
             </div>
-            <div class="mb20 centerBox pd20">
+            <div class="mb20  pd20">
                 <el-table
                         ref="multipleTable"
                         :data="tabledata"

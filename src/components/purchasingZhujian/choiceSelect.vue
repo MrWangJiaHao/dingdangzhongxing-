@@ -1,8 +1,12 @@
 <template>
     <kuanjiaClick titles="选择产品" @closeBtn="closeBtn" @clickSubmit="clickSubmit">
         <template slot="centerKuanjia">
-            <div class=" centerBox clearfix  mb20">
+            <div class="p20 botD1  clearfix  mb20">
+                <div class="setTitle">
+                    选择产品
+                </div>
                 <div class="dispalywrap mb16 ">
+
                     <div class="mb20 ">
                         <div class="displayalign ellipsis">
                             <div class="noneIconTitle mr11">产品名称:</div>
@@ -75,10 +79,13 @@
 
             </div>
 
-            <div class="btn tr pd20">
-                <div class="disinb quxiaoBoxs" @click="clearRemovetable">删除</div>
+            <div class="disspaceBetween pd20">
+                <div class="setTitle">
+                    产品明细
+                </div>
+                <div class="disinb quxiaoBoxs mb16 inline " @click="clearRemovetable">删除</div>
             </div>
-            <div class="mb20 centerBox pd20 displayCenter">
+            <div class="mb20 pd20">
                 <el-table
                         ref="multipleTable"
                         :data="tabledata"
@@ -158,14 +165,15 @@
                         ></el-input>
                     </el-table-column>
                 </el-table>
+                <div class="tr pageComponent ">
+                    <pageComponent
+                            @handleSizeChange="handleSizeChange"
+                            @getPageNum="getPageNum"
+                            :pageComponentsData="pageComponentsData"
+                    />
+                </div>
             </div>
-            <div class="tr  p20s">
-                <pageComponent
-                        @handleSizeChange="handleSizeChange"
-                        @getPageNum="getPageNum"
-                        :pageComponentsData="pageComponentsData"
-                />
-            </div>
+
         </template>
     </kuanjiaClick>
 </template>

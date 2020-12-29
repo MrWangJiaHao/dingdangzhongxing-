@@ -4,9 +4,8 @@
             <div class="zujianBox">
                 <div class="displayalign zujianBox">
                     <div class="noneIconTitle mr11">子仓名称:</div>
-                    <div class="mr20  ">
+                    <div class="mr20 ">
                         <el-select
-                                class="w320"
                                 v-model="sendOutData.childWareName"
                                 placeholder="请选择子仓名称"
                                 @input="getchildValue"
@@ -27,9 +26,8 @@
                 <div class="zujianBox">
                     <div class="displayalign zujianBox">
                         <div class="noneIconTitle mr11">区域名称:</div>
-                        <div class="mr20 ">
+                        <div class="mr20 w160">
                             <el-select
-                                    class="w160"
                                     v-model="sendOutData.wareAreaName"
                                     placeholder="请选择区域名称"
                                     @input="getquyuCode"
@@ -84,7 +82,7 @@
         >
             <div class="meiyiyetitle">{{ isNums(parent.danqpaishu) }}排货架</div>
             <div class="displayalign huoZhujianS">
-                <div class="displayalign mb20 mr20">
+                <div class="displayalign  mr20">
                     <div class="noneIconTitle mr11">货架组数:</div>
                     <div class="mr11 w200">
                         <el-input
@@ -93,7 +91,7 @@
                                 v-model="parent.rowNum"
                                 clearable
                                 @blur="createDomZu(parent.rowNum, index)"
-                                @keyup.enter="createDomZu(parent.rowNum, index)"
+                                @keyup.enter.native="createDomZu(parent.rowNum, index)"
                         ></el-input>
                     </div>
                     <div class="noneIconTitle">个</div>
@@ -105,7 +103,7 @@
                         {{ isNums(parent.danqpaishu) }}/
                         {{ isNums(parent.danqpaishu + 1) }}排货架间距:
                     </div>
-                    <div class="displayalign mr11 w120">
+                    <div class="displayalign mr11 w140">
                         <el-input
                                 placeholder="请输入货架间距"
                                 v-model="parent.distance"
@@ -122,7 +120,7 @@
                         v-for="(item, idx) in parent.groupData"
                         :key="idx"
                 >
-                    <div class="flexNocenterBetWeen" style="width: 80%">
+                    <div class="dis" style="width: 80%">
                         <div>
                             <div class="createDom disinb   nowrap line40 fl mr20">
                                 第{{ isNums(idx) }}组货架:
@@ -136,7 +134,7 @@
                             >
                                 <div class="displayalign">
                                     <div class="noneIconTitle nowrap mr11">货架名称:</div>
-                                    <div class="mr20">
+                                    <div class="mr20 w160">
                                         <el-select
                                                 v-model="items.shelfName"
                                                 placeholder="请选择货架名称"
@@ -157,22 +155,22 @@
                                 <!-- 货架名称 -->
                                 <div class="displayalign">
                                     <div class="noneIconTitle nowrap mr11">货架类型:</div>
-                                    <div class="mr20">
-                                        <el-input disabled v-model="items.shelfType"></el-input>
+                                    <div class="mr20 w160">
+                                        <el-input placeholder="请选择货架名称" disabled v-model="items.shelfType"></el-input>
                                     </div>
                                 </div>
                                 <!-- 货架类型 -->
                                 <div class="displayalign">
                                     <div class="noneIconTitle nowrap mr11">可用数量:</div>
-                                    <div class="mr20">
-                                        <el-input disabled v-model="items.canNum"></el-input>
+                                    <div class="mr20 w160">
+                                        <el-input placeholder="请选择货架名称" disabled v-model="items.canNum"></el-input>
                                     </div>
                                 </div>
                                 <!-- 可用数量 -->
                                 <div class="displayalign">
                                     <div class="noneIconTitle nowrap mr11">货架数量:</div>
-                                    <div class="mr20">
-                                        <el-input v-model="items.shelfNum"></el-input>
+                                    <div class="mr20 w160">
+                                        <el-input placeholder="请输入货架数量" v-model="items.shelfNum"></el-input>
                                     </div>
                                 </div>
                                 <!-- 货架数量 -->
@@ -196,10 +194,10 @@
                     </div>
 
                     <div class="displayalign mb20">
-                        <div class="noneIconTitle mr11">
+                        <div class="noneIconTitle  mr11">
                             {{ isNums(idx) }}/ {{ isNums(idx + 1) }}组货架间距:
                         </div>
-                        <div class="displayalign mr11">
+                        <div class="displayalign w160 mr11">
                             <el-input
                                     placeholder="请输入货架间距"
                                     v-model="item.distance"

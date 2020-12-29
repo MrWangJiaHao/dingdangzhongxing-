@@ -2,7 +2,10 @@
     <div class="setUserIngBox">
         <div
                 class="setUserIngBoxCenter"
-                :style="{  maxWidth: width? isPX(width) :'1000px'}"
+                :style="{  maxWidth: width? isPX(width) :'1000px' ,
+                       minHeight:minHeight?isPX(minHeight): '600px',
+                        maxHeight:maxHeight?isPX(maxHeight): '600px'
+                }"
         >
             <div class="headerBox" :style="{ minWidth:width ? isPX(width):'1000px'}">
                 <div class="closeTitle">
@@ -14,7 +17,8 @@
             <slot name="centerKuanjia"></slot>
             <slot></slot>
             <!-- 账号信息 -->
-            <div class="disRight btnsSure ">
+            <div class="disRight btnsSure " :style="{  maxWidth: width? isPX(width) :'1000px'
+                }">
                 <div v-if="isLookerShow" class="quxiaoBox mr20 mb20" @click="closeBtn">
                     {{ isLooker ? "返回" : "取消" }}
                 </div>
@@ -33,6 +37,14 @@
             return {};
         },
         props: {
+            minHeight: {
+                type: String,
+                default: "600px"
+            },
+            maxHeight: {
+                type: String,
+                default: "600px"
+            },
             isLooker: {
                 type: Boolean,
                 default: false,
@@ -104,7 +116,7 @@
         }
 
         .setUserIngBoxCenter {
-            min-height: 600px;
+            min-height: 560px;
             max-height: 600px;
             overflow: auto;
             background-color: #fff;

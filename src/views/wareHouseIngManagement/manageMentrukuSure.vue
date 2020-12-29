@@ -1,14 +1,14 @@
 <template>
     <div class="setUserIngBox" id="manageMenyrukuSures">
         <kuanjiaClick :titles='!isrukuDetails ? "入库确认" : "入库详情"' @closeBtn="closeBtn"
-                      :is-looker="isrukuDetails" width="1120px" @clickSubmit="goAJAXCreate">
+                      :is-looker="isrukuDetails" width="1260" @clickSubmit="goAJAXCreate">
             <template slot="centerKuanjia">
-                <div class="centerBox">
+                <div class="p20 botD1">
                     <div class="setTitle mb20">
                         {{ !isrukuDetails ? "入库确认" : "入库详情" }}
                     </div>
                     <div class="gerxinxiBox">
-                        <div class="xinxiBitian">
+                        <div class="xinxiBitians">
                             <div class="dispalywrap rukuquerenparent">
                                 <div
                                         v-for="(key, item, idx) in rukuSureJsonFn"
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <!-- 个人信息 -->
-                <div class="centerBox ">
+                <div class="p20 botD1 ">
                     <div class="clearfix">
                         <div class="setTitle fl">产品明细</div>
                         <div v-if="!isrukuDetails" class="fr mb20">
@@ -85,7 +85,7 @@
                             />
                             <el-table-column
                                     label="产品编码"
-                                    width="160"
+                                    width="180"
                                     prop="prodCode"
                                     show-overflow-tooltip
                             />
@@ -108,26 +108,35 @@
                             <el-table-column
                                     label="申请入库数量"
                                     prop="prodNum"
+                                    width="150"
                                     show-overflow-tooltip
                             ></el-table-column>
                             <el-table-column
                                     label="存储区库位产品数量"
                                     prop="braName"
+                                    width="150"
+
                                     show-overflow-tooltip
                             ></el-table-column>
                             <el-table-column
                                     label="残次品库位产品数量"
                                     prop="damagedNum"
+                                    width="150"
+
                                     show-overflow-tooltip
                             ></el-table-column>
                             <el-table-column
                                     label="存储区库位最大存放数"
                                     prop="damagedNum"
+                                    width="200"
+
                                     show-overflow-tooltip
                             ></el-table-column>
                             <el-table-column
                                     label="残次品库位最大存放数"
                                     prop="maxNum"
+                                    width="200"
+
                                     show-overflow-tooltip
                             ></el-table-column>
                             <el-table-column
@@ -140,7 +149,8 @@
                                     label="实际入库库位"
                                     prop="recommendSeatNo"
                                     show-overflow-tooltip
-                                    width="180"
+                                    width="200"
+
                             >
                                 <div v-if="!isrukuDetails" slot-scope="scoped">
                                     <el-select
@@ -162,6 +172,8 @@
                             <el-table-column
                                     label="实际入库数量*"
                                     prop="actualNum"
+                                    width="200"
+
                                     show-overflow-tooltip
                             >
                                 <div v-if="!isrukuDetails" slot-scope="scope">
@@ -174,6 +186,8 @@
                             <el-table-column
                                     label="残次品数量"
                                     prop="damagedNum"
+                                    width="200"
+
                                     show-overflow-tooltip
                             >
                                 <div v-if="!isrukuDetails" slot-scope="scoped">
@@ -208,7 +222,7 @@
                                     label="生产日期"
                                     prop="manuTime"
                                     show-overflow-tooltip
-                                    width="200"
+                                    width="230"
                             >
                                 <div
                                         v-if="!isrukuDetails"
@@ -216,6 +230,7 @@
                                         @click="getDataSelentIndex(scoped.$index)"
                                 >
                                     <dateTime
+                                            width="200"
                                             :dateTimeData="dateTimeData"
                                             v-model="scoped.row.actualNum"
                                             @getDateTime="getDateSelectTime"
@@ -225,11 +240,12 @@
                         </el-table>
                     </div>
                 </div>
-                <div class="dispalyFlex ptb3020 mb16">
-                    <div class="noneIconTitle mr11  fosi0">
-                        <span class="fosi14" style="visibility: hidden">你好</span>
-                        <span class="fosi14">备注</span>
-                        <span class="fosi14" style="visibility: hidden">好</span>
+                <div class="dispalyFlex p20s ">
+                    <div class="noneIconTitle fosi14 mr11  fosi0">
+                        备
+                        <span class="fosi14 visibilityHidden">你好</span>
+                        <span class="fosi14 visibilityHidden">好</span>
+                        注
                         <span class="fosi14">:</span>
                     </div>
                     <div class="bzTetxArea mb16">
@@ -272,7 +288,6 @@
     import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
     import dropDownUserType from "../../components/commin/dropDownUserType"; //用户管理下拉框
     import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
-
     import {
         getFindWareOrg,
         getFindOrgChildWare,
@@ -589,7 +604,7 @@
     #manageMenyrukuSures
     .ivu-input-wrapper.ivu-input-wrapper-default.ivu-input-type.ivu-date-picker-editor {
         width: 190px;
-        height: 28px !important;
+        height: 28px;
     }
 
     #manageMenyrukuSures .ivu-input.ivu-input-default.ivu-input-with-suffix {
@@ -603,7 +618,7 @@
     }
 
     #manageMenyrukuSures .el-input__inner {
-        height: 28px !important;
+        height: 28px;
     }
 
     #manageMenyrukuSures .ivu-input-suffix {
@@ -611,7 +626,7 @@
     }
 
     #manageMenyrukuSures .ivu-input {
-        height: 28px !important;
+        height: 28px;
     }
 
     #manageMenyrukuSures .ivu-icon-ios-close-circle {
@@ -694,7 +709,6 @@
             max-width: 980px;
             z-index: 44;
             overflow: auto;
-
             background: #f8f8f8;
             transform: translate(-50%, -50%);
         }
@@ -727,9 +741,6 @@
                     flex-wrap: wrap;
                     align-items: center;
 
-                    > div {
-                        margin-right: 20px;
-                    }
                 }
             }
 

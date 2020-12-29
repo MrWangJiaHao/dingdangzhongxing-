@@ -3,15 +3,16 @@
         <kuanjiaClick :isLooker="true" titles="查看用户" @closeBtn="closeBtn">
             <template slot="centerKuanjia">
                 <div class="w1000">
-                    <div class="centerBox">
+                    <div class="centerBox botD1">
                         <div class="setTitle">个人信息</div>
                         <div class="gerxinxiBox">
                             <div class="xinxiBitian">
                                 <div>
                                     <div class="displayalign">
                                         <div class="noneIconTitle mr11">
+                                            <span class="colred">*</span>
                                             用户姓名
-                                            <span style="color: red">*</span>:
+                                            :
                                         </div>
                                         <div class="mr20">
                                             <el-input
@@ -27,8 +28,9 @@
                                 <div>
                                     <div class="displayalign">
                                         <div class="noneIconTitle mr11">
+                                            <span class="colred">*</span>
                                             联系电话
-                                            <span style="color: red">*</span>:
+                                            :
                                         </div>
                                         <div class="mr20">
                                             <el-input
@@ -46,8 +48,10 @@
                                 <div class="mr20">
                                     <div class="displayalign">
                                         <div class="noneIconTitle mr11">
+                                            <span class="colred">*</span>
+
                                             居住地址
-                                            <span style="visibility: hidden">*</span>:
+                                            :
                                         </div>
                                         <div>
                                             <el-input
@@ -112,8 +116,9 @@
                         <div class="displayalign mb20">
                             <div class="displayalign">
                                 <div class="noneIconTitle mr11">
+                                    <span class="colred">*</span>
                                     用户账号
-                                    <span style="color: red">*</span>:
+                                    :
                                 </div>
                                 <div class="mr20">
                                     <el-input
@@ -127,8 +132,9 @@
                             <!-- 用户账号 -->
                             <div class="displayalign">
                                 <div class="noneIconTitle mr11">
+                                    <span class="colred">*</span>
                                     <span style="visibility: hidden">你好</span>密码
-                                    <span style="color: red">*</span>:
+                                    :
                                 </div>
                                 <div>
                                     <el-input
@@ -147,8 +153,11 @@
                             <div class="displayalign">
                                 <div class="displayalign">
                                     <div class="noneIconTitle mr11">
+
+                                        <span class="colred">*</span>
+
                                         用户角色
-                                        <span style="color: red">*</span>:
+                                        :
                                     </div>
                                     <div class="mr20">
                                         <el-input
@@ -164,8 +173,10 @@
                             <div>
                                 <div class="displayalign">
                                     <div class="noneIconTitle mr11">
+                                        <span class="colred">*</span>
+
                                         用户邮箱
-                                        <span style="color: red">*</span>:
+                                        :
                                     </div>
                                     <div>
                                         <el-input
@@ -183,10 +194,8 @@
                         <!-- 账号信息 -->
                         <div>
                             <div class="dispalyFlex mb20">
-                                <div class="noneIconTitle mr11 fosi0">
-                                    <span class="fosi14" style="visibility: hidden">你好</span>
+                                <div class="w69 mr11 tr">
                                     <span class="fosi14">备注</span>
-                                    <span class="fosi14" style="visibility: hidden">好</span>
                                     <span class="fosi14">:</span>
                                 </div>
                                 <div class="bzTetxArea">
@@ -296,11 +305,7 @@
         },
     };
 </script>
-<style>
-    .centerBox {
-        border-bottom: 1px solid #d1d6e2;
-    }
-</style>
+
 <style lang='scss' scoped>
     @import "../../assets/scss/btn.scss";
 
@@ -345,9 +350,6 @@
                     display: flex;
                     align-items: center;
 
-                    > div {
-                        margin-right: 20px;
-                    }
                 }
             }
 
@@ -359,9 +361,8 @@
 
         .textAreaBox {
             font-size: 14px;
-            width: 72%;
+            width: 67%;
             height: 40px;
-            margin-left: 80px;
 
             > textarea {
                 color: #606266;
@@ -376,7 +377,7 @@
 
         .bzTetxArea {
             font-size: 14px;
-            width: 72%;
+            width: 66.5%;
             height: 80px;
 
             > textarea {

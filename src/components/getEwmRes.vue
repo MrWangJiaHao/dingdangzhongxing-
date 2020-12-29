@@ -1,43 +1,40 @@
 <template>
-    <div>
-        <div
-                style="
-        background: #ffffff;
+    <div
+            style="
         border: 1px solid #d1d6e2;
       "
-        >
-            <div style="padding: 24px;">
-                <div class="canvas" style="position: relative;">
-                    <div style="position: absolute;left: 50%;z-index: 100; top: 50%;transform: translate(-50%,-50%)">
-                        <img src="../assets/svg/logo.svg"/>
-                    </div>
+    >
+        <div style="padding: 24px;">
+            <div class="canvas" style="position: relative;">
+                <div style="position: absolute;left: 50%;z-index: 80; top: 50%;transform: translate(-50%,-50%)">
+                    <img src="../assets/svg/logo.svg"/>
                 </div>
             </div>
-            <div style="padding: 0 24px 10px 24px; font-size: 14px;">
-                <div>
-                    <div style="font-weight:700;display: inline-block;width: 58px;text-align-last: justify">
-                        姓名
-                    </div>
-                    ：{{ ewmArr.userName }}
+        </div>
+        <div style="padding: 0 24px 10px 24px; font-size: 14px;">
+            <div>
+                <div style="font-weight:700;display: inline-block;width: 58px;text-align-last: justify">
+                    姓名
                 </div>
-                <div>
-                    <div style="font-weight:700;display: inline-block;width: 58px;text-align-last: justify">
-                        角色
-                    </div>
-                    ：{{ewmArr.createUser}}
+                ：{{ ewmArr.userName }}
+            </div>
+            <div>
+                <div style="font-weight:700;display: inline-block;width: 58px;text-align-last: justify">
+                    角色
                 </div>
-                <div>
-                    <div style="font-weight:700;display: inline-block;width: 58px;text-align-last: justify">
-                        手机号
-                    </div>
-                    ：{{ewmArr.userPhone}}
+                ：{{ewmArr.createUser}}
+            </div>
+            <div>
+                <div style="font-weight:700;display: inline-block;width: 58px;text-align-last: justify">
+                    手机号
                 </div>
-                <div>
-                    <div style="font-weight:700;display: inline-block;width: 58px;text-align-last: justify">
-                        入职时间
-                    </div>
-                    ：{{ewmArr.createTime}}
+                ：{{ewmArr.userPhone}}
+            </div>
+            <div>
+                <div style="font-weight:700;display: inline-block;width: 58px;text-align-last: justify">
+                    入职时间
                 </div>
+                ：{{ewmArr.createTime}}
             </div>
         </div>
     </div>

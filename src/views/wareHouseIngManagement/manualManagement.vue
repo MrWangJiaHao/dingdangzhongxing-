@@ -186,7 +186,7 @@
         </div>
         <!-- 批次号 -->
         <!-- 创建&&编辑 start -->
-        <div v-show="iscreateManagement" :class="popUpShows?'bjBox':'bjBoxs'">
+        <div v-show="iscreateManagement" :class="popUpShows?'bjBox':'bjBox'">
             <transition
                     enter-active-class="animate__animated animate__zoomIn"
                     leave-active-class="animate__animated animate__zoomOut"
@@ -204,7 +204,7 @@
         <!-- 创建&&编辑 end -->
 
         <!-- 入库确认&&入库详情 start -->
-        <div v-show="ismanageMentrukuSure" :class="popUpShows?'bjBox':'bjBoxs'">
+        <div v-show="ismanageMentrukuSure" :class="popUpShows?'bjBox':'bjBox'">
             <transition
                     enter-active-class="animate__animated animate__zoomIn"
                     leave-active-class="animate__animated animate__zoomOut"

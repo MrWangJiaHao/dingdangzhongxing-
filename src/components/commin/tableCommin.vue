@@ -56,6 +56,7 @@
             </div>
             <div v-else-if="tableItem.flag == 'date'">
               <dateTime
+                      width="220"
                       :dateTimeData="tableItem.dateTimeData"
                       @getDateTime="tableItem.getDateTime"
                       style="height: 28px"

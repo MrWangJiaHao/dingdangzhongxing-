@@ -189,9 +189,10 @@
                 pDeliverGoodsprintDeliverGoods([
                     {id: this.multipleSelection[0].id},
                 ]).then((res) => {
-                    if (res.code == "10000") {
-                        this.$messageSelf.message({message: res.msg, type: "success"});
-                    }
+                    console.log(res)
+                    // if (res.code == "10000") {
+                    //     this.$messageSelf.message({message: res.msg, type: "success"});
+                    // }
                 });
             },
             goToDetailOut(e) {

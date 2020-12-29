@@ -5,7 +5,7 @@
                 @closeBtn="closeBtn"
                 :isLooker="isLooker"
                 @clickSubmit="clickSubmit"
-                :width="'1180px'"
+                width="1280px"
         >
             <template slot="centerKuanjia">
                 <div class="mb16">
@@ -18,7 +18,7 @@
                     <chanpinmingxi :chanpinminxiJson="chanpinminxiJson" @tableSelectArrs="tableSelectArrs">
                         <template v-if="!isLooker" slot="anniuBtns">
                             <span class="goOn mr11 inline" @click="chanpinminxiJson.copyShopping">复制产品</span>
-                            <span class="lodopFunClear inline" @click="chanpinminxiJson.removeShopping">删除</span>
+                            <span class="remove inline" @click="chanpinminxiJson.removeShopping">删除</span>
                         </template>
                     </chanpinmingxi>
                 </div>
@@ -94,7 +94,7 @@
     }
 
     .lodopFunClear {
-        @include BtnFunction("error");
+        @include BtnFunction();
     }
 
     #sures .input {

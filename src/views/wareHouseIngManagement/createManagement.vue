@@ -1,11 +1,12 @@
 <template>
     <div>
-        <kuanjiaClick :titles=' this.$route.query.id ? "编辑入库单" : "创建入库单"' @closeBtn="closeBtn"
+        <kuanjiaClick :titles='edifManageMent ? "编辑入库单" : "创建入库单"' @closeBtn="closeBtn"
+                      width="1200"
                       @clickSubmit="goAJAXCreate">
             <template slot="centerKuanjia">
                 <div class="centerBox">
                     <div class="setTitle">
-                        {{ this.$route.query.id ? "编辑入库单" : "创建入库单" }}
+                        {{ edifManageMent ? "编辑入库单" : "创建入库单" }}
                     </div>
                     <div class="gerxinxiBox">
                         <div class="xinxiBitian">
@@ -58,6 +59,7 @@
                                     <div class="noneIconTitle mr11">期望入库时间:</div>
                                     <div class="mr20">
                                         <dateTime
+                                                width="250"
                                                 :valueDataStart="createUserData.expectedSendTime"
                                                 :dateTimeData="datetimeDate"
                                                 @getDateTime="getExpectedSendTime"
@@ -70,7 +72,7 @@
                     </div>
                 </div>
                 <!-- 个人信息 -->
-                <div class="centerBox mb20">
+                <div class="centerBox ">
                     <div class="clearfix">
                         <div class="setTitle fl">产品明细</div>
                         <div class="mb20 fr">
@@ -181,6 +183,7 @@
                                 <div slot-scope="scope">
                                     <div @click="getDateTimeIndex(scope.$index)">
                                         <dateTime
+                                                width="200"
                                                 :valueDataStart="scope.row.manuTime"
                                                 :dateTimeData="datetimeDate"
                                                 @getDateTime="getDateTimeExpectedSendTime"
@@ -192,7 +195,7 @@
                     </div>
                 </div>
                 <div>
-                    <div class="dispalyFlex ptb3020 mb20">
+                    <div class="dispalyFlex ptb20 mb20">
                         <div class="noneIconTitle mr11 fosi0">
                             <span class="fosi14 visibilityHidden">你好</span>
                             <span class="fosi14">备注</span>
@@ -213,17 +216,13 @@
         </kuanjiaClick>
 
         <!-- 添加产品 start -->
-        <div v-show="addChanpins" :class="popUpShows?'bjBox':'bjBoxs'">
-            <transition
-                    enter-active-class="animate__animated animate__zoomIn"
-                    leave-active-class="animate__animated animate__zoomOut"
+        <div v-show="addChanpins" :class="popUpShows?'bjBox':'bjBox'">
+
+            <div
+                    v-if="addChanpins"
             >
-                <div
-                        v-if="addChanpins"
-                >
-                    <choiceSelect ref="childSelect"/>
-                </div>
-            </transition>
+                <choiceSelect ref="childSelect"/>
+            </div>
             <!-- 添加产品 end -->
         </div>
     </div>
@@ -584,7 +583,7 @@
             overflow: auto;
 
             .centerBox {
-                padding: 30px 20px;
+                padding: 20px 20px;
             }
 
             .setTitle {
@@ -602,10 +601,6 @@
                 .xinxiBitian {
                     display: flex;
                     align-items: center;
-
-                    > div {
-                        margin-right: 20px;
-                    }
                 }
             }
 
@@ -617,7 +612,7 @@
 
         .textAreaBox {
             font-size: 14px;
-            width: 72%;
+            width: 93%;
             height: 40px;
             margin-left: 80px;
 

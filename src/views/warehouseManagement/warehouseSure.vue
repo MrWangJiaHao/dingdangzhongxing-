@@ -1,9 +1,9 @@
 <template>
     <div class="setUserIngBox" id="chukuSure">
         <kuanjiaClick :titles='!isDetails ? "出库确认" : "出库单详情"' :isLooker="isDetails"
-                      @closeBtn="closeBtn" @clickSubmit="goAJAXCreate" width="1250px">
+                      @closeBtn="closeBtn" @clickSubmit="goAJAXCreate" width="1270px">
             <template slot="centerKuanjia">
-                <div class="centerBox">
+                <div class="centerBox" style="width: 1270px;">
                     <div class="setTitle">{{ !isDetails ? "出库确认" : "出库单详情" }}</div>
                     <div class="gerxinxiBox">
                         <div class="xinxiBitian">
@@ -14,10 +14,10 @@
                                         class="displayalign parentBox"
                                 >
                                     <div
-                                            class="titleBox ellipsis"
+                                            class="titleBox  ellipsis"
                                             v-html="shezhizitiwiered(item)"
                                     ></div>
-                                    <div class="centersBox">
+                                    <div class="centersBox ">
                                         <div v-if="item == '*取货人'">
                                             <input
                                                     v-model="createUserData.takeUser"
@@ -45,6 +45,7 @@
                                         <div v-else-if="item == '*出库时间'">
                                             <div v-if="!isDetails">
                                                 <dateTime
+                                                        width="198"
                                                         :valueDataStart="createUserData.outWareTime"
                                                         :dateTimeData="dateTimeData"
                                                         @getDateTime="getDateTimeExpectedSendTime"
@@ -187,7 +188,7 @@
                             <el-table-column
                                     label="*生产日期"
                                     prop="manufTime"
-                                    width="200"
+                                    width="220"
                                     show-overflow-tooltip
                             >
                                 <div
@@ -196,6 +197,7 @@
                                         @click="manufTimeClick(scope.row)"
                                 >
                                     <dateTime
+                                            width="200"
                                             :valueDataStart="scope.row.manufTime"
                                             :dateTimeData="dateTimeData"
                                             @getDateTime="getManufTimeClickSendTime"
@@ -238,9 +240,6 @@
         border-bottom: 1px solid #d1d6e2;
     }
 
-    .centersBox {
-        margin-left: 10px;
-    }
 </style>
 <script>
     /*eslint-disable*/
@@ -663,16 +662,6 @@
     };
 </script>
 <style>
-    #chukuSure
-    .ivu-input-wrapper.ivu-input-wrapper-default.ivu-input-type.ivu-date-picker-editor {
-        width: 190px;
-        height: 28px;
-    }
-
-    #chukuSure .el-input .el-input__inner {
-        width: 172px;
-        height: 28px;
-    }
 
     #chukuSure .ivu-input.ivu-input-default.ivu-input-with-suffix {
         border: 1px solid #d2d6e2;
@@ -686,6 +675,10 @@
 
     #chukuSure .ivu-input-suffix {
         justify-content: center;
+    }
+
+    #chukuSure .el-input__inner {
+        height: 28px;
     }
 
     #chukuSure .ivu-input {
@@ -807,9 +800,6 @@
                     flex-wrap: wrap;
                     align-items: center;
 
-                    > div {
-                        margin-right: 20px;
-                    }
                 }
             }
 

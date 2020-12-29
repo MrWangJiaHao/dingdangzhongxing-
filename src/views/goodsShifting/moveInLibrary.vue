@@ -172,7 +172,7 @@
                                 {
                                     types: "prodNum",
                                     centerStr: "申请移库数量",
-                                    width:220
+                                    width: 220
                                 },
                                 {
                                     types: "prodNum",
@@ -181,7 +181,7 @@
                                 {
                                     types: "prodNum",
                                     centerStr: "实际移库数量",
-                                    width:220
+                                    width: 220
                                 },
                                 {
                                     types: "wareAreaName",
@@ -483,24 +483,24 @@
                             {
                                 types: "",
                                 label: "当前库位产品数量",
-                                width:200
+                                width: 200
                             },
                             {
                                 types: "",
                                 label: "移入库位产品数量",
-                                width:200
+                                width: 200
 
                             },
                             {
                                 types: "",
                                 label: "移入库位最大存货数",
-                                width:200
+                                width: 200
 
                             },
                             {
                                 types: "",
                                 label: "申请移库数量",
-                                width:200
+                                width: 200
 
                             },
                             {
