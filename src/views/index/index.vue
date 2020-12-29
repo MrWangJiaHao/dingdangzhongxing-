@@ -56,6 +56,9 @@
             <StaffEcharts></StaffEcharts>
           </div>
         </div>
+        <div class="ws-area3">
+
+        </div>
         <div class="ws-area2">
           <div class="area2-title">
             <div class="area2-title-text">仓库发货人员效率统计</div>
@@ -68,7 +71,7 @@
               ></span>
             </div>
           </div>
-          <div>
+          <div class="contentView">
             <router-view></router-view>
           </div>
         </div>
@@ -253,6 +256,7 @@ export default {
 
 <style scoped lang="scss">
 #indexMain {
+  width:100%;
   padding: 16px;
   position: relative;
   background: #eef1f8;
@@ -363,11 +367,12 @@ export default {
       display: flex;
       padding: 0 0 16px 0;
       .ws-area1 {
-        width: 20.5%;
+        width: 20.1%;
         // width: 384px;
+        // flex: 1;
         border-radius: 4px;
         background: white;
-        margin: 0 16px 0 0;
+        // margin: 0 16px 0 0;
         padding: 0 30px;
         .area1-title {
           height: 76px;
@@ -385,9 +390,15 @@ export default {
           height: 404px;
         }
       }
+      .ws-area3{
+        width: 1.1%;
+        height: 480px;
+        background: #eef1f8;
+      }
       .ws-area2 {
-        width: 78.7%;
+        width: 79.1%;
         // flex: 1;
+        height: 464px;
         border-radius: 4px;
         background: white;
         padding: 0 30px;
@@ -424,6 +435,9 @@ export default {
               color: #cbcbcb;
             }
           }
+        }
+        .contentView {
+          width: 100%;
         }
       }
     }

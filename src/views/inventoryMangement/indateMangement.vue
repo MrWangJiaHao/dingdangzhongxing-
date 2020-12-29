@@ -148,7 +148,12 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="82" align="center" fixed="left">
+            <el-table-column
+              type="selection"
+              width="82"
+              align="center"
+              fixed="left"
+            >
             </el-table-column>
             <el-table-column
               label="序号"
@@ -205,7 +210,7 @@
             >
             </el-table-column>
             <el-table-column
-              prop="enableStatus"
+              prop="batchStatus"
               label="批次状态"
               align="center"
               sortable
@@ -213,7 +218,13 @@
             >
               <template slot-scope="scpoe">
                 <div class="canuseNum">
-                  {{ scpoe.row.outOfProdNum }}
+                  <!-- {{batchStatusValue = scpoe.row.batchStatus===1?true:false}} -->
+                  <el-switch
+                    v-model="scpoe.row.batchStatus"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                  >
+                  </el-switch>
                 </div>
               </template>
             </el-table-column>
@@ -246,10 +257,7 @@
               align="center"
               width="100"
               min-width="100"
-              >
-              
-              
-
+            >
             </el-table-column>
             <el-table-column
               prop="isExpire"
@@ -423,6 +431,7 @@ export default {
   },
   data() {
     return {
+      batchStatusValue:"",
       title: "批次有效期修改",
       dialogFormVisible: false,
       errorNum: "",
@@ -475,7 +484,9 @@ export default {
           label: "否",
         },
       ],
-      tableData: [],
+      tableData: [
+       
+      ],
       multipleSelection: [],
       queryData: {
         pageNumber: "1",
@@ -509,7 +520,7 @@ export default {
   methods: {
     pageQueryFun() {
       usefulLifeManagment(this.queryData).then((ok) => {
-        // console.log(ok);
+        console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = [];
           this.tableData = ok.data.result.list;
@@ -772,9 +783,6 @@ export default {
                 width: 190px;
                 .ivu-input {
                   border: none;
-                }
-                .ivu-select-dropdown {
-                  z-index: 3000 !important;
                 }
               }
               .el-input {
