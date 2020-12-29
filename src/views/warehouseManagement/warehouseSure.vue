@@ -14,7 +14,7 @@
                                         class="displayalign parentBox"
                                 >
                                     <div
-                                            class="titleBox  ellipsis"
+                                            class="titleBox ellipsis"
                                             v-html="shezhizitiwiered(item)"
                                     ></div>
                                     <div class="centersBox ">

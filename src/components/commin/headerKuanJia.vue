@@ -71,11 +71,11 @@
     }
 
     .biaogeBox {
-        width: 92%;
+        width: 90%;
     }
 
     .btns {
-        width: 8%;
+        width: 10%;
         height: 100%;
         text-align: right;
         position: relative;
