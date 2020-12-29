@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div class="indexForm">
-      <el-table :data="tableData" border max-height="380" style="width: 100%">
+      <el-table :data="tableData" border max-height="380" style="width:100%">
         <el-table-column
           prop="role"
           label="角色"
@@ -40,7 +39,6 @@
           min-width="180"
         ></el-table-column>
       </el-table>
-    </div>
   </div>
 </template>
 

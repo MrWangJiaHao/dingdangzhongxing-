@@ -286,7 +286,10 @@ input[type="number"] {
 }
 
 //全局修改鼠标移入表格后的背景色
-.el-table--enable-row-hover .el-table__body tr:hover > td {
+.el-table__body tr:hover > td, .el-table__body tr.hover-row.el-table__row--striped>td {
+  background-color: #d6e4f4 !important;
+}
+.el-table__body tr.hover-row > td {
   background-color: #d6e4f4 !important;
 }
 
@@ -322,7 +325,10 @@ input:-moz-placeholder {
 .el-table--group::after {
   width: 0 !important;
 }
-
+.el-table__fixed-right::before,
+.el-table__fixed::before {
+  background-color: #d2d6e2 !important;
+}
 .el-table__row td:last-child {
   border-right: none !important;
 }
@@ -348,6 +354,10 @@ input:-moz-placeholder {
   font-size: 20px !important;
   left: -8px !important;
   top: -30% !important;
+}
+//修改时间选择框的层级
+.ivu-select-dropdown {
+  z-index: 9999 !important;
 }
 </style>
 

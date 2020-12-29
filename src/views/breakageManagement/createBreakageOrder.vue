@@ -2,7 +2,6 @@
   <div id="createBreakage">
     <div class="main">
       <div class="headerBox">
-        <div class="headerBox-title">创建报损单</div>
         <div class="headerBox-input">
           <div class="el-inputBox">
             <div class="el-inputBox-text">委托公司：</div>
