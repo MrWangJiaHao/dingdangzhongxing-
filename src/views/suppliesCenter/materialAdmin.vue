@@ -123,22 +123,22 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55" align="center">
+            <el-table-column type="selection" width="82" align="center" fixed="left">
             </el-table-column>
             <el-table-column
               label="序号"
               align="center"
               type="index"
-              width="60"
+              width="71"
             >
             </el-table-column>
             <el-table-column
               prop="materielName"
               label="物料名称"
-              align="center"
+              align="left"
             >
             </el-table-column>
-            <el-table-column prop="specName" label="规格" align="center">
+            <el-table-column prop="specName" label="规格" align="center" width="160">
             </el-table-column>
             <el-table-column prop="supName" label="供应商" align="center">
             </el-table-column>
@@ -154,7 +154,8 @@
               prop="remark"
               label="备注"
               align="center"
-              width="110"
+              width="200"
+              show-overflow-tooltip
             >
             </el-table-column>
             <el-table-column
@@ -928,7 +929,8 @@ export default {
                 border-right: 1px solid #d1d6e2;
                 line-height: 34px;
                 color: #000;
-                text-align: center;
+                padding: 0 16px;
+                text-align: right;
               }
               .el-input {
                 width: 167px;

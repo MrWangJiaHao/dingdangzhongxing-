@@ -51,13 +51,13 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55" align="center">
+            <el-table-column type="selection" width="82" align="center" fixed="left">
             </el-table-column>
             <el-table-column
               label="序号"
               align="center"
               type="index"
-              width="60"
+              width="71"
             >
             </el-table-column>
             <el-table-column prop="braFullName" label="品牌名称" align="center">
@@ -103,7 +103,9 @@
         <div class="boxContent">
           <div class="content_one">
             <div class="name_con name_con_one">
-              <div class="setSupplierName">品牌名称</div>
+              <div class="setSupplierName">
+                <span class="addStar">品牌名称</span>
+              </div>
               <el-input
                 v-model="braFullName"
                 placeholder="请输入品牌名称"
@@ -147,7 +149,8 @@ export default {
   },
   data() {
     return {
-      title: "",
+
+        title: "",
       nameValue: "",
       brandNameData: [],
       tableData: [],

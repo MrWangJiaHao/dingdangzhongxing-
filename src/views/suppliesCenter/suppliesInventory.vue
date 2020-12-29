@@ -149,13 +149,13 @@
               label="序号"
               align="center"
               type="index"
-              width="60"
+              width="71"
             >
             </el-table-column>
             <el-table-column
               prop="materielName"
               label="物料名称"
-              align="center"
+              align="left"
             >
             </el-table-column>
             <el-table-column
@@ -177,8 +177,9 @@
             <el-table-column
               prop="supName"
               label="供应商"
-              align="center"
-              width="110"
+              align="left"
+              width="150"
+              show-overflow-tooltip
             >
             </el-table-column>
             <el-table-column

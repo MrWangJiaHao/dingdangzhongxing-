@@ -42,8 +42,9 @@
           >
             <el-table-column
               type="selection"
-              width="55"
+              width="82"
               align="center"
+               fixed="left"
             ></el-table-column>
             <el-table-column
               label="序号"
@@ -88,16 +89,16 @@
             </el-table-column>
           </el-table>
         </div>
-      </div>
-      <div class="remarkBox">
-        <div class="remark">备注：</div>
-        <div class="textarea">
-          <el-input
-            type="textarea"
-            v-model="textarea"
-            maxlength="100"
-            show-word-limit
-          ></el-input>
+        <div class="remarkBox">
+          <div class="remark">备注：</div>
+          <div class="textarea">
+            <el-input
+              type="textarea"
+              v-model="textarea"
+              maxlength="100"
+              show-word-limit
+            ></el-input>
+          </div>
         </div>
       </div>
     </div>
@@ -360,13 +361,16 @@ export default {
       .tableBox-table {
         padding: 16px 20px;
       }
-    }
-    .remarkBox {
-      margin-top: 20px;
-            padding: 0 20px;
-
-      .remark {
-        margin-bottom: 10px;
+      .remarkBox {
+        padding: 0 20px 20px;
+        display: flex;
+        align-items: center;
+        .remark {
+          margin-bottom: 10px;
+        }
+        .textarea{
+          width: 700px;
+        }
       }
     }
   }

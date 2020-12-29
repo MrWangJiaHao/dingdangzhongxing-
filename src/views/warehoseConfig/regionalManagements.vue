@@ -206,6 +206,7 @@
                                 type="selection"
                                 width="82"
                                 align="center"
+                                 fixed="left"
                         ></el-table-column>
                         <el-table-column
                                 label="序号"

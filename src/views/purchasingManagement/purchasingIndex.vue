@@ -32,6 +32,7 @@
                                     type="selection"
                                     align="center"
                                     width="82"
+                                     fixed="left"
                             ></el-table-column>
                             <el-table-column label="展开" width="71" type="expand">
                                 <template slot-scope="scope">
@@ -50,7 +51,7 @@
                                             <el-table-column
                                                     type="index"
                                                     label="序号"
-                                                    width="70"
+                                                    width="71"
                                                     align="center"
                                                     show-overflow-tooltip
                                             >

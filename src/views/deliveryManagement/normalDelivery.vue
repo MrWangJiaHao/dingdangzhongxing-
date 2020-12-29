@@ -61,6 +61,69 @@
                                     prop="orderNo"
                                     show-overflow-tooltip
                             >
+  <div id="fahuoguanli">
+    <div class="manualBox">
+      <div>
+        <manualHeader @getParasJson="getParasJson" :tableData="tableData" />
+      </div>
+      <div class="btnArr">
+        <div style="background-color: #fff">
+          <div class="meiyiyetitle">正常发货</div>
+          <div class="btnClick">
+            <div class="setUser" @click="warehousingConfirmation">集计</div>
+          </div>
+        </div>
+        <!-- but按钮 -->
+      </div>
+      <div class="tableBox">
+        <div style="background-color: #fff; padding: 16px 20px 16px 20px">
+          <div class="center">
+            <el-table
+              ref="multipleTable"
+              :data="tableData"
+              :stripe="true"
+              :border="true"
+              tooltip-effect="dark"
+              style="width: 100%"
+              @selection-change="handleSelectionChange"
+            >
+              <el-table-column
+                type="selection"
+                align="center"
+                width="82"
+                 fixed="left"
+              ></el-table-column>
+              <el-table-column
+                label="序号"
+                type="index"
+                
+                align="center"
+                show-overflow-tooltip
+              />
+              <el-table-column
+                label="委托公司"
+                width="119"
+                prop="orgName"
+                show-overflow-tooltip
+              />
+              <el-table-column
+                width="119"
+                label="渠道"
+                prop="channelName"
+                show-overflow-tooltip
+              ></el-table-column>
+              <el-table-column
+                width="250"
+                label="订单来源"
+                prop="orderSourceName"
+                show-overflow-tooltip
+              ></el-table-column>
+              <el-table-column
+                label="订单号"
+                width="250"
+                prop="orderNo"
+                show-overflow-tooltip
+              >
                 <span slot-scope="scoped">
                   <div @click="goToDetailOut(scoped.row)" class="lookDeatil">
                     {{ scoped.row.orderNo }}

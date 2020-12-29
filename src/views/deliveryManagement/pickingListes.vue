@@ -1,16 +1,58 @@
 <template>
-    <div id="fahuoguanli">
-        <div class="manualBox">
-            <div>
-                <manualHeader @getParasJson="getParasJson" :tableData="tableData"/>
-            </div>
-            <div class="btnArr">
-                <div style="background-color: #fff">
-                    <div class="meiyiyetitle">拣货单管理</div>
-                    <div class="btnClick">
-                        <div class="setUser mr11" @click="TovoidClick">作废</div>
-                        <div class="setUser" @click="printPicking">打印拣货单</div>
-                    </div>
+  <div id="fahuoguanli">
+    <div class="manualBox">
+      <div>
+        <manualHeader @getParasJson="getParasJson" :tableData="tableData" />
+      </div>
+      <div class="btnArr">
+        <div style="background-color: #fff">
+          <div class="meiyiyetitle">拣货单管理</div>
+          <div class="btnClick">
+            <div class="setUser mr11" @click="TovoidClick">作废</div>
+            <div class="setUser" @click="printPicking">打印拣货单</div>
+          </div>
+        </div>
+        <!-- but按钮 -->
+      </div>
+      <div class="tableBox">
+        <div style="background-color: #fff; padding: 16px 20px 16px 20px">
+          <div class="center">
+            <el-table
+              ref="multipleTable"
+              :data="tableData"
+              :stripe="true"
+              :border="true"
+              tooltip-effect="dark"
+              style="width: 100%"
+              @selection-change="handleSelectionChange"
+            >
+              <el-table-column
+                type="selection"
+                align="center"
+                width="82"
+                 fixed="left"
+              ></el-table-column>
+              <el-table-column
+                label="序号"
+                type="index"
+                align="center"
+                width="71"
+                show-overflow-tooltip
+              />
+              <el-table-column
+                label="拣货单号"
+                width="119"
+                prop="pickOrderNo"
+                show-overflow-tooltip
+              />
+              <el-table-column
+                width="119"
+                label="拣货单状态"
+                prop="printExprStatus"
+                show-overflow-tooltip
+              >
+                <div slot-scope="scoped">
+                  {{ scoped.row.printExprStatus ? "已打印" : "未打印" }}
                 </div>
                 <!-- but按钮 -->
             </div>

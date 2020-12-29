@@ -51,16 +51,26 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55" align="center">
+            <el-table-column
+              type="selection"
+              width="82"
+              align="center"
+              fixed="left"
+            >
             </el-table-column>
             <el-table-column
               label="序号"
               align="center"
               type="index"
-              width="60"
+              width="71"
             >
             </el-table-column>
-            <el-table-column prop="supFullName" label="供应商" align="center">
+            <el-table-column
+              prop="supFullName"
+              label="供应商"
+              align="center"
+              show-overflow-tooltip
+            >
             </el-table-column>
             <el-table-column
               prop="supContactPhone"
@@ -73,14 +83,15 @@
             <el-table-column
               prop="companyAddress"
               label="公司地址"
-              align="center"
+              align="left"
+              show-overflow-tooltip
             >
             </el-table-column>
             <el-table-column
               prop="remark"
               label="备注"
               align="center"
-              width="110"
+              show-overflow-tooltip
             >
             </el-table-column>
             <el-table-column
@@ -117,21 +128,27 @@
         <div class="boxContent">
           <div class="content_one">
             <div class="name_con name_con_one">
-              <div class="setSupplierName">供应商名称</div>
+              <div class="setSupplierName">
+                <span class="addStar">供应商名称</span>
+              </div>
               <el-input
                 v-model="supplierName"
                 placeholder="请输入供应商名称"
               ></el-input>
             </div>
             <div class="name_con name_con_two">
-              <div class="telPeople">联系人</div>
+              <div class="telPeople">
+                <span class="addStar">联系人</span>
+              </div>
               <el-input
                 v-model="telPeople"
                 placeholder="请输入联系人"
               ></el-input>
             </div>
             <div class="name_con name_con_three">
-              <div class="telPeoplePhone">联系电话</div>
+              <div class="telPeoplePhone">
+                <span class="addStar">联系电话</span>
+              </div>
               <el-input
                 v-model="telPeoplePhone"
                 placeholder="请输入联系电话"
@@ -141,7 +158,9 @@
             </div>
           </div>
           <div class="content_one comAddr">
-            <div class="comAddrName">公司地址</div>
+            <div class="comAddrName">
+              <span class="addStar">公司地址</span>
+            </div>
             <div>
               <el-cascader
                 :options="areaSelectData"
@@ -156,7 +175,9 @@
             </div>
           </div>
           <div class="content_one xiangxiAddr">
-            <div class="XXAddrName">详细地址</div>
+            <div class="XXAddrName">
+              <span class="addStar">详细地址</span>
+            </div>
             <el-input
               v-model="xiangxiAddrName"
               placeholder="请输入详细地址"
@@ -632,7 +653,8 @@ export default {
                 border-right: 1px solid #d1d6e2;
                 line-height: 34px;
                 color: #000;
-                text-align: center;
+                padding: 0 16px;
+                text-align: right;
               }
               .el-input {
                 width: 288px;
@@ -671,7 +693,8 @@ export default {
                 border-right: 1px solid #d1d6e2;
                 line-height: 34px;
                 color: #000;
-                text-align: center;
+                padding: 0 16px;
+                text-align: right;
               }
               .el-input {
                 width: 130px;
@@ -696,6 +719,7 @@ export default {
               line-height: 34px;
               padding: 0 16px;
               color: #000;
+              text-align: right;
             }
             .el-cascader {
               width: 288px;
@@ -716,6 +740,7 @@ export default {
               line-height: 34px;
               padding: 0 16px;
               color: #000;
+              text-align: right;
             }
             .el-input {
               width: 754px;
@@ -735,6 +760,7 @@ export default {
               line-height: 94px;
               padding: 0 16px;
               color: #000;
+              text-align: right;
             }
             .el-textarea {
               width: 754px;

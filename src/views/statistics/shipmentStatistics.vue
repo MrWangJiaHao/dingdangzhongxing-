@@ -126,13 +126,13 @@
               :stripe="true"
               tooltip-effect="dark"
             >
-              <el-table-column type="selection" width="55" align="center">
+              <el-table-column type="selection" width="82" align="center" fixed="left">
               </el-table-column>
               <el-table-column
                 label="序号"
                 align="center"
                 type="index"
-                width="60"
+                width="71"
               >
               </el-table-column>
               <el-table-column prop="orgName" label="委托公司" align="center">
@@ -145,7 +145,7 @@
                 align="center"
               >
               </el-table-column
-              ><el-table-column prop="orgAddr" label="联系地址" align="left">
+              ><el-table-column prop="orgAddr" label="联系地址" align="left" show-overflow-tooltip>
               </el-table-column
               ><el-table-column prop="channelName" label="渠道" align="center">
               </el-table-column
@@ -190,13 +190,13 @@
               :stripe="true"
               tooltip-effect="dark"
             >
-              <el-table-column type="selection" width="55" align="center">
+              <el-table-column type="selection" width="82" align="center" fixed="left">
               </el-table-column>
               <el-table-column
                 label="序号"
                 align="center"
                 type="index"
-                width="60"
+                width="71"
               >
               </el-table-column>
               <el-table-column prop="orgName" label="委托公司" align="center">
@@ -210,7 +210,7 @@
               >
               </el-table-column>
 
-              <el-table-column prop="prodCode" label="产品编码" align="center">
+              <el-table-column prop="prodCode" label="产品编码" align="center" width="200">
               </el-table-column>
               <el-table-column
                 prop="prodFullName"
@@ -347,7 +347,7 @@ export default {
       //点击查询
       if (this.activeLabel) {
         //发货单品查询
-        console.log("发货单品查询");
+        // console.log("发货单品查询");
         this.itemQuerData.paras.channelId = this.channelName;
         this.itemQuerData.paras.orgId = this.entrustCompany;
         this.itemQuerData.paras.orderSourceId = this.orderSourceName;
@@ -356,7 +356,7 @@ export default {
         this.itemPageQueryFun();
       } else {
         //发货订单查询
-        console.log("发货订单查询");
+        // console.log("发货订单查询");
         this.orderQuerData.paras.channelId = this.channelName;
         this.orderQuerData.paras.orgId = this.entrustCompany;
         this.orderQuerData.paras.orderSourceId = this.orderSourceName;
@@ -394,12 +394,12 @@ export default {
       if (val.label === this.labelTitle1) {
         document.querySelector(".prodNameBox").style.display = "flex";
         document.querySelector(".prodCodeBox").style.display = "flex";
-        document.querySelector(".headerHtml").style.height = "100px";
+        // document.querySelector(".headerHtml").style.height = "100px";
         this.activeLabel = true;
       } else {
         document.querySelector(".prodNameBox").style.display = "none";
         document.querySelector(".prodCodeBox").style.display = "none";
-        document.querySelector(".headerHtml").style.height = "50px";
+        // document.querySelector(".headerHtml").style.height = "50px";
         this.activeLabel = false;
       }
     },

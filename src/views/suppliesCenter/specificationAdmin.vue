@@ -69,13 +69,13 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="55" align="center">
+            <el-table-column type="selection" width="82" align="center" fixed="left">
             </el-table-column>
             <el-table-column
               label="序号"
               align="center"
               type="index"
-              width="60"
+              width="71"
             >
             </el-table-column>
             <el-table-column prop="specValue" label="规格值" align="center">
@@ -86,7 +86,7 @@
               prop="remark"
               label="备注"
               align="center"
-              width="110"
+              show-overflow-tooltip
             >
             </el-table-column>
             <el-table-column
@@ -97,7 +97,6 @@
             <el-table-column
               prop="createTime"
               label="创建时间"
-              width="180"
               min-width="180"
             ></el-table-column>
           </el-table>
@@ -123,7 +122,9 @@
         <div class="boxContent">
           <div class="content_one">
             <div class="name_con name_con_one">
-              <div class="setSupplierName">规格单位</div>
+              <div class="setSupplierName">
+                <span class="addStar">规格单位</span>
+              </div>
               <el-input
                 v-model="specUnitInput"
                 placeholder="请输入规格单位 mm/cm/m"
@@ -131,7 +132,9 @@
               ></el-input>
             </div>
             <div class="name_con name_con_one">
-              <div class="setSupplierName">规格值</div>
+              <div class="setSupplierName">
+                <span class="addStar">规格值</span>
+              </div>
               <el-input
                 v-model="specValueInput"
                 placeholder="请输入规格值 例:20*20*20"

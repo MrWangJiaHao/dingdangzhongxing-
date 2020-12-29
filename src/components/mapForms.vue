@@ -23,8 +23,8 @@
         tooltip-effect="dark"
         @cell-click="lookDetail"
       >
-        <el-table-column type="selection" width="55"> </el-table-column>
-        <el-table-column label="序号" align="center" type="index" width="55">
+        <el-table-column type="selection" width="82" fixed="left"> </el-table-column>
+        <el-table-column label="序号" align="center" type="index">
         </el-table-column>
         <el-table-column prop="orgName" label="委托公司" align="center">
         </el-table-column>

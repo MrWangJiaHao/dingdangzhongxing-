@@ -116,8 +116,9 @@
           >
             <el-table-column
               type="selection"
-              width="55"
+              width="82"
               align="center"
+               fixed="left"
             ></el-table-column>
             <el-table-column
               label="序号"

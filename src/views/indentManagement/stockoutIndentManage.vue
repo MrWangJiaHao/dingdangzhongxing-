@@ -168,7 +168,7 @@
                   :stripe="true"
                   tooltip-effect="dark"
                 >
-                  <el-table-column type="selection" width="55" align="center">
+                  <el-table-column type="selection" width="82" align="center" fixed="left">
                   </el-table-column>
                   <el-table-column
                     label="序号"
@@ -276,7 +276,7 @@
                   :stripe="true"
                   tooltip-effect="dark"
                 >
-                  <el-table-column type="selection" width="55" align="center">
+                  <el-table-column type="selection" width="82" align="center" fixed="left">
                   </el-table-column>
                   <el-table-column
                     label="序号"
@@ -301,9 +301,10 @@
                     prop="orderSourceName"
                     label="订单来源"
                     align="center"
+                    width="180"
                   >
                   </el-table-column>
-                  <el-table-column prop="orderNo" label="订单号" align="left">
+                  <el-table-column prop="orderNo" label="订单号" align="left" width="180">
                     <template slot-scope="scope">
                       <div
                         class="lookDeatil"
@@ -317,6 +318,7 @@
                     prop="subOrderNo"
                     label="子订单号"
                     align="left"
+                    width="180"
                   >
                     <template slot-scope="scope">
                       <div
@@ -337,12 +339,14 @@
                     prop="exprNo"
                     label="物流单号"
                     align="center"
+                    width="180"
                   >
                   </el-table-column>
                   <el-table-column
                     prop="reason"
                     label="失败原因"
                     align="left"
+                    width="140"
                   >
                     <template slot-scope="scope">
                       <div class="failCause">

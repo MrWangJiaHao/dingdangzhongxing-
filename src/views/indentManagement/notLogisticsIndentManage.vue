@@ -177,7 +177,7 @@
             tooltip-effect="dark"
             @cell-click="lookDetailEvent"
           >
-            <el-table-column type="selection" width="55" align="center">
+            <el-table-column type="selection" width="82" align="center" fixed="left">
             </el-table-column>
             <el-table-column
               label="序号"
@@ -194,16 +194,17 @@
               prop="orderSourceName"
               label="订单来源"
               align="left"
+              width="180"
             >
             </el-table-column>
-            <el-table-column prop="orderNo" label="订单号" align="left">
+            <el-table-column prop="orderNo" label="订单号" align="left" width="180">
               <template slot-scope="scope">
                 <div class="lookDeatil">
                   {{ scope.row.orderNo }}
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="subOrderNo" label="子订单号" align="left">
+            <el-table-column prop="subOrderNo" label="子订单号" align="left" width="180">
               <template slot-scope="scope">
                 <div class="lookDeatil">
                   {{ scope.row.subOrderNo }}
@@ -222,7 +223,6 @@
               label="下发时间"
               align="left"
               width="180"
-              min-width="180"
             ></el-table-column>
           </el-table>
           <div class="pageComponent">
