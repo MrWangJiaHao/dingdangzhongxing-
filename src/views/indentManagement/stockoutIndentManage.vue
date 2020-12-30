@@ -183,6 +183,7 @@
                     prop="prodCode"
                     label="产品编码"
                     align="left"
+                    width="250"
                   >
                   </el-table-column
                   ><el-table-column
@@ -215,6 +216,7 @@
                     prop="prodNum"
                     label="销售仓可用库存数量"
                     align="center"
+                    width="250"
                   >
                   </el-table-column
                   ><el-table-column

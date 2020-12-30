@@ -100,7 +100,7 @@
                         leave-active-class="animate__animated animate__zoomOut"
                 >
                     <div v-if="quyuLook" class="quyupinmianBoxMsg">
-                        <kuanjiaClick titles="区域平面图" @closeBtn="quyuLook = !quyuLook" @clickSubmit=""
+                        <kuanjiaClick titles="区域平面图" @closeBtn="quyuLook = !quyuLook"
                                       :isLookerShow="false" print="关闭">
                             <template>
                                 <div class="bkf p20 botD1">
@@ -172,7 +172,7 @@
                         v-if="kuwieLook"
                         class="pofixCenter displayCenter"
                 >
-                    <kuanjiaClick titles="库位平面图" @closeBtn="kuwieLook = !kuwieLook" @clickSubmit=""
+                    <kuanjiaClick titles="库位平面图" @closeBtn="kuwieLook = !kuwieLook"
                                   :isLookerShow="false" print="关闭">
                         <div class="quyupinmianBoxMsgs" :style="{
                         width:kuwieDatas.kuwie.length?'':'1000px'
