@@ -140,7 +140,7 @@
             </el-table-column>
             <el-table-column prop="specName" label="规格" align="center" width="160">
             </el-table-column>
-            <el-table-column prop="supName" label="供应商" align="center">
+            <el-table-column prop="supName" label="供应商" align="center" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="braName" label="品牌" align="center">
             </el-table-column>

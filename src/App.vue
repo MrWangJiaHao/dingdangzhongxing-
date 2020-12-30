@@ -359,5 +359,8 @@ input:-moz-placeholder {
 .ivu-select-dropdown {
   z-index: 9999 !important;
 }
+.el-table__fixed{
+  height: 100% !important;
+}
 </style>
 
