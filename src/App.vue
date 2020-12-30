@@ -287,10 +287,10 @@ input[type="number"] {
 
 //全局修改鼠标移入表格后的背景色
 .el-table__body tr:hover > td, .el-table__body tr.hover-row.el-table__row--striped>td {
-  background-color: #d6e4f4 !important;
+  background-color: #c7e0ff !important;
 }
 .el-table__body tr.hover-row > td {
-  background-color: #d6e4f4 !important;
+  background-color: #c7e0ff !important;
 }
 
 //全局修改点击表格某行后的背景色
@@ -362,5 +362,7 @@ input:-moz-placeholder {
 .el-table__fixed{
   height: 100% !important;
 }
+
+
 </style>
 

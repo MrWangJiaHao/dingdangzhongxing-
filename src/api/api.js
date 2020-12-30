@@ -1177,6 +1177,81 @@ export function setExpireTime(data) {
     })
 }
 
+//库存管理=>有效期管理=>修改有效期
+export function setIndate(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWarehouseSeatProd/updateBatchExpireTime",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+//库存盘点=>盘点计划管理=>分页查询
+export function queryCheckPlanManage(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pStockCheckPlan/findRecordPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//库存盘点=>盘点计划管理=>新增.修改盘点计划信息
+export function createCheckPlanManage(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pStockCheckPlan/saveRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//库存盘点=>盘点计划管理=>盘点计划作废
+export function cancelCheckPlanManage(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pStockCheckPlan/cancelStock",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//库存盘点=>盘点计划管理=>删除盘点计划
+export function delCheckPlanManage(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pStockCheckPlan/delRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+
+
+
 
 /**
  *
