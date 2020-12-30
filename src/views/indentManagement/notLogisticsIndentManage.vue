@@ -1,5 +1,5 @@
 <template>
-  <div id="mianPage">
+  <div id="notLogisticsIndentManage">
     <!-- 这是自提订单管理页面 -->
     <div class="roleName">
       <div class="headerHtml">
@@ -125,7 +125,7 @@
           <div class="timeChoose el-inputBox">
             <div class="el-inputBox-text titleBox">下发时间：</div>
             <div class="timeBox">
-              <div style="">
+              <div>
                 <dateTime
                   :dateTimeData="datetimeDates"
                   @getDateTime="getStartTime"
@@ -739,7 +739,7 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
 
-#mianPage {
+#notLogisticsIndentManage {
   background: #eef1f8;
   padding: 20px 10px;
 }

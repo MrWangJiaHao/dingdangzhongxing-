@@ -426,9 +426,22 @@
                     },
                     {
                         title: "库存盘点",
-                        name: "",
+                        name: "/inventoryCheck/checkPlanManagement",
                         iconCls: require("@/assets/svg/kuchunpandian.svg"),
-                        children: [],
+                        children: [
+                            {
+                                 title: "盘点计划管理",
+                                name: "/inventoryCheck/checkPlanManagement",
+                            },
+                            {
+                                 title: "盘点单管理",
+                                name: "/inventoryCheck/checkOrderManagement",
+                            },
+                            {
+                                 title: "库存订正结果",
+                                name: "/inventoryCheck/saveInventoryResult",
+                            },
+                        ],
                     },
                     {
                         title: "物料中心",

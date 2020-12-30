@@ -602,6 +602,46 @@ const routes = [{
             },
         },
         //----------------------------------------------------------库存管理结束-------------------------------------------------------------------------------------
+        
+        //----------------------------------------------------------库存盘点开始-------------------------------------------------------------------------------------
+        {
+            // 库存盘点=>盘点计划管理
+            path: "/inventoryCheck/checkPlanManagement",
+            name: "/inventoryCheck/checkPlanManagement",
+            component: () => import("../views//inventoryCheck/checkPlanManagement"),
+            meta: {
+                keepAlive: true
+            },
+        },
+        {
+            // 库存盘点=>创建盘点计划管理
+            path: "/inventoryCheck/createCheckPlan",
+            name: "/inventoryCheck/createCheckPlan",
+            component: () => import("../views//inventoryCheck/createCheckPlan"),
+            meta: {
+                keepAlive: false
+            },
+        },
+        {
+            // 库存盘点=>盘点单管理
+            path: "/inventoryCheck/checkOrderManagement",
+            name: "/inventoryCheck/checkOrderManagement",
+            component: () => import("../views//inventoryCheck/checkOrderManagement"),
+            meta: {
+                keepAlive: true
+            },
+        },
+        {
+            // 库存盘点=>库存订正结果
+            path: "/inventoryCheck/saveInventoryResult",
+            name: "/inventoryCheck/saveInventoryResult",
+            component: () => import("../views//inventoryCheck/saveInventoryResult"),
+            meta: {
+                keepAlive: true
+            },
+        },
+        //----------------------------------------------------------库存盘点结束-------------------------------------------------------------------------------------
+        
         //----------------------------------------------------------仓库作业 start-------------------------------------------------------------------------------------
 
 

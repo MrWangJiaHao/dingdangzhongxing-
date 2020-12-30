@@ -348,7 +348,7 @@ export default {
           type: "warning",
         });
       this.$messageSelf
-        .confirms("确定要删除该子仓？", "提示", {
+        .confirms("确定要删除该子仓？", "删除提示", {
           type: "info",
         })
         .then(() => {

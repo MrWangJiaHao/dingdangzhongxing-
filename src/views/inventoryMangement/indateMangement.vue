@@ -218,11 +218,14 @@
             >
               <template slot-scope="scpoe">
                 <div class="canuseNum">
-                  <!-- {{batchStatusValue = scpoe.row.batchStatus===1?true:false}} -->
                   <el-switch
                     v-model="scpoe.row.batchStatus"
                     active-color="#13ce66"
                     inactive-color="#ff4949"
+                    active-value="1"
+                    inactive-value="0"
+                    :width="50"
+                    disabled
                   >
                   </el-switch>
                 </div>
@@ -252,7 +255,7 @@
             >
             </el-table-column>
             <el-table-column
-              prop=""
+              prop="AdventValue"
               label="临期值"
               align="center"
               width="100"
@@ -294,19 +297,19 @@
               <div class="name_con_title">
                 <span class="addStar">委托公司</span>
               </div>
-              <el-input v-model="dialogorgName"></el-input>
+              <el-input v-model="dialogorgName" disabled></el-input>
             </div>
             <div class="name_con">
               <div class="name_con_title">
                 <span class="addStar">产品编码</span>
               </div>
-              <el-input v-model="dialogProdCode"></el-input>
+              <el-input v-model="dialogProdCode" disabled></el-input>
             </div>
             <div class="name_con">
               <div class="name_con_title">
                 <span class="addStar">产品名称</span>
               </div>
-              <el-input v-model="dialogProdName"></el-input>
+              <el-input v-model="dialogProdName" disabled></el-input>
             </div>
           </div>
           <div class="content_one">
@@ -314,19 +317,19 @@
               <div class="name_con_title">
                 <span class="addStar">产品规格</span>
               </div>
-              <el-input v-model="dialogProdSpec"></el-input>
+              <el-input v-model="dialogProdSpec" disabled></el-input>
             </div>
             <div class="name_con">
               <div class="name_con_title">
                 <span class="addStar">存储区库存</span>
               </div>
-              <el-input v-model="dialogInventory"></el-input>
+              <el-input v-model="dialogInventory" disabled></el-input>
             </div>
             <div class="name_con">
               <div class="name_con_title">
                 <span class="addStar">生产日期</span>
               </div>
-              <el-input v-model="dialogManuTime"></el-input>
+              <el-input v-model="dialogManuTime" disabled></el-input>
             </div>
           </div>
           <div class="content_one">
@@ -334,19 +337,19 @@
               <div class="name_con_title">
                 <span class="addStar">到期日期</span>
               </div>
-              <el-input v-model="dialogExpireTime"></el-input>
+              <el-input v-model="dialogExpireTime" disabled></el-input>
             </div>
             <div class="name_con">
               <div class="name_con_title">
                 <span class="addStar">保质期(月)</span>
               </div>
-              <el-input v-model="dialogQualityDate"></el-input>
+              <el-input v-model="dialogQualityDate" disabled></el-input>
             </div>
             <div class="name_con">
               <div class="name_con_title">
                 <span class="addStar">库存编号</span>
               </div>
-              <el-input v-model="dialogSeatCode"></el-input>
+              <el-input v-model="dialogSeatCode" disabled></el-input>
             </div>
           </div>
 
@@ -420,8 +423,8 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { usefulLifeManagment, setExpireTime } from "../../api/api";
-import { clearTimeInput, reduceFun } from "../../utils/validate";
+import { usefulLifeManagment, setExpireTime, setIndate } from "../../api/api";
+import { clearTimeInput } from "../../utils/validate";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 
 export default {
@@ -431,7 +434,7 @@ export default {
   },
   data() {
     return {
-      batchStatusValue:"",
+      batchStatusValue: "",
       title: "批次有效期修改",
       dialogFormVisible: false,
       errorNum: "",
@@ -457,9 +460,12 @@ export default {
       productName: "",
       specName: "",
       braName: "",
-      batchNos: "",
       batchState: "",
       batchNos: "",
+      expireTime: "", //临期值
+      manuTime: "", //生产日期
+      id: "",
+      // batchStatusValue:"1",//批次状态开关
       entrustCompanyData: [],
       specNameData: [],
       isExpire: [],
@@ -470,7 +476,7 @@ export default {
           label: "开启",
         },
         {
-          value: "2",
+          value: "0",
           label: "停用",
         },
       ],
@@ -485,7 +491,9 @@ export default {
         },
       ],
       tableData: [
-       
+        // {
+        //   batchStatus:1
+        // }
       ],
       multipleSelection: [],
       queryData: {
@@ -525,30 +533,49 @@ export default {
           this.tableData = [];
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
-          this.tableData.forEach((v) => {});
+          this.tableData.forEach((v) => {
+            v.isExpire = this.isExpireFun(v.expireTime);
+            v.qualityDate = this.qualityDateFun(v.expireTime, v.manuTime);
+          });
         }
       });
+    },
+    isExpireFun(data) {
+      let nowDate = new Date();
+      let isExpireState = "";
+      if (data > nowDate) {
+        isExpireState = "是";
+      } else {
+        isExpireState = "否";
+      }
+      return isExpireState;
+    },
+    qualityDateFun(manuTime, expireTime) {
+      let dateNum = "";
+      let diff = new Date(manuTime) - new Date(expireTime);
+      dateNum = parseInt(diff / (1000 * 60 * 60 * 12 * 30));
+      return dateNum;
     },
     entrustCompanys(val) {
       this.queryData.paras.orgId = val;
     },
     specNames(val) {
-      this.queryData.paras.specName = val;
+      this.queryData.paras.specId = val;
     },
     braNames(val) {
       this.queryData.paras.braId = val;
     },
     batchStates(val) {
-      this.queryData.paras.braId = val;
+      this.queryData.paras.batchStatus = val;
     },
     isExpires(val) {
-      this.queryData.paras.braId = val;
+      this.queryData.paras.isExpire = val;
     },
     clickQuery() {
       //点击查询
       this.queryData.paras.prodName = this.productName;
       this.queryData.paras.prodCode = this.productCode;
-      this.queryData.paras.inventoryFloor = this.warningVal;
+      this.queryData.paras.batchNo = this.batchNos;
       this.pageQueryFun();
     },
     clearInput() {
@@ -563,11 +590,81 @@ export default {
       this.multipleSelection = value;
     },
     okBtn() {
+      if (this.dialogBatchNo === "")
+        return this.$messageSelf.message({
+          message: "请输入正确的批次号",
+          type: "warning",
+        });
+      if (this.errorNum === "")
+        return this.$messageSelf.message({
+          message: "请输入纠错数量",
+          type: "warning",
+        });
+      if (this.manuTime === "")
+        return this.$messageSelf.message({
+          message: "请选择正确的生产日期",
+          type: "warning",
+        });
+      if (this.expireTime === "")
+        return this.$messageSelf.message({
+          message: "请选择正确的到期日期",
+          type: "warning",
+        });
+      //正则验证
+      // if (!/dswsaasdf/.test(this.dialogBatchNo)) {
+      //   return this.$messageSelf.message({
+      //     message: "批次号格式有误",
+      //     type: "warning",
+      //   });
+      // }
+      // if (!/dswsaasdf/.test(this.errorNum)) {
+      //   return this.$messageSelf.message({
+      //     message: "纠错数量格式有误",
+      //     type: "warning",
+      //   });
+      // }
       this.dialogFormVisible = false;
+      let data = {
+        id: this.id,
+        expireTime: this.expireTime,
+        manuTime: this.manuTime,
+        batchNo: this.dialogBatchNo,
+        remark: this.remarkInfor,
+      };
+      setIndate(data).then((ok) => {
+        // console.log(ok)
+        if (ok.data.code === "10000") {
+          this.$messageSelf.message({ message: "修改成功", type: "success" });
+          this.pageQueryFun();
+        } else {
+          this.$messageSelf.message({ message: "修改失败", type: "error" });
+        }
+      });
     },
     saveBatch() {
       //批次有效期修改
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message({
+          message: "请选择产品",
+          type: "warning",
+        });
+      if (this.multipleSelection.length > 1)
+        return this.$messageSelf.message({
+          message: "一次只能选择一个",
+          type: "warning",
+        });
       this.dialogFormVisible = true;
+      let selectData = this.multipleSelection[0];
+      this.id = selectData.id;
+      this.dialogorgName = selectData.orgName;
+      this.dialogProdCode = selectData.prodCode;
+      this.dialogProdName = selectData.prodName;
+      this.dialogProdSpec = selectData.specName;
+      this.dialogInventory = selectData.currInventory;
+      this.dialogManuTime = selectData.manuTime;
+      this.dialogExpireTime = selectData.expireTime;
+      this.dialogQualityDate = selectData.qualityDate;
+      this.dialogSeatCode = selectData.wareSeatCode;
     },
     setExpire() {
       //设置临期值
@@ -626,10 +723,10 @@ export default {
       this.pageComponentsData.pageNums = totalRow;
     },
     getStartTime(e) {
-      console.log(e);
+      this.manuTime = e;
     },
     getEndTime(e) {
-      console.log(e);
+      this.expireTime = e;
     },
   },
 };
@@ -770,7 +867,7 @@ export default {
               border-radius: 3px;
               margin-right: 20px;
               .name_con_title {
-                width: 114px;
+                width: 105px;
                 background: #ecf1f7;
                 border-right: 1px solid #d1d6e2;
                 line-height: 34px;
@@ -786,7 +883,7 @@ export default {
                 }
               }
               .el-input {
-                width: 157px;
+                width: 166px;
                 .el-input__inner {
                   border: none;
                   color: #000;
@@ -812,17 +909,6 @@ export default {
                 border: none;
               }
             }
-          }
-          .addStar {
-            position: relative;
-          }
-          .addStar::before {
-            content: "*";
-            color: red;
-            position: absolute;
-            font-size: 20px;
-            left: -8px;
-            top: -30%;
           }
         }
       }
