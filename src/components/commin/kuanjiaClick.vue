@@ -22,8 +22,11 @@
                 <div v-if="isLookerShow" class="quxiaoBox mr20 mb20" @click="closeBtn">
                     {{ isLooker ? "返回" : "取消" }}
                 </div>
-                <div class="tijiaoBox mb20" v-if="!isLooker" @click="goAJAXCreate">
+                <div v-if="print!='提交' && !isLooker" class="tijiaoBox mb20" @click="goAJAXCreate">
                     {{print}}
+                </div>
+                <div class="tijiaoBox mb20" v-if="!isLooker && print=='提交'" @click="goAJAXCreate">
+                    提交
                 </div>
             </div>
             <!-- btn -->
