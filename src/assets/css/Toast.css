@@ -7,6 +7,7 @@
     display: flex;
     flex-direction: column;
 }
+
 .el-message-box {
     width: 460px;
     height: 310px;
@@ -104,12 +105,14 @@
     margin-top: 80px;
     position: inherit;
 }
+
 .el-message-box__status.el-icon-info {
     width: 56px;
     height: 50px;
     margin-top: 80px;
     position: inherit;
 }
+
 .el-message-box__status.el-icon-error {
     width: 50px;
     height: 50px;
@@ -121,7 +124,7 @@
     border-color: #409EFF;
 }
 
-.el-message-box{
+.el-message-box {
     position: relative;
 }
 
@@ -184,6 +187,10 @@
 
 .el-input__inner {
     height: 34px;
+}
+
+.tableInInput .ivu-input {
+    height: 26px !important;
 }
 
 .ivu-input {

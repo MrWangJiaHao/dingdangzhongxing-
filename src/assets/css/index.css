@@ -738,11 +738,11 @@ textarea {
 }
 
 .w125 {
-    width: 125px;
+    width: 125px !important;
 }
 
 .w150 {
-    width: 150px;
+    width: 150px !important;
 }
 
 /* 横线 */
@@ -877,7 +877,7 @@ textarea {
 }
 
 .w200 {
-    width: 200px;
+    width: 200px!important;
 }
 
 .ptd1620 {
@@ -984,7 +984,7 @@ textarea {
 }
 
 .tableInInput .el-input__inner {
-    height: 26px;
+    height: 26px !important;
 }
 
 .tableInInput .el-icon-arrow-up:before {

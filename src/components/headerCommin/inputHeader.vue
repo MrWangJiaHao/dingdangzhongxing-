@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div class="inline mr11 mb16">
+        <div class="inline mr20 fl ">
             <div class="displayalign">
-                <div class="mr20 displayalign">
-                    <div style="margin-right: 10px">
+                <div class=" displayalign">
+                    <div >
                         <searchBox
                                 @changeInputs="changereplenishOrderNo"
                                 :searchCenter="buhuodanhaoJson"

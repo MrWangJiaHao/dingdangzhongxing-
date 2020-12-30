@@ -8,7 +8,8 @@
         </div>
 
         <div class="btns   btnArrs " :style="{
-            width:isBaifenhao
+            width:isBaifenhao,
+            height:isBtns
         }">
             <div class="nowrap">
                 <div class="queryBtn inline mr11 zujianBox"   @click="clickQueryUser">
@@ -27,6 +28,10 @@
             leftWidth: {
                 type: String,
                 default: "96%"
+            },
+            isBtns: {
+                type: String,
+                default: "100%"
             }
         },
         computed: {
@@ -88,7 +93,6 @@
 
 
     .btns {
-        height: 100%;
         text-align: right;
         position: relative;
         display: flex;

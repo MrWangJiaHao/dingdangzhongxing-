@@ -82,7 +82,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mb20">
+                    <div class="mb20 tableInInput">
                         <el-table
                                 ref="multipleTable"
                                 :data="tabledata"

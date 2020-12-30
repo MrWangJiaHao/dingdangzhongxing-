@@ -90,7 +90,7 @@
                                 <div class="remove disinb" @click="goClearRemove">删除</div>
                             </div>
                         </div>
-                        <div class="mb20">
+                        <div class="mb20 tableInInput">
                             <el-table
                                     ref="multipleTable"
                                     :data="tabledata"
@@ -104,7 +104,7 @@
                                         type="selection"
                                         align="center"
                                         width="82"
-                                         fixed="left"
+                                        fixed="left"
                                 ></el-table-column>
                                 <el-table-column
                                         label="序号"
@@ -164,22 +164,24 @@
                                         show-overflow-tooltip
                                         width="180"
                                 >
-                                    <el-select
-                                            slot-scope="scope"
-                                            :multiple="true"
-                                            v-model="scope.row.wareSeatCode"
-                                            placeholder="请选择库位"
-                                            @focus="getkuweimes(scope.row, scope.$index)"
-                                            @change="kuweiChanges($event, scope.$index, scope.row)"
-                                    >
-                                        <el-option
-                                                v-for="(item, idx) in scope.row.kueirArr"
-                                                :key="idx"
-                                                :label="item.wareSeatCode"
-                                                :value="idx"
+                                    <div slot-scope="scope">
+                                        <el-select
+                                                :multiple="true"
+                                                v-model="scope.row.wareSeatCode"
+                                                placeholder="请选择库位"
+                                                @focus="getkuweimes(scope.row, scope.$index)"
+                                                @change="kuweiChanges($event, scope.$index, scope.row)"
                                         >
-                                        </el-option>
-                                    </el-select>
+                                            <el-option
+                                                    v-for="(item, idx) in scope.row.kueirArr"
+                                                    :key="idx"
+                                                    :label="item.wareSeatCode"
+                                                    :value="idx"
+                                            >
+                                            </el-option>
+                                        </el-select>
+                                    </div>
+
                                 </el-table-column>
                             </el-table>
                         </div>
@@ -231,6 +233,7 @@
     import dropDowbox from "../../components/commin/dropDownBox"; //下拉框
     import dropDownUserType from "../../components/commin/dropDownUserType"; //用户管理下拉框
     import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
+
     import {
         getCookie,
         _getArrTarget,

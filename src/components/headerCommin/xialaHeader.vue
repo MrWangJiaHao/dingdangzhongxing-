@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div class="inline mr11 mb16">
+        <div class="inline mr20 fl">
             <div class="displayalign">
-                <div class="noneIconTitle mr11">{{ xialaJson.title }}:</div>
-                <div class="mr20 displayalign">
+                <div class="noneIconTitle mr10">{{ xialaJson.title }}:</div>
+                <div class=" displayalign">
                     <dropDownXiala
                             :w320="xialaJson.w320"
                             :dropDowBox="xialaJson.wieTuoGonShiJson"

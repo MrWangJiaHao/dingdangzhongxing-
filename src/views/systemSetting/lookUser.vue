@@ -132,8 +132,7 @@
                             <!-- 用户账号 -->
                             <div class="displayalign">
                                 <div class="noneIconTitle mr11">
-                                    <span class="colred">*</span>
-                                    <span style="visibility: hidden">你好</span>密码
+                                    <span style="visibility: hidden">你好</span><span class="colred">*</span>密码
                                     :
                                 </div>
                                 <div>
@@ -174,7 +173,6 @@
                                 <div class="displayalign">
                                     <div class="noneIconTitle mr11">
                                         <span class="colred">*</span>
-
                                         用户邮箱
                                         :
                                     </div>
