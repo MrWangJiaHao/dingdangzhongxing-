@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="inline mr20 ">
+        <div class="inline mr20 fl">
             <div class="displayalign">
                 <div class="noneIconTitle mr10">{{ xialaJson.title }}:</div>
                 <div class=" displayalign">

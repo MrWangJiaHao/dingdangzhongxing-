@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="inline mr20  ">
-            <div class="displayalign">
+        <div class="inline mr20 fl  ">
+            <div class="displayalign ">
                 <div class="noneIconTitle mr11">{{ title }}:</div>
                 <div class=" displayalign">
                     <div class="mr10">

@@ -2,31 +2,27 @@
     <div>
         <headerKuanJia @clickQueryUser="clickQueryUser " @clearInputAll="clearInputAll">
             <template>
-                <div class="mb16">
-
-                    <xialaHeader :xialaJson="delegationJson" @weiTuoGonShiClick="weiTuoGonShiClick"></xialaHeader>
-                    <inputHeader :buhuodanhaoJson="{
+                <xialaHeader :xialaJson="delegationJson" @weiTuoGonShiClick="weiTuoGonShiClick"></xialaHeader>
+                <inputHeader :buhuodanhaoJson="{
                     title: '产品名称',
                     placeholder:'请输入产品名称'
                 }"></inputHeader>
-                    <inputHeader :buhuodanhaoJson="{
+                <inputHeader :buhuodanhaoJson="{
                     title: '产品编码',
                     placeholder:'请输入产品编码'
                 }"></inputHeader>
-                    <xialaHeader :xialaJson="{
+                <xialaHeader :xialaJson="{
                     title:'产品规格',
                     placeholder:'请选择产品规格'
                 }" @weiTuoGonShiClick="weiTuoGonShiClick"></xialaHeader>
-                    <xialaHeader :xialaJson="{
+                <xialaHeader :xialaJson="{
                     title:'品牌',
                     placeholder:'请选择品牌'
                 }" @weiTuoGonShiClick="weiTuoGonShiClick"></xialaHeader>
-                    <xialaHeader :xialaJson="{
+                <xialaHeader :xialaJson="{
                     title:'组合类型',
                     placeholder:'请选择组合类型'
                 }" @weiTuoGonShiClick="weiTuoGonShiClick"></xialaHeader>
-                </div>
-
             </template>
         </headerKuanJia>
         <!-- header top-->
