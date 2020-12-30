@@ -1,20 +1,17 @@
 <template>
-    <div>
-        <div class="inline mr20 fl">
-            <div class="displayalign">
-                <div class="noneIconTitle mr10">{{ xialaJson.title }}:</div>
-                <div class=" displayalign">
-                    <dropDownXiala
-                            :w320="xialaJson.w320"
-                            :dropDowBox="xialaJson.wieTuoGonShiJson"
-                            @cliclInput="weiTuoGonShiClick"
-                            @getDropDownData="weiTuoGonShiInput"
-                            :drop="xialaJson.drop"
-                    />
-                </div>
+    <div class="inline mr20 fl">
+        <div class="displayalign">
+            <div class="noneIconTitle mr10">{{ xialaJson.title }}:</div>
+            <div class=" displayalign">
+                <dropDownXiala
+                        :w320="xialaJson.w320"
+                        :dropDowBox="xialaJson.wieTuoGonShiJson"
+                        @cliclInput="weiTuoGonShiClick"
+                        @getDropDownData="weiTuoGonShiInput"
+                        :drop="xialaJson.drop"
+                />
             </div>
         </div>
-        <!-- 补货开始时间 -->
     </div>
 </template>
 

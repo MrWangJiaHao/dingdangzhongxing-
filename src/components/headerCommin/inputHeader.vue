@@ -1,14 +1,12 @@
 <template>
-    <div>
-        <div class="inline mr20 fl ">
-            <div class="displayalign">
-                <div class=" displayalign">
-                    <div >
-                        <searchBox
-                                @changeInputs="changereplenishOrderNo"
-                                :searchCenter="buhuodanhaoJson"
-                        />
-                    </div>
+    <div class="inline mr20 fl ">
+        <div class="displayalign">
+            <div class=" displayalign">
+                <div>
+                    <searchBox
+                            @changeInputs="changereplenishOrderNo"
+                            :searchCenter="buhuodanhaoJson"
+                    />
                 </div>
             </div>
         </div>

@@ -1980,8 +1980,15 @@ export const pOrgProductsApp = {
     pOrgProductsfindRecordPage: (data) => post({
         data,
         url: "/wbs-warehouse-manage/v1/pOrgProducts/findRecordPage"
-    })
+    }),
     //客户信息 end
+//    仓库作业 start
+    //分页查询
+    pProcessWorkFindRecordPage: (data) => post({
+        data,
+        url: "/wbs-warehouse-manage/v1/pProcessWork/findRecordPage"
+    })
+//仓库作业 end
 }
 
 //=========================================货品移位 end ========================================

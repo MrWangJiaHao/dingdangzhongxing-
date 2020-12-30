@@ -41,8 +41,8 @@
                 <!-- but按钮 -->
             </div>
             <div class="tableBox">
-                <div style="background-color: #fff; padding: 16px 20px 16px 20px">
-                    <div class="center">
+                <div class="tableBoxCol">
+                    <div class="center tableInInput">
                         <el-table
                                 ref="multipleTable"
                                 :data="tableData"
@@ -557,6 +557,5 @@
 
     .daochuMes {
         @include BtnFunction("success");
-
     }
 </style>

@@ -1,7 +1,6 @@
 <template>
     <div>
         <div class="mb16">
-
             <div class="fuzzyQueryBoxs clearfix mb16 ">
                 <div class="biaogeBox dispalywrap ">
                     <xialaHeader :xialaJson="delegationJson" @weiTuoGonShiClick="weiTuoGonShiClick"></xialaHeader>
@@ -48,7 +47,6 @@
     import xialaHeader from "../../components/headerCommin/xialaHeader";
     import tableCommin from "../../components/commin/tableCommin";
     import pageComponent from "../../components/commin/pageComponent";
-    // Heavy
     import {Heavy} from "../../utils/validate";
 
 

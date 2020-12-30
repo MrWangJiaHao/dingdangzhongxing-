@@ -378,9 +378,19 @@
                     },
                     {
                         title: "仓库作业",
-                        name: "",
+                        name: "/productOffice/processingOffice",
                         iconCls: require("@/assets/svg/cankuBookie.svg"),
-                        children: [],
+                        children: [
+                            {
+                                title: "加工作业",
+                                name: "/productOffice/processingOffice",
+                            },
+                            {
+                                title: "拆解作业",
+                                name: "/productOffice/dismantlingOffice",
+                            },
+
+                        ],
                     },
                     {
                         title: "PDA操作",
