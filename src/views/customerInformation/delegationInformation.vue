@@ -1,18 +1,22 @@
 <template>
     <div>
-        <div class="fuzzyQueryBoxs clearfix  ">
-            <div class="biaogeBox dispalywrap ">
-                <xialaHeader :xialaJson="delegationJson" @weiTuoGonShiClick="weiTuoGonShiClick"></xialaHeader>
-            </div>
-            <div class="btns   btnArrs ">
-                <div class="nowrap">
-                    <div class="queryBtn inline mr11 zujianBox"   @click="clickQueryUser">
-                        查询
+        <div class="mb16">
+
+            <div class="fuzzyQueryBoxs clearfix mb16 ">
+                <div class="biaogeBox dispalywrap ">
+                    <xialaHeader :xialaJson="delegationJson" @weiTuoGonShiClick="weiTuoGonShiClick"></xialaHeader>
+                </div>
+                <div class="btns   btnArrs ">
+                    <div class="nowrap">
+                        <div class="queryBtn inline mr11 zujianBox"   @click="clickQueryUser">
+                            查询
+                        </div>
+                        <div class="clearBtn inline" @click="clearInputAll">清空</div>
                     </div>
-                    <div class="clearBtn inline" @click="clearInputAll">清空</div>
                 </div>
             </div>
         </div>
+
         <!--        header top-->
         <div class="btnArr   pd10">
             <div class="backFF botD1 pd20">

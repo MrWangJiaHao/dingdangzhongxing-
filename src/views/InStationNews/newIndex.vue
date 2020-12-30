@@ -14,7 +14,7 @@
         <!--  btn arr -->
 
         <div class="fuzzysss clearfix">
-            <div class="biaogeBox fl inline dispalywrap " style="width: 90%">
+            <div class="biaogeBox fl mb16 inline dispalywrap " style="width: 90%">
                 <inputHeader :buhuodanhaoJson="titleshoushuoJson" ref="titleInputs"
                              @changereplenishOrderNo="titleInput"></inputHeader>
                 <!--标题-->
