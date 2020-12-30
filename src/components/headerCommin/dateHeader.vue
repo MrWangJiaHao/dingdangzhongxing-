@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div class="inline mr11 mb16 ">
+        <div class="inline mr20  ">
             <div class="displayalign">
                 <div class="noneIconTitle mr11">{{ title }}:</div>
-                <div class="mr20 displayalign">
+                <div class=" displayalign">
                     <div class="mr10">
                         <dateTime
                                 :dateTimeData="qianmiandeData"
