@@ -63,7 +63,7 @@
                       display: inline-block;
                       font-size: 14px;
                       color: #343434;
-                      line-height: 26px;
+                      line-height: 32px;
                       margin-right:16px;
                     "
                                             >
@@ -76,7 +76,7 @@
                       display: inline-block;
                       font-size: 14px;
                       color: #343434;
-                      line-height: 26px;
+                      line-height: 32px;
                       margin-right: 10px;
                     "
                                             >
@@ -87,7 +87,7 @@
                       display: inline-block;
                       font-size: 14px;
                       color: #343434;
-                      line-height: 26px;
+                      line-height:32px;
                       margin-right: 16px;
                     "
                                             >
@@ -111,7 +111,7 @@
                       display: inline-block;
                       font-size: 14px;
                       color: #343434;
-                      line-height: 26px;
+                      line-height: 32px;
                       margin-right: 16px;
                     "
                                             >
@@ -135,7 +135,7 @@
                       display: inline-block;
                       font-size: 14px;
                       color: #343434;
-                      line-height: 26px;
+                      line-height:32px;
                       margin-right: 16px;
                     "
                                             >
@@ -159,7 +159,7 @@
                       display: inline-block;
                       font-size: 14px;
                       color: #343434;
-                      line-height: 26px;
+                      line-height: 32px;
                       margin-right: 16px;
                     "
                                             >
@@ -183,7 +183,7 @@
                       display: inline-block;
                       font-size: 14px;
                       color: #343434;
-                      line-height: 26px;
+                      line-height: 32px;
                       margin-right: 16px;
                       width: 130px;
                       border-bottom: 1px solid #000;
@@ -196,7 +196,7 @@
                       display: inline-block;
                       font-size: 14px;
                       color: #343434;
-                      line-height: 26px;
+                      line-height: 32px;
                       margin-right: 10px;
                     "
                                             >

@@ -62,7 +62,7 @@
                             <div class="remove disinb" @click="goClearRemove">删除</div>
                         </div>
                     </div>
-                    <div class="mb20" id="bjTableWraper">
+                    <div class="mb20 tableInInput" id="bjTableWraper">
                         <el-table
                                 ref="multipleTable"
                                 :data="tabledata"
@@ -75,7 +75,7 @@
                                     type="selection"
                                     align="center"
                                     width="82"
-                                     fixed="left"
+                                    fixed="left"
                             ></el-table-column>
                             <el-table-column
                                     label="序号"

@@ -13,8 +13,8 @@
         </div>
         <!--  btn arr -->
 
-        <div class="fuzzysss clearfix  ">
-            <div class="biaogeBox fl inline dispalywrap ">
+        <div class="fuzzysss clearfix">
+            <div class="biaogeBox fl inline dispalywrap " style="width: 90%">
                 <inputHeader :buhuodanhaoJson="titleshoushuoJson" ref="titleInputs"
                              @changereplenishOrderNo="titleInput"></inputHeader>
                 <!--标题-->
@@ -34,7 +34,7 @@
                 <!--消息状态-->
             </div>
 
-            <div class="btns fr inline btnArrs ">
+            <div class="btns fr inline btnArrs mb16 " style="width: 10%">
                 <div class="nowrap">
                     <div class="queryBtn inline mr11 zujianBox"   @click="clickQueryUser">
                         查询
@@ -60,6 +60,7 @@
 </template>
 <style>
     .fuzzysss {
+        display: flex;
         overflow: hidden;
         position: relative;
         padding: 20px 30px 4px 30px;

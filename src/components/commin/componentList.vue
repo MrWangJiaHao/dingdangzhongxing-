@@ -25,7 +25,7 @@
                   transform: translateX(-50%);
                   top: 30px;
                   color: #343434;
-                  line-height: 26px;
+                  line-height: 32px;
                 "
                             >
                                 {{ ReplenishmentNote.title }}
@@ -60,7 +60,7 @@
                       display: inline-block;
                       font-size: 14px;
                       color: #343434;
-                      line-height: 26px;
+                      line-height:32px;
                       margin-right: 10px;
                       white-space: nowrap;
                     "
@@ -71,7 +71,7 @@
                                             style="
                       font-size: 14px;
                       color: #343434;
-                      line-height: 26px;
+                      line-height: 32px;
                       margin-right: 50px;
                       display: inline-block;
                     "
@@ -106,7 +106,7 @@
                       display: inline-block;
                       color: #4897e4;
                       font-size: 16px;
-                      line-height: 16px;
+                      line-height: 32px;
                     "
                                     >
                                         {{ items.titles }}

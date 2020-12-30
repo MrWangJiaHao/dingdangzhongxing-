@@ -29,7 +29,7 @@
             </div>
             <div class="tableBox">
                 <div class="tableBoxCol">
-                    <div v-if="!daibuhuochanping" class="center">
+                    <div v-if="!daibuhuochanping" class="center tableInInput">
                         <el-table
                                 ref="multipleTable"
                                 :data="tableData"
@@ -43,7 +43,7 @@
                                     type="selection"
                                     align="center"
                                     width="82"
-                                     fixed="left"
+                                    fixed="left"
                             ></el-table-column>
                             <el-table-column
                                     label="序号"
@@ -149,8 +149,10 @@
                         </el-table>
                     </div>
                     <!-- 表格主体 -->
-                    <div v-else class="center">
-                        <tableCommin :tableDataJson="tableDataJson"/>
+                    <div v-else class="center ">
+                        <div class="tableInInput">
+                            <tableCommin :tableDataJson="tableDataJson"/>
+                        </div>
                         <!-- 待补货产品 -->
                     </div>
                     <div class="pageComponent">

@@ -81,7 +81,7 @@
                                 <div class="quxiaoBox disinb" @click="goClearRemove">删除</div>
                             </div>
                         </div>
-                        <div class="mb20">
+                        <div class="mb20 tableInInput">
                             <el-table
                                     ref="multipleTable"
                                     :data="tabledata"
