@@ -69,7 +69,7 @@
                 type: Object,
                 default: () => {
                     return {
-                        pageNums: 10,
+                        pageNums: 0,
                         sizes: false,
                     };
                 },
@@ -109,7 +109,7 @@
         cursor: pointer;
         text-align: center;
         line-height: 26px !important;
-  color: #686868 !important;
+        color: #686868 !important;
 
     }
 </style>

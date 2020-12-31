@@ -1,30 +1,29 @@
 <template>
-    <div>
-        <div class="inline mr20 fl  ">
-            <div class="displayalign ">
-                <div class="noneIconTitle mr11">{{ title }}:</div>
-                <div class=" displayalign">
-                    <div class="mr10">
-                        <dateTime
-                                :dateTimeData="qianmiandeData"
-                                @getDateTime="getreplenishStartTime"
-                                ref="replenishStartTime"
-                        />
-                    </div>
-                    <!-- 开始时间 -->
-                    <div class="line"></div>
-                    <div>
-                        <dateTime
-                                :dateTimeData="houmiandeData"
-                                @getDateTime="getreplenishEndTime"
-                                ref="replenishEndTime"
-                        />
-                    </div>
-                    <!-- 结束时间 -->
+    <div class="inline mr20 fl  ">
+        <div class="displayalign ">
+            <div class="noneIconTitle mr11">{{ title }}:</div>
+            <div class=" displayalign">
+                <div class="mr10">
+                    <dateTime
+                            :width="width"
+                            :dateTimeData="qianmiandeData"
+                            @getDateTime="getreplenishStartTime"
+                            ref="replenishStartTime"
+                    />
                 </div>
+                <!-- 开始时间 -->
+                <div class="line"></div>
+                <div>
+                    <dateTime
+                            :width="width"
+                            :dateTimeData="houmiandeData"
+                            @getDateTime="getreplenishEndTime"
+                            ref="replenishEndTime"
+                    />
+                </div>
+                <!-- 结束时间 -->
             </div>
         </div>
-        <!-- 补货开始时间 -->
     </div>
 </template>
 
@@ -35,6 +34,10 @@
             title: {
                 type: String,
                 default: "",
+            },
+            width: {
+                type: String,
+                default: "180"
             },
             qianmiandeData: {
                 type: Object,

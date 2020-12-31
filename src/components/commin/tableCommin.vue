@@ -5,7 +5,8 @@
                 :data="tableDataJson.tabledata"
                 ref="multipleTable"
                 tooltip-effect="dark"
-                border
+                :stripe="true"
+                :border="true"
                 @row-click="handleRowClick"
                 @filter-change="filterHandler"
                 @selection-change="handleSelectionChange"
@@ -15,11 +16,13 @@
                         v-if="tableItem.types == 'selection'"
                         :key="tableIdx"
                         type="selection"
-                         fixed="left"
-                         width="82"
+                        fixed="left"
+                        width="82"
                         :align="tableItem.align || 'center'"
                         :label="tableItem.label"
-                />
+                        show-overflow-tooltip
+                >
+                </el-table-column>
                 <el-table-column
                         v-else-if="tableItem.types == 'index'"
                         :key="tableIdx"
@@ -27,6 +30,7 @@
                         type="index"
                         :label="tableItem.label"
                         :width="tableItem.width"
+                        show-overflow-tooltip
                 />
                 <el-table-column
                         v-else-if="tableItem.flag"
@@ -34,6 +38,7 @@
                         :type="tableItem.types"
                         :label="tableItem.label"
                         :width="tableItem.width"
+                        show-overflow-tooltip
                         :align="tableItem.align || 'left'"
                 >
           <span slot-scope="scoped">
@@ -85,6 +90,7 @@
                         :type="tableItem.types"
                         :width="tableItem.width"
                         :key="tableIdx"
+                        show-overflow-tooltip
                 >
           <span slot-scope="scope">
             <ex-slot
