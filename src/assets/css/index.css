@@ -947,6 +947,10 @@ textarea {
     margin-left: 11px;
 }
 
+.mt5 {
+    margin-top: 5px;
+}
+
 .borderTnone {
     border: 1px solid #D1D6E2;
     border-top: none;
