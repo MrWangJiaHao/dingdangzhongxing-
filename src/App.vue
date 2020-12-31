@@ -300,11 +300,7 @@ input[type="number"] {
   color: #9b9b9b !important;
 }
 
-input::-moz-placeholder {
-  color: #9b9b9b !important;
-}
-
-input:-moz-placeholder {
+:-moz-placeholder {
   color: #9b9b9b !important;
 }
 

@@ -60,7 +60,7 @@
             pageComponent
         },
         data() {
-            let self = this
+            // let self = this
             return {
                 delegationJson: {
                     title: "委托公司",

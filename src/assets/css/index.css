@@ -877,7 +877,7 @@ textarea {
 }
 
 .w200 {
-    width: 200px!important;
+    width: 200px !important;
 }
 
 .ptd1620 {
@@ -941,6 +941,10 @@ textarea {
 
 .ml10 {
     margin-left: 11px;
+}
+
+.mt5 {
+    margin-top: 5px;
 }
 
 .borderTnone {

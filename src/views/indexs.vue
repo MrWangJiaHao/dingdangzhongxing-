@@ -14,7 +14,7 @@
                         <div slot="label" v-if="navIndex.children">
                             <el-dropdown
                                     placement="bottom"
-                                    trigger="click"
+                                    trigger="hover"
                                     class="displayalign"
                                     v-if="navIndex.children.length > 1"
                                     @command="clickEventGoRouter"

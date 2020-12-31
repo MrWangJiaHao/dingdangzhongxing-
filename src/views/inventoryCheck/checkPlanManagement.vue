@@ -425,7 +425,6 @@ export default {
         display: flex;
         align-items: center;
         margin: 0 20px 16px 0;
-
         .el-inputBox-text {
           white-space: nowrap;
         }
