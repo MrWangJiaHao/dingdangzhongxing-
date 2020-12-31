@@ -4,13 +4,15 @@
             <xialaHeader class="mb16" :xialaJson="delegationJson"
                          @weiTuoGonShiClick="weiTuoGonShiClickFun"></xialaHeader>
             <!--   委托公司   -->
-            <inputHeader class="mb16" :buhuodanhaoJson='changpingbianmaJson'
+            <inputHeader class="mb16" :buhuodanhaoJson='isJiaGonOffice? fenjiabianmaJson:jiagonzuoyeJson'
+
                          @changereplenishOrderNo="jiagonzuoyedanhao"></inputHeader>
             <!-- 加工作业单号 分解作业单号 -->
+            <!--            changpingbianmaJson  :xialaJson="isJiaGonOffice? fenjiabianmaJson:jiagonzuoyeJson" -->
             <xialaHeader class="mb16" :xialaJson="isJiaGonOffice?fenjiezhuangtai :jiagonzhuangtai"
                          @weiTuoGonShiClick="disposeStatusFun"></xialaHeader>
             <!--   加工状态  分解状态 -->
-            <xialaHeader class="mb16" :xialaJson="isJiaGonOffice? fenjiabianmaJson:jiagonzuoyeJson"
+            <xialaHeader class="mb16" :xialaJson="zhuhechangping"
                          @weiTuoGonShiClick="prodIdFun"></xialaHeader>
             <!--   组合产品   -->
             <dateHeader width="200" class="mb16" title="期望完成时间" @getTime="qiwanjieshuDate"
@@ -34,6 +36,7 @@
     import inputHeader from "../../components/headerCommin/inputHeader";
     import tableCommin from "../../components/commin/tableCommin";
     import pageComponent from "../../components/commin/pageComponent";
+    import {Heavy} from "../../utils/validate";
 
     export default {
         name: "processingHeaderIndex",
@@ -92,7 +95,7 @@
                         select: "",
                         dropDownBoxData: []
                     },
-                    drop: "orgFullName",
+                    drop: "orgName",
                     w320: "w400",
                 },
                 changpingbianmaJson: {
@@ -132,7 +135,7 @@
                 },
                 zhuhechangping: {
                     title: "组合产品",
-                    drop: "",
+                    drop: "prodName",
                     wieTuoGonShiJson: {
                         placeholder: "请选择组合产品",
                         select: "",
@@ -184,24 +187,71 @@
             //点击清空
             clearInputAll() {
                 this.sendOutDataJson = {
-                    ...this.sendOutDataJson,
                     orgId: "", //委托公司id
                     processNo: "",//作业单号(加工、分解)
-                    disposeStatus: "",//作业处理状态
+                    disposeStatus: null,//作业处理状态
                     prodId: "",//组合产品id
                     searchStartTime: "",//期望开始时间
                     searchEndTime: "",//期望结束时间
                     processEndTime: "",//结束加工时间
                     processStartTime: "",//开始加工时间
                 }
-                let json = this.isJiaGonOffice ? this.fenjiabianmaJson : this.jiagonzhuangtai
+                this.delegationJson.wieTuoGonShiJson.select = ''
+                this.changpingbianmaJson.input = ''
+                this.jiagonzuoyeJson.input = ''
+                this.fenjiabianmaJson.input = ''
+                this.jiagonzhuangtai.wieTuoGonShiJson.select = ''
+                this.zhuhechangping.wieTuoGonShiJson.select = ''
                 this.$refs.qiwanDate.clearTime()
                 this.$refs.startDate.clearTime()
-                this.$emit("clearInput")
+                this.$emit("clearInput", this.sendOutDataJson)
             },
             async getTableData() {
-                let data = await this.$pOrgProductsApp.pProcessWorkFindRecordPage(this.sendOutDataJson)
-                console.log(data)
+                let json, orderType
+                orderType = this.sendOutDataJson.orderType
+                json = {
+                    paras: {
+                        orderType
+                    },
+                    pageNumber: 1,
+                    pageSize: 10
+                }
+                let data = await this.$pOrgProductsApp.pProcessWorkFindRecordPage(json)
+                if (data.code == '10000') {
+                    this._changeData(data.result)
+                } else {
+                    this.$messageSelf.message(data.msg)
+                }
+            },
+            _changeData(json) {
+                let {list} = json
+                this.delegationJson.wieTuoGonShiJson.dropDownBoxData = Heavy(list, 'orgName')
+                this.zhuhechangping.wieTuoGonShiJson.dropDownBoxData = Heavy(list, 'prodName')
+            },
+            _disposeStatusChange(str) {
+                switch (str) {
+                    case 0:
+                        return "待提交"
+                        break;
+                    case 1:
+                        return "待分配"
+                        break;
+                    case 2:
+                        return "分配中"
+                        break;
+                    case 3:
+                        return "分配成功"
+                        break;
+                    case 4:
+                        return "分配失败"
+                        break;
+                    case 5:
+                        return "已完成"
+                        break;
+                    default :
+                        return "未定义"
+                        break
+                }
             }
         }
     }

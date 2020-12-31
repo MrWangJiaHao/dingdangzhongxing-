@@ -1,46 +1,57 @@
 <template>
-    <div>
-        <el-table
-                style="overflow-y: auto"
-                :data="tableDataJson.tabledata"
-                ref="multipleTable"
-                tooltip-effect="dark"
-                :stripe="true"
-                :border="true"
-                @row-click="handleRowClick"
-                @filter-change="filterHandler"
-                @selection-change="handleSelectionChange"
-        >
-            <template v-for="(tableItem, tableIdx) in tableDataJson.typeData">
-                <el-table-column
-                        v-if="tableItem.types == 'selection'"
-                        :key="tableIdx"
-                        type="selection"
-                        fixed="left"
-                        width="82"
-                        :align="tableItem.align || 'center'"
-                        :label="tableItem.label"
-                        show-overflow-tooltip
-                >
-                </el-table-column>
-                <el-table-column
-                        v-else-if="tableItem.types == 'index'"
-                        :key="tableIdx"
-                        :align="tableItem.align || 'center'"
-                        type="index"
-                        :label="tableItem.label"
-                        :width="tableItem.width"
-                        show-overflow-tooltip
-                />
-                <el-table-column
-                        v-else-if="tableItem.flag"
-                        :key="tableIdx"
-                        :type="tableItem.types"
-                        :label="tableItem.label"
-                        :width="tableItem.width"
-                        show-overflow-tooltip
-                        :align="tableItem.align || 'left'"
-                >
+    <el-table
+            style="overflow-y: auto"
+            :data="tableDataJson.tabledata"
+            ref="multipleTable"
+            tooltip-effect="dark"
+            :stripe="true"
+            :border="true"
+            @row-click="handleRowClick"
+            @filter-change="filterHandler"
+            @selection-change="handleSelectionChange"
+    >
+        <template v-for="(tableItem, tableIdx) in tableDataJson.typeData">
+            <el-table-column
+                    v-if="tableItem.types == 'selection'"
+                    :key="tableIdx"
+                    type="selection"
+                    fixed="left"
+                    width="82"
+                    :align="tableItem.align || 'center'"
+                    :label="tableItem.label"
+                    show-overflow-tooltip
+            >
+            </el-table-column>
+
+            <el-table-column
+                    v-else-if="tableItem.types == 'index'"
+                    :key="tableIdx"
+                    :align="tableItem.align || 'center'"
+                    type="index"
+                    :label="tableItem.label"
+                    :width="tableItem.width"
+                    show-overflow-tooltip
+            />
+            <el-table-column v-else-if="tableItem.types == 'expand'"
+                             :key="tableIdx"
+                             type="expand"
+                             :align="tableItem.align || 'center'"
+                             :label="tableItem.label"
+                             :width="tableItem.width || 100"
+                             show-overflow-tooltip>
+                <div slot-scope="scoped">
+                    <slot :data="scoped.row"></slot>
+                </div>
+            </el-table-column>
+            <el-table-column
+                    v-else-if="tableItem.flag"
+                    :key="tableIdx"
+                    :type="tableItem.types"
+                    :label="tableItem.label"
+                    :width="tableItem.width"
+                    show-overflow-tooltip
+                    :align="tableItem.align?tableItem.align:'left' "
+            >
           <span slot-scope="scoped">
             <div v-if="tableItem.flag == 'input'">
               <input
@@ -50,8 +61,10 @@
                       :placeholder="tableItem.placeholder"
                       @blur="tableItem.OnBlur(scoped.$index, scoped.row) || ''"
               />
+                <slot name="input"></slot>
             </div>
             <div v-else-if="tableItem.flag == 'xiala'">
+                <slot name="xiala"></slot>
               <dropDownXiala
                       style="height: 28px"
                       :dropDowBox="tableItem.dropDowBox"
@@ -62,8 +75,9 @@
               ></dropDownXiala>
             </div>
             <div v-else-if="tableItem.flag == 'date'">
+              <slot name="date"></slot>
               <dateTime
-                      width="220"
+                      :width="tableItem.w320?tableItem.w320:'220'"
                       :dateTimeData="tableItem.dateTimeData"
                       @getDateTime="tableItem.getDateTime"
                       style="height: 28px"
@@ -74,6 +88,7 @@
                     class="lookDeatil"
                     @click="tableItem.OnClicks(scoped.row)"
             >
+              <slot name="puton"></slot>
               {{ scoped.row[tableItem.types] }}
             </div>
             <div v-else-if="tableItem.flag=='radio'">
@@ -83,21 +98,23 @@
             </div>
             <div v-else>再加一个判断 {{ tableItem.flag }}</div>
           </span>
-                </el-table-column>
-                <el-table-column
-                        v-else
-                        :label="tableItem.label"
-                        :type="tableItem.types"
-                        :width="tableItem.width"
-                        :key="tableIdx"
-                        show-overflow-tooltip
-                >
+            </el-table-column>
+            <el-table-column
+                    v-else
+                    :label="tableItem.label"
+                    :type="tableItem.types"
+                    :width="tableItem.width"
+                    :key="tableIdx"
+                    :align="tableItem.align?tableItem.align:'left'"
+                    show-overflow-tooltip
+            >
           <span slot-scope="scope">
             <ex-slot
                     v-if="tableItem.render"
                     :row="scope.row"
                     :index="scope.$index"
                     :render="tableItem.render"
+                    :align="tableItem.align?tableItem.align:'left'"
                     :column="tableItem"
             >
               {{ scope.row[tableItem.types] || "1" }}
@@ -106,10 +123,9 @@
               {{ scope.row[tableItem.types] || "———" }}
             </span>
           </span>
-                </el-table-column>
-            </template>
-        </el-table>
-    </div>
+            </el-table-column>
+        </template>
+    </el-table>
 </template>
 
 <script>
@@ -139,7 +155,6 @@
     export default {
         name: "comp-table",
         components: {exSlot, dateTime, dropDownXiala},
-
         props: {
             tableDataJson: {
                 type: Object,
@@ -150,7 +165,7 @@
         },
         data() {
             return {
-                multipute: [],
+                multipute: []
             };
         },
         methods: {

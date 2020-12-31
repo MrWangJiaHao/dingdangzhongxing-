@@ -11,7 +11,7 @@
                                 class="displayalign parentBox"
                         >
                             <div
-                                    class="titleBox"
+                                    class="titleBox nowrap"
                                     v-html="shezhizitiwiered(item.titles)"
                             ></div>
                             <div class="centersBox">
@@ -39,7 +39,9 @@
                                     />
                                 </div>
                                 <div v-else>
-                                    {{ item.centers }}
+                                    <div class="ml10">
+                                        {{ item.centers }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +142,7 @@
 
             .titleBox {
                 padding: 12px 20px 12px 0;
-                width: 106px;
+                width: 129px;
                 border-right: 1px solid #d1d6e2;
                 background-color: #ecf1f7;
                 text-align: right;

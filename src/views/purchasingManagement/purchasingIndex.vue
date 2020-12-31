@@ -32,7 +32,7 @@
                                     type="selection"
                                     align="center"
                                     width="82"
-                                     fixed="left"
+                                    fixed="left"
                             ></el-table-column>
                             <el-table-column label="展开" width="71" type="expand">
                                 <template slot-scope="scope">
@@ -237,21 +237,28 @@
         <!--  采购单详情页 end -->
     </div>
 </template>
-<style>
-    #purchasingIndexss #tableBox .el-icon.el-icon-arrow-right::before {
-        content: "+";
-    }
+<style scoped>
 
     #purchasingIndexss #tableBox .el-table__expand-icon--expanded {
         transform: rotate(0deg);
         transition: all 0.3s;
     }
 
+    #purchasingIndexss #tableBox .el-icon.el-icon-arrow-right::before {
+        content: "+";
+    }
+
     #purchasingIndexss
     #tableBox
     .el-table__expand-icon--expanded
     .el-icon.el-icon-arrow-right::before {
-        content: "-";
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 0.5px;
+        background: #2f4646;
+        position: relative;
+        top: -4px;
     }
 
     #tableCenters .el-table {
@@ -261,18 +268,6 @@
     #purchasingIndexss .el-table__expanded-cell {
         border-right: none !important;
     }
-
-    /*#app #tableCenters .el-table td:last-child {*/
-    /*    border-right: none !important;*/
-    /*}*/
-
-    /*#app #tableCenters .el-table td, .el-table th.is-leaf {*/
-    /*    border-right: none !important;*/
-    /*}*/
-
-    /*#app #tableCenters .el-table td:first-child {*/
-    /*    border-left: none !important;*/
-    /*}*/
 
 </style>
 <script>

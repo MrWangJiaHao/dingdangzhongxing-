@@ -4,6 +4,7 @@
             <div class="setTitle fl mb16">{{ chanpinminxiJson.title }}</div>
             <div class="tr fr mb16">
                 <slot name="anniuBtns"></slot>
+                <slot></slot>
             </div>
         </div>
         <div class="tableInInput">

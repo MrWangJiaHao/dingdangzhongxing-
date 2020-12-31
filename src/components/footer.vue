@@ -19,16 +19,30 @@
                 <div @click="loginout" class="clickLoginOutCenter">退出登入</div>
             </div>
         </transition>
-        <div class="dianJiXiaoXi displayalign">
-            <div class="imgBox">
-                <img src="../assets/svg/Toast.svg" alt/>
-            </div>
-            <div class="wenZi">消息</div>
-            <div class="xiaoXiCenters ellipsis">
-                <div class="idBVox" style="width: auto">
-                    {{ content }}
+        <div class="dianJiXiaoXi ">
+            <div class="displayalign">
+                <div class="imgBox">
+                    <img src="../assets/svg/Toast.svg" alt/>
+                </div>
+                <div class="wenZi">消息</div>
+                <div class="xiaoXiCenters ellipsis" @click="xiaoxi=true">
+                    <div class="idBVox">
+                        {{ content }}
+                    </div>
                 </div>
             </div>
+            <transition enter-active-class="animate__animated animate__bounceInUp"
+                        leave-active-class="animate__animated animate__bounceOutDown">
+                <div class="toastMsg" v-show="xiaoxi" @mouseleave="mouseleaveSetTimeOut">
+                    <div class="title p10  displayJucenMes">
+                        消息
+                        <div class="closeBox" @click="xiaoxi=false"></div>
+                    </div>
+                    <div class="p10">
+                        {{ content }}
+                    </div>
+                </div>
+            </transition>
         </div>
     </div>
 </template>
@@ -45,9 +59,9 @@
                 content: "",
                 display: false,
                 userName: "",
+                xiaoxi: false
             };
         },
-        computed: {},
         async created() {
             this.userName = getCookie("userName");
             //发送请求 获取 当前的站内消息
@@ -75,14 +89,12 @@
                 });
                 if (datas.code == "10000") {
                     this.$messageSelf.message(datas.msg);
-                    console.log(1);
                     this.$cookie.delete("userName");
                     this.$cookie.delete("password");
                     this.$cookie.delete("userToken");
                     this.$cookie.delete("userType");
                     this.$cookie.delete("X-Auth-wareId");
                     this.$cookie.delete("X-Auth-user");
-                    console.log(2);
                     this.$router.push({
                         path: "/",
                     });
@@ -90,6 +102,11 @@
                     this.$messageSelf.message("退出登入" + datas.msg);
                 }
             },
+            mouseleaveSetTimeOut() {
+                setTimeout(() => {
+                    this.xiaoxi = false
+                }, 500)
+            }
         },
     };
 </script>
@@ -139,6 +156,13 @@
     }
 </style>
 <style lang="scss" scoped>
+    .closeBox {
+        width: 10px;
+        height: 10px;
+        background: url("../assets/img/close.png") center center/cover;
+        cursor: pointer;
+    }
+
     .footer_box {
         position: fixed;
         height: 30px;
@@ -191,11 +215,8 @@
             &::after {
                 content: "";
                 position: absolute;
-                position: absolute;
                 left: 10px;
                 border: 6px solid transparent;
-                border-width: 6px;
-                border-top-color: transparent;
                 bottom: -12px;
                 z-index: 100;
                 filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.03));
@@ -217,6 +238,8 @@
         }
 
         .dianJiXiaoXi {
+            position: relative;
+
             .imgBox {
                 width: 16px;
                 height: 14px;
@@ -226,6 +249,16 @@
                     width: 100%;
                     height: 100%;
                 }
+            }
+
+            .toastMsg {
+                position: absolute;
+                bottom: 25px;
+                z-index: -1;
+                width: 70%;
+                background: #fff;
+                border: 1px solid;
+                border-bottom: none;
             }
 
             .wenZi {

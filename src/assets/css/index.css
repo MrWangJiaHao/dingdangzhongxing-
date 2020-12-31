@@ -183,6 +183,10 @@ textarea {
     white-space: nowrap;
 }
 
+.w1200 {
+    width: 1200px;
+}
+
 .ptb10 {
     padding: 0 10px;
 }
@@ -877,7 +881,7 @@ textarea {
 }
 
 .w200 {
-    width: 200px!important;
+    width: 200px !important;
 }
 
 .ptd1620 {
