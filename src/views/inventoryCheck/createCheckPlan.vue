@@ -5,7 +5,11 @@
         <div class="header-title">创建盘点计划</div>
         <div class="condition specaddStar">
           <div>盘点计划名称：</div>
-          <el-input v-model="checkPlanName" placeholder="请输入盘点计划名称">
+          <el-input
+            v-model="checkPlanName"
+            placeholder="请输入盘点计划名称"
+            :disabled="isdisabled"
+          >
           </el-input>
         </div>
         <div class="condition specaddStar">
@@ -174,7 +178,7 @@
         </el-table>
       </div>
     </div>
-    <div class="footerBtn">
+    <div class="footerBtn" :style="isBlock">
       <div class="backBtn" @click="back">返回</div>
       <div class="submitBtn" @click="submit">提交</div>
     </div>
@@ -183,7 +187,11 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { queryProductInfor, createCheckPlanManage } from "../../api/api";
+import {
+  queryProductInfor,
+  createCheckPlanManage,
+  querySLInforCon,
+} from "../../api/api";
 import { clearTimeInput, getCookie, reduceFun } from "../../utils/validate";
 
 export default {
@@ -197,8 +205,18 @@ export default {
           vm.operationType = "创建";
         } else if (vm.$route.query.type === "edit") {
           vm.operationType = "编辑";
+          vm.needEditData = [];
+          vm.needEditData = vm.$route.query.data;
+          console.log(vm.needEditData);
+          vm.id = vm.$route.query.data.id;
+          vm.checkPlanName = vm.$route.query.data.stockPlanName;
+          vm.typeradio = vm.stockTypeFun(vm.$route.query.data.stockType);
+          vm.cycelradio = vm.stockCycleFun(vm.$route.query.data.stockCycle);
+          console.log(vm.cycelradio);
         } else if (vm.$route.query.type === "look") {
           console.log("查看");
+          vm.isdisabled = true;
+          vm.isBlock = "display:none";
         }
       });
     } else {
@@ -209,6 +227,7 @@ export default {
   },
   data() {
     return {
+      needEditData: [],
       operationType: "",
       checkAll: false,
       isIndeterminate: true,
@@ -234,6 +253,9 @@ export default {
         wareId: getCookie("X-Auth-wareId"),
         orgId: "4C2F466B16E94451B942EBBD07BE0F8B",
       },
+      id: "",
+      isdisabled: false,
+      isBlock: "display:flex",
     };
   },
   watch: {
@@ -274,6 +296,7 @@ export default {
         }
       });
     },
+
     clickQuery() {
       this.queryprodData.prodCode = this.productCode;
       this.queryprodData.prodName = this.productName;
@@ -286,6 +309,7 @@ export default {
       this.queryprodData.specName = "";
       this.queryProdFun();
     },
+
     handleCheckAllChange(val) {
       this.checkedOrgName = val ? this.orgArr : [];
       this.isIndeterminate = false;
@@ -295,6 +319,40 @@ export default {
       this.checkAll = checkedCount === this.orgArr.length;
       this.isIndeterminate =
         checkedCount > 0 && checkedCount < this.orgArr.length;
+    },
+    stockTypeFun(data) {
+      let states = "";
+      switch (data) {
+        case "按产品":
+          states = "1";
+          break;
+        case "按库位":
+          states = "2";
+          break;
+        default:
+          break;
+      }
+      return states;
+    },
+    stockCycleFun(data) {
+      let states = "";
+      switch (data) {
+        case "周盘点":
+          states = "0";
+          break;
+        case "月盘点":
+          states = "1";
+          break;
+        case "季盘点":
+          states = "2";
+          break;
+        case "半年盘点":
+          states = "3";
+          break;
+        default:
+          break;
+      }
+      return states;
     },
     entrustCompanys(val) {
       this.entrustCompany = val;
@@ -324,8 +382,13 @@ export default {
       this.$router.push({ path: "/inventoryCheck/checkPlanManagement" });
     },
     submit() {
+      if (this.checkPlanName === "")
+        return this.$messageSelf.message({
+          message: "请输入盘点计划名称",
+          type: "warning",
+        });
       let submitData = {
-        id: "",
+        id: this.id,
         ids: [],
         orgIds: [],
         stockCycle: this.cycelradio,
@@ -341,9 +404,38 @@ export default {
         this.checkedTableData.forEach((v) => {
           submitData.ids.push(v.id);
         });
+        this.submitRequest(submitData);
+      } else if (this.typeradio === "2") {
+        let data = {
+          childWareId: "",
+          wareAreaId: "",
+          wareAreaType: "",
+          wareShelfId: "",
+          shelfLevelNum: "",
+          id: "",
+        };
+        querySLInforCon(data).then((ok) => {
+          // console.log(ok);
+          if (ok.data.code === "10000") {
+            submitData.ids = [];
+            ok.data.result.forEach((v) => {
+              submitData.ids.push(v.id);
+            });
+            this.submitRequest(submitData);
+          } else {
+            return this.$messageSelf.message({
+              message: "查询库位信息失败",
+              type: "error",
+            });
+          }
+        });
       }
-      createCheckPlanManage(submitData).then((ok) => {
+    },
+    submitRequest(data) {
+      createCheckPlanManage(data).then((ok) => {
+        // console.log(ok);
         if (ok.data.code === "10000") {
+          this.$router.push({ path: "/inventoryCheck/checkPlanManagement" });
           this.$messageSelf.message({
             message: this.operationType + "成功",
             type: "success",
@@ -467,13 +559,13 @@ export default {
     align-items: center;
     justify-content: flex-end;
     .backBtn {
-      margin: 0 16px 0 0;
+      margin: 0 10px 0 0;
       @include BtnFunction("");
       background: white;
       border: 1px solid #d1d6e2;
     }
     .submitBtn {
-      margin: 0 30px 0 0;
+      margin: 0 20px 0 0;
       @include BtnFunction("success");
     }
   }

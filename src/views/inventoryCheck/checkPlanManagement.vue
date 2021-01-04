@@ -166,12 +166,19 @@
             align="left"
           >
           </el-table-column>
-          <el-table-column prop="orgNames" label="委托公司" align="left">
+          <el-table-column
+            prop="orgNames"
+            label="委托公司"
+            show-overflow-tooltip
+            width="250"
+          >
           </el-table-column>
-          <el-table-column prop="stockCycle" label="盘点周期" align="left">
+          <el-table-column prop="stockCycle" label="盘点周期" align="center">
           </el-table-column>
-          <el-table-column prop="stockType" label="盘点类型"> </el-table-column>
-          <el-table-column prop="" label="创建类型"> </el-table-column>
+          <el-table-column prop="stockType" label="盘点类型" align="center">
+          </el-table-column>
+          <el-table-column prop="orderSource" label="创建类型" align="center">
+          </el-table-column>
           <el-table-column prop="stockStatus" label="计划状态" align="center">
           </el-table-column>
           <el-table-column prop="createUser" label="创建人" align="center">
@@ -246,8 +253,31 @@ export default {
           label: "按类型",
         },
       ],
-      createTypeData: [],
-      planStateData: [],
+      multipleSelection: [],
+      createTypeData: [
+        {
+          value: "1",
+          label: "管理端",
+        },
+        {
+          value: "2",
+          label: "仓库",
+        },
+      ],
+      planStateData: [
+        {
+          value: "0",
+          label: "待盘点",
+        },
+        {
+          value: "1",
+          label: "盘点中",
+        },
+        {
+          value: "2",
+          label: "已作废",
+        },
+      ],
       datetimeDate: {
         placeholder: "请选择开始日期",
       },
@@ -258,6 +288,7 @@ export default {
         pageNums: 0,
       },
       queryData: {
+        orderBy: "createTime",
         pageNumber: "1",
         pageSize: "10",
         paras: {},
@@ -271,16 +302,89 @@ export default {
   methods: {
     queryFun() {
       queryCheckPlanManage(this.queryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = [];
           this.tableData = ok.data.result.list;
+          this.tableData.forEach((v) => {
+            v.stockCycle = this.stockCycleFun(v.stockCycle);
+            v.stockType = this.stockTypeFun(v.stockType);
+            v.orderSource = this.orderSourceFun(v.orderSource);
+            v.stockStatus = this.stockStatusFun(v.stockStatus);
+          });
           this.changeData(ok.data.result);
         }
       });
     },
+    stockCycleFun(data) {
+      let states = "";
+      switch (data) {
+        case 0:
+          states = "周盘点";
+          break;
+        case 1:
+          states = "月盘点";
+          break;
+        case 2:
+          states = "季盘点";
+          break;
+        case 3:
+          states = "半年盘点";
+          break;
+        default:
+          break;
+      }
+      return states;
+    },
+    stockTypeFun(data) {
+      let states = "";
+      switch (data) {
+        case 1:
+          states = "按产品";
+          break;
+        case 2:
+          states = "按库位";
+          break;
+        default:
+          break;
+      }
+      return states;
+    },
+    orderSourceFun(data) {
+      let states = "";
+      switch (data) {
+        case 1:
+          states = "管理端";
+          break;
+        case 2:
+          states = "仓库";
+          break;
+        default:
+          break;
+      }
+      return states;
+    },
+    stockStatusFun(data) {
+      let states = "";
+      switch (data) {
+        case 0:
+          states = "待盘点";
+          break;
+        case 1:
+          states = "盘点中";
+          break;
+        case 2:
+          states = "已作废";
+          break;
+        default:
+          break;
+      }
+      return states;
+    },
     clickQuery() {
       //点击查询
+      console.log(this.queryData)
+      this.queryFun();
     },
     clearInput() {
       //点击清空
@@ -297,12 +401,38 @@ export default {
       });
     },
     edit() {
+      this.tableData.forEach((v) => {
+        if (v.stockStatus !== "待盘点") {
+          return this.$messageSelf.message({
+            message: "只有待盘点的计划可编辑",
+            type: "warning",
+          });
+        }
+      });
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message({
+          message: "请选择要编辑的盘点计划",
+          type: "warning",
+        });
+      if (this.multipleSelection.length > 1)
+        return this.$messageSelf.message({
+          message: "只能选择一个盘点计划进行编辑",
+          type: "warning",
+        });
       this.$router.push({
         path: "/inventoryCheck/createCheckPlan",
-        query: { type: "edit", data: "" },
+        query: { type: "edit", data: this.multipleSelection[0] },
       });
     },
     del() {
+      this.tableData.forEach((v) => {
+        if (v.stockStatus !== "待盘点") {
+          return this.$messageSelf.message({
+            message: "只有待盘点的计划可删除",
+            type: "warning",
+          });
+        }
+      });
       let arr = [];
       this.multipleSelection.forEach((item) => {
         if (!arr.includes(item.id)) {
@@ -326,6 +456,7 @@ export default {
       delCheckPlanManage(data).then((ok) => {
         if (ok.data.code === "10000") {
           this.$messageSelf.message({ message: "删除成功", type: "success" });
+          this.queryFun();
         } else {
           this.$messageSelf.message({ message: "删除失败", type: "error" });
         }
@@ -343,19 +474,23 @@ export default {
           type: "warning",
         });
       } else {
-        cancelCheckPlanManage(this.multipleSelection[0].id).then((ok) => {
-          if (ok.data.code === "10000") {
-            this.$messageSelf.message({
-              message: "作废成功",
-              type: "success",
-            });
-          } else {
-            this.$messageSelf.message({
-              message: "作废失败",
-              type: "error",
-            });
+        cancelCheckPlanManage({ id: this.multipleSelection[0].id }).then(
+          (ok) => {
+            console.log(ok);
+            if (ok.data.code === "10000") {
+              this.$messageSelf.message({
+                message: "作废成功",
+                type: "success",
+              });
+              this.queryFun();
+            } else {
+              this.$messageSelf.message({
+                message: "作废失败",
+                type: "error",
+              });
+            }
           }
-        });
+        );
       }
     },
     lookPlan() {
@@ -371,16 +506,16 @@ export default {
       this.queryData.paras.orgId = val;
     },
     checkCycles(val) {
-      this.queryData.paras = val;
+      this.queryData.paras.stockCycle = +val;
     },
     checkTypes(val) {
-      this.queryData.paras = val;
+      this.queryData.paras.stockType = val;
     },
     createTypes(val) {
-      this.queryData.paras = val;
+      this.queryData.paras.orderSource = val;
     },
     planStates(val) {
-      this.queryData.paras = val;
+      this.queryData.paras.stockStatus = val;
     },
     getPageNum(e) {
       this.queryData.pageNumber = e;
@@ -397,10 +532,10 @@ export default {
       this.pageComponentsData.pageNums = totalRow;
     },
     getStartTime(e) {
-      console.log(e);
+      this.queryData.paras.createStartTime = val;
     },
     getEndTime(e) {
-      console.log(e);
+      this.queryData.paras.createEndTime = val;
     },
   },
 };

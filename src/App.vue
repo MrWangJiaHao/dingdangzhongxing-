@@ -30,23 +30,9 @@ export default {
     });
   },
 
-  mounted() {},
+  mounted() {
+  },
   methods: {
-    addHenxianTables() {
-      // setTimeout(() => {
-      //   this.$nextTick(() => {
-      //     let tablesCenter = document.getElementsByTagName("td");
-      //     tablesCenter = Array.from(tablesCenter);
-      //     tablesCenter.forEach((item) => {
-      //       if (!item.children[0].children.length) {
-      //         item.children[0].innerHTML = item.children[0].innerHTML
-      //           ? item.children[0].innerHTML
-      //           : "——";
-      //       }
-      //     });
-      //   });
-      // }, 700);
-    },
     reload() {
       this.isRouterAlive = false;
       this.$nextTick(function () {
@@ -180,6 +166,9 @@ input[type="number"] {
   border-bottom: 1px solid #d2d6e2 !important;
   background-clip: padding-box !important;
 }
+.el-table th .is-leaf:last-child {
+  border-right: none !important;
+}
 
 /**全局设置表格斑马线背景色 */
 .el-table--striped .el-table__body tr.el-table__row--striped td {
@@ -311,7 +300,7 @@ input[type="number"] {
 //兼容火狐浏览器
 input::-moz-placeholder {
   color: #9b9b9b !important;
-  opacity: 1 !important;//这里必须设置透明度为1，因为火狐默认是0.4
+  opacity: 1 !important; //这里必须设置透明度为1，因为火狐默认是0.4
 }
 //兼容欧鹏浏览器
 ::-o-placeholder {

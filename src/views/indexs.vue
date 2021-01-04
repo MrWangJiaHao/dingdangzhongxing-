@@ -960,6 +960,7 @@
     #clickBox .el-tabs__header .el-tabs__item.is-active {
         background: #eef1f8;
         border-bottom: #000;
+        color: #599af4
     }
 
     .mianbaoxie {

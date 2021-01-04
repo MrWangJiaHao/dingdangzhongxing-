@@ -25,12 +25,16 @@
       <div class="someInput">
         <div class="setInput">
           <span class="addStar">子仓名称：</span>
-          <el-input v-model="input1" placeholder="请输入子仓名称"></el-input>
+          <el-input
+            v-model="input1"
+            placeholder="请输入子仓名称"
+            :disabled="isDisabled"
+          ></el-input>
         </div>
         <div class="setInput">
           <span class="addStar">子仓编号：</span>
           <div style="width: 80px">
-            <el-select v-model="value1" filterable>
+            <el-select v-model="value1" filterable :disabled="isDisabled">
               <el-option
                 v-for="item in childWarehouseSerial"
                 :key="item.value"
@@ -49,7 +53,7 @@
           </span>
 
           <div style="width: 70px">
-            <el-select v-model="value3" filterable>
+            <el-select v-model="value3" filterable :disabled="isDisabled">
               <el-option
                 v-for="item in childWarehouseNumber"
                 :key="item.value"
@@ -67,6 +71,7 @@
               v-model="input2"
               placeholder="请输入长度"
               type="number"
+              :disabled="isDisabled"
             ></el-input>
           </div>
           <span>m</span>
@@ -78,6 +83,7 @@
               v-model="input3"
               placeholder="请输入宽度"
               type="number"
+              :disabled="isDisabled"
             ></el-input>
           </div>
           <span>m</span>
@@ -90,6 +96,7 @@
               filterable
               placeholder="请选择子仓类型"
               @change="value2Event"
+              :disabled="isDisabled"
             >
               <el-option
                 v-for="item in childWarehouseType"
@@ -108,6 +115,7 @@
               v-model="input4"
               placeholder="请输入长度"
               type="number"
+              :disabled="isDisabled"
             ></el-input>
           </div>
 
@@ -120,6 +128,7 @@
               v-model="input5"
               placeholder="请输入长度"
               type="number"
+              :disabled="isDisabled"
             ></el-input>
           </div>
 
@@ -134,11 +143,12 @@
           v-model="textarea"
           maxlength="100"
           show-word-limit
+          :disabled="isDisabled"
         >
         </el-input>
       </div>
     </div>
-    <div class="submitBtn">
+    <div class="submitBtn" :style="isBlock">
       <div class="submitBtnBox">
         <div class="quxiaoBox" @click="goBack">取 消</div>
         <div class="submitBtn" @click="submitData">提 交</div>
@@ -149,8 +159,32 @@
 <script>
 import { add_edit_WH_Request } from "../../api/api";
 export default {
+  beforeRouteEnter(to, from, next) {
+    if (from.name === "/warehoseconfig/childWarehouseAdmin") {
+      next((vm) => {
+        vm.isDisabled = false;
+        if (vm.$route.query.type === "preview") {
+          // console.log("点击了预览按钮");
+          vm.isDisabled = true;
+          vm.isBlock = "display:none";
+          vm.input1 = vm.$route.query.data.childWareName; //子仓名称
+          vm.input4 = vm.$route.query.data.northDistance; //距北距离
+          vm.input5 = vm.$route.query.data.westDistance; //距西距离
+          vm.input2 = vm.$route.query.data.wareLength; //子仓长度
+          vm.input3 = vm.$route.query.data.wareWidth; //子仓宽度
+          vm.value2 = vm.$route.query.data.wareType; //仓库类型
+          vm.textarea = vm.$route.query.data.remark; //备注
+          vm.value1 = vm.$route.query.data.childWareCode.substring(0, 1); //子仓编号字母
+          vm.value3 = vm.$route.query.data.childWareCode.substring(1); //子仓编号数字
+          
+        }
+      });
+    }
+  },
   data() {
     return {
+      isDisabled: false,
+      isBlock: "display:block",
       textarea: "",
       checked: true,
       input1: "",
@@ -249,6 +283,7 @@ export default {
     );
 
     this.saveDiv();
+
   },
   methods: {
     changeSize() {
@@ -307,7 +342,7 @@ export default {
           this.value3 = childWarehouseList[i].childWareCode.substring(1); //子仓编号数字
           this.editId = childWarehouseList[i].id; //选中子仓的id
           this.divChecked = true;
-          // v.style.background = "#367fff";
+          // v.style.background = "#409EFF";
           // v.style.border = "1px solid #0555c2";
           // v.style.color = "white";
         };
@@ -351,7 +386,7 @@ export default {
           type: "error",
           message: "子仓长宽不能小于0",
         });
-      } else if (this.input4 < 1 || this.input5<1) {
+      } else if (this.input4 < 1 || this.input5 < 1) {
         return this.$messageSelf.message({
           type: "error",
           message: "子仓距北距西距离不能小于0",

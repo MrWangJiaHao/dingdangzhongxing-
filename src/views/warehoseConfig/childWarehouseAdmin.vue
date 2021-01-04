@@ -54,8 +54,9 @@
             <div class="icon-title-title">查询结果</div>
           </div>
           <div class="someBtn">
+            <div class="setUser" @click="previewChildWarehouse">预览</div>
             <div class="setUser" @click="createChildWarehouse">创建</div>
-            <div class="bianjiUser" @click="editChildWarehouse">编辑</div>
+            <div class="setUser" @click="editChildWarehouse">编辑</div>
             <div class="remove" @click="delChildWarehouse">删除</div>
           </div>
         </div>
@@ -68,14 +69,18 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="82" align="center" fixed="left">
+            <el-table-column
+              type="selection"
+              width="82"
+              align="center"
+              fixed="left"
+            >
             </el-table-column>
             <el-table-column
               label="序号"
               align="center"
               type="index"
               width="71"
-              
             >
             </el-table-column>
             <el-table-column
@@ -241,7 +246,6 @@ export default {
     });
   },
   mounted() {
-   
     this.requestMethods = () => {
       let queryData = this.pagingQueryData;
       query_WH_Request(queryData).then((ok) => {
@@ -332,7 +336,26 @@ export default {
     editChildWarehouse() {
       this.$router.push({
         path: "/warehoseConfig/editChildWarehouse",
+        query: { type: "edit", data: this.multipleSelection[0] },
       });
+    },
+    previewChildWarehouse() {
+      if (!this.multipleSelection.length) {
+        return this.$messageSelf.message({
+          message: "请选择要预览的子仓",
+          type: "warning",
+        });
+      } else if (this.multipleSelection.length > 1) {
+        return this.$messageSelf.message({
+          message: "只能预览一个子仓",
+          type: "warning",
+        });
+      } else {
+        this.$router.push({
+          path: "/warehoseConfig/editChildWarehouse",
+          query: { type: "preview", data: this.multipleSelection[0] },
+        });
+      }
     },
     delChildWarehouse() {
       //删除
@@ -353,7 +376,7 @@ export default {
         })
         .then(() => {
           this.delRequest({ ids: arr });
-        })
+        });
     },
     //删除的请求
     delRequest(data) {
@@ -477,16 +500,8 @@ export default {
         margin-right: 10px;
         @include BtnFunction("success");
       }
-      .bianjiUser {
-        margin-right: 10px;
-        @include BtnFunction("success");
-      }
       .remove {
         @include BtnFunction("error");
-      }
-      .goOn {
-        margin-right: 10px;
-        @include BtnFunction("success");
       }
     }
   }

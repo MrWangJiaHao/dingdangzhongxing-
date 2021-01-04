@@ -34,7 +34,7 @@
             align="center"
           >
           </el-table-column>
-          <el-table-column prop="orderAddr" label="收货地址" align="center">
+          <el-table-column prop="orderAddr" label="收货地址" show-overflow-tooltip>
           </el-table-column>
           <el-table-column prop="prodNum" label="缺货数量" align="center">
           </el-table-column>
@@ -164,7 +164,6 @@ export default {
     height: 100%;
     .orderDetailBox {
       padding: 20px;
-      height: 666px;
       .orderDetail-title {
         font-size: 16px;
         position: relative;
