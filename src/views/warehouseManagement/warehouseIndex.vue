@@ -157,11 +157,9 @@
                     leave-active-class="animate__animated animate__zoomOut"
             >
                 <div v-if="WarehouseReceipts">
-                    <div>
-                        <WarehouseReceipt
-                                :WarehousingType="WarehousingTypeArr[$route.params.type].title"
-                        />
-                    </div>
+                    <WarehouseReceipt
+                            :WarehousingType="WarehousingTypeArr[$route.params.type].title?WarehousingTypeArr[$route.params.type].title:'手工创建出库'"
+                    />
                 </div>
             </transition>
         </div>

@@ -183,6 +183,10 @@ textarea {
     white-space: nowrap;
 }
 
+.w1200 {
+    width: 1200px;
+}
+
 .ptb10 {
     padding: 0 10px;
 }
