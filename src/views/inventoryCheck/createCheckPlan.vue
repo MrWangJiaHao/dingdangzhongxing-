@@ -243,6 +243,9 @@ export default {
       },
       deep: true, //深度监听
     },
+    // multipleSelection(){
+    //   this.checkedTableData = this.multipleSelection;
+    // },
   },
   mounted() {
     this.$store.state.orgInfor.orgInforData.forEach((v) => {
@@ -333,6 +336,12 @@ export default {
       this.checkedOrgName.forEach((v) => {
         submitData.orgIds.push(v.value);
       });
+      if (this.typeradio === "1") {
+        submitData.ids = [];
+        this.checkedTableData.forEach((v) => {
+          submitData.ids.push(v.id);
+        });
+      }
       createCheckPlanManage(submitData).then((ok) => {
         if (ok.data.code === "10000") {
           this.$messageSelf.message({

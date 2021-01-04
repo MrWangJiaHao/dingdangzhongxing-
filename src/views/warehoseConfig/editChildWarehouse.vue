@@ -28,7 +28,7 @@
           <el-input v-model="input1" placeholder="请输入子仓名称"></el-input>
         </div>
         <div class="setInput">
-          <span  class="addStar">子仓编号：</span>
+          <span class="addStar">子仓编号：</span>
           <div style="width: 80px">
             <el-select v-model="value1" filterable>
               <el-option
@@ -44,10 +44,10 @@
         <div class="setInput setTransition">
           <span class="addStar">
             <el-checkbox v-model="checked" @change="clickNumber"
-            >数字：</el-checkbox
-          >
-          </span> 
-          
+              >数字：</el-checkbox
+            >
+          </span>
+
           <div style="width: 70px">
             <el-select v-model="value3" filterable>
               <el-option
@@ -346,6 +346,16 @@ export default {
           type: "warning",
           message: "请先选中一个子仓",
         });
+      } else if (this.input2 < 1 || this.input3 < 1) {
+        return this.$messageSelf.message({
+          type: "error",
+          message: "子仓长宽不能小于0",
+        });
+      } else if (this.input4 < 1 || this.input5<1) {
+        return this.$messageSelf.message({
+          type: "error",
+          message: "子仓距北距西距离不能小于0",
+        });
       } else {
         let data = {
           childWareCode: this.value1 + this.value3, //子仓编号
@@ -360,7 +370,7 @@ export default {
           id: this.editId, //仓库id
         };
         add_edit_WH_Request(data).then((ok) => {
-          console.log(ok);
+          // console.log(ok);
           if (ok.data.code === "10000") {
             this.$messageSelf.message({
               type: "success",
@@ -489,7 +499,7 @@ export default {
   span {
     white-space: nowrap;
   }
- .addStar::before{
+  .addStar::before {
     top: 0 !important;
   }
 }

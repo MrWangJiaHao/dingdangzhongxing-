@@ -178,11 +178,14 @@ input[type="number"] {
 .el-table th.is-leaf {
   border-right: 1px solid #d2d6e2 !important;
   border-bottom: 1px solid #d2d6e2 !important;
+  background-clip: padding-box !important;
 }
 
 /**全局设置表格斑马线背景色 */
 .el-table--striped .el-table__body tr.el-table__row--striped td {
   background: #f3f8fe !important;
+  /**解决表格边框在火狐不显示的问题 */
+  background-clip: padding-box !important;
 }
 
 /* 全局设置分页器样式*/
@@ -286,7 +289,8 @@ input[type="number"] {
 }
 
 //全局修改鼠标移入表格后的背景色
-.el-table__body tr:hover > td, .el-table__body tr.hover-row.el-table__row--striped>td {
+.el-table__body tr:hover > td,
+.el-table__body tr.hover-row.el-table__row--striped > td {
   background-color: #c7e0ff !important;
 }
 .el-table__body tr.hover-row > td {
@@ -298,16 +302,22 @@ input[type="number"] {
 //全局修改placeholder颜色
 ::-webkit-input-placeholder {
   color: #9b9b9b !important;
+  line-height: 32px;
 }
-
-:-moz-placeholder {
+//解决iview placeholder在苹果浏览器上显示的问题
+.ivu-input::-webkit-input-placeholder {
+  line-height: 20px !important;
+}
+//兼容火狐浏览器
+input::-moz-placeholder {
   color: #9b9b9b !important;
+  opacity: 1 !important;//这里必须设置透明度为1，因为火狐默认是0.4
 }
-
+//兼容欧鹏浏览器
 ::-o-placeholder {
   color: #9b9b9b !important;
 }
-
+//兼容IE浏览器
 ::-ms-input-placeholder {
   color: #9b9b9b !important;
 }
@@ -327,12 +337,6 @@ input[type="number"] {
 }
 .el-table__row td:last-child {
   border-right: none !important;
-}
-
-.el-table__body,
-.el-table__footer,
-.el-table__header {
-  border-collapse: collapse !important;
 }
 
 //修改下拉框鼠标滑过背景色
@@ -355,10 +359,8 @@ input[type="number"] {
 .ivu-select-dropdown {
   z-index: 9999 !important;
 }
-.el-table__fixed{
+.el-table__fixed {
   height: 100% !important;
 }
-
-
 </style>
 

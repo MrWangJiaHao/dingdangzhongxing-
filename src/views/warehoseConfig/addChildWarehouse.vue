@@ -297,6 +297,16 @@ export default {
           type: "error",
           message: "请选择子仓编号",
         });
+      } else if (this.input2 < 1 || this.input3 < 1) {
+        return this.$messageSelf.message({
+          type: "error",
+          message: "子仓长宽不能小于0",
+        });
+      } else if (this.input4 < 1 || this.input5 < 1) {
+        return this.$messageSelf.message({
+          type: "error",
+          message: "子仓距北距西距离不能小于0",
+        });
       }
       let data = {
         childWareCode: this.value1 + this.value3, //子仓编号
@@ -348,48 +358,60 @@ export default {
         this.input2 !== "" &&
         this.input3 !== ""
       ) {
-        // document.documentElement.scrollTop = 230;
-        const ScrollTop = (number = 0, time) => {
-          if (!time) {
-            document.body.scrollTop = document.documentElement.scrollTop = number;
-            return number;
-          }
-          const spacingTime = 5; // 设置循环的间隔时间  值越小消耗性能越高
-          let spacingInex = time / spacingTime; // 计算循环的次数
-          let nowTop =
-            document.body.scrollTop + document.documentElement.scrollTop; // 获取当前滚动条位置
-          let everTop = (number - nowTop) / spacingInex; // 计算每次滑动的距离
-          let scrollTimer = setInterval(() => {
-            if (spacingInex > 0) {
-              spacingInex--;
-              ScrollTop((nowTop += everTop));
-            } else {
-              clearInterval(scrollTimer); // 清除计时器
+        if (this.input2 < 1 || this.input3 < 1) {
+          return this.$messageSelf.message({
+            type: "error",
+            message: "子仓长宽不能小于0",
+          });
+        } else if (this.input4 < 1 || this.input5 < 1) {
+          return this.$messageSelf.message({
+            type: "error",
+            message: "子仓距北距西距离不能小于0",
+          });
+        } else {
+          // document.documentElement.scrollTop = 230;
+          const ScrollTop = (number = 0, time) => {
+            if (!time) {
+              document.body.scrollTop = document.documentElement.scrollTop = number;
+              return number;
             }
-          }, spacingTime);
-        };
-        ScrollTop(230, 300);
-        let oDiv = document.querySelector(".temporarily_no");
-        let previewDiv = document.querySelector(".previewDiv");
-        if (previewDiv !== null) {
-          oDiv.removeChild(previewDiv);
+            const spacingTime = 5; // 设置循环的间隔时间  值越小消耗性能越高
+            let spacingInex = time / spacingTime; // 计算循环的次数
+            let nowTop =
+              document.body.scrollTop + document.documentElement.scrollTop; // 获取当前滚动条位置
+            let everTop = (number - nowTop) / spacingInex; // 计算每次滑动的距离
+            let scrollTimer = setInterval(() => {
+              if (spacingInex > 0) {
+                spacingInex--;
+                ScrollTop((nowTop += everTop));
+              } else {
+                clearInterval(scrollTimer); // 清除计时器
+              }
+            }, spacingTime);
+          };
+          ScrollTop(230, 300);
+          let oDiv = document.querySelector(".temporarily_no");
+          let previewDiv = document.querySelector(".previewDiv");
+          if (previewDiv !== null) {
+            oDiv.removeChild(previewDiv);
+          }
+          let childDiv = document.createElement("div");
+          childDiv.style.width = (this.input2 * oDiv.offsetWidth) / 200 + "px";
+          childDiv.style.height = (this.input3 * oDiv.offsetWidth) / 200 + "px";
+          childDiv.style.background = "#ddd";
+          childDiv.style.position = "absolute";
+          childDiv.style.left = (this.input5 * oDiv.offsetWidth) / 200 + "px";
+          childDiv.style.top = (this.input4 * oDiv.offsetWidth) / 200 + "px";
+          childDiv.style.textAlign = "center";
+          childDiv.style.border = "1px solid #ddd";
+          childDiv.style.borderRadius = this.input2 * 0.2 + "px";
+          childDiv.style.lineHeight =
+            (this.input3 * oDiv.offsetWidth) / 200 + "px";
+          childDiv.style.fontSize = "10px";
+          childDiv.innerHTML = this.input1;
+          childDiv.className = "previewDiv";
+          oDiv.append(childDiv);
         }
-        let childDiv = document.createElement("div");
-        childDiv.style.width = (this.input2 * oDiv.offsetWidth) / 200 + "px";
-        childDiv.style.height = (this.input3 * oDiv.offsetWidth) / 200 + "px";
-        childDiv.style.background = "#ddd";
-        childDiv.style.position = "absolute";
-        childDiv.style.left = (this.input5 * oDiv.offsetWidth) / 200 + "px";
-        childDiv.style.top = (this.input4 * oDiv.offsetWidth) / 200 + "px";
-        childDiv.style.textAlign = "center";
-        childDiv.style.border = "1px solid #ddd";
-        childDiv.style.borderRadius = this.input2 * 0.2 + "px";
-        childDiv.style.lineHeight =
-          (this.input3 * oDiv.offsetWidth) / 200 + "px";
-        childDiv.style.fontSize = "10px";
-        childDiv.innerHTML = this.input1;
-        childDiv.className = "previewDiv";
-        oDiv.append(childDiv);
       }
     },
   },
