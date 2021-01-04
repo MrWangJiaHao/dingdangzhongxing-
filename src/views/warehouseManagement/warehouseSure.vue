@@ -14,7 +14,7 @@
                                         class="displayalign parentBox"
                                 >
                                     <div
-                                            class="titleBox ellipsis"
+                                            class="titleBox mr10 ellipsis"
                                             v-html="shezhizitiwiered(item)"
                                     ></div>
                                     <div class="centersBox ">
@@ -97,7 +97,7 @@
                                     type="selection"
                                     align="center"
                                     width="82"
-                                     fixed="left"
+                                    fixed="left"
                             ></el-table-column>
                             <el-table-column
                                     label="序号"
