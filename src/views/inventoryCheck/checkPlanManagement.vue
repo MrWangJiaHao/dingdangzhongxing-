@@ -532,10 +532,10 @@ export default {
       this.pageComponentsData.pageNums = totalRow;
     },
     getStartTime(e) {
-      this.queryData.paras.createStartTime = val;
+      this.queryData.paras.createStartTime = e;
     },
     getEndTime(e) {
-      this.queryData.paras.createEndTime = val;
+      this.queryData.paras.createEndTime = e;
     },
   },
 };
