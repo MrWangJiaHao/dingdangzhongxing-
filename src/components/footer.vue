@@ -143,6 +143,7 @@
                 }
             },
             mouseleaveSetTimeOut() {
+                clearTimeout(this.timer)
                 this.xiaoxi = false
             }
         },
@@ -248,7 +249,8 @@
         }
 
         .centers {
-              word-break:  break-all;
+            word-break: break-all;
+            word-wrap: break-word;
         }
 
         .loginOut {
