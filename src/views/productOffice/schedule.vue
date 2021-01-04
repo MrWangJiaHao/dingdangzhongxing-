@@ -264,26 +264,36 @@
             }
         },
         created() {
-            let href = window.location.href;
-            if (href.includes('processingOffice')) { //加工
-                this.isJiaGonOffice = false
-                this.titles = '加工排期'
-                this.zuhechanpinminxiJson.title = '加工作业计划'
-                this.btnCenters = '添加作业计划'
-            } else { //拆解
-                this.isJiaGonOffice = true
-                this.titles = '拆解排期'
-                this.zuhechanpinminxiJson.title = '分解作业计划'
-                this.btnCenters = '添加分解计划'
-            }
+            this.othermsg()
+            console.log(this.scheduleJson)
+
         },
         props: {
             title: {
                 type: String,
                 default: "创建排期"
+            },
+            scheduleJson: {
+                type: Object,
+                default: () => {
+                }
             }
         },
         methods: {
+            othermsg() {
+                let href = window.location.href;
+                if (href.includes('processingOffice')) { //加工
+                    this.isJiaGonOffice = false
+                    this.titles = '加工排期'
+                    this.zuhechanpinminxiJson.title = '加工作业计划'
+                    this.btnCenters = '添加作业计划'
+                } else { //拆解
+                    this.isJiaGonOffice = true
+                    this.titles = '拆解排期'
+                    this.zuhechanpinminxiJson.title = '分解作业计划'
+                    this.btnCenters = '添加分解计划'
+                }
+            },
             closeBtn() {
                 this.$emit('closeBtn', true)
             },

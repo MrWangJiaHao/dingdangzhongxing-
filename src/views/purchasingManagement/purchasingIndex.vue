@@ -240,8 +240,7 @@
 <style scoped>
 
     #purchasingIndexss #tableBox .el-table__expand-icon--expanded {
-        transform: rotate(0deg);
-        transition: all 0.3s;
+        transform: rotate(180deg);
     }
 
     #purchasingIndexss #tableBox .el-icon.el-icon-arrow-right::before {

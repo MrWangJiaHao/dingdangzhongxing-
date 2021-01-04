@@ -22,6 +22,7 @@
                              @changereplenishOrderNo="centerInput"></inputHeader>
                 <!--内容-->
                 <dateHeader
+                        width="200"
                         title="接收时间"
                         :qianmiandeData="{ placeholder: '请选择开始接收时间' }"
                         :houmiandeData="{ placeholder: '请选择结束的接收时间' }"

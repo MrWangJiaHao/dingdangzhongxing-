@@ -8,7 +8,9 @@
 
         <div class="pd10">
             <div class="tableInInput tableBoxCol center" id="purchasingIndexss">
-                <tableCommin :tableDataJson="tableDataJson">
+                <tableCommin :tableDataJson="tableDataJson" @clickEvents="clickEventsOuter"
+                             @tableSelectArr=
+                                     "handleSelectionChangeDatas">
                     <template>
                         <div id="tableCenters" class="tableInInput">
                             <tableCommin :tableDataJson="xiaodeDataJson"></tableCommin>
@@ -27,12 +29,14 @@
             <transition enter-active-class="animate__animated animate__zoomIn"
                         leave-active-class="animate__animated animate__zoomOut">
                 <div v-if="isShowChedule">
-                    <schedule :title="title" @closeBtn="closeBtn" @clickSubmit="clickSubmit"></schedule>
+                    <schedule :title="title" :scheduleJson="scheduleJson" @closeBtn="closeBtn"
+                              @clickSubmit="clickSubmit"></schedule>
                 </div>
             </transition>
         </div>
         <!-- 加工排期 end-->
         <!-- 创建入库单 start-->
+
         <!-- 创建入库单 end -->
     </div>
 </template>
@@ -84,6 +88,12 @@
                     {
                         title: "加工排期",
                         onClick() {
+                            console.log(self.tableDataJson.dataResult.length)
+                            if (!self.tableDataJson.dataResult.length || self.tableDataJson.dataResult.length != 1) return self.$messageSelf.message({
+                                type: 'warning',
+                                message: "请选择要排期的列表,并且只能选择一个"
+                            })
+                            self.scheduleJson = self.tableDataJson.dataResult[0]
                             self.isShowChedule = true
                         },
                         class: "mr10 bianjiUser"
@@ -102,10 +112,9 @@
                         },
                         class: "remove"
                     }
-
                 ],
                 xiaodeDataJson: {
-                    tabledata: [{}],
+                    tabledata: [],
                     typeData: [
                         {
                             types: 'selection'
@@ -118,34 +127,55 @@
                         {
                             label: "开始时间",
                             flag: "date",
+                            drop: "startTime",
                             dateTimeData: {
                                 placeholder: "请选择开始时间",
-                                w320: "w150"
+                                disabled: true,
+                                w320: "w150",
                             },
-                            getDateTime(res) {
-                                console.log(res)
+                            getDateTime() {
                             }
                         },
                         {
                             label: "结束时间",
+                            flag: "date",
+                            drop: "endTime",
+                            dateTimeData: {
+                                placeholder: "请选择开始时间",
+                                disabled: true,
+                                w320: "w150",
+                            },
+                            getDateTime() {
+                            }
                         },
                         {
                             label: "加工作业数量",
+                            flag: "input",
+                            drop: "prodNum",
+                            disabled: true
                         },
                         {
                             label: "分配人数",
+                            flag: "input",
+                            drop: "userNum",
+                            disabled: true
                         },
                         {
                             label: "实际完成作业数",
+                            types: 'actualProdNum'
                         },
                         {
                             label: "出库单号",
+                            types: "inWareNo"
                         },
                         {
                             label: "入库单号",
+                            types: "outWareNo"
                         }
-                    ]
+                    ],
+                    dataResult: []
                 },
+                scheduleJson: {},
                 tableDataJson: {
                     tabledata: [],
                     typeData: [
@@ -214,7 +244,8 @@
                             label: "实际完成时间",
                             width: 200
                         },
-                    ]
+                    ],
+                    dataResult: []
                 },
                 pageComponentsData: {
                     pageNums: 0,
@@ -232,6 +263,15 @@
             this.getTableData()
         },
         methods: {
+            //外面的
+            handleSelectionChangeDatas(e) {
+                console.log(e)
+                this.tableDataJson.dataResult = e
+            },
+            clickEventsOuter(e) {
+                this.xiaodeDataJson.tabledata = []
+                this.getDetailDatas(e.id)
+            },
             closeBtn() {
                 this.isShowChedule = false
             },
@@ -248,6 +288,21 @@
                 let json = Object.assign({}, this.sendOutDataJson.paras, e)
                 this.sendOutDataJson.paras = json
                 this.getTableData();
+            },
+            async getDetailDatas(id) {
+                let data = await this.$pOrgProductsApp.pProcessWorkWarePlanFindRecord({id})
+                if (data.code == "10000") {
+                    this._changeDataInner(data.result)
+                } else {
+                    this.$messageSelf.message({
+                        type: "error",
+                        message: "获取详情失败"
+                    })
+                }
+            },
+            _changeDataInner(json) {
+                let {prodDatas} = json
+                this.xiaodeDataJson.tabledata = prodDatas
             },
             async getTableData() {
                 let data = await this.$pOrgProductsApp.pProcessWorkFindRecordPage(this.sendOutDataJson)
@@ -335,4 +390,5 @@
     #purchasingIndexss .el-table__expanded-cell {
         border-right: none !important;
     }
+
 </style>

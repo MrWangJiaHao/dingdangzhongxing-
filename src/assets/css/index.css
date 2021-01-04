@@ -556,7 +556,6 @@ textarea {
 }
 
 .inputBox {
-    padding-right: 30px;
     height: 40px;
     -webkit-appearance: none;
     background-color: #FFF;
@@ -567,7 +566,6 @@ textarea {
     color: #606266;
     display: inline-block;
     font-size: inherit;
-    height: 40px;
     line-height: 40px;
     outline: 0;
     padding: 0 15px;
@@ -581,7 +579,6 @@ textarea {
 
 .juli {
     font-size: 14px;
-    font-family: Microsoft YaHei;
     font-weight: 400;
     color: #599AF4;
 }
@@ -596,7 +593,6 @@ textarea {
 
 .noneZican {
     font-size: 0.24rem;
-    font-family: Hiragino Sans GB;
     font-weight: normal;
     color: #454545;
 }
@@ -732,7 +728,6 @@ textarea {
 
 .centerBox {
     font-size: 14px;
-    font-family: Hiragino Sans GB;
     font-weight: normal;
     color: #333333;
 }
@@ -876,6 +871,10 @@ textarea {
     color: #888888;
 }
 
+.pt8 {
+   padding-top: 8px;
+}
+
 .is-disabled {
     background-color: #e1eaf5;
 }
@@ -916,6 +915,10 @@ textarea {
 
 .w160s {
     width: 160px;
+}
+
+.mr7 {
+    margin-right: 7px;
 }
 
 .w170 {

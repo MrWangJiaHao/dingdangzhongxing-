@@ -1206,6 +1206,7 @@ export function queryCheckPlanManage(data) {
         })
     })
 }
+
 //库存盘点=>盘点计划管理=>新增.修改盘点计划信息
 export function createCheckPlanManage(data) {
     return new Promise((resolve, reject) => {
@@ -1220,6 +1221,7 @@ export function createCheckPlanManage(data) {
         })
     })
 }
+
 //库存盘点=>盘点计划管理=>盘点计划作废
 export function cancelCheckPlanManage(data) {
     return new Promise((resolve, reject) => {
@@ -1234,6 +1236,7 @@ export function cancelCheckPlanManage(data) {
         })
     })
 }
+
 //库存盘点=>盘点计划管理=>删除盘点计划
 export function delCheckPlanManage(data) {
     return new Promise((resolve, reject) => {
@@ -1248,9 +1251,6 @@ export function delCheckPlanManage(data) {
         })
     })
 }
-
-
-
 
 
 /**
@@ -2062,7 +2062,13 @@ export const pOrgProductsApp = {
     pProcessWorkFindRecordPage: (data) => post({
         data,
         url: "/wbs-warehouse-manage/v1/pProcessWork/findRecordPage"
-    })
+    }),
+//查询详情
+    pProcessWorkWarePlanFindRecord:
+        (data) => post({
+            data,
+            url: "/wbs-warehouse-manage/v1/pProcessWorkWarePlan/findRecord"
+        })
 //仓库作业 end
 }
 

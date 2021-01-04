@@ -1,7 +1,5 @@
 <template>
     <div>
-
-
         <div class="fuzzyQueryBox clearfix mb16 ">
             <div class="biaogeBox dispalywrap fl">
                 <div class="displayalign mr10">

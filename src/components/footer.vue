@@ -2,7 +2,7 @@
     <div class="footer_box">
         <div class="dianJiTuiChu">
             <div class="displayalign">
-                <img src="../assets/svg/userName.svg" style="margin-right: 7px" alt/>
+                <img src="../assets/svg/userName.svg" class="mr7" alt/>
                 <div class="wenZi" @click="loginOutMeg">
                     登录用户&nbsp;
                     <span
@@ -25,7 +25,7 @@
                     <img src="../assets/svg/Toast.svg" alt/>
                 </div>
                 <div class="wenZi">消息</div>
-                <div class="xiaoXiCenters ellipsis" @click="xiaoxi=true">
+                <div class="xiaoXiCenters ellipsis" @click="xiaoxiClick">
                     <div class="idBVox">
                         {{ content }}
                     </div>
@@ -33,13 +33,16 @@
             </div>
             <transition enter-active-class="animate__animated animate__bounceInUp"
                         leave-active-class="animate__animated animate__bounceOutDown">
-                <div class="toastMsg" v-show="xiaoxi" @mouseleave="mouseleaveSetTimeOut">
+                <div class="toastMsg" v-show="xiaoxi" @mouseleave="mouseleaveSetTimeOut" @mouseout="moveOutClearTime">
                     <div class="title p10  displayJucenMes">
                         消息
                         <div class="closeBox" @click="xiaoxi=false"></div>
                     </div>
-                    <div class="p10">
+                    <div class="p10 pt8   centers">
                         {{ content }}
+                    </div>
+                    <div class="p10 tr centers">
+                        {{readTime}}
                     </div>
                 </div>
             </transition>
@@ -59,8 +62,18 @@
                 content: "",
                 display: false,
                 userName: "",
-                xiaoxi: false
+                xiaoxi: false,
+                readTime: "",
+                sendoutDataJson: {},
+                timer: null,
+                setTime: 3000
             };
+        },
+        computed: {
+            dateNewData() {
+                let data = new Date().toLocaleString("chinese", {hour12: false});
+                return data
+            },
         },
         async created() {
             this.userName = getCookie("userName");
@@ -74,13 +87,35 @@
                     pageSize,
                 },
             });
-            let idBvox = document.getElementsByClassName("idBVox")[0];
+            let idBvox = document.getElementsByClassName("idBVox")[0],
+                self = this
             idBvox.style.width = result.list[0].content.length * 14 + "px";
             this.content = result.list[0].content;
+            this.readTime = result.list[0].readTime;
+            this.sendoutDataJson = {
+                ...result.list[0],
+                readTime: self.dateNewData,
+                enableStatus: 1
+            }
         },
         methods: {
             loginOutMeg() {
                 this.display = !this.display;
+            },
+            moveOutClearTime() {
+                clearTimeout(this.timer)
+            },
+            xiaoxiClick() {
+                console.log(this.sendoutDataJson)
+                this.$pOrgProductsApp.pWarehouseStationInfo(this.sendoutDataJson)
+                this.xiaoxi = true
+                this.clearTime()
+            },
+            clearTime() {
+                clearTimeout(this.timer)
+                this.timer = setTimeout(() => {
+                    this.xiaoxi = false
+                }, this.setTime)
             },
             async loginout() {
                 let datas = await post({
@@ -103,9 +138,7 @@
                 }
             },
             mouseleaveSetTimeOut() {
-                setTimeout(() => {
-                    this.xiaoxi = false
-                }, 500)
+                this.clearTime()
             }
         },
     };
@@ -163,12 +196,18 @@
         cursor: pointer;
     }
 
+    .title {
+        font-size: 14px;
+        color: #555555;
+
+    }
+
     .footer_box {
         position: fixed;
         height: 30px;
         background: #599af3;
         width: 100%;
-        bottom: 0;
+        bottom: 0px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -239,6 +278,7 @@
 
         .dianJiXiaoXi {
             position: relative;
+              word-break:  break-all;
 
             .imgBox {
                 width: 16px;
@@ -253,12 +293,13 @@
 
             .toastMsg {
                 position: absolute;
-                bottom: 25px;
+                bottom: 45px;
                 z-index: -1;
                 width: 70%;
                 background: #fff;
-                border: 1px solid;
-                border-bottom: none;
+                box-shadow: 0px 7px 11px 1px rgba(0, 0, 0, 0.28);
+
+                border-radius: 8px;
             }
 
             .wenZi {

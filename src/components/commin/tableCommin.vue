@@ -57,14 +57,16 @@
               <input
                       :type="tableItem.inputType ? tableItem.inputType : 'text'"
                       class="input"
+                      :class="tableItem.disabled?'is-disableds':''"
                       v-model="scoped.row[tableItem.drop]"
                       :placeholder="tableItem.placeholder"
+                      :disabled="tableItem.disabled"
                       @blur="tableItem.OnBlur(scoped.$index, scoped.row) || ''"
               />
                 <slot name="input"></slot>
             </div>
             <div v-else-if="tableItem.flag == 'xiala'">
-                <slot name="xiala"></slot>
+              <slot name="xiala"></slot>
               <dropDownXiala
                       style="height: 28px"
                       :dropDowBox="tableItem.dropDowBox"
@@ -79,8 +81,8 @@
               <dateTime
                       :width="tableItem.w320?tableItem.w320:'220'"
                       :dateTimeData="tableItem.dateTimeData"
+                      :valueDataStart="scoped.row[tableItem.drop]"
                       @getDateTime="tableItem.getDateTime"
-                      style="height: 28px"
               />
             </div>
             <div
@@ -194,6 +196,13 @@
         font-weight: normal;
         background: rgba(236, 241, 247, 0);
         border-radius: 2px;
+    }
+
+    #app .is-disableds {
+        background-color: #f3f3f3;
+        opacity: 1;
+        cursor: not-allowed;
+        color: #ccc;
     }
 
     .weiduBox {
