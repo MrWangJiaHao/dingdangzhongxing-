@@ -951,6 +951,10 @@
 
     .dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item {
         border: 1px solid #ced4de;
+        border-right: none;
+    }
+     .dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item:last-child{
+        border-right: 1px solid #ced4de;;
     }
 
     #clickBox .el-tabs__header .el-tabs__item.is-active {
@@ -959,7 +963,7 @@
     }
 
     .mianbaoxie {
-        padding: 20px 10px;
+        padding: 15px 10px;
     }
 
     .dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item:first-child {
@@ -977,7 +981,7 @@
     }
 
     .dianjiqiehuan .el-tabs__item.is-top.is-active.is-closable {
-        color: #000 !important;
+        color: #599af4 !important;
         border-bottom-color: #eef1f8 !important;
     }
 
@@ -1007,7 +1011,7 @@
     }
 
     .el-tabs__item.is-top.is-closable {
-        margin-right: 18px;
+        // margin-right: 18px;
     }
 
     .el-tabs__item:hover {
@@ -1037,7 +1041,7 @@
             border-bottom: 1px solid #ced4de;
 
             .dianjiCenters {
-                padding-top: 20px;
+                padding-top: 13px;
             }
         }
 
@@ -1061,7 +1065,6 @@
         height: 34px;
         color: #333333;
         padding: 0 15px;
-        margin-right: 18px;
     }
 
     .tabContainer .el-tabs--bottom .el-tabs__header.is-bottom {

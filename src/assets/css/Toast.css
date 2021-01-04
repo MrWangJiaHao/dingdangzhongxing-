@@ -170,7 +170,7 @@
 }
 
 
-.el-message-box__status + .el-message-box__message {
+.el-message-box__status+.el-message-box__message {
     padding-left: 0;
     padding-right: 0;
 }
@@ -220,10 +220,14 @@
 
 .el-tabs__item.is-top.is-active.is-closable .el-icon-close::before {
     content: "";
-    background: url(../img/close.png) center center no-repeat;
+    background: url(../img/close.svg) center center no-repeat;
     background-size: cover;
     width: 10px;
     height: 10px;
+}
+
+.el-tabs__item.is-top.is-active.is-closable .el-icon-close:hover {
+    /*修改icon鼠标移入后的效果*/
 }
 
 .ivu-btn-small {
