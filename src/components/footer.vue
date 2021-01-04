@@ -34,14 +34,17 @@
             <transition enter-active-class="animate__animated animate__bounceInUp"
                         leave-active-class="animate__animated animate__bounceOutDown">
                 <div class="toastMsg" v-show="xiaoxi" @mouseleave="mouseleaveSetTimeOut" @mouseout="moveOutClearTime">
-                    <div class="title p10  displayJucenMes">
+                    <div class="title p20s  displayJucenMes">
                         消息
                         <div class="closeBox" @click="xiaoxi=false"></div>
                     </div>
-                    <div class="p10 pt8   centers">
+                    <div class="pd20 centers">
+                        {{title}}
+                    </div>
+                    <div class="pd20   centers">
                         {{ content }}
                     </div>
-                    <div class="p10 tr centers">
+                    <div class="p20 tr centers">
                         {{readTime}}
                     </div>
                 </div>
@@ -66,6 +69,7 @@
                 readTime: "",
                 sendoutDataJson: {},
                 timer: null,
+                title: "",
                 setTime: 3000
             };
         },
@@ -89,8 +93,9 @@
             });
             let idBvox = document.getElementsByClassName("idBVox")[0],
                 self = this
-            idBvox.style.width = result.list[0].content.length * 14 + "px";
+            idBvox.style.width = result.list[0].content.length * 14 + 40 + "px";
             this.content = result.list[0].content;
+            this.title = result.list[0].title
             this.readTime = result.list[0].readTime;
             this.sendoutDataJson = {
                 ...result.list[0],
@@ -138,7 +143,7 @@
                 }
             },
             mouseleaveSetTimeOut() {
-                this.clearTime()
+                this.xiaoxi = false
             }
         },
     };
@@ -199,7 +204,7 @@
     .title {
         font-size: 14px;
         color: #555555;
-
+        font-weight: 600;
     }
 
     .footer_box {
@@ -242,6 +247,10 @@
             }
         }
 
+        .centers {
+              word-break:  break-all;
+        }
+
         .loginOut {
             width: 100px;
             cursor: pointer;
@@ -278,7 +287,6 @@
 
         .dianJiXiaoXi {
             position: relative;
-              word-break:  break-all;
 
             .imgBox {
                 width: 16px;
