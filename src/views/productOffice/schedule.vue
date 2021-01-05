@@ -262,16 +262,20 @@
                         ],
                         dataResult: []
                     }
-                }
+                },
+                chanpingJson: {}
             }
         },
         created() {
             let self = this
             this.othermsg()
             this.$parent.getDetailDatas(this.scheduleJson.id).then((res) => {
-                let {prodDatas, plans} = res
+                let {pProcessWork, prodDatas, plans} = res
+                console.log(res)
+                self.pProcessWork = pProcessWork
                 self.chukuchangpinminxiJson.tableDataJsonAndArr.tabledata = prodDatas
                 self.zuhechanpinminxiJson.tableDataJsonAndArr.tabledata = plans
+                self.getChuKuChanPin()
             })
         },
         props: {
@@ -286,6 +290,16 @@
             }
         },
         methods: {
+            async getChuKuChanPin() {
+                console.log(this.pProcessWork)
+                this.$pOrgProductsApp.getAddfindProdByWare({
+                    prodId: this.pProcessWork.prodId,
+                    orgId: this.pProcessWork.orgId,
+                    prodName: this.pProcessWork.prodName,
+                }).then(res => {
+                    console.log(res, "产品明细")
+                })
+            },
             othermsg() {
                 let href = window.location.href;
                 if (href.includes('processingOffice')) { //加工
@@ -304,7 +318,15 @@
                 this.$emit('closeBtn', true)
             },
             clickSubmit() {
-                this.$emit('clickSubmit', true)
+                let json,
+                    prodDatas = this.chukuchangpinminxiJson.tableDataJsonAndArr.tabledata,
+                    plans = this.zuhechanpinminxiJson.tableDataJsonAndArr.tabledata
+                json = {
+                    prodDatas,
+                    plans,
+                    processId: this.scheduleJson.id
+                }
+                this.$emit('clickSubmit', json)
             },
             _disposeStatusChange(str) {
                 switch (str) {
