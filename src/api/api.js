@@ -1253,65 +1253,6 @@ export function delCheckPlanManage(data) {
 }
 
 
-//库存盘点=>盘点单管理=>创建/修改盘点单
-export function createCheckOrder(data) {
-    return new Promise((resolve, reject) => {
-        service.request({
-            url: "/wbs-warehouse-manage/v1/pStockCheckOrder/saveRecord",
-            method: "post",
-            data,
-        }).then((ok) => {
-            resolve(ok)
-        }).catch((err) => {
-            reject(err)
-        })
-    })
-}
-//库存盘点=>盘点单管理=>删除盘点单
-export function delCheckOrder(data) {
-    return new Promise((resolve, reject) => {
-        service.request({
-            url: "/wbs-warehouse-manage/v1/pStockCheckOrder/delRecord",
-            method: "post",
-            data,
-        }).then((ok) => {
-            resolve(ok)
-        }).catch((err) => {
-            reject(err)
-        })
-    })
-}
-//库存盘点=>盘点单管理=>录入盘点记录
-export function enteringCheckRecord(data) {
-    return new Promise((resolve, reject) => {
-        service.request({
-            url: "/wbs-warehouse-manage/v1/pStockCheckOrder/saveStockDetail",
-            method: "post",
-            data,
-        }).then((ok) => {
-            resolve(ok)
-        }).catch((err) => {
-            reject(err)
-        })
-    })
-}
-//库存盘点=>盘点单管理=>分页查询
-export function queryCheckOrder(data) {
-    return new Promise((resolve, reject) => {
-        service.request({
-            url: "/wbs-warehouse-manage/v1/pStockCheckOrder/findRecordPage",
-            method: "post",
-            data,
-        }).then((ok) => {
-            resolve(ok)
-        }).catch((err) => {
-            reject(err)
-        })
-    })
-}
-
-
-
 /**
  *
  * @param {*}  获取查询仓库下的委托公司
@@ -2088,10 +2029,11 @@ export const pOrgProductsApp = {
     pWarehouseInnerMoveFindRecord: (data) => post({
         url: "/wbs-warehouse-manage/pWarehouseInnerMove/findRecord",
         data
-    }), //查询移库单详情（编辑/移库确认/打印移库单）
+    })
+    ,//查询移库单详情（编辑/移库确认/打印移库单）
     query_WH_Request: (data) => query_WH_Request(data).then(res => res.data), //获取子仓
     queryAreaOfWS: (data) => queryAreaOfWS(data).then(res => res.data), //获取区域
-    getFindOrgChildWare: (data) => getFindOrgChildWare(data).then(res => res), //根据委托公司获取子仓
+    getFindOrgChildWare: (data) => getFindOrgChildWare(data).then(res => res),//根据委托公司获取子仓
     // 库内移动 end
     //站内消息 start
     pWarehouseStationInfoSaveRecord: (data) => post({
@@ -2108,24 +2050,25 @@ export const pOrgProductsApp = {
     pOrgfindRecordPage: (data) => post({
         data,
         url: "/wbs-warehouse-manage/v1/pOrg/findRecordPage"
-    }), //分页查询委托公司信息
+    }),//分页查询委托公司信息
     //wbs-warehouse-manage/v1/pOrgProducts/findRecordPage 分页查询产品信息
     pOrgProductsfindRecordPage: (data) => post({
         data,
         url: "/wbs-warehouse-manage/v1/pOrgProducts/findRecordPage"
     }),
     //客户信息 end
-    //    仓库作业 start
+//    仓库作业 start
     //分页查询
     pProcessWorkFindRecordPage: (data) => post({
         data,
         url: "/wbs-warehouse-manage/v1/pProcessWork/findRecordPage"
     }),
-    //查询详情
-    pProcessWorkWarePlanFindRecord: (data) => post({
-        data,
-        url: "/wbs-warehouse-manage/v1/pProcessWorkWarePlan/findRecord"
-    }),
+//查询详情
+    pProcessWorkWarePlanFindRecord:
+        (data) => post({
+            data,
+            url: "/wbs-warehouse-manage/v1/pProcessWorkWarePlan/findRecord"
+        }),
     //删除  /wbs-warehouse-manage/v1/pProcessWorkWarePlan/delRecord
     pProcessWorkWarePlanDelRecord: (data) => post({
         data,
@@ -2136,7 +2079,8 @@ export const pOrgProductsApp = {
         data,
         url: "/wbs-warehouse-manage/v1/pProcessWork/processFinish"
     }),
-    //仓库作业 end
+    getAddfindProdByWares: (data) => getAddfindProdByWare(data).then(data => data)
+//仓库作业 end
 }
 
 //=========================================货品移位 end ========================================

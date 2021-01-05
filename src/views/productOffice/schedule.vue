@@ -6,12 +6,14 @@
                               :detailsArr="isJiaGonOffice?caijieDetailArrs:addDetatilArrs"></dindanxiangq>
                 <!--排期-->
                 <div>
-                    <chanpinmingxi :chanpinminxiJson="zhuheChangeArrJson"></chanpinmingxi>
+                    <chanpinmingxi :chanpinminxiJson="zhuheChangeArrJson"
+                                   @tableSelectArrs="zhuhechanpinmingxitableSelectArrs"></chanpinmingxi>
                 </div>
                 <!--组合产品明细-->
 
                 <div>
-                    <chanpinmingxi :chanpinminxiJson="zuhechanpinminxiJson">
+                    <chanpinmingxi :chanpinminxiJson="zuhechanpinminxiJson"
+                                   @tableSelectArrs="zuhechanpinminxiJsontableSelectArrs">
                         <template>
                             <div class="inline mr10 bianjiUser"> {{btnCenters}}</div>
                             <div class="inline remove">删除</div>
@@ -20,9 +22,8 @@
                 </div>
                 <!--分解作业计划-->
                 <div class="mb20 chukuchanpingminxi ">
-                    <chanpinmingxi :chanpinminxi-json="chukuchangpinminxiJson">
-
-                    </chanpinmingxi>
+                    <chanpinmingxi :chanpinminxi-json="chukuchangpinminxiJson"
+                                   @tableSelectArrs="chukuchangpinminxiJsontableSelectArrs"></chanpinmingxi>
                 </div>
             </div>
         </template>
@@ -126,7 +127,7 @@
                 zuhechanpinminxiJson: {
                     title: "加工作业计划",
                     tableDataJsonAndArr: {
-                        tabledata: [],
+                        tabledata: [{}],
                         typeData: [
                             {
                                 types: 'selection'
@@ -175,13 +176,13 @@
                                 label: '实际完成作业数'
                             }
                         ],
-                        dataResult: []
-                    }
+                    },
+                    selections: []
                 },
                 zhuheChangeArrJson: {
                     title: "组合产品明细",
                     tableDataJsonAndArr: {
-                        tabledata: [],
+                        tabledata: [{}],
                         typeData: [
                             {
                                 label: "序号",
@@ -217,13 +218,17 @@
                                 types: "braName",
                             }
                         ]
-                    }
+                    },
+                    selections: []
                 },
                 chukuchangpinminxiJson: {
                     title: "出库产品明细",
                     tableDataJsonAndArr: {
-                        tabledata: [],
+                        tabledata: [{}, {}],
                         typeData: [
+                            {
+                                types: 'selection'
+                            },
                             {
                                 label: "序号",
                                 width: 71,
@@ -260,8 +265,8 @@
                                 label: "推荐库位"
                             }
                         ],
-                        dataResult: []
-                    }
+                    },
+                    selections: [{}]
                 },
                 chanpingJson: {}
             }
@@ -271,7 +276,6 @@
             this.othermsg()
             this.$parent.getDetailDatas(this.scheduleJson.id).then((res) => {
                 let {pProcessWork, prodDatas, plans} = res
-                console.log(res)
                 self.pProcessWork = pProcessWork
                 self.chukuchangpinminxiJson.tableDataJsonAndArr.tabledata = prodDatas
                 self.zuhechanpinminxiJson.tableDataJsonAndArr.tabledata = plans
@@ -292,13 +296,22 @@
         methods: {
             async getChuKuChanPin() {
                 console.log(this.pProcessWork)
-                this.$pOrgProductsApp.getAddfindProdByWare({
+                this.$pOrgProductsApp.getAddfindProdByWares({
                     prodId: this.pProcessWork.prodId,
                     orgId: this.pProcessWork.orgId,
                     prodName: this.pProcessWork.prodName,
                 }).then(res => {
                     console.log(res, "产品明细")
                 })
+            },
+            zhuhechanpinmingxitableSelectArrs(e) {
+                this.zhuheChangeArrJson.selections = e
+            },
+            zuhechanpinminxiJsontableSelectArrs(e) {
+                this.zuhechanpinminxiJson.selections = e
+            },
+            chukuchangpinminxiJsontableSelectArrs(e) {
+                this.chukuchangpinminxiJson.selections = e
             },
             othermsg() {
                 let href = window.location.href;
@@ -319,10 +332,11 @@
             },
             clickSubmit() {
                 let json,
-                    prodDatas = this.chukuchangpinminxiJson.tableDataJsonAndArr.tabledata,
-                    plans = this.zuhechanpinminxiJson.tableDataJsonAndArr.tabledata
+                    plans = this.chukuchangpinminxiJson.selections,
+                    prods = this.zuhechanpinminxiJson.selections
+                if (!prods.length) return this.$messageSelf.message('请选择要出库产品明细')
                 json = {
-                    prodDatas,
+                    prods,
                     plans,
                     processId: this.scheduleJson.id
                 }

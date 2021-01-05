@@ -430,15 +430,15 @@
                         iconCls: require("@/assets/svg/kuchunpandian.svg"),
                         children: [
                             {
-                                 title: "盘点计划管理",
+                                title: "盘点计划管理",
                                 name: "/inventoryCheck/checkPlanManagement",
                             },
                             {
-                                 title: "盘点单管理",
+                                title: "盘点单管理",
                                 name: "/inventoryCheck/checkOrderManagement",
                             },
                             {
-                                 title: "库存订正结果",
+                                title: "库存订正结果",
                                 name: "/inventoryCheck/saveInventoryResult",
                             },
                         ],
@@ -953,7 +953,8 @@
         border: 1px solid #ced4de;
         border-right: none;
     }
-     .dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item:last-child{
+
+    .dianjiqiehuan .el-tabs--card > .el-tabs__header .el-tabs__item:last-child {
         border-right: 1px solid #ced4de;;
     }
 

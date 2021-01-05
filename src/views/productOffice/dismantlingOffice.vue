@@ -32,10 +32,10 @@
             </transition>
         </div>
         <!-- 加工排期 end-->
-        <div class="bjBox">
+        <div class="bjBox" v-if="isShowwareOut">
             <createManagement></createManagement>
         </div>
-        <!--        入库单-->
+        <!--入库单-->
     </div>
 </template>
 
@@ -63,6 +63,7 @@
             return {
                 title: "分解排期",
                 isShowChedule: false,
+                isShowwareOut: false,
                 scheduleJson: {},
                 btnArr: [
                     {
@@ -81,7 +82,9 @@
                     {
                         title: "分解排期",
                         onClick() {
-                            if (!self.tableDataJson.dataResult.length || self.tableDataJson.dataResult.length != 1) return self.$messageSelf.message({
+                            if (!self.tableDataJson.dataResult.length
+                                ||
+                                self.tableDataJson.dataResult.length != 1) return self.$messageSelf.message({
                                 type: 'warning',
                                 message: "请选择要排期的列表,并且只能选择一个"
                             })

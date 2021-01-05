@@ -334,6 +334,10 @@
                 Type: Boolean,
                 default: false,
             },
+            orderId: {
+                type: String,
+                default: ''
+            }
         },
         computed: {
             popUpShows() {
@@ -356,7 +360,10 @@
                 this.tabledata = this.tables;
                 this.createUserData.detailList = this.tables;
             }
-
+            console.log(this.orderId)
+            if (this.orderId) {
+                this.createUserData.orderId = this.orderId
+            }
         },
         destroyed() {
             sessionStorage.removeItem("manualManageMentEdit");
@@ -504,8 +511,12 @@
             },
             //关闭
             closeBtn() {
-                this.$parent._data.iscreateManagement = false;
-                this.$parent.getTableData();
+                if (this.orderId) {
+                    this.$emit('closeFun', true)
+                } else {
+                    this.$parent._data.iscreateManagement = false;
+                    this.$parent.getTableData();
+                }
             },
             handleSelectionChange(e) {
                 this.multipleSelection = e;

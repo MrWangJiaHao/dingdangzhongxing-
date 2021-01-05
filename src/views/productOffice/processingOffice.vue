@@ -17,7 +17,7 @@
                         </div>
                     </template>
                 </tableCommin>
-                <div class="pageComponent ">
+                <div class="pageComponent">
                     <pageComponent :pageComponentsData="pageComponentsData">
                     </pageComponent>
                 </div>
@@ -38,10 +38,15 @@
         </div>
         <!-- 加工排期 end-->
         <!-- 创建入库单 start-->
-        <div class="bjBox">
-            <createManagement></createManagement>
+        <div class="bjBox" v-if="isShowwareOut">
+            <createManagement :orderId="paiqiId" @closeFun="closeCreate"></createManagement>
         </div>
         <!-- 创建入库单 end -->
+        <!--采购单 start-->
+        <div class="bjBox" v-if="isShowShop">
+            <createPurchasing :isCankuzuoye="true" @closeFn="purchasingClose"></createPurchasing>
+        </div>
+        <!--采购单 end-->
     </div>
 </template>
 
@@ -53,8 +58,8 @@
     import centerBtnArr from '../../components/centerBtnArr'
     import schedule from "./schedule";
     import createManagement from "../wareHouseIngManagement/createManagement";
-
-    import {getJsonTarget} from "../../utils/validate";
+    import createPurchasing from "../purchasingManagement/createPurchasing";
+    import {getCookie, getJsonTarget} from "../../utils/validate";
 
     export default {
         name: "processingOffice",
@@ -64,7 +69,8 @@
             pageComponent,
             centerBtnArr,
             schedule,
-            createManagement
+            createManagement,
+            createPurchasing
         },
         data() {
             let self = this
@@ -73,18 +79,25 @@
                 isShowChedule: false,// 加工排期
                 isShowwareOut: false, //入库单
                 isShowShop: false,//转采购
+                paiqiId: "",
                 btnArr: [
                     {
                         title: "创建入库单",
                         onClick() {
-                            console.log(self)
+                            if (!self.tableDataJson.dataResult.length || self.tableDataJson.dataResult.length != 1) return self.$messageSelf.message({
+                                type: 'warning',
+                                message: "请选择要排期的列表,并且只能选择一个"
+                            })
+                            self.paiqiId = self.tableDataJson.dataResult[0].id
+                            self.isShowwareOut = true
                         },
                         class: "mr10 bianjiUser"
                     },
                     {
                         title: "转采购",
                         onClick() {
-
+                            if (!getCookie("X-Auth-wareId")) return this.$messageSelf.message("该登入员没有创建权限");
+                            self.isShowShop = true
                         },
                         class: "mr10 bianjiUser"
                     },
@@ -94,7 +107,7 @@
                             console.log(self.tableDataJson.dataResult.length)
                             if (!self.tableDataJson.dataResult.length) return self.$messageSelf.message({
                                 type: "warning",
-                                message: "请选择要强制完成的泪飙"
+                                message: "请选择要强制完成的列表"
                             })
                             let arr = getJsonTarget(self.tableDataJson.dataResult)
                             self._otherWancheng(arr)
@@ -104,7 +117,9 @@
                     {
                         title: "加工排期",
                         onClick() {
-                            if (!self.tableDataJson.dataResult.length || self.tableDataJson.dataResult.length != 1) return self.$messageSelf.message({
+                            if (!self.tableDataJson.dataResult.length
+                                ||
+                                self.tableDataJson.dataResult.length != 1) return self.$messageSelf.message({
                                 type: 'warning',
                                 message: "请选择要排期的列表,并且只能选择一个"
                             })
@@ -116,14 +131,26 @@
                     {
                         title: "编辑",
                         onClick() {
-
+                            if (!self.tableDataJson.dataResult.length
+                                ||
+                                self.tableDataJson.dataResult.length != 1) return self.$messageSelf.message({
+                                type: 'warning',
+                                message: "请选择要编辑的列表,并且只能选择一个进行编辑"
+                            })
+                            self.scheduleJson = self.tableDataJson.dataResult[0]
+                            self.isShowChedule = true
                         },
                         class: "mr10 bianjiUser"
                     },
                     {
                         title: "删除",
                         onClick() {
-
+                            if (!self.tableDataJson.dataResult.length) return self.$messageSelf.message({
+                                type: "warning",
+                                message: "请选择要删除的的列表"
+                            })
+                            let arr = getJsonTarget(self.tableDataJson.dataResult)
+                            self._delData(arr)
                         },
                         class: "remove"
                     }
@@ -278,6 +305,13 @@
             this.getTableData()
         },
         methods: {
+            purchasingClose() {
+                this.isShowShop = false
+            },
+            //点击了入库单是关闭
+            closeCreate() {
+                this.isShowwareOut = false
+            },
             //外面的
             handleSelectionChangeDatas(e) {
                 this.tableDataJson.dataResult = e
@@ -291,11 +325,14 @@
             },
             //提交
             clickSubmit(json) {
-                console.log(json)
                 this.$pOrgProductsApp.pProcessWorkWarePlanSaveRecord(json).then((res => {
-                    console.log(res)
+                    if (res.code === '10000') {
+                        this.isShowChedule = false
+                        this.$messageSelf.message(res.msg)
+                    } else {
+                        this.$messageSelf.message(res.msg)
+                    }
                 }))
-                // this.isShowChedule = false
             },
             clickQuery(e) {
                 let json = Object.assign({}, this.sendOutDataJson.paras, e)
@@ -366,27 +403,44 @@
                         return "未定义"
                         break
                 }
-            }
-        },
-        async _delData(arr) {
-            let data = await this.$pOrgProductsApp.pProcessWorkWarePlanDelRecord(arr)
-            if (data.code == "10000") {
-                this.$messageSelf.message({
-                    type: "success",
-                    message: "删除成功"
-                })
-            }
-        },
-        async _otherWancheng(arr) {
-            let data = await this.$pOrgProductsApp.pProcessWorkWarePlanDelRecord(arr)
-            if (data.code == "10000") {
-                this.$messageSelf.message({
-                    type: "success",
-                    message: "强制完成成功"
-                })
+            },
+            _delData(arr) {
+                this.$messageSelf.confirms(this.$clearArr(arr), "提示", {
+                    type: "warning"
+                }).then(async () => {
+                    let data = await this.$pOrgProductsApp.pProcessWorkWarePlanDelRecord(arr)
+                    if (data.code == "10000") {
+                        this.$messageSelf.message({
+                            type: "success",
+                            message: "删除成功"
+                        })
+                    } else {
+                        this.$messageSelf.message({
+                            type: "error",
+                            message: data.msg
+                        })
+                    }
+                }).catch(err => err)
+            },
+            _otherWancheng(arr) {
+                this.$messageSelf.confirms(this.$clearArr(arr), "提示", {
+                    type: "warning"
+                }).then(async () => {
+                    let data = await this.$pOrgProductsApp.pProcessWorkWarePlanDelRecord(arr)
+                    if (data.code == "10000") {
+                        this.$messageSelf.message({
+                            type: "success",
+                            message: "强制完成成功"
+                        })
+                    } else {
+                        this.$messageSelf.message({
+                            type: "error",
+                            message: data.msg
+                        })
+                    }
+                }).catch(err => err)
             }
         }
-
     }
 </script>
 
