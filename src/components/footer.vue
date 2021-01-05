@@ -99,7 +99,9 @@
             this.datares()
         },
         mounted() {
-
+            document.onclick=()=>{
+                this.display = false;
+            }
         },
         methods: {
             async datares() {
@@ -115,7 +117,7 @@
                     },
                 });
                 if (result.list.length) {
-                    console.log(result)
+                    // console.log(result)
                     this.xiaoxiArr = result.list
                     this.listLength = this.xiaoxiArr.length
                     this.changeLength()
@@ -126,7 +128,6 @@
                 }
             },
             xiaoxiout() {
-                console.log(1)
                 clearTimeout(this.timer1)
             },
             xiaoxiLeave() {
@@ -156,15 +157,16 @@
                         }
                         self.idx++;
                         self.changeLength()
-                        console.log(self.listLength, self.idx)
+                        // console.log(self.listLength, self.idx)
                     } else {
                         obj.style.left = obj.offsetLeft + -speed + 'px';
                     }
                 }, 500)
             },
             loginOutMeg() {
-                this.datares()
+                this.datares(event)
                 this.display = !this.display;
+                event.stopPropagation();
             },
             moveStart() {
                 this.$nextTick(() => {
@@ -180,7 +182,7 @@
                 clearTimeout(this.timer1)
             },
             xiaoxiClick() {
-                console.log(this.sendoutDataJson)
+                // console.log(this.sendoutDataJson)
                 if (this.isShowXiaoXiLeiBiao) return
                 this.$pOrgProductsApp.pWarehouseStationInfo(this.sendoutDataJson)
                 this.xiaoxi = true
