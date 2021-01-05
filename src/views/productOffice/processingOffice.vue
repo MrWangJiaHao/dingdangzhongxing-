@@ -38,7 +38,9 @@
         </div>
         <!-- 加工排期 end-->
         <!-- 创建入库单 start-->
-
+        <div class="bjBox">
+            <createManagement></createManagement>
+        </div>
         <!-- 创建入库单 end -->
     </div>
 </template>
@@ -50,6 +52,8 @@
     import pageComponent from "../../components/commin/pageComponent";
     import centerBtnArr from '../../components/centerBtnArr'
     import schedule from "./schedule";
+    import createManagement from "../wareHouseIngManagement/createManagement";
+
     import {getJsonTarget} from "../../utils/validate";
 
     export default {
@@ -59,13 +63,16 @@
             tableCommin,
             pageComponent,
             centerBtnArr,
-            schedule
+            schedule,
+            createManagement
         },
         data() {
             let self = this
             return {
                 title: "加工排期",
-                isShowChedule: false,
+                isShowChedule: false,// 加工排期
+                isShowwareOut: false, //入库单
+                isShowShop: false,//转采购
                 btnArr: [
                     {
                         title: "创建入库单",
@@ -97,7 +104,6 @@
                     {
                         title: "加工排期",
                         onClick() {
-
                             if (!self.tableDataJson.dataResult.length || self.tableDataJson.dataResult.length != 1) return self.$messageSelf.message({
                                 type: 'warning',
                                 message: "请选择要排期的列表,并且只能选择一个"
@@ -284,8 +290,12 @@
                 this.isShowChedule = false
             },
             //提交
-            clickSubmit() {
-                this.isShowChedule = false
+            clickSubmit(json) {
+                console.log(json)
+                this.$pOrgProductsApp.pProcessWorkWarePlanSaveRecord(json).then((res => {
+                    console.log(res)
+                }))
+                // this.isShowChedule = false
             },
             clickQuery(e) {
                 let json = Object.assign({}, this.sendOutDataJson.paras, e)

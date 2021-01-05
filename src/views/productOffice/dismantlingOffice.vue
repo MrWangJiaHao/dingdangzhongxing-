@@ -32,6 +32,10 @@
             </transition>
         </div>
         <!-- 加工排期 end-->
+        <div class="bjBox">
+            <createManagement></createManagement>
+        </div>
+        <!--        入库单-->
     </div>
 </template>
 
@@ -42,6 +46,7 @@
     import pageComponent from "../../components/commin/pageComponent";
     import centerBtnArr from '../../components/centerBtnArr'
     import schedule from "./schedule";
+    import createManagement from "../wareHouseIngManagement/createManagement";
 
     export default {
         name: "dismantlingOffice",
@@ -50,7 +55,8 @@
             tableCommin,
             pageComponent,
             centerBtnArr,
-            schedule
+            schedule,
+            createManagement
         },
         data() {
             let self = this
@@ -69,7 +75,6 @@
                     {
                         title: "完成",
                         onClick() {
-
                         },
                         class: "mr10 bianjiUser"
                     },
@@ -101,9 +106,10 @@
                     }
                 ],
                 tableDataJson: {
-                    typeData: [{
-                        types: 'selection'
-                    },
+                    typeData: [
+                        {
+                            types: 'selection'
+                        },
                         {
                             label: "展开",
                             width: 71,
@@ -162,7 +168,8 @@
                             width: 200
                         }
                     ],
-                    tabledata: []
+                    tabledata: [],
+                    dataResult: []
                 },
                 xiaodeDataJson: {
                     typeData: [
@@ -203,7 +210,8 @@
                         {
                             label: "入库单号",
                         }],
-                    tabledata: []
+                    tabledata: [],
+                    dataResult: []
                 },
                 sendOutDataJson: {
                     pageSize: 10,
@@ -247,8 +255,9 @@
             closeBtn() {
                 this.isShowChedule = false
             },
-            clickSubmit() {
-                this.isShowChedule = false
+            clickSubmit(json) {
+                console.log(json)
+                // this.isShowChedule = false
             },
             clickQuery(e) {
                 let json = Object.assign({}, this.sendOutDataJson, e)

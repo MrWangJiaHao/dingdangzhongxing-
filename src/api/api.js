@@ -2079,7 +2079,14 @@ export const pOrgProductsApp = {
         data,
         url: "/wbs-warehouse-manage/v1/pProcessWork/processFinish"
     }),
-//仓库作业 end
+    //新增排期 /wbs-warehouse-manage/v1/pProcessWorkWarePlan/saveRecord
+    pProcessWorkWarePlanSaveRecord: (data) => post({
+        data,
+        url: "/wbs-warehouse-manage/v1/pProcessWorkWarePlan/saveRecord"
+    }),
+    // 产品明细 getfindOrgProductPage
+    getAddfindProdByWare: (data) => getAddfindProdByWare(data),
+    //仓库作业 end
 }
 
 //=========================================货品移位 end ========================================

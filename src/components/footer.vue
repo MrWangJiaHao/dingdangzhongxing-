@@ -99,7 +99,11 @@
             this.datares()
         },
         mounted() {
-
+            // document.addEventListener('click', () => {
+            //     if (this.display) {
+            //         this.display = false
+            //     }
+            // }, false)
         },
         methods: {
             async datares() {
@@ -115,7 +119,6 @@
                     },
                 });
                 if (result.list.length) {
-                    console.log(result)
                     this.xiaoxiArr = result.list
                     this.listLength = this.xiaoxiArr.length
                     this.changeLength()
@@ -126,7 +129,6 @@
                 }
             },
             xiaoxiout() {
-                console.log(1)
                 clearTimeout(this.timer1)
             },
             xiaoxiLeave() {
@@ -156,7 +158,6 @@
                         }
                         self.idx++;
                         self.changeLength()
-                        console.log(self.listLength, self.idx)
                     } else {
                         obj.style.left = obj.offsetLeft + -speed + 'px';
                     }
@@ -308,7 +309,7 @@
             }
 
             &:hover {
-                border-radius: 4px;
+                border-radius: 8px;
 
                 .clickLoginOutCenter {
                     cursor: pointer;
