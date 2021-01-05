@@ -1,6 +1,6 @@
 <template>
     <div>
-        <kuanjiaClick :isLooker="true" titles="查看用户" @closeBtn="closeBtn">
+        <kuanjiaClick :isLooker="true" min-height="680" titles="查看用户" @closeBtn="closeBtn">
             <template slot="centerKuanjia">
                 <div class="w1000">
                     <div class="centerBox botD1">
@@ -111,7 +111,7 @@
                         </div>
                     </div>
                     <!-- 个人信息 -->
-                    <div class="mb20 centerBox">
+                    <div class=" ptb3020">
                         <div class="setTitle">账号信息</div>
                         <div class="displayalign mb20">
                             <div class="displayalign">

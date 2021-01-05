@@ -3,6 +3,7 @@
         <kuanjiaClick
                 :titles="chuanjianJsonAndArr.title"
                 @closeBtn="closeBtn"
+                min-height="610"
                 @clickSubmit="clickSubmit"
         >
             <template slot="centerKuanjia">
@@ -22,7 +23,7 @@
                     </chanpinmingxi>
                 </div>
                 <!-- 产品明细 -->
-                <div class="centerBox mb16">
+                <div class="pd20 mb16">
                     <remarksInput
                             @changeInputs="changeInputs"
                             :searchCenter="searchCenter"

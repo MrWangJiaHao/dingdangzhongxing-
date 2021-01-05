@@ -3,8 +3,8 @@
         <div
                 class="setUserIngBoxCenter"
                 :style="{  maxWidth: width? isPX(width) :'1000px' ,
-                       minHeight:minHeight?isPX(minHeight): '600px',
-                        maxHeight:maxHeight?isPX(maxHeight): '600px'
+                       minHeight:minHeight?isPX(minHeight): '850px',
+                        maxHeight:maxHeight?isPX(maxHeight): '850px'
                 }"
         >
             <div class="headerBox" :style="{ minWidth:width ? isPX(width):'1000px'}">
@@ -14,8 +14,10 @@
                 <div class="closeIcon" @click="closeBtn"></div>
             </div>
             <div class="heightLine"></div>
-            <slot name="centerKuanjia"></slot>
-            <slot></slot>
+            <div :style="{width:isPX(width)||'1000px'}">
+                <slot name="centerKuanjia"></slot>
+                <slot></slot>
+            </div>
             <!-- 账号信息 -->
             <div class="disRight btnsSure " :style="{  maxWidth: width? isPX(width) :'1000px'
                 }">
@@ -42,11 +44,11 @@
         props: {
             minHeight: {
                 type: String,
-                default: "600px"
+                default: "700px"
             },
             maxHeight: {
                 type: String,
-                default: "600px"
+                default: "700px"
             },
             isLooker: {
                 type: Boolean,
@@ -203,6 +205,6 @@
         height: 74px;
         background: #fff;
         padding-top: 20px;
-        padding-right: 30px;
+        padding-right: 20px;
     }
 </style>

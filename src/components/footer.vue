@@ -6,7 +6,7 @@
                 <div class="wenZi" @click="loginOutMeg">
                     登录用户&nbsp;
                     <span
-                    >wms_ss:<span class="ml11"> {{ userName }}</span></span
+                    >:<span class="ml11"> {{ userName }}</span></span
                     >
                 </div>
             </div>
@@ -15,7 +15,7 @@
                 enter-active-class="animate__animated animate__bounceInUp"
                 leave-active-class="animate__animated animate__bounceOutDown"
         >
-            <div v-show="display" class="loginOut">
+            <div v-show="display" class="loginOut tc">
                 <div @click="loginout" class="clickLoginOutCenter">退出登入</div>
             </div>
         </transition>
@@ -25,7 +25,8 @@
                     <img src="../assets/svg/Toast.svg" alt/>
                 </div>
                 <div class="wenZi">消息</div>
-                <div class="xiaoXiCenters ellipsis" @click="xiaoxiClick">
+                <div class="xiaoXiCenters ellipsis" @mouseout="xiaoxiout" @mouseleave="xiaoxiLeave"
+                     @click="xiaoxiClick">
                     <div class="idBVox">
                         {{ content }}
                     </div>
@@ -41,7 +42,7 @@
                     <div class="pd20 centers">
                         {{title}}
                     </div>
-                    <div class="pd20   centers">
+                    <div class="pd20 centers">
                         {{ content }}
                     </div>
                     <div class="p20 tr centers">
@@ -61,7 +62,7 @@
         data() {
             return {
                 pageNumber: 1,
-                pageSize: 1,
+                pageSize: 1000,
                 content: "",
                 display: false,
                 userName: "",
@@ -69,55 +70,125 @@
                 readTime: "",
                 sendoutDataJson: {},
                 timer: null,
+                timer1: null,
                 title: "",
-                setTime: 3000
+                idx: 0,
+                listLength: 0,
+                setTime: 3000,
+                isShowXiaoXiLeiBiao: false,
+                xiaoxiArr: []
             };
         },
         computed: {
             dateNewData() {
-                let data = new Date().toLocaleString("chinese", {hour12: false});
+                let data = new Date().toLocaleString('zh', {
+                    hour12: false,
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric'
+                });
                 return data
             },
         },
         async created() {
             this.userName = getCookie("userName");
             //发送请求 获取 当前的站内消息
-            let {pageNumber, pageSize} = this;
-            let {result} = await post({
-                url:
-                    "/wbs-warehouse-manage/v1/pWarehouseStationInfo/findRecordPage",
-                data: {
-                    pageNumber,
-                    pageSize,
-                },
-            });
-            let idBvox = document.getElementsByClassName("idBVox")[0],
-                self = this
-            idBvox.style.width = result.list[0].content.length * 14 + 40 + "px";
-            this.content = result.list[0].content;
-            this.title = result.list[0].title
-            this.readTime = result.list[0].readTime;
-            this.sendoutDataJson = {
-                ...result.list[0],
-                readTime: self.dateNewData,
-                enableStatus: 1
-            }
+            this.datares()
+        },
+        mounted() {
+
         },
         methods: {
+            async datares() {
+                let {result} = await post({
+                    url:
+                        "/wbs-warehouse-manage/v1/pWarehouseStationInfo/findRecordPage",
+                    data: {
+                        pageNumber: 1,
+                        pageSize: 1000,
+                        paras: {
+                            enableStatus: 0
+                        }
+                    },
+                });
+                if (result.list.length) {
+                    console.log(result)
+                    this.xiaoxiArr = result.list
+                    this.listLength = this.xiaoxiArr.length
+                    this.changeLength()
+                    this.moveStart()
+                } else {
+                    this.isShowXiaoXiLeiBiao = true
+                    this.content = '暂无未读消息'
+                }
+            },
+            xiaoxiout() {
+                console.log(1)
+                clearTimeout(this.timer1)
+            },
+            xiaoxiLeave() {
+                this.moveStart()
+            },
+            changeLength() {
+                this.content = this.xiaoxiArr[this.idx ? this.idx - 1 : 0].content;
+                this.title = this.xiaoxiArr[this.idx ? this.idx - 1 : 0].title
+                this.readTime = this.xiaoxiArr[this.idx ? this.idx - 1 : 0].readTime;
+                this.sendoutDataJson = {
+                    ...this.xiaoxiArr[this.idx ? this.idx - 1 : 0],
+                    readTime: `${this.dateNewData}`,
+                    enableStatus: 1,
+                    readUserName: getCookie('userName'),
+                }
+            },
+            startMove(obj, iTarget) {
+                let self = this
+                clearInterval(self.timer1);
+                self.timer1 = setInterval(function () {
+                    let speed = (iTarget - obj.offsetLeft) / 10;
+                    speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                    if (-obj.offsetLeft >= iTarget) {
+                        obj.style.left = 0 + 'px';
+                        if (self.listLength == self.idx) {
+                            self.idx = 0
+                        }
+                        self.idx++;
+                        self.changeLength()
+                        console.log(self.listLength, self.idx)
+                    } else {
+                        obj.style.left = obj.offsetLeft + -speed + 'px';
+                    }
+                }, 500)
+            },
             loginOutMeg() {
+                this.datares()
                 this.display = !this.display;
+            },
+            moveStart() {
+                this.$nextTick(() => {
+                    setTimeout(() => {
+                        let parent = document.querySelector(".idBVox");
+                        let clientWidth = parent.offsetWidth
+                        this.startMove(parent, clientWidth)
+                    }, 100)
+                })
             },
             moveOutClearTime() {
                 clearTimeout(this.timer)
+                clearTimeout(this.timer1)
             },
             xiaoxiClick() {
                 console.log(this.sendoutDataJson)
+                if (this.isShowXiaoXiLeiBiao) return
                 this.$pOrgProductsApp.pWarehouseStationInfo(this.sendoutDataJson)
                 this.xiaoxi = true
                 this.clearTime()
             },
             clearTime() {
                 clearTimeout(this.timer)
+                clearTimeout(this.timer1)
                 this.timer = setTimeout(() => {
                     this.xiaoxi = false
                 }, this.setTime)
@@ -144,57 +215,19 @@
             },
             mouseleaveSetTimeOut() {
                 clearTimeout(this.timer)
+                this.moveStart()
                 this.xiaoxi = false
             }
         },
     };
 </script>
-<style scoped>
+
+<style lang="scss" scoped>
     .idBVox {
         position: absolute;
-        animation: demo 10s linear infinite normal;
+        left: 0px;
     }
 
-    @keyframes demo {
-        form {
-            right: -620px;
-        }
-        10% {
-            right: -550px;
-        }
-        20% {
-            right: -500px;
-        }
-        30% {
-            right: -450px;
-        }
-        40% {
-            right: -400px;
-        }
-        50% {
-            right: -358px;
-        }
-        60% {
-            right: -308px;
-        }
-        70% {
-            right: -258px;
-        }
-        80% {
-            right: -200px;
-        }
-        90% {
-            right: -150px;
-        }
-        95% {
-            right: -100px;
-        }
-        to {
-            right: 0px;
-        }
-    }
-</style>
-<style lang="scss" scoped>
     .closeBox {
         width: 10px;
         height: 10px;
@@ -259,8 +292,10 @@
             height: 30px;
             position: absolute;
             bottom: 37px;
-            left: 30px;
-            border: 1px solid #ccc;
+            left: 100px;
+            box-shadow: 0px 7px 11px 1px rgba(0, 0, 0, 0.28);
+            background: #fff;
+            border-radius: 8px;
 
             &::after {
                 content: "";
@@ -273,11 +308,11 @@
             }
 
             &:hover {
-                border-top-color: #ccc;
+                border-radius: 4px;
 
                 .clickLoginOutCenter {
                     cursor: pointer;
-                    background: #ccc;
+                    background: #ecf5ff;
                 }
             }
 

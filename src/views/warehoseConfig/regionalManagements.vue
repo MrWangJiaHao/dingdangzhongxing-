@@ -83,7 +83,7 @@
                     <div class="lodopFunClear" @click="areaPlan">区域平面图</div>
                     <div class="lodopFunClear" @click="warehousePlan">库位平面图</div>
                     <div class="setUser" @click="createSubWarehouse">创建</div>
-                    <div class="bianjiUser" @click="editBtn">编辑</div>
+                    <div class="bianjiUser mr10" @click="editBtn">编辑</div>
                     <div class="remove" @click="clearWarehouseplan">删除</div>
                 </div>
             </div>
@@ -102,9 +102,12 @@
                     <div v-if="quyuLook" class="quyupinmianBoxMsg">
                         <kuanjiaClick titles="区域平面图"
                                       @clickSubmit="quyuLook = false"
+                                      @closeBtn="quyuLook = false"
+                                      min-height="850"
+                                      max-height="850"
                                       :isLookerShow="false" print="关闭">
                             <template>
-                                <div class="bkf p20 botD1">
+                                <div class="bkf p20 w1000 botD1">
                                     <div class="setTitle mb20">货架编号</div>
                                     <div class="displayalign flexBetWeen">
                                         <div class="displayalign">
@@ -144,7 +147,7 @@
                                         <div class="bianjiUser" @click="dinjichaxunquyutu">查询</div>
                                     </div>
                                 </div>
-                                <div class="centers bkf p20 botD1" v-if="quyuDatas.regionalManage.length">
+                                <div class="centers bkf p20 " v-if="quyuDatas.regionalManage.length">
                                     <div class="displayalign mb20">
                                         {{quyuMsg}}区域平面图（
                                         <div class="juli">上北、下南、左西、右东</div>
@@ -173,12 +176,15 @@
                         v-if="kuwieLook"
                         class="pofixCenter displayCenter"
                 >
-                    <kuanjiaClick titles="库位平面图"  @clickSubmit="kuwieLook = !kuwieLook"
+                    <kuanjiaClick titles="库位平面图" @clickSubmit="kuwieLook = !kuwieLook"
+                                  @closeBtn="quyuLook = kuwieLook = false"
+                                  min-height="850"
+                                  max-height="850"
                                   :isLookerShow="false" print="关闭">
                         <div class="quyupinmianBoxMsgs" :style="{
                         width:kuwieDatas.kuwie.length?'':'1000px'
                     }">
-                            <div class="bkf p20 ">
+                            <div class="bkf p20 w1000">
                                 <div class="setTitle mb20">库位编号</div>
                                 <div>
                                     <kuwieLooker :kuwieLookerDataJson="kuwieDatas"/>
@@ -792,15 +798,6 @@
 <style lang='scss' scoped>
     @import "../../assets/scss/btn.scss";
 
-    .quyupinmianBoxMsg {
-        min-width: 1000px;
-        max-height: 600px;
-    }
-
-    .quyupinmianBoxMsgs {
-        min-width: 1000px;
-
-    }
 
     .userSettingBox {
         background-color: #eef1f8;
@@ -889,7 +886,6 @@
         }
 
         .bianjiUser {
-            margin-right: 10px;
             @include BtnFunction("success");
         }
 

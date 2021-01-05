@@ -1,4 +1,3 @@
-<script src="../../../../../../../每日必备/test1.js"></script>
 <template>
     <kuanjiaClick :titles="title" width="1200" @closeBtn="closeBtn" @clickSubmit="clickSubmit">
         <template>
@@ -43,39 +42,40 @@
             chanpinmingxi
         },
         data() {
+            let self = this
             return {
                 addDetatilArrs: [
                     {
                         titles: "委托公司",
-                        centers: "西安巨子生物"
+                        centers: (() => self.scheduleJson.orgName || '未定义')()
                     },
                     {
                         titles: "加工作业单号",
-                        centers: "JGZY_20200418174936060_851098"
+                        centers: (() => self.scheduleJson.processNo || '未定义')()
                     },
                     {
                         titles: "加工作业状态",
-                        centers: "执行中"
+                        centers: (() => self.scheduleJson.disposeStatusStr || '未定义')()
                     },
                     {
                         titles: "组合产品",
-                        centers: "舒敏喷雾买五赠一"
+                        centers: (() => self.scheduleJson.prodName || '未定义')()
                     },
                     {
                         titles: "期望完成时间",
-                        centers: "2020-3-2 18：00：00"
+                        centers: (() => self.scheduleJson.planTime || '未定义')()
                     },
                     {
                         titles: "申请加工作业总数",
-                        centers: "500"
+                        centers: (() => self.scheduleJson.prodNum || '未定义')()
                     },
                     {
                         titles: "已完成作业数",
-                        centers: "0"
+                        centers: (() => self.scheduleJson.actualProdNum || '未定义')()
                     },
                     {
                         titles: "待加工作业数",
-                        centers: "500"
+                        centers: (() => self.scheduleJson.prodNum || '未定义')()
                     },
                     {
                         titles: "最大可组合产品数",
@@ -85,35 +85,35 @@
                 caijieDetailArrs: [
                     {
                         titles: "委托公司",
-                        centers: "西安巨子生物"
+                        centers: (() => self.scheduleJson.orgName || '未定义')()
                     },
                     {
                         titles: "分解作业单号",
-                        centers: "JGZY_20200418174936060_851098"
+                        centers: (() => self.scheduleJson.processNo || '未定义')()
                     },
                     {
                         titles: "分解作业状态",
-                        centers: "执行中"
+                        centers: (() => self.scheduleJson.disposeStatusStr || '未定义')()
                     },
                     {
                         titles: "组合产品",
-                        centers: "舒敏喷雾买五赠一"
+                        centers: (() => self.scheduleJson.prodName || '未定义')()
                     },
                     {
                         titles: "期望完成时间",
-                        centers: "2020-3-2 18：00：00"
+                        centers: (() => self.scheduleJson.planTime || '未定义')()
                     },
                     {
-                        titles: "申请加工作业总数",
-                        centers: "500"
+                        titles: "申请分解作业总数",
+                        centers: (() => self.scheduleJson.prodNum || '未定义')()
                     },
                     {
                         titles: "已完成作业数",
-                        centers: "0"
+                        centers: (() => self.scheduleJson.actualProdNum || '未定义')()
                     },
                     {
-                        titles: "待加工作业数",
-                        centers: "500"
+                        titles: "待分解作业数",
+                        centers: (() => self.scheduleJson.otherProdNum || '未定义')()
                     },
                     {
                         titles: "最大可组合产品数",
@@ -126,7 +126,7 @@
                 zuhechanpinminxiJson: {
                     title: "加工作业计划",
                     tableDataJsonAndArr: {
-                        tabledata: [{}],
+                        tabledata: [],
                         typeData: [
                             {
                                 types: 'selection'
@@ -174,7 +174,8 @@
                             {
                                 label: '实际完成作业数'
                             }
-                        ]
+                        ],
+                        dataResult: []
                     }
                 },
                 zhuheChangeArrJson: {
@@ -258,15 +259,20 @@
                             {
                                 label: "推荐库位"
                             }
-                        ]
+                        ],
+                        dataResult: []
                     }
                 }
             }
         },
         created() {
+            let self = this
             this.othermsg()
-            console.log(this.scheduleJson)
-
+            this.$parent.getDetailDatas(this.scheduleJson.id).then((res) => {
+                let {prodDatas, plans} = res
+                self.chukuchangpinminxiJson.tableDataJsonAndArr.tabledata = prodDatas
+                self.zuhechanpinminxiJson.tableDataJsonAndArr.tabledata = plans
+            })
         },
         props: {
             title: {

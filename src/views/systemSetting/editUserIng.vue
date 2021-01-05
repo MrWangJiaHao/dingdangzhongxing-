@@ -1,6 +1,6 @@
 <template>
     <div>
-        <kuanjiaClick titles="编辑用户" @closeBtn="closeBtn" @clickSubmit="goAJAXCreate">
+        <kuanjiaClick titles="编辑用户" min-height="680" @closeBtn="closeBtn" @clickSubmit="goAJAXCreate">
             <template slot="centerKuanjia">
                 <div class="w1000">
                     <div class="centerBox botD1">
@@ -117,7 +117,7 @@
                         </div>
                     </div>
                     <!-- 个人信息 -->
-                    <div class="mb20 centerBox">
+                    <div class=" ptb3020">
                         <div class="setTitle">账号信息</div>
                         <div class="displayalign mb20">
                             <div class="displayalign">

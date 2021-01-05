@@ -2068,7 +2068,17 @@ export const pOrgProductsApp = {
         (data) => post({
             data,
             url: "/wbs-warehouse-manage/v1/pProcessWorkWarePlan/findRecord"
-        })
+        }),
+    //删除  /wbs-warehouse-manage/v1/pProcessWorkWarePlan/delRecord
+    pProcessWorkWarePlanDelRecord: (data) => post({
+        data,
+        url: "/wbs-warehouse-manage/v1/pProcessWorkWarePlan/findRecord"
+    }),
+    //完成作业订单 /wbs-warehouse-manage/v1/pProcessWork/processFinish
+    pProcessWorkProcessFinish: (data) => post({
+        data,
+        url: "/wbs-warehouse-manage/v1/pProcessWork/processFinish"
+    }),
 //仓库作业 end
 }
 

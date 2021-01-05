@@ -321,7 +321,7 @@ export const _removeData = (data, target, isAdd = false) => {
  * @param {*} arr 要获取json
  * @param {*} target 目标
  */
-export const getJsonTarget = (arr, target, jsonTarget = 'ids') => {
+export const getJsonTarget = (arr, target = 'id', jsonTarget = 'ids') => {
     let targetArr = []
     arr.forEach(item => {
         let json = {};
@@ -333,13 +333,11 @@ export const getJsonTarget = (arr, target, jsonTarget = 'ids') => {
 }
 
 /**
- *
  * @param {*} nums  原本的长度
  * @param {*} arr 需要为10的数组长度
  * @param {*} maxnums 最长的数字
  */
 export const _addArrPush = (nums = 0, arr, maxnums = 10) => {
-    // console.log(arr)
     if (nums == maxnums) return arr;
     let json = {}
     arr.push(json);

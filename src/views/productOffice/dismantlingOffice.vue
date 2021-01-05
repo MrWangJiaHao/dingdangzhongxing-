@@ -6,7 +6,8 @@
 
         <div class="pd10">
             <div class="tableInInput tableBoxCol center" id="purchasingIndexss">
-                <tableCommin :tableDataJson="tableDataJson">
+                <tableCommin :tableDataJson="tableDataJson" @tableSelectArr=
+                        "handleSelectionChangeDatas">
                     <template>
                         <div id="tableCenters" class="tableInInput">
                             <tableCommin :tableDataJson="xiaodeDataJson"></tableCommin>
@@ -25,7 +26,8 @@
             <transition enter-active-class="animate__animated animate__zoomIn"
                         leave-active-class="animate__animated animate__zoomOut">
                 <div v-if="isShowChedule">
-                    <schedule :title="title" @closeBtn="closeBtn" @clickSubmit="clickSubmit"></schedule>
+                    <schedule :title="title" :scheduleJson="scheduleJson" @closeBtn="closeBtn"
+                              @clickSubmit="clickSubmit"></schedule>
                 </div>
             </transition>
         </div>
@@ -55,6 +57,7 @@
             return {
                 title: "分解排期",
                 isShowChedule: false,
+                scheduleJson: {},
                 btnArr: [
                     {
                         title: "创建入库单",
@@ -73,6 +76,11 @@
                     {
                         title: "分解排期",
                         onClick() {
+                            if (!self.tableDataJson.dataResult.length || self.tableDataJson.dataResult.length != 1) return self.$messageSelf.message({
+                                type: 'warning',
+                                message: "请选择要排期的列表,并且只能选择一个"
+                            })
+                            self.scheduleJson = self.tableDataJson.dataResult[0]
                             self.isShowChedule = true
                         },
                         class: "mr10 bianjiUser"
@@ -152,7 +160,8 @@
                             types: 'actualEndTime',
                             label: "实际完成时间",
                             width: 200
-                        },],
+                        }
+                    ],
                     tabledata: []
                 },
                 xiaodeDataJson: {
@@ -212,12 +221,34 @@
             this.getTableData()
         },
         methods: {
+            handleSelectionChangeDatas(e) {
+                this.tableDataJson.dataResult = e
+            },
+            async getDetailDatas(id) {
+                let data = await this.$pOrgProductsApp.pProcessWorkWarePlanFindRecord({id})
+                if (data.code == "10000") {
+                    this._changeDataInner(data.result)
+                } else {
+                    this.$messageSelf.message({
+                        type: "error",
+                        message: "获取详情失败"
+                    })
+                }
+                return data.result
+            },
+            _changeDataInner(json) {
+                let {prodDatas} = json
+                this.xiaodeDataJson.tabledata = prodDatas
+            },
+            _changeDataInner(json) {
+                let {prodDatas} = json
+                this.xiaodeDataJson.tabledata = prodDatas
+            },
             closeBtn() {
                 this.isShowChedule = false
             },
             clickSubmit() {
                 this.isShowChedule = false
-
             },
             clickQuery(e) {
                 let json = Object.assign({}, this.sendOutDataJson, e)

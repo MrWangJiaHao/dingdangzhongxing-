@@ -49,7 +49,15 @@
         },
         computed: {
             dateNewData() {
-                let data = new Date().toLocaleString("chinese", {hour12: false});
+                let data = new Date().toLocaleString('zh', {
+                    hour12: false,
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric'
+                });
                 return data
             },
         },

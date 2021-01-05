@@ -29,7 +29,9 @@
             <transition enter-active-class="animate__animated animate__zoomIn"
                         leave-active-class="animate__animated animate__zoomOut">
                 <div v-if="isShowChedule">
-                    <schedule :title="title" :scheduleJson="scheduleJson" @closeBtn="closeBtn"
+                    <schedule :title="title"
+                              :scheduleJson="scheduleJson"
+                              @closeBtn="closeBtn"
                               @clickSubmit="clickSubmit"></schedule>
                 </div>
             </transition>
@@ -48,6 +50,7 @@
     import pageComponent from "../../components/commin/pageComponent";
     import centerBtnArr from '../../components/centerBtnArr'
     import schedule from "./schedule";
+    import {getJsonTarget} from "../../utils/validate";
 
     export default {
         name: "processingOffice",
@@ -81,14 +84,20 @@
                     {
                         title: "完成",
                         onClick() {
-
+                            console.log(self.tableDataJson.dataResult.length)
+                            if (!self.tableDataJson.dataResult.length) return self.$messageSelf.message({
+                                type: "warning",
+                                message: "请选择要强制完成的泪飙"
+                            })
+                            let arr = getJsonTarget(self.tableDataJson.dataResult)
+                            self._otherWancheng(arr)
                         },
                         class: "mr10 bianjiUser"
                     },
                     {
                         title: "加工排期",
                         onClick() {
-                            console.log(self.tableDataJson.dataResult.length)
+
                             if (!self.tableDataJson.dataResult.length || self.tableDataJson.dataResult.length != 1) return self.$messageSelf.message({
                                 type: 'warning',
                                 message: "请选择要排期的列表,并且只能选择一个"
@@ -265,7 +274,6 @@
         methods: {
             //外面的
             handleSelectionChangeDatas(e) {
-                console.log(e)
                 this.tableDataJson.dataResult = e
             },
             clickEventsOuter(e) {
@@ -299,6 +307,7 @@
                         message: "获取详情失败"
                     })
                 }
+                return data.result
             },
             _changeDataInner(json) {
                 let {prodDatas} = json
@@ -348,7 +357,26 @@
                         break
                 }
             }
+        },
+        async _delData(arr) {
+            let data = await this.$pOrgProductsApp.pProcessWorkWarePlanDelRecord(arr)
+            if (data.code == "10000") {
+                this.$messageSelf.message({
+                    type: "success",
+                    message: "删除成功"
+                })
+            }
+        },
+        async _otherWancheng(arr) {
+            let data = await this.$pOrgProductsApp.pProcessWorkWarePlanDelRecord(arr)
+            if (data.code == "10000") {
+                this.$messageSelf.message({
+                    type: "success",
+                    message: "强制完成成功"
+                })
+            }
         }
+
     }
 </script>
 
