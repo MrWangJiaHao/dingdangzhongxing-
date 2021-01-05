@@ -198,20 +198,107 @@
           :stripe="true"
           tooltip-effect="dark"
         >
-          <el-table-column
-            type="expand"
-            align="center"
-            fixed="left"
-            label="展开"
-            width="82"
-          >
+          <el-table-column type="expand" align="center" label="展开" width="82">
+            <template>
+              <div id="unfoldTable">
+                <el-table
+                  border
+                  :data="detailsData"
+                  tooltip-effect="dark"
+                  default-expand-all
+                  :tree-props="{
+                    children: 'children',
+                    hasChildren: 'hasChildren',
+                  }"
+                >
+                  <el-table-column
+                    type="index"
+                    label="序号"
+                    width="71"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="orgName"
+                    label="委托公司"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="prodCode"
+                    label="产品编号"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="prodName"
+                    label="产品名称"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="prodSpec"
+                    label="产品规格"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="braName"
+                    label="品牌"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="address"
+                    label="系统库存"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="address"
+                    label="实际库存"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column prop="" label="差异" show-overflow-tooltip>
+                  </el-table-column>
+                  <el-table-column
+                    prop=""
+                    label="盘点结果"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column prop="" label="原因" show-overflow-tooltip>
+                  </el-table-column>
+                  <el-table-column
+                    prop=""
+                    label="实际盘点时间"
+                    show-overflow-tooltip
+                    width="180"
+                  >
+                  </el-table-column>
+                  <el-table-column prop="" label="盘点人" show-overflow-tooltip>
+                  </el-table-column>
+                  <el-table-column prop="" label="订正人" show-overflow-tooltip>
+                  </el-table-column>
+                  <el-table-column
+                    prop=""
+                    label="订正时间"
+                    show-overflow-tooltip
+                    width="180"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop=""
+                    label="订正结果"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                </el-table>
+              </div>
+            </template>
           </el-table-column>
-           <el-table-column
-            type="selection"
-            width="82"
-            align="center"
-            fixed="left"
-          >
+          <el-table-column type="selection" width="82" align="center">
           </el-table-column>
           <el-table-column label="序号" align="center" type="index" width="71">
           </el-table-column>
@@ -222,12 +309,17 @@
             width="250"
           >
           </el-table-column>
-          <el-table-column prop="stockNo" label="盘点单" align="center">
-              <template slot-scope="scope">
-                <div class="lookDeatil">
-                  {{ scope.row.stockNo }}
-                </div>
-              </template>
+          <el-table-column
+            prop="stockNo"
+            label="盘点单"
+            align="center"
+            width="260"
+          >
+            <template slot-scope="scope">
+              <div class="lookDeatil" @click="lookCheckOrderInfor(scope.row)">
+                {{ scope.row.stockNo }}
+              </div>
+            </template>
           </el-table-column>
           <el-table-column prop="stockType" label="盘点类型" align="center">
           </el-table-column>
@@ -237,10 +329,7 @@
           </el-table-column>
           <el-table-column prop="orderSource" label="创建类型" align="center">
           </el-table-column>
-          <el-table-column
-            prop="createUser"
-            label="创建人"
-          ></el-table-column>
+          <el-table-column prop="createUser" label="创建人"></el-table-column>
           <el-table-column prop="startTime" label="盘点开始时间" width="180">
           </el-table-column>
           <el-table-column prop="endTime" label="盘点结束时间" width="180">
@@ -258,11 +347,46 @@
   </div>
 </template>
 
+<style>
+.resultForm .el-table__expand-icon {
+  transform: rotate(180deg);
+}
+.resultForm .el-icon.el-icon-arrow-right {
+  display: none;
+}
+.resultForm .el-table__expand-icon {
+  position: relative;
+}
+.resultForm .el-table__expand-icon::before {
+  content: "+";
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
+}
+.resultForm .el-table__expand-icon--expanded::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 2px;
+  background: #000;
+  line-height: 20px;
+  position: absolute;
+  top: 10px;
+  left: 27px;
+}
+
+#unfoldTable .el-table {
+  border: none !important;
+}
+
+#unfoldTable .el-table__expanded-cell {
+  border-right: none !important;
+}
+</style>
+
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import {
-  queryCheckOrder,delCheckOrder
-} from "../../api/api";
+import { queryCheckOrder, delCheckOrder } from "../../api/api";
 import { clearTimeInput } from "../../utils/validate";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 export default {
@@ -279,6 +403,7 @@ export default {
       createType: "",
       saveResult: "",
       tableData: [],
+      detailsData: [],
       checkStateData: [
         {
           value: "0",
@@ -343,7 +468,6 @@ export default {
         pageNums: 0,
       },
       queryData: {
-        
         pageNumber: "1",
         pageSize: "10",
         paras: {},
@@ -352,9 +476,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     if (from.name === "") {
-      next((vm) => {
-        
-      });
+      next((vm) => {});
     } else {
       next();
     }
@@ -365,44 +487,19 @@ export default {
   },
   methods: {
     queryFun() {
-        queryCheckOrder(this.queryData).then((ok)=>{
-            console.log(ok)
-
-        })
-    },
-    stockCycleFun(data) {
-      let states = "";
-      switch (data) {
-        case 0:
-          states = "周盘点";
-          break;
-        case 1:
-          states = "月盘点";
-          break;
-        case 2:
-          states = "季盘点";
-          break;
-        case 3:
-          states = "半年盘点";
-          break;
-        default:
-          break;
-      }
-      return states;
-    },
-    stockTypeFun(data) {
-      let states = "";
-      switch (data) {
-        case 1:
-          states = "按产品";
-          break;
-        case 2:
-          states = "按库位";
-          break;
-        default:
-          break;
-      }
-      return states;
+      queryCheckOrder(this.queryData).then((ok) => {
+        console.log(ok);
+        if (ok.data.code === "10000") {
+          this.tableData = [];
+          this.tableData = ok.data.result.list;
+          this.changeData(ok.data.result);
+          this.tableData.forEach((v) => {
+            v.stockType = this.stockTypeFun(v.stockType);
+            v.stockStatus = this.stockStatusFun(v.stockStatus);
+            v.orderSource = this.orderSourceFun(v.orderSource);
+          });
+        }
+      });
     },
     orderSourceFun(data) {
       let states = "";
@@ -418,17 +515,41 @@ export default {
       }
       return states;
     },
+
+    stockTypeFun(data) {
+      let states = "";
+      switch (data) {
+        case 1:
+          states = "按产品";
+          break;
+        case 2:
+          states = "按库位";
+          break;
+        default:
+          break;
+      }
+      return states;
+    },
     stockStatusFun(data) {
       let states = "";
       switch (data) {
         case 0:
-          states = "待盘点";
+          states = "未盘点";
           break;
         case 1:
           states = "盘点中";
           break;
         case 2:
-          states = "已作废";
+          states = "盘点完成";
+          break;
+        case 3:
+          states = "审核通过";
+          break;
+        case 4:
+          states = "审核拒绝";
+          break;
+        case 4:
+          states = "已完成";
           break;
         default:
           break;
@@ -449,7 +570,7 @@ export default {
     },
     create() {
       this.$router.push({
-        path: "/inventoryCheck/createCheckPlan",
+        path: "/inventoryCheck/createCheckOrder",
         query: { type: "create" },
       });
     },
@@ -473,7 +594,7 @@ export default {
           type: "warning",
         });
       this.$router.push({
-        path: "/inventoryCheck/createCheckPlan",
+        path: "/inventoryCheck/createCheckOrder",
         query: { type: "edit", data: this.multipleSelection[0] },
       });
     },
@@ -498,9 +619,13 @@ export default {
           type: "warning",
         });
       this.$messageSelf
-        .confirms(`共选择${this.multipleSelection.length}条盘点单，确定删除吗？`, "删除提示", {
-          type: "info",
-        })
+        .confirms(
+          `共选择${this.multipleSelection.length}条盘点单，确定删除吗？`,
+          "删除提示",
+          {
+            type: "info",
+          }
+        )
         .then(() => {
           this.delRequest({ ids: arr });
         });
@@ -523,6 +648,9 @@ export default {
     },
     lookCheck() {
       //查看盘点
+    },
+    lookCheckOrderInfor(row) {
+      console.log(row);
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
