@@ -295,6 +295,15 @@ export default {
       },
     };
   },
+  beforeRouteEnter(to, from, next) {
+    if (from.name === "/inventoryCheck/createCheckPlan") {
+      next((vm) => {
+        vm.queryFun();
+      });
+    } else {
+      next();
+    }
+  },
   mounted() {
     this.entrustCompanyData = this.$store.state.orgInfor.orgInforData;
     this.queryFun();
@@ -383,7 +392,6 @@ export default {
     },
     clickQuery() {
       //点击查询
-      console.log(this.queryData)
       this.queryFun();
     },
     clearInput() {
@@ -476,7 +484,7 @@ export default {
       } else {
         cancelCheckPlanManage({ id: this.multipleSelection[0].id }).then(
           (ok) => {
-            console.log(ok);
+            // console.log(ok);
             if (ok.data.code === "10000") {
               this.$messageSelf.message({
                 message: "作废成功",
@@ -496,7 +504,7 @@ export default {
     lookPlan() {
       this.$router.push({
         path: "/inventoryCheck/createCheckPlan",
-        query: { type: "look", data: "" },
+        query: { type: "look", data: this.multipleSelection[0] },
       });
     },
     handleSelectionChange(value) {

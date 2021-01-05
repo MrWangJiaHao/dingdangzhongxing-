@@ -2,7 +2,7 @@
   <div id="createCheckPlan">
     <div class="_mainPage">
       <div class="chooseInput">
-        <div class="header-title">创建盘点计划</div>
+        <div class="header-title">创建盘点单</div>
         <div class="condition specaddStar">
           <div>盘点计划名称：</div>
           <el-input
@@ -36,15 +36,6 @@
           <div class="radioBoxDiv ml10 mt5">
             <el-radio v-model="typeradio" label="1">按产品</el-radio>
             <el-radio v-model="typeradio" label="2">按库位</el-radio>
-          </div>
-        </div>
-        <div class="condition specaddStar">
-          <div>盘点周期：</div>
-          <div class="radioBoxDiv ml10 mt5">
-            <el-radio v-model="cycelradio" label="0">周盘点</el-radio>
-            <el-radio v-model="cycelradio" label="1">月盘点</el-radio>
-            <el-radio v-model="cycelradio" label="2">季盘点</el-radio>
-            <el-radio v-model="cycelradio" label="3">半年盘点</el-radio>
           </div>
         </div>
       </div>

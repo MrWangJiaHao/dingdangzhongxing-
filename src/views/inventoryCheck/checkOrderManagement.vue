@@ -1,0 +1,684 @@
+<template>
+  <div id="checkPlanManagement">
+    <!-- 这是盘点单管理页面 -->
+    <div class="headerHtml">
+      <div class="headerInput">
+        <div class="el-inputBox entrustCompany">
+          <div class="el-inputBox-text">委托公司：</div>
+          <div class="el-inputBox-checkBox" style="width: 320px">
+            <el-select
+              v-model="entrustCompany"
+              placeholder="请选择委托公司"
+              @change="entrustCompanys"
+              clearable
+            >
+              <el-option
+                v-for="item in entrustCompanyData"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="el-inputBox">
+          <div class="el-inputBox-text">盘点单号：</div>
+          <div class="el-inputBox-checkBox" style="width: 140px">
+            <el-input v-model="checkCode" placeholder="请输入盘点单号">
+            </el-input>
+          </div>
+        </div>
+        <div class="el-inputBox">
+          <div class="el-inputBox-text">盘点状态：</div>
+          <div class="el-inputBox-checkBox" style="width: 150px">
+            <el-select
+              v-model="checkState"
+              placeholder="请选择盘点状态"
+              @change="checkStates"
+              clearable
+            >
+              <el-option
+                v-for="item in checkStateData"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="el-inputBox">
+          <div class="el-inputBox-text">盘点类型：</div>
+          <div class="el-inputBox-checkBox" style="width: 150px">
+            <el-select
+              v-model="checkType"
+              placeholder="请选择盘点类型"
+              @change="checkTypes"
+              clearable
+            >
+              <el-option
+                v-for="item in checkTypeData"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="el-inputBox">
+          <div class="el-inputBox-text">创建类型：</div>
+          <div class="el-inputBox-checkBox" style="width: 150px">
+            <el-select
+              v-model="createType"
+              placeholder="请选择创建类型"
+              @change="createTypes"
+              clearable
+            >
+              <el-option
+                v-for="item in createTypeData"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="el-inputBox">
+          <div class="el-inputBox-text">订正结果：</div>
+          <div class="el-inputBox-checkBox" style="width: 150px">
+            <el-select
+              v-model="saveResult"
+              placeholder="请选择订正结果"
+              @change="saveResults"
+              clearable
+            >
+              <el-option
+                v-for="item in saveResultData"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+
+        <div class="timeChoose el-inputBox">
+          <div class="el-inputBox-text titleBox">创建日期：</div>
+          <div class="timeBox">
+            <div style="">
+              <dateTime
+                :dateTimeData="datetimeDate"
+                @getDateTime="getStartTime_create"
+                ref="startTime"
+              />
+            </div>
+            <div class="line"></div>
+            <div>
+              <dateTime
+                :dateTimeData="datetimeDate1"
+                @getDateTime="getEndTime_create"
+                ref="endTime"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="timeChoose el-inputBox">
+          <div class="el-inputBox-text titleBox">盘点日期：</div>
+          <div class="timeBox">
+            <div style="">
+              <dateTime
+                :dateTimeData="datetimeDate"
+                @getDateTime="getStartTime_check"
+                ref="startTime"
+              />
+            </div>
+            <div class="line"></div>
+            <div>
+              <dateTime
+                :dateTimeData="datetimeDate1"
+                @getDateTime="getEndTime_check"
+                ref="endTime"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="timeChoose el-inputBox">
+          <div class="el-inputBox-text titleBox">订正日期：</div>
+          <div class="timeBox">
+            <div style="">
+              <dateTime
+                :dateTimeData="datetimeDate"
+                @getDateTime="getStartTime_save"
+                ref="startTime"
+              />
+            </div>
+            <div class="line"></div>
+            <div>
+              <dateTime
+                :dateTimeData="datetimeDate1"
+                @getDateTime="getEndTime_save"
+                ref="endTime"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="header-botton">
+        <div class="queryBtn" @click="clickQuery">查询</div>
+        <div class="clearBtn" @click="clearInput">清空</div>
+      </div>
+    </div>
+    <div class="childWarehouseForm">
+      <div class="formHeader">
+        <div class="icon-title">
+          <div class="icon-title-icon">
+            <img src="../../assets/img/systemTitlemesa.png" />
+          </div>
+          <div class="icon-title-title">查询结果</div>
+        </div>
+        <div class="someBtn">
+          <div class="successBtn" @click="create">创建</div>
+          <div class="successBtn" @click="edit">编辑</div>
+          <div class="errorBtn" @click="del">删除</div>
+          <div class="successBtn" @click="printCheck">打印盘点单</div>
+          <div class="successBtn" @click="checkEntering">盘点录入</div>
+          <div class="successBtn" @click="lookCheck">查看盘点</div>
+        </div>
+      </div>
+      <div class="resultForm">
+        <el-table
+          :data="tableData"
+          border
+          style="width: 100%"
+          @selection-change="handleSelectionChange"
+          :stripe="true"
+          tooltip-effect="dark"
+        >
+          <el-table-column
+            type="expand"
+            align="center"
+            fixed="left"
+            label="展开"
+            width="82"
+          >
+          </el-table-column>
+           <el-table-column
+            type="selection"
+            width="82"
+            align="center"
+            fixed="left"
+          >
+          </el-table-column>
+          <el-table-column label="序号" align="center" type="index" width="71">
+          </el-table-column>
+          <el-table-column
+            prop="orgName"
+            label="委托公司"
+            show-overflow-tooltip
+            width="250"
+          >
+          </el-table-column>
+          <el-table-column prop="stockNo" label="盘点单" align="center">
+              <template slot-scope="scope">
+                <div class="lookDeatil">
+                  {{ scope.row.stockNo }}
+                </div>
+              </template>
+          </el-table-column>
+          <el-table-column prop="stockType" label="盘点类型" align="center">
+          </el-table-column>
+          <el-table-column prop="stockStatus" label="盘点状态" align="center">
+          </el-table-column>
+          <el-table-column prop="createTime" label="创建时间" width="180">
+          </el-table-column>
+          <el-table-column prop="orderSource" label="创建类型" align="center">
+          </el-table-column>
+          <el-table-column
+            prop="createUser"
+            label="创建人"
+          ></el-table-column>
+          <el-table-column prop="startTime" label="盘点开始时间" width="180">
+          </el-table-column>
+          <el-table-column prop="endTime" label="盘点结束时间" width="180">
+          </el-table-column>
+        </el-table>
+        <div class="pageComponent">
+          <pagecomponent
+            :pageComponentsData="pageComponentsData"
+            @getPageNum="getPageNum"
+            @sureSuccssBtn="sureSuccssBtn"
+          ></pagecomponent>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import pagecomponent from "../../components/commin/pageComponent"; //分页器
+import {
+  queryCheckOrder,delCheckOrder
+} from "../../api/api";
+import { clearTimeInput } from "../../utils/validate";
+import dateTime from "../../components/commin/dateTime.vue"; //时间
+export default {
+  components: {
+    pagecomponent,
+    dateTime,
+  },
+  data() {
+    return {
+      entrustCompany: "",
+      checkCode: "",
+      checkState: "",
+      checkType: "",
+      createType: "",
+      saveResult: "",
+      tableData: [],
+      checkStateData: [
+        {
+          value: "0",
+          label: "待盘点",
+        },
+        {
+          value: "1",
+          label: "盘点中",
+        },
+        {
+          value: "2",
+          label: "已盘点",
+        },
+        {
+          value: "3",
+          label: "未订正",
+        },
+        {
+          value: "4",
+          label: "已订正",
+        },
+      ],
+      entrustCompanyData: [],
+      checkTypeData: [
+        {
+          value: "1",
+          label: "按产品",
+        },
+        {
+          value: "2",
+          label: "按类型",
+        },
+      ],
+      multipleSelection: [],
+      createTypeData: [
+        {
+          value: "1",
+          label: "管理端",
+        },
+        {
+          value: "2",
+          label: "仓库",
+        },
+      ],
+      saveResultData: [
+        {
+          value: "0",
+          label: "同意",
+        },
+        {
+          value: "1",
+          label: "拒绝",
+        },
+      ],
+      datetimeDate: {
+        placeholder: "请选择开始日期",
+      },
+      datetimeDate1: {
+        placeholder: "请选择结束日期",
+      },
+      pageComponentsData: {
+        pageNums: 0,
+      },
+      queryData: {
+        
+        pageNumber: "1",
+        pageSize: "10",
+        paras: {},
+      },
+    };
+  },
+  beforeRouteEnter(to, from, next) {
+    if (from.name === "") {
+      next((vm) => {
+        
+      });
+    } else {
+      next();
+    }
+  },
+  mounted() {
+    this.entrustCompanyData = this.$store.state.orgInfor.orgInforData;
+    this.queryFun();
+  },
+  methods: {
+    queryFun() {
+        queryCheckOrder(this.queryData).then((ok)=>{
+            console.log(ok)
+
+        })
+    },
+    stockCycleFun(data) {
+      let states = "";
+      switch (data) {
+        case 0:
+          states = "周盘点";
+          break;
+        case 1:
+          states = "月盘点";
+          break;
+        case 2:
+          states = "季盘点";
+          break;
+        case 3:
+          states = "半年盘点";
+          break;
+        default:
+          break;
+      }
+      return states;
+    },
+    stockTypeFun(data) {
+      let states = "";
+      switch (data) {
+        case 1:
+          states = "按产品";
+          break;
+        case 2:
+          states = "按库位";
+          break;
+        default:
+          break;
+      }
+      return states;
+    },
+    orderSourceFun(data) {
+      let states = "";
+      switch (data) {
+        case 1:
+          states = "管理端";
+          break;
+        case 2:
+          states = "仓库";
+          break;
+        default:
+          break;
+      }
+      return states;
+    },
+    stockStatusFun(data) {
+      let states = "";
+      switch (data) {
+        case 0:
+          states = "待盘点";
+          break;
+        case 1:
+          states = "盘点中";
+          break;
+        case 2:
+          states = "已作废";
+          break;
+        default:
+          break;
+      }
+      return states;
+    },
+    clickQuery() {
+      //点击查询
+      this.queryFun();
+    },
+    clearInput() {
+      //点击清空
+      clearTimeInput();
+      Object.keys(this.queryData.paras).forEach((v) => {
+        this.queryData.paras[v] = "";
+      });
+      this.queryFun();
+    },
+    create() {
+      this.$router.push({
+        path: "/inventoryCheck/createCheckPlan",
+        query: { type: "create" },
+      });
+    },
+    edit() {
+      this.tableData.forEach((v) => {
+        if (v.stockStatus !== "待盘点") {
+          return this.$messageSelf.message({
+            message: "只有待盘点的计划可编辑",
+            type: "warning",
+          });
+        }
+      });
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message({
+          message: "请选择要编辑的盘点计划",
+          type: "warning",
+        });
+      if (this.multipleSelection.length > 1)
+        return this.$messageSelf.message({
+          message: "只能选择一个盘点计划进行编辑",
+          type: "warning",
+        });
+      this.$router.push({
+        path: "/inventoryCheck/createCheckPlan",
+        query: { type: "edit", data: this.multipleSelection[0] },
+      });
+    },
+    del() {
+      this.tableData.forEach((v) => {
+        if (v.stockStatus !== "待盘点") {
+          return this.$messageSelf.message({
+            message: "只有待盘点的计划可删除",
+            type: "warning",
+          });
+        }
+      });
+      let arr = [];
+      this.multipleSelection.forEach((item) => {
+        if (!arr.includes(item.id)) {
+          arr.push(item.id);
+        }
+      });
+      if (!arr.length)
+        return this.$messageSelf.message({
+          message: "请选择要删除的盘点单",
+          type: "warning",
+        });
+      this.$messageSelf
+        .confirms(`共选择${this.multipleSelection.length}条盘点单，确定删除吗？`, "删除提示", {
+          type: "info",
+        })
+        .then(() => {
+          this.delRequest({ ids: arr });
+        });
+    },
+    delRequest(data) {
+      delCheckOrder(data).then((ok) => {
+        if (ok.data.code === "10000") {
+          this.$messageSelf.message({ message: "删除成功", type: "success" });
+          this.queryFun();
+        } else {
+          this.$messageSelf.message({ message: "删除失败", type: "error" });
+        }
+      });
+    },
+    printCheck() {
+      //打印盘点单
+    },
+    checkEntering() {
+      //盘点录入
+    },
+    lookCheck() {
+      //查看盘点
+    },
+    handleSelectionChange(value) {
+      this.multipleSelection = value;
+    },
+    entrustCompanys(val) {
+      this.queryData.paras.orgId = val;
+    },
+    checkStates(val) {
+      this.queryData.paras.stockCycle = +val;
+    },
+    checkTypes(val) {
+      this.queryData.paras.stockType = val;
+    },
+    createTypes(val) {
+      this.queryData.paras.orderSource = val;
+    },
+    saveResults(val) {
+      this.queryData.paras.stockStatus = val;
+    },
+    getPageNum(e) {
+      this.queryData.pageNumber = e;
+    },
+    sureSuccssBtn(e) {
+      this.queryData.pageNumber = e;
+      this.queryFun();
+    },
+    changeData(data) {
+      this.changePageData(data);
+    },
+    changePageData(data) {
+      let { totalRow } = data;
+      this.pageComponentsData.pageNums = totalRow;
+    },
+
+    getStartTime_create(e) {
+      this.queryData.paras.createStartTime = e;
+    },
+    getEndTime_create(e) {
+      this.queryData.paras.createEndTime = e;
+    },
+    getStartTime_check(e) {
+      this.queryData.paras.createStartTime = e;
+    },
+    getEndTime_check(e) {
+      this.queryData.paras.createEndTime = e;
+    },
+    getStartTime_save(e) {
+      this.queryData.paras.createStartTime = e;
+    },
+    getEndTime_save(e) {
+      this.queryData.paras.createEndTime = e;
+    },
+  },
+};
+</script>
+
+<style lang="scss" scpoed>
+@import "../../assets/scss/btn.scss";
+
+#checkPlanManagement {
+  background: #eef1f8;
+  padding: 20px 10px;
+  .headerHtml {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    padding: 0 20px;
+    transition: 0.3s;
+    .headerInput {
+      display: flex;
+      flex-wrap: wrap;
+      .el-inputBox {
+        display: flex;
+        align-items: center;
+        margin: 0 20px 16px 0;
+        .el-inputBox-text {
+          white-space: nowrap;
+        }
+      }
+    }
+    .header-botton {
+      margin-bottom: 16px;
+      display: flex;
+      align-items: flex-end;
+      .queryBtn {
+        @include BtnFunction("success");
+      }
+      .clearBtn {
+        @include BtnFunction();
+        background: #fff;
+        margin: 0 0 0 10px;
+      }
+    }
+    .timeChoose {
+      display: flex;
+      justify-content: space-between;
+      margin-right: 20px;
+      .timeBox {
+        height: 34px;
+        display: flex;
+        align-items: center;
+        .line {
+          width: 10px;
+          height: 2px;
+          background: #d1d6e2;
+          margin: 0 10px;
+        }
+      }
+    }
+  }
+  .childWarehouseForm {
+    margin: 4px 0 0 0;
+    background: white;
+    .formHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #d1d6e2;
+      .icon-title {
+        display: flex;
+        .icon-title-icon {
+          width: 14px;
+          height: 14px;
+          margin: 0 0 0 20px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .icon-title-title {
+          margin: 0 0 0 8px;
+        }
+      }
+      .someBtn {
+        display: flex;
+        margin: 16px 20px 16px 0;
+        .successBtn {
+          @include BtnFunction("success");
+          margin-left: 10px;
+        }
+        .errorBtn {
+          @include BtnFunction("error");
+          margin-left: 10px;
+        }
+      }
+    }
+    .resultForm {
+      padding: 16px 20px;
+    }
+  }
+}
+</style>
+<style lang="scss">
+.entrustCompany {
+  .el-select {
+    width: 100%;
+  }
+}
+</style>

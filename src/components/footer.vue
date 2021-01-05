@@ -99,11 +99,9 @@
             this.datares()
         },
         mounted() {
-            // document.addEventListener('click', () => {
-            //     if (this.display) {
-            //         this.display = false
-            //     }
-            // }, false)
+            document.onclick=()=>{
+                this.display = false;
+            }
         },
         methods: {
             async datares() {
@@ -119,6 +117,7 @@
                     },
                 });
                 if (result.list.length) {
+                    // console.log(result)
                     this.xiaoxiArr = result.list
                     this.listLength = this.xiaoxiArr.length
                     this.changeLength()
@@ -158,14 +157,16 @@
                         }
                         self.idx++;
                         self.changeLength()
+                        // console.log(self.listLength, self.idx)
                     } else {
                         obj.style.left = obj.offsetLeft + -speed + 'px';
                     }
                 }, 500)
             },
             loginOutMeg() {
-                this.datares()
+                this.datares(event)
                 this.display = !this.display;
+                event.stopPropagation();
             },
             moveStart() {
                 this.$nextTick(() => {
@@ -181,7 +182,7 @@
                 clearTimeout(this.timer1)
             },
             xiaoxiClick() {
-                console.log(this.sendoutDataJson)
+                // console.log(this.sendoutDataJson)
                 if (this.isShowXiaoXiLeiBiao) return
                 this.$pOrgProductsApp.pWarehouseStationInfo(this.sendoutDataJson)
                 this.xiaoxi = true
@@ -309,7 +310,7 @@
             }
 
             &:hover {
-                border-radius: 8px;
+                border-radius: 4px;
 
                 .clickLoginOutCenter {
                     cursor: pointer;
