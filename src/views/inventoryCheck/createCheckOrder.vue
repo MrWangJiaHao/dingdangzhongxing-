@@ -4,15 +4,6 @@
       <div class="chooseInput">
         <div class="header-title">创建盘点单</div>
         <div class="condition specaddStar">
-          <div>盘点计划名称：</div>
-          <el-input
-            v-model="checkPlanName"
-            placeholder="请输入盘点计划名称"
-            :disabled="isdisabled"
-          >
-          </el-input>
-        </div>
-        <div class="condition specaddStar">
           <div>委托公司：</div>
           <div class="checkBoxDiv ml10">
             <el-checkbox
@@ -87,6 +78,25 @@
                 >
                   <el-option
                     v-for="item in productSpecData"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+            </div>
+            <div class="el-inputBox">
+              <div class="el-inputBox-text">品牌：</div>
+              <div class="el-inputBox-checkBox" style="width: 140px">
+                <el-select
+                  v-model="productBrand"
+                  placeholder="请选择品牌"
+                  @change="productBrands"
+                  clearable
+                >
+                  <el-option
+                    v-for="item in productBrandData"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -180,7 +190,7 @@
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import {
   queryProductInfor,
-  createCheckPlanManage,
+  createCheckOrder,
   querySLInforCon,
 } from "../../api/api";
 import { clearTimeInput, getCookie, reduceFun } from "../../utils/validate";
@@ -190,7 +200,7 @@ export default {
     pagecomponent,
   },
   beforeRouteEnter(to, from, next) {
-    if (from.name === "/inventoryCheck/checkPlanManagement") {
+    if (from.name === "/inventoryCheck/checkOrderManagement") {
       next((vm) => {
         if (vm.$route.query.type === "create") {
           vm.operationType = "创建";
@@ -220,7 +230,7 @@ export default {
       operationType: "",
       checkAll: false,
       isIndeterminate: true,
-      checkPlanName: "",
+      productBrand: "",
       checkedOrgName: [],
       orgArr: [],
       typeradio: "1",
@@ -231,6 +241,7 @@ export default {
       productCode: "",
       productName: "",
       productSpecData: [],
+      productBrandData: [],
       productSpec: "",
       pageComponentsData: {
         pageNums: 0,
@@ -349,6 +360,9 @@ export default {
     productSpecs(val) {
       this.queryprodData.specName = val;
     },
+    productBrands(val) {
+      this.queryprodData.braId = val;
+    },
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
@@ -382,7 +396,7 @@ export default {
         orgIds: [],
         stockCycle: this.cycelradio,
         stockOrgFlag: "2",
-        stockPlanName: this.checkPlanName,
+        stockName: "1",
         stockType: this.typeradio,
       };
       this.checkedOrgName.forEach((v) => {
@@ -421,10 +435,10 @@ export default {
       }
     },
     submitRequest(data) {
-      createCheckPlanManage(data).then((ok) => {
-        // console.log(ok);
+      createCheckOrder(data).then((ok) => {
+        console.log(ok);
         if (ok.data.code === "10000") {
-          this.$router.push({ path: "/inventoryCheck/checkPlanManagement" });
+          this.$router.push({ path: "/inventoryCheck/checkOrderManagement" });
           this.$messageSelf.message({
             message: this.operationType + "成功",
             type: "success",

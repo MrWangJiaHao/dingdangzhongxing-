@@ -164,6 +164,7 @@
             prop="stockPlanName"
             label="盘点计划名称"
             align="left"
+            show-overflow-tooltip
           >
           </el-table-column>
           <el-table-column
@@ -311,7 +312,7 @@ export default {
   methods: {
     queryFun() {
       queryCheckPlanManage(this.queryData).then((ok) => {
-        // console.log(ok);
+        console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = [];
           this.tableData = ok.data.result.list;
@@ -380,10 +381,16 @@ export default {
           states = "待盘点";
           break;
         case 1:
-          states = "盘点中";
+          states = "未盘点";
           break;
         case 2:
+          states = "已盘点";
+          break;
+        case 3:
           states = "已作废";
+          break;
+        case 4:
+          states = "审核拒绝";
           break;
         default:
           break;
@@ -482,23 +489,30 @@ export default {
           type: "warning",
         });
       } else {
-        cancelCheckPlanManage({ id: this.multipleSelection[0].id }).then(
-          (ok) => {
-            // console.log(ok);
-            if (ok.data.code === "10000") {
-              this.$messageSelf.message({
-                message: "作废成功",
-                type: "success",
-              });
-              this.queryFun();
-            } else {
-              this.$messageSelf.message({
-                message: "作废失败",
-                type: "error",
-              });
-            }
-          }
-        );
+        this.$messageSelf
+          .confirms(`确定作废该盘点计划吗？`, "作废提示", {
+            type: "info",
+          })
+          .then(() => {
+            cancelCheckPlanManage({ id: this.multipleSelection[0].id }).then(
+              (ok) => {
+                console.log(ok);
+                if (ok.data.code === "10000") {
+                  this.$messageSelf.message({
+                    message: "作废成功",
+                    type: "success",
+                  });
+                  this.queryFun();
+                } else {
+                  this.$messageSelf.message({
+                    message: "作废失败",
+                    type: "error",
+                  });
+                }
+              }
+            );
+          })
+          .catch(() => {});
       }
     },
     lookPlan() {

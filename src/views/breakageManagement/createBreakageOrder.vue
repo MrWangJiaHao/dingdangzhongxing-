@@ -493,7 +493,6 @@ export default {
         }
       }
     }
-
     .tableBox {
       background: white;
       .tableBox-title {
@@ -502,9 +501,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: space-between;
-
         .titleText {
-          font-size: 16px;
           position: relative;
           margin-left: 46px;
         }
@@ -518,15 +515,12 @@ export default {
           left: -25px;
           top: 3px;
         }
-
         .titleBtn {
           display: flex;
-
           .add {
             @include BtnFunction("success");
             margin-right: 10px;
           }
-
           .del {
             @include BtnFunction("error");
             margin-right: 20px;

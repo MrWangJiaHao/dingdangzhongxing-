@@ -632,6 +632,15 @@ const routes = [{
             },
         },
         {
+            // 库存盘点=>创建盘点单
+            path: "/inventoryCheck/createCheckOrder",
+            name: "/inventoryCheck/createCheckOrder",
+            component: () => import("../views//inventoryCheck/createCheckOrder"),
+            meta: {
+                keepAlive: false
+            },
+        },
+        {
             // 库存盘点=>库存订正结果
             path: "/inventoryCheck/saveInventoryResult",
             name: "/inventoryCheck/saveInventoryResult",

@@ -345,7 +345,7 @@ export default {
           .icon-title-icon {
             width: 14px;
             height: 14px;
-            margin: 0 0 0 20px;
+            margin: 1px 0 0 20px;
           }
           .icon-title-title {
             margin: 0 0 0 8px;
