@@ -1309,6 +1309,20 @@ export function queryCheckOrder(data) {
         })
     })
 }
+//库存盘点=>盘点单管理=>查询盘点记录信息
+export function queryCheckOrderDetails(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pStockCheckOrder/findRecordDetail",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
 
 
 
