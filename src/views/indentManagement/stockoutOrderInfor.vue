@@ -1,5 +1,5 @@
 <template>
-  <div class="mian">
+  <div class="stockoutOrderInfor">
     <div class="orderDetaiPage">
       <div class="orderDetailBox">
         <div class="orderDetail-title">缺货订单</div>
@@ -18,9 +18,8 @@
           style="width: 100%"
           :stripe="true"
           tooltip-effect="dark"
-          @summary-method="summaryMethod"
         >
-          <el-table-column label="序号" align="center" type="index" width="60">
+          <el-table-column label="序号" align="center" type="index" width="71">
           </el-table-column>
           <el-table-column prop="orderNo" label="订单号" align="center">
           </el-table-column>
@@ -131,10 +130,6 @@ export default {
     back() {
       this.$router.go(-1);
     },
-    summaryMethod({ columns, data }) {
-      //表格合计方法
-      console.log(columns, data);
-    },
     getPageNum(e) {
       this.prodReleOrderQueryData.pageNumber = e;
     },
@@ -156,7 +151,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
-.mian {
+.stockoutOrderInfor {
   padding: 10px;
   background: #eef1f8;
   .orderDetaiPage {

@@ -1253,6 +1253,79 @@ export function delCheckPlanManage(data) {
 }
 
 
+//库存盘点=>盘点单管理=>创建/修改盘点单
+export function createCheckOrder(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pStockCheckOrder/saveRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//库存盘点=>盘点单管理=>删除盘点单
+export function delCheckOrder(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pStockCheckOrder/delRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//库存盘点=>盘点单管理=>录入盘点记录
+export function enteringCheckRecord(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pStockCheckOrder/saveStockDetail",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//库存盘点=>盘点单管理=>分页查询
+export function queryCheckOrder(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pStockCheckOrder/findRecordPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//库存盘点=>盘点单管理=>查询盘点记录信息
+export function queryCheckOrderDetails(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pStockCheckOrder/findRecordDetail",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+
+
 /**
  *
  * @param {*}  获取查询仓库下的委托公司

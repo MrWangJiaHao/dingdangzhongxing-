@@ -218,6 +218,7 @@
                     prop="prodFullName"
                     label="产品名称"
                     align="center"
+                    width="120"
                   >
                   </el-table-column>
                   <el-table-column
