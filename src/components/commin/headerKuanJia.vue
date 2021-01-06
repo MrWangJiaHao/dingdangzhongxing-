@@ -16,7 +16,6 @@
                     查询
                 </div>
                 <div class="clearBtn inline" @click="clearInputAll">清空</div>
-
             </div>
         </div>
     </div>
@@ -40,6 +39,12 @@
                 return 100 - +idx + "%"
             }
         },
+        mounted() {
+            let self = this
+            window.addEventListener("resize", () => {
+                self.addZhanKaiRes(".btnArrs");
+            });
+        },
         created() {
             this.addZhanKaiRes(".btnArrs");
         },
@@ -56,12 +61,10 @@
                 this.$emit("clearInputAll", true);
             },
             addZhanKaiRes(child) {
-                setTimeout(() => {
-                    this.$nextTick(() => {
-                        child = document.querySelector(child);
-                        this.$isChaXun.isChaXun(child);
-                    });
-                }, 10)
+                this.$nextTick(() => {
+                    child = document.querySelector(child);
+                    this.$isChaXun.isChaXun(child);
+                });
             },
         },
 

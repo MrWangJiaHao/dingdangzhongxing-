@@ -54,11 +54,11 @@
                             </div>
                             <div class="dispalyFlex mb20">
                                 <div class="noneIconTitle mr11">
-                                    <span class="colred">*</span>
+                                    <span class="visibilityHidden">*</span>
                                     <span>备</span>
                                     <span class="visibilityHidden">你好</span>
-                                    <span class="">注</span>
-                                    :
+                                    <span class="">注:</span>
+                                    <span class="visibilityHidden">:</span>
                                 </div>
                                 <div class="bzTetxArea">
               <textarea
@@ -285,7 +285,7 @@
                 this._getgetppPurchaseOrderFindRecord();
             },
             GETtables(e) {
-                this.tabledata = this.tabledata.concat(e);
+                this.tabledata = e
             },
             async _getgetppPurchaseOrderFindRecord() {
                 let data = await getppPurchaseOrderFindRecord(this.createUserData);
@@ -347,7 +347,6 @@
                     sessionStorage.removeItem("_addTablesData");
                     this.$parent._data.isCreatePurchasing = false;
                 }
-
             },
             handleSelectionChange(e) {
                 this.multipleSelection = e;

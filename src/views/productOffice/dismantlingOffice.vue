@@ -1,9 +1,7 @@
 <template>
     <div>
         <processingHeader @clickQuery="clickQuery" @clearInput="clearInput"></processingHeader>
-
         <centerBtnArr title="拆解作业" :btnArr="btnArr"></centerBtnArr>
-
         <div class="pd10">
             <div class="tableInInput tableBoxCol center" id="purchasingIndexss">
                 <tableCommin :tableDataJson="tableDataJson" @tableSelectArr=
@@ -33,7 +31,7 @@
         </div>
         <!-- 加工排期 end-->
         <div class="bjBox" v-if="isShowwareOut">
-            <createManagement></createManagement>
+            <createManagement :orderId="paiqiId" @closeFun="closeCreate"></createManagement>
         </div>
         <!--入库单-->
     </div>
@@ -47,6 +45,7 @@
     import centerBtnArr from '../../components/centerBtnArr'
     import schedule from "./schedule";
     import createManagement from "../wareHouseIngManagement/createManagement";
+    import {getJsonTarget} from "../../utils/validate";
 
     export default {
         name: "dismantlingOffice",
@@ -56,7 +55,8 @@
             pageComponent,
             centerBtnArr,
             schedule,
-            createManagement
+            createManagement,
+            warehouseSure
         },
         data() {
             let self = this
@@ -65,17 +65,30 @@
                 isShowChedule: false,
                 isShowwareOut: false,
                 scheduleJson: {},
+                paiqiId: "",
                 btnArr: [
                     {
                         title: "创建入库单",
                         onClick() {
-                            console.log(self)
+                            if (!self.tableDataJson.dataResult.length || self.tableDataJson.dataResult.length != 1) return self.$messageSelf.message({
+                                type: 'warning',
+                                message: "请选择要排期的列表,并且只能选择一个"
+                            })
+                            self.paiqiId = self.tableDataJson.dataResult[0].id
+                            self.isShowwareOut = true
                         },
                         class: "mr10 bianjiUser"
                     },
                     {
                         title: "完成",
                         onClick() {
+                            console.log(self.tableDataJson.dataResult.length)
+                            if (!self.tableDataJson.dataResult.length) return self.$messageSelf.message({
+                                type: "warning",
+                                message: "请选择要强制完成的列表"
+                            })
+                            let arr = getJsonTarget(self.tableDataJson.dataResult)
+                            self._otherWancheng(arr)
                         },
                         class: "mr10 bianjiUser"
                     },
@@ -103,7 +116,12 @@
                     {
                         title: "删除",
                         onClick() {
-
+                            if (!self.tableDataJson.dataResult.length) return self.$messageSelf.message({
+                                type: "warning",
+                                message: "请选择要删除的的列表"
+                            })
+                            let arr = getJsonTarget(self.tableDataJson.dataResult)
+                            self._delData(arr)
                         },
                         class: "remove"
                     }
@@ -126,7 +144,6 @@
                         {
                             types: "orgName",
                             label: "委托公司",
-                            width: 100
                         },
                         {
                             types: "processNo",
@@ -232,6 +249,9 @@
             this.getTableData()
         },
         methods: {
+            closeCreate(e) {
+                this.isShowwareOut = false
+            },
             handleSelectionChangeDatas(e) {
                 this.tableDataJson.dataResult = e
             },
@@ -286,7 +306,6 @@
             _changeData(data) {
                 let {list, totalRow} = data
                 list.forEach(item => {
-                    // item.lackProds = item.lackProd ? '是' : '否'
                     item.disposeStatusStr = this._disposeStatusChange(item.disposeStatus)
                     item.otherProdNum = +item.prodNum - +item.actualProdNum
                     item.actualProdNum = `${item.actualProdNum}`
@@ -318,6 +337,42 @@
                         return "未定义"
                         break
                 }
+            },
+            _delData(arr) {
+                this.$messageSelf.confirms(this.$clearArr(arr), "提示", {
+                    type: "warning"
+                }).then(async () => {
+                    let data = await this.$pOrgProductsApp.pProcessWorkWarePlanDelRecord(arr)
+                    if (data.code == "10000") {
+                        this.$messageSelf.message({
+                            type: "success",
+                            message: "删除成功"
+                        })
+                    } else {
+                        this.$messageSelf.message({
+                            type: "error",
+                            message: data.msg
+                        })
+                    }
+                }).catch(err => err)
+            },
+            _otherWancheng(arr) {
+                this.$messageSelf.confirms(this.$clearArr(arr, "强制完成"), "提示", {
+                    type: "info"
+                }).then(async () => {
+                    let data = await this.$pOrgProductsApp.pProcessWorkProcessFinish(arr)
+                    if (data.code == "10000") {
+                        this.$messageSelf.message({
+                            type: "success",
+                            message: "强制完成成功"
+                        })
+                    } else {
+                        this.$messageSelf.message({
+                            type: "error",
+                            message: data.msg
+                        })
+                    }
+                }).catch(err => err)
             }
         }
     }

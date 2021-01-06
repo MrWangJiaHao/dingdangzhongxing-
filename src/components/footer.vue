@@ -165,8 +165,9 @@
                 }, 500)
             },
             loginOutMeg() {
-                this.datares()
+                this.datares(event)
                 this.display = !this.display;
+                event.stopPropagation();
             },
             moveStart() {
                 this.$nextTick(() => {

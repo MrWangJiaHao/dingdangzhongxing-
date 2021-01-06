@@ -1,7 +1,7 @@
 <template>
     <div class="setUserIngBox" id="manageMenyrukuSures">
         <kuanjiaClick :titles='!isrukuDetails ? "入库确认" : "入库详情"' @closeBtn="closeBtn"
-                      :is-looker="isrukuDetails" width="1260" @clickSubmit="goAJAXCreate">
+                      :is-looker="q || isLooker" width="1260" @clickSubmit="goAJAXCreate">
             <template slot="centerKuanjia">
                 <div class="p20 botD1">
                     <div class="setTitle mb20">
@@ -397,6 +397,10 @@
                 type: Boolean,
                 default: false,
             },
+            isLooker: {
+                type: Boolean,
+                default: false
+            }
         },
         computed: {
             rukuSureJsonFn() {
@@ -420,10 +424,9 @@
                 this.createUserData.expectedSendTime =
                     manageMentrukuSureData.expectedSendTime;
                 this.createUserData.putUser = manageMentrukuSureData.putUser;
+                // this.isrukuDetails = manageMentrukuSureData.rukuDetails;
             }
-            if (manageMentrukuSureData.rukuDetails) {
-                this.isrukuDetails = manageMentrukuSureData.rukuDetails;
-            }
+
             this._changeRecommedLocation(this.listJson.detailList);
             this.tabledata = this.listJson.detailList;
             this.tables = eval(sessionStorage.getItem("_addTablesData"));
@@ -564,6 +567,7 @@
                 this.$parent._data.ismanageMentrukuSure = false;
                 this.$parent.getTableData();
                 sessionStorage.removeItem("manageMentrukuSureData");
+                this.$emit('closeFun', false)
             },
             handleSelectionChange(e) {
                 this.multipleSelection = e;

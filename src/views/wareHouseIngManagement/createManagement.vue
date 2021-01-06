@@ -540,6 +540,7 @@
                 if (datas.code == "10000") {
                     this.$messageSelf.message({
                         message: datas.msg,
+                        type: "success",
                         onClose: () => {
                             sessionStorage.removeItem("_addTablesData");
                             sessionStorage.removeItem("createManagementChildWareId");

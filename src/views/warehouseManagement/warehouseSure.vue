@@ -1,6 +1,6 @@
 <template>
     <div class="setUserIngBox" id="chukuSure">
-        <kuanjiaClick :titles='!isDetails ? "出库确认" : "出库单详情"' :isLooker="isDetails"
+        <kuanjiaClick :titles='!isDetails ? "出库确认" : "出库单详情"' :isLooker="isDetails || isLooker"
                       @closeBtn="closeBtn" @clickSubmit="goAJAXCreate" width="1270px">
             <template slot="centerKuanjia">
                 <div class="centerBox" style="width: 1270px;">
@@ -399,6 +399,10 @@
                 type: Boolean,
                 default: false,
             },
+            isLooker: {
+                type: Boolean,
+                default: false
+            }
         },
         beforeDestroy() {
             sessionStorage.removeItem("sarehouseChuKuSure");

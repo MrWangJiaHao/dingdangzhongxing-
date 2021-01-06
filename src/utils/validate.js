@@ -47,7 +47,6 @@ export const isMaoHao = (value) => {
  * @param {*} fn 返回的函数
  */
 export const ajaxPost = (url, data, fn) => {
-
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, false);
     // 添加http头，发送信息至服务器时内容编码类型
@@ -162,6 +161,13 @@ export const getMarginConversion = (item) => {
     };
 }
 
+/**
+ *
+ * @param arr
+ * @param target
+ * @returns {[]}
+ * @private
+ */
 export const _getArrTarget = (arr, target) => {
     let needArr = [];
     arr.forEach((item) => {
@@ -198,16 +204,22 @@ export const _getExportExcels = (res, biaoti = "入库") => {
 
 /**
  * 这个函数用来解决table无法渲染的问题
- * @param {*} i
+ * @param data
+ * @returns {*}
+ * @private
  */
 export const _TableXuanRaRequest = (data) => {
     var datas = JSON.stringify(this.tabledata);
     data = [];
     data = JSON.parse(datas);
+    return data
 }
 
 /**
- * @param {*} i 判断json是否为空
+ * 判断json是否为空
+ * @param json
+ * @returns {boolean}
+ * @private
  */
 export const _isJsonEmpty = (json) => {
     var str = "{}";
@@ -291,11 +303,15 @@ export const clearTimeInput = () => {
     }
 }
 
-
 /**
- * 删除数组
+ *  * 删除数组
  * @param {*} data 要删除的数组
  * @param {*} target 要删除的数组里面的数组
+ * @param data
+ * @param target
+ * @param isAdd
+ * @returns {*|*[]}
+ * @private
  */
 export const _removeData = (data, target, isAdd = false) => {
     data = data || [];
@@ -332,10 +348,14 @@ export const getJsonTarget = (arr, target = 'id', jsonTarget = 'ids') => {
     return targetArr
 }
 
+
 /**
- * @param {*} nums  原本的长度
- * @param {*} arr 需要为10的数组长度
- * @param {*} maxnums 最长的数字
+ *
+ * @param nums 原本的长度
+ * @param arr 需要为10的数组长度
+ * @param maxnums 最长的数字
+ * @returns {*}
+ * @private
  */
 export const _addArrPush = (nums = 0, arr, maxnums = 10) => {
     if (nums == maxnums) return arr;
@@ -356,8 +376,10 @@ export const _typesStr = (str) => {
 
 /**
  * 数组去重
- * @param {*} array 数组
- * @param {*} key 去重的 key
+ * @param array数组
+ * @param key  去重的 key
+ * @returns {[*]}
+ * @constructor
  */
 export const Heavy = function (array, key) {
     var result = [array[0]];
@@ -453,16 +475,17 @@ export const _disposeStatus = (nums) => {
  * 删除语录
  * @param arr
  */
-export const clearArr = (arr) => {
+
+export const clearArr = (arr, msg = '删除') => {
     let str
     if (
         _typesStr(arr) != "Array"
     ) {
         return new Error("不是数组")
     } else if (arr.length == 1) {
-        str = "是否确定删除此信息"
+        str = "是否确定" + msg + "此信息"
     } else {
-        str = "是否确定删除这" + arr.length + "条信息"
+        str = "是否确定" + msg + "这" + arr.length + "条信息"
     }
     return str
 }
@@ -477,7 +500,6 @@ export const setSessageItem = (name, data) => {
 }
 
 /**
- *
  * @param {*} name 删除sess
  */
 export const removeSessageItem = (name) => {

@@ -127,7 +127,7 @@
                 zuhechanpinminxiJson: {
                     title: "加工作业计划",
                     tableDataJsonAndArr: {
-                        tabledata: [{}],
+                        tabledata: [{Sads: "sa"}],
                         typeData: [
                             {
                                 types: 'selection'
@@ -173,7 +173,8 @@
                                 },
                             },
                             {
-                                label: '实际完成作业数'
+                                label: '实际完成作业数',
+                                types: "Sads"
                             }
                         ],
                     },
@@ -182,7 +183,7 @@
                 zhuheChangeArrJson: {
                     title: "组合产品明细",
                     tableDataJsonAndArr: {
-                        tabledata: [{}],
+                        tabledata: [{prodCode: 'dsadsa'}],
                         typeData: [
                             {
                                 label: "序号",
@@ -224,7 +225,7 @@
                 chukuchangpinminxiJson: {
                     title: "出库产品明细",
                     tableDataJsonAndArr: {
-                        tabledata: [{}, {}],
+                        tabledata: [{prodCode: 'dsadsa'}],
                         typeData: [
                             {
                                 types: 'selection'
@@ -235,7 +236,8 @@
                                 types: "index"
                             },
                             {
-                                label: "产品编码"
+                                label: "产品编码",
+                                types: "prodCode",
                             },
                             {
                                 label: "产品名称"

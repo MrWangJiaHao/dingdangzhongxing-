@@ -2079,8 +2079,42 @@ export const pOrgProductsApp = {
         data,
         url: "/wbs-warehouse-manage/v1/pProcessWork/processFinish"
     }),
-    getAddfindProdByWares: (data) => getAddfindProdByWare(data).then(data => data)
-//仓库作业 end
+    getAddfindProdByWares: (data) => getAddfindProdByWare(data).then(data => data),
+    // 新增排期 /pProcessWorkWarePlan/saveRecord
+    pProcessWorkWarePlanSaveRecord: (data) => post({
+        data,
+        url: "/wbs-warehouse-manage/v1/pProcessWorkWarePlan/saveRecord "
+    }),
+    //仓库作业 end
+    //复核配置 start
+    // 复核管理 分页查询
+    pOrgPickOrderFindOrderPage: (data) => post({
+        data,
+        url: "/wbs-warehouse-manage/v1/pOrgPickOrder/findOrderPage"
+    }),
+    //复核管理 查询复核详情
+    pOrgOrderReCheckFindreCheckDetail: (data) => post({
+        data,
+        url: "/wbs-warehouse-manage/v1/pOrgOrderReCheck/findreCheckDetail"
+    }),
+    //查询复核履历  /wbs-warehouse-manage/v1/pOrgOrderReCheck/findreCheckOperation
+    pOrgOrderReCheckFindreCheckOperation: (data) => post({
+        data,
+        url: "/wbs-warehouse-manage/v1/pOrgOrderReCheck/findreCheckDetail"
+    }),
+    // 复核发货
+    //执行复核
+    pOrgOrderReCheckRecheck: (data) => post({
+        data,
+        url: "/wbs-warehouse-manage/v1/pOrgOrderReCheck/recheck"
+    }),
+    //查询发货单信息
+    ///wbs-warehouse-manage/v1/pOrgOrderReCheck/findSubOrderDetail
+    pOrgOrderReCheckFindSubOrderDetail: (data) => post({
+        data,
+        url: "/wbs-warehouse-manage/v1/pOrgOrderReCheck/findSubOrderDetail"
+    })
+    //复核配置 end
 }
 
 //=========================================货品移位 end ========================================

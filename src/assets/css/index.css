@@ -333,6 +333,7 @@ textarea {
     font-weight: normal;
     color: #454545;
     display: flex;
+    user-select: none;
     align-items: center;
 }
 
@@ -872,7 +873,7 @@ textarea {
 }
 
 .pt8 {
-   padding-top: 8px;
+    padding-top: 8px;
 }
 
 .is-disabled {

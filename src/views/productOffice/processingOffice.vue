@@ -24,6 +24,7 @@
             </div>
         </div>
         <!-- table - center -->
+
         <!-- 加工排期 start-->
         <div v-show="isShowChedule" class="bjBox">
             <transition enter-active-class="animate__animated animate__zoomIn"
@@ -42,11 +43,20 @@
             <createManagement :orderId="paiqiId" @closeFun="closeCreate"></createManagement>
         </div>
         <!-- 创建入库单 end -->
+
         <!--采购单 start-->
         <div class="bjBox" v-if="isShowShop">
             <createPurchasing :isCankuzuoye="true" @closeFn="purchasingClose"></createPurchasing>
         </div>
         <!--采购单 end-->
+        <div class="bjBox" v-if="zichankudetails">
+            <warehouseSure @closeDetails="closeChuKuFun" :isLooker="true"></warehouseSure>
+        </div>
+        <!--出库-->
+        <div class="bjBox" v-if="manageMentrukuSureShow">
+            <manageMentrukuSure @closeFun="closeFunSure" :isLooker="true"></manageMentrukuSure>
+        </div>
+        <!--入库-->
     </div>
 </template>
 
@@ -59,7 +69,9 @@
     import schedule from "./schedule";
     import createManagement from "../wareHouseIngManagement/createManagement";
     import createPurchasing from "../purchasingManagement/createPurchasing";
-    import {getCookie, getJsonTarget} from "../../utils/validate";
+    import {getCookie, _getArrTarget} from "../../utils/validate";
+    import warehouseSure from "../warehouseManagement/warehouseSure"; //出库单号
+    import manageMentrukuSure from "../wareHouseIngManagement/manageMentrukuSure"; //入库单号
 
     export default {
         name: "processingOffice",
@@ -70,7 +82,9 @@
             centerBtnArr,
             schedule,
             createManagement,
-            createPurchasing
+            createPurchasing,
+            warehouseSure,
+            manageMentrukuSure
         },
         data() {
             let self = this
@@ -79,6 +93,8 @@
                 isShowChedule: false,// 加工排期
                 isShowwareOut: false, //入库单
                 isShowShop: false,//转采购
+                zichankudetails: false, //出库
+                manageMentrukuSureShow: false, //入库
                 paiqiId: "",
                 btnArr: [
                     {
@@ -109,8 +125,8 @@
                                 type: "warning",
                                 message: "请选择要强制完成的列表"
                             })
-                            let arr = getJsonTarget(self.tableDataJson.dataResult)
-                            self._otherWancheng(arr)
+                            let arr = _getArrTarget(self.tableDataJson.dataResult, 'id')
+                            self._otherWancheng({ids: arr})
                         },
                         class: "mr10 bianjiUser"
                     },
@@ -149,14 +165,14 @@
                                 type: "warning",
                                 message: "请选择要删除的的列表"
                             })
-                            let arr = getJsonTarget(self.tableDataJson.dataResult)
-                            self._delData(arr)
+                            let arr = _getArrTarget(self.tableDataJson.dataResult)
+                            self._delData({ids: arr})
                         },
                         class: "remove"
                     }
                 ],
                 xiaodeDataJson: {
-                    tabledata: [],
+                    tabledata: [{inWareNo: "asdasdsa", outWareNo: "asdasda"}],
                     typeData: [
                         {
                             types: 'selection'
@@ -208,11 +224,21 @@
                         },
                         {
                             label: "出库单号",
-                            types: "inWareNo"
+                            types: "inWareNo",
+                            flag: 'puton',
+                            OnClicks: (res) => {
+                                console.log(res)
+                                self.zichankudetails = true
+                            }
                         },
                         {
                             label: "入库单号",
-                            types: "outWareNo"
+                            types: "outWareNo",
+                            flag: 'puton',
+                            OnClicks: (res) => {
+                                console.log(res)
+                                self.manageMentrukuSureShow = true
+                            }
                         }
                     ],
                     dataResult: []
@@ -305,6 +331,12 @@
             this.getTableData()
         },
         methods: {
+            closeFunSure() {
+                this.manageMentrukuSureShow = false
+            },
+            closeChuKuFun() {
+                this.zichankudetails = false
+            },
             purchasingClose() {
                 this.isShowShop = false
             },
@@ -317,7 +349,6 @@
                 this.tableDataJson.dataResult = e
             },
             clickEventsOuter(e) {
-                this.xiaodeDataJson.tabledata = []
                 this.getDetailDatas(e.id)
             },
             closeBtn() {
@@ -346,6 +377,7 @@
             },
             async getDetailDatas(id) {
                 let data = await this.$pOrgProductsApp.pProcessWorkWarePlanFindRecord({id})
+                this.xiaodeDataJson.tabledata = []
                 if (data.code == "10000") {
                     this._changeDataInner(data.result)
                 } else {
@@ -423,10 +455,10 @@
                 }).catch(err => err)
             },
             _otherWancheng(arr) {
-                this.$messageSelf.confirms(this.$clearArr(arr), "提示", {
-                    type: "warning"
+                this.$messageSelf.confirms(this.$clearArr(arr, "强制完成"), "提示", {
+                    type: "info"
                 }).then(async () => {
-                    let data = await this.$pOrgProductsApp.pProcessWorkWarePlanDelRecord(arr)
+                    let data = await this.$pOrgProductsApp.pProcessWorkProcessFinish(arr)
                     if (data.code == "10000") {
                         this.$messageSelf.message({
                             type: "success",
@@ -458,17 +490,22 @@
     .el-table__expand-icon
     .el-icon.el-icon-arrow-right::before {
         content: "+";
+        color: #000;
+        font-size: 16px;
+        font-weight: bold;
     }
 
     .el-table__expand-icon.el-table__expand-icon--expanded
     .el-icon.el-icon-arrow-right::before {
-        content: " ";
-        display: inline-block;
-        width: 8px;
-        height: 0.5px;
-        background: #2f4646;
-        position: relative;
-        top: -8px;
+        content: "";
+          display:  inline-block;
+          width:  8px;
+          height:  2px;
+          background:   #000;
+          line-height:  20px;
+          position:  absolute;
+          top:  10px;
+          left:  27px;
     }
 
     .remove {

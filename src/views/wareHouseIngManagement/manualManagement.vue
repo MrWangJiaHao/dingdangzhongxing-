@@ -1,9 +1,7 @@
 <template>
     <div>
         <div class="manualBox">
-            <div>
-                <manualHeader @getParasJson="getParasJson" :tableData="tableData"/>
-            </div>
+            <manualHeader @getParasJson="getParasJson" :tableData="tableData"/>
             <div class="btnArr">
                 <div class="backFF">
                     <div class="meiyiyetitle">入库管理</div>

@@ -78,7 +78,8 @@ function getLodop(oOBJECT, oEMBED) {
         if (needCLodop()) {
             try {
                 LODOP = getCLodop();
-            } catch (err) { }
+            } catch (err) {
+            }
             if (!LODOP && document.readyState !== "complete") {
                 alert("网页还没下载完毕，请稍等一下再操作.");
                 return;
@@ -132,7 +133,6 @@ function getLodop(oOBJECT, oEMBED) {
             return LODOP;
         }
         //===如下空白位置适合调用统一功能(如注册语句、语言选择等):==
-
 
 
         //=======================================================
