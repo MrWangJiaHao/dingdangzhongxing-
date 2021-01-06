@@ -1,12 +1,12 @@
 <template>
     <div>
         <div class="setUserIngBoxCenter">
-            <kuanjiaClick :titles='!edif ? "编辑采购单" : "创建采购单"' @closeBtn="closeBtn" @clickSubmit="goAJAXCreate">
+            <kuanjiaClick :titles='isCankuzuoye?"创建采购单":edif ? "创建采购单" : "编辑采购单"' @closeBtn="closeBtn"
+                          @clickSubmit="goAJAXCreate">
                 <template slot="centerKuanjia">
-
                     <div class="p20 botD1 ">
                         <div class="setTitle">
-                            {{ !edif ? "编辑采购单" : "创建采购单" }}
+                            {{ isCankuzuoye?"创建采购单":edif ? "创建采购单" : "编辑采购单" }}
                         </div>
                         <div class="gerxinxiBox">
                             <div class="xinxiBitian">
@@ -240,10 +240,7 @@
                     orgName: "",
                     childWareName: "",
                     expectedArrivalTime: "", //期望到货时间
-                    recommendSeatNo: [],
-                    id: (() => {
-                        return !this.edif ? this.editDataJson.id : "";
-                    })(), //编辑
+                    recommendSeatNo: []
                 },
                 tables: [],
                 edif: false,
@@ -256,6 +253,10 @@
                 default: () => {
                 },
             },
+            isCankuzuoye: {
+                type: Boolean,
+                default: false
+            }
         },
         async created() {
             this.edif = _isJsonEmpty(this.editDataJson);
@@ -278,6 +279,7 @@
                 }
             },
             changeEditData() {
+                this.createUserData.id = this.editDataJson.id  //编辑
                 this.companyJson.value = this.editDataJson.orgName;
                 this.createUserData = {...this.editDataJson};
                 this._getgetppPurchaseOrderFindRecord();
@@ -332,16 +334,20 @@
             //关闭
             closeBtn() {
                 console.log(sessionStorage.getItem("fromPage"));
-                if (sessionStorage.getItem("fromPage") === "stockoutIndentManage") {
-                    this.$router.push({
-                        path: "/indentManagement/stockoutIndentManage",
-                        query: {cancel: "cancel"},
-                    });
+                if (this.isCankuzuoye) {
+                    this.$emit('closeFn', true)
+                } else {
+                    if (sessionStorage.getItem("fromPage") === "stockoutIndentManage") {
+                        this.$router.push({
+                            path: "/indentManagement/stockoutIndentManage",
+                            query: {cancel: "cancel"},
+                        });
+                    }
+                    sessionStorage.removeItem("fromPage");
+                    sessionStorage.removeItem("_addTablesData");
+                    this.$parent._data.isCreatePurchasing = false;
                 }
-                sessionStorage.removeItem("fromPage");
 
-                this.$parent._data.isCreatePurchasing = false;
-                sessionStorage.removeItem("_addTablesData");
             },
             handleSelectionChange(e) {
                 this.multipleSelection = e;

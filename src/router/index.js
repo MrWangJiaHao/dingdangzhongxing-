@@ -59,7 +59,15 @@ const routes = [{
                 keepAlive: true
             },
         },
-
+        {
+            //仓库配置=>区域管理=>创建子仓
+            path: "/warehoseconfig/editWarehouseConfig",
+            name: "/warehoseconfig/editWarehouseConfig",
+            component: () => import("../views/warehoseConfig/editWarehouseConfig"),
+            meta: {
+                keepAlive: false
+            },
+        },
         {
             //仓库配置=>区域管理=>创建子仓
             path: "/warehoseconfig/createWarehouseConfig",
@@ -602,7 +610,7 @@ const routes = [{
             },
         },
         //----------------------------------------------------------库存管理结束-------------------------------------------------------------------------------------
-        
+
         //----------------------------------------------------------库存盘点开始-------------------------------------------------------------------------------------
         {
             // 库存盘点=>盘点计划管理
@@ -659,7 +667,7 @@ const routes = [{
             },
         },
         //----------------------------------------------------------库存盘点结束-------------------------------------------------------------------------------------
-        
+
         //----------------------------------------------------------仓库作业 start-------------------------------------------------------------------------------------
 
 
@@ -810,15 +818,7 @@ const routes = [{
             keepAlive: true
         },
     },
-    {
-        //仓库配置=>区域管理=>创建子仓
-        path: "/warehoseconfig/editWarehouseConfig",
-        name: "/warehoseconfig/editWarehouseConfig",
-        component: () => import("../views/warehoseConfig/editWarehouseConfig"),
-        meta: {
-            keepAlive: false
-        },
-    },
+
     //
     //默认进入登录页
     {

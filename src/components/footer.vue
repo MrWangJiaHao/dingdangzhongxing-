@@ -99,7 +99,7 @@
             this.datares()
         },
         mounted() {
-            document.onclick=()=>{
+            document.onclick = () => {
                 this.display = false;
             }
         },
@@ -134,6 +134,7 @@
                 this.moveStart()
             },
             changeLength() {
+                if (this.isShowXiaoXiLeiBiao) return
                 this.content = this.xiaoxiArr[this.idx ? this.idx - 1 : 0].content;
                 this.title = this.xiaoxiArr[this.idx ? this.idx - 1 : 0].title
                 this.readTime = this.xiaoxiArr[this.idx ? this.idx - 1 : 0].readTime;
@@ -164,9 +165,8 @@
                 }, 500)
             },
             loginOutMeg() {
-                this.datares(event)
+                this.datares()
                 this.display = !this.display;
-                event.stopPropagation();
             },
             moveStart() {
                 this.$nextTick(() => {
