@@ -99,14 +99,13 @@
             ></el-input>
           </div>
         </div>
+        <div class="footerBtn">
+          <div class="backBtn" @click="back">返回</div>
+          <div class="submitBtn" @click="submit">提交</div>
+        </div>
       </div>
     </div>
-    <div class="footerBtnBox">
-      <div class="backBtnBox">
-        <div class="backBtn" @click="back">返回</div>
-        <div class="submitBtn" @click="submit">提交</div>
-      </div>
-    </div>
+    
   </div>
 </template>
 

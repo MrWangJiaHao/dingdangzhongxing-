@@ -123,7 +123,7 @@
               type="selection"
               width="82"
               align="center"
-               fixed="left"
+              fixed="left"
             ></el-table-column>
             <el-table-column
               label="序号"
@@ -163,19 +163,17 @@
             ></pagecomponent>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="footerBtnBox">
-      <div class="backBtnBox">
-        <div class="backBtn" @click="back">返回</div>
-        <div class="submitBtn" @click="submit">提交</div>
+        <div class="footerBtn">
+          <div class="backBtn" @click="back">返回</div>
+          <div class="submitBtn" @click="submit">提交</div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  /*eslint-disable*/
+/*eslint-disable*/
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { storeMapRelation } from "../../api/api";
 import { reduceFun } from "../../utils/validate";
@@ -326,7 +324,10 @@ export default {
     },
     submit() {
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message({message:"请选择报损的产品",type:"warning"});
+        return this.$messageSelf.message({
+          message: "请选择报损的产品",
+          type: "warning",
+        });
       this.$router.push({
         path: "/breakageManagement/createBreakageOrder",
         query: { val: this.multipleSelection, type: "addProd" },

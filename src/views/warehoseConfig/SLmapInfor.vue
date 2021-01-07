@@ -293,13 +293,9 @@
         </div>
       </div>
     </div>
-    <div class="submitBtn">
-      <div class="submitBtnBox">
-        <el-button @click="goBack" class="canclBtn">返 回</el-button>
-        <el-button type="primary" @click="submitData" class="queryBtn"
-          >提 交</el-button
-        >
-      </div>
+    <div class="footerBtn">
+      <div class="backBtn" @click="back">返回</div>
+      <div class="submitBtn" @click="submit">提交</div>
     </div>
   </div>
 </template>
@@ -723,7 +719,7 @@ export default {
         }
       });
     },
-    goBack() {
+    back() {
       //返回按钮
       this.$router.go(-1);
     },
@@ -744,7 +740,7 @@ export default {
         }
       });
     },
-    submitData() {
+    submit() {
       //提交按钮
       if (this.choosedKuWeiData.length > 0) {
         this.choosedKuWeiData.forEach((v) => {
@@ -911,38 +907,8 @@ export default {
       }
     }
   }
-  .bindPickKuwei {
-    border-bottom: 1px solid #d1d6e2;
-  }
-  .submitBtn {
-    width: 100%;
-    height: 76px;
-    background: white;
-    display: flex;
-    align-items: center;
-    position: relative;
-    .submitBtnBox {
-      position: absolute;
-      right: 16px;
-      bottom: 20px;
-    }
-  }
+  
 }
 
-.queryBtn {
-  @include BtnFunction("success");
-}
-.canclBtn {
-  @include BtnFunction("");
-  background: white;
-}
-</style>
-<style lang="scss">
-#mapInfor {
-  .submitBtnBox {
-    .el-button:nth-of-type(1) {
-      border: 1px solid #d1d6e2;
-    }
-  }
-}
+
 </style>

@@ -141,12 +141,10 @@
         </el-input>
       </div>
     </div>
-    <div class="submitBtn">
-      <div class="submitBtnBox">
-        <div class="quxiaoBox" @click="goBack">取 消</div>
-        <div class="submitBtn" @click="submitData">提 交</div>
-      </div>
-    </div>
+    <div class="footerBtn">
+          <div class="backBtn" @click="back">返回</div>
+          <div class="submitBtn" @click="submit">提交</div>
+        </div>
   </div>
 </template>
 
@@ -283,10 +281,10 @@ export default {
         oDiv.append(childDiv);
       }
     },
-    goBack() {
+    back() {
       this.$router.replace("/warehoseconfig/childWarehouseAdmin");
     },
-    submitData() {
+    submit() {
       if (this.input1 === "") {
         return this.$messageSelf.message({
           type: "error",
@@ -427,7 +425,6 @@ export default {
   .setChildWarehouse {
     background: white;
     padding: 20px;
-    border-bottom: 1px solid #d1d6e2;
     .pageTitle {
       height: 32px;
       display: flex;
@@ -483,27 +480,7 @@ export default {
       align-items: center;
     }
   }
-  .submitBtn {
-    width: 100%;
-    height: 76px;
-    background: white;
-    display: flex;
-    align-items: center;
-    position: relative;
-    .submitBtnBox {
-      display: flex;
-      position: absolute;
-      right: 20px;
-      bottom: 20px;
-      .quxiaoBox {
-        @include BtnFunction();
-        margin-right: 10px;
-      }
-      .submitBtn {
-        @include BtnFunction("success");
-      }
-    }
-  }
+
   span {
     white-space: nowrap;
   }

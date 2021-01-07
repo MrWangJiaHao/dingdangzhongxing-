@@ -72,8 +72,8 @@
         </div>
       </div>
     </div>
-    <div class="backBtnBox">
-      <div class="quxiaoBox" @click="back">关闭</div>
+     <div class="footerBtn">
+      <div class="backBtn" @click="back">关闭</div>
     </div>
   </div>
 </template>
@@ -142,18 +142,7 @@ export default {
       }
     }
   }
-  .backBtnBox {
-    width: 100%;
-    height: 78px;
-    border-top: 1px solid #d1d6e2;
-    background: #fff;
-    display: flex;
-    justify-content: flex-end;
-    .quxiaoBox {
-      margin: 20px;
-      @include BtnFunction();
-    }
-  }
+
   table {
     width: 100%;
   }

@@ -75,7 +75,7 @@
               type="selection"
               width="82"
               align="center"
-               fixed="left"
+              fixed="left"
             ></el-table-column>
             <el-table-column
               label="序号"
@@ -92,17 +92,18 @@
               align="center"
             >
             </el-table-column>
-            <el-table-column
-              prop="materielName"
-              label="物料名称"
-              align="left"
-            >
+            <el-table-column prop="materielName" label="物料名称" align="left">
             </el-table-column>
             <el-table-column prop="specName" label="物料规格" align="center">
             </el-table-column>
             <el-table-column prop="braName" label="品牌" align="center">
             </el-table-column>
-            <el-table-column prop="supName" label="供应商" align="center" show-overflow-tooltip>
+            <el-table-column
+              prop="supName"
+              label="供应商"
+              align="center"
+              show-overflow-tooltip
+            >
             </el-table-column>
             <el-table-column
               prop="actualInventory"
@@ -119,12 +120,10 @@
             ></pagecomponent>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="footerBtnBox">
-      <div class="backBtnBox">
-        <div class="backBtn" @click="back">返回</div>
-        <div class="submitBtn" @click="submit">提交</div>
+        <div class="footerBtn">
+          <div class="backBtn" @click="back">返回</div>
+          <div class="submitBtn" @click="submit">提交</div>
+        </div>
       </div>
     </div>
   </div>
