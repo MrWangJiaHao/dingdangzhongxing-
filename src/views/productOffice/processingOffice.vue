@@ -96,6 +96,7 @@
                 zichankudetails: false, //出库
                 manageMentrukuSureShow: false, //入库
                 paiqiId: "",
+                isEdit: false,
                 btnArr: [
                     {
                         title: "创建入库单",
@@ -120,7 +121,6 @@
                     {
                         title: "完成",
                         onClick() {
-                            console.log(self.tableDataJson.dataResult.length)
                             if (!self.tableDataJson.dataResult.length) return self.$messageSelf.message({
                                 type: "warning",
                                 message: "请选择要强制完成的列表"
@@ -141,6 +141,7 @@
                             })
                             self.scheduleJson = self.tableDataJson.dataResult[0]
                             self.isShowChedule = true
+                            self.isEdit = false
                         },
                         class: "mr10 bianjiUser"
                     },
@@ -155,6 +156,7 @@
                             })
                             self.scheduleJson = self.tableDataJson.dataResult[0]
                             self.isShowChedule = true
+                            self.isEdit = true
                         },
                         class: "mr10 bianjiUser"
                     },
@@ -324,7 +326,7 @@
                     paras: {
                         orderType: 0
                     }
-                }
+                },
             }
         },
         created() {
@@ -349,6 +351,7 @@
                 this.tableDataJson.dataResult = e
             },
             clickEventsOuter(e) {
+                console.log(e)
                 this.getDetailDatas(e.id)
             },
             closeBtn() {
@@ -356,14 +359,22 @@
             },
             //提交
             clickSubmit(json) {
-                this.$pOrgProductsApp.pProcessWorkWarePlanSaveRecord(json).then((res => {
-                    if (res.code === '10000') {
-                        this.isShowChedule = false
-                        this.$messageSelf.message(res.msg)
-                    } else {
-                        this.$messageSelf.message(res.msg)
-                    }
-                }))
+                if (this.isEdit) { //是编辑
+                    this._editpProcessWorkWarePlanEditRecordFun(json).then(res => {
+                        this.$messageSelf.isCode10000(res, res.msg, res.msg, () => {
+                            this.isShowChedule = false
+                        })
+                    })
+                } else {
+                    this.$pOrgProductsApp.pProcessWorkWarePlanSaveRecord(json).then(res => {
+                        if (res.code === '10000') {
+                            this.isShowChedule = false
+                            this.$messageSelf.message(res.msg)
+                        } else {
+                            this.$messageSelf.message(res.msg)
+                        }
+                    })
+                }
             },
             clickQuery(e) {
                 let json = Object.assign({}, this.sendOutDataJson.paras, e)
@@ -436,8 +447,22 @@
                         break
                 }
             },
+            async _editpProcessWorkWarePlanEditRecordFun(json) {
+                let data = await this.$pOrgProductsApp.pProcessWorkWarePlanEditRecord(json)
+                if (data.code === '10000') {
+                    this.$messageSelf.message({
+                        type: "success",
+                        message: data.msg
+                    })
+                } else {
+                    this.$messageSelf.message({
+                        type: "error",
+                        message: data.msg
+                    })
+                }
+            },
             _delData(arr) {
-                this.$messageSelf.confirms(this.$clearArr(arr), "提示", {
+                this.$messageSelf.confirms(this.$clearArr(arr.ids), "提示", {
                     type: "warning"
                 }).then(async () => {
                     let data = await this.$pOrgProductsApp.pProcessWorkWarePlanDelRecord(arr)
@@ -455,7 +480,7 @@
                 }).catch(err => err)
             },
             _otherWancheng(arr) {
-                this.$messageSelf.confirms(this.$clearArr(arr, "强制完成"), "提示", {
+                this.$messageSelf.confirms(this.$clearArr(arr.ids, "强制完成"), "提示", {
                     type: "info"
                 }).then(async () => {
                     let data = await this.$pOrgProductsApp.pProcessWorkProcessFinish(arr)

@@ -440,6 +440,10 @@ textarea {
     display: inline-block;
 }
 
+#app .titleBox {
+    padding: 12px 10px 12px 0;
+}
+
 .titleBox {
     font-size: 14px;
     font-family: Hiragino Sans GB;
@@ -959,6 +963,14 @@ textarea {
     border: 1px solid #D1D6E2;
     border-top: none;
 
+}
+
+.mr60 {
+    margin-right: 60px;
+}
+
+.backD1 {
+    background: #D1D6E2;
 }
 
 .w980 {

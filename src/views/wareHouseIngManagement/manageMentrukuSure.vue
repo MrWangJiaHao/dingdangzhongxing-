@@ -1,7 +1,7 @@
 <template>
     <div class="setUserIngBox" id="manageMenyrukuSures">
         <kuanjiaClick :titles='!isrukuDetails ? "入库确认" : "入库详情"' @closeBtn="closeBtn"
-                      :is-looker="q || isLooker" width="1260" @clickSubmit="goAJAXCreate">
+                      :is-looker="isLooker || isLooker" width="1260" @clickSubmit="goAJAXCreate">
             <template slot="centerKuanjia">
                 <div class="p20 botD1">
                     <div class="setTitle mb20">
@@ -324,30 +324,30 @@
                     placeholder: "请选择入库时间",
                 },
                 rukuSure: {
-                    入库单号: () => this.listJson.putWareNo,
-                    委托公司: () => this.listJson.orgName,
+                    入库单号: () => this.listJson.putWareNo || '———',
+                    委托公司: () => this.listJson.orgName || '———',
                     入库状态: () => (this.listJson.putstatus ? "已入库" : "未入库"),
-                    入库类型: () => this.WarehousingTypeArr,
+                    入库类型: () => this.WarehousingTypeArr || '———',
                     "*入库人": "",
                     "*入库时间": "",
                     "*批次号": "",
-                    关联单号: () => this.listJson.orderNo,
+                    关联单号: () => this.listJson.orderNo || '———',
                 },
                 rukuDetailJson: {
-                    入库单号: () => this.listJson.putWareNo,
-                    委托公司: () => this.listJson.orgName,
+                    入库单号: () => this.listJson.putWareNo || '———',
+                    委托公司: () => this.listJson.orgName || '———',
                     入库状态: () => (this.listJson.putstatus ? "已入库" : "未入库"),
                     期望到货时间: () =>
                         this.listJson.expectedSendTime
                             ? this.listJson.expectedSendTime
-                            : "--",
+                            : "———",
                     实际到货时间: () =>
-                        this.listJson.arrivalTime ? this.listJson.arrivalTime : "--",
+                        this.listJson.arrivalTime ? this.listJson.arrivalTime : "———",
                     入库批次号: () =>
-                        this.listJson.batchNo ? this.listJson.batchNo : "--",
-                    入库人: () => (this.listJson.putUser ? this.listJson.putUser : "--"),
+                        this.listJson.batchNo ? this.listJson.batchNo : "———",
+                    入库人: () => (this.listJson.putUser ? this.listJson.putUser : "———"),
                     入库时间: () =>
-                        this.listJson.putStartTime ? this.$route.query.putStartTime : "--",
+                        this.listJson.putStartTime ? this.$route.query.putStartTime : "———",
                 },
                 multipleSelection: [],
                 tabledata: [],
@@ -359,7 +359,7 @@
                 kueirArr: [],
                 createUserData: {
                     expectedSendTime: "",
-                    orderSource: (() => this.orderSources)(), //订单类型(0-手工创建；1-渠道创建 2-预入库 3-采购 4-库建调拨 5-加工作业 6-分解作业 7-退货 8-盘盈 9-其他）
+                    orderSource: (() => this.orderSources || '———')(), //订单类型(0-手工创建；1-渠道创建 2-预入库 3-采购 4-库建调拨 5-加工作业 6-分解作业 7-退货 8-盘盈 9-其他）
                     orgName: "",
                     orgId: "",
                     remark: "",
@@ -371,14 +371,14 @@
                     id: "",
                     operatorType: 3,
                     childWareId: "",
-                    wareId: this.$cookie.get("X-Auth-wareId"),
+                    wareId: this.$cookie.get("X-Auth-wareId") || '',
                 },
                 getProvinceData: {
                     parentCode: 0,
                 },
                 prodUnitData: [],
                 tables: [],
-                listJson: JSON.parse(sessionStorage.getItem("listArrs")),
+                listJson: JSON.parse(sessionStorage.getItem("listArrs")) || [],
                 rowTable: 0,
                 isrukuDetails: false,
                 Index: null,
@@ -478,7 +478,6 @@
                     this.tabledata = _removeData(this.tabledata, this.multipleSelection, true)
                 }
             },
-
             getDateSelectTime(e) {
                 this.tabledata[+this.rowTable].manuTime = e;
             },
@@ -794,4 +793,4 @@
             @include BtnFunction("success");
         }
     }
-</style>    
+</style>

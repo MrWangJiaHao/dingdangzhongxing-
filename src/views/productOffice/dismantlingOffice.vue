@@ -1,4 +1,5 @@
 <template>
+
     <div>
         <processingHeader @clickQuery="clickQuery" @clearInput="clearInput"></processingHeader>
         <centerBtnArr title="拆解作业" :btnArr="btnArr"></centerBtnArr>
@@ -34,7 +35,16 @@
             <createManagement :orderId="paiqiId" @closeFun="closeCreate"></createManagement>
         </div>
         <!--入库单-->
+        <div class="bjBox" v-if="zichankudetails">
+            <warehouseSure @closeDetails="closeChuKuFun" :isLooker="true"></warehouseSure>
+        </div>
+        <!--出库-->
+        <div class="bjBox" v-if="manageMentrukuSureShow">
+            <manageMentrukuSure @closeFun="closeFunSure" :isLooker="true"></manageMentrukuSure>
+        </div>
+        <!--入库-->
     </div>
+
 </template>
 
 <script>
@@ -45,8 +55,9 @@
     import centerBtnArr from '../../components/centerBtnArr'
     import schedule from "./schedule";
     import createManagement from "../wareHouseIngManagement/createManagement";
-    import {getJsonTarget} from "../../utils/validate";
-
+    import {_getArrTarget} from "../../utils/validate";
+    import warehouseSure from "../warehouseManagement/warehouseSure"; //出库单号
+    import manageMentrukuSure from "../wareHouseIngManagement/manageMentrukuSure"; //入库单号
     export default {
         name: "dismantlingOffice",
         components: {
@@ -56,14 +67,18 @@
             centerBtnArr,
             schedule,
             createManagement,
-            warehouseSure
+            warehouseSure,
+            manageMentrukuSure
         },
         data() {
             let self = this
             return {
+                zichankudetails: false,
+                manageMentrukuSureShow: false,
                 title: "分解排期",
                 isShowChedule: false,
                 isShowwareOut: false,
+                isEdit: false,
                 scheduleJson: {},
                 paiqiId: "",
                 btnArr: [
@@ -87,8 +102,8 @@
                                 type: "warning",
                                 message: "请选择要强制完成的列表"
                             })
-                            let arr = getJsonTarget(self.tableDataJson.dataResult)
-                            self._otherWancheng(arr)
+                            let arr = _getArrTarget(self.tableDataJson.dataResult)
+                            self._otherWancheng({ids: arr})
                         },
                         class: "mr10 bianjiUser"
                     },
@@ -103,13 +118,22 @@
                             })
                             self.scheduleJson = self.tableDataJson.dataResult[0]
                             self.isShowChedule = true
+                            self.isEdit = false
                         },
                         class: "mr10 bianjiUser"
                     },
                     {
                         title: "编辑",
                         onClick() {
-
+                            if (!self.tableDataJson.dataResult.length
+                                ||
+                                self.tableDataJson.dataResult.length != 1) return self.$messageSelf.message({
+                                type: 'warning',
+                                message: "请选择要编辑的列表,并且只能选择一个进行编辑"
+                            })
+                            self.scheduleJson = self.tableDataJson.dataResult[0]
+                            self.isShowChedule = true
+                            self.isEdit = true
                         },
                         class: "mr10 bianjiUser"
                     },
@@ -120,8 +144,8 @@
                                 type: "warning",
                                 message: "请选择要删除的的列表"
                             })
-                            let arr = getJsonTarget(self.tableDataJson.dataResult)
-                            self._delData(arr)
+                            let arr = _getArrTarget(self.tableDataJson.dataResult)
+                            self._delData({ids: arr})
                         },
                         class: "remove"
                     }
@@ -214,23 +238,49 @@
                         },
                         {
                             label: "结束时间",
+                            flag: "date",
+                            drop: "endTime",
+                            dateTimeData: {
+                                placeholder: "请选择开始时间",
+                                disabled: true,
+                                w320: "w150",
+                            },
+                            getDateTime() {
+                            }
                         },
                         {
                             label: "分解作业数量",
+                            flag: "input",
+                            drop: "prodNum",
+                            disabled: true
                         },
                         {
                             label: "分配人数",
+                            flag: "input",
+                            drop: "userNum",
+                            disabled: true
                         },
                         {
                             label: "实际完成分解数",
+                            types: 'actualProdNum'
                         },
                         {
                             label: "出库单号",
+                            types: "inWareNo",
+                            flag: 'puton',
+                            OnClicks: () => {
+                                self.zichankudetails = true
+                            }
                         },
                         {
                             label: "入库单号",
+                            types: "outWareNo",
+                            flag: 'puton',
+                            OnClicks: () => {
+                                self.manageMentrukuSureShow = true
+                            }
                         }],
-                    tabledata: [],
+                    tabledata: [{inWareNo: "asdasdsa", outWareNo: "asdasda"}],
                     dataResult: []
                 },
                 sendOutDataJson: {
@@ -249,6 +299,13 @@
             this.getTableData()
         },
         methods: {
+            closeChuKuFun() {
+                this.zichankudetails = false
+            },
+            closeFunSure() {
+                this.manageMentrukuSureShow = false
+
+            },
             closeCreate(e) {
                 this.isShowwareOut = false
             },
@@ -279,8 +336,22 @@
                 this.isShowChedule = false
             },
             clickSubmit(json) {
-                console.log(json)
-                // this.isShowChedule = false
+                if (this.isEdit) { //是编辑
+                    this._editpProcessWorkWarePlanEditRecordFun(json).then(res => {
+                        this.$messageSelf.isCode10000(res, res.msg, res.msg, () => {
+                            this.isShowChedule = false
+                        })
+                    })
+                } else {
+                    this.$pOrgProductsApp.pProcessWorkWarePlanSaveRecord(json).then(res => {
+                        if (res.code === '10000') {
+                            this.isShowChedule = false
+                            this.$messageSelf.message(res.msg)
+                        } else {
+                            this.$messageSelf.message(res.msg)
+                        }
+                    })
+                }
             },
             clickQuery(e) {
                 let json = Object.assign({}, this.sendOutDataJson, e)
@@ -339,7 +410,7 @@
                 }
             },
             _delData(arr) {
-                this.$messageSelf.confirms(this.$clearArr(arr), "提示", {
+                this.$messageSelf.confirms(this.$clearArr(arr.ids), "提示", {
                     type: "warning"
                 }).then(async () => {
                     let data = await this.$pOrgProductsApp.pProcessWorkWarePlanDelRecord(arr)
@@ -357,7 +428,7 @@
                 }).catch(err => err)
             },
             _otherWancheng(arr) {
-                this.$messageSelf.confirms(this.$clearArr(arr, "强制完成"), "提示", {
+                this.$messageSelf.confirms(this.$clearArr(arr.ids, "强制完成"), "提示", {
                     type: "info"
                 }).then(async () => {
                     let data = await this.$pOrgProductsApp.pProcessWorkProcessFinish(arr)

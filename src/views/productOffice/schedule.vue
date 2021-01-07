@@ -5,21 +5,17 @@
                 <dindanxiangq :title="titles"
                               :detailsArr="isJiaGonOffice?caijieDetailArrs:addDetatilArrs"></dindanxiangq>
                 <!--排期-->
-                <div>
-                    <chanpinmingxi :chanpinminxiJson="zhuheChangeArrJson"
-                                   @tableSelectArrs="zhuhechanpinmingxitableSelectArrs"></chanpinmingxi>
-                </div>
+                <chanpinmingxi :chanpinminxiJson="zhuheChangeArrJson"
+                               @tableSelectArrs="zhuhechanpinmingxitableSelectArrs"></chanpinmingxi>
                 <!--组合产品明细-->
 
-                <div>
-                    <chanpinmingxi :chanpinminxiJson="zuhechanpinminxiJson"
-                                   @tableSelectArrs="zuhechanpinminxiJsontableSelectArrs">
-                        <template>
-                            <div class="inline mr10 bianjiUser"> {{btnCenters}}</div>
-                            <div class="inline remove">删除</div>
-                        </template>
-                    </chanpinmingxi>
-                </div>
+                <chanpinmingxi :chanpinminxiJson="zuhechanpinminxiJson"
+                               @tableSelectArrs="zuhechanpinminxiJsontableSelectArrs">
+                    <template>
+                        <div class="inline mr10 bianjiUser"> {{btnCenters}}</div>
+                        <div class="inline remove">删除</div>
+                    </template>
+                </chanpinmingxi>
                 <!--分解作业计划-->
                 <div class="mb20 chukuchanpingminxi ">
                     <chanpinmingxi :chanpinminxi-json="chukuchangpinminxiJson"
@@ -31,6 +27,7 @@
 </template>
 
 <script>
+    /*eslint-disable*/
     import kuanjiaClick from "../../components/commin/kuanjiaClick";
     import dindanxiangq from "../../components/commin/dindanxiangq";
     import chanpinmingxi from "../../components/commin/chanpinmingxi";
@@ -240,35 +237,44 @@
                                 types: "prodCode",
                             },
                             {
-                                label: "产品名称"
-                            },
-                            {
-                                label: "产品规格"
-                            },
-                            {
-                                label: "品牌"
-                            },
-                            {
-                                label: "低库存预警值",
-                                width: 150
+                                label: "产品名称",
+                                types: "prodName",
 
                             },
                             {
+                                label: "产品规格",
+                                types: "specName",
+
+                            },
+                            {
+                                label: "品牌",
+                                types: "braName",
+
+                            },
+                            {
+                                label: "低库存预警值",
+                                width: 150,
+                                types: 'prodNum'
+                            },
+                            {
                                 label: "推荐库位可用库存",
-                                width: 180
+                                width: 180,
 
                             },
                             {
                                 label: "申请出库数量",
-                                width: 170
+                                width: 170,
+                                types: "prodNum"
 
                             },
                             {
-                                label: "推荐库位"
+                                label: "推荐库位",
+                                types: "actualSeatNo"
+
                             }
                         ],
                     },
-                    selections: [{}]
+                    selections: []
                 },
                 chanpingJson: {}
             }

@@ -433,6 +433,7 @@
                     wareId: data.wareId,
                 };
                 let arr = await getppPurchaseOrderFindRecord(detailData);
+
                 if (arr.code == "10000") {
                     arr = arr.result;
                     this.detailsData = arr;

@@ -34,6 +34,50 @@ class messageSelf {
     }
 
     /**
+     * 判断是否成功
+     */
+    isCode10000(data, successMsg, errorMsg, successFun, errorFun) {
+        if (data.code === '10000') {
+            this.message({
+                type: "success",
+                message: successMsg || data.msg
+            })
+            successFun && successFun()
+        } else {
+            this.message({
+                type: "error",
+                message: errorMsg || data.msg
+            })
+            errorFun && errorFun()
+        }
+    }
+
+    /**
+     * 获取数据
+     */
+    isCodeData10000(data, successCallback, errorFun) {
+        if (data.code === '10000') {
+            successCallback && successCallback()
+        } else {
+            errorFun && errorFun()
+        }
+    }
+
+    /**
+     * get table
+     */
+    isTableCode(data, successCallback) {
+        if (data.code === '10000') {
+            successCallback && successCallback()
+        } else {
+            this.message({
+                type: "error",
+                message: errorMsg || data.msg
+            })
+        }
+    }
+
+    /**
      * 判断数据类型
      * @param {*} str
      */
@@ -58,7 +102,10 @@ class messageSelf {
             fn && fn(data)
             return data.result
         } else {
-            return this.message(data.msg)
+            return this.message({
+                type: 'error',
+                message: data.msg,
+            })
         }
     }
 }

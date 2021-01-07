@@ -3,7 +3,7 @@
         <kuanjiaClick :titles='!isDetails ? "出库确认" : "出库单详情"' :isLooker="isDetails || isLooker"
                       @closeBtn="closeBtn" @clickSubmit="goAJAXCreate" width="1270px">
             <template slot="centerKuanjia">
-                <div class="centerBox" style="width: 1270px;">
+                <div class="centerBox botD1" style="width: 1270px;">
                     <div class="setTitle">{{ !isDetails ? "出库确认" : "出库单详情" }}</div>
                     <div class="gerxinxiBox">
                         <div class="xinxiBitian">
@@ -65,7 +65,6 @@
                     </div>
                 </div>
                 <!-- 个人信息 -->
-
                 <div id="bjTableWraper " class="ptb3020 mb20">
                     <div class="clearfix">
                         <div class="setTitle fl">产品明细</div>
@@ -236,12 +235,7 @@
         </div>
     </div>
 </template>
-<style>
-    .centerBox {
-        border-bottom: 1px solid #d1d6e2;
-    }
 
-</style>
 <script>
     /*eslint-disable*/
     import dateTime from "../../components/commin/dateTime"; //用户管理下拉框
@@ -654,10 +648,6 @@
                 //获取创建的用户类型
                 this.createUserData.codeValue = e.codeValue;
                 this.createUserData.roleId = e.roleId;
-            },
-            async _getChanping() {
-                let datas = await getfindOrgProductPage(this.createUserData);
-                console.log(datas);
             },
             async _getFindWarehouseProduct(id) {
                 let datas = await getFindWarehouseProduct(id);

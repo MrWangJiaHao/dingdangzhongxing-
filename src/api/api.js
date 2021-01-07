@@ -1267,6 +1267,7 @@ export function createCheckOrder(data) {
         })
     })
 }
+
 //库存盘点=>盘点单管理=>删除盘点单
 export function delCheckOrder(data) {
     return new Promise((resolve, reject) => {
@@ -1281,6 +1282,7 @@ export function delCheckOrder(data) {
         })
     })
 }
+
 //库存盘点=>盘点单管理=>录入盘点记录
 export function enteringCheckRecord(data) {
     return new Promise((resolve, reject) => {
@@ -1295,6 +1297,7 @@ export function enteringCheckRecord(data) {
         })
     })
 }
+
 //库存盘点=>盘点单管理=>分页查询
 export function queryCheckOrder(data) {
     return new Promise((resolve, reject) => {
@@ -1309,6 +1312,7 @@ export function queryCheckOrder(data) {
         })
     })
 }
+
 //库存盘点=>盘点单管理=>查询盘点记录信息
 export function queryCheckOrderDetails(data) {
     return new Promise((resolve, reject) => {
@@ -1323,7 +1327,6 @@ export function queryCheckOrderDetails(data) {
         })
     })
 }
-
 
 
 /**
@@ -2157,6 +2160,11 @@ export const pOrgProductsApp = {
     pProcessWorkWarePlanSaveRecord: (data) => post({
         data,
         url: "/wbs-warehouse-manage/v1/pProcessWorkWarePlan/saveRecord "
+    }),
+    // /wbs-warehouse-manage/v1/pProcessWorkWarePlan/editRecord 修改作业
+    pProcessWorkWarePlanEditRecord: (data) => post({
+        data,
+        url: "/wbs-warehouse-manage/v1/pProcessWorkWarePlan/editRecord"
     }),
     //仓库作业 end
     //复核配置 start
