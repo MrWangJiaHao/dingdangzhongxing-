@@ -74,9 +74,10 @@
           </el-table-column>
         </el-table>
       </div>
-      <div class="backBtnBox">
-        <div class="quxiaoBox" @click="back">返回</div>
-      </div>
+     
+    </div>
+     <div class="footerBtn">
+      <div class="backBtn" @click="back">返回</div>
     </div>
   </div>
 </template>
@@ -166,7 +167,6 @@ export default {
     background: #fff;
     padding: 20px;
     .orderDetailBox {
-      margin-bottom: 20px;
       .orderDetail-title {
         font-size: 16px;
         position: relative;
@@ -180,13 +180,6 @@ export default {
         position: absolute;
         left: -25px;
         top: 3px;
-      }
-    }
-    .backBtnBox {
-     display: flex;
-      justify-content: flex-end;
-      .quxiaoBox {
-        @include BtnFunction();
       }
     }
   }

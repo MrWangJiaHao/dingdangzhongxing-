@@ -190,301 +190,323 @@
         </div>
       </div>
       <div class="resultForm">
-        <el-table
-          :data="tableData"
-          border
-          style="width: 100%"
-          @selection-change="handleSelectionChange"
-          :stripe="true"
-          tooltip-effect="dark"
-          @expand-change="expandChange"
-          :row-key="getRowKeys"
-          :expand-row-keys="expands"
-        >
-          <el-table-column type="expand" align="center" label="展开" width="82">
-            <template>
-              <div id="unfoldTable">
-                <div class="productTable" v-show="productTableShow">
-                  <el-table
-                    :data="productTableData"
-                    border
-                    style="width: 100%"
-                    :stripe="true"
-                    tooltip-effect="dark"
-                  >
-                    <el-table-column
-                      type="index"
-                      label="序号"
-                      width="71"
-                      align="center"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="orgName"
-                      label="委托公司"
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="prodCode"
-                      label="产品编号"
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="prodName"
-                      label="产品名称"
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="specName"
-                      label="产品规格"
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="braName"
-                      label="品牌"
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="num"
-                      label="系统库存"
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="realInventory"
-                      label="实际库存"
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="inventoryCount"
-                      label="差异"
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="inventoryStatus"
-                      label="盘点结果"
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="reason"
-                      label="原因"
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="actualStockTime"
-                      label="实际盘点时间"
-                      show-overflow-tooltip
-                      width="180"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="stockUser"
-                      label="盘点人"
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="reviseUser"
-                      label="订正人"
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="reviseTime"
-                      label="订正时间"
-                      show-overflow-tooltip
-                      width="180"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="reviseResult"
-                      label="订正结果"
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                  </el-table>
-                </div>
-                <div class="storelocaTable" v-show="storelocaTableShow">
-                  <el-table
-                    :data="storelocaTableData"
-                    border
-                    style="width: 100%"
-                    :stripe="true"
-                    tooltip-effect="dark"
-                  >
-                    <el-table-column
-                      label="序号"
-                      align="center"
-                      type="index"
-                      width="71"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="childWareName"
-                      label="子仓名称"
-                      align="center"
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="subOrderNo"
-                      label="区域类型"
-                      align="center"
-                      wareAreaType
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="orderContact"
-                      label="区域名称"
-                      align="center"
-                      wareAreaName
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="wareShelfName"
-                      label="货架名称"
-                      align="center"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="wareSeatCode"
-                      label="库位"
-                      show-overflow-tooltip
-                      align="center"
-                      width="180"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="prodCode"
-                      label="产品编码"
-                      align="center"
-                      width="180"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="prodName"
-                      label="产品名称"
-                      align="center"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="specName"
-                      label="产品规格"
-                      align="center"
-                    >
-                    </el-table-column>
-                    <el-table-column prop="braName" label="品牌" align="center">
-                    </el-table-column>
-                    <el-table-column prop="num" label="系统库存" align="center">
-                    </el-table-column>
-                    <el-table-column
-                      prop="realInventory"
-                      label="实际库存"
-                      align="center"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="inventoryCount"
-                      label="差异"
-                      align="center"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="inventoryStatus"
-                      label="盘点结果"
-                      align="center"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="reason"
-                      label="原因"
-                      align="center"
-                      show-overflow-tooltip
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="stockUser"
-                      label="盘点人"
-                      align="center"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="actualStockTime"
-                      label="实际盘点时间"
-                      width="180"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="reviseUser"
-                      label="订正人"
-                      align="center"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="reviseTime"
-                      label="订正时间"
-                      width="180"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                      prop="reviseResult"
-                      label="订正结果"
-                      align="center"
-                    >
-                    </el-table-column>
-                  </el-table>
-                </div>
-              </div>
-            </template>
-          </el-table-column>
-                    
-          <el-table-column type="selection" width="82" align="center" >
-          </el-table-column>
-          <el-table-column label="序号" align="center" type="index" width="71">
-          </el-table-column>
-          <el-table-column
-            prop="orgName"
-            label="委托公司"
-            show-overflow-tooltip
-            width="250"
+        <div class="tableDiv">
+          <el-table
+            :data="tableData"
+            border
+            style="width: 100%"
+            @selection-change="handleSelectionChange"
+            :stripe="true"
+            tooltip-effect="dark"
+            @expand-change="expandChange"
+            :row-key="getRowKeys"
+            :expand-row-keys="expands"
           >
-          </el-table-column>
-          <el-table-column
-            prop="stockNo"
-            label="盘点单"
-            align="center"
-            width="260"
-          >
-            <template slot-scope="scope">
-              <div class="lookDeatil" @click="lookCheckOrderInfor(scope.row)">
-                {{ scope.row.stockNo }}
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="stockType" label="盘点类型" align="center">
-          </el-table-column>
-          <el-table-column prop="stockStatus" label="盘点状态" align="center">
-          </el-table-column>
-          <el-table-column prop="createTime" label="创建时间" width="180">
-          </el-table-column>
-          <el-table-column prop="orderSource" label="创建类型" align="center">
-          </el-table-column>
-          <el-table-column prop="createUser" label="创建人"></el-table-column>
-          <el-table-column prop="startTime" label="盘点开始时间" width="180">
-          </el-table-column>
-          <el-table-column prop="endTime" label="盘点结束时间" width="180">
-          </el-table-column>
-        </el-table>
+            <el-table-column
+              type="expand"
+              align="center"
+              label="展开"
+              width="82"
+            >
+              <template>
+                <div id="unfoldTable">
+                  <div class="productTable" v-show="productTableShow">
+                    <el-table
+                      :data="productTableData"
+                      border
+                      style="width: 100%"
+                      :stripe="true"
+                      tooltip-effect="dark"
+                    >
+                      <el-table-column
+                        type="index"
+                        label="序号"
+                        width="71"
+                        align="center"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="orgName"
+                        label="委托公司"
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="prodCode"
+                        label="产品编号"
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="prodName"
+                        label="产品名称"
+                        width="200"
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="specName"
+                        label="产品规格"
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="braName"
+                        label="品牌"
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="num"
+                        label="系统库存"
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="realInventory"
+                        label="实际库存"
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="inventoryCount"
+                        label="差异"
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="inventoryStatus"
+                        label="盘点结果"
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="reason"
+                        label="原因"
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="actualStockTime"
+                        label="实际盘点时间"
+                        show-overflow-tooltip
+                        width="180"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="stockUser"
+                        label="盘点人"
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="reviseUser"
+                        label="订正人"
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="reviseTime"
+                        label="订正时间"
+                        show-overflow-tooltip
+                        width="180"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="reviseResult"
+                        label="订正结果"
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                    </el-table>
+                  </div>
+                  <div class="storelocaTable" v-show="storelocaTableShow">
+                    <el-table
+                      :data="productTableData"
+                      border
+                      style="width: 100%"
+                      :stripe="true"
+                      tooltip-effect="dark"
+                    >
+                      <el-table-column
+                        label="序号"
+                        align="center"
+                        type="index"
+                        width="71"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="childWareName"
+                        label="子仓名称"
+                        align="center"
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="subOrderNo"
+                        label="区域类型"
+                        align="center"
+                        wareAreaType
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="orderContact"
+                        label="区域名称"
+                        align="center"
+                        wareAreaName
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="wareShelfName"
+                        label="货架名称"
+                        align="center"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="wareSeatCode"
+                        label="库位"
+                        show-overflow-tooltip
+                        align="center"
+                        width="180"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="prodCode"
+                        label="产品编码"
+                        align="center"
+                        width="180"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="prodName"
+                        label="产品名称"
+                        align="center"
+                        width="200"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="specName"
+                        label="产品规格"
+                        align="center"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="braName"
+                        label="品牌"
+                        align="center"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="num"
+                        label="系统库存"
+                        align="center"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="realInventory"
+                        label="实际库存"
+                        align="center"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="inventoryCount"
+                        label="差异"
+                        align="center"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="inventoryStatus"
+                        label="盘点结果"
+                        align="center"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="reason"
+                        label="原因"
+                        align="center"
+                        show-overflow-tooltip
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="stockUser"
+                        label="盘点人"
+                        align="center"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="actualStockTime"
+                        label="实际盘点时间"
+                        width="180"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="reviseUser"
+                        label="订正人"
+                        align="center"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="reviseTime"
+                        label="订正时间"
+                        width="180"
+                      >
+                      </el-table-column>
+                      <el-table-column
+                        prop="reviseResult"
+                        label="订正结果"
+                        align="center"
+                      >
+                      </el-table-column>
+                    </el-table>
+                  </div>
+                </div>
+              </template>
+            </el-table-column>
+
+            <el-table-column type="selection" width="82" align="center">
+            </el-table-column>
+            <el-table-column
+              label="序号"
+              align="center"
+              type="index"
+              width="71"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="orgName"
+              label="委托公司"
+              show-overflow-tooltip
+              width="250"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="stockNo"
+              label="盘点单"
+              align="center"
+              width="260"
+            >
+              <template slot-scope="scope">
+                <div class="lookDeatil" @click="lookCheckOrderInfor(scope.row)">
+                  {{ scope.row.stockNo }}
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="stockType" label="盘点类型" align="center">
+            </el-table-column>
+            <el-table-column prop="stockStatus" label="盘点状态" align="center">
+            </el-table-column>
+            <el-table-column prop="createTime" label="创建时间" width="180">
+            </el-table-column>
+            <el-table-column prop="orderSource" label="创建类型" align="center">
+            </el-table-column>
+            <el-table-column prop="createUser" label="创建人"></el-table-column>
+            <el-table-column prop="startTime" label="盘点开始时间" width="180">
+            </el-table-column>
+            <el-table-column prop="endTime" label="盘点结束时间" width="180">
+            </el-table-column>
+          </el-table>
+        </div>
         <div class="pageComponent">
           <pagecomponent
             :pageComponentsData="pageComponentsData"
@@ -501,7 +523,7 @@
 .resultForm .el-table__expand-icon {
   transform: rotate(180deg);
 }
-.resultForm .el-icon.el-icon-arrow-right {
+.resultForm .tableDiv .el-icon.el-icon-arrow-right {
   display: none;
 }
 .resultForm .el-table__expand-icon {
@@ -555,8 +577,7 @@ export default {
       expands: [], //只展开一行放入当前行id
       getRowKeys: (row) => {
         //获取当前行id
-
-        return row.id; //这里看这一行中需要根据哪个属性值是id
+        return row.id;
       },
       productTableShow: false,
       storelocaTableShow: false,
@@ -678,13 +699,32 @@ export default {
           this.expands.push(row.id); // 只展开当前行id
         }
         if (row.stockType === "按产品") {
-          this.lookCheckOrderDetail({ id: row.id });
-          this.productTableShow = true;
-          this.storelocaTableShow = false;
+          queryCheckOrderDetails({ id: row.id }).then((ok) => {
+            console.log(123);
+            if (ok.data.code === "10000") {
+              this.productTableData = [];
+              this.productTableData = ok.data.result;
+              if (this.productTableData.length) {
+                this.productTableShow = true;
+                this.storelocaTableShow = false;
+              }
+            }
+          });
+          // this.lookCheckOrderDetail({ id: row.id });
         } else if (row.stockType === "按库位") {
-          this.lookCheckOrderDetail({ id: row.id });
-          this.productTableShow = false;
-          this.storelocaTableShow = true;
+          queryCheckOrderDetails({ id: row.id }).then((ok) => {
+            console.log(456);
+            this.productTableData = [];
+            if (ok.data.code === "10000") {
+              this.productTableData = ok.data.result;
+              if (this.productTableData.length) {
+                this.productTableShow = false;
+                this.storelocaTableShow = true;
+              }
+            }
+          });
+
+          // this.lookCheckOrderDetail({ id: row.id });
         }
       } else {
         // 说明收起了
@@ -696,10 +736,9 @@ export default {
         console.log(ok);
         if (ok.data.code === "10000") {
           this.productTableData = [];
-          this.$set(this.productTableData,"",ok.data.result)
           this.productTableData = ok.data.result;
-          this.storelocaTableData = [];
-          this.storelocaTableData = ok.data.result;
+          // this.storelocaTableData = [];
+          // this.storelocaTableData = ok.data.result;
         }
       });
     },
@@ -847,14 +886,38 @@ export default {
     },
     checkEntering() {
       //盘点录入
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message({
+          message: "请选择要录入的盘点单",
+          type: "warning",
+        });
+      if (this.multipleSelection.length > 1)
+        return this.$messageSelf.message({
+          message: "只能选择一个盘点单进行录入",
+          type: "warning",
+        });
+      this.$router.push({
+        path: "/inventoryCheck/createCheckRecord",
+        query: { type: "create", data: this.multipleSelection[0] },
+      });
     },
     lookCheck() {
       //查看盘点
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message({
+          message: "请选择要查看的盘点单",
+          type: "warning",
+        });
+      if (this.multipleSelection.length > 1)
+        return this.$messageSelf.message({
+          message: "只能选择一个盘点单进行查看",
+          type: "warning",
+        });
     },
     lookCheckOrderInfor(row) {
       this.$router.push({
         path: "/inventoryCheck/checkOrderInfor",
-        query: { data: row, type: "lookdetail" },
+        query: { data: row, type: "lookCheckOrderDetail" },
       });
     },
     handleSelectionChange(value) {

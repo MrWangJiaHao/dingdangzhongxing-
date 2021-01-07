@@ -64,7 +64,7 @@
               type="selection"
               width="82"
               align="center"
-               fixed="left"
+              fixed="left"
             ></el-table-column>
             <el-table-column
               label="序号"
@@ -77,6 +77,8 @@
               prop="childWareName"
               label="子仓名称"
               align="center"
+              width="140"
+              show-overflow-tooltip
             >
             </el-table-column>
             <el-table-column prop="seatType" label="区域类型" align="center">
@@ -85,11 +87,15 @@
               prop="wareAreaName"
               label="区域名称"
               align="center"
+              width="140"
+              show-overflow-tooltip
             >
             </el-table-column>
-            <el-table-column prop="prodCode" label="产品编码" align="center">
+            <el-table-column prop="prodCode" label="产品编码" align="center" width="200"
+              show-overflow-tooltip>
             </el-table-column>
-            <el-table-column prop="prodName" label="产品名称" align="center">
+            <el-table-column prop="prodName" label="产品名称" align="center" width="160"
+              show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="specName" label="产品规格" align="center">
             </el-table-column>
@@ -177,12 +183,10 @@
             ></el-input>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="footerBtnBox">
-      <div class="backBtnBox">
-        <div class="backBtn" @click="back">返回</div>
-        <div class="submitBtn" @click="submit">提交</div>
+        <div class="footerBtn">
+          <div class="backBtn" @click="back">返回</div>
+          <div class="submitBtn" @click="submit">提交</div>
+        </div>
       </div>
     </div>
   </div>
@@ -538,7 +542,7 @@ export default {
         .remark {
           margin-bottom: 10px;
         }
-        .textarea{
+        .textarea {
           width: 700px;
         }
       }
