@@ -145,7 +145,7 @@
             <el-table-column prop="inventoryStatus" label="盘点结果">
             </el-table-column>
 
-            <el-table-column prop="reason" label="原因">
+            <el-table-column prop="reason" label="原因" width="200">
               <template slot-scope="scope">
                 <el-input v-model="scope.row.reason" placeholder="请输入原因">
                 </el-input>
@@ -194,7 +194,11 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { queryCheckOrderDetails } from "../../api/api";
+import {
+  queryCheckOrderDetails,
+  checkOrderEntering,
+  checkOrderSubmit,
+} from "../../api/api";
 import { clearTimeInput } from "../../utils/validate";
 
 export default {
@@ -241,14 +245,14 @@ export default {
         pageNums: 0,
       },
       tableData: [
-        {
-          realInventory: 5,
-          num: 7,
-        },
-        {
-          realInventory: 7,
-          num: 5,
-        },
+        // {
+        //   realInventory: 5,
+        //   num: 7,
+        // },
+        // {
+        //   realInventory: 7,
+        //   num: 5,
+        // },
       ],
       multipleSelection: [],
     };
@@ -262,15 +266,18 @@ export default {
       queryCheckOrderDetails({ id: this.sendData.id }).then((ok) => {
         console.log(ok);
         if (ok.data.code === "10000") {
-          //   this.tableData = ok.data.result;
-          this.tableData.forEach((v) => {
-            v.diff = v.realInventory - v.num;
-            if (v.diff > 0) {
-              this.iscolor = "color:#DF1515";
-            } else if (v.diff < 0) {
-              this.iscolor = "color:#5DBB2E";
-            }
-          });
+          this.tableData = ok.data.result;
+          this.diffFun();
+        }
+      });
+    },
+    diffFun() {
+      this.tableData.forEach((v) => {
+        v.diff = v.realInventory - v.num;
+        if (v.diff > 0) {
+          this.iscolor = "color:#DF1515";
+        } else if (v.diff < 0) {
+          this.iscolor = "color:#5DBB2E";
         }
       });
     },
@@ -282,8 +289,44 @@ export default {
       this.queryprodData.specName = "";
       this.queryProdFun();
     },
-    save() {},
-    setnol() {},
+    save() {
+      let data = {
+        details: [],
+        stockId: this.sendData.id,
+      };
+
+      this.tableData.forEach((v) => {
+        if (v.realInventory === 0) {
+          this.$messageSelf.message({
+            message: "请输入实盘库存",
+            type: "warning",
+          });
+          return;
+        } else {
+          data.details.push({
+            realInventory: v.realInventory,
+            reason: v.reason,
+            stockDetailId: v.stockPlanId,
+          });
+          this.saveRequest(data);
+        }
+      });
+    },
+    saveRequest(data) {
+      checkOrderEntering(data).then((ok) => {
+        if (ok.data.code === "10000") {
+          this.$messageSelf.message({ message: "保存成功", type: "success" });
+        } else {
+          this.$messageSelf.message({ message: "保存失败", type: "error" });
+        }
+      });
+    },
+    setnol() {
+      this.tableData.forEach((v) => {
+        v.realInventory = v.num;
+      });
+      this.diffFun();
+    },
     handleCheckAllChange(val) {
       this.checkedOrgName = val ? this.orgArr : [];
       this.isIndeterminate = false;
@@ -323,7 +366,16 @@ export default {
     back() {
       this.$router.push({ path: "/inventoryCheck/checkOrderManagement" });
     },
-    submit() {},
+    submit() {
+      checkOrderSubmit({ id: this.sendData.id }).then((ok) => {
+        console.log(ok)
+        if (ok.data.code === "10000") {
+          this.$messageSelf.message({ message: "提交成功", type: "success" });
+        } else {
+          this.$messageSelf.message({ message: "提交失败", type: "error" });
+        }
+      });
+    },
     submitRequest() {},
     getPageNum(e) {
       this.queryData.pageNumber = e;

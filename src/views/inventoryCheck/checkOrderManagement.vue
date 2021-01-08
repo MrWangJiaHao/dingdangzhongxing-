@@ -816,24 +816,23 @@ export default {
       });
     },
     edit() {
-      this.tableData.forEach((v) => {
-        if (v.stockStatus !== "待盘点") {
-          return this.$messageSelf.message({
-            message: "只有待盘点的计划可编辑",
-            type: "warning",
-          });
-        }
-      });
       if (!this.multipleSelection.length)
         return this.$messageSelf.message({
           message: "请选择要编辑的盘点计划",
           type: "warning",
         });
-      if (this.multipleSelection.length > 1)
+      if (this.multipleSelection.length > 1) {
         return this.$messageSelf.message({
           message: "只能选择一个盘点计划进行编辑",
           type: "warning",
         });
+      }
+      if (this.multipleSelection[0].stockStatus !== "未盘点") {
+        return this.$messageSelf.message({
+          message: "只有未盘点的计划可编辑",
+          type: "warning",
+        });
+      }
       this.$router.push({
         path: "/inventoryCheck/createCheckOrder",
         query: { type: "edit", data: this.multipleSelection[0] },
@@ -913,11 +912,18 @@ export default {
           message: "只能选择一个盘点单进行查看",
           type: "warning",
         });
+      this.$router.push({
+        path: "/inventoryCheck/checkOrderInfor",
+        query: {
+          data: this.multipleSelection[0],
+          type: "lookCheckOrderDetail",
+        },
+      });
     },
     lookCheckOrderInfor(row) {
       this.$router.push({
         path: "/inventoryCheck/checkOrderInfor",
-        query: { data: row, type: "lookCheckOrderDetail" },
+        query: { data: row, type: "lookdetail" },
       });
     },
     handleSelectionChange(value) {

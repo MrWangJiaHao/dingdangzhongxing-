@@ -235,7 +235,7 @@
             ></pagecomponent>
           </div>
         </div>
-        <div class="productRecordTable" v-show="storelocaTableShow">
+        <div class="productRecordTable" v-show="productRecordTableShow">
           <el-table
             :data="productTableData"
             border
@@ -318,7 +318,7 @@
             ></pagecomponent>
           </div>
         </div>
-        <div class="storelocaRecordTable" v-show="storelocaTableShow">
+        <div class="storelocaRecordTable" v-show="storelocaRecordTableShow">
           <el-table
             :data="productTableData"
             border
@@ -428,7 +428,7 @@ export default {
       next((vm) => {
         if (vm.$route.query.type === "lookdetail") {
           vm.tableData = vm.$route.query.data;
-          console.log(vm.tableData);
+          // console.log(vm.tableData);
           if (vm.tableData.stockType === "按产品") {
             vm.productTableShow = true;
             vm.queryFun({ id: vm.$route.query.data.id });
@@ -438,11 +438,14 @@ export default {
           }
         }
         if (vm.$route.query.type === "lookCheckOrderDetail") {
+          vm.tableData = vm.$route.query.data;
           if (vm.tableData.stockType === "按产品") {
-            vm.productRecordTable = true;
+            console.log("按产品")
+            vm.productRecordTableShow = true;
             vm.queryFun({ id: vm.$route.query.data.id });
           } else if (vm.tableData.stockType === "按库位") {
-            vm.storelocaRecordTable = true;
+            console.log("按库位")
+            vm.storelocaRecordTableShow = true;
             vm.queryFun({ id: vm.$route.query.data.id });
           }
         }
@@ -461,8 +464,8 @@ export default {
       tableData: {},
       productTableShow: false,
       storelocaTableShow: false,
-      productRecordTable: false,
-      storelocaRecordTable: false,
+      productRecordTableShow: false,
+      storelocaRecordTableShow: false,
       productTableData: [],
       storelocaTableData: [],
       pageComponentsData: {
@@ -475,6 +478,7 @@ export default {
   methods: {
     queryFun(data) {
       queryCheckOrderDetails(data).then((ok) => {
+        console.log(ok)
         if (ok.data.code === "10000") {
           this.productTableData = [];
           this.productTableData = ok.data.result;

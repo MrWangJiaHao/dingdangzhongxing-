@@ -1328,6 +1328,37 @@ export function queryCheckOrderDetails(data) {
     })
 }
 
+//库存盘点=>盘点单管理=>录入盘点记录
+export function checkOrderEntering(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pStockCheckOrder/saveStockDetail",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//库存盘点=>盘点单管理=>提交盘点记录
+export function checkOrderSubmit(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pStockCheckOrder/submitStockData",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+
+
 
 /**
  *

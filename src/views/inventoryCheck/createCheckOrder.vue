@@ -206,13 +206,9 @@ export default {
           vm.operationType = "创建";
         } else if (vm.$route.query.type === "edit") {
           vm.operationType = "编辑";
-          vm.needEditData = [];
           vm.needEditData = vm.$route.query.data;
-          // console.log(vm.needEditData);
           vm.id = vm.$route.query.data.id;
-          vm.checkPlanName = vm.$route.query.data.stockPlanName;
           vm.typeradio = vm.stockTypeFun(vm.$route.query.data.stockType);
-          vm.cycelradio = vm.stockCycleFun(vm.$route.query.data.stockCycle);
         } else if (vm.$route.query.type === "look") {
           vm.isdisabled = true;
           vm.isBlock = "display:none";
@@ -334,26 +330,6 @@ export default {
       }
       return states;
     },
-    stockCycleFun(data) {
-      let states = "";
-      switch (data) {
-        case "周盘点":
-          states = "0";
-          break;
-        case "月盘点":
-          states = "1";
-          break;
-        case "季盘点":
-          states = "2";
-          break;
-        case "半年盘点":
-          states = "3";
-          break;
-        default:
-          break;
-      }
-      return states;
-    },
     entrustCompanys(val) {
       this.entrustCompany = val;
     },
@@ -382,14 +358,9 @@ export default {
       }
     },
     back() {
-      this.$router.push({ path: "/inventoryCheck/checkPlanManagement" });
+      this.$router.push({ path: "/inventoryCheck/checkOrderManagement" });
     },
     submit() {
-      if (this.checkPlanName === "")
-        return this.$messageSelf.message({
-          message: "请输入盘点计划名称",
-          type: "warning",
-        });
       let submitData = {
         id: this.id,
         ids: [],

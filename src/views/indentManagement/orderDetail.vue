@@ -167,6 +167,7 @@ export default {
     background: #fff;
     padding: 20px;
     .orderDetailBox {
+      margin-bottom: 20px;
       .orderDetail-title {
         font-size: 16px;
         position: relative;
@@ -212,3 +213,11 @@ export default {
   }
 }
 </style>
+<style lang="scss">
+  .orderDetailMain {
+  .backBtn {
+    margin: 0 20px 0 0 !important;
+  }
+}
+</style>
+

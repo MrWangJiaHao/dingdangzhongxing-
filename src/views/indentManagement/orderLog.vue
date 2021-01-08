@@ -1,5 +1,5 @@
 <template>
-  <div class="mian">
+  <div id="orderLog">
     <div class="orderDetaiPage">
       <div class="orderDetailBox">
         <div class="orderDetail-title">订单日志</div>
@@ -20,7 +20,6 @@
           </el-table-column>
         </el-table>
       </div>
-    
     </div>
     <div class="footerBtn">
       <div class="backBtn" @click="back">返回</div>
@@ -134,7 +133,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
-.mian {
+#orderLog {
   background: #eef1f8;
   padding: 10px;
   .orderDetaiPage {
@@ -157,6 +156,13 @@ export default {
         top: 3px;
       }
     }
+  }
+}
+</style>
+<style lang="scss">
+#orderLog {
+  .backBtn {
+    margin: 0 20px 0 0 !important;
   }
 }
 </style>
