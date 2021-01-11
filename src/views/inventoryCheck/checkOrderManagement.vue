@@ -343,7 +343,7 @@
                       >
                       </el-table-column>
                       <el-table-column
-                        prop="subOrderNo"
+                        prop="wareAreaType"
                         label="区域类型"
                         align="center"
                         wareAreaType
@@ -516,6 +516,17 @@
         </div>
       </div>
     </div>
+    <el-dialog
+      :visible.sync="printIsShow"
+      custom-class="animate__animated animate__zoomIn"
+    >
+      <BreakageOrder
+        v-show="printIsShow"
+        :tabledatasArr="tabledatasArr"
+        :ReplenishmentNote="replenishmentNoteJson"
+        @getiswuliudanOne="getiswuliudanOne"
+      ></BreakageOrder>
+    </el-dialog>
   </div>
 </template>
 
@@ -559,6 +570,8 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
+import BreakageOrder from "../../components/commin/componentList";
+
 import {
   queryCheckOrder,
   delCheckOrder,
@@ -570,6 +583,7 @@ export default {
   components: {
     pagecomponent,
     dateTime,
+    BreakageOrder,
   },
   data() {
     return {
@@ -578,6 +592,21 @@ export default {
       getRowKeys: (row) => {
         //获取当前行id
         return row.id;
+      },
+      printIsShow: false,
+      tabledatasArr: [],
+      replenishmentNoteJson: {
+        title: "盘点单",
+        replenishOrderNo: "",
+        queryArr: [],
+        basicJson: [
+          {
+            titles: "基础信息",
+            basicJsonArr: [
+              //弹框表格里面的列名称
+            ],
+          },
+        ],
       },
       productTableShow: false,
       storelocaTableShow: false,
@@ -654,6 +683,7 @@ export default {
         pageNums: 0,
       },
       queryData: {
+        orderBy: "createTime",
         pageNumber: "1",
         pageSize: "10",
         paras: {},
@@ -789,7 +819,7 @@ export default {
         case 4:
           states = "审核拒绝";
           break;
-        case 4:
+        case 5:
           states = "已完成";
           break;
         default:
@@ -882,6 +912,119 @@ export default {
     },
     printCheck() {
       //打印盘点单
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message({
+          message: "请选择要打印的盘点单",
+          type: "warning",
+        });
+      if (this.multipleSelection.length > 1)
+        return this.$messageSelf.message({
+          message: "只能选择一个盘点单进行打印",
+          type: "warning",
+        });
+      this.replenishmentNoteJson.basicJson[0].basicJsonArr = [];
+      if (this.multipleSelection[0].stockType === "按库位") {
+        this.replenishmentNoteJson.basicJson[0].basicJsonArr.push(
+          {
+            types: "childWareName",
+            centerStr: "子仓名称",
+          },
+          {
+            types: "wareAreaType",
+            centerStr: "区域类型",
+          },
+          {
+            types: "wareAreaCode",
+            centerStr: "区域编号",
+          },
+          {
+            types: "wareSeatCode",
+            centerStr: "存储区库位",
+          },
+          {
+            types: "wareSeatCode",
+            centerStr: "拣货区库位",
+          },
+          {
+            types: "prodCode",
+            centerStr: "产品编码",
+          },
+          {
+            types: "prodName",
+            centerStr: "产品名称",
+          },
+          {
+            types: "specName",
+            centerStr: "产品规格",
+          },
+          {
+            types: "num",
+            centerStr: "系统库存",
+          },
+          {
+            types: "realInventory",
+            centerStr: "实盘库存",
+          },
+          {
+            types: "remark",
+            centerStr: "备注",
+          }
+        );
+      } else if (this.multipleSelection[0].stockType === "按产品") {
+        this.replenishmentNoteJson.basicJson[0].basicJsonArr.push(
+          {
+            types: "prodCode",
+            centerStr: "产品编码",
+          },
+          {
+            types: "prodName",
+            centerStr: "产品名称",
+          },
+          {
+            types: "specName",
+            centerStr: "产品规格",
+          },
+          {
+            types: "num",
+            centerStr: "系统库存",
+          },
+          {
+            types: "realInventory",
+            centerStr: "实盘库存",
+          },
+          {
+            types: "remark",
+            centerStr: "备注",
+          }
+        );
+      }
+
+      this.tabledatasArr = [];
+      this.printIsShow = true;
+      queryCheckOrderDetails({ id: this.multipleSelection[0].id }).then(
+        (ok) => {
+          console.log(ok);
+          if (ok.data.code === "10000") {
+            let json = [
+              {
+                queryTitle: "盘点单号",
+                queryCenter: this.multipleSelection[0].stockNo,
+              },
+              {
+                queryTitle: "委托公司",
+                queryCenter: this.multipleSelection[0].orgName,
+              },
+            ];
+            this.replenishmentNoteJson.queryArr = json;
+            this.replenishmentNoteJson.replenishOrderNo = this.multipleSelection[0].stockNo;
+            this.tabledatasArr = [];
+            this.tabledatasArr = ok.data.result;
+          }
+        }
+      );
+    },
+    getiswuliudanOne(e) {
+      this.printIsShow = e;
     },
     checkEntering() {
       //盘点录入
@@ -1078,9 +1221,17 @@ export default {
 }
 </style>
 <style lang="scss">
-.entrustCompany {
-  .el-select {
-    width: 100%;
+#checkPlanManagement {
+  .entrustCompany {
+    .el-select {
+      width: 100%;
+    }
+  }
+  .el-dialog__header {
+    display: none;
+  }
+  .el-dialog__body {
+    padding: 0;
   }
 }
 </style>

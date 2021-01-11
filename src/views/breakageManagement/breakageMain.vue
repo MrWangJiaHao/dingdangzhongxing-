@@ -130,7 +130,7 @@
           <div class="create" @click="edit">编辑</div>
           <div class="del" @click="del">删除</div>
           <div class="create" @click="submit">提交</div>
-          <div class="point" @click="point">打印报损单</div>
+          <div class="print" @click="print">打印报损单</div>
         </div>
       </div>
       <div class="resultForm">
@@ -192,13 +192,13 @@
         </div>
       </div>
     </div>
-    <!-- <div class="pointBox" v-show="pointIsShow">
+    <!-- <div class="printBox" v-show="printIsShow">
       <transition
         enter-active-class="animate__animated animate__zoomIn"
         leave-active-class="animate__animated animate__zoomOut"
       >
         <BreakageOrder
-          v-show="pointIsShow"
+          v-show="printIsShow"
           :tabledatasArr="tabledatasArr"
           :ReplenishmentNote="replenishmentNoteJson"
           @getiswuliudanOne="getiswuliudanOne"
@@ -206,11 +206,11 @@
       </transition>
     </div> -->
     <el-dialog
-      :visible.sync="pointIsShow"
+      :visible.sync="printIsShow"
       custom-class="animate__animated animate__zoomIn"
     >
       <BreakageOrder
-        v-show="pointIsShow"
+        v-show="printIsShow"
         :tabledatasArr="tabledatasArr"
         :ReplenishmentNote="replenishmentNoteJson"
         @getiswuliudanOne="getiswuliudanOne"
@@ -226,7 +226,7 @@ import dateTime from "../../components/commin/dateTime.vue"; //时间
 import {
   queryBreakageList,
   delBreakageOrder,
-  pointBreakageOrder,
+  printBreakageOrder,
   saveBreakageOrder,
 } from "../../api/api";
 import BreakageOrder from "../../components/commin/componentList";
@@ -251,7 +251,7 @@ export default {
   },
   data() {
     return {
-      pointIsShow: false,
+      printIsShow: false,
       tableData: [],
       tabledatasArr: [],
       replenishmentNoteJson: {
@@ -571,7 +571,7 @@ export default {
             verifyUserName: "", //审核人
             version: "",
           };
-          pointBreakageOrder({ id: this.multipleSelection[0].id }).then(
+          printBreakageOrder({ id: this.multipleSelection[0].id }).then(
             (ok) => {
               if (ok.data.code === "10000") {
                 submitData.damageType = ok.data.result[0].damageType;
@@ -631,7 +631,7 @@ export default {
         }
       }
     },
-    point() {
+    print() {
       if (!this.multipleSelection.length) {
         return this.$messageSelf.message({
           message: "请选择需要打印的单号",
@@ -644,8 +644,8 @@ export default {
         });
       } else {
         this.tabledatasArr = [];
-        this.pointIsShow = true;
-        pointBreakageOrder({ id: this.multipleSelection[0].id }).then((ok) => {
+        this.printIsShow = true;
+        printBreakageOrder({ id: this.multipleSelection[0].id }).then((ok) => {
           // console.log(ok);
           if (ok.data.code === "10000") {
             let json = [
@@ -698,7 +698,7 @@ export default {
       }
     },
     getiswuliudanOne(e) {
-      this.pointIsShow = e;
+      this.printIsShow = e;
     },
     getPageNum(e) {
       this.queryBreakageListData.pageNumber = e;
@@ -742,7 +742,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
-.pointBox {
+.printBox {
   position: fixed;
   left: 0;
   top: 0;
@@ -850,7 +850,7 @@ export default {
         @include BtnFunction("error");
         margin-right: 10px;
       }
-      .point {
+      .print {
         @include BtnFunction("success");
       }
     }
@@ -861,7 +861,7 @@ export default {
     .lookDeatil {
       color: #599af3;
       text-decoration: underline;
-      cursor: pointer;
+      cursor: printer;
     }
   }
 }

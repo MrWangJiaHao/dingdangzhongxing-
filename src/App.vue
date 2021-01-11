@@ -29,7 +29,9 @@ export default {
       localStorage.setItem("data", JSON.stringify(this.$store.state));
     });
   },
-  mounted() {},
+  mounted() {
+    
+  },
   methods: {
     reload() {
       this.isRouterAlive = false;

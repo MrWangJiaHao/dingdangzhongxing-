@@ -440,11 +440,9 @@ export default {
         if (vm.$route.query.type === "lookCheckOrderDetail") {
           vm.tableData = vm.$route.query.data;
           if (vm.tableData.stockType === "按产品") {
-            console.log("按产品")
             vm.productRecordTableShow = true;
             vm.queryFun({ id: vm.$route.query.data.id });
           } else if (vm.tableData.stockType === "按库位") {
-            console.log("按库位")
             vm.storelocaRecordTableShow = true;
             vm.queryFun({ id: vm.$route.query.data.id });
           }

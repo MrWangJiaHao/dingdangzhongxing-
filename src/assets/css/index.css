@@ -441,7 +441,7 @@ textarea {
 }
 
 #app .titleBox {
-    padding: 12px 10px 12px 0;
+    /* padding: 12px 10px 12px 0; */
 }
 
 .titleBox {
@@ -1017,4 +1017,8 @@ textarea {
 
 .el-pagination .el-pagination__jump {
     margin-left: 10px !important;
+}
+
+.el-table__header-wrapper tr .is-leaf:nth-last-child(2) {
+    border-right: none !important;
 }

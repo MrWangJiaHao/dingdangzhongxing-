@@ -132,7 +132,7 @@
               <template slot-scope="scope">
                 <el-input
                   v-model="scope.row.realInventory"
-                  placeholder="请输入实盘库存"
+                  placeholder="请输入"
                 >
                 </el-input>
               </template>
@@ -210,7 +210,7 @@ export default {
       next((vm) => {
         if (vm.$route.query.type === "create") {
           vm.sendData = vm.$route.query.data;
-          console.log(vm.sendData);
+          // console.log(vm.sendData);
           if (vm.sendData.stockType === "按产品") {
             vm.typeradio = "1";
           } else {
@@ -368,7 +368,7 @@ export default {
     },
     submit() {
       checkOrderSubmit({ id: this.sendData.id }).then((ok) => {
-        console.log(ok)
+        console.log(ok);
         if (ok.data.code === "10000") {
           this.$messageSelf.message({ message: "提交成功", type: "success" });
         } else {

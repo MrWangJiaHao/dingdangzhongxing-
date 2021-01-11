@@ -90,11 +90,10 @@
                                     v-for="(items, idx) in ReplenishmentNote.basicJson"
                                     :key="idx"
                             >
-                                <div style="padding: 10px 0">
+                                <div style="padding: 10px 0;display:flex;align-items:center">
                                     <div
                                             v-if="items.titles"
                                             style="
-                      display: inline-block;
                       background: #4897e4;
                       width: 3px;
                       height: 16px;
@@ -103,7 +102,6 @@
                                     ></div>
                                     <div
                                             style="
-                      display: inline-block;
                       color: #4897e4;
                       font-size: 16px;
                       line-height: 32px;
@@ -118,8 +116,9 @@
                                             :data="tabledatasArrFun(tabledatasArr, idx)"
                                             border
                                             highlight-current-row
+                                            max-height="250"
                                     >
-                                        <el-table-column type="index" label="序号" width="50" align="center">
+                                        <el-table-column type="index" label="序号" width="71" align="center">
                                         </el-table-column>
                                         <template
                                                 v-for="(tableItem, tableIdx) in items.basicJsonArr"

@@ -58,7 +58,7 @@
 <script>
 import { login, getFindWareOrg } from "@/api/api.js";
 // import Loading from "@/components/loading/loading";
-import { reduceFun } from '../../utils/validate';
+import { reduceFun } from "../../utils/validate";
 
 export default {
   // components: {
@@ -99,58 +99,65 @@ export default {
             appNo: "F94CB9F5262F46DCB171CECD6FE1193B",
           };
 
-          login(data).then((ok) => {
-            if (ok.data.code === "10000") {
-              this.$messageSelf.message({
-                type: "success",
-                message: "登录成功",
-              });
-              //将请求回来的数据全部存储到vuex里面，使用this.$store.state.loginRequest.loginData调用查看
-              this.$store.dispatch("loginRequest", ok.data.result);
-              // console.log(this.$store.state.loginRequest.loginData);
-              //点击登录时，将用户名和密码存储到cookies中
-              this.$cookie.set("userName", this.dataForm.userName);
-              this.$cookie.set("password", this.dataForm.password);
-              this.$cookie.set("userToken", ok.data.result.userToken);
-              this.$cookie.set("userType", ok.data.result.user.userType);
-              this.$cookie.set("X-Auth-wareId", ok.data.result.user.wareId);
-              this.$cookie.set("orgId", ok.data.result.user.orgId);
-              this.$cookie.set("X-Auth-user", ok.data.result.user.id);
-              this.$cookie.set(
-                "X-Auth-wareName",
-                ok.data.result.user.wareFullName
-              );
-              this.$router.push("/index");
-              //四个小时后清除用户名和密码
-              setTimeout(() => {
-                this.$cookie.delete("userName");
-                this.$cookie.delete("password");
-                this.$cookie.delete("userToken");
-                this.$cookie.delete("userType");
-                this.$cookie.delete("X-Auth-wareId");
-                this.$cookie.delete("X-Auth-user");
-              }, 14400000);
-              getFindWareOrg().then((ok) => {
-                // console.log(ok);
-                if (ok.code === "10000") {
-                  let orgArr = [];
-                  ok.result.forEach((v) => {
-                    orgArr.push({
-                      value: v.id,
-                      label: v.orgName,
+          login(data)
+            .then((ok) => {
+              if (ok.data.code === "10000") {
+                this.$messageSelf.message({
+                  type: "success",
+                  message: "登录成功",
+                });
+                //将请求回来的数据全部存储到vuex里面，使用this.$store.state.loginRequest.loginData调用查看
+                this.$store.dispatch("loginRequest", ok.data.result);
+                // console.log(this.$store.state.loginRequest.loginData);
+                //点击登录时，将用户名和密码存储到cookies中
+                this.$cookie.set("userName", this.dataForm.userName);
+                this.$cookie.set("password", this.dataForm.password);
+                this.$cookie.set("userToken", ok.data.result.userToken);
+                this.$cookie.set("userType", ok.data.result.user.userType);
+                this.$cookie.set("X-Auth-wareId", ok.data.result.user.wareId);
+                this.$cookie.set("orgId", ok.data.result.user.orgId);
+                this.$cookie.set("X-Auth-user", ok.data.result.user.id);
+                this.$cookie.set(
+                  "X-Auth-wareName",
+                  ok.data.result.user.wareFullName
+                );
+                this.$router.push("/index");
+                //四个小时后清除用户名和密码
+                setTimeout(() => {
+                  this.$cookie.delete("userName");
+                  this.$cookie.delete("password");
+                  this.$cookie.delete("userToken");
+                  this.$cookie.delete("userType");
+                  this.$cookie.delete("X-Auth-wareId");
+                  this.$cookie.delete("X-Auth-user");
+                }, 14400000);
+                getFindWareOrg().then((ok) => {
+                  // console.log(ok);
+                  if (ok.code === "10000") {
+                    let orgArr = [];
+                    ok.result.forEach((v) => {
+                      orgArr.push({
+                        value: v.id,
+                        label: v.orgName,
+                      });
                     });
-                  });
-                  orgArr = reduceFun(orgArr);
-                  this.$store.dispatch("orgInforRequest", orgArr);
-                }
-              });
-            } else {
+                    orgArr = reduceFun(orgArr);
+                    this.$store.dispatch("orgInforRequest", orgArr);
+                  }
+                });
+              } else {
+                this.$messageSelf.message({
+                  message: "账号或者密码有误",
+                  type: "error",
+                });
+              }
+            })
+            .catch(() => {
               this.$messageSelf.message({
-                message: "账号或者密码有误",
+                message: "网络异常",
                 type: "error",
               });
-            }
-          });
+            });
         }
       });
     },
