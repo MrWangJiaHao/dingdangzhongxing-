@@ -51,7 +51,12 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="82" align="center" fixed="left">
+            <el-table-column
+              type="selection"
+              width="82"
+              align="center"
+              fixed="left"
+            >
             </el-table-column>
             <el-table-column
               label="序号"
@@ -142,15 +147,14 @@ import {
   delBrand,
   queryBrandCon,
 } from "../../api/api";
-import { getCookie } from "../../utils/validate";
+import { getCookie, reduceFun } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
   },
   data() {
     return {
-
-        title: "",
+      title: "",
       nameValue: "",
       brandNameData: [],
       tableData: [],
@@ -192,13 +196,7 @@ export default {
               value: v.braFullName,
               label: v.braFullName,
             });
-            let testObj = {};
-            this.brandNameData = this.brandNameData.reduce((item, next) => {
-              testObj[next.value]
-                ? ""
-                : (testObj[next.value] = true && item.push(next));
-              return item;
-            }, []);
+            this.brandNameData = reduceFun(this.brandNameData);
           });
         } else {
           this.$messageSelf.message({
@@ -249,13 +247,14 @@ export default {
     },
     clickQuery() {
       //点击查询
-      this.tableData = [];
+
       let idQueryData = {
         id: this.pagingQueryData.paras.id,
         wareId: "",
       };
       queryBrandCon(idQueryData).then((ok) => {
         if (ok.data.code === "10000") {
+          this.tableData = [];
           this.tableData = ok.data.result;
         } else {
           this.$messageSelf.message({
@@ -268,6 +267,7 @@ export default {
     clearInput() {
       //点击清空输入框
       this.nameValue = "";
+      this.pagingQueryData.paras.id = "";
       this.queryBrandFun();
     },
     createChildWarehouse() {
@@ -310,15 +310,17 @@ export default {
           type: "warning",
         });
       this.$messageSelf
-        .confirms("确定要删除该品牌？", "删除确认", {
-          type: "info",
-        })
+        .confirms(
+          `确定要删除这${this.multipleSelection.length}条品牌？`,
+          "删除确认",
+          {
+            type: "info",
+          }
+        )
         .then(() => {
           this.delRequest({ ids: arr });
         })
-        .catch(() => {
-          this.$messageSelf.message("已取消删除");
-        });
+        .catch(() => {});
     },
     //删除的请求
     delRequest(data) {

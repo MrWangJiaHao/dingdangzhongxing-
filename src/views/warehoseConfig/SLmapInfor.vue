@@ -881,6 +881,11 @@ export default {
             display: none;
           }
         }
+        .queryBtnDiv{
+          .queryBtn{
+            @include BtnFunction("success");
+          }
+        }
       }
       section:nth-of-type(2) {
         margin-top: 16px;

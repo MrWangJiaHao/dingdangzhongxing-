@@ -18,7 +18,7 @@ const routes = [{
         redirect: '/index/indexFormJH',
         component: () => import('../views/index/index.vue'),
         meta: {
-            keepAlive: true
+            keepAlive: false
         },
         children: [{
             path: '/index/indexFormFH',
@@ -38,7 +38,7 @@ const routes = [{
             name: 'systemSetting/userSetting',
             component: () => import("../views/systemSetting/userSetting.vue"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -47,7 +47,7 @@ const routes = [{
             name: 'systemSetting/userControl',
             component: () => import("../views/systemSetting/userControl.vue"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -56,7 +56,7 @@ const routes = [{
             name: "/warehoseconfig/regionalManagements",
             component: () => import("../views/warehoseConfig/regionalManagements"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -74,7 +74,7 @@ const routes = [{
             name: "/warehoseconfig/createWarehouseConfig",
             component: () => import("../views/warehoseConfig/createWarehouseConfig"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -83,7 +83,7 @@ const routes = [{
             name: "/warehoseconfig/childWarehouseAdmin",
             component: () => import("../views/warehoseConfig/childWarehouseAdmin.vue"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //仓库配置=>子仓管理=>创建子仓
@@ -110,7 +110,7 @@ const routes = [{
             name: "/warehoseconfig/storageLocalAdmins",
             component: () => import("../views/warehoseConfig/storageLocalAdmins"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -119,7 +119,7 @@ const routes = [{
             name: "/warehoseconfig/storageLocalMap",
             component: () => import("../views/warehoseConfig/storageLocalMap"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -128,7 +128,7 @@ const routes = [{
             name: "/storageLocalMap/SLmapInfor",
             component: () => import("../views/warehoseConfig/SLmapInfor.vue"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -137,7 +137,7 @@ const routes = [{
             name: "/storageLocalMap/storageLocalDetail",
             component: () => import("../views/warehoseConfig/storageLocalDetail.vue"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -146,7 +146,7 @@ const routes = [{
             name: "/warehoseconfig/shelfSetting",
             component: () => import("../views/warehoseConfig/shelfSetting"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -156,7 +156,7 @@ const routes = [{
             name: "/warehousingManagement/manualManagement",
             component: () => import("../views/wareHouseIngManagement/manualManagement"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //---------------------------------------------------------出库管理模块开始-------------------------------------------------------------------------------------------
@@ -167,7 +167,7 @@ const routes = [{
             name: "/warehouseManagement/warehouseIndex",
             component: () => import("../views/warehouseManagement/warehouseIndex"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //---------------------------------------------------------出库管理模块结束-------------------------------------------------------------------------------------------
@@ -179,7 +179,7 @@ const routes = [{
             name: "/suppliesCenter/supplierAdmin",
             component: () => import("../views/suppliesCenter/supplierAdmin"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -188,7 +188,7 @@ const routes = [{
             name: "/suppliesCenter/brandAdmin",
             component: () => import("../views/suppliesCenter/brandAdmin"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -197,7 +197,7 @@ const routes = [{
             name: "/suppliesCenter/specificationAdmin",
             component: () => import("../views/suppliesCenter/specificationAdmin"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -206,7 +206,7 @@ const routes = [{
             name: "/suppliesCenter/suppliesInventory",
             component: () => import("../views/suppliesCenter/suppliesInventory"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -215,7 +215,7 @@ const routes = [{
             name: "/suppliesCenter/materialAdmin",
             component: () => import("../views/suppliesCenter/materialAdmin"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -224,7 +224,7 @@ const routes = [{
             name: "/suppliesCenter/suppliesRecord",
             component: () => import("../views/suppliesCenter/suppliesRecord"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //----------------------------------------------------------物料中心模块结束-----------------------------------------------------------------------------------------
@@ -236,7 +236,7 @@ const routes = [{
             name: "/phyDisComInfor/phyDisCom",
             component: () => import("../views/phyDisComInfor/phyDisCom"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -245,7 +245,7 @@ const routes = [{
             name: "/phyDisComInfor/storePhyDisFreight",
             component: () => import("../views/phyDisComInfor/storePhyDisFreight"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -254,7 +254,7 @@ const routes = [{
             name: "/phyDisComInfor/entrustComFreight",
             component: () => import("../views/phyDisComInfor/entrustComFreight"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //----------------------------------------------------------物流公司信息模块结束-------------------------------------------------------------------------------------
@@ -265,7 +265,7 @@ const routes = [{
             name: "/purchasingManagement/purchasingIndex",
             component: () => import("../views/purchasingManagement/purchasingIndex"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //===========================采购管理 end===============
@@ -276,7 +276,7 @@ const routes = [{
             name: "/pWarehouseRule/findRecordPage",
             component: () => import("../views/pWarehouseRule/findRecordPage"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         // =================发货规则配置 end =============
@@ -288,7 +288,7 @@ const routes = [{
             name: "/indentManagement/notLogisticsIndentManage",
             component: () => import("../views/indentManagement/notLogisticsIndentManage"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -297,7 +297,7 @@ const routes = [{
             name: "/indentManagement/resalesIndentManage",
             component: () => import("../views/indentManagement/resalesIndentManage"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -306,7 +306,7 @@ const routes = [{
             name: "/indentManagement/resalesOrderInfor",
             component: () => import("../views/indentManagement/resalesOrderInfor"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -315,7 +315,7 @@ const routes = [{
             name: "/indentManagement/zitiIndentManage",
             component: () => import("../views/indentManagement/zitiIndentManage"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -324,7 +324,7 @@ const routes = [{
             name: "/indentManagement/takeGoodsVerity",
             component: () => import("../views/indentManagement/takeGoodsVerity"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -333,7 +333,7 @@ const routes = [{
             name: "/indentManagement/sellIndentManage",
             component: () => import("../views/indentManagement/sellIndentManage"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -342,7 +342,7 @@ const routes = [{
             name: "/indentManagement/stockoutIndentManage",
             component: () => import("../views/indentManagement/stockoutIndentManage"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -351,7 +351,7 @@ const routes = [{
             name: "/indentManagement/stockoutOrderInfor",
             component: () => import("../views/indentManagement/stockoutOrderInfor"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -360,7 +360,7 @@ const routes = [{
             name: "/indentManagement/orderDetail",
             component: () => import("../views/indentManagement/orderDetail"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -369,7 +369,7 @@ const routes = [{
             name: "/indentManagement/orderLog",
             component: () => import("../views/indentManagement/orderLog"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -378,7 +378,7 @@ const routes = [{
             name: "/indentManagement/childOrderDetail",
             component: () => import("../views/indentManagement/childOrderDetail"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //----------------------------------------------------------订单管理结束-------------------------------------------------------------------------------------
@@ -389,7 +389,7 @@ const routes = [{
             name: "/breakageManagement/breakageMain",
             component: () => import("../views/breakageManagement/breakageMain"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -398,7 +398,7 @@ const routes = [{
             name: "/breakageManagement/createBreakageOrder",
             component: () => import("../views/breakageManagement/createBreakageOrder"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -407,7 +407,7 @@ const routes = [{
             name: "/breakageManagement/addProduct",
             component: () => import("../views/breakageManagement/addProduct"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -416,7 +416,7 @@ const routes = [{
             name: "/breakageManagement/breakageOrderDetail",
             component: () => import("../views/breakageManagement/breakageOrderDetail"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //----------------------------------------------------------报损管理结束-------------------------------------------------------------------------------------
@@ -427,7 +427,7 @@ const routes = [{
             name: "/borrowManagement/borrowMain",
             component: () => import("../views/borrowManagement/borrowMain"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -436,7 +436,7 @@ const routes = [{
             name: "/borrowManagement/createBorrowOrder",
             component: () => import("../views/borrowManagement/createBorrowOrder"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -445,7 +445,7 @@ const routes = [{
             name: "/borrowManagement/addBorrow",
             component: () => import("../views/borrowManagement/addBorrow"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -454,7 +454,7 @@ const routes = [{
             name: "/borrowManagement/borrowOrderDetail",
             component: () => import("../views/borrowManagement/borrowOrderDetail"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //----------------------------------------------------------借调管理结束-------------------------------------------------------------------------------------
@@ -466,7 +466,7 @@ const routes = [{
             component: () => import("../views/deliveryManagement/abnormalDelibery"),
 
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -475,7 +475,7 @@ const routes = [{
             name: "/deliveryManagement/delivetyNotePrint",
             component: () => import("../views/deliveryManagement/delivetyNotePrint"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -484,7 +484,7 @@ const routes = [{
             name: "/deliveryManagement/normalDelivery",
             component: () => import("../views/deliveryManagement/normalDelivery"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -493,7 +493,7 @@ const routes = [{
             name: "/deliveryManagement/pickingList",
             component: () => import("../views/deliveryManagement/pickingListes"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -502,7 +502,7 @@ const routes = [{
             name: "/deliveryManagement/quetyNormal",
             component: () => import("../views/deliveryManagement/quetyNormal"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //----------------------------------------------------------发货管理 end-------------------------------------------------------------------------------------
@@ -512,7 +512,7 @@ const routes = [{
             name: "/goodsShifting/jobTask",
             component: () => import("../views/goodsShifting/jobTask"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -521,7 +521,7 @@ const routes = [{
             name: "/goodsShifting/moveInLibrary",
             component: () => import("../views/goodsShifting/moveInLibrary"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
 
@@ -532,7 +532,7 @@ const routes = [{
             name: "/statistics/shipmentStatistics",
             component: () => import("../views/statistics/shipmentStatistics"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -541,7 +541,7 @@ const routes = [{
             name: "/statistics/replenishSatistics",
             component: () => import("../views/statistics/replenishSatistics"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -550,7 +550,7 @@ const routes = [{
             name: "/statistics/labourStatistics",
             component: () => import("../views/statistics/labourStatistics"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -559,7 +559,7 @@ const routes = [{
             name: "/statistics/pickErrorStatistics",
             component: () => import("../views/statistics/pickErrorStatistics"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -568,7 +568,7 @@ const routes = [{
             name: "/statistics/expressPickStatistics",
             component: () => import("../views/statistics/expressPickStatistics"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -577,7 +577,7 @@ const routes = [{
             name: "/statistics/logisticsFreesDetail",
             component: () => import("../views/statistics/logisticsFreesDetail"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -586,7 +586,7 @@ const routes = [{
             name: "/statistics/logisticsFreesStatistics",
             component: () => import("../views/statistics/logisticsFreesStatistics"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //----------------------------------------------------------统计模块结束-------------------------------------------------------------------------------------
@@ -597,7 +597,7 @@ const routes = [{
             name: "/inventoryMangement/productInventory",
             component: () => import("../views/inventoryMangement/productInventory"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -606,7 +606,7 @@ const routes = [{
             name: "/inventoryMangement/indateMangement",
             component: () => import("../views/inventoryMangement/indateMangement"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //----------------------------------------------------------库存管理结束-------------------------------------------------------------------------------------
@@ -618,7 +618,7 @@ const routes = [{
             name: "/inventoryCheck/checkPlanManagement",
             component: () => import("../views//inventoryCheck/checkPlanManagement"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -636,7 +636,7 @@ const routes = [{
             name: "/inventoryCheck/checkOrderManagement",
             component: () => import("../views//inventoryCheck/checkOrderManagement"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -672,7 +672,7 @@ const routes = [{
             name: "/inventoryCheck/saveInventoryResult",
             component: () => import("../views//inventoryCheck/saveInventoryResult"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //----------------------------------------------------------库存盘点结束-------------------------------------------------------------------------------------
@@ -683,7 +683,7 @@ const routes = [{
             name: "/reviewConfig/ReviewDelivery",
             component: () => import("../views/reviewConfig/ReviewDelivery"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -692,7 +692,7 @@ const routes = [{
             name: "/reviewConfig/reviewManagement",
             component: () => import("../views/reviewConfig/reviewManagement"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //----------------------------------------------------------复核配置 end-------------------------------------------------------------------------------------
@@ -703,7 +703,7 @@ const routes = [{
             name: "/customerInformation/delegationInformation",
             component: () => import("../views/customerInformation/delegationInformation"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -712,7 +712,7 @@ const routes = [{
             name: "/customerInformation/productInformation",
             component: () => import("../views/customerInformation/productInformation"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //----------------------------------------------------------客户信息 end-------------------------------------------------------------------------------------
@@ -723,7 +723,7 @@ const routes = [{
             name: "/productOffice/processingOffice",
             component: () => import("../views/productOffice/processingOffice"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -732,7 +732,7 @@ const routes = [{
             name: "/productOffice/dismantlingOffice",
             component: () => import("../views/productOffice/dismantlingOffice"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         //----------------------------------------------------------仓库作业 end-------------------------------------------------------------------------------------
@@ -743,7 +743,7 @@ const routes = [{
             name: "/InStationNews/newIndex",
             component: () => import("../views/InStationNews/newIndex"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         },
         {
@@ -751,7 +751,7 @@ const routes = [{
             name: "/InStationNews/newCenter",
             component: () => import("../views/InStationNews/newCenter"),
             meta: {
-                keepAlive: true
+                keepAlive: false
             },
         }
         //----------------------------------------------------------站内消息 end-------------------------------------------------------------------------------------
@@ -764,7 +764,7 @@ const routes = [{
         name: "/warehousingManagement/createManagement",
         component: () => import("../views/wareHouseIngManagement/createManagement"),
         meta: {
-            keepAlive: true
+            keepAlive: false
         },
     },
     {
@@ -774,7 +774,7 @@ const routes = [{
         name: "/warehousingManagement/manageMentrukuSure",
         component: () => import("../views/wareHouseIngManagement/manageMentrukuSure"),
         meta: {
-            keepAlive: true
+            keepAlive: false
         },
     },
     //设置权限页面
@@ -783,7 +783,7 @@ const routes = [{
         name: 'systemSetting/setAuthority',
         component: () => import("../views/systemSetting/setAuthority.vue"),
         meta: {
-            keepAlive: true
+            keepAlive: false
         },
     },
     {
@@ -791,7 +791,7 @@ const routes = [{
         name: 'footerDemo',
         component: () => import("../views/demo/demo.vue"),
         meta: {
-            keepAlive: true
+            keepAlive: false
         },
     },
     {
@@ -799,7 +799,7 @@ const routes = [{
         name: 'systemSetting/setUserIng',
         component: () => import("../views/systemSetting/setUserIng.vue"),
         meta: {
-            keepAlive: true
+            keepAlive: false
         },
     },
     // /warehousingManagement/createWarehouse
@@ -810,7 +810,7 @@ const routes = [{
         name: "/warehouseManagement/createWarehouse",
         component: () => import("../views/warehouseManagement/createWarehouse"),
         meta: {
-            keepAlive: true
+            keepAlive: false
         },
     },
     {
@@ -820,7 +820,7 @@ const routes = [{
         name: "/warehouseManagement/warehouseSure",
         component: () => import("../views/warehouseManagement/warehouseSure"),
         meta: {
-            keepAlive: true
+            keepAlive: false
         },
     },
     //===========================采购管理 end===============
@@ -830,7 +830,7 @@ const routes = [{
         name: 'systemSetting/editUserIng',
         component: () => import("../views/systemSetting/editUserIng.vue"),
         meta: {
-            keepAlive: true
+            keepAlive: false
         },
     },
 
@@ -839,7 +839,7 @@ const routes = [{
         name: 'systemSetting/lookUser',
         component: () => import("../views/systemSetting/lookUser.vue"),
         meta: {
-            keepAlive: true
+            keepAlive: false
         },
     },
 

@@ -9,7 +9,7 @@
         tooltip-effect="dark"
         max-height="300"
       >
-        <el-table-column label="序号" align="center" type="index" >
+        <el-table-column label="序号" align="center" type="index" width="71">
         </el-table-column>
         <el-table-column prop="CWName" label="子仓" align="center">
         </el-table-column>
@@ -81,20 +81,6 @@ export default {
         dataArr.splice(index, 1);
         this.$store.dispatch("delPFSRequestAct", index);
       }
-    },
-    getPageNum(e) {
-      this.pagingQueryData.pageNumber = e;
-    },
-    sureSuccssBtn(e) {
-      this.pagingQueryData.pageNumber = e;
-    },
-    changeData(data) {
-      this.changePageData(data); //用来改变分页器的条数
-    },
-    //用来改变分页器的条数
-    changePageData(data) {
-      let { totalRow } = data;
-      this.pageComponentsData.pageNums = totalRow;
     },
   },
 };

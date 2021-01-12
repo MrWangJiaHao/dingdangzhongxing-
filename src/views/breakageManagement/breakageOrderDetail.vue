@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { pointBreakageOrder } from "../../api/api";
+import { printBreakageOrder } from "../../api/api";
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -101,7 +101,7 @@ export default {
   mounted() {},
   methods: {
     queryInfor() {
-      pointBreakageOrder({ id: this.id }).then((ok) => {
+      printBreakageOrder({ id: this.id }).then((ok) => {
         console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = [];

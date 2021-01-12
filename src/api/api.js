@@ -877,7 +877,7 @@ export function delBreakageOrder(data) {
 }
 
 //报损单明细(查看/编辑/打印报损单)
-export function pointBreakageOrder(data) {
+export function printBreakageOrder(data) {
     return new Promise((resolve, reject) => {
         service.request({
             url: "/wbs-warehouse-manage/pDamageOrder/findRecord",
@@ -1309,7 +1309,7 @@ export function queryCheckOrder(data) {
             resolve(ok)
         }).catch((err) => {
             reject(err)
-        })
+        })  
     })
 }
 
@@ -1347,6 +1347,34 @@ export function checkOrderSubmit(data) {
     return new Promise((resolve, reject) => {
         service.request({
             url: "/wbs-warehouse-manage/v1/pStockCheckOrder/submitStockData",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//库存盘点=>库错订正结果=分页查询（产品）
+export function querySaveResProd(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pStockCheckOrderDetail/findRecordPageProd",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//库存盘点=>库错订正结果=分页查询（库位）
+export function querySaveResSeat(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pStockCheckOrderDetail/findRecordPageSeat",
             method: "post",
             data,
         }).then((ok) => {

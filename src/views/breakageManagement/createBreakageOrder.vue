@@ -197,7 +197,7 @@ import {
   queryEntrustCompany,
   saveBreakageOrder,
   querySLInfor,
-  pointBreakageOrder,
+  printBreakageOrder,
 } from "../../api/api";
 import { getCookie } from "../../utils/validate";
 
@@ -302,7 +302,7 @@ export default {
   },
   methods: {
     queryFun() {
-      pointBreakageOrder({ id: this.id }).then((ok) => {
+      printBreakageOrder({ id: this.id }).then((ok) => {
         // console.log(ok)
         if (ok.data.code === "10000") {
           this.tableData = [];
