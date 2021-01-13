@@ -209,7 +209,7 @@ export function queryProductInfor(data) {
     })
 }
 
-//查询子仓下面区域的id
+//查询子仓下面的区域
 export function queryAreaOfWS(data) {
     return new Promise((resolve, reject) => {
         service.request({

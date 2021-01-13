@@ -228,9 +228,6 @@
             @sureSuccssBtn="sureSuccssBtn"
           ></pagecomponent>
         </div>
-        <!-- <transition>
-          <Loading v-if="isLoading"></Loading>
-        </transition> -->
       </div>
     </div>
     <div
@@ -264,25 +261,21 @@
 </template>
 
 <script>
-// import Loading from "@/components/loading/loading";
 import {
   querySLInfor,
-  query_WH_Request,
   querySLInforCon,
   queryAreaOfWS,
   areaShelfQuery,
   TJquery_WH_Request,
 } from "../../api/api";
 import pagecomponent from "../../components/commin/pageComponent";
-import { getCookie, reduceFun } from "../../utils/validate";
+import { clearTimeInput, getCookie, reduceFun } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
-    // Loading,
   },
   data() {
     return {
-      // isLoading: true,
       showTizoxinma: false,
       tiaoxinmaSrc:
         "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=",
@@ -314,7 +307,7 @@ export default {
       storageLocalChooseValue: "",
       tableData: [],
       multipleSelection: [],
-      pagingQueryData: {
+      queryData: {
         //分页查询
         orderBy: "createTime",
         pageNumber: 1,
@@ -329,6 +322,15 @@ export default {
           id: "", //货架ID
         },
       },
+      SLInforData: {
+        childWareId: "", //子仓ID
+        wareAreaId: "", //区域ID
+        wareAreaType: "", //区域类型
+        wareShelfId: "", //货架
+        shelfLevelNum: "", //货架层数
+        wareSeatCode: "", //库位编号
+        id: "", //货架ID
+      },
       pageComponentsData: {
         pageNums: 0,
       },
@@ -337,20 +339,11 @@ export default {
       //此数组用来存储子仓里面库位的各种信息
       CSkuweiData: [],
       //条件查询的data
-      SLInforData: {
-        childWareId: "", //子仓id
-        wareAreaId: "", //仓库区域id
-        wareAreaType: "", //区域类型（1-存储区；2-拣货区）
-        wareShelfId: "", //仓库货架id
-        shelfLevelNum: "", //货架层数(仅查询本层库位)
-        id: "",
-      },
       areaData: {
         childWareId: "",
         id: "",
       },
       CSandareaData: [],
-
       codeData: {
         code: "",
       },
@@ -361,7 +354,6 @@ export default {
         wareAreaId: "",
       },
       shelfResList: [],
-      kuweiData: [],
     };
   },
   computed: {
@@ -373,7 +365,6 @@ export default {
     //查询子仓名称的请求
     TJquery_WH_Request({ wareId: getCookie("X-Auth-wareId"), id: "" }).then(
       (ok) => {
-        console.log(ok);
         if (ok.data.code === "10000") {
           ok.data.result.forEach((v) => {
             this.childWarehouseName.push({
@@ -391,7 +382,7 @@ export default {
       }
     );
     queryAreaOfWS(this.areaData).then((ok) => {
-      // console.log(ok);
+      console.log(ok);
       if (ok.data.code === "10000") {
         this.CSandareaData = ok.data.result;
       }
@@ -400,57 +391,115 @@ export default {
   },
   methods: {
     queryFun() {
-      querySLInfor(this.pagingQueryData).then((ok) => {
+      querySLInfor(this.queryData).then((ok) => {
         // console.log(ok);
-        this.tableData = [];
-        this.tableData = ok.data.result.list;
-        this.changeData(ok.data.result);
-        this.tableData.forEach((v) => {
-          v.wareAreaType = v.wareAreaType === 1 ? "存储区" : "拣货区";
-          v.areaNumber = v.wareSeatCode.split("-")[1];
-          v.shelfName = v.wareSeatCode.split("-")[2];
-          v.tierChoose = v.wareSeatCode.split("-")[3];
-          v.seatProdId = v.seatProdId === "" ? "否" : "是";
-        });
+        if (ok.data.code === "10000") {
+          this.tableData = [];
+          this.tableData = ok.data.result.list;
+          this.changeData(ok.data.result);
+          this.tableData.forEach((v) => {
+            v.wareAreaType = v.wareAreaType === 1 ? "存储区" : "拣货区";
+            v.areaNumber = v.wareSeatCode.split("-")[1];
+            v.shelfName = v.wareSeatCode.split("-")[2];
+            v.tierChoose = v.wareSeatCode.split("-")[3];
+            v.seatProdId = v.seatProdId === "" ? "否" : "是";
+          });
+        }
       });
     },
     clickQuery() {
       //点击查询
       this.queryFun();
-      // let SLInforData = this.SLInforData;
-      // querySLInforCon(SLInforData).then((ok) => {
-      //   if (ok.data.code === "10000") {
-      //     // console.log(ok);
-      //     let res = ok.data.result;
-      //     this.tableData = ok.data.result;
-      //     this.pagingQueryData.pageNumber = res.length;
-      //     this.pageComponentsData.pageNums = res.length;
-      //   } else {
-      //     this.$messageSelf.message({
-      //       type: "error",
-      //       message: "未知错误",
-      //     });
-      //   }
-      // });
     },
     clearInput() {
       //点击清空
+      clearTimeInput();
       this.nameValue = "";
       this.areaNameValue = "";
       this.areaTypeValue = "";
       this.shelfNameValue = "";
       this.tierChooseValue = "";
       this.storageLocalChooseValue = "";
-      this.SLInforData.childWareId = "";
-      this.SLInforData.wareAreaId = "";
-      this.SLInforData.wareAreaType = "";
-      this.SLInforData.wareShelfId = "";
-      this.SLInforData.shelfLevelNum = "";
-      this.SLInforData.id = "";
+      Object.keys(this.queryData.paras).forEach((v) => {
+        this.queryData.paras[v] = "";
+      });
       this.areaNameData = [];
       this.shelfNameData = [];
       this.storageLocalChooseData = [];
       this.queryFun();
+    },
+    nameValues(value) {
+      this.queryData.paras.childWareId = value;
+      this.CSandareaData.forEach((v) => {
+        if (value === v.childWareId) {
+          this.areaNameData.push({
+            value: v.id,
+            label: v.wareAreaName,
+          });
+        }
+      });
+    },
+    areaNameValues(value) {
+      this.queryData.paras.wareAreaId = value;
+      this.areaShelfQueryData.wareAreaId = value;
+      areaShelfQuery(this.areaShelfQueryData).then((ok) => {
+        // console.log(ok)
+        if (ok.data.code === "10000") {
+          this.shelfResList = ok.data.result;
+          this.shelfResList.forEach((v) => {
+            this.shelfNameData.push({
+              value: v.id,
+              label: v.shelfName,
+            });
+          });
+          this.shelfNameData = reduceFun(this.shelfNameData);
+        }
+      });
+    },
+    chooseItem(event) {
+      if (event) {
+        this.areaNameData = [];
+      }
+    },
+    areaTypeValues(value) {
+      this.queryData.paras.wareAreaType = value;
+    },
+    shelfNameValues(value) {
+      this.queryData.paras.id = value;
+      querySLInforCon(this.SLInforData).then((ok) => {
+        if (ok.data.code === "10000") {
+          ok.data.result.forEach((v) => {
+            this.storageLocalChooseData.push({
+              value: v.wareSeatCode,
+              label: v.wareSeatCode,
+            });
+          });
+        }
+      });
+    },
+    tierChooseValues(value) {
+      this.queryData.paras.shelfLevelNum = value;
+    },
+    storageLocalChooseValues(value) {
+      this.queryData.paras.wareSeatCode = value;
+    },
+    SLmap() {
+      //库位映射
+      this.$router.push("/storageLocalMap/SLmapInfor");
+    },
+    lookDetail(row, column) {
+      if (column.property === "seatProdId") {
+        if (row.seatProdId === "否") {
+          this.$router.push({
+            path: "/storageLocalMap/SLmapInfor",
+          });
+        } else {
+          this.$router.push({
+            path: "/storageLocalMap/SLmapInfor",
+            query: { isUsed: row, type: "look" },
+          });
+        }
+      }
     },
     printSLCode() {
       //打印条形码图片
@@ -491,114 +540,14 @@ export default {
       });
       this.dayintiaoxinma();
     },
-
-    nameValues(value) {
-      this.childStoreData.forEach((v) => {
-        if (value === v.childWareName) {
-          this.pagingQueryData.paras.wareAreaId = v.id;
-        }
-      });
-      this.CSandareaData.forEach((v) => {
-        if (value === v.childWareName) {
-          this.areaNameData.push({
-            value: v.id,
-            label: v.wareAreaName,
-          });
-        }
-      });
-      console.log(this.areaNameData);
-    },
-    areaNameValues(value) {
-      this.areaNameValue = value;
-      this.CSandareaData.forEach((v) => {
-        if (value === v.wareAreaName) {
-          this.pagingQueryData.paras.wareAreaId = v.id;
-          this.areaShelfQueryData.wareAreaId = v.id;
-        }
-      });
-      let areaShelfQueryData = this.areaShelfQueryData;
-      areaShelfQuery(areaShelfQueryData).then((ok) => {
-        if (ok.data.code === "10000") {
-          this.shelfResList = ok.data.result;
-          this.shelfResList.forEach((v) => {
-            this.shelfNameData.push({
-              value: v.shelfName,
-              label: v.shelfName,
-            });
-          });
-        }
-      });
-    },
-    chooseItem(event) {
-      if (event) {
-        this.areaNameData = [];
-      }
-      // if(event === false){
-      //   console.log(this.SLInforData)
-      // }
-    },
-    areaTypeValues(value) {
-      this.pagingQueryData.paras.wareAreaType = value;
-    },
-    shelfNameValues(value) {
-      this.shelfNameValue = value;
-      this.shelfResList.forEach((v) => {
-        if (value === v.shelfName) {
-          this.pagingQueryData.paras.wareShelfId = v.id;
-        }
-      });
-
-      let SLInforData = this.SLInforData;
-      querySLInforCon(SLInforData).then((ok) => {
-        if (ok.data.code === "10000") {
-          this.kuweiData = ok.data.result;
-          this.kuweiData.forEach((v) => {
-            this.storageLocalChooseData.push({
-              value: v.id,
-              label: v.wareSeatCode,
-            });
-          });
-        }
-      });
-    },
-    tierChooseValues(value) {
-      this.tierChooseValue = value;
-      this.pagingQueryData.paras.shelfLevelNum = value;
-    },
-    storageLocalChooseValues(value) {
-      this.storageLocalChooseValue = value;
-      this.kuweiData.forEach((v) => {
-        if (value === v.wareSeatCode) {
-          this.SLInforData.id = v.id;
-        }
-      });
-    },
-    SLmap() {
-      //库位映射
-      this.$router.push("/storageLocalMap/SLmapInfor");
-    },
-    lookDetail(row, column) {
-      if (column.property === "seatProdId") {
-        if (row.seatProdId === "否") {
-          this.$router.push({
-            path: "/storageLocalMap/SLmapInfor",
-          });
-        } else {
-          this.$router.push({
-            path: "/storageLocalMap/SLmapInfor",
-            query: { isUsed: row, type: "look" },
-          });
-        }
-      }
-    },
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
     getPageNum(e) {
-      this.pagingQueryData.pageNumber = e;
+      this.queryData.pageNumber = e;
     },
     sureSuccssBtn(e) {
-      this.pagingQueryData.pageNumber = e;
+      this.queryData.pageNumber = e;
       this.queryFun();
     },
     changeData(data) {

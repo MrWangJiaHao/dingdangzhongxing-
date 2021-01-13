@@ -372,7 +372,7 @@ export default {
     },
     highlightDiv() {
       let childViewDiv = document.querySelectorAll(".childViewDiv");
-      childViewDiv.forEach((v, i) => {
+      childViewDiv.forEach((v) => {
         if (this.input1 == v.innerHTML) {
           v.style.background = "#367fff";
           v.style.border = "1px solid #0555c2";
