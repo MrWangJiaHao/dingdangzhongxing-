@@ -12,6 +12,7 @@
         </div>
       </div>
       <div class="setArea">
+        <div class="tooltipBox"></div>
         <div class="temporarily_no">
           <!-- 这里展示子仓平面图 -->
         </div>
@@ -142,9 +143,9 @@
       </div>
     </div>
     <div class="footerBtn">
-          <div class="backBtn" @click="back">返回</div>
-          <div class="submitBtn" @click="submit">提交</div>
-        </div>
+      <div class="backBtn" @click="back">返回</div>
+      <div class="submitBtn" @click="submit">提交</div>
+    </div>
   </div>
 </template>
 
@@ -237,8 +238,23 @@ export default {
       false
     );
     this.saveDiv();
+    this.mouseoutEvent();
   },
   methods: {
+    mouseoutEvent() {
+      let tooltipBox = document.querySelector(".tooltipBox");
+      document.querySelectorAll(".childViewDiv").forEach((v) => {
+        v.onmouseover = (e) => {
+          tooltipBox.style.left = e.pageX + "px";
+          tooltipBox.style.top = e.pageY - 50 + "px";
+          tooltipBox.style.display = "block";
+          tooltipBox.innerHTML = v.innerHTML;
+        };
+        v.onmouseout = () => {
+          tooltipBox.style.display = "none";
+        };
+      });
+    },
     changeSize() {
       let setArea = document.querySelector(".setArea");
       setArea.style.width = "100%";
@@ -275,6 +291,9 @@ export default {
           childWarehouseList[i].wareLength * 0.2 + "px";
         childDiv.style.lineHeight =
           (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.overflow = "hidden";
+        childDiv.style.textOverflow = "ellipsis";
+        childDiv.style.whiteSpace = "nowrap";
         childDiv.style.fontSize = "10px";
         childDiv.innerHTML = childWarehouseList[i].childWareName;
         childDiv.className = "childViewDiv";
@@ -500,5 +519,14 @@ export default {
     width: 1110px;
     height: 54px;
   }
+}
+.tooltipBox {
+  position: absolute;
+  padding: 10px 20px;
+  background: #303133;
+  color: #fff;
+  display: none;
+  border-radius: 4px;
+  z-index: 100;
 }
 </style>

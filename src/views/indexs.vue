@@ -19,10 +19,12 @@
               <div slot="label" v-if="navIndex.children">
                 <el-dropdown
                   placement="bottom"
-                  trigger="hover"
+                  trigger="click"
                   class="displayalign"
                   v-if="navIndex.children.length > 1"
                   @command="clickEventGoRouter"
+                  ref="mouseoutHidden"
+                  @visible-change="visibleChange"
                 >
                   <span class="el-dropdown-link">
                     <img
@@ -524,9 +526,30 @@ export default {
         },
         {
           title: "设备管理",
-          name: "",
+          name: "/facilityManagement/PDAmanagement",
           iconCls: require("@/assets/svg/shebeoguanli.svg"),
-          children: [],
+          children: [
+            {
+              title: "PDA管理",
+              name: "/facilityManagement/PDAmanagement",
+            },
+            {
+              title: "监控设备管理",
+              name: "/facilityManagement/monitoringAidsManagement",
+            },
+            {
+              title: "监控数据管理",
+              name: "/facilityManagement/monitoringDataManagement",
+            },
+            {
+              title: "拣货车管理",
+              name: "/facilityManagement/pickCarManagement",
+            },
+            {
+              title: "货架管理",
+              name: "/facilityManagement/shelfManagement",
+            },
+          ],
         },
         {
           title: "统计",
@@ -684,7 +707,11 @@ export default {
     _resData(start = 0, numers = 7) {},
   },
   methods: {
-    
+    visibleChange(val) {
+      if (val) {
+        console.log(val);
+      }
+    },
     goToIndex() {
       this.$router.push("/index/indexFormJH");
     },
@@ -868,7 +895,7 @@ export default {
       this.oldName = +this.activeName;
       this.handleTabsEdit();
       this.setStorage();
-      console.log("this.mianbaoxieArr", this.mianbaoxieArr);
+      // console.log("this.mianbaoxieArr", this.mianbaoxieArr);
     },
     clickEventGoRouter(e) {
       let dataArrJson = this.dropdownArr[+this.activeTabsName].children[e];

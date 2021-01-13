@@ -241,7 +241,6 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
-      vm.tableData = [];
       vm.requestMethods();
     });
   },
@@ -254,6 +253,7 @@ export default {
           // console.log(ok.data.result);
           this.queryRes = ok.data.result.list;
           this.changeData(ok.data.result);
+          this.tableData = [];
           this.tableData = ok.data.result.list;
           //将查询出来的数据存储到vuex里面
           this.$store.dispatch("CWAdminRequest", ok.data.result);
@@ -298,8 +298,7 @@ export default {
     },
     clickQuery() {
       //点击查询
-      let tjQueryData = this.tjQueryData;
-      TJquery_WH_Request(tjQueryData).then((ok) => {
+      TJquery_WH_Request(this.tjQueryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = [];
@@ -404,9 +403,8 @@ export default {
       this.requestMethods();
     },
     changeData(data) {
-      this.changePageData(data); //用来改变分页器的条数
+      this.changePageData(data);
     },
-    //用来改变分页器的条数
     changePageData(data) {
       let { totalRow } = data;
       this.pageComponentsData.pageNums = totalRow;

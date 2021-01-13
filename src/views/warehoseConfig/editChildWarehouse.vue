@@ -12,6 +12,7 @@
         </div>
       </div>
       <div class="setArea">
+        <div class="tooltipBox"></div>
         <div class="temporarily_no">
           <!-- 这里展示子仓平面图 -->
         </div>
@@ -280,8 +281,23 @@ export default {
     );
 
     this.saveDiv();
+    this.mouseoutEvent();
   },
   methods: {
+    mouseoutEvent() {
+      let tooltipBox = document.querySelector(".tooltipBox");
+      document.querySelectorAll(".childViewDiv").forEach((v) => {
+        v.onmouseover = (e) => {
+          tooltipBox.style.left = e.pageX + "px";
+          tooltipBox.style.top = e.pageY - 50 + "px";
+          tooltipBox.style.display = "block";
+          tooltipBox.innerHTML = v.innerHTML;
+        };
+        v.onmouseout = () => {
+          tooltipBox.style.display = "none";
+        };
+      });
+    },
     changeSize() {
       let setArea = document.querySelector(".setArea");
       setArea.style.width = "100%";
@@ -319,6 +335,10 @@ export default {
           childWarehouseList[i].wareLength * 0.2 + "px";
         childDiv.style.lineHeight =
           (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
+        childDiv.style.overflow = "hidden";
+        childDiv.style.textOverflow = "ellipsis";
+        childDiv.style.whiteSpace = "nowrap";
+        (childWarehouseList[i].wareWidth * oDiv.offsetWidth) / 200 + "px";
         childDiv.style.fontSize = "10px";
         childDiv.innerHTML = childWarehouseList[i].childWareName;
         childDiv.className = "childViewDiv";
@@ -338,38 +358,49 @@ export default {
           this.value3 = childWarehouseList[i].childWareCode.substring(1); //子仓编号数字
           this.editId = childWarehouseList[i].id; //选中子仓的id
           this.divChecked = true;
-          // v.style.background = "#409EFF";
-          // v.style.border = "1px solid #0555c2";
-          // v.style.color = "white";
+          v.style.background = "#367fff";
+          v.style.border = "1px solid #0555c2";
+          v.style.color = "white";
+          for (let j = 0; j < childViewDiv.length - 1; j++) {
+            this.siblings(v)[j].style.background = "#fff";
+            this.siblings(v)[j].style.color = "#000";
+            this.siblings(v)[j].style.border = "1px solid #ddd";
+          }
         };
       });
-      // $(".childViewDiv").each((v, i) => {
-      //   $(i).click(() => {
-      //     this.input1 = childWarehouseList[v].childWareName; //子仓名称
-      //     this.input4 = childWarehouseList[v].northDistance; //距北距离
-      //     this.input5 = childWarehouseList[v].westDistance; //距西距离
-      //     this.input2 = childWarehouseList[v].wareLength; //子仓长度
-      //     this.input3 = childWarehouseList[v].wareWidth; //子仓宽度
-      //     this.value2 = childWarehouseList[v].wareType; //仓库类型
-      //     this.textarea = childWarehouseList[v].remark; //备注
-      //     this.value1 = childWarehouseList[v].childWareCode.substring(0, 1); //子仓编号字母
-      //     this.value3 = childWarehouseList[v].childWareCode.substring(1); //子仓编号数字
-      //     this.editId = childWarehouseList[v].id; //选中子仓的id
-      //     this.divChecked = true;
-      //     $(i)
-      //       .css({
-      //         background: "#367fff",
-      //         border: "1px solid #0555c2",
-      //         color: "white",
-      //       })
-      //       .siblings()
-      //       .css({
-      //         background: "white",
-      //         border: "1px solid #ddd",
-      //         color: "black",
-      //       });
-      //   });
-      // });
+      this.highlightDiv();
+    },
+    highlightDiv() {
+      let childViewDiv = document.querySelectorAll(".childViewDiv");
+      childViewDiv.forEach((v, i) => {
+        if (this.input1 == v.innerHTML) {
+          v.style.background = "#367fff";
+          v.style.border = "1px solid #0555c2";
+          v.style.color = "white";
+        }
+      });
+    },
+    siblings(elem) {
+      //参数elem就是想取谁的兄弟节点，就把那个元素传进去
+      var nodes = []; //定义一个数组，用来存elem的兄弟元素
+      var previ = elem.previousSibling;
+      while (previ) {
+        //先取o的哥哥们 判断有没有上一个哥哥元素，如果有则往下执行 previ表示previousSibling
+        if (previ.nodeType === 1) {
+          nodes.push(previ);
+        }
+        previ = previ.previousSibling; //最后把上一个节点赋给previ
+      }
+      nodes.reverse(); //把顺序反转一下 这样元素的顺序就是按先后的了
+      var nexts = elem.nextSibling; //再取elem的弟弟
+      while (nexts) {
+        //判断有没有下一个弟弟结点 nexts是nextSibling的意思
+        if (nexts.nodeType === 1) {
+          nodes.push(nexts);
+        }
+        nexts = nexts.nextSibling;
+      }
+      return nodes; //最后按从老大到老小的顺序，把这一组元素返回
     },
     submit() {
       if (this.divChecked === false) {
@@ -524,5 +555,14 @@ export default {
     width: 1110px;
     height: 54px;
   }
+}
+.tooltipBox {
+  position: absolute;
+  padding: 10px 20px;
+  background: #303133;
+  color: #fff;
+  display: none;
+  border-radius: 4px;
+  z-index: 100;
 }
 </style>

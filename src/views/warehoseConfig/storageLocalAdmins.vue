@@ -156,7 +156,12 @@
           </el-table-column>
           <el-table-column prop="childWareName" label="子仓名称" align="center">
           </el-table-column>
-          <el-table-column prop="wareAreaName" label="区域名称" align="center">
+          <el-table-column
+            prop="wareAreaName"
+            label="区域名称"
+            align="center"
+            show-overflow-tooltip
+          >
           </el-table-column>
           <el-table-column
             prop="wareAreaType"
@@ -266,9 +271,10 @@ import {
   querySLInforCon,
   queryAreaOfWS,
   areaShelfQuery,
+  TJquery_WH_Request,
 } from "../../api/api";
 import pagecomponent from "../../components/commin/pageComponent";
-import { reduceFun } from "../../utils/validate";
+import { getCookie, reduceFun } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -365,24 +371,25 @@ export default {
   },
   mounted() {
     //查询子仓名称的请求
-    query_WH_Request(this.pagingQueryData).then((ok) => {
-      if (ok.data.code === "10000") {
-        // console.log(ok);
-        this.childStoreData = ok.data.result.list;
-        this.childStoreData.forEach((v) => {
-          this.childWarehouseName.push({
-            value: v.id,
-            label: v.childWareName,
+    TJquery_WH_Request({ wareId: getCookie("X-Auth-wareId"), id: "" }).then(
+      (ok) => {
+        console.log(ok);
+        if (ok.data.code === "10000") {
+          ok.data.result.forEach((v) => {
+            this.childWarehouseName.push({
+              value: v.id,
+              label: v.childWareName,
+            });
           });
-        });
-        this.childWarehouseName = reduceFun(this.childWarehouseName);
-      } else {
-        this.$messageSelf.message({
-          type: "error",
-          message: "未知错误",
-        });
+          this.childWarehouseName = reduceFun(this.childWarehouseName);
+        } else {
+          this.$messageSelf.message({
+            type: "error",
+            message: "查询子仓失败",
+          });
+        }
       }
-    });
+    );
     queryAreaOfWS(this.areaData).then((ok) => {
       // console.log(ok);
       if (ok.data.code === "10000") {
@@ -394,7 +401,7 @@ export default {
   methods: {
     queryFun() {
       querySLInfor(this.pagingQueryData).then((ok) => {
-        // console.log(ok);  
+        // console.log(ok);
         this.tableData = [];
         this.tableData = ok.data.result.list;
         this.changeData(ok.data.result);
@@ -409,7 +416,7 @@ export default {
     },
     clickQuery() {
       //点击查询
-      this.queryFun()
+      this.queryFun();
       // let SLInforData = this.SLInforData;
       // querySLInforCon(SLInforData).then((ok) => {
       //   if (ok.data.code === "10000") {
@@ -499,7 +506,7 @@ export default {
           });
         }
       });
-      console.log(this.areaNameData)
+      console.log(this.areaNameData);
     },
     areaNameValues(value) {
       this.areaNameValue = value;
@@ -573,9 +580,8 @@ export default {
     lookDetail(row, column) {
       if (column.property === "seatProdId") {
         if (row.seatProdId === "否") {
-          return this.$messageSelf.message({
-            type: "error",
-            message: "该库位还未绑定产品",
+          this.$router.push({
+            path: "/storageLocalMap/SLmapInfor",
           });
         } else {
           this.$router.push({
@@ -610,6 +616,7 @@ export default {
 @import "../../assets/scss/btn.scss";
 #storageLocalAdmin {
   padding: 20px 10px;
+  background: #eef1f8;
 }
 .publicStyle {
   margin: 0 20px 16px 0;
