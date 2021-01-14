@@ -1023,3 +1023,15 @@ textarea {
 .el-table__header-wrapper tr .is-leaf:nth-last-child(2) {
     border-right: none !important;
 }
+
+.el-table .sort-caret.ascending {
+    top: 0 !important;
+}
+
+.el-table .sort-caret.descending {
+    bottom: 0 !important;
+}
+
+.el-table .caret-wrapper {
+    height: 22px !important;
+}

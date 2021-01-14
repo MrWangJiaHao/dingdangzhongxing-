@@ -162,6 +162,7 @@ export default {
     if (from.name === "/warehoseconfig/childWarehouseAdmin") {
       next((vm) => {
         vm.isDisabled = false;
+        vm.isBlock = "display:block";
         if (vm.$route.query.type === "preview") {
           // console.log("点击了预览按钮");
           vm.isDisabled = true;
@@ -177,6 +178,8 @@ export default {
           vm.value3 = vm.$route.query.data.childWareCode.substring(1); //子仓编号数字
         }
       });
+    } else {
+      next();
     }
   },
   data() {

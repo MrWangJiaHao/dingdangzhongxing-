@@ -56,9 +56,7 @@
             <StaffEcharts></StaffEcharts>
           </div>
         </div>
-        <div class="ws-area3">
-
-        </div>
+        <div class="ws-area3"></div>
         <div class="ws-area2">
           <div class="area2-title">
             <div class="area2-title-text">仓库发货人员效率统计</div>
@@ -236,17 +234,13 @@ export default {
           this.$router.push({ path: "/deliveryManagement/pickingList" });
           break;
         case 3:
-          this.$router.push({ path: "/indentManagement/sellIndentManage" });
+          this.$router.push({ path: "/reviewConfig/reviewManagement" });
           break;
         case 4:
-          this.$messageSelf.message({
-            message: "该模块还在开发中",
-          });
+          this.$router.push({ path: "/reviewConfig/reviewManagement" });
           break;
         case 5:
-          this.$messageSelf.message({
-            message: "该模块还在开发中",
-          });
+          this.$router.push({ path: "/indentManagement/sellIndentManage" });
           break;
       }
     },
@@ -256,7 +250,7 @@ export default {
 
 <style scoped lang="scss">
 #indexMain {
-  width:100%;
+  width: 100%;
   padding: 16px;
   position: relative;
   background: #eef1f8;
@@ -390,7 +384,7 @@ export default {
           height: 404px;
         }
       }
-      .ws-area3{
+      .ws-area3 {
         width: 1.1%;
         height: 480px;
         background: #eef1f8;

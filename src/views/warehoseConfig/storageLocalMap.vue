@@ -114,7 +114,7 @@
               <el-select
                 v-model="pickAreaValue"
                 placeholder="请选择拣货区域"
-                @change="pickAreaValue"
+                @change="pickAreaValues"
               >
                 <el-option
                   v-for="item in pickAreaData"
@@ -132,7 +132,7 @@
               <el-select
                 v-model="pickShelfValue"
                 placeholder="请选择拣货货架"
-                @change="pickShelfValue"
+                @change="pickShelfValues"
               >
                 <el-option
                   v-for="item in pickShelfData"
@@ -179,7 +179,7 @@
     </div>
     <div class="formBox">
       <div class="formTabs">
-        <el-tabs type="card">
+        <el-tabs type="card" @tab-click="tabClick">
           <el-tab-pane label="存储区库位">
             <div class="childWarehouseForm">
               <div class="formHeader">
@@ -204,9 +204,19 @@
                   :stripe="true"
                   tooltip-effect="dark"
                 >
-                  <el-table-column type="selection" width="82" align="center" fixed="left">
+                  <el-table-column
+                    type="selection"
+                    width="82"
+                    align="center"
+                    fixed="left"
+                  >
                   </el-table-column>
-                  <el-table-column label="序号" align="center" type="index" width="71">
+                  <el-table-column
+                    label="序号"
+                    align="center"
+                    type="index"
+                    width="71"
+                  >
                   </el-table-column>
                   <el-table-column
                     prop="orgName"
@@ -218,7 +228,7 @@
                     prop="prodFullName"
                     label="产品名称"
                     align="center"
-                    width="120"
+                    width="200"
                   >
                   </el-table-column>
                   <el-table-column
@@ -241,6 +251,7 @@
                     prop="childWareName"
                     label="子仓名称"
                     align="center"
+                    width="160"
                     show-overflow-tooltip
                   >
                   </el-table-column>
@@ -268,10 +279,7 @@
                     min-width="140"
                   >
                     <template slot-scope="scope">
-                      <div
-                        class="lookDeatil"
-                        @click="lookSeatCodeInfor(scope.row)"
-                      >
+                      <div class="lookDeatil" @click="lookStoreSeat(scope.row)">
                         {{ scope.row.wareSeatCode }}
                       </div>
                     </template>
@@ -321,9 +329,19 @@
                   :stripe="true"
                   tooltip-effect="dark"
                 >
-                  <el-table-column type="selection" width="82" align="center" fixed="left">
+                  <el-table-column
+                    type="selection"
+                    width="82"
+                    align="center"
+                    fixed="left"
+                  >
                   </el-table-column>
-                  <el-table-column label="序号" align="center" type="index" width="71">
+                  <el-table-column
+                    label="序号"
+                    align="center"
+                    type="index"
+                    width="71"
+                  >
                   </el-table-column>
                   <el-table-column
                     prop="orgName"
@@ -335,6 +353,7 @@
                     prop="prodFullName"
                     label="产品名称"
                     align="center"
+                    width="200"
                   >
                   </el-table-column>
                   <el-table-column
@@ -342,7 +361,6 @@
                     label="产品编号"
                     align="center"
                     width="170"
-                    min-width="170"
                   >
                   </el-table-column>
                   <el-table-column
@@ -357,6 +375,7 @@
                     prop="childWareName"
                     label="子仓名称"
                     align="center"
+                    width="160"
                     show-overflow-tooltip
                   >
                   </el-table-column>
@@ -384,7 +403,9 @@
                     min-width="140"
                   >
                     <template slot-scope="scope">
-                      <div class="lookDetail">{{ scope.row.wareSeatCode }}</div>
+                      <div class="lookDeatil" @click="lookPickSeat(scope.row)">
+                        {{ scope.row.wareSeatCode }}
+                      </div>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -430,7 +451,7 @@
 import pagecomponent from "../../components/commin/pageComponent";
 import storageLocalDetail from "./storageLocalDetail";
 import {
-  query_WH_Request,
+  TJquery_WH_Request,
   storeMapRelation,
   queryAreaOfWS,
   queryEntrustCompany,
@@ -445,6 +466,7 @@ export default {
   },
   data() {
     return {
+      tabLabel: "0",
       title: "库位信息",
       seatCodeData: "",
       dialogFormVisible: false,
@@ -499,7 +521,6 @@ export default {
       },
       childStoreData: [],
       pagingQueryData: {
-        //分页查询
         pageNumber: 1,
         pageSize: 10,
         paras: {
@@ -512,180 +533,105 @@ export default {
           id: "", //货架ID
         },
       },
-      areaData: {
-        childWareId: "",
-        id: "",
-      },
       CSandareaData: [],
-      areaShelfQueryData: {
-        id: "",
-        wareAreaId: "",
-      },
       shelfResList: [],
       orgId: "",
-      storePageNumber: "1",
-      pickPageNumber: "1",
+      queryData: {
+        orderBy: "createTime",
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          orgId: "",
+          prodName: "",
+          prodCode: "",
+          childWareId: "",
+          wareAreaId: "",
+        },
+      },
     };
   },
   mounted() {
-    //查询库位映射关系
+    this.delegaCompanyData = this.$store.state.orgInfor.orgInforData;
     this.storefenyeQuery();
     this.pickfenyeQuery();
     //查询子仓名称的请求
-    let queryData = this.pagingQueryData;
-    query_WH_Request(queryData).then((ok) => {
-      if (ok.data.code === "10000") {
-        this.childStoreData = ok.data.result.list;
-        this.childStoreData.forEach((v) => {
-          this.childWarehouseName.push({
-            value: v.childWareName,
-            label: v.childWareName,
+    TJquery_WH_Request({ wareId: getCookie("X-Auth-wareId"), id: "" }).then(
+      (ok) => {
+        // console.log(ok)
+        if (ok.data.code === "10000") {
+          this.childStoreData = ok.data.result;
+          this.childStoreData.forEach((v) => {
+            this.childWarehouseName.push({
+              value: v.id,
+              label: v.childWareName,
+            });
           });
-        });
-      } else {
-        this.$messageSelf.message({
-          type: "error",
-          message: "未知错误",
-        });
+        }
       }
-    });
-
-    let data1 = this.areaData;
-    queryAreaOfWS(data1).then((ok) => {
+    );
+    queryAreaOfWS({ childWareId: "", id: "" }).then((ok) => {
       // console.log(ok);
       if (ok.data.code === "10000") {
         this.CSandareaData = ok.data.result;
       }
     });
-    let EntrustCompanyData = {
-      wareId: getCookie("X-Auth-wareId"),
-    };
-    queryEntrustCompany(EntrustCompanyData).then((ok) => {
-      // console.log(ok);
-      if (ok.code === "10000") {
-        let res = ok.result;
-        res.forEach((v) => {
-          this.delegaCompanyData.push({
-            value: v.orgId,
-            label: v.orgName,
-          });
-        });
-      }
-    });
   },
   methods: {
     storefenyeQuery() {
-      this.storeTableData = [];
-      let queryData = {
-        orderBy: "createTime",
-        pageNumber: this.storePageNumber,
-        pageSize: 10,
-        paras: {
-          orgId: "", //委托公司id
-          prodName: "", //产品名称
-          prodCode: "", //产品编码
-          childWareId: "", //子仓id
-          wareAreaId: "", //区域id
-        },
-      };
-      storeMapRelation(queryData).then((ok) => {
+      this.queryData.paras.seatType = "1";
+      storeMapRelation(this.queryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
-          let res = ok.data.result.list;
+          this.storeTableData = [];
+          this.storeTableData = ok.data.result.list;
           this.changeData(ok.data.result);
-          res.forEach((v) => {
-            if (v.seatType === 1) {
-              this.storeTableData.push(v);
-              this.storeTableData.forEach((v) => {
-                v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
-                v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
-              });
-            }
+          this.storeTableData.forEach((v) => {
+            v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
+            v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
           });
         }
       });
     },
     pickfenyeQuery() {
-      this.pickTableData = [];
-      let queryData = {
-        orderBy: "createTime",
-        pageNumber: this.pickPageNumber,
-        pageSize: 10,
-        paras: {
-          orgId: "", //委托公司id
-          prodName: "", //产品名称
-          prodCode: "", //产品编码
-          childWareId: "", //子仓id
-          wareAreaId: "", //区域id
-        },
-      };
-      storeMapRelation(queryData).then((ok) => {
+      this.queryData.paras.seatType = "2";
+      storeMapRelation(this.queryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
-          let res = ok.data.result.list;
+          this.pickTableData = [];
+          this.pickTableData = ok.data.result.list;
           this.changeData1(ok.data.result);
-          res.forEach((v) => {
-            if (v.seatType === 2) {
-              this.pickTableData.push(v);
-              this.pickTableData.forEach((v) => {
-                v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
-                v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
-                this.pickAreaData.push({
-                  value: v.wareAreaId,
-                  label: v.wareAreaName,
-                });
-                this.pickAreaData = this.reduceFun(this.pickAreaData);
-                this.pickShelfData.push({
-                  value: v.wareSeatId,
-                  label: v.wareSeatName,
-                });
-                this.pickShelfData = this.reduceFun(this.pickShelfData);
-              });
-            }
+          this.pickTableData.forEach((v) => {
+            v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
+            v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
           });
         }
       });
-    },
-    reduceFun(arr) {
-      let testObj = {};
-      let res = arr.reduce((item, next) => {
-        testObj[next.value]
-          ? ""
-          : (testObj[next.value] = true && item.push(next));
-        return item;
-      }, []);
-      return res;
     },
     delegaCompanyValues(value) {
-      this.orgId = value;
+      this.queryData.paras.orgId = value;
     },
     nameValues(value) {
-      this.nameValue = value;
-      this.childStoreData.forEach((v) => {
-        if (value === v.childWareName) {
-          this.pagingQueryData.paras.childWareId = v.id;
-        }
-      });
+      this.queryData.paras.childWareId = value;
       this.CSandareaData.forEach((v) => {
-        if (value === v.childWareName) {
-          this.placeAreaData.push({
-            value: v.wareAreaName,
-            label: v.wareAreaName,
-          });
+        if (value === v.childWareId) {
+          if (v.wareAreaType === 1) {
+            this.placeAreaData.push({
+              value: v.id,
+              label: v.wareAreaName,
+            });
+          }
+          if (v.wareAreaType === 2) {
+            this.pickAreaData.push({
+              value: v.id,
+              label: v.wareAreaName,
+            });
+          }
         }
       });
     },
     placeAreaValues(value) {
-      this.placeAreaValue = value;
-      this.pagingQueryData.paras.prodCode = value;
-      this.CSandareaData.forEach((v) => {
-        if (value === v.wareAreaName) {
-          this.pagingQueryData.paras.wareAreaId = v.id;
-          this.areaShelfQueryData.wareAreaId = v.id;
-        }
-      });
-      let areaShelfQueryData = this.areaShelfQueryData;
-      areaShelfQuery(areaShelfQueryData).then((ok) => {
+      this.queryData.paras.wareAreaId = value;
+      areaShelfQuery({ wareAreaId: value, id: "" }).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
           this.shelfResList = ok.data.result;
@@ -698,61 +644,21 @@ export default {
         }
       });
     },
-
     placeShelfValues(value) {
-      this.placeShelfValue = value;
+      this.queryData.paras.shelfName = value;
     },
-    placeTierValues(value) {
-      this.placeTierValue = value;
-    },
-    pickAreaValues(value) {
-      this.pickAreaValue = value;
-    },
-    pickShelfValues(value) {
-      this.pickShelfValue = value;
-    },
-    pickTierValues(value) {
-      this.pickTierValue = value;
-    },
+
     clickQuery() {
       //点击查询
-      this.storeTableData = [];
-      this.pickTableData = [];
-      let queryData = {
-        orderBy: "createTime",
-        pageNumber: 1,
-        pageSize: 10,
-        paras: {
-          orgId: this.orgId, //委托公司id
-          prodName: this.productName, //产品名称
-          prodCode: this.productCode, //产品编码
-          childWareId: this.pagingQueryData.paras.childWareId, //子仓id
-          wareAreaId: this.pagingQueryData.paras.wareAreaId, //区域id
-          wareSeatCode: this.pickSL,
-        },
-      };
-      storeMapRelation(queryData).then((ok) => {
-        // console.log(ok);
-        if (ok.data.code === "10000") {
-          let res = ok.data.result.list;
-          res.forEach((v) => {
-            if (v.seatType === 1) {
-              this.storeTableData.push(v);
-              v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
-              v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
-            } else if (v.seatType === 2) {
-              this.pickTableData.push(v);
-              v.wareSeatCode1 = v.wareSeatCode.split("-")[1];
-              v.wareSeatCode2 = v.wareSeatCode.split("-")[3];
-            }
-          });
-        } else {
-          this.$messageSelf.message({
-            type: "error",
-            message: "未知错误",
-          });
-        }
-      });
+      this.queryData.paras.prodName = this.productName;
+      this.queryData.paras.prodCode = this.productCode;
+      this.queryData.paras.wareSeatCode = this.pickSL;
+      console.log(this.queryData);
+      if (this.tabLabel === "0") {
+        this.storefenyeQuery();
+      } else if (this.tabLabel === "1") {
+        this.pickfenyeQuery();
+      }
     },
     clearInput() {
       //点击清空
@@ -767,30 +673,36 @@ export default {
       this.pickShelfValue = "";
       this.pickTierValue = "";
       this.pickSL = "";
+      Object.keys(this.queryData.paras).forEach((v) => {
+        this.queryData.paras[v] = "";
+      });
       this.pickfenyeQuery();
       this.storefenyeQuery();
     },
+
     storeHandleSelectionChange(value) {
       this.storeMultipleSelection = value;
     },
     pickHandleSelectionChange(value) {
       this.pickMultipleSelection = value;
     },
-
     create() {
       //创建库位
       this.$router.push({
         path: "/storageLocalMap/SLmapInfor",
-        query: { datas: this.multipleSelection, type: "create" },
+        query: { type: "create" },
       });
     },
     storeEdit() {
       //存储区编辑操作
       if (!this.storeMultipleSelection.length)
-        return this.$messageSelf.message("请选择要编辑的库位");
+        return this.$messageSelf.message({
+          message: "请选择要编辑的库位",
+          type: "warning",
+        });
       if (this.storeMultipleSelection.length !== 1)
         return this.$messageSelf.message({
-          message: "每次只能编辑一条库位信息，请重新选择",
+          message: "每次只能编辑一条库位信息",
           type: "warning",
         });
       this.$router.push({
@@ -801,10 +713,13 @@ export default {
     pickEdit() {
       //拣货区编辑操作
       if (!this.pickMultipleSelection.length)
-        return this.$messageSelf.message("请选择要编辑的库位");
+        return this.$messageSelf.message({
+          message: "请选择要编辑的库位",
+          type: "warning",
+        });
       if (this.pickMultipleSelection.length !== 1)
         return this.$messageSelf.message({
-          message: "每次只能编辑一条库位信息，请重新选择",
+          message: "每次只能编辑一条库位信息",
           type: "warning",
         });
       this.$router.push({
@@ -820,17 +735,19 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return this.$messageSelf.message("请选择要删除的库位");
+      if (!arr.length)
+        return this.$messageSelf.message({
+          message: "请选择要删除的库位",
+          type: "warning",
+        });
       this.$messageSelf
-        .confirms("确定要删除吗？", "提示", {
+        .confirms("确定要删除吗？", "删除提示", {
           type: "info",
         })
         .then(() => {
           this.delRequest({ ids: arr });
         })
-        .catch(() => {
-          this.$messageSelf.message("已取消删除");
-        });
+        .catch(() => {});
     },
     pickDel() {
       //拣货区删除操作
@@ -840,17 +757,19 @@ export default {
           arr.push(item.id);
         }
       });
-      if (!arr.length) return this.$messageSelf.message("请选择要删除的库位");
-      this.$messaheSelf
-        .confirms("确定要删除吗？", "提示", {
+      if (!arr.length)
+        return this.$messageSelf.message({
+          message: "请选择要删除的库位",
           type: "warning",
+        });
+      this.$messaheSelf
+        .confirms("确定要删除吗？", "删除提示", {
+          type: "info",
         })
         .then(() => {
           this.delRequest({ ids: arr });
         })
-        .catch(() => {
-          this.$messageSelf.message("已取消删除");
-        });
+        .catch(() => {});
     },
     delRequest(data) {
       //删除的请求
@@ -870,16 +789,49 @@ export default {
         }
       });
     },
-    lookSeatCodeInfor(data) {
+    lookStoreSeat(data) {
       this.seatCodeData = data;
       this.dialogFormVisible = true;
     },
-
+    lookPickSeat(data) {
+      this.seatCodeData = data;
+      this.dialogFormVisible = true;
+    },
+    placeTierValues(value) {
+      this.placeTierValue = value;
+    },
+    pickAreaValues(value) {
+      this.queryData.paras.wareAreaId = value;
+      areaShelfQuery({ wareAreaId: value, id: "" }).then((ok) => {
+        // console.log(ok);
+        if (ok.data.code === "10000") {
+          this.shelfResList = ok.data.result;
+          this.shelfResList.forEach((v) => {
+            this.pickShelfData.push({
+              value: v.shelfName,
+              label: v.shelfName,
+            });
+          });
+        }
+      });
+    },
+    pickShelfValues(value) {
+      this.pickShelfValue = value;
+    },
+    pickTierValues(value) {
+      this.pickTierValue = value;
+    },
+    tabClick(a) {
+      if (a.index === "0") {
+        this.tabLabel = "0";
+      } else {
+        this.tabLabel = "1";
+      }
+    },
     getPageNum(e) {
       this.storePageNumber = e;
     },
     sureSuccssBtn(e) {
-      this.storeTableData = [];
       this.storefenyeQuery();
       this.storePageNumber = e;
     },
@@ -890,11 +842,11 @@ export default {
       let { totalRow } = data;
       this.pageComponentsData.pageNums = totalRow;
     },
+
     getPageNum1(e) {
       this.pickPageNumber = e;
     },
     sureSuccssBtn1(e) {
-      this.pickTableData = [];
       this.pickfenyeQuery();
       this.pickPageNumber = e;
     },
@@ -957,11 +909,6 @@ export default {
       }
       .resultForm {
         padding: 16px 20px;
-        .lookDetail {
-          color: #599af3;
-          text-decoration: underline;
-          cursor: pointer;
-        }
       }
     }
   }
@@ -969,9 +916,6 @@ export default {
     margin: 0 20px 16px 0;
     display: flex;
     align-items: center;
-    .roleName-text {
-      font-size: 14px;
-    }
   }
   .roleName-choose {
     display: flex;

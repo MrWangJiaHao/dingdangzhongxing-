@@ -16,6 +16,9 @@ export default {
     window.addEventListener("resize", () => {
       this.shipmentsEcharts();
     });
+    let oDiv = document.querySelector('#shipments')
+    let firstDiv = oDiv.firstChild
+    firstDiv.setAttribute("class", "canvasDiv");
   },
   methods: {
     shipmentsEcharts() {

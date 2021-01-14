@@ -322,7 +322,6 @@ export default {
       //点击清空输入框
       this.nameValue = "";
       this.typeValue = "";
-      this.tableData = [];
       this.queryRes = [];
       this.tjQueryData.id = "";
       this.tjQueryData.wareType = "";
