@@ -532,4 +532,103 @@ export const popUpShow = (target = 1) => {
         return true
     }
 }
+/**
+ *  移动 盒子
+ * @param {Dom} Dom dom
+ */
+export const moveBox = (Dom) => {
+    var box = document.getElementById(Dom),
+        X = Y = 0;
 
+    box.onmousedown = function (e) {
+        box.style.cursor = 'move';
+        X = e.clientX - box.offsetLeft;
+        Y = e.clientY - box.offsetTop;
+        windowLoad()
+        document.onmousemove = function (e) {
+            var left = e.clientX - X;
+            var top = e.clientY - Y;
+            //更改css样式
+            box.style.left = left + 'px';
+            box.style.top = top + 'px';
+        };
+        document.onmouseup = function (e) {
+            this.onmousemove = null;
+            box.style.cursor = 'default';
+        };
+    };
+}
+function windowLoad(e) {
+    if (window.event) {
+        //IE中阻止函数器默认动作的方式  
+        window.event.returnValue = false;
+    }
+    else {
+        //阻止默认浏览器动作  
+        e.preventDefault();
+    }
+}
+/**
+ *  拉伸盒子的函数
+ * @param {*} oparent //需要拉伸的父层
+ * @param {*} handle //
+ * @param {*} isleft 
+ * @param {*} istop 
+ * @param {*} lookx 
+ * @param {*} looky 
+ */
+export const stretchingFun = (oparent, handle, isleft, istop, lookx, looky) => {
+    var disX = disY = 0;
+    handle = handle || oDrag;
+
+    handle.onmousedown = function (e) {
+        e = e || event;
+        e.preventDefault();
+        disX = e.clientX - this.offsetLeft;
+        disY = e.clientY - this.offsetTop;
+        var iparenttop = oparent.offsetTop;
+        var iparentleft = oparent.offsetLeft;
+        var iparentwidth = oparent.offsetWidth;
+        var iparentheight = oparent.offsetHeight;
+
+        document.onmousemove = function (e) {
+            e = e || event;
+            var iL = e.clientX - disX;
+            var iT = e.clientY - disY;
+            var maxw = document.documentElement.clientWidth - oparent.offsetLeft - 2;
+            var maxh = document.documentElement.clientHeight - oparent.offsetTop - 2;
+            var iw = isleft ? iparentwidth - iL : handle.offsetWidth + iL;
+            var ih = istop ? iparentheight - iT : handle.offsetHeight + iT;
+            if (isleft) {
+                oparent.style.left = iparentleft + iL + 'px';
+            };
+            if (istop) {
+                oparent.style.top = iparenttop + iT + 'px';
+            };
+            if (iw < dragMinWidth) {
+                iw = dragMinWidth
+            } else if (iw > maxw) {
+                iw = maxw;
+            };
+            if (lookx) {
+                oparent.style.width = iw + 'px';
+            };
+            if (ih < dragMinHeight) {
+                ih = dragMinHeight;
+            } else if (ih > maxh) {
+                ih = maxh;
+            };
+            if (looky) {
+                oparent.style.height = ih + 'px';
+            };
+            if ((isleft && iw == dragMinWidth) || (istop && ih == dragMinHeight)) {
+                document.onmousemove = null;
+            };
+            return false;
+        };
+        document.onmouseup = function () {
+            document.onmousemove = null;
+            document.onmouseup = null;
+        };
+    };
+}

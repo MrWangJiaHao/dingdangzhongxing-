@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import {pOrgProductsApp} from "../api/api";
-import {clearArr, getJsonTarget} from "./validate"
+import { pOrgProductsApp } from "../api/api";
+import { clearArr, getJsonTarget } from "./validate"
 
 Vue.prototype.$pOrgProductsApp = pOrgProductsApp //货品移位
 Vue.prototype.$clearArr = clearArr// 删除语录
