@@ -22,7 +22,7 @@
             <tableCommin :tableDataJson="isFuHeDataJson"></tableCommin>
         </div>
         <!--已复核明细-->
-        <div class="videoBox">
+        <div class="videoBox" v-if="video">
 
         </div>
         <!--video-->
@@ -41,6 +41,7 @@
         },
         data() {
             return {
+                video: false,
                 btnArr: [
                     {
                         title: "重新复核",

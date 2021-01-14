@@ -440,7 +440,9 @@
         },
         methods: {
             tablesArr(arr) {
-                arr.forEach((item, idx) => {
+                console.log(arr)
+                if (!arr) return this.tabledata = []
+                arr.forEach((item) => {
                     console.log(this.tabledata.includes(item));
                     if (!this.tabledata.includes(item)) {
                         this.tabledata.push(item);
@@ -448,12 +450,13 @@
                 });
             },
             _changeRecommedLocation(data) {
+                console.log(data)
+                if (!data) return
                 data.forEach((item) => {
                     let recommendedLocation = item.recommendSeatNo;
                     item.recommendedLocation = recommendedLocation;
                 });
             },
-
             getDataSelentIndex(e) {
                 this.rowTable = e;
             },
