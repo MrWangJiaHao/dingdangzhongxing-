@@ -67,6 +67,7 @@
               <el-input
                 maxlength="30"
                 placeholder="请输入区域名称"
+                @blur="createDomTestWareName"
                 @input="createDomTestWareName"
                 class="mr10"
                 v-model="createWarehouseJson.wareAreaName"
@@ -380,12 +381,11 @@ export default {
     async sendOutCreatewarehouse() {
       let { createWarehouseJson } = this;
       let datas = await post({
-        url:
-          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/saveRecord",
+        url: "/wbs-warehouse-manage/v1/pWarehouseArea/saveRecord",
         data: createWarehouseJson,
       });
       if (datas.code === "10000") {
-        this.$messageSelf.message(datas.msg);
+        this.$messageSelf.message({ message: datas.msg, type: "success" });
         return this.$router.go(-1);
       } else {
         this.$messageSelf.message({ message: datas.msg, type: "error" });

@@ -192,7 +192,6 @@ export default {
       input5: "",
       childWarehouseSerial: [],
       value1: "A",
-
       childWarehouseType: [
         {
           value: "1",

@@ -33,7 +33,7 @@
                 @focus="getquyuId"
               >
                 <el-option
-                  v-for="(item, idx) in nameOfSubWareHouse.nameOfQuYUdData"
+                  v-for="(item, idx) in wareAreaTypeJson.nameOfQuYUdData"
                   :key="idx"
                   :label="item.wareAreaName"
                   :value="idx"
@@ -45,28 +45,23 @@
       </div>
       <!-- 区域名称 -->
       <div class="displayalign">
-        <div class="displayalign mr20">
-          <div
-            @click="changeISNum"
-            class="anniu mr9 displayCenter"
-            :class="isNum ? 'active' : ''"
-          >
+        <!-- <div class="displayalign mr20">
+          <div class="anniu mr9 displayCenter" :class="isNum ? 'active' : ''">
             <div :class="isNum ? 'active dian' : ''"></div>
           </div>
           <span class="noneIconTitle">存储区</span>
-        </div>
+        </div> -->
         <!-- 存储区 -->
-        <div class="displayalign mr20">
-          <div
-            @click="changeISNum"
-            class="anniu mr9 displayCenter"
-            :class="!isNum ? 'active' : ''"
-          >
+        <!-- <div class="displayalign mr20">
+          <div class="anniu mr9 displayCenter" :class="!isNum ? 'active' : ''">
             <div :class="!isNum ? 'active dian' : ''"></div>
           </div>
           <span class="noneIconTitle">拣货区</span>
-        </div>
+        </div> -->
         <!-- 拣货区 -->
+        <el-radio disabled v-model="isNum" label="1">存储区</el-radio>
+        <el-radio disabled v-model="isNum" label="2">拣货区</el-radio>
+        <!--  -->
       </div>
     </div>
     <!-- 上面部分 -->
@@ -94,12 +89,12 @@
         </div>
         <!-- 货架组数 -->
 
-        <div class="displayalign mb20" v-show="sendOutData.rowData.length != 1">
+        <div class="displayalign" v-show="sendOutData.rowData.length != 1">
           <div class="noneIconTitle mr11">
             {{ isNums(parent.danqpaishu) }}/
             {{ isNums(parent.danqpaishu + 1) }}排货架间距:
           </div>
-          <div class="displayalign mr11 w140">
+          <div class="displayalign mr11 w150">
             <el-input
               placeholder="请输入货架间距"
               v-model="parent.distance"
@@ -253,14 +248,14 @@ import { post } from "../../api/api";
 export default {
   data() {
     return {
-      isNum: true,
+      isNum: "1",
       wareAreaTypeJson: {
         wareAreaName: "",
+        nameOfQuYUdData: [],
       },
       nameOfSubWareHouse: {
         placeholdes: "请选择子仓名称",
         nameOfSubwareHouseData: [],
-        nameOfQuYUdData: [],
       },
       resme: 0,
       sendOutData: {
@@ -321,8 +316,21 @@ export default {
       this.isNum = sendOutDatas.isNum;
     }
     this.getZicanId();
+    this._getChuShiHuaData();
   },
   methods: {
+    _getChuShiHuaData() {
+      let datas = JSON.parse(this.$route.query.data),
+        json = Object.assign({}, this.sendOutData, datas);
+
+      let boolearn = json.wareAreaType == "存储区" ? "1" : "2";
+      this.sendOutData.wareAreaId = datas.id;
+      this.sendOutData = {
+        ...json,
+        wareAreaId: datas.id,
+      };
+      this.isNum = boolearn;
+    },
     getShuZhu(index, idx, idxs) {
       this.shuzu = `${index},${idx},${idxs}`.split(",");
     },
@@ -338,14 +346,12 @@ export default {
         datas.result.list);
     },
     async getquyuId() {
-      console.log(this.sendOutData);
       let datas = await post({
         url: "/wbs-warehouse-manage/v1/pWarehouseArea/findRecordPage",
         data: this.sendOutData,
       });
 
-      return (this.nameOfSubWareHouse.nameOfQuYUdData = datas.result.list);
-      // return (this.nameOfSubWareHouse.nameOfQuYUdData = []);
+      return (this.wareAreaTypeJson.nameOfQuYUdData = datas.result.list);
     },
     //返回上一页
     gotoSanYiye() {
@@ -388,31 +394,30 @@ export default {
         data,
       });
       if (datas.code == "10000") {
-        if (typeof fn == "function") {
-          fn(datas.result);
-        }
+        fn && fn(datas.result);
+        return datas.result;
       } else {
         return this.$messageSelf.message(datas.msg);
       }
     },
     //点击了移除
     removeData(item, index) {
-      this.$messageSelf
-        .confirms("确定移除该排货架？", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        })
-        .then(() => {
-          this.sendOutData.rowData.splice(index, 1);
-          this.isRemove = false;
-          setTimeout(() => {
-            this.$messageSelf.message("移除成功");
-          }, 0);
-        })
-        .catch(() => {
-          this.$messageSelf.message("已取消移除");
-        });
+      // this.$messageSelf
+      //   .confirms("确定移除该排货架？", "提示", {
+      //     confirmButtonText: "确定",
+      //     cancelButtonText: "取消",
+      //     type: "warning",
+      //   })
+      //   .then(() => {
+      this.sendOutData.rowData.splice(index, 1);
+      this.isRemove = false;
+      // setTimeout(() => {
+      //   this.$messageSelf.message("移除成功");
+      // }, 0);
+      // })
+      // .catch(() => {
+      //   this.$messageSelf.message("已取消移除");
+      // });
     },
     //点击了复制一组
     copyData(item, index) {
@@ -468,10 +473,6 @@ export default {
       }
       return arr;
     },
-    changeISNum() {
-      //获取电点击的是哪一个
-      this.isNum = !this.isNum;
-    },
     // 点击了添加货架需要的json
     _addHuoJia(res) {
       let json = {};
@@ -489,7 +490,7 @@ export default {
     //点击了添加货架
     addHuoJia(item, index, idx, idxs) {
       let res = this.sendOutData.rowData[index].groupData[idx].shelfData[
-        idxs ? idxs - 1 : 0
+        idxs ? idxs : 0
       ];
       res = this._addHuoJia(res);
 
@@ -500,48 +501,33 @@ export default {
     removeHuoJia(item, index, idx, idxs) {
       if (this.sendOutData.rowData[index].groupData[idx].shelfData.length == 1)
         return this.$messageSelf.message("最少剩下一排货架");
-      this.$messageSelf
-        .confirms("确定删除该排货架？", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        })
-        .then(() => {
-          this.sendOutData.rowData[index].groupData[idx].shelfData.splice(
-            idxs,
-            1
-          );
-          setTimeout(() => {
-            this.$messageSelf.message("删除成功");
-          }, 0);
-        })
-        .catch(() => {
-          this.$messageSelf.message("已取消删除");
-        });
+      this.sendOutData.rowData[index].groupData[idx].shelfData.splice(idxs, 1);
+      // setTimeout(() => {
+      //   this.$messageSelf.message("删除成功");
+      // }, 0);
     },
     //获取子仓名称
     async getchildValue(e) {
       this.sendOutData.childWareId = this.nameOfSubWareHouse.nameOfSubwareHouseData[
         e
-      ].childWareId;
-      this.getHuojiaNameAndType.childWareId = this.nameOfSubWareHouse.nameOfSubwareHouseData[
-        e
-      ].childWareId;
+      ].id;
       this.sendOutData.childWareName = this.nameOfSubWareHouse.nameOfSubwareHouseData[
         e
       ].childWareName;
+      console.log(this.sendOutData);
     },
     //获取区域id
     async getquyuCode(e) {
-      this.sendOutData.wareAreaId = this.nameOfSubWareHouse.nameOfSubwareHouseData[
+      this.sendOutData.wareAreaId = this.wareAreaTypeJson.nameOfQuYUdData[e].id;
+      this.getHuojiaNameAndType.wareAreaId = this.wareAreaTypeJson.nameOfQuYUdData[
         e
       ].id;
-      this.getHuojiaNameAndType.wareAreaId = this.nameOfSubWareHouse.nameOfSubwareHouseData[
-        e
-      ].id;
-      this.sendOutData.wareAreaName = this.nameOfSubWareHouse.nameOfSubwareHouseData[
+      this.sendOutData.wareAreaName = this.wareAreaTypeJson.nameOfQuYUdData[
         e
       ].wareAreaName;
+      let boolearn =
+        this.wareAreaTypeJson.nameOfQuYUdData[e].wareAreaType == 1 ? "1" : "2";
+      this.isNum = boolearn;
     },
     isNums(i) {
       switch (i) {
@@ -586,13 +572,13 @@ export default {
     //点击了提交
     shelfSubmit() {
       let show = true;
+      console.log(this.sendOutData);
       if (!this.sendOutData.childWareId)
         return this.$messageSelf.message("请选择子仓名称");
       if (!this.sendOutData.wareAreaId)
         return this.$messageSelf.message("请选择区域名称");
       let str = "";
       this.sendOutData.rowData.forEach((item, idx) => {
-        // console.log(this.sendOutData.rowData);
         if (this.sendOutData.rowData.length >= 2 && !item.distance) {
           str = `请输入第${this.isNums(idx)}/${this.isNums(idx + 1)}排货架间距`;
           return (show = false);

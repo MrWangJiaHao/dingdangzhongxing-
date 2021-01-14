@@ -100,8 +100,8 @@
               titles="区域平面图"
               @clickSubmit="clickQuYuClick"
               @closeBtn="closeQuYu"
-              min-height="750"
-              max-height="750"
+              min-height="450"
+              max-height="760"
               :isLookerShow="false"
               print="关闭"
             >
@@ -139,10 +139,16 @@
                       </div>
                       <div class="displayalign">
                         <div class="noneIconTitle mr11">区域类型:</div>
-                        <el-radio disabled v-model="quyuleixingMsg" label="1"
+                        <el-radio
+                          v-show="quyuleixingMsg == 1"
+                          v-model="quyuleixingMsg"
+                          label="1"
                           >存储区</el-radio
                         >
-                        <el-radio disabled v-model="quyuleixingMsg" label="2"
+                        <el-radio
+                          v-show="quyuleixingMsg == 2"
+                          v-model="quyuleixingMsg"
+                          label="2"
                           >拣货区</el-radio
                         >
                       </div>
@@ -184,8 +190,8 @@
             titles="库位平面图"
             @clickSubmit="kuwieLook = !kuwieLook"
             @closeBtn="quyuLook = kuwieLook = false"
-            min-height="850"
-            max-height="850"
+            min-height="450"
+            max-height="760"
             :isLookerShow="false"
             print="关闭"
           >
@@ -548,8 +554,16 @@ export default {
     },
     //点击货架设置
     shelfSetting() {
+      if (!this.multipleSelection.length)
+        return this.$messageSelf.message({
+          message: "请选择在那个区域下添加货架",
+          type: "warning",
+        });
       this.$router.push({
         path: "/warehoseconfig/shelfSetting",
+        query: {
+          data: JSON.stringify(this.multipleSelection[0]),
+        },
       });
     },
     //点击删除子仓
@@ -557,11 +571,11 @@ export default {
       let arr = this._getIDArr();
       if (!arr.length)
         return this.$messageSelf.message({
-          message: "请选择要删除的用户",
+          message: "请选择要删除的区域",
           type: "warning",
         });
       this.$messageSelf
-        .confirms("确定要删除该区域管理？", "提示", {
+        .confirms(this.$clearArr(arr), "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning",
@@ -627,7 +641,6 @@ export default {
         wareId: getCookie("X-Auth-wareId"),
         id: this.multipleSelection[0].childWareId,
       });
-
       this.createWarehouseAjax(
         {
           childWareId: this.multipleSelection[0].childWareId,
@@ -646,7 +659,6 @@ export default {
           message: "网络较慢，请稍后重试",
           type: "error",
         });
-      console.log(this.zicandaixao, "子仓大小");
       if (datas.code === "10000") {
         localStorage.setItem(
           "warseHouseData",
@@ -672,7 +684,7 @@ export default {
           message: "请选择在哪一个区域下编辑",
           type: "warning",
         });
-      if (this.multipleSelection.length > 1)
+      if (this.multipleSelection.length != 1)
         return this.$messageSelf.message({
           message: "每次只能编辑一个区域，请重新选择",
           type: "warning",

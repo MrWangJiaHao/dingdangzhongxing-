@@ -1,4 +1,4 @@
-/*编辑数据 */
+
 <template>
   <div class="createWareHouseConfigBox">
     <div class="centerCreateWareHouseConfig">
@@ -277,26 +277,17 @@ export default {
   },
   created() {
     let datas = JSON.parse(localStorage.getItem("warseHouseData"));
-    let createWareHuseData = JSON.parse(
-      sessionStorage.getItem("createWareHuseData")
+    let dataspwarehouse = JSON.parse(
+      localStorage.getItem("createWareHuseDataS")
     );
-    if (createWareHuseData) {
-      this.activeNum = createWareHuseData.idx;
-      this.createWarehouseJson.childWareId = createWareHuseData.childWareId;
-      this.createWarehouseJson.id = createWareHuseData.id;
-      this.wareAreaLength = createWareHuseData.wareAreaLength;
-      this.wareAreaWidth = createWareHuseData.wareAreaWidth;
-      console.log(createWareHuseData, "创建页跳过来的");
-      this.pWarehouseArea();
-    }
-
     if (datas.childDatas) {
-      console.log(datas, "首页跳过来的");
       this.createSetting = datas.childDatas;
       this.createWarehouseJson.childWareId = datas.childDatas[0].childWareId;
       this.createWarehouseJson.id = datas.childDatas[0].id;
       this.wareAreaLength = datas.wareAreaLength;
       this.wareAreaWidth = datas.wareAreaWidth;
+      this.chaxunDataJson.childWareId = datas.childDatas[0].childWareId;
+      this.chaxunDataJson.id = datas.childDatas[0].id;
       this.pWarehouseArea();
     }
   },
@@ -386,8 +377,7 @@ export default {
     async sendOutCreatewarehouse() {
       let { createWarehouseJson } = this;
       let datas = await post({
-        url:
-          "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehouseArea/saveRecord",
+        url: "/wbs-warehouse-manage/v1/pWarehouseArea/saveRecord",
         data: createWarehouseJson,
       });
       if (datas.code === "10000") {
