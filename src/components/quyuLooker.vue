@@ -1,6 +1,8 @@
-/*eslint-disable */
 <template>
-  <div style="max-height: 500px; max-width: 1000px; overflow: auto">
+  <div
+    style="max-height: 500px; max-width: 1000px; overflow: auto"
+    id="quyuBox"
+  >
     <div
       class="zicankuwie"
       :style="{
@@ -32,11 +34,12 @@
             }"
           >
             <div
-              class="verticalLine displayCenter"
+              class="verticalLine"
               :style="{
                 width: item.x * (10000 / 85) + 'px',
-                bottom: -11 + 'px',
-                'text-indent': 10 + 'px',
+                lineHeight: 1 + 'px',
+                textAlign: 'right',
+                paddingRight: 50 + 'px',
               }"
             >
               {{ item.x }}m
@@ -92,7 +95,7 @@
                 'text-indent': 10 + 'px',
               }"
             >
-              <span style="margin-top: 15px"> {{ item.wareAreaLength }}m </span>
+              <span style="margin-top: 15px"> {{ item.wareAreaLength }} m</span>
             </div>
           </div>
         </div>
@@ -104,24 +107,46 @@
 <script>
 /*eslint-disable */
 /**
-     *  wareAreaWidth: 1,
-     wareAreaLength: 1,
-     x: 0,
-     y: 0,
-     wareAreaName: "test1",
-     */
+   *  wareAreaWidth: 1,
+   wareAreaLength: 1,
+    x: 0,
+    y: 0,
+    wareAreaName: "test1",
+    */
 import { getMarginConversion, getzicanParent } from "../utils/validate";
 
 export default {
   props: {
     quyuDatas: Object,
   },
+  data(e) {
+    return {
+      fenbianlvJson: {},
+    };
+  },
+  mounted() {
+    let json = {
+      Length: this.quyuDatas.warehouseAdmin.wareAreaLength,
+      width: this.quyuDatas.warehouseAdmin.wareAreaWidth,
+    };
+    this.fenbianlvJson = this.getBiLiChi("#quyuBox", json);
+  },
   methods: {
+    getBiLiChi(Dom, json) {
+      if (json == "") return console.warn("请传入分母的参数");
+      let quyuBox = document.querySelector(Dom),
+        width = quyuBox.parentNode.offsetWidth,
+        height = quyuBox.parentNode.offsetHeight;
+      return {
+        biliWidth: width / json.width,
+        biliHeight: height / json.Length,
+      };
+    },
+
     getStyle(item) {
       return getMarginConversion(item);
     },
     getzicank() {
-      console.log(quyuDatas.warehouseAdmin);
       return getzicanParent(quyuDatas.warehouseAdmin);
     },
   },

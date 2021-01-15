@@ -27,7 +27,12 @@
         class="disRight btnsSure"
         :style="{ maxWidth: width ? isPX(width) : '1000px' }"
       >
-        <div v-if="isLookerShow" class="quxiaoBox mr20 mb20" @click="closeBtn">
+        <div
+          v-if="isLookerShow"
+          class="quxiaoBox mr20 mb20"
+          @click="closeBtn"
+          @keyup.27="closeBtn"
+        >
           {{ isLooker ? "返回" : "取消" }}
         </div>
         <div
