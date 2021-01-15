@@ -221,7 +221,12 @@ export default {
       });
     },
     okBtn() {
-      this.dialogFormVisible = false;
+      if (this.braFullName === "") {
+        return this.$messageSelf.message({
+          message: "请输入品牌名称",
+          type: "warning",
+        });
+      }
       let createData = {
         id: this.brandId,
         wareId: getCookie("X-Auth-wareId"),
@@ -237,6 +242,7 @@ export default {
           this.queryBrandFun();
           this.braFullName = "";
           this.remarkInfor = "";
+          this.dialogFormVisible = false;
         } else {
           this.$messageSelf.message({
             message: ok.data.msg,
@@ -280,7 +286,7 @@ export default {
       //编辑
       if (!this.multipleSelection.length)
         return this.$messageSelf.message({
-          message: "请选择要查看的品牌",
+          message: "请选择要编辑的品牌",
           type: "warning",
         });
       if (this.multipleSelection.length !== 1)
@@ -345,7 +351,6 @@ export default {
     },
     sureSuccssBtn(e) {
       this.pagingQueryData.pageNumber = e;
-      this.tableData = [];
       this.queryBrandFun();
     },
     changeData(data) {

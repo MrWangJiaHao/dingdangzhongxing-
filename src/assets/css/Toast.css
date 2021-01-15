@@ -170,7 +170,7 @@
 }
 
 
-.el-message-box__status + .el-message-box__message {
+.el-message-box__status+.el-message-box__message {
     padding-left: 0;
     padding-right: 0;
 }
@@ -214,6 +214,17 @@
     transform: rotate(-180deg);
 }
 
+.el-icon-arrow-down:before {
+    content: " ";
+    transition: all 0.5s;
+    display: inline-block;
+    width: 11px;
+    height: 8px;
+    background: url(../svg/dropDown.svg) center center no-repeat;
+    background-size: cover;
+}
+
+
 .el-checkbox__inner {
     border-radius: 4px;
 }
@@ -238,13 +249,11 @@
     background-color: #D1D6E2;
 }
 
-.el-table__expand-icon
-.el-icon.el-icon-arrow-right::before {
+.el-table__expand-icon .el-icon.el-icon-arrow-right::before {
     content: "+";
 }
 
-.el-table__expand-icon.el-table__expand-icon--expanded
-.el-icon.el-icon-arrow-right::before {
+.el-table__expand-icon.el-table__expand-icon--expanded .el-icon.el-icon-arrow-right::before {
     content: " ";
     display: inline-block;
     width: 8px;

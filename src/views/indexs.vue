@@ -1152,7 +1152,7 @@ export default {
   text-align: center;
   line-height: 34px;
   height: 34px;
-  background: #60afec;
+  background: #68bdff;
   border-radius: 17px;
   font-size: 16px;
 }

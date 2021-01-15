@@ -500,6 +500,20 @@ export function queryMateAdmin(data) {
         })
     })
 }
+//查询物料管理(条件)
+export function queryMateAdmintj(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWareMateriel/findRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
 
 //删除物料管理
 export function delMateAdmin(data) {
