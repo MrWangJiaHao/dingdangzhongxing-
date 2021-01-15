@@ -29,12 +29,13 @@
       >
         <div
           v-if="isLookerShow"
-          class="quxiaoBox mr20 mb20"
+          class="quxiaoBox mb20"
           @click="closeBtn"
           @keyup.27="closeBtn"
         >
           {{ isLooker ? "返回" : "取消" }}
         </div>
+        <div v-if="!isLooker" class="mr20"></div>
         <div
           v-if="print != '提交' && !isLooker"
           class="tijiaoBox mb20"
@@ -94,7 +95,6 @@ export default {
       default: true,
     },
   },
-
   methods: {
     isPX(mes) {
       return mes.includes("px") ? mes : mes + "px";

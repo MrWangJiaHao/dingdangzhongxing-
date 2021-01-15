@@ -385,7 +385,7 @@
             border: 1px solid #d1d6e2;
 
             .titleBox {
-                padding: 12px 20px 12px 0;
+                padding: 12px 10px 12px 0;
                 width: 106px;
                 border-right: 1px solid #d1d6e2;
                 background-color: #ecf1f7;

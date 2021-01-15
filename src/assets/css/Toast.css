@@ -203,7 +203,7 @@
     justify-content: center;
 }
 
-.el-icon-arrow-up:before {
+ .el-icon-arrow-up:before {
     content: " ";
     transition: all 0.5s;
     display: inline-block;
@@ -237,13 +237,19 @@
 #app .line {
     background-color: #D1D6E2;
 }
-
-.el-table__expand-icon
+#app #headerMain .el-table__expand-icon--expanded {
+    transform: rotate(180deg);
+  }
+  
+#app #headerMain .el-table__expand-icon
 .el-icon.el-icon-arrow-right::before {
     content: "+";
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
 }
 
-.el-table__expand-icon.el-table__expand-icon--expanded
+#app #headerMain .el-table__expand-icon.el-table__expand-icon--expanded
 .el-icon.el-icon-arrow-right::before {
     content: " ";
     display: inline-block;
@@ -251,5 +257,5 @@
     height: 2px;
     background: #2f4646;
     position: relative;
-    top: -8px;
+    top: -4px;
 }

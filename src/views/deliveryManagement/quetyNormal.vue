@@ -168,12 +168,12 @@
               <el-table-column
                 label="收货人"
                 width="160"
-                prop="commendBox"
+                prop="orderContact"
               ></el-table-column>
               <el-table-column
                 label="联系电话"
                 width="250"
-                prop="pushStartTime"
+                prop="orderContactPhone"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
