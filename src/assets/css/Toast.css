@@ -170,7 +170,7 @@
 }
 
 
-.el-message-box__status + .el-message-box__message {
+.el-message-box__status+.el-message-box__message {
     padding-left: 0;
     padding-right: 0;
 }
@@ -213,6 +213,17 @@
     background-size: cover;
     transform: rotate(-180deg);
 }
+
+.el-icon-arrow-down:before {
+    content: " ";
+    transition: all 0.5s;
+    display: inline-block;
+    width: 11px;
+    height: 8px;
+    background: url(../svg/dropDown.svg) center center no-repeat;
+    background-size: cover;
+}
+
 
 .el-checkbox__inner {
     border-radius: 4px;

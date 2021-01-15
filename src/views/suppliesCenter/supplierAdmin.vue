@@ -37,9 +37,9 @@
             <div class="icon-title-title">查询结果</div>
           </div>
           <div class="someBtn">
-            <div class="setUser" @click="createChildWarehouse">创建</div>
-            <div class="bianjiUser" @click="editChildWarehouse">编辑</div>
-            <div class="remove" @click="delChildWarehouse">删除</div>
+            <div class="setUser" @click="create">创建</div>
+            <div class="bianjiUser" @click="edit">编辑</div>
+            <div class="remove" @click="del">删除</div>
           </div>
         </div>
         <div class="resultForm">
@@ -161,16 +161,17 @@
             <div class="comAddrName">
               <span class="addStar">公司地址</span>
             </div>
-            <div>
+            <div class="addrSelect">
               <el-cascader
                 :options="areaSelectData"
-                :change-on-select="true"
+                :change-on-select="false"
                 @change="handleChange"
                 class="full-width"
                 size="medium"
                 v-model="form.selectedOptions"
                 separator="-"
                 clearable
+                ref="demo"
               />
             </div>
           </div>
@@ -213,7 +214,7 @@ import {
   delSupplier,
   querySupplierCon,
 } from "../../api/api";
-import { getCookie, isMobile } from "../../utils/validate";
+import { getCookie, isMobile, reduceFun } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -232,8 +233,7 @@ export default {
       tableData: [],
       tableData1: [],
       multipleSelection: [],
-      pagingQueryData: {
-        //分页查询
+      queryData: {
         orderBy: "createTime",
         pageNumber: 1,
         pageSize: 10,
@@ -242,7 +242,7 @@ export default {
         },
       },
       pageComponentsData: {
-        pageNums: 0, //一共多少条 //默认一页10条
+        pageNums: 0,
       },
 
       dialogFormVisible: false,
@@ -262,11 +262,11 @@ export default {
   },
   mounted() {
     this.querySupplierFun = () => {
-      let pagingQueryData = this.pagingQueryData;
-      querySupplier(pagingQueryData).then((ok) => {
+      querySupplier(this.queryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
           this.changeData(ok.data.result);
+          this.tableData = [];
           this.tableData = ok.data.result.list;
           this.tableData1 = ok.data.result.list;
           this.tableData.forEach((v) => {
@@ -274,14 +274,8 @@ export default {
               value: v.supFullName,
               label: v.supFullName,
             });
-            let testObj = {};
-            this.supProNameData = this.supProNameData.reduce((item, next) => {
-              testObj[next.value]
-                ? ""
-                : (testObj[next.value] = true && item.push(next));
-              return item;
-            }, []);
           });
+          this.supProNameData = reduceFun(this.supProNameData);
         } else {
           this.$messageSelf.message({
             message: "未知错误",
@@ -300,18 +294,28 @@ export default {
       this.nameValue = val;
       this.tableData1.forEach((v) => {
         if (val === v.supFullName) {
-          this.pagingQueryData.paras.id = v.id;
+          this.queryData.paras.id = v.id;
         }
       });
     },
     okBtn() {
-      // this.testIsMobile()
       if (!this.isPhone)
         return this.$messageSelf.message({
           message: "请输入正确的手机号",
           type: "warning",
         });
-      this.dialogFormVisible = false;
+      if (this.form.selectedOptions.length < 3) {
+        return this.$messageSelf.message({
+          message: "请选择正确的地址",
+          type: "warning",
+        });
+      }
+      if (this.xiangxiAddrName === "") {
+        return this.$messageSelf.message({
+          message: "请输入详细地址",
+          type: "warning",
+        });
+      }
 
       let createData = {
         id: this.supId,
@@ -331,6 +335,7 @@ export default {
       // console.log(createData)
       createSupplier(createData).then((ok) => {
         if (ok.data.code === "10000") {
+          this.dialogFormVisible = false;
           this.$messageSelf.message({
             message:
               this.btnType === "create"
@@ -346,6 +351,7 @@ export default {
           this.supplierName = "";
           this.telPeople = "";
           this.telPeoplePhone = "";
+          this.form.selectedOptions = [];
         } else {
           this.$messageSelf.message({
             message: ok.data.msg,
@@ -359,7 +365,7 @@ export default {
       //点击查询
       this.tableData = [];
       let idQueryData = {
-        id: this.pagingQueryData.paras.id,
+        id: this.queryData.paras.id,
         wareId: "",
       };
       querySupplierCon(idQueryData).then((ok) => {
@@ -378,12 +384,12 @@ export default {
       this.nameValue = "";
       this.querySupplierFun();
     },
-    createChildWarehouse() {
+    create() {
       //创建
       this.dialogFormVisible = true;
       this.btnType = "create";
     },
-    editChildWarehouse() {
+    edit() {
       //编辑
       if (!this.multipleSelection.length)
         return this.$messageSelf.message({
@@ -395,7 +401,6 @@ export default {
           message: "每次只能编辑一个供应商信息，请重新选择",
           type: "warning",
         });
-      this.dialogFormVisible = true;
       this.btnType = "edit";
       let gys = this.multipleSelection[0];
       this.xiangxiAddrName = gys.supAddr;
@@ -404,8 +409,9 @@ export default {
       this.telPeople = gys.supContact;
       this.telPeoplePhone = gys.supContactPhone;
       this.supId = gys.id;
+      this.dialogFormVisible = true;
     },
-    delChildWarehouse() {
+    del() {
       //删除
       let arr = [];
       this.multipleSelection.forEach((item) => {
@@ -425,9 +431,7 @@ export default {
         .then(() => {
           this.delRequest({ ids: arr });
         })
-        .catch(() => {
-          this.$messageSelf.message("已取消删除");
-        });
+        .catch(() => {});
     },
     //删除的请求
     delRequest(data) {
@@ -448,32 +452,31 @@ export default {
     },
 
     getPageNum(e) {
-      this.pagingQueryData.pageNumber = e;
+      this.queryData.pageNumber = e;
     },
     sureSuccssBtn(e) {
-      this.pagingQueryData.pageNumber = e;
-      this.tableData = [];
+      this.queryData.pageNumber = e;
       this.querySupplierFun();
     },
     changeData(data) {
-      this.changePageData(data); //用来改变分页器的条数
+      this.changePageData(data);
     },
-    //用来改变分页器的条数
     changePageData(data) {
       let { totalRow } = data;
       this.pageComponentsData.pageNums = totalRow;
     },
 
     handleChange(value) {
+      console.log(value);
       this.form.selectedOptions = value;
       this.form.province = value[0];
       this.form.city = value[1];
       this.form.area = value[2];
-      console.log(
-        CodeToText[this.form.province],
-        CodeToText[this.form.city],
-        CodeToText[this.form.area]
-      );
+      // console.log(
+      //   CodeToText[this.form.province],
+      //   CodeToText[this.form.city],
+      //   CodeToText[this.form.area]
+      // );
     },
     testIsMobile() {
       let telPeoplePhone = this.telPeoplePhone;

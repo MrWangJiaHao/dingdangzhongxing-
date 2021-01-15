@@ -508,7 +508,6 @@ export default {
       });
     },
     queryMateAdminFun() {
-      console.log(this.queryData);
       queryMateAdmin(this.queryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
@@ -564,7 +563,49 @@ export default {
       this.dialogMateType = val;
     },
     okBtn() {
-      this.dialogFormVisible = false;
+      if (this.dialogMateType == "") {
+        return this.$messageSelf.message({
+          message: "请选择物料类型",
+          type: "warning",
+        });
+      }
+      if (this.dialogMateName == "") {
+        return this.$messageSelf.message({
+          message: "请输入物料名称",
+          type: "warning",
+        });
+      }
+      if (this.dialogMateCode == "") {
+        return this.$messageSelf.message({
+          message: "请输入物料编号",
+          type: "warning",
+        });
+      }
+      if (this.dialogBrandName == "") {
+        return this.$messageSelf.message({
+          message: "请选择品牌",
+          type: "warning",
+        });
+      }
+      if (this.dialogSupValue == "") {
+        return this.$messageSelf.message({
+          message: "请选择供应商",
+          type: "warning",
+        });
+      }
+      if (this.dialogSpecValue == "") {
+        return this.$messageSelf.message({
+          message: "请选择规格",
+          type: "warning",
+        });
+      }
+      if (this.dialogEarlyWarnValue == "") {
+        return this.$messageSelf.message({
+          message: "请输入低库存预警值",
+          type: "warning",
+        });
+      }
+
       let createData = {
         id: this.mateId,
         wareId: getCookie("X-Auth-wareId"),
@@ -580,15 +621,17 @@ export default {
         remark: this.remarkInfor, //备注
         inventoryFloor: this.dialogEarlyWarnValue,
       };
-      console.log(createData);
+      // console.log(createData);
       createMateAdmin(createData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
           this.$messageSelf.message({
-            message: "创建成功",
+            message: this.promptMessage === "create" ? "创建成功" : "编辑成功",
             type: "success",
           });
+          this.dialogFormVisible = false;
           this.queryMateAdminFun();
+          this.querySlectData();
           this.dialogMateType = "";
           this.dialogMateName = "";
           this.dialogMateCode = "";
@@ -628,6 +671,7 @@ export default {
       //创建
       this.title = "添加物料";
       this.dialogFormVisible = true;
+      this.promptMessage = "create";
     },
     editChildWarehouse() {
       //编辑
@@ -642,15 +686,19 @@ export default {
           type: "warning",
         });
       this.title = "编辑物料";
+      this.promptMessage = "edit";
       this.dialogFormVisible = true;
       let gys = this.multipleSelection[0];
       this.dialogMateName = gys.materielName;
       this.dialogMateType = gys.materielType;
       this.dialogMateCode = gys.materielCode;
       this.dialogBrandName = gys.braName;
+      this.allBrandId = gys.braId;
       this.dialogSupValue = gys.supName;
+      this.allSupId = gys.supId;
       this.dialogSpecValue = gys.specName;
-      this.dialogEarlyWarnValue = gys.seqNum;
+      this.allSpecId = gys.specId;
+      this.dialogEarlyWarnValue = gys.inventoryFloor;
       this.remarkInfor = gys.remark;
       this.mateId = gys.id;
     },
@@ -678,8 +726,7 @@ export default {
         .then(() => {
           this.delRequest({ ids: arr });
         })
-        .catch(() => {
-        });
+        .catch(() => {});
     },
     //删除的请求
     delRequest(data) {

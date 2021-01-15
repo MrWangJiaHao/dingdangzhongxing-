@@ -301,6 +301,10 @@ input::-moz-placeholder {
   color: #9b9b9b !important;
   opacity: 1 !important; //这里必须设置透明度为1，因为火狐默认是0.4
 }
+textarea::-moz-placeholder {
+  color: #9b9b9b !important;
+  opacity: 1 !important; //这里必须设置透明度为1，因为火狐默认是0.4
+}
 
 //兼容欧鹏浏览器
 ::-o-placeholder {

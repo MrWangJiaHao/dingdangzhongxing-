@@ -6,7 +6,7 @@
         <div class="name_type">
           <div class="nameBox">
             <div class="roleName-text">物料类型：</div>
-            <div class="roleName-checkBox" style="width:150px">
+            <div class="roleName-checkBox" style="width: 150px">
               <el-select
                 v-model="mateTypeValue"
                 placeholder="请选择物料类型"
@@ -101,7 +101,7 @@
           </div>
           <div class="nameBox">
             <div class="roleName-text">低库存预警：</div>
-            <div class="roleName-checkBox" style="width:120px">
+            <div class="roleName-checkBox" style="width: 120px">
               <el-select
                 v-model="inventoryFloorValue"
                 @change="inventoryFloors"
@@ -124,19 +124,6 @@
         </div>
       </div>
       <div class="childWarehouseForm">
-        <!-- <div class="formHeader">
-          <div class="icon-title">
-            <div class="icon-title-icon">
-              <img src="../../assets/img/home_page-icon-default@2x.png" />
-            </div>
-            <div class="icon-title-title">物料管理信息</div>
-          </div>
-          <div class="someBtn">
-            <div class="setUser" @click="createChildWarehouse">创建</div>
-            <div class="bianjiUser" @click="editChildWarehouse">编辑</div>
-            <div class="remove" @click="delChildWarehouse">删除</div>
-          </div>
-        </div> -->
         <div class="resultForm">
           <el-table
             :data="tableData"
@@ -152,11 +139,7 @@
               width="71"
             >
             </el-table-column>
-            <el-table-column
-              prop="materielName"
-              label="物料名称"
-              align="left"
-            >
+            <el-table-column prop="materielName" label="物料名称" align="left">
             </el-table-column>
             <el-table-column
               prop="materielCode"
@@ -194,14 +177,13 @@
             ></el-table-column>
           </el-table>
           <div class="pageComponent">
-          <pagecomponent
-            :pageComponentsData="pageComponentsData"
-            @getPageNum="getPageNum"
-            @sureSuccssBtn="sureSuccssBtn"
-          ></pagecomponent>
+            <pagecomponent
+              :pageComponentsData="pageComponentsData"
+              @getPageNum="getPageNum"
+              @sureSuccssBtn="sureSuccssBtn"
+            ></pagecomponent>
+          </div>
         </div>
-        </div>
-        
       </div>
     </div>
   </div>
@@ -210,9 +192,10 @@
 <script>
 import {
   queryMateAdmin,
-  queryBrand,
-  querySupplier,
-  querySpec,
+  queryBrandCon,
+  querySupplierCon,
+  querySpecCon,
+  queryMateAdmintj,
 } from "../../api/api";
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { reduceFun } from "../../utils/validate";
@@ -278,12 +261,11 @@ export default {
   },
   mounted() {
     this.queryMateAdminFun = () => {
-      this.mateNameValueData = [];
-      let queryData = this.queryData;
-      queryMateAdmin(queryData).then((ok) => {
+      queryMateAdmin(this.queryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
           this.changeData(ok.data.result);
+          this.tableData = [];
           this.tableData = ok.data.result.list;
           this.tableData.forEach((v) => {
             this.mateTypeValueData.forEach((vv) => {
@@ -292,82 +274,46 @@ export default {
               }
             });
           });
-          this.tableData1 = ok.data.result.list;
-          let res = ok.data.result.list;
-          res.forEach((v) => {
-            this.mateNameValueData.push({
-              value: v.materielName,
-              label: v.materielName,
-            });
-          });
         }
       });
     };
     this.queryMateAdminFun();
+    this.querySelectData()
     this.queryAnyInfor = () => {
-      let QueryData = {
-        orderBy: "createTime",
-        pageNumber: 1,
-        pageSize: 10,
-        paras: {
-          id: "",
-        },
-      };
       //查询品牌
-      queryBrand(QueryData).then((ok) => {
+      queryBrandCon({ wareId: "", id: "" }).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
-          this.allBrandData = ok.data.result.list;
-          // console.log(this.allBrandData)
-          this.allBrandData.forEach((v) => {
+          ok.data.result.forEach((v) => {
             this.brandNameValueData.push({
-              value: v.braFullName,
+              value: v.id,
               label: v.braFullName,
             });
             this.brandNameValueData = reduceFun(this.brandNameValueData);
           });
-        } else {
-          this.$messageSelf.message({
-            message: "查询品牌失败",
-            type: "error",
-          });
         }
       });
       //查询供应商
-      querySupplier(QueryData).then((ok) => {
-        // console.log(ok);
+      querySupplierCon({ wareId: "", id: "" }).then((ok) => {
         if (ok.data.code === "10000") {
-          this.allSupData = ok.data.result.list;
-          this.allSupData.forEach((v) => {
+          ok.data.result.forEach((v) => {
             this.supNameValueData.push({
-              value: v.supFullName,
+              value: v.id,
               label: v.supFullName,
             });
             this.supNameValueData = reduceFun(this.supNameValueData);
           });
-        } else {
-          this.$messageSelf.message({
-            message: "查询供应商失败",
-            type: "error",
-          });
         }
       });
       //查询规格
-      querySpec(QueryData).then((ok) => {
-        // console.log(ok);
+      querySpecCon({ wareId: "", id: "" }).then((ok) => {
         if (ok.data.code === "10000") {
-          this.allSpecData = ok.data.result.list;
-          this.allSpecData.forEach((v) => {
+          ok.data.result.forEach((v) => {
             this.mateSpecValueData.push({
-              value: v.specValue,
+              value: v.id,
               label: v.specValue,
             });
             this.mateSpecValueData = reduceFun(this.mateSpecValueData);
-          });
-        } else {
-          this.$messageSelf.message({
-            message: "查询规格失败",
-            type: "error",
           });
         }
       });
@@ -375,24 +321,31 @@ export default {
     this.queryAnyInfor();
   },
   methods: {
-    clickQuery() {
-      //查询
-      this.tableData = [];
-      let queryData = this.queryData;
-      queryMateAdmin(queryData).then((ok) => {
-        // console.log(ok)
+    querySelectData() {
+      queryMateAdmintj({
+        unReach: "",
+        materielType: "",
+        id: "",
+        specId: "",
+        supId: "",
+        braId: "",
+      }).then((ok) => {
         if (ok.data.code === "10000") {
-          this.tableData = ok.data.result.list;
-          this.tableData.forEach((v) => {
-            this.mateTypeValueData.forEach((vv) => {
-              if (v.materielType == +vv.value) {
-                v.materielType = vv.label;
-              }
+          ok.data.result.forEach((v) => {
+            this.mateNameValueData.push({
+              value: v.id,
+              label: v.materielName,
             });
           });
+          this.mateNameValueData = reduceFun(this.mateNameValueData);
         }
       });
     },
+    clickQuery() {
+      //查询
+      this.queryMateAdminFun();
+    },
+
     clearInput() {
       //清空输入框
       this.mateTypeValue = "";
@@ -401,73 +354,39 @@ export default {
       this.supNameValue = "";
       this.brandNameValue = "";
       this.inventoryFloorValue = "";
-      this.tableData = [];
-      this.tableData1 = [];
-
-      this.queryData.paras.unReach = "";
-      this.queryData.paras.materielType = "";
-      this.queryData.paras.id = "";
-      this.queryData.paras.specId = "";
-      this.queryData.paras.supId = "";
-      this.queryData.paras.braId = "";
+      Object.keys(this.queryData.paras).forEach((v) => {
+        this.queryData.paras[v] = "";
+      });
       this.queryMateAdminFun();
     },
     mateTypeValues(val) {
-      this.mateTypeValue = val;
       this.queryData.paras.materielType = val;
     },
     mateNameValues(val) {
-      this.mateNameValue = val;
-      this.tableData1.forEach((v) => {
-        if (val === v.materielName) {
-          this.queryData.paras.id = v.id;
-        }
-      });
+      this.queryData.paras.id = val;
     },
     mateSpecValues(val) {
-      this.mateSpecValue = val;
-      this.allSpecData.forEach((v) => {
-        if (val === v.specValue) {
-          this.queryData.paras.specId = v.id;
-        }
-      });
+      this.queryData.paras.specId = val;
     },
     supNameValues(val) {
-      this.supNameValue = val;
-      this.allSupData.forEach((v) => {
-        if (val === v.supFullName) {
-          this.queryData.paras.supId = v.id;
-        }
-      });
+      this.queryData.paras.supId = val;
     },
     brandNameValues(val) {
-      this.brandNameValue = val;
-      this.allBrandData.forEach((v) => {
-        if (val === v.braFullName) {
-          this.queryData.paras.braId = v.id;
-        }
-      });
+      this.queryData.paras.braId = val;
     },
     inventoryFloors(val) {
-      this.inventoryFloorValue = val;
       this.queryData.paras.unReach = val;
     },
-
-    // handleSelectionChange(value) {
-    //   this.multipleSelection = value;
-    // },
     getPageNum(e) {
       this.pagingQueryData.pageNumber = e;
     },
     sureSuccssBtn(e) {
       this.pagingQueryData.pageNumber = e;
-      this.tableData = [];
       this.queryMateAdminFun();
     },
     changeData(data) {
-      this.changePageData(data); //用来改变分页器的条数
+      this.changePageData(data);
     },
-    //用来改变分页器的条数
     changePageData(data) {
       let { totalRow } = data;
       this.pageComponentsData.pageNums = totalRow;
@@ -576,7 +495,6 @@ export default {
   .resultForm {
     padding: 16px 20px;
   }
- 
 }
 </style>
 

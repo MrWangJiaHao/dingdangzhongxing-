@@ -55,9 +55,9 @@
             <div class="icon-title-title">查询结果</div>
           </div>
           <div class="someBtn">
-            <div class="setUser" @click="createChildWarehouse">创建</div>
-            <div class="bianjiUser" @click="editChildWarehouse">编辑</div>
-            <div class="remove" @click="delChildWarehouse">删除</div>
+            <div class="setUser" @click="create">创建</div>
+            <div class="bianjiUser" @click="edit">编辑</div>
+            <div class="remove" @click="del">删除</div>
           </div>
         </div>
         <div class="resultForm">
@@ -69,7 +69,12 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="82" align="center" fixed="left">
+            <el-table-column
+              type="selection"
+              width="82"
+              align="center"
+              fixed="left"
+            >
             </el-table-column>
             <el-table-column
               label="序号"
@@ -80,7 +85,7 @@
             </el-table-column>
             <el-table-column prop="specValue" label="规格值" align="center">
             </el-table-column>
-            <el-table-column prop="specUnit" label="规格单位" align="center">
+            <el-table-column prop="specUnit" label="规格单位">
             </el-table-column>
             <el-table-column
               prop="remark"
@@ -138,8 +143,6 @@
               <el-input
                 v-model="specValueInput"
                 placeholder="请输入规格值 例:20*20*20"
-                @blur="specValueInputEvent"
-                @focus="specValueInputFocusEvent"
               ></el-input>
             </div>
           </div>
@@ -167,7 +170,7 @@
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { createSpec, querySpec, delSpec, querySpecCon } from "../../api/api";
-import { reduceFun } from "../../utils/validate";
+import { getCookie, reduceFun } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -182,7 +185,7 @@ export default {
       tableData: [],
       tableData1: [],
       multipleSelection: [],
-      pagingQueryData: {
+      queryData: {
         //分页查询
         orderBy: "createTime",
         pageNumber: 1,
@@ -207,26 +210,12 @@ export default {
   },
   mounted() {
     this.querySpecFun = () => {
-      let pagingQueryData = this.pagingQueryData;
-      querySpec(pagingQueryData).then((ok) => {
+      querySpec(this.queryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
           this.changeData(ok.data.result);
+          this.tableData = [];
           this.tableData = ok.data.result.list;
-          this.tableData1 = ok.data.result.list;
-          this.tableData.forEach((v) => {
-            this.specUnitData.push({
-              value: v.specUnit,
-              label: v.specUnit,
-            });
-            this.specValueData.push({
-              value: v.specValue,
-              label: v.specValue,
-            });
-
-            this.specUnitData = reduceFun(this.specUnitData);
-            this.specValueData = reduceFun(this.specValueData);
-          });
         } else {
           this.$messageSelf.message({
             message: "未知错误",
@@ -235,6 +224,26 @@ export default {
         }
       });
     };
+    querySpecCon({
+      id: "",
+      wareId: "",
+      // wareId: getCookie("X-Auth-wareId"),
+    }).then((ok) => {
+      if (ok.data.code === "10000") {
+        ok.data.result.forEach((v) => {
+          this.specUnitData.push({
+            value: v.specUnit,
+            label: v.specUnit,
+          });
+          this.specValueData.push({
+            value: v.id,
+            label: v.specValue,
+          });
+          this.specUnitData = reduceFun(this.specUnitData);
+          this.specValueData = reduceFun(this.specValueData);
+        });
+      }
+    });
     this.querySpecFun();
   },
   methods: {
@@ -242,28 +251,49 @@ export default {
       this.multipleSelection = value;
     },
     specUnitValues(val) {
-      this.specUnitValue = val;
+      this.queryData.paras.specUnit = val;
     },
     specValues(val) {
-      this.specValue = val;
-      this.tableData1.forEach((v) => {
-        if (val === v.specValue) {
-          this.pagingQueryData.paras.id = v.id;
-        }
-      });
+      this.queryData.paras.id = val;
     },
     okBtn() {
-      this.dialogFormVisible = false;
+      if (this.specUnitInput === "") {
+        return this.$messageSelf.message({
+          message: "请输入规格单位",
+          type: "warning",
+        });
+      }
+      if (this.specValueInput === "") {
+        return this.$messageSelf.message({
+          message: "请输入规格",
+          type: "warning",
+        });
+      }
+      var pattern = /^\d+\*{1}\d+\*{1}\d+$/;
+      if (!pattern.test(this.specValueInput)) {
+        return this.$messageSelf.message({
+          type: "error",
+          message: "请输入正确的规格格式",
+        });
+      }
+      // this.specValueInput =
+      //   this.specValueInput.split("*")[0] +
+      //   this.specUnitInput +
+      //   "*" +
+      //   this.specValueInput.split("*")[1] +
+      //   this.specUnitInput +
+      //   "*" +
+      //   this.specValueInput.split("*")[2] +
+      //   this.specUnitInput;
       let createData = {
         id: this.specId,
-        // wareId: getCookie("X-Auth-wareId"),
-        wareId: "",
+        wareId: getCookie("X-Auth-wareId"),
         specValue: this.specValueInput,
         specUnit: this.specUnitInput,
         remark: this.remarkInfor,
       };
+      // console.log(createData)
       createSpec(createData).then((ok) => {
-        // console.log(ok)
         if (ok.data.code === "10000") {
           this.$messageSelf.message({
             message: this.promptMessage === "create" ? "创建成功" : "编辑成功",
@@ -273,6 +303,7 @@ export default {
           this.specUnitInput = "";
           this.remarkInfor = "";
           this.specValueInput = "";
+          this.dialogFormVisible = false;
         } else {
           this.$messageSelf.message({
             message: ok.data.msg,
@@ -283,31 +314,17 @@ export default {
     },
     clickQuery() {
       //点击查询
-      this.tableData = [];
-      let idQueryData = {
-        id: this.pagingQueryData.paras.id,
-        wareId: "",
-      };
-      querySpecCon(idQueryData).then((ok) => {
-        if (ok.data.code === "10000") {
-          this.tableData = ok.data.result;
-        } else {
-          this.$messageSelf.message({
-            message: "未知错误",
-            type: "error",
-          });
-        }
-      });
+      this.querySpecFun();
     },
     clearInput() {
       //点击清空输入框
+      this.queryData.paras.id = "";
+      this.queryData.paras.specUnit = "";
       this.specUnitValue = "";
       this.specValue = "";
-      this.tableData = [];
-      this.tableData1 = [];
       this.querySpecFun();
     },
-    createChildWarehouse() {
+    create() {
       //创建
       this.dialogFormVisible = true;
       this.title = "添加规格";
@@ -316,16 +333,16 @@ export default {
       this.remarkInfor = "";
       this.specValueInput = "";
     },
-    editChildWarehouse() {
+    edit() {
       //编辑
       if (!this.multipleSelection.length)
         return this.$messageSelf.message({
-          message: "请选择要查看的规格",
+          message: "请选择要编辑的规格",
           type: "warning",
         });
       if (this.multipleSelection.length !== 1)
         return this.$messageSelf.message({
-          message: "每次只能编辑一个规格，请重新选择",
+          message: "每次只能编辑一个规格",
           type: "warning",
         });
       this.dialogFormVisible = true;
@@ -334,10 +351,15 @@ export default {
       let gys = this.multipleSelection[0];
       this.specUnitInput = gys.specUnit;
       this.remarkInfor = gys.remark;
-      this.specValueInput = gys.specValue;
+      // this.specValueInput =
+      //   parseInt(gys.specValue.split("*")[0]) +
+      //   "*" +
+      //   parseInt(gys.specValue.split("*")[1]) +
+      //   "*" +
+      //   parseInt(gys.specValue.split("*")[2]);
       this.specId = gys.id;
     },
-    delChildWarehouse() {
+    del() {
       //删除
       let arr = [];
       this.multipleSelection.forEach((item) => {
@@ -351,15 +373,17 @@ export default {
           type: "warning",
         });
       this.$messageSelf
-        .confirms("确定要删除该规格？", "删除确认", {
-          type: "info",
-        })
+        .confirms(
+          `确定要删除这${this.multipleSelection.length}条规格？`,
+          "删除确认",
+          {
+            type: "info",
+          }
+        )
         .then(() => {
           this.delRequest({ ids: arr });
         })
-        .catch(() => {
-          this.$messageSelf.message("已取消删除");
-        });
+        .catch(() => {});
     },
     //删除的请求
     delRequest(data) {
@@ -387,40 +411,27 @@ export default {
       ) {
         return;
       } else {
-        this.$messageSelf.message({
-          type: "error",
-          message: "请输入正确的规格单位",
-        });
+        if (this.specUnitInput !== "") {
+          this.$messageSelf.message({
+            type: "error",
+            message: "请输入正确的规格单位",
+          });
+        }
       }
     },
-    specValueInputEvent() {
-      if (this.specValueInput !== "") {
-        this.specValueInput =
-          this.specValueInput.split("*")[0] +
-          this.specUnitInput +
-          "*" +
-          this.specValueInput.split("*")[1] +
-          this.specUnitInput +
-          "*" +
-          this.specValueInput.split("*")[2] +
-          this.specUnitInput;
-      }
-    },
-    specValueInputFocusEvent() {
-      if (this.specUnitInput === "") {
-        this.$messageSelf.message({
-          type: "error",
-          message: "请先输入规格单位",
-        });
-      }
-    },
-
+    // specValueInputFocusEvent() {
+    //   if (this.specUnitInput === "") {
+    //     this.$messageSelf.message({
+    //       type: "error",
+    //       message: "请先输入规格单位",
+    //     });
+    //   }
+    // },
     getPageNum(e) {
-      this.pagingQueryData.pageNumber = e;
+      this.queryData.pageNumber = e;
     },
     sureSuccssBtn(e) {
-      this.pagingQueryData.pageNumber = e;
-      this.tableData = [];
+      this.queryData.pageNumber = e;
       this.querySpecFun();
     },
     changeData(data) {
@@ -631,6 +642,7 @@ export default {
             }
             .el-textarea__inner {
               border: none;
+              color: #000;
             }
           }
         }
