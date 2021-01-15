@@ -538,9 +538,10 @@ export default {
     //提交
     ExportArr() {
       if (!this.multipleSelection.length && this.multipleSelection.length != 1)
-        return this.$messageSelf.message(
-          "请选择要提交的采购单，并且一次只能提交一个采购单"
-        );
+        return this.$messageSelf.message({
+          type: "warning",
+          message: "请选择要提交的采购单，并且一次只能提交一个采购单",
+        });
       subpPurchaseOrderSubmitRecord({
         id: this.multipleSelection[0].id,
         disposeStatus: this.multipleSelection[0].disposeStatus,
@@ -556,16 +557,20 @@ export default {
     //编辑
     editBtn() {
       if (!this.multipleSelection.length || this.multipleSelection.length != 1)
-        return this.$messageSelf.message(
-          "请选择要编辑的采购单，并且一次只能编辑一个采购单"
-        );
+        return this.$messageSelf.message({
+          type: "warning",
+          message: "请选择要编辑的采购单，并且一次只能编辑一个采购单",
+        });
       this.editDataJson = this.multipleSelection[0];
       this.isCreatePurchasing = true;
     },
     //删除
     clearBtn() {
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要删除的采购单");
+        return this.$messageSelf.message({
+          type: "warning",
+          message: "请选择要删除的采购单",
+        });
       this.$messageSelf
         .confirms(this.$clearArr(this.multipleSelection), "提示", {
           confirmButtonText: "确定",
