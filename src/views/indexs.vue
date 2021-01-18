@@ -2,15 +2,8 @@
   <div id="headerMain">
     <div class="navMain">
       <div class="tabContainer">
-        <a
-          href="/index/indexFormJH"
-          class="imgbox ellipsis displayalign"
-          @click="goToIndex"
-        >
-          <img
-            src="@/assets/img/logo.png"
-            style="margin-right: 5px; margin-top: -2px"
-          />
+        <a class="imgbox ellipsis displayalign"@click="goToIndex">
+          <img src="@/assets/img/logo.png" style="margin-right: 5px; margin-top: -2px"/>
           <span class="xitonwenzi">仓储系统</span>
         </a>
         <div class="el-nav displayalign">
@@ -24,18 +17,14 @@
                   v-if="navIndex.children.length > 1"
                   @command="clickEventGoRouter"
                   ref="mouseoutHidden"
-                  @visible-change="visibleChange"
                 >
                   <span class="el-dropdown-link">
-                    <img
-                      style="margin-right: 8px; margin-top: -1px"
+                    <img style="margin-right: 8px; margin-top: -1px"
                       :src="navIndex.iconCls"
                       width="16"
                       height="16"
                     />
-                    <div style="display: inline-block; line-height: 34px">
-                      {{ navIndex.title }}
-                    </div>
+                    <div style="display: inline-block; line-height: 34px">{{ navIndex.title }}</div>
                   </span>
                   <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item
@@ -48,8 +37,7 @@
                 </el-dropdown>
                 <div v-else>
                   <span class="el-dropdown-link">
-                    <img
-                      :src="navIndex.iconCls"
+                    <img :src="navIndex.iconCls"
                       style="margin-right: 8px; margin-top: -1px"
                       width="16"
                       height="16"
@@ -64,26 +52,20 @@
           </el-tabs>
         </div>
         <div class="el-lr">
-          <div
-            class="el-icon-arrow-left left"
+          <div class="el-icon-arrow-left left" @click="leftMove"
             :style="{
               opacity:
                 leftMoveClick && this.steep == this.navWidth - this.innersWidth
                   ? 0.46
                   : 1,
-            }"
-            @click="leftMove"
-          ></div>
-          <div
-            class="el-icon-arrow-right right"
+            }"></div>
+          <div class="el-icon-arrow-right right" @click="rightMove"
             :style="{
               opacity:
                 rightMoveClick && this.steep == this.navWidth - this.innersWidth
                   ? 0.46
                   : 1,
-            }"
-            @click="rightMove"
-          ></div>
+            }"></div>
         </div>
       </div>
     </div>
@@ -108,15 +90,7 @@
       </div>
     </div>
     <!-- 可以删除的导航 -->
-    <div
-      class="dianjiqiehuan"
-      v-show="
-        mianbaoxieArr.length &&
-        mianbaoxieArr[1] &&
-        mianbaoxieArr[0] &&
-        mianbaoxieArr[0].title !== mianbaoxieArr[1].title
-      "
-    >
+    <div class="dianjiqiehuan" v-show="mianbaoxieArr.length >= 2 && mianbaoxieArr[0].title !== mianbaoxieArr[1].title">
       <div class="mianbaoxie" v-show="!isZhanneixiaoxi">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item
@@ -143,7 +117,6 @@
 
 <script>
 /*eslint-disable */
-// import dropdown from "../components/dropdown"; //引入下拉框组件
 let a = 0;
 import Footer from "../components/footer";
 import { jurisdicRequest } from "../api/api";
@@ -629,7 +602,7 @@ export default {
       leftMoveClick: null,
       rightMoveClick: null,
       tableIdx: 0,
-      isZhanneixiaoxi: sessionStorage.getItem("isZhanneixiaoxi"),
+      isZhanneixiaoxi: false,
     };
   },
   mounted() {
@@ -643,7 +616,7 @@ export default {
       id: "AA4EBC35E2544E7688E2F4230F3F5E30",
     };
     jurisdicRequest(data).then((ok) => {
-      // console.log(ok);
+      
     });
     this.activeName = sessionStorage.getItem("activeName");
 
@@ -651,17 +624,22 @@ export default {
     this._getMesAge();
   },
   created() {
+    let mianbaoxieArr, isZhanneixiaoxi;
+
+    mianbaoxieArr = sessionStorage.getItem('mianbaoxieArr') ? JSON.parse(sessionStorage.getItem('mianbaoxieArr')) : []
+    isZhanneixiaoxi = sessionStorage.getItem('isZhanneixiaoxi') ? JSON.parse(sessionStorage.getItem('isZhanneixiaoxi')) : false
+    
     this.dropdownArr.unshift(this.dataArr[0]);
-    this.mianbaoxieArr.unshift();
+    this.mianbaoxieArr = mianbaoxieArr
+    this.isZhanneixiaoxi = isZhanneixiaoxi
+    
     this.addHenxianTables();
   },
   watch: {
     activeName: function (n) {
-      // console.log("------------activeName------------", n, this.dropdownArr);
       this.activeName = "" + parseInt(n);
     },
     $route: function (n) {
-      //   console.log(n, "router");
       if (this.dropdownArr.length) {
         for (var i = 0; i < this.dropdownArr.length; i++) {
           if (this.dropdownArr[i].name.indexOf(n.path) >= 0) {
@@ -698,20 +676,13 @@ export default {
 
       for (let i = 0; i < sultNums; i++) {
         let datames = [];
-        // activeMes.forEach(item=>{})
       }
 
-      console.log(sultNums);
       return resultrArr;
     },
     _resData(start = 0, numers = 7) {},
   },
   methods: {
-    visibleChange(val) {
-      if (val) {
-        console.log(val);
-      }
-    },
     goToIndex() {
       this.$router.push("/index/indexFormJH");
     },
@@ -788,7 +759,6 @@ export default {
           message: "该模块在开发中请耐心等候稍后",
         });
       }
-      //   console.log("router", router);
       this.$router.push(router);
       let dataArrJson =
         this.dropdownArr[+this.activeTabsName].children.length != 0
@@ -805,7 +775,6 @@ export default {
     _isZhanNewStation(data) {
       let typesStr = _typesStr(data);
       if (typesStr == "Object") {
-        // console.log(data.name);
         if (data.name.includes("/newIndex")) {
           sessionStorage.setItem("isZhanneixiaoxi", true);
           return (this.isZhanneixiaoxi = true);
@@ -832,7 +801,6 @@ export default {
     },
     //点击删除
     removeTab(e) {
-      // let removeSrc = e.substring(e.length, e.length - 1);
       let removeSrc = e;
       if (!removeSrc) return;
       this.dropdownArr.splice(removeSrc, 1);
@@ -852,11 +820,8 @@ export default {
         }
       }
       this.setStorage();
-      console.log("--------dropdownArr--------", router);
     },
     handleClick() {
-      //   console.log("--------dropdownArr--------", this.dropdownArr);
-      //   console.log("this.activeName", this.activeName);
       if (this.dataArr[+this.activeName].name == "") {
         return this.$messageSelf.message({
           message: "该模块在开发中，请耐心等候",
@@ -864,15 +829,12 @@ export default {
         });
       }
       let json = this.dataArr[+this.activeName];
-      // console.log("点击了第一级的菜单栏");
       let router = this.dataArr[+this.activeName].name;
       this.$router.push(router);
-      // console.log(router);
       //跳转路由
       if (!this.Heavy({ list: this.dropdownArr, data: json })) {
         this.dropdownArr.push(this.dataArr[+this.activeName]);
         this.activeTabsName = this.dropdownArr.length - 1 + "";
-        // console.log("this.activeTabsName0", this.activeTabsName);
       } else {
         if (this.dropdownArr.length) {
           for (var i = 0; i < this.dropdownArr.length; i++) {
@@ -880,7 +842,6 @@ export default {
               this.dropdownArr[i].name == this.dataArr[+this.activeName].name
             ) {
               this.activeTabsName = i + "";
-              //   console.log("this.activeTabsName1", this.activeTabsName);
               break;
             }
           }
@@ -895,7 +856,6 @@ export default {
       this.oldName = +this.activeName;
       this.handleTabsEdit();
       this.setStorage();
-      // console.log("this.mianbaoxieArr", this.mianbaoxieArr);
     },
     clickEventGoRouter(e) {
       let dataArrJson = this.dropdownArr[+this.activeTabsName].children[e];
@@ -907,7 +867,6 @@ export default {
       let router = this.dropdownArr[+this.activeTabsName].children[e].name;
       this.$router.push(router);
       this.setStorage();
-      //   console.log("this.mianbaoxieArr", this.mianbaoxieArr);
     },
     // 本地存储
     setStorage: function () {
@@ -1122,10 +1081,6 @@ export default {
 .tabContainer .el-tabs--bottom .el-tabs__header.is-bottom {
   margin: 0;
 }
-
-// .tabContainer .el-tabs__content {
-//   display: none;
-// }
 
 .tabContainer .el-tabs--card > .el-tabs__header .el-tabs__nav {
   border: none;
