@@ -10,8 +10,14 @@
       <div style="padding: 0 0 10px 0; width: 1000px">
         <div style="padding: 0 0 10px 0">
           <div id="printCenter" style="padding: 20px">
-            <div style="padding-bottom: 10px; border: 1px solid #d2d6e2">
-              <div style="border-bottom: 1px solid #d2d6e2; position: relative">
+            <div
+              style="
+                padding-bottom: 10px;
+                border: 1px solid #d2d6e2;
+                position: relative;
+              "
+            >
+              <div style="border-bottom: 1px solid #d2d6e2">
                 <div
                   style="
                     font-size: 24px;
@@ -22,7 +28,7 @@
                     text-align: center;
                   "
                 >
-                  {{ dataBack.pickOrderNo }}拣货单
+                  {{ detailsJianHuoDan.id }}拣货单
                 </div>
                 <div
                   style="position: absolute; top: 5px; right: 50px; z-index: -1"
@@ -31,7 +37,7 @@
                     :src="
                       baseUrl +
                       '/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
-                      dataBack.pickOrderNo
+                      detailsJianHuoDan.id
                     "
                     width="300"
                     height="90"
@@ -62,7 +68,7 @@
                         margin-right: 50px;
                       "
                     >
-                      {{ dataBack.orderCount }}
+                      {{ detailsJianHuoDan.orderCount }}
                     </div>
                   </div>
                   <div style="display: inline-block">
@@ -86,7 +92,7 @@
                         margin-right: 50px;
                       "
                     >
-                      {{ dataBack.prodTypeCount }}
+                      {{ detailsJianHuoDan.prodTypeCount }}
                     </div>
                   </div>
                   <div style="display: inline-block">
@@ -110,7 +116,7 @@
                         margin-right: 50px;
                       "
                     >
-                      {{ dataBack.prodCount }}
+                      {{ detailsJianHuoDan.prodCount }}
                     </div>
                   </div>
                   <div style="display: inline-block">
@@ -134,7 +140,7 @@
                         margin-right: 50px;
                       "
                     >
-                      {{ dataBack.boxTypeCount }}
+                      {{ detailsJianHuoDan.boxTypeCount }}
                     </div>
                   </div>
                   <div style="display: inline-block">
@@ -328,9 +334,7 @@ export default {
       tableDatas: [],
       detailsTable: [],
       Newtime: "",
-      dataBack: (() => {
-        this.$isEmpty(this.detailsJianHuoDan) ? this.detailsJianHuoDan : "";
-      })(),
+      dataBack: {},
       baseUrl: sessionStorage.getItem("baseUrl"),
     };
   },
@@ -358,7 +362,7 @@ export default {
   methods: {
     _pDeliverGoodsfindSubOrderByPickOrderNo() {
       pDeliverGoodsfindSubOrderByPickOrderNo({
-        pickOrderNo: this.pickOrderNo,
+        pickOrderNo: this.detailsJianHuoDan.id,
       }).then((res) => {
         if (res.code == "10000") {
           this.dataBack = res.result;
