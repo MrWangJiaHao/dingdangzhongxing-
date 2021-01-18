@@ -77,13 +77,10 @@
         <div class="displayalign zujianBox">
           <div class="noneIconTitle mr11">订单号:</div>
           <div class="mr20">
-            <el-autocomplete
-              class="w120"
-              v-model="paras.channelOrderNo"
-              :fetch-suggestions="orderNoArr"
-              placeholder="请输入订单号"
-              @select="orderNoSelect"
-            ></el-autocomplete>
+            <inputHeader
+              @changereplenishOrderNo="dindanhaoFn"
+              :buhuodanhaoJson="dindanhaoJson"
+            ></inputHeader>
           </div>
         </div>
       </div>
@@ -93,13 +90,10 @@
         <div class="displayalign zujianBox">
           <div class="noneIconTitle mr11">子单号:</div>
           <div class="mr20">
-            <el-autocomplete
-              class="w120"
-              v-model="paras.subOrderNo"
-              :fetch-suggestions="subOrderNoArr"
-              placeholder="请输入子单号"
-              @select="subOrderNoSelect"
-            ></el-autocomplete>
+            <inputHeader
+              @changereplenishOrderNo="subOrderNoArrFn"
+              :buhuodanhaoJson="subOrderNoArr"
+            ></inputHeader>
           </div>
         </div>
       </div>
@@ -131,13 +125,10 @@
         <div class="displayalign zujianBox">
           <div class="noneIconTitle mr11">收货人:</div>
           <div class="mr20">
-            <el-autocomplete
-              class="w120"
-              v-model="paras.orderContactCenter"
-              :fetch-suggestions="orderContactArr"
-              placeholder="请输入收货人"
-              @select="orderContactSelect"
-            ></el-autocomplete>
+            <inputHeader
+              @changereplenishOrderNo="orderContactFn"
+              :buhuodanhaoJson="orderContactJson"
+            ></inputHeader>
           </div>
         </div>
       </div>
@@ -147,13 +138,10 @@
         <div class="displayalign zujianBox">
           <div class="noneIconTitle mr11">联系电话:</div>
           <div class="mr20">
-            <el-autocomplete
-              class="w120"
-              v-model="orderContactPhone.orderContactPhoneCenter"
-              :fetch-suggestions="orderContactPhoneArr"
-              placeholder="请输入收货人"
-              @select="orderContactPhoneSelect"
-            ></el-autocomplete>
+            <inputHeader
+              @changereplenishOrderNo="orderContactPhoneFn"
+              :buhuodanhaoJson="orderContactPhoneJson"
+            ></inputHeader>
           </div>
         </div>
       </div>
@@ -164,13 +152,11 @@
           <div class="noneIconTitle mr11">收货地址:</div>
           <div class="mr20 displayalign">
             <span class="mr11">
-              <el-autocomplete
-                class="w120"
-                v-model="orderAddr.orderAddrCenter"
-                :fetch-suggestions="orderAddrArr"
-                placeholder="请输入收货地址"
-                @select="orderAddrSelect"
-              ></el-autocomplete>
+              <inputHeader
+                className="w120"
+                @changereplenishOrderNo="orderAddrFn"
+                :buhuodanhaoJson="orderAddrJson"
+              ></inputHeader>
             </span>
 
             <el-select
@@ -198,13 +184,10 @@
           <div class="noneIconTitle mr11">产品名称:</div>
           <div class="mr20 displayalign">
             <span class="mr11">
-              <el-autocomplete
-                class="w120"
-                v-model="paras.prodNameLike"
-                :fetch-suggestions="addressJsonArr"
-                placeholder="请输入产品名称"
-                @select="addressJsonSelect"
-              ></el-autocomplete>
+              <inputHeader
+                @changereplenishOrderNo="systemProdNameFn"
+                :buhuodanhaoJson="systemProdNameJson"
+              ></inputHeader>
             </span>
 
             <el-select
@@ -314,11 +297,12 @@ import dateTime from "../../components/commin/dateTime.vue"; //时间
 import { getCookie } from "../../utils/validate";
 import headerKuanJia from "../../components/commin/headerKuanJia";
 import { parse } from "qs";
-
+import inputHeader from "../headerCommin/inputHeader";
 export default {
   components: {
     dateTime,
     headerKuanJia,
+    inputHeader,
   },
   props: {
     fastFahuo: {
@@ -337,12 +321,26 @@ export default {
       channelNameJson: {
         channelNameArr: [],
       },
+      orderAddrJson: {
+        placeholder: "请输入收货地址",
+        inputL: "",
+        w320: "w150",
+      },
       //订单来源
       orderSourceNameJson: {
         orderSourceName: [],
       },
       exprNameJson: {
         exprNameArr: [],
+      },
+      orderContactPhoneJson: {
+        placeholder: "请输入联系电话",
+        input: "",
+        w320: "w150",
+      },
+      orderContactJson: {
+        input: "",
+        placeholder: "请输入收货人",
       },
       orderContactPhone: {
         orderContactPhoneCenter: "",
@@ -355,11 +353,24 @@ export default {
         addressArr: [],
         addressJsonCenter: "",
       },
+      systemProdNameJson: {
+        placeholder: "请输入产品名称",
+        input: "",
+        w320: "w150",
+      },
       systemProdName: { systemProdNameArr: [] },
       PayStartTime: { placeholder: "请输入支付开始时间" },
       payEndTime: { placeholder: "请输入支付结束时间" },
       pushStartTime: { placeholder: "请选择下发开始时间" },
       pushEndTime: { placeholder: "请选择下发结束时间" },
+      dindanhaoJson: {
+        placeholder: "请输入订单号",
+        input: "",
+      },
+      subOrderNoArr: {
+        input: "",
+        placeholder: "请输入子单号",
+      },
       paras: {
         wareId: getCookie("X-Auth-wareId"),
         orgId: "",
@@ -418,9 +429,28 @@ export default {
       this.paras.printExprStatus = e;
     },
     //获取数组
+    dindanhaoFn(e) {
+      //订单号
+      this.paras.channelOrderNo = e;
+    },
+    subOrderNoArrFn(e) {
+      this.paras.subOrderNo = e;
+    },
+    orderContactPhoneFn(e) {
+      this.paras.orderContactPhone = e;
+    },
+    orderAddrFn(e) {
+      this.paras.orderAddr = e;
+    },
+    orderContactFn(e) {
+      this.paras.orderContactCenter = e;
+    },
+    systemProdNameFn(e) {
+      this.paras.systemProdName = e;
+    },
     async _getMes() {
       let { result } = await this._ajaxMes();
-      this._changDianDanLaiYuan(result.list);
+      return this._changDianDanLaiYuan(result.list);
     },
     _ajaxMes() {
       return this.fastFahuo
@@ -452,10 +482,6 @@ export default {
     getpushEndTime(e) {
       this.paras.pushEndTime = e;
     },
-    //获取了那个订单号
-    subOrderNoArr() {},
-    //选择了那个订单号
-    subOrderNoSelect() {},
     //点击产品名称
     addressJsonArr() {},
     //点击拉那个产品名称
@@ -544,6 +570,13 @@ export default {
       this.orderContactPhone.orderContactPhoneCenter = "";
       this.orderAddr.orderAddrCenter = "";
       this.addressJson.addressJsonCenter = "";
+      this.dindanhaoJson.input = "";
+      this.orderContactJson.input = "";
+      this.subOrderNoArr.input = "";
+      this.orderContactPhoneJson.input = "";
+      this.orderAddrJson.input = "";
+      this.systemProdNameJson.input = "";
+
       this.$refs.expectedStart.clear();
       this.$refs.expectedEnd.clear();
       this.$refs.putStart.clear();
@@ -552,32 +585,6 @@ export default {
     },
   },
 };
-// let flag = 1;
-//
-// //判断需不需要添加
-// function createZhangkaiD(child) {
-//     let parent = child.parentNode;
-//     let parentHeight = parent.offsetHeight;
-//     if (parentHeight >= 118) {
-//         parent.style.height = 118 + "px";
-//         createDomPush(child);
-//     }
-// }
-//
-// //
-// function createDomPush(child) {
-//     let text = flag % 2 != 0 ? "展开" : "收起";
-//     let div = document.createElement("div");
-//     div.innerText = text;
-//     div.className = "inline mr11 clickMes";
-//     child.insertBefore(div, child.children[0]);
-//     div.addEventListener("click", clickFun, false);
-// }
-//
-// //isClickMes
-// function clickFun() {
-//     flag++;
-// }
 </script>
 
 <style lang='scss' scoped>

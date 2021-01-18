@@ -169,6 +169,7 @@ export const getMarginConversion = (item) => {
  * @private
  */
 export const _getArrTarget = (arr, target) => {
+    console.log(_typesStr(arr))
     let needArr = [];
     arr.forEach((item) => {
         if (needArr.indexOf(item[target])) {
