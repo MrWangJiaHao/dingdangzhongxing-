@@ -1,9 +1,7 @@
 <template>
     <div id="fahuoguanli">
         <div class="manualBox">
-            <div>
-                <manualHeader @getParasJson="getParasJson" :tableData="tableData"/>
-            </div>
+            <manualHeader @getParasJson="getParasJson" :tableData="tableData"/>
             <div class="btnArr">
                 <div class="backFF">
                     <div class="meiyiyetitle">发货异常管理</div>
@@ -48,23 +46,23 @@
                             />
                             <el-table-column
                                     label="产品编码"
-                                    prop="channelName"
+                                    prop="prodCode"
                                     show-overflow-tooltip
                             ></el-table-column>
                             <el-table-column
                                     label="产品名称"
-                                    prop="orderSourceName"
+                                    prop="prodName"
                                     show-overflow-tooltip
                             ></el-table-column>
                             <el-table-column
                                     label="产品规格"
-                                    prop="channelOrderNo"
+                                    prop="specName"
                                     show-overflow-tooltip
                             >
                             </el-table-column>
                             <el-table-column
                                     label="品牌"
-                                    prop="subOrderNo"
+                                    prop="braName"
                                     show-overflow-tooltip
                             >
                             </el-table-column>
