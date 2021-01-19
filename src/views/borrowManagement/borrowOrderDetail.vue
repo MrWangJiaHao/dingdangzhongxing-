@@ -41,7 +41,7 @@
           tooltip-effect="dark"
           max-height="200px"
         >
-          <el-table-column label="序号" align="center" type="index" width="60">
+          <el-table-column label="序号" align="center" type="index" width="71">
           </el-table-column>
           <el-table-column prop="materielType" label="物料类型" align="center">
           </el-table-column>

@@ -143,9 +143,14 @@
           tooltip-effect="dark"
           @cell-click="lookDetailEvent"
         >
-          <el-table-column type="selection" width="82" align="center" fixed="left">
+          <el-table-column
+            type="selection"
+            width="82"
+            align="center"
+            fixed="left"
+          >
           </el-table-column>
-          <el-table-column label="序号" align="center" type="index" width="60">
+          <el-table-column label="序号" align="center" type="index" width="71">
           </el-table-column>
           <el-table-column prop="orgName" label="委托公司" align="center">
           </el-table-column>
@@ -265,7 +270,7 @@ export default {
               {
                 types: "prodCode",
                 centerStr: "产品编码",
-                width:200
+                width: 200,
               },
               {
                 types: "prodName",
@@ -543,91 +548,33 @@ export default {
         });
       } else if (this.multipleSelection.length > 1) {
         return this.$messageSelf.message({
-          message: "只能提交一个产品",
+          message: "只能提交一个单号",
           type: "warning",
         });
       } else {
         if (this.multipleSelection[0].disposeStatus !== "待提交") {
           return this.$messageSelf.message({
-            message: "只有待提交的订单可编辑",
+            message: "只有待提交的单号可提交",
             type: "warning",
           });
         } else {
-          let submitData = {
-            createTime: "",
-            createUser: "",
-            damageOrderNo: "",
-            damageType: "",
-            detailList: [],
-            disposeStatus: 1, //报损状态
-            id: "", //报损单id
-            lastModifyTime: "",
-            lastModifyUser: "",
-            orgId: this.entrustCompany,
-            orgName: "",
-            remark: this.textarea, //备注
-            verifyTime: "", //审核时间
-            verifyUserId: "", //审核人id
-            verifyUserName: "", //审核人
-            version: "",
-          };
-          printBreakageOrder({ id: this.multipleSelection[0].id }).then(
-            (ok) => {
-              if (ok.data.code === "10000") {
-                submitData.damageType = ok.data.result[0].damageType;
-                ok.data.result[0].detailList.forEach((v) => {
-                  submitData.detailList.push({
-                    actualProdNum: 0,
-                    batchNo: "",
-                    createTime: "",
-                    createUser: "",
-                    damageId: "", //报损单id
-                    damagedSeatId: "", //残次品库位id
-                    damagedSeatNo: v.imperfectKuweiValue, //残次品库位编号
-                    damagedWareAreaId: "", //残次品仓库区域id
-                    damagedWareAreaName: "", //残次品仓库区域名称
-                    id: "",
-                    lastModifyTime: "",
-                    lastModifyUser: "",
-                    manufTime: "",
-                    orgId: v.orgId,
-                    orgName: v.orgName,
-                    prodId: v.prodId,
-                    prodName: v.prodName,
-                    prodNum: v.breakageNum,
-                    remark: "",
-                    version: "",
-                    wareAreaId: v.wareAreaId,
-                    wareAreaName: v.wareAreaName,
-                    childWareId: v.childWareId,
-                    childWareName: v.childWareName,
-                  });
-                });
-                if (submitData.detailList.length > 0) {
-                  saveBreakageOrder(submitData).then((ok) => {
-                    // console.log(ok);
-                    if (ok.data.code === "10000") {
-                      this.$messageSelf.message({
-                        message: "提交成功",
-                        type: "success",
-                      });
-                      this.pageQueryFun();
-                    } else {
-                      this.$messageSelf.message({
-                        message: "提交失败",
-                        type: "error",
-                      });
-                    }
-                  });
-                }
-              } else {
-                this.$messageSelf.message({
-                  message: "提交失败",
-                  type: "error",
-                });
-              }
+          saveBreakageOrder({
+            id: this.multipleSelection[0].id,
+            operatorType: 3,
+          }).then((ok) => {
+            if (ok.data.code === "10000") {
+              this.$messageSelf.message({
+                message: "提交成功",
+                type: "success",
+              });
+              this.pageQueryFun();
+            } else {
+              this.$messageSelf.message({
+                message: "提交失败",
+                type: "error",
+              });
             }
-          );
+          });
         }
       }
     },

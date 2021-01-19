@@ -157,6 +157,7 @@
 </template>
 <script>
 import { add_edit_WH_Request } from "../../api/api";
+import { getCookie } from '../../utils/validate';
 export default {
   beforeRouteEnter(to, from, next) {
     if (from.name === "/warehoseconfig/childWarehouseAdmin") {
@@ -360,8 +361,8 @@ export default {
           this.value3 = childWarehouseList[i].childWareCode.substring(1); //子仓编号数字
           this.editId = childWarehouseList[i].id; //选中子仓的id
           this.divChecked = true;
-          v.style.background = "#367fff";
-          v.style.border = "1px solid #0555c2";
+          v.style.background = "linear-gradient(117deg, #52A8FD, #73CFFF)";
+          v.style.border = "1px solid linear-gradient(117deg, #52A8FD, #73CFFF)";
           v.style.color = "white";
           for (let j = 0; j < childViewDiv.length - 1; j++) {
             this.siblings(v)[j].style.background = "#fff";
@@ -410,12 +411,22 @@ export default {
           type: "warning",
           message: "请先选中一个子仓",
         });
-      } else if (this.input2 < 1 || this.input3 < 1) {
+      } else if (this.input2 === "" || this.input3 === "") {
+        return this.$messageSelf.message({
+          type: "warning",
+          message: "请输入子仓长度或宽度",
+        });
+      }else if (this.input2 < 1 || this.input3 < 1) {
         return this.$messageSelf.message({
           type: "error",
           message: "子仓长宽不能小于0",
         });
-      } else if (this.input4 < 1 || this.input5 < 1) {
+      } else if (this.input4 === "" || this.input5 ==="") {
+        return this.$messageSelf.message({
+          type: "warning",
+          message: "请输入子仓距北距离或距西距离",
+        });
+      }else if (this.input4 < 1 || this.input5 < 1) {
         return this.$messageSelf.message({
           type: "error",
           message: "子仓距北距西距离不能小于0",
@@ -426,11 +437,11 @@ export default {
           childWareName: this.input1, //子仓名称
           northDistance: this.input4, //距北距离
           westDistance: this.input5, //距西距离
-          wareId: this.$store.state.loginRequest.loginData.user.wareId, //父仓库ID
+          wareId: getCookie("X-Auth-wareId"), //父仓库ID
           wareLength: this.input2, //子仓长度
           wareWidth: this.input3, //子仓宽度
           remark: this.textarea, //备注
-          wareType: 1, //仓库类型
+          wareType: this.value2, //仓库类型
           id: this.editId, //仓库id
         };
         add_edit_WH_Request(data).then((ok) => {

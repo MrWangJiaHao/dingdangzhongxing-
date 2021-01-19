@@ -502,16 +502,16 @@ export default {
     },
     SLmap() {
       //库位映射
-      this.$router.push("/storageLocalMap/SLmapInfor");
+      this.$router.push("/storageLocalMap/storeLocalBindProduct");
     },
     lookDetail(data) {
       if (data.seatProdId === "否") {
         this.$router.push({
-          path: "/storageLocalMap/SLmapInfor",
+          path: "/storageLocalMap/storeLocalBindProduct",
         });
       } else {
         this.$router.push({
-          path: "/storageLocalMap/SLmapInfor",
+          path: "/storageLocalMap/storeLocalBindProduct",
           query: { isUsed: data, type: "look" },
         });
       }

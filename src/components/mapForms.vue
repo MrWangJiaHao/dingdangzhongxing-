@@ -98,7 +98,7 @@ export default {
     create() {
       //创建库位
       this.$router.push({
-        path: "/storageLocalMap/SLmapInfor",
+        path: "/storageLocalMap/storeLocalBindProduct",
         query: { datas: this.multipleSelection, type: "create" },
       });
     },
@@ -112,7 +112,7 @@ export default {
           type: "warning",
         });
       this.$router.push({
-        path: "/storageLocalMap/SLmapInfor",
+        path: "/storageLocalMap/storeLocalBindProduct",
         query: { datas: this.multipleSelection, type: "edit" },
       });
     },

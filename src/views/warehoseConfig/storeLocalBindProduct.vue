@@ -135,13 +135,15 @@
               <span @mouseenter="mouseEnterEvent" @mouseout="mouseOutEvent"
                 >查看该区域委托公司</span
               >
-              <div class="comForm">
-                <el-table :data="comData1" style="width: 100%">
+              <div class="comForm" v-show="storeOrgNameTable">
+                <el-table :data="comData1" style="width: 100%" >
                   <el-table-column
-                    prop="companyName"
-                    label="委托公司"
+                    prop="orgName"
+                    label="委托公司名称"
                     width="180"
                     max-height="150px"
+                    align="center"
+                    show-overflow-tooltip
                   >
                   </el-table-column>
                 </el-table>
@@ -235,16 +237,18 @@
               <span @mouseenter="mouseEnterEvent1" @mouseout="mouseOutEvent1"
                 >查看该区域委托公司</span
               >
-              <div class="comForm1">
+              <div class="comForm1" v-show="pickOrgNameTable">
                 <el-table
                   :data="comData1"
                   style="width: 100%"
                   max-height="150px"
                 >
                   <el-table-column
-                    prop="companyName"
-                    label="委托公司"
+                    prop="orgName"
+                    label="委托公司名称"
                     width="180"
+                    align="center"
+                    show-overflow-tooltip
                   >
                   </el-table-column>
                 </el-table>
@@ -412,6 +416,7 @@ export default {
         childWareId: "", //子仓id
         wareAreaId: "", //仓库区域id
         wareShelfId: "", //仓库货架id
+        wareSeatCode: "",
       },
       inforData: [],
       inforData1: [],
@@ -430,16 +435,10 @@ export default {
         prodId: "",
         seatDatas: [],
       },
-      comData1: [
-        {
-          companyName: "巨子生物",
-        },
-      ],
-      comData2: [
-        {
-          companyName: "巨子生物",
-        },
-      ],
+      comData1: [],
+      comData2: [],
+      storeOrgNameTable: false,
+      pickOrgNameTable: false,
     };
   },
 
@@ -665,11 +664,14 @@ export default {
 
     storeClickQuery() {
       //存储区查询
-      this.inforData = [];
-      let SLInforData = this.SLInforData;
-      querySLInforCon(SLInforData).then((ok) => {
+      if (this.childStoreValue === "") {
+        return;
+      }
+      this.SLInforData.wareSeatCode = this.storageLocation1;
+      querySLInforCon(this.SLInforData).then((ok) => {
         if (ok.data.code === "10000") {
           // console.log(ok);
+          this.inforData = [];
           let res = ok.data.result;
           res.forEach((v) => {
             this.inforData.push({
@@ -693,12 +695,15 @@ export default {
     },
     pickClickQuery() {
       //拣货区查询
-      this.inforData1 = [];
-      let SLInforData = this.SLInforData;
-      querySLInforCon(SLInforData).then((ok) => {
+      if (this.pickStoreValue === "") {
+        return;
+      }
+      this.SLInforData.wareSeatCode = this.storageLocation2;
+      querySLInforCon(this.SLInforData).then((ok) => {
         if (ok.data.code === "10000") {
           // console.log(ok);
           let res = ok.data.result;
+          this.inforData1 = [];
           res.forEach((v) => {
             this.inforData1.push({
               CWName: v.childWareName,
@@ -782,20 +787,16 @@ export default {
       }
     },
     mouseEnterEvent() {
-      // let comFormDiv = document.querySelector(".comForm");
-      // comFormDiv.style.display = "block";
+      this.storeOrgNameTable = true;
     },
     mouseOutEvent() {
-      // let comFormDiv = document.querySelector(".comForm");
-      // comFormDiv.style.display = "none";
+      this.storeOrgNameTable = false;
     },
     mouseEnterEvent1() {
-      // let comFormDiv1 = document.querySelector(".comForm1");
-      // comFormDiv1.style.display = "block";
+      this.pickOrgNameTable = true;
     },
     mouseOutEvent1() {
-      // let comFormDiv1 = document.querySelector(".comForm1");
-      // comFormDiv1.style.display = "none";
+      this.pickOrgNameTable = false;
     },
   },
 };
@@ -878,11 +879,10 @@ export default {
             position: absolute;
             right: -200px;
             top: -70px;
-            display: none;
           }
         }
-        .queryBtnDiv{
-          .queryBtn{
+        .queryBtnDiv {
+          .queryBtn {
             @include BtnFunction("success");
           }
         }
@@ -912,8 +912,18 @@ export default {
       }
     }
   }
-  
 }
-
-
+</style>
+<style lang="scss">
+.comForm,
+.comForm1 {
+  .el-table td,
+  .el-table th.is-leaf {
+    background-clip: border-box !important;
+  }
+  .el-table__empty-text {
+    line-height: 36px !important;
+    min-height: 36px !important;
+  }
+}
 </style>

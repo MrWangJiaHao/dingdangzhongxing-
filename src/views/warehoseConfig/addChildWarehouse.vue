@@ -151,6 +151,7 @@
 
 <script>
 import { add_edit_WH_Request } from "../../api/api";
+import { getCookie } from '../../utils/validate';
 
 export default {
   data() {
@@ -306,22 +307,32 @@ export default {
     submit() {
       if (this.input1 === "") {
         return this.$messageSelf.message({
-          type: "error",
+          type: "warning",
           message: "请输入子仓名称",
         });
       } else if (this.value1 === "" || this.value3 === "") {
         return this.$messageSelf.message({
-          type: "error",
+          type: "warning",
           message: "请选择子仓编号",
+        });
+      } else if (this.input2 === "" || this.input3 === "") {
+        return this.$messageSelf.message({
+          type: "warning",
+          message: "请输入子仓长度或宽度",
         });
       } else if (this.input2 < 1 || this.input3 < 1) {
         return this.$messageSelf.message({
-          type: "error",
+          type: "warning",
           message: "子仓长宽不能小于0",
+        });
+      } else if (this.input4 === "" || this.input5 === "") {
+        return this.$messageSelf.message({
+          type: "warning",
+          message: "请输入子仓距北距离或距西距离",
         });
       } else if (this.input4 < 1 || this.input5 < 1) {
         return this.$messageSelf.message({
-          type: "error",
+          type: "warning",
           message: "子仓距北距西距离不能小于0",
         });
       }
@@ -330,7 +341,7 @@ export default {
         childWareName: this.input1, //子仓名称
         northDistance: this.input4, //距北距离
         westDistance: this.input5, //距西距离
-        wareId: this.$store.state.loginRequest.loginData.user.wareId, //父仓库ID
+        wareId: getCookie("X-Auth-wareId"), //父仓库ID
         wareLength: this.input2, //子仓长度
         wareWidth: this.input3, //子仓宽度
         wareType: this.value2, //仓库类型

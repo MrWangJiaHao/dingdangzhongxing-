@@ -120,7 +120,7 @@
                     label="序号"
                     align="center"
                     type="index"
-                    width="60"
+                    width="71"
                   >
                   </el-table-column>
                   <el-table-column
@@ -257,7 +257,7 @@
                     label="序号"
                     align="center"
                     type="index"
-                    width="60"
+                    width="71"
                   >
                   </el-table-column>
                   <el-table-column
@@ -328,7 +328,11 @@
                   </el-table-column>
                   <el-table-column prop="num" label="系统库存" align="center">
                   </el-table-column>
-                  <el-table-column prop="realInventory" label="实盘库存" align="center">
+                  <el-table-column
+                    prop="realInventory"
+                    label="实盘库存"
+                    align="center"
+                  >
                   </el-table-column>
                   <el-table-column prop="diff" label="差异值">
                   </el-table-column>
@@ -459,7 +463,7 @@
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import { querySaveResProd, querySaveResSeat } from "../../api/api";
-import { getCookie, clearTimeInput } from "../../utils/validate";
+import { clearTimeInput } from "../../utils/validate";
 
 export default {
   components: {
@@ -562,11 +566,11 @@ export default {
       clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
-      Object.keys(ProdQueryData).forEach((v) => {
-        ProdQueryData[v] = "";
+      Object.keys(this.ProdQueryData).forEach((v) => {
+        this.ProdQueryData[v] = "";
       });
-      Object.keys(SeatQueryData).forEach((v) => {
-        SeatQueryData[v] = "";
+      Object.keys(this.SeatQueryData).forEach((v) => {
+        this.SeatQueryData[v] = "";
       });
     },
     lookDeatil(data) {

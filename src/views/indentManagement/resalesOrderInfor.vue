@@ -85,7 +85,7 @@
               label="序号"
               align="center"
               type="index"
-              width="60"
+              width="71"
             >
             </el-table-column>
             <el-table-column prop="" label="渠道商品编码" align="center">

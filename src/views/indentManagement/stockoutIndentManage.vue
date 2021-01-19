@@ -179,7 +179,7 @@
                     label="序号"
                     align="center"
                     type="index"
-                    width="60"
+                    width="71"
                   >
                   </el-table-column>
                   <el-table-column prop="orgName" label="委托公司" align="left">
@@ -299,7 +299,7 @@
                     label="序号"
                     align="center"
                     type="index"
-                    width="60"
+                    width="71"
                   >
                   </el-table-column>
                   <el-table-column

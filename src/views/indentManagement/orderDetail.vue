@@ -56,7 +56,7 @@
           :stripe="true"
           tooltip-effect="dark"
         >
-          <el-table-column label="序号" align="center" type="index" width="60">
+          <el-table-column label="序号" align="center" type="index" width="71">
           </el-table-column>
           <el-table-column prop="" label="渠道商品编码" align="center">
           </el-table-column>

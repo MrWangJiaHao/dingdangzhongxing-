@@ -175,7 +175,7 @@
                         type: "warning",
                     });
                 this.$router.push({
-                    path: "/storageLocalMap/SLmapInfor",
+                    path: "/storageLocalMap/storeLocalBindProduct",
                     query: {
                         datas: this.multipleSelection[0],
                         type: "edit",

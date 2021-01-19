@@ -124,9 +124,9 @@ const routes = [{
             },
             {
                 //仓库配置=>库位映射详情页
-                path: "/storageLocalMap/SLmapInfor",
-                name: "/storageLocalMap/SLmapInfor",
-                component: () => import("../views/warehoseConfig/SLmapInfor.vue"),
+                path: "/storageLocalMap/storeLocalBindProduct",
+                name: "/storageLocalMap/storeLocalBindProduct",
+                component: () => import("../views/warehoseConfig/storeLocalBindProduct.vue"),
                 meta: {
                     keepAlive: false
                 },

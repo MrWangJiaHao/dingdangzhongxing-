@@ -454,7 +454,6 @@ import {
   TJquery_WH_Request,
   storeMapRelation,
   queryAreaOfWS,
-  queryEntrustCompany,
   areaShelfQuery,
   delStoreMapRelation,
 } from "../../api/api";
@@ -689,7 +688,7 @@ export default {
     create() {
       //创建库位
       this.$router.push({
-        path: "/storageLocalMap/SLmapInfor",
+        path: "/storageLocalMap/storeLocalBindProduct",
         query: { type: "create" },
       });
     },
@@ -706,7 +705,7 @@ export default {
           type: "warning",
         });
       this.$router.push({
-        path: "/storageLocalMap/SLmapInfor",
+        path: "/storageLocalMap/storeLocalBindProduct",
         query: { datas: this.storeMultipleSelection, type: "edit" },
       });
     },
@@ -723,7 +722,7 @@ export default {
           type: "warning",
         });
       this.$router.push({
-        path: "/storageLocalMap/SLmapInfor",
+        path: "/storageLocalMap/storeLocalBindProduct",
         query: { datas: this.pickMultipleSelection, type: "edit" },
       });
     },
