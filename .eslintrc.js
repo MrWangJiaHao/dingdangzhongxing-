@@ -14,5 +14,6 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     "no-irregular-whitespace": "off",//这禁止掉 空格报错检查,
+	"no-mixed-spaces-and-tabs":0 , //禁止掉空格和tab一起有
   }
 }

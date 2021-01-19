@@ -16,14 +16,8 @@
             </div>
         </div>
 
-        <!--        header top-->
-        <div class="btnArr   pd10">
-            <div class="backFF botD1 pd20">
-                <div class="meiyiyetitle pd30">委托公司</div>
-            </div>
-            <!-- but按钮 -->
-        </div>
-
+        <!-- header top-->
+		<centerBtnArr title='委托公司'></centerBtnArr>
         <div class="tableBox pd10">
             <div class="tableBoxCol">
                 <tableCommin
@@ -48,14 +42,15 @@
     import tableCommin from "../../components/commin/tableCommin";
     import pageComponent from "../../components/commin/pageComponent";
     import {Heavy} from "../../utils/validate";
-
+	import centerBtnArr from "../../components/centerBtnArr/index.vue"
 
     export default {
         name: "delegationInformation",
         components: {
             xialaHeader,
             tableCommin,
-            pageComponent
+            pageComponent,
+			centerBtnArr
         },
         data() {
             // let self = this
