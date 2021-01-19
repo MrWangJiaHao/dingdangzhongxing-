@@ -1,8 +1,8 @@
 <template>
     <div class="userSettingBox">
-        <div class="fuzzyQueryBox clearfix mb16 ">
-            <div class="biaogeBox dispalywrap fl">
-                <div class="displayalign zujianBox">
+        <div class="fuzzyQueryBox  clearfix mb16 ">
+            <div class="biaogeBox dispalywrap  fl">
+                <div class="displayalign  zujianBox">
                     <div class="noneIconTitle mr11">用户账号:</div>
                     <div class="mr20 w210">
                         <el-input
@@ -56,7 +56,7 @@
                 </div>
                 <!-- 创建时间 -->
             </div>
-            <div class="btns inline  btnArrs fr">
+            <div class="btns inline  btnArrs  fr">
                 <div class="queryBtn inline mr11 zujianBox"   @click="clickQueryUser">
                     查询
                 </div>

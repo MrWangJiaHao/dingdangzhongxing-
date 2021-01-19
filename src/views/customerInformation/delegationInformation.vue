@@ -77,7 +77,8 @@
                     typeData: [
                         {
                             types: "index",
-                            label: "序号"
+                            label: "序号",
+							width:71
                         },
                         {
                             types: "orgFullName",

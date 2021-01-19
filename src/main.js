@@ -11,6 +11,7 @@ import 'iview/dist/styles/iview.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import "./assets/css/Toast.css";
+import "./assets/css/other.css";
 import "./assets/css/index.css";
 import VueCookie from 'vue-cookie'
 import Lodop from './assets/js/LodopFuncs'
