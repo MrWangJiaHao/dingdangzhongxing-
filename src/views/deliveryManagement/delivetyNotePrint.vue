@@ -8,7 +8,7 @@
               <div class="noneIconTitle nowrap mr11">拣货单号:</div>
               <div class="mr20">
                 <el-input
-                  v-model="pickOrderNo"
+                  v-model="sendOutDataJson.paras.pickOrderNo"
                   placeholder="扫描拣货单号/输入查询"
                 ></el-input>
               </div>
@@ -133,7 +133,6 @@ import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import delivetyNote from "../../components/deliveryManagement/delivetyNote"; //发货单
 import {
   pOrgPickOrderfindOrderPage,
-  pDeliverGoodsprintDeliverGoods,
   pDeliverGoodsfindSubOrderByPickOrderNo,
 } from "../../api/api";
 import headerKuanJia from "../../components/commin/headerKuanJia";
@@ -153,11 +152,10 @@ export default {
         pageNums: 0, //一共多少条 //默认一页10
       },
       sendOutDataJson: {
-        paras: {},
+        paras: {pickOrderNo: "",},
         pageNumber: 1, //当前页数
         pageSize: 10, //每页记录数
       },
-      pickOrderNo: "",
       multipleSelection: [], //选择了那个
     };
   },
@@ -166,16 +164,10 @@ export default {
   },
   methods: {
     queryBtns() {
-      pDeliverGoodsfindSubOrderByPickOrderNo({
-        pickOrderNo: this.pickOrderNo,
-      }).then((res) => {
-        if (res.code == "10000") {
-          res.list && this._changeDatas(res.list);
-        }
-      });
+		this.getTableData()
     },
     clearBtns() {
-      this.pickOrderNo = "";
+      this.sendOutDataJson.paras = "";
       this.getTableData();
     },
     getiswuliudanOne(e) {
@@ -185,14 +177,7 @@ export default {
     iSJianHuoDan() {
       this.dayindanJson = this.multipleSelection[0];
       this.isJianHuoDanShow = true;
-      pDeliverGoodsprintDeliverGoods([
-        { id: this.multipleSelection[0].id },
-      ]).then((res) => {
-        console.log(res);
-        // if (res.code == "10000") {
-        //     this.$messageSelf.message({message: res.msg, type: "success"});
-        // }
-      });
+    
     },
     goToDetailOut(e) {
       this.$router.push({

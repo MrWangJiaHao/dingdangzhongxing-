@@ -1,6 +1,4 @@
 <template>
-  <div class="">
-    <div>
       <kuanjiaClick
         titles="打印发货清单"
         @closeBtn="closeBtn"
@@ -20,7 +18,7 @@
                 position: relative;
               "
             >
-              <div style="margin-bottom: 16px">
+              <div>
                 <div style="float: left; font-size: 24px; color: #333333">
                   {{ parseMes.orderNo }}发货清单
                 </div>
@@ -34,14 +32,14 @@
               </div>
               <!-- 头部 -->
               <div>
-                <div style="margin-bottom: 16px">
-                  <img class="tiaoxinma" height="59px" width="265px" />
+                <div >
+					<img id="barcode" height="59" width="265" />
                 </div>
                 <!-- img -->
                 <p style="font-size: 16px; color: #333333; font-weight: normal">
                   订单号：{{ parseMes.orderNo }}
                 </p>
-                <p style="font-size: 16px; color: #333333; font-weight: normal">
+                <p style="font-size: 16px; color: #333333x ; font-weight: normal">
                   收货人：{{ parseMes.orderContact }}
                 </p>
                 <p style="font-size: 16px; color: #333333; font-weight: normal">
@@ -65,7 +63,7 @@
                 </p>
               </div>
               <!-- 条形码 -->
-              <div>
+              <div class="tiaoxinmaMess">
                 <el-table
                   show-summary
                   :data="tableData"
@@ -106,21 +104,32 @@
                   margin-top: -90px;
                 "
               >
-                <img src="~@/assets/img/purchase.png" alt="" />
+                <img src="~@/assets/img/purchase.png" />
               </div>
             </div>
           </div>
         </template>
       </kuanjiaClick>
-    </div>
-  </div>
 </template>
-
+<style>
+	#app .tiaoxinmaMess .el-table .el-table__footer-wrapper .has-gutter tr td:nth-child(3){
+		    border-right: none !important;
+	}
+	#app .tiaoxinmaMess .el-table .el-table__footer-wrapper {
+		border-top:1px solid #EBEEF5;
+		background-color: #fff;
+	}
+	#app .tiaoxinmaMess .el-table .el-table__footer-wrapper td{
+		background-color: #fff;
+	}
+</style>
 <script>
 /* eslint-disable*/
 import JsBarcode from "jsbarcode";
 import kuanjiaClick from "../../components/commin/kuanjiaClick";
-
+import {
+  pDeliverGoodsprintDeliverGoods
+} from "../../api/api";
 export default {
   props: {
     parseMes: {
@@ -135,6 +144,7 @@ export default {
           orderCountyName: "dsdsa",
           orderAddr: "sadsa",
           disposeStatus: false,
+		  orderNo:"950615362747891312"
         };
       },
     },
@@ -153,29 +163,28 @@ export default {
         },
       ],
       parintBatchNumberArrs: [],
+	  printMess:()=>{
+		  this.$nextTick(() => {
+		    let Dom = document.getElementById("tiaoxinma"),
+			 orderNo = this.parseMes.orderNo
+			 setTimeout(()=>{
+				JsBarcode("#barcode")
+				  .options({font: "OCR-B",format: "CODE39", lineColor: "#000",
+				 displayValue:false})
+				  .CODE128(orderNo, {fontSize: 18, textMargin: 0,height: 59, })
+				  .render();
+			 },10)
+		  });
+	  }
     };
   },
   components: {
     kuanjiaClick,
   },
-  created() {},
   mounted() {
-    this.printMes();
+    this.printMess();
   },
   methods: {
-    //点击
-    printMes() {
-      this.$nextTick(() => {
-        let json = document.getElementsByClassName("tiaoxinma")[0];
-        JsBarcode(json, this.parseMes.channelOrderNo, {
-          format: "CODE39",
-          lineColor: "#000",
-          background: "#EBEEF5",
-          width: 265,
-          height: 59,
-        });
-      });
-    },
     hejiMethod(e) {
       const { columns, data } = e;
       const sums = [];
@@ -205,6 +214,9 @@ export default {
     },
     //打印
     printWarehouseReceipt() {
+		pDeliverGoodsprintDeliverGoods([
+		  { id: this.parseMes.id },
+		])
       this.$nextTick(() => {
         setTimeout(() => {
           this.LODOP = this.$getLodop();

@@ -203,11 +203,12 @@
 import { getEntrustedcompany } from "../../api/api";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import headerKuanJia from "../../components/commin/headerKuanJia";
-
+import inputHeader from "../../components/headerCommin/inputHeader"
 export default {
   components: {
     dateTime,
     headerKuanJia,
+	inputHeader
   },
 
   data() {
@@ -405,6 +406,7 @@ export default {
 .purchasing .ivu-date-picker {
   width: 210px !important;
 }
+
 </style>
 <style lang='scss' scoped>
 @import "../../assets/scss/btn.scss";
