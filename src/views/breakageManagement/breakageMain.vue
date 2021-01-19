@@ -141,7 +141,6 @@
           @selection-change="handleSelectionChange"
           :stripe="true"
           tooltip-effect="dark"
-          @cell-click="lookDetailEvent"
         >
           <el-table-column
             type="selection"
@@ -161,7 +160,7 @@
             align="center"
           >
             <template slot-scope="scope">
-              <div class="lookDeatil">
+              <div class="lookDeatil" @click="lookDetailEvent(scope.row)">
                 {{ scope.row.damageOrderNo }}
               </div>
             </template>
@@ -197,19 +196,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="printBox" v-show="printIsShow">
-      <transition
-        enter-active-class="animate__animated animate__zoomIn"
-        leave-active-class="animate__animated animate__zoomOut"
-      >
-        <BreakageOrder
-          v-show="printIsShow"
-          :tabledatasArr="tabledatasArr"
-          :ReplenishmentNote="replenishmentNoteJson"
-          @getiswuliudanOne="getiswuliudanOne"
-        ></BreakageOrder>
-      </transition>
-    </div> -->
     <el-dialog
       :visible.sync="printIsShow"
       custom-class="animate__animated animate__zoomIn"
@@ -235,6 +221,7 @@ import {
   saveBreakageOrder,
 } from "../../api/api";
 import BreakageOrder from "../../components/commin/componentList";
+import { clearTimeInput } from "../../utils/validate";
 
 export default {
   components: {
@@ -246,9 +233,6 @@ export default {
     if (from.name === "/breakageManagement/createBreakageOrder") {
       next((vm) => {
         vm.pageQueryFun();
-        if (vm.$route.query.type === "quxiao") {
-          vm.$messageSelf.message("已取消");
-        }
       });
     } else {
       next();
@@ -343,7 +327,7 @@ export default {
         },
       ],
       multipleSelection: [],
-      queryBreakageListData: {
+      queryData: {
         paras: {
           damageOrderNo: "",
           orgId: "",
@@ -372,11 +356,10 @@ export default {
   watch: {},
   methods: {
     pageQueryFun() {
-      this.tableData = [];
-      let queryBreakageListData = this.queryBreakageListData;
-      queryBreakageList(queryBreakageListData).then((ok) => {
-        // console.log(ok);
+      queryBreakageList(this.queryData).then((ok) => {
+        console.log(ok);
         if (ok.data.code === "10000") {
+          this.tableData = [];
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
           this.tableData.forEach((v) => {
@@ -447,19 +430,18 @@ export default {
     },
     clickQuery() {
       //点击查询
-      // let data = { ...this.queryBreakageListData.paras };
-      this.queryBreakageListData.paras.damageOrderNo = this.breakageOrder;
-      this.queryBreakageListData.paras.damageType = this.breakageType;
-      this.queryBreakageListData.paras.disposeStatus = this.breakageState;
+      this.queryData.paras.damageOrderNo = this.breakageOrder;
+      this.queryData.paras.damageType = this.breakageType;
+      this.queryData.paras.disposeStatus = this.breakageState;
       this.pageQueryFun();
     },
     clearInput() {
       //点击清空输入框
-      this.clearTimeInput();
+      clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
-      Object.keys(this.queryBreakageListData.paras).forEach((v) => {
-        this.queryBreakageListData.paras[v] = "";
+      Object.keys(this.queryData.paras).forEach((v) => {
+        this.queryData.paras[v] = "";
       });
       this.pageQueryFun();
     },
@@ -482,10 +464,6 @@ export default {
           type: "warning",
         });
       } else {
-        // this.$router.push({
-        //   path: "/breakageManagement/createBreakageOrder",
-        //   query: { val: this.multipleSelection[0], type: "edit" },
-        // });
         if (this.multipleSelection[0].disposeStatus !== "待审核") {
           return this.$messageSelf.message({
             message: "只有待审核的订单可编辑",
@@ -500,6 +478,12 @@ export default {
       }
     },
     del() {
+      if (this.multipleSelection[0].disposeStatus !== "待审核") {
+        return this.$messageSelf.message({
+          message: "只有待审核的订单可删除",
+          type: "warning",
+        });
+      }
       let arr = [];
       this.multipleSelection.forEach((item) => {
         if (!arr.includes(item.id)) {
@@ -593,7 +577,7 @@ export default {
         this.tabledatasArr = [];
         this.printIsShow = true;
         printBreakageOrder({ id: this.multipleSelection[0].id }).then((ok) => {
-          // console.log(ok);
+          console.log(ok);
           if (ok.data.code === "10000") {
             let json = [
               {
@@ -631,27 +615,23 @@ export default {
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
-    lookDetailEvent(row, column, cell) {
-      if (column.property === "damageOrderNo") {
-        if (cell.childNodes[0].childNodes[0].innerHTML !== "") {
-          this.$router.push({
-            path: "/breakageManagement/breakageOrderDetail",
-            query: {
-              damageOrderNo: row,
-              type: "damageOrderNo",
-            },
-          });
-        }
-      }
+    lookDetailEvent(data) {
+      this.$router.push({
+        path: "/breakageManagement/breakageOrderDetail",
+        query: {
+          damageOrderNo: data,
+          type: "damageOrderNo",
+        },
+      });
     },
     getiswuliudanOne(e) {
       this.printIsShow = e;
     },
     getPageNum(e) {
-      this.queryBreakageListData.pageNumber = e;
+      this.queryData.pageNumber = e;
     },
     sureSuccssBtn(e) {
-      this.queryBreakageListData.pageNumber = e;
+      this.queryData.pageNumber = e;
       this.pageQueryFun();
     },
     changeData(data) {
@@ -662,26 +642,16 @@ export default {
       this.pageComponentsData.pageNums = totalRow;
     },
     getStartTime(e) {
-      this.queryBreakageListData.paras.createStartTime = e;
+      this.queryData.paras.createStartTime = e;
     },
     getEndTime(e) {
-      this.queryBreakageListData.paras.createEndTime = e;
+      this.queryData.paras.createEndTime = e;
     },
     getStartTime1(e) {
-      console.log(e);
+      this.queryData.paras.verifyTimeStartTime = e;
     },
     getEndTime1(e) {
-      console.log(e);
-    },
-    clearTimeInput() {
-      let input = document.getElementsByClassName("ivu-input");
-      for (let i = 0; i < input.length; i++) {
-        input[i].value = "";
-      }
-      let elInput = document.querySelectorAll(".el-input__inner");
-      for (let i = 0; i < elInput.length; i++) {
-        elInput[i].value = "";
-      }
+      this.queryData.paras.verifyTimeEndTime = e;
     },
   },
 };
@@ -802,14 +772,8 @@ export default {
       }
     }
   }
-
   .resultForm {
     padding: 16px 20px;
-    .lookDeatil {
-      color: #599af3;
-      text-decoration: underline;
-      cursor: printer;
-    }
   }
 }
 </style>
@@ -825,6 +789,10 @@ export default {
   }
   .el-dialog__body {
     padding: 0;
+  }
+  .el-dialog {
+    width: 1034px;
+    height: 571px;
   }
 }
 </style>

@@ -236,6 +236,16 @@ export default {
     };
   },
   mounted() {
+    // let requestData = {
+    //   paras: {
+    //     orgId: "",
+    //   },
+    //   pageNumber: 1,
+    //   pageSize: 10,
+    // };
+    // findDamageProductPage(requestData).then((ok)=>{
+    //   console.log(ok)
+    // });
     storeMapRelation(this.queryData1).then((ok) => {
       if (ok.data.code === "10000") {
         ok.data.result.list.forEach((v) => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="mian">
+  <div class="breakageOrderDetail">
     <div class="orderDetaiPage">
       <div class="orderDetailBox">
         <div class="orderDetail-title">报损单详情</div>
@@ -51,14 +51,10 @@
           </el-table-column>
           <el-table-column prop="prodNum" label="报损数量" align="center">
           </el-table-column>
-          <el-table-column
-            prop="verifyUserName"
-            label="当前库位"
-            align="center"
-          >
+          <el-table-column prop="wareSeatNo" label="当前库位" align="center">
           </el-table-column>
           <el-table-column
-            prop="verifyTime"
+            prop="damagedSeatNo"
             label="残次品库位"
             align="center"
           ></el-table-column>
@@ -107,7 +103,12 @@ export default {
           this.tableData = [];
           ok.data.result[0].detailList.forEach((v) => {
             this.tableData.push(v.pOrgProducts);
-            //  console.log(v)
+            if (v.damagedSeatNo !== "" && v.wareSeatNo !== "") {
+              this.tableData.forEach((val) => {
+                val.damagedSeatNo = v.damagedSeatNo;
+                val.wareSeatNo = v.wareSeatNo;
+              });
+            }
           });
         }
       });
@@ -121,7 +122,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
-.mian {
+.breakageOrderDetail {
   background: #eef1f8;
   padding: 10px;
   .orderDetaiPage {
@@ -171,6 +172,9 @@ export default {
       width: 37%;
       padding: 10px 20px;
     }
+  }
+  .backBtn {
+    margin-right: 20px !important;
   }
 }
 </style>

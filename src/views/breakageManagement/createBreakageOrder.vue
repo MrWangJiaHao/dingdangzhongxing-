@@ -91,11 +91,21 @@
               show-overflow-tooltip
             >
             </el-table-column>
-            <el-table-column prop="prodCode" label="产品编码" align="center" width="200"
-              show-overflow-tooltip>
+            <el-table-column
+              prop="prodCode"
+              label="产品编码"
+              align="center"
+              width="200"
+              show-overflow-tooltip
+            >
             </el-table-column>
-            <el-table-column prop="prodName" label="产品名称" align="center" width="160"
-              show-overflow-tooltip>
+            <el-table-column
+              prop="prodName"
+              label="产品名称"
+              align="center"
+              width="160"
+              show-overflow-tooltip
+            >
             </el-table-column>
             <el-table-column prop="specName" label="产品规格" align="center">
             </el-table-column>
@@ -194,12 +204,10 @@
 
 <script>
 import {
-  queryEntrustCompany,
   saveBreakageOrder,
-  querySLInfor,
+  querySLInforCon,
   printBreakageOrder,
 } from "../../api/api";
-import { getCookie } from "../../utils/validate";
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -258,44 +266,24 @@ export default {
     };
   },
   mounted() {
+    this.entrustCompanyData = this.$store.state.orgInfor.orgInforData;
     //查询残次品库位
     let queryData = {
-      orderBy: "createTime",
-      pageNumber: 1,
-      pageSize: 999999,
-      paras: {
-        childWareId: "",
-        wareAreaId: "",
-        wareAreaType: "",
-        wareShelfId: "",
-        shelfLevelNum: "",
-        wareSeatCode: "",
-        id: "",
-      },
+      childWareId: "",
+      wareAreaId: "",
+      wareAreaType: "",
+      wareShelfId: "",
+      shelfLevelNum: "",
+      wareSeatCode: "",
+      id: "",
     };
-    querySLInfor(queryData).then((ok) => {
+    querySLInforCon(queryData).then((ok) => {
       // console.log(ok);
       if (ok.data.code === "10000") {
-        ok.data.result.list.forEach((v) => {
+        ok.data.result.forEach((v) => {
           if (v.wareType === 3) {
             this.imperfectKuwei.push({ value: v.wareSeatCode });
           }
-        });
-      }
-    });
-    //查询委托公司
-    let data = {
-      wareId: getCookie("X-Auth-wareId"),
-      orgId: "",
-    };
-    queryEntrustCompany(data).then((ok) => {
-      // console.log(ok)
-      if (ok.code === "10000") {
-        ok.result.forEach((v) => {
-          this.entrustCompanyData.push({
-            value: v.id,
-            label: v.orgName,
-          });
         });
       }
     });
