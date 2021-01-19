@@ -447,6 +447,7 @@ export default {
   },
   mounted() {
     this.setintervalFun();
+    this.delegaCompanyData=this.$store.state.orgInfor.orgInforData;
     let data = {
       wareId: getCookie("X-Auth-wareId"),
       orgId: "4C2F466B16E94451B942EBBD07BE0F8B",
@@ -456,21 +457,6 @@ export default {
       if (ok.data.code === "10000") {
         this.prodInforData = ok.data.result;
         this.prodInforData.forEach((v) => {
-          this.delegaCompanyData.push({
-            value: v.orgName,
-            label: v.orgName,
-          });
-
-          let testObj = {};
-          this.delegaCompanyData = this.delegaCompanyData.reduce(
-            (item, next) => {
-              testObj[next.value]
-                ? ""
-                : (testObj[next.value] = true && item.push(next));
-              return item;
-            },
-            []
-          );
           this.productNameData.push({
             value: v.prodName,
             label: v.prodName,
@@ -481,7 +467,6 @@ export default {
         });
       }
     });
-
     //查询子仓名称的请求
     let queryData = this.pagingQueryData;
     query_WH_Request(queryData).then((ok) => {
@@ -524,11 +509,9 @@ export default {
     },
     getTableData() {
       this.choosedKuWeiData = this.$store.state.PFSRequest.PFSqueryData;
-      // console.log(this.choosedKuWeiData);
     },
     getTableData1() {
       this.choosedKuWeiData1 = this.$store.state.PFSRequest1.PFSqueryData1;
-      // console.log(this.choosedKuWeiData1);
     },
     setintervalFun() {
       setInterval(() => {
