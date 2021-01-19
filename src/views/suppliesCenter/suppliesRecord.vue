@@ -100,8 +100,9 @@
             </div>
           </div>
         </div>
-        <div class="timeChoose">
+        <div class="timeChoose nameBox">
           <div class="timeBox zujianBox">
+            <div class="roleName-text">创建时间：</div>
             <div>
               <dateTime
                 :dateTimeData="datetimeDates"
@@ -136,10 +137,10 @@
             <div class="icon-title-title">查询结果</div>
           </div>
           <div class="someBtn">
-            <div class="setUser" @click="createChildWarehouse">创建</div>
-            <div class="bianjiUser" @click="editChildWarehouse">编辑</div>
-            <div class="setUser" @click="educe">导出</div>
-            <div class="remove" @click="delChildWarehouse">删除</div>
+            <div class="successBtn" @click="createChildWarehouse">创建</div>
+            <!-- <div class="bianjiUser" @click="editChildWarehouse">编辑</div> -->
+            <div class="successBtn" @click="educe">导出</div>
+            <!-- <div class="errorBtn" @click="delChildWarehouse">删除</div> -->
           </div>
         </div>
         <div class="resultForm">
@@ -151,7 +152,12 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="82" align="center" fixed="left">
+            <el-table-column
+              type="selection"
+              width="82"
+              align="center"
+              fixed="left"
+            >
             </el-table-column>
             <el-table-column
               label="序号"
@@ -366,15 +372,13 @@ import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 import {
   createMateRecord,
-  delMateRecord,
   queryMateRecord,
-  queryMateAdmin,
-  querySupplier,
-  queryBrand,
-  querySpec,
-  getFindWareOrg,
+  queryMateAdmintj,
+  querySupplierCon,
+  queryBrandCon,
+  delMateRecord,
 } from "../../api/api";
-import { getCookie } from "../../utils/validate";
+import { clearTimeInput, getCookie, reduceFun } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -386,7 +390,6 @@ export default {
         placeholder: "请选择结束时间",
       },
       datetimeDates: {
-        title: "创建时间",
         placeholder: "请选择开始时间",
       },
       title: "",
@@ -458,9 +461,8 @@ export default {
       dialogBrandValue: "",
       //----------弹窗里面的select选择框和输入框结束---------------
       tableData: [],
-      tableData1: [],
       multipleSelection: [],
-      pagingQueryData: {
+      queryData: {
         orderBy: "createTime",
         pageNumber: 1,
         pageSize: 10,
@@ -479,31 +481,14 @@ export default {
       },
 
       dialogFormVisible: false,
-
       mateId: "",
-
       allBrandData: [],
       allSupData: [],
       allSpecData: [],
-
       allBrandId: "",
       allSupId: "",
       allSpecId: "",
-
-      queryData: {
-        orderBy: "createTime",
-        pageNumber: 1,
-        pageSize: 10,
-        paras: {
-          unReach: "",
-          materielType: "",
-          id: "",
-          specId: "",
-          supId: "",
-          braId: "",
-        },
-      },
-      mateNameData: [], //用来存储查询物料名称等相关信息
+      mateNameData: [],
       allQueryInfor: {
         id: "",
         supId: "",
@@ -519,35 +504,16 @@ export default {
       // 导出文件格式
       bookType: "xlsx",
       pageQueryFun: "",
-      queryComRes: [],
       orgId: "",
+      materielId: "",
     };
   },
   mounted() {
-    //查村委托公司
-    // let queryComData = {
-    //   wareId: "2A8B48391F4F4EB5BDEDF9EBA0B6BAE7",
-    // };
-    getFindWareOrg().then((ok) => {
-      // console.log(ok);
-      if (ok.code === "10000") {
-        this.queryComRes = ok.result;
-        this.queryComRes.forEach((v) => {
-          this.dialogBelongCompanyData.push({
-            value: v.orgName,
-            label: v.orgName,
-          });
-        });
-      }
-    });
-
     //查询物料名称的请求
-    let queryData = this.queryData;
-    queryMateAdmin(queryData).then((ok) => {
+    queryMateAdmintj({ wareId: "", id: "" }).then((ok) => {
+      // console.log(ok)
       if (ok.data.code === "10000") {
-        this.mateNameData = ok.data.result.list;
-        let res = ok.data.result.list;
-        res.forEach((v) => {
+        ok.data.result.forEach((v) => {
           this.dialogMateNameData.push({
             value: v.materielName,
             label: v.materielName,
@@ -560,66 +526,33 @@ export default {
       }
     });
 
-    let OtherQueryData = {
-      orderBy: "createTime",
-      pageNumber: 1,
-      pageSize: 10,
-      paras: {
-        id: "",
-      },
-    };
     //查询供应商
-    querySupplier(OtherQueryData).then((ok) => {
-      // console.log(ok);
+    querySupplierCon({ wareId: "", id: "" }).then((ok) => {
       if (ok.data.code === "10000") {
-        this.allSupData = ok.data.result.list;
-        this.allSupData.forEach((v) => {
+        ok.data.result.forEach((v) => {
           this.supNameValueData.push({
-            value: v.supName,
-            label: v.supName,
+            value: v.id,
+            label: v.supFullName,
           });
         });
-      } else {
-        this.$messageSelf.message({
-          message: "查询供应商失败",
-          type: "error",
-        });
+        this.supNameValueData = reduceFun(this.supNameValueData);
       }
     });
     //查询品牌
-    queryBrand(OtherQueryData).then((ok) => {
-      // console.log(ok);
+    queryBrandCon({ wareId: "", id: "" }).then((ok) => {
       if (ok.data.code === "10000") {
-        this.allBrandData = ok.data.result.list;
-        this.allBrandData.forEach((v) => {
+        ok.data.result.forEach((v) => {
           this.brandNameValueData.push({
-            value: v.braFullName,
+            value: v.id,
             label: v.braFullName,
           });
-        });
-      } else {
-        this.$messageSelf.message({
-          message: "查询品牌失败",
-          type: "error",
-        });
-      }
-    });
-    //查询规格
-    querySpec(OtherQueryData).then((ok) => {
-      // console.log(ok);
-      if (ok.data.code === "10000") {
-        this.allSpecData = ok.data.result.list;
-      } else {
-        this.$messageSelf.message({
-          message: "查询规格失败",
-          type: "error",
+          this.brandNameValueData = reduceFun(this.brandNameValueData);
         });
       }
     });
     this.pageQueryFun = () => {
-      let pagingQueryData = this.pagingQueryData;
-      queryMateRecord(pagingQueryData).then((ok) => {
-        // console.log(ok);
+      queryMateRecord(this.queryData).then((ok) => {
+        console.log(ok);
         if (ok.data.code === "10000") {
           this.changeData(ok.data.result);
           this.tableData = ok.data.result.list;
@@ -639,89 +572,41 @@ export default {
       });
     };
     this.pageQueryFun();
+    this.dialogBelongCompanyData = this.$store.state.orgInfor.orgInforData;
   },
-  watch: {},
   methods: {
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
     mateNameValues(val) {
-      this.mateNameValue = val;
-      // this.mateNameData.forEach((v) => {
-      //   if (val === v.materielName) {
-      //     this.allQueryInfor.id = v.id;
-      //   }
-      // });
-      this.pagingQueryData.paras.materielName = val;
-    },
-    mateNumValues(val) {
-      this.mateNameValue = val;
+      this.queryData.paras.materielName = val;
     },
     mateTypeValues(val) {
-      this.mateTypeValue = val;
-      this.pagingQueryData.paras.materielType = val;
+      this.queryData.paras.materielType = val;
     },
     supNameValues(val) {
-      this.supNameValue = val;
-      this.allSupData.forEach((v) => {
-        if (val === v.supName) {
-          this.allQueryInfor.supId = v.id;
-          this.pagingQueryData.paras.supId = v.id;
-        }
-      });
+      this.queryData.paras.supId = val;
     },
     brandNameValues(val) {
-      this.brandNameValue = val;
-      this.allBrandData.forEach((v) => {
-        if (val === v.barName) {
-          this.allQueryInfor.braId = v.id;
-          this.pagingQueryData.paras.braId = v.id;
-        }
-      });
+      this.queryData.paras.braId = val;
     },
-
     dialogBelongCompanys(val) {
-      this.dialogBelongCompany = val;
-      this.queryComRes.forEach((v) => {
-        if (val === v.orgName) {
-          this.orgId = v.id;
-          console.log(this.orgId);
-        }
-      });
+      this.orgId = val;
     },
     dialogMateNames(val) {
       this.dialogMateName = val;
-      this.mateNameData.forEach((v) => {
-        if (val === v.materielName) {
-          this.queryData.paras.id = v.id;
-        }
-      });
       //选择物料名称后自动将相关信息填入到对应框内
-      let queryData = this.queryData;
-      queryMateAdmin(queryData).then((ok) => {
-        // console.log(ok);
+      queryMateAdmintj({ wareId: "", id: "", materielName: val }).then((ok) => {
         if (ok.data.code === "10000") {
-          // this.tableData = ok.data.result.list;
-          let res = ok.data.result.list[0];
+          let res = ok.data.result[0];
           this.dialogMateCode = res.materielCode;
           this.dialogSpecValue = res.specName;
           this.dialogBrandValue = res.braName;
           this.dialogSupValue = res.supName;
-          this.allSupData.forEach((v) => {
-            if (this.dialogSupValue === v.supName) {
-              this.allSupId = v.id;
-            }
-          });
-          this.allBrandData.forEach((v) => {
-            if (this.dialogBrandValue === v.braFullName) {
-              this.allBrandId = v.id;
-            }
-          });
-          this.allSpecData.forEach((v) => {
-            if (this.dialogSpecValue === v.specValue) {
-              this.allSpecId = v.id;
-            }
-          });
+          this.allSupId = res.supId;
+          this.allBrandId = res.braId;
+          this.allSpecId = res.specId;
+          this.materielId = res.id;
         }
       });
     },
@@ -729,16 +614,36 @@ export default {
       this.dialogTypeValue = val;
     },
     anyTypeValues(val) {
-      this.anyTypeValue = val;
-      this.allQueryInfor.type = val;
-      this.pagingQueryData.paras.type = val;
+      this.queryData.paras.type = val;
     },
     okBtn() {
-      this.dialogFormVisible = false;
-
+      if (this.dialogBelongCompany === "") {
+        return this.$messageSelf.message({
+          message: "请选择所属公司",
+          type: "warning",
+        });
+      }
+      if (this.dialogMateName === "") {
+        return this.$messageSelf.message({
+          message: "请选择物料名称",
+          type: "warning",
+        });
+      }
+      if (this.dialogQuantity === "") {
+        return this.$messageSelf.message({
+          message: "请输入数量",
+          type: "warning",
+        });
+      }
+      if (this.dialogTypeValue === "") {
+        return this.$messageSelf.message({
+          message: "请选择类型",
+          type: "warning",
+        });
+      }
       let createData = {
         wareId: getCookie("X-Auth-wareId"), //仓库ID
-        wareName: "", //仓库名称
+        wareName: getCookie("X-Auth-wareName"), //仓库名称X-Auth-wareName
         materielCode: this.dialogMateCode, //物料编码
         supId: this.allSupId, //供应商Id
         supName: this.dialogSupValue, //供应商名称
@@ -750,19 +655,17 @@ export default {
         num: this.dialogQuantity, //物料数量
         id: "", //修改时id为必须自动
         materielName: this.dialogMateName, //物料名称
-        materielId: this.queryData.paras.id, //物料id
+        materielId: this.materielId, //物料id
         orgId: this.orgId, //委托公司id
         orgName: this.dialogBelongCompany, //委托公司
       };
-      // console.log(createData);
       createMateRecord(createData).then((ok) => {
-        // console.log(ok);
         if (ok.data.code === "10000") {
           this.$messageSelf.message({
             message: "创建成功",
             type: "success",
           });
-          this.pageQueryFun();
+          this.title = "";
           this.dialogBelongCompany = "";
           this.dialogMateName = "";
           this.dialogMateCode = "";
@@ -771,6 +674,8 @@ export default {
           this.dialogBrandValue = "";
           this.dialogQuantity = "";
           this.dialogTypeValue = "";
+          this.dialogFormVisible = false;
+          this.pageQueryFun();
         } else {
           this.$messageSelf.message({
             message: ok.data.msg,
@@ -778,48 +683,19 @@ export default {
           });
         }
       });
-      this.title = "";
     },
     clickQuery() {
       //点击查询
-      this.tableData = [];
-      // let idQueryData = {
-      // id: "",
-      // wareId: "",
-      // supId: this.allQueryInfor.supId,
-      // braId: this.allQueryInfor.braId,
-      // type: this.allQueryInfor.type,
-      // startTime: this.allQueryInfor.startTime,
-      // endTime: this.allQueryInfor.endTime,
-      // };
-      // console.log(idQueryData);
-
-      // queryMateRecordCon(idQueryData).then((ok) => {
-      //   console.log(ok);
-      //   if (ok.data.code === "10000") {
-      //     this.tableData = ok.data.result;
-      //   } else {
-      //     this.$messageSelf.message({
-      //       message: "未知错误",
-      //       type: "error",
-      //     });
-      //   }
-      // });
       this.pageQueryFun();
     },
     clearInput() {
       //点击清空输入框
-      this.clearTimeInput();
+      clearTimeInput();
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
-      this.tableData = [];
-      this.pagingQueryData.paras.materielName = "";
-      this.pagingQueryData.paras.materielType = "";
-      this.pagingQueryData.paras.supId = "";
-      this.pagingQueryData.paras.braId = "";
-      this.pagingQueryData.paras.type = "";
-      this.pagingQueryData.paras.startTime = "";
-      this.pagingQueryData.paras.endTime = "";
+      Object.keys(this.queryData.paras).forEach((v) => {
+        this.queryData.paras[v] = "";
+      });
       this.pageQueryFun();
     },
     createChildWarehouse() {
@@ -894,24 +770,21 @@ export default {
         })
       );
     },
-    editChildWarehouse() {
-      //编辑
-      this.title = "编辑物料记录";
-      if (!this.multipleSelection.length)
-        return this.$messageSelf.message({
-          message: "请选择要编辑的物料记录",
-          type: "warning",
-        });
-      if (this.multipleSelection.length !== 1)
-        return this.$messageSelf.message({
-          message: "每次只能编辑一个物料记录信息，请重新选择",
-          type: "warning",
-        });
-      this.dialogFormVisible = true;
-
-      // let res = this.multipleSelection[0];
-      // this.dialogBelongCompany=res.orgName
-    },
+    // editChildWarehouse() {
+    //   //编辑
+    //   this.title = "编辑物料记录";
+    //   if (!this.multipleSelection.length)
+    //     return this.$messageSelf.message({
+    //       message: "请选择要编辑的物料记录",
+    //       type: "warning",
+    //     });
+    //   if (this.multipleSelection.length !== 1)
+    //     return this.$messageSelf.message({
+    //       message: "每次只能编辑一个物料记录信息",
+    //       type: "warning",
+    //     });
+    //   this.dialogFormVisible = true;
+    // },
 
     delChildWarehouse() {
       //删除
@@ -922,17 +795,22 @@ export default {
         }
       });
       if (!arr.length)
-        return this.$messageSelf.message("请选择要删除的物料信息");
+        return this.$messageSelf.message({
+          message: "请选择要删除的物料记录",
+          type: "warning",
+        });
       this.$messageSelf
-        .confirms("确定要删除该物料信息？", "删除确认", {
-          type: "info",
-        })
+        .confirms(
+          `确定要删除这${this.multipleSelection.length}条物料记录？`,
+          "删除确认",
+          {
+            type: "info",
+          }
+        )
         .then(() => {
           this.delRequest({ ids: arr });
         })
-        .catch(() => {
-          this.$messageSelf.message("已取消删除");
-        });
+        .catch(() => {});
     },
     //删除的请求
     delRequest(data) {
@@ -953,38 +831,24 @@ export default {
     },
 
     getPageNum(e) {
-      this.pagingQueryData.pageNumber = e;
+      this.queryData.pageNumber = e;
     },
     sureSuccssBtn(e) {
-      this.pagingQueryData.pageNumber = e;
-      this.tableData = [];
+      this.queryData.pageNumber = e;
       this.pageQueryFun();
     },
     changeData(data) {
-      this.changePageData(data); //用来改变分页器的条数
+      this.changePageData(data);
     },
-    //用来改变分页器的条数
     changePageData(data) {
       let { totalRow } = data;
       this.pageComponentsData.pageNums = totalRow;
     },
     getStartTime(e) {
-      this.allQueryInfor.startTime = e;
-      this.pagingQueryData.paras.startTime = e;
+      this.queryData.paras.startTime = e;
     },
     getEndTime(e) {
-      this.allQueryInfor.endTime = e;
-      this.pagingQueryData.paras.endTime = e;
-    },
-    clearTimeInput() {
-      let input = document.getElementsByClassName("ivu-input");
-      for (let i = 0; i < input.length; i++) {
-        input[i].value = "";
-      }
-      let elInput = document.querySelectorAll(".el-input__inner");
-      for (let i = 0; i < elInput.length; i++) {
-        elInput[i].value = "";
-      }
+      this.queryData.paras.endTime = e;
     },
   },
 };
@@ -1085,20 +949,13 @@ export default {
     .someBtn {
       display: flex;
       margin: 16px 20px 16px 0;
-      .setUser {
-        margin-right: 10px;
+      .successBtn {
+        margin-left: 10px;
         @include BtnFunction("success");
       }
-      .bianjiUser {
-        margin-right: 10px;
-        @include BtnFunction("success");
-      }
-      .remove {
+      .errorBtn {
+        margin-left: 10px;
         @include BtnFunction("error");
-      }
-      .goOn {
-        margin-right: 10px;
-        @include BtnFunction("success");
       }
     }
   }

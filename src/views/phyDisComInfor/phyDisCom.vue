@@ -251,7 +251,9 @@ export default {
   margin: 20px 0 0 0;
   background: white;
   .formHeader {
-    height: 50px;
+    height: 67px;
+    display: flex;
+    align-items: center;
     border-bottom: 1px solid #d1d6e2;
     .icon-title {
       display: flex;
