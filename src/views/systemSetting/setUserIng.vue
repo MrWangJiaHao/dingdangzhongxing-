@@ -497,7 +497,7 @@
         .textAreaBox {
             font-size: 14px;
             width: 67%;
-            height: 40px;
+            height: 34px;
             display: flex;
 
             > textarea {

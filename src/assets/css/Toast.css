@@ -51,6 +51,14 @@
     border: 2px solid #ff6b69;
 }
 
+.el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover{
+	ackground-color: #ecf5ff;
+	color: #66b1ff;
+}
+.el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+ ackground-color: #ecf5ff;
+ color: #66b1ff;
+}
 .el-icon-error {
     background: url(../img/shibai.png) center center no-repeat;
     background-size: cover;

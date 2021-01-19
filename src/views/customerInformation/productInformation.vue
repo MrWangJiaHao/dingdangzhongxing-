@@ -102,7 +102,8 @@
                     typeData: [
                         {
                             types: "index",
-                            label: "序号"
+                            label: "序号",
+							width:71
                         },
                         {
                             types: "orgName",
@@ -120,7 +121,8 @@
                         },
                         {
                             types: "specName",
-                            label: "产品规格"
+                            label: "产品规格",
+							align:"center"
                         },
                         {
                             types: "zhonlian",
@@ -189,6 +191,7 @@
             },
             changpingguigeFun(e) {
                 this.sendOutDataJson.paras.specId = this.changpingguigeJson.wieTuoGonShiJson.dropDownBoxData[e || 0].specId
+                this.sendOutDataJson.paras.specName = this.changpingguigeJson.wieTuoGonShiJson.dropDownBoxData[e || 0].specName
             },
             pingpaiFun(e) {
                 this.sendOutDataJson.paras.braId = this.pingpaiJson.wieTuoGonShiJson.dropDownBoxData[e || 0].braId
@@ -214,6 +217,7 @@
                 this.sendOutDataJson.paras.orgId = ''
                 this.sendOutDataJson.paras.prodName = ''
                 this.sendOutDataJson.paras.prodCode = ''
+                this.sendOutDataJson.paras.specName = ''
                 this.sendOutDataJson.paras.prodType = null
                 this.sendOutDataJson.paras.braId = ''
                 this.sendOutDataJson.paras.specId = ''

@@ -10,7 +10,7 @@ const routes = [{
         path: '/indexs',
         name: 'indexs',
         redirect: '/index',
-        component: () => import('../views/indexs.vue'),
+        component: () => import('../views/headerNav.vue'),
         children: [{
                 //首页页面
                 path: '/index',
