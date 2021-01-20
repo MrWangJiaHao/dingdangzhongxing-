@@ -18,6 +18,7 @@
                   @command="clickEventGoRouter"
                   ref="mouseoutHidden"
                 >
+				
                   <span class="el-dropdown-link">
                     <img
                       class="navMainDropdownImgBox"
@@ -53,7 +54,7 @@
             </el-tab-pane>
           </el-tabs>
         </div>
-         <div class="el-lr">
+      <div class="el-lr">
           <div
             class="el-icon-arrow-left left"
             @click="leftMove"
@@ -691,7 +692,6 @@ export default {
 
       return resultrArr;
     },
-    _resData(start = 0, numers = 7) {},
   },
   methods: {
     goToIndex() {
@@ -721,7 +721,7 @@ export default {
       if (this.Nums <= 2) {
         steep = 0;
       } else {
-        if (a == 0) return;
+        if (a == 0) return
         a--;
         if (ispandaun && !a) {
           steep = 0;
@@ -1070,6 +1070,7 @@ export default {
     .tabContainer {
       display: flex;
       align-items: center;
+	  justify-content: space-between;
       height: 90px;
       background: linear-gradient(0deg, #3795eb, #4bade4);
       width: 100%;
@@ -1149,6 +1150,7 @@ export default {
   margin-right: 10px;
   width: 88%;
   line-height: 90px;
+  width: 87%;
   display: inline-block;
 }
 

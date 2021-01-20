@@ -115,7 +115,19 @@ export const removeCookie = function () {
         document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
     }
 }
-
+export const changeSureHenXian = function () {
+	  setTimeout(() => {
+	      let tablesCenter = document.getElementsByTagName("td");
+	      tablesCenter = Array.from(tablesCenter);
+	      tablesCenter.forEach((item) => {
+	        if (!item.children[0].children.length) {
+	          item.children[0].innerHTML = item.children[0].innerHTML
+	            ? item.children[0].innerHTML
+	            : "——";
+	        }
+	      });
+	  }, 700);
+}
 /**
  * 对编辑区域进行了图形化
  * @param {*} item

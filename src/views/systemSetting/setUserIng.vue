@@ -303,6 +303,7 @@
             closeBtn() {
                 this.$parent._data.isSetUserIng = false;
                 this.$parent.fasonPagIngQueryData();
+				this.$addHenXian()
             },
             //取消编辑
             closeEdit() {
@@ -503,7 +504,7 @@
             > textarea {
                 color: #606266;
                 text-indent: 16px;
-                line-height: 40px;
+                line-height: 34px;
                 white-space: nowrap;
                 overflow: hidden;
             }

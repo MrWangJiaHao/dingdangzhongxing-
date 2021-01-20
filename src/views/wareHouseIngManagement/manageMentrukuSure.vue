@@ -1,7 +1,7 @@
 <template>
     <div class="setUserIngBox" id="manageMenyrukuSures">
         <kuanjiaClick :titles='!isrukuDetails ? "入库确认" : "入库详情"' @closeBtn="closeBtn"
-                      :is-looker="isLooker || isLooker" width="1260" @clickSubmit="goAJAXCreate">
+                      :is-looker="isLooker || false" width="1260" @clickSubmit="goAJAXCreate" max-height='720px'>
             <template slot="centerKuanjia">
                 <div class="p20 botD1">
                     <div class="setTitle mb20">
@@ -62,7 +62,7 @@
                             <div class="remove disinb" @click="goClearRemove">删除</div>
                         </div>
                     </div>
-                    <div class="mb20 tableInInput" id="bjTableWraper">
+                    <div class="mb20 " id="bjTableWraper">
                         <el-table
                                 ref="multipleTable"
                                 :data="tabledata"
@@ -144,12 +144,10 @@
                                     label="推荐入库库位"
                                     prop="recommendedLocation"
                                     width="180"
-                                    show-overflow-tooltip
                             ></el-table-column>
                             <el-table-column
                                     label="实际入库库位"
                                     prop="recommendSeatNo"
-                                    show-overflow-tooltip
                                     width="200"
 
                             >
@@ -174,8 +172,6 @@
                                     label="实际入库数量*"
                                     prop="actualNum"
                                     width="200"
-
-                                    show-overflow-tooltip
                             >
                                 <div v-if="!isrukuDetails" slot-scope="scope">
                                     <el-input
@@ -188,8 +184,6 @@
                                     label="残次品数量"
                                     prop="damagedNum"
                                     width="200"
-
-                                    show-overflow-tooltip
                             >
                                 <div v-if="!isrukuDetails" slot-scope="scoped">
                                     <el-input
@@ -202,7 +196,6 @@
                                     label="残次品库位"
                                     prop="damagedSeatNo"
                                     width="180"
-                                    show-overflow-tooltip
                             >
                                 <div v-if="!isrukuDetails" slot-scope="scoped">
                                     <el-select
@@ -223,7 +216,7 @@
                                     label="生产日期"
                                     prop="manuTime"
                                     show-overflow-tooltip
-                                    width="230"
+                                    width="210"
                             >
                                 <div
                                         v-if="!isrukuDetails"
@@ -241,7 +234,7 @@
                         </el-table>
                     </div>
                 </div>
-                <div class="dispalyFlex p20s ">
+                <div class="dispalyFlex p20s mb16">
                     <div class="noneIconTitle fosi14 mr11  fosi0">
                         备
                         <span class="fosi14 visibilityHidden">你好</span>
@@ -249,7 +242,7 @@
                         注
                         <span class="fosi14">:</span>
                     </div>
-                    <div class="bzTetxArea mb16">
+                    <div class="bzTetxArea ">
             <textarea
                     placeholder="请输入备注"
                     v-model="createUserData.remark"
@@ -359,7 +352,8 @@
                 kueirArr: [],
                 createUserData: {
                     expectedSendTime: "",
-                    orderSource: (() => this.orderSources || '———')(), //订单类型(0-手工创建；1-渠道创建 2-预入库 3-采购 4-库建调拨 5-加工作业 6-分解作业 7-退货 8-盘盈 9-其他）
+                    orderSource: (() => this.orderSources || '———')(),
+					//订单类型(0-手工创建；1-渠道创建 2-预入库 3-采购 4-库建调拨 5-加工作业 6-分解作业 7-退货 8-盘盈 9-其他）
                     orgName: "",
                     orgId: "",
                     remark: "",
@@ -424,7 +418,7 @@
                 this.createUserData.expectedSendTime =
                     manageMentrukuSureData.expectedSendTime;
                 this.createUserData.putUser = manageMentrukuSureData.putUser;
-                // this.isrukuDetails = manageMentrukuSureData.rukuDetails;
+                this.isrukuDetails = manageMentrukuSureData.rukuDetails;
             }
 
             this._changeRecommedLocation(this.listJson.detailList);
@@ -568,6 +562,7 @@
             closeBtn() {
                 this.$parent._data.ismanageMentrukuSure = false;
                 this.$parent.getTableData();
+				this.$addHenXian()
                 sessionStorage.removeItem("manageMentrukuSureData");
                 this.$emit('closeFun', false)
             },
@@ -585,12 +580,10 @@
                     return this.$messageSelf.message("请输入批次号");
                 this._getSaveRecord(this.createUserData).then((res) => {
                     if (res.code == "10000") {
-                        this.$parent.getTableData();
-                        sessionStorage.removeItem("manageMentrukuSureData");
-                        this.$messageSelf.message(res.msg);
+                        this.$messageSelf.message({message:res.msg,type:"success"});
                         this.closeBtn();
                     } else {
-                        this.$messageSelf.message(res.msg);
+                        this.$messageSelf.message({message:res.msg,type:"error"});
                     }
                 });
             },
@@ -598,9 +591,8 @@
                 let datas = await getSaveRecord(data);
                 return datas;
             },
-            //getSaveRecord
+			//获取创建的用户类型
             getUserType(e) {
-                //获取创建的用户类型
                 this.createUserData.codeValue = e.codeValue;
                 this.createUserData.roleId = e.roleId;
             },
