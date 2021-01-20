@@ -156,7 +156,9 @@ textarea {
 .w160 {
     width: 160px;
 }
-
+#app .el-input__inner{
+padding: 0 10px;	
+}
 .w170 {
     width: 170px;
 }

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="manualBox">
-            <manualHeader @getParasJson="getParasJson" :tableData="tableData"/>
+            <manualHeader @getParasJson="getParasJson" :tableData="tableData" @clearInput='clearInput'/>
             <div class="btnArr">
                 <div class="backFF">
                     <div class="meiyiyetitle">入库管理</div>
@@ -50,6 +50,7 @@
                                 tooltip-effect="dark"
                                 style="width: 100%"
                                 @selection-change="handleSelectionChange"
+								:row-key="getRowKeys"
                         >
                             <el-table-column
                                     type="selection"
@@ -179,7 +180,7 @@
                     leave-active-class="animate__animated animate__zoomOut"
             >
                 <div v-if="BatchNumber" class="posFixCenter">
-                    <BatchNumber/>
+                    <BatchNumber :batchNo='batchNo'/>
                 </div>
             </transition>
         </div>
@@ -193,7 +194,7 @@
                 <div v-if="iscreateManagement">
                     <createManagement
                             :orderSources="sendOutDataJson.paras.orderSource"
-                            @closeCreate="closeCreate"
+                            @closeFun="closeCreate"
                             @addchangping="addchangping"
                             :edifManageMent="edifManageMent"
                     />
@@ -210,6 +211,7 @@
             >
                 <div v-if="ismanageMentrukuSure">
                     <manageMentrukuSure
+					:isLooker = 'isLooker'
                             :orderSources="sendOutDataJson.paras.orderSource"
                             :WarehousingTypeArr="
               WarehousingTypeArr[$route.params.type].WarehousingTypeCenter
@@ -253,6 +255,8 @@
         },
         data() {
             return {
+				batchNo:"",
+				isLooker:false,
                 ismanageMentrukuSure: false, //入库确认和入库详情
                 iscreateManagement: false, //创建&&删除
                 WarehouseReceipt: false,
@@ -262,27 +266,13 @@
                 BatchNumber: false,
                 bjzhezhaoRes: sessionStorage.setItem('zhezhao', 1),
                 BatchNumberIds: "",
-                tableData: [
-                    {
-                        orgName: "", //委托公司
-                        orgId: "", //委托id
-                        orderNo: "", //原定单号（关联单号）
-                        putWareNo: "", //入库单号
-                        putstatus: "", //入库状态
-                        prodCode: "", //产品编码
-                        prodName: "", //产品名称
-                        specName: "", //规格名称
-                        putStartTime: "", //入库时间开始时间
-                        putEndTime: "", //入库时间结束时间
-                        expectedSendStartTime: "", //期望入库开始时间
-                        expectedSendEndTime: "", //期望入库时间结束时间
-                        putUser: "", //入库人
-                        batchNo: "",
-                    },
-                ],
+                tableData: [],
                 pageComponentsData: {
                     pageNums: 0, //一共多少条 //默认一页10条
                 },
+				getRowKeys(row){
+					return row.id
+				},
                 sendOutDataJson: {
                     paras: {
                         orgName: "",
@@ -290,7 +280,7 @@
                         orderNo: "",
                         putWareNo: "",
                         putstatus: "",
-                        orderSource: "",
+                        orderSource: 0,
                         prodCode: "",
                         prodName: "",
                         specName: "",
@@ -301,7 +291,6 @@
                         putUser: "",
                         batchNo: "",
                     },
-                    orderBy: "createtime",
                     pageNumber: 1, //当前页数
                     pageSize: 10, //每页记录数
                 },
@@ -353,6 +342,11 @@
                 ],
             };
         },
+		beforeRouteEnter(to,from,next){
+			next((vm)=>{
+				vm.sendOutDataJson.paras.orderSource = to.params.type
+			})
+		},
         computed: {
             popUpShows() {
                 return this.isShowUpSgows(1)
@@ -360,20 +354,10 @@
         },
         created() {
             if (this.thisOneShow) {
-                let type = this.$route.params.type;
-                this.sendOutDataJson.paras.orderSource = type;
                 this.thisOneShow = false;
             }
             this.popUpCounts()
             this.getTableData();
-        },
-        watch: {
-            $route(to, from) {
-                this.sendOutDataJson.paras.orderSource = to.params.type
-                    ? to.params.type
-                    : from.params.type;
-                this.getTableData();
-            },
         },
         methods: {
             closeCreate(e) {
@@ -393,6 +377,7 @@
                         "manageMentrukuSureData",
                         JSON.stringify({rukuDetails: true, ...row})
                     );
+					this.isLooker = true
                     this.ismanageMentrukuSure = true;
                 });
             },
@@ -412,10 +397,11 @@
             },
             //入库确认
             warehousingConfirmation() {
+				this.isLooker = false
                 if (!this.multipleSelection.length) {
-                    return this.$messageSelf.message("请选择入库确认的单号");
+                    return this.$messageSelf.message({message:"请选择入库确认的单号",type:"warning"});
                 } else if (this.multipleSelection.length > 1) {
-                    return this.$messageSelf.message("只能选择一个入库单号");
+                    return this.$messageSelf.message({type:"warning",message:"只能选择一个入库单号"});
                 } else {
                     this._getFindRecord(this.multipleSelection[0].id).then(() => {
                         sessionStorage.setItem(
@@ -430,9 +416,9 @@
             //打印入库单:
             printstockinlist() {
                 if (!this.multipleSelection.length) {
-                    return this.$messageSelf.message("请选择要打印的入库单");
+                    return this.$messageSelf.message({message:"请选择要打印的入库单",type:"warning"});
                 } else if (this.multipleSelection.length > 1) {
-                    return this.$messageSelf.message("只能选择打印一个入库单");
+                    return this.$messageSelf.message({message:"只能选择打印一个入库单",type:"warning"});
                 } else {
                     this.WarehouseReceiptIds = this.multipleSelection[0].id;
                     this._getFindRecord(this.multipleSelection[0].id, () => {
@@ -443,9 +429,9 @@
             //打印收货单
             printReceipt() {
                 if (!this.multipleSelection.length) {
-                    return this.$messageSelf.message("请选择要打印的收货单");
+                    return this.$messageSelf.message({message:"请选择要打印的收货单",type:"warning"});
                 } else if (this.multipleSelection.length > 1) {
-                    return this.$messageSelf.message("只能选择打印一个收货单");
+                    return this.$messageSelf.message({message:"只能选择打印一个收货单",type:"warning"});
                 } else {
                     this.ReceiptIds = this.multipleSelection[0].id;
 
@@ -457,7 +443,7 @@
             // 打印批次号
             parintBatchNumber() {
                 if (!this.multipleSelection.length)
-                    return this.$messageSelf.message("请选择需要打印的批次号");
+                    return this.$messageSelf.message({message:"请选择需要打印的批次号",type:"warning"});
                 let target = _getArrTarget(this.multipleSelection, "id");
                 getFindWareHouseDetailByIds({ids: target}, (data) => {
                     data = JSON.parse(data);
@@ -466,6 +452,7 @@
                             "parintBatchNumberArrs",
                             JSON.stringify(data.result)
                         );
+						this.batchNo =  this.multipleSelection[0].batchNo
                         this.BatchNumber = !this.BatchNumber;
                     } else {
                         this.$messageSelf.message(data.msg);
@@ -482,9 +469,9 @@
             //导出
             ExportArr() {
                 if (!this.multipleSelection.length)
-                    return this.$messageSelf.message("请选择要导出的入库单");
+                    return this.$messageSelf.message({message:"请选择要导出的入库单",type:"warning"})
                 if (this.multipleSelection.length != 1)
-                    return this.$messageSelf.message("一次只能选择一个入库单");
+                    return this.$messageSelf.message({message:"一次只能选择一个入库单",type:"warning"})
                 insertExcelData({
                     ids: this.multipleSelection[0].id,
                 }).then((res) => {
@@ -502,9 +489,9 @@
             editBtn() {
                 this.popUpCounts()
                 if (!this.multipleSelection.length)
-                    return this.$messageSelf.message("请选择要编辑的入库单");
+                    return this.$messageSelf.message({message:"请选择要编辑的入库单",type:"warning"})
                 if (this.multipleSelection.length != 1)
-                    return this.$messageSelf.message("一次只能编辑一个入库单");
+                    return this.$messageSelf.message({message:"一次只能编辑一个入库单",type:"warning"})
                 sessionStorage.setItem(
                     "manualManageMentEdit",
                     JSON.stringify(this.multipleSelection[0])
@@ -515,9 +502,9 @@
             //删除
             clearBtn() {
                 if (!this.multipleSelection.length)
-                    return this.$messageSelf.message("请选择要删除的入库单");
+                    return this.$messageSelf.message({message:"请选择要删除的入库单",type:"warning"})
                 this.$messageSelf
-                    .confirms("确定要删除该入库单号？", "提示", {
+                    .confirms(this.$clearArr( _getArrTarget(this.multipleSelection, "id")), "提示", {
                         type: "info",
                     })
                     .then(() => {
@@ -525,8 +512,8 @@
                             ids: _getArrTarget(this.multipleSelection, "id"),
                         }).then((res) => {
                             if (res.data.code == "10000") {
-                                this.getTableData();
                                 return this.$messageSelf.message("删除成功");
+								this.getTableData();
                             } else {
                                 return this.$messageSelf.message(res.data.msgdfs);
                             }
@@ -536,28 +523,56 @@
                         this.$messageSelf.message("已经取消");
                     });
             },
+			clearInput(data){
+				this.sendOutDataJson.paras = this.dataWueryAndClear(data);
+				this.getTableData();
+			},
+			dataWueryAndClear(data){
+				return Object.assign({},this.sendOutDataJson.paras,data)
+			},
             //表格发生了变化以及点击了查询按钮
             getParasJson(data) {
-                console.log(data);
-                this.sendOutDataJson.paras = {...data};
+                this.sendOutDataJson.paras = this.dataWueryAndClear(data);
                 this.getTableData();
             },
             //获取table表格内容
             async getTableData(fn) {
                 let datas = await putWarehouseFindRecordPage(this.sendOutDataJson);
-                this.changeDatas(datas.result);
-                fn && fn();
+				if(datas.code==='10000'){
+					this.tableData = [];
+					this.changeDatas(datas.result);
+					fn && fn();
+				}
+				else{
+					this.$messageSelf.message({
+						type:"error",
+						message:datas.msg
+					})
+				}
                 return datas;
             },
             changeDatas(datas) {
                 if (datas.list) {
                     datas.list.forEach((item) => {
-                        item.putstatus = item.putstatus ? "已入库" : "未入库";
+                        item.putstatus = this.isPutStatus(item.putstatus)
                     });
                 }
                 this.tableData = datas.list;
                 this.pageComponentsData.pageNums = datas.totalRow;
             },
+			isPutStatus(i){
+				switch(i){
+					case 0:
+					return "未入库"
+					break;
+					case 1:
+					return "入库中"
+					break;
+					case 2:
+					return "已入库"
+					break;
+				}
+			}
         },
     };
 </script>

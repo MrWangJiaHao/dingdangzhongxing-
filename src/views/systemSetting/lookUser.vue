@@ -271,6 +271,7 @@
             //关闭
             closeBtn() {
                 this.$parent._data.islookUser = false;
+				this.$addHenXian()
             },
             changeDataLookerUser() {
                 let {

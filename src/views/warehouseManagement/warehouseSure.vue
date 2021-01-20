@@ -14,7 +14,7 @@
                                         class="displayalign parentBox"
                                 >
                                     <div
-                                            class="titleBox mr10 ellipsis"
+                                            class="titleBox  ellipsis"
                                             v-html="shezhizitiwiered(item)"
                                     ></div>
                                     <div class="centersBox ">
@@ -609,7 +609,6 @@
             },
             //关闭
             closeBtn() {
-                sessionStorage.removeItem("sarehouseChuKuSure");
                 sessionStorage.removeItem("warehouseDetails");
                 this.$emit("closeDetails", false);
             },
@@ -708,6 +707,7 @@
     }
 
     .input {
+		width: 198px;
         border: 1px solid #d2d6e2;
         height: 28px;
         text-indent: 10px;
@@ -731,7 +731,7 @@
             border-left: none;
 
             .titleBox {
-                padding: 12px 20px 12px 0;
+                padding: 12px 10px 12px 0;
                 width: 140px;
                 border-right: 1px solid #d1d6e2;
                 background-color: #ecf1f7;

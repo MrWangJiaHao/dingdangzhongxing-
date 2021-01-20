@@ -35,8 +35,9 @@
                                     <div style="margin-bottom: 10px">
                                         委托公司：{{ item.supName }}
                                     </div>
-                                    <div style="margin-bottom: 10px">批次号：{{ item.batchNo }}</div>
+                                    <div v-if=" batchNo || item.batchNo" style="margin-bottom: 10px">批次号：{{ batchNo || item.batchNo  }}</div>
                                     <div
+									v-if=" batchNo || item.batchNo"
                                             style="
                   height: 50px;
                   z-index: -1;
@@ -49,7 +50,7 @@
                                                 style="margin-left: -40px"
                                                 :src="
                     baseurl+'/wbs-warehouse-manage/v1/pWarehouseSeat/getBarCodeImg?code=' +
-                    item.batchNo
+                    batchNo || item.batchNo
                   "
                                         />
                                     </div>
@@ -88,6 +89,12 @@
                 this.parintBatchNumberArrs = parintBatchNumberArrs;
             }
         },
+		props:{
+			batchNo:{
+				type:String,
+				default:""
+			}
+		},
         mounted() {
             this.$nextTick(() => {
                 let cells = document

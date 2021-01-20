@@ -14,6 +14,11 @@ export default {
       reload: this.reload,
     };
   },
+  beforeRouteEnter(to,from,next){
+	next((vm)=>{
+		vm.$addHenXian()
+	})  
+  },
   created() {
     if (localStorage.getItem("data")) {
       //replaceState替换数据 Object.assign合并对象
