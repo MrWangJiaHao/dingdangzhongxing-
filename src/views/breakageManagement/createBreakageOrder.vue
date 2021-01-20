@@ -112,21 +112,21 @@
             <el-table-column prop="braName" label="品牌" align="center">
             </el-table-column>
             <el-table-column
-              prop="prodNum"
+              prop=""
               label="当前库位产品数量"
               align="center"
               min-width="150"
             >
             </el-table-column>
             <el-table-column
-              prop="prodNum"
+              prop=""
               label="残次品库位产品数量"
               align="center"
               min-width="170"
             >
             </el-table-column>
             <el-table-column
-              prop="prodNum"
+              prop=""
               label="残次品库位最大存放数"
               align="center"
               min-width="180"
@@ -134,7 +134,10 @@
             </el-table-column>
             <el-table-column prop="breakageNum" label="报损数量" align="center">
               <template slot-scope="scope">
-                <el-input v-model="scope.row.breakageNum"></el-input>
+                <el-input
+                  v-model="scope.row.breakageNum"
+                  type="number"
+                ></el-input>
               </template>
             </el-table-column>
             <el-table-column
@@ -142,7 +145,6 @@
               label="当前库位"
               align="center"
               width="170"
-              min-width="170"
             >
               <el-select
                 v-model="scope.row.wareSeatCode"
@@ -164,7 +166,6 @@
               label="残次品库位"
               align="center"
               width="170"
-              min-width="170"
             >
               <el-select
                 slot-scope="scope"
@@ -213,18 +214,31 @@ export default {
   beforeRouteEnter(to, from, next) {
     if (from.name === "/breakageManagement/addProduct") {
       next((vm) => {
-        vm.tableData = [];
         if (vm.$route.query.type === "addProd") {
-          vm.tableData = vm.$route.query.val;
-          // console.log(vm.tableData);
+          vm.$route.query.val.forEach((v) => {
+            vm.tableData.push(v);
+          });
+          vm.getEditData = JSON.parse(localStorage.getItem("editData"));
+          vm.getEditData.id = "";
         }
       });
     }
     if (from.name === "/breakageManagement/breakageMain") {
       next((vm) => {
+        vm.tableData = [];
         if (vm.$route.query.type === "edit") {
-          vm.id = vm.$route.query.val.id;
+          vm.getEditData = vm.$route.query.val;
           vm.queryFun();
+          vm.getEditData.operation = "编辑";
+          localStorage.setItem("editData", JSON.stringify(vm.getEditData));
+          vm.entrustCompany = vm.$route.query.val.orgName;
+          vm.breakageType = vm.$route.query.val.damageType;
+          vm.textarea = vm.$route.query.val.remark;
+        }
+        if (vm.$route.query.type === "create") {
+          vm.getEditData.operation = "创建";
+          vm.getEditData.id = "";
+          localStorage.setItem("editData", JSON.stringify(vm.getEditData));
         }
       });
     } else {
@@ -233,6 +247,7 @@ export default {
   },
   data() {
     return {
+      getEditData: {},
       breakageType: "",
       entrustCompany: "",
       textarea: "",
@@ -262,7 +277,7 @@ export default {
           label: "其他报损",
         },
       ],
-      id: "",
+      operation: "",
     };
   },
   mounted() {
@@ -278,11 +293,13 @@ export default {
       id: "",
     };
     querySLInforCon(queryData).then((ok) => {
-      // console.log(ok);
       if (ok.data.code === "10000") {
         ok.data.result.forEach((v) => {
           if (v.wareType === 3) {
-            this.imperfectKuwei.push({ value: v.wareSeatCode });
+            this.imperfectKuwei.push({
+              value: v.id,
+              label: v.wareSeatCode,
+            });
           }
         });
       }
@@ -290,12 +307,17 @@ export default {
   },
   methods: {
     queryFun() {
-      printBreakageOrder({ id: this.id }).then((ok) => {
-        // console.log(ok)
+      printBreakageOrder({ id: this.getEditData.id }).then((ok) => {
+        console.log(ok)
         if (ok.data.code === "10000") {
           this.tableData = [];
           ok.data.result[0].detailList.forEach((v) => {
             this.tableData.push(v.pOrgProducts);
+            this.tableData.forEach((val) => {
+              val.imperfectKuweiValue = v.damagedSeatNo;
+              val.wareSeatCode = v.wareSeatNo;
+              val.breakageNum = v.prodNum;
+            });
           });
         }
       });
@@ -338,12 +360,7 @@ export default {
               type: "success",
             });
           })
-          .catch(() => {
-            return this.$messageSelf.message({
-              message: "取消删除",
-              type: "error",
-            });
-          });
+          .catch(() => {});
       }
     },
     delHandObj(arr, delArr) {
@@ -367,9 +384,10 @@ export default {
       });
     },
     submit() {
+      let out = true;
       if (this.entrustCompany === "" || this.breakageType === "") {
         return this.$messageSelf.message({
-          message: "请选择委托公司或者报损类型",
+          message: "请选择委托公司或报损类型",
           type: "warning",
         });
       }
@@ -385,7 +403,7 @@ export default {
         damageType: this.breakageType,
         detailList: [],
         disposeStatus: "", //报损状态
-        id: "", //报损单id
+        id: this.getEditData.id, //报损单id
         lastModifyTime: "",
         lastModifyUser: "",
         orgId: this.entrustCompany,
@@ -397,48 +415,75 @@ export default {
         version: "",
       };
       this.tableData.forEach((v) => {
-        submitData.detailList.push({
-          actualProdNum: 0,
-          batchNo: "",
-          createTime: "",
-          createUser: "",
-          damageId: "", //报损单id
-          damagedSeatId: "", //残次品库位id
-          damagedSeatNo: v.imperfectKuweiValue, //残次品库位编号
-          damagedWareAreaId: "", //残次品仓库区域id
-          damagedWareAreaName: "", //残次品仓库区域名称
-          id: "",
-          lastModifyTime: "",
-          lastModifyUser: "",
-          manufTime: "",
-          orgId: v.orgId,
-          orgName: v.orgName,
-          prodId: v.prodId,
-          prodName: v.prodName,
-          prodNum: v.breakageNum,
-          remark: "",
-          version: "",
-          wareAreaId: v.wareAreaId,
-          wareAreaName: v.wareAreaName,
-          childWareId: v.childWareId,
-          childWareName: v.childWareName,
-        });
-      });
-      saveBreakageOrder(submitData).then((ok) => {
-        // console.log(ok);
-        if (ok.data.code === "10000") {
-          this.$router.push({ path: "/breakageManagement/breakageMain" });
-          this.$messageSelf.message({
-            message: "创建成功",
-            type: "success",
+        if (
+          v.breakageNum !== undefined &&
+          v.imperfectKuweiValue !== undefined
+        ) {
+          out = true;
+          submitData.detailList.push({
+            actualProdNum: 0,
+            batchNo: "",
+            createTime: "",
+            createUser: "",
+            damageId: "", //报损单id
+            damagedSeatId: "", //残次品库位id
+            damagedSeatNo: v.imperfectKuweiValue, //残次品库位编号
+            damagedWareAreaId: "", //残次品仓库区域id
+            damagedWareAreaName: "", //残次品仓库区域名称
+            wareSeatNo:v.wareSeatCode,//当前库位编号
+            id: "",
+            lastModifyTime: "",
+            lastModifyUser: "",
+            manufTime: "",
+            orgId: v.orgId,
+            orgName: v.orgName,
+            prodId: v.prodId,
+            prodName: v.prodName,
+            prodNum: v.breakageNum, //报损数量
+            remark: "",
+            version: "",
+            wareAreaId: v.wareAreaId,
+            wareAreaName: v.wareAreaName,
+            childWareId: v.childWareId,
+            childWareName: v.childWareName,
           });
         } else {
-          this.$messageSelf.message({
-            message: "创建失败",
-            type: "error",
-          });
+          if (v.breakageNum === undefined) {
+            return (out = "1");
+          }
+          if (v.imperfectKuweiValue === undefined) {
+            return (out = "2");
+          }
         }
       });
+      if (out === true) {
+        saveBreakageOrder(submitData).then((ok) => {
+          // console.log(ok);
+          if (ok.data.code === "10000") {
+            this.$router.push({ path: "/breakageManagement/breakageMain" });
+            this.$messageSelf.message({
+              message: `${this.getEditData.operation}成功`,
+              type: "success",
+            });
+            localStorage.removeItem("editData");
+          } else {
+            this.$messageSelf.message({
+              message: `${this.getEditData.operation}失败`,
+              type: "error",
+            });
+          }
+        });
+      } else if(out === "1") {
+        return this.$messageSelf.message({
+          message: "请输入报损数量",
+          type: "warning",
+        });
+      }else if(out === "2") {
+        return this.$messageSelf.message({
+          message: "请选择残次品库位",
+          type: "warning",
+        });
+      }
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;

@@ -172,7 +172,6 @@
 
     .fuzzyQueryBox {
         overflow: hidden;
-
         .line {
             width: 20px;
             height: 2px;

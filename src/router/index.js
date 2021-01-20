@@ -398,7 +398,7 @@ const routes = [{
                 name: "/breakageManagement/createBreakageOrder",
                 component: () => import("../views/breakageManagement/createBreakageOrder"),
                 meta: {
-                    keepAlive: false
+                    keepAlive: true
                 },
             },
             {

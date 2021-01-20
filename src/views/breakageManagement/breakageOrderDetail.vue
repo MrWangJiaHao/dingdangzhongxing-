@@ -103,12 +103,11 @@ export default {
           this.tableData = [];
           ok.data.result[0].detailList.forEach((v) => {
             this.tableData.push(v.pOrgProducts);
-            if (v.damagedSeatNo !== "" && v.wareSeatNo !== "") {
-              this.tableData.forEach((val) => {
-                val.damagedSeatNo = v.damagedSeatNo;
-                val.wareSeatNo = v.wareSeatNo;
-              });
-            }
+            this.tableData.forEach((val) => {
+              val.damagedSeatNo = v.damagedSeatNo;
+              val.wareSeatNo = v.wareSeatNo;
+              val.prodNum = v.prodNum;
+            });
           });
         }
       });

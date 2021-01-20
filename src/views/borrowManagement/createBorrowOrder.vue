@@ -25,7 +25,7 @@
         <div class="tableBox-title">
           <div class="titleText">查询结果</div>
           <div class="titleBtn">
-            <div class="add" @click="add">添加产品</div>
+            <div class="add" @click="add">添加物料</div>
             <div class="del" @click="del">删除</div>
           </div>
         </div>

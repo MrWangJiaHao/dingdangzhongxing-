@@ -8,7 +8,7 @@
         </a>
         <div class="el-nav displayalign">
           <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane v-for="(navIndex, idx) in dataArr" :key="idx">
+            <el-tab-pane v-for="(navIndex, idxs) in dataArr" :key="idxs" :name="''+idxs">
               <div slot="label" v-if="navIndex.children">
                 <el-dropdown
                   placement="bottom"
@@ -53,7 +53,7 @@
             </el-tab-pane>
           </el-tabs>
         </div>
-        <div class="el-lr">
+         <div class="el-lr">
           <div
             class="el-icon-arrow-left left"
             @click="leftMove"
@@ -74,7 +74,7 @@
                   : 1,
             }"
           ></div>
-        </div>
+        </div> 
       </div>
     </div>
 
@@ -600,7 +600,7 @@ export default {
           ],
         },
       ],
-      activeName: 0,
+      activeName: "0",
       activeTabsName: "0",
       dropdownArr: [],
       mianbaoxieArr: [],
@@ -630,9 +630,6 @@ export default {
       id: "AA4EBC35E2544E7688E2F4230F3F5E30",
     };
     jurisdicRequest(data).then((ok) => {});
-    this.activeName = sessionStorage.getItem("activeName");
-
-    this.getStorage();
     this._getMesAge();
   },
   created() {
@@ -650,9 +647,9 @@ export default {
     this.addHenxianTables();
   },
   watch: {
-    activeName: function (n) {
-      this.activeName = "" + parseInt(n);
-    },
+    // activeName: function (n) {
+    //   this.activeName = "" + parseInt(n);
+    // },
     $route: function (n) {
       if (this.dropdownArr.length) {
         for (var i = 0; i < this.dropdownArr.length; i++) {
@@ -740,6 +737,7 @@ export default {
       let oDiv = document.querySelector(".el-tabs__nav-scroll");
       oDiv.style.left = `${this._rightMoveSteep()}px`;
       oDiv.style.transition = "0.5s";
+      console.log(this._rightMoveSteep())
     },
     _rightMoveSteep: function () {
       let steep;
@@ -1048,9 +1046,9 @@ export default {
   border: none;
 }
 
-.el-tabs__item.is-top.is-closable {
-  // margin-right: 18px;
-}
+// .el-tabs__item.is-top.is-closable {
+//   // margin-right: 18px;
+// }
 
 .el-tabs__item:hover {
   color: #000;
@@ -1148,12 +1146,14 @@ export default {
 
 .el-nav {
   margin-left: 38px;
+  margin-right: 10px;
   width: 88%;
   line-height: 90px;
   display: inline-block;
 }
 
 .el-lr {
+  width: 44px;
   font-size: 22px;
   color: #fff;
   display: flex;

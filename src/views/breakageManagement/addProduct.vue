@@ -118,12 +118,14 @@
             :stripe="true"
             tooltip-effect="dark"
             @selection-change="handleSelectionChange"
+            :row-key="getRowKeys"
           >
             <el-table-column
               type="selection"
               width="82"
               align="center"
               fixed="left"
+              :reserve-selection="true"
             ></el-table-column>
             <el-table-column
               label="序号"
@@ -184,6 +186,9 @@ export default {
   },
   data() {
     return {
+      getRowKeys(row){
+        return row.id
+      },
       areaName: "",
       areaType: "",
       childStoreName: "",
@@ -276,8 +281,9 @@ export default {
   methods: {
     queryFun() {
       storeMapRelation(this.queryData).then((ok) => {
-        // console.log(ok);
+        console.log(ok);
         if (ok.data.code === "10000") {
+      this.tableData = [];
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
           this.tableData.forEach((v) => {
@@ -287,7 +293,6 @@ export default {
       });
     },
     clickQuery() {
-      this.tableData = [];
       this.queryData.paras.prodCode = this.prodCode;
       this.queryData.paras.prodName = this.prodName;
       this.queryData.paras.specName = this.prodSpec;
@@ -300,7 +305,6 @@ export default {
       this.prodCode = "";
       this.prodName = "";
       this.prodSpec = "";
-      this.tableData = [];
       Object.keys(this.queryData.paras).forEach((v) => {
         this.queryData.paras[v] = "";
       });
@@ -348,7 +352,6 @@ export default {
     },
     sureSuccssBtn(e) {
       this.queryData.pageNumber = e;
-      this.tableData = [];
       this.queryFun();
     },
     changeData(data) {

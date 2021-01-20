@@ -467,9 +467,27 @@ textarea {
     width: 14px;
     height: 14px;
     cursor: pointer;
-    background: #333333;
     background: url(../img/close.png) center center no-repeat;
     background-size: cover;
+}
+
+.closeIcon:hover {
+    background: url(../img/close1.png) center center no-repeat;
+}
+
+.el-dialog__close::before {
+    content: "";
+}
+
+.el-dialog__close {
+    background: url(../img/close.png) center center no-repeat !important;
+    width: 14px !important;
+    height: 14px !important;
+    cursor: pointer !important;
+}
+
+.el-dialog__close:hover {
+    background: url(../img/close1.png) center center no-repeat !important;
 }
 
 textarea {

@@ -357,7 +357,7 @@ export default {
   methods: {
     pageQueryFun() {
       queryBreakageList(this.queryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = [];
           this.tableData = ok.data.result.list;
@@ -399,19 +399,19 @@ export default {
       let state = num;
       switch (state) {
         case 1:
-          state = "损坏";
+          state = "损坏报损";
           break;
         case 2:
-          state = "入库";
+          state = "入库报损";
           break;
         case 3:
-          state = "丢失";
+          state = "丢失报损";
           break;
         case 4:
-          state = "其他";
+          state = "其他报损";
           break;
         default:
-          state = "未知";
+          state = "未知报损";
           break;
       }
       return state;
@@ -449,7 +449,7 @@ export default {
       //创建报损单
       this.$router.push({
         path: "/breakageManagement/createBreakageOrder",
-        query: { type: "create" },
+        query: { type: "create",val:{} },
       });
     },
     edit() {

@@ -1,135 +1,135 @@
 <template>
-      <kuanjiaClick
-        titles="打印发货清单"
-        @closeBtn="closeBtn"
-        :isLookerShow="false"
-        print="打印"
-        width="490"
-        min-height="552"
-        @clickSubmit="printWarehouseReceipt"
-      >
-        <template slot="centerKuanjia">
-          <div id="printCenter" style="width: 490px" class="displayColom mt20">
+  <kuanjiaClick
+    titles="打印发货清单"
+    @closeBtn="closeBtn"
+    :isLookerShow="false"
+    print="打印"
+    width="490"
+    min-height="552"
+    @clickSubmit="printWarehouseReceipt"
+  >
+    <template slot="centerKuanjia">
+      <div id="printCenter" style="width: 490px" class="displayColom mt20">
+        <div
+          style="
+            width: 450px;
+            border: 1px solid #d1d6e2;
+            padding: 10px;
+            position: relative;
+          "
+        >
+          <div>
+            <div style="float: left; font-size: 24px; color: #333333">
+              {{ parseMes.orderNo }}发货清单
+            </div>
             <div
+              v-if="parseMes.commendBox && parseMes.check"
+              style="float: right; font-size: 24px; color: #333333"
+            >
+              [{{ parseMes.commendBox }}#{{ parseMes.check }}]
+            </div>
+            <p style="clear: both"></p>
+          </div>
+          <!-- 头部 -->
+          <div>
+            <div>
+              <img id="barcode" height="59" width="265" />
+            </div>
+            <!-- img -->
+            <p style="font-size: 16px; color: #333333; font-weight: normal">
+              订单号：{{ parseMes.orderNo }}
+            </p>
+            <p style="font-size: 16px; color: #333333x; font-weight: normal">
+              收货人：{{ parseMes.orderContact }}
+            </p>
+            <p style="font-size: 16px; color: #333333; font-weight: normal">
+              收货人电话：{{ parseMes.orderContactPhone }}
+            </p>
+            <p
               style="
-                width: 450px;
-                border: 1px solid #d1d6e2;
-                padding: 10px;
-                position: relative;
+                font-size: 16px;
+                color: #333333;
+                font-weight: normal;
+                width: 338px;
+                margin-bottom: 16px;
               "
             >
-              <div>
-                <div style="float: left; font-size: 24px; color: #333333">
-                  {{ parseMes.orderNo }}发货清单
-                </div>
-                <div
-                  v-if="parseMes.commendBox && parseMes.check"
-                  style="float: right; font-size: 24px; color: #333333"
-                >
-                  [{{ parseMes.commendBox }}#{{ parseMes.check }}]
-                </div>
-                <p style="clear: both"></p>
-              </div>
-              <!-- 头部 -->
-              <div>
-                <div >
-					<img id="barcode" height="59" width="265" />
-                </div>
-                <!-- img -->
-                <p style="font-size: 16px; color: #333333; font-weight: normal">
-                  订单号：{{ parseMes.orderNo }}
-                </p>
-                <p style="font-size: 16px; color: #333333x ; font-weight: normal">
-                  收货人：{{ parseMes.orderContact }}
-                </p>
-                <p style="font-size: 16px; color: #333333; font-weight: normal">
-                  收货人电话：{{ parseMes.orderContactPhone }}
-                </p>
-                <p
-                  style="
-                    font-size: 16px;
-                    color: #333333;
-                    font-weight: normal;
-                    width: 338px;
-                    margin-bottom: 16px;
-                  "
-                >
-                  收货人详细地址：{{
-                    $isEmpty(parseMes.orderProName) +
-                    $isEmpty(parseMes.orderCityName) +
-                    $isEmpty(parseMes.orderCountyName) +
-                    $isEmpty(parseMes.orderAddr)
-                  }}
-                </p>
-              </div>
-              <!-- 条形码 -->
-              <div class="tiaoxinmaMess">
-                <el-table
-                  show-summary
-                  :data="tableData"
-                  :stripe="true"
-                  :border="true"
-                  :summary-method="hejiMethod"
-                >
-                  <el-table-column
-                    label="产品名称"
-                    prop="prodName"
-                    show-overflow-tooltip
-                  >
-                  </el-table-column>
-                  <el-table-column
-                    label="产品规格"
-                    prop="prodCode"
-                    show-overflow-tooltip
-                  >
-                  </el-table-column>
-                  <el-table-column
-                    label="数量"
-                    prop="sum"
-                    show-overflow-tooltip
-                  >
-                  </el-table-column>
-                </el-table>
-              </div>
-              <div
-                v-if="parseMes.disposeStatus"
-                style="
-                  position: absolute;
-                  left: 50%;
-                  top: 50%;
-                  width: 180px;
-                  height: 180px;
-                  margin-left: -90px;
-                  z-index: -1;
-                  margin-top: -90px;
-                "
-              >
-                <img src="~@/assets/img/purchase.png" />
-              </div>
-            </div>
+              收货人详细地址：{{
+                $isEmpty(parseMes.orderProName) +
+                $isEmpty(parseMes.orderCityName) +
+                $isEmpty(parseMes.orderCountyName) +
+                $isEmpty(parseMes.orderAddr)
+              }}
+            </p>
           </div>
-        </template>
-      </kuanjiaClick>
+          <!-- 条形码 -->
+          <div class="tiaoxinmaMess">
+            <el-table
+              show-summary
+              :data="tableData"
+              :stripe="true"
+              :border="true"
+              :summary-method="hejiMethod"
+            >
+              <el-table-column
+                label="产品名称"
+                prop="prodName"
+                show-overflow-tooltip
+              >
+              </el-table-column>
+              <el-table-column
+                label="产品规格"
+                prop="prodCode"
+                show-overflow-tooltip
+              >
+              </el-table-column>
+              <el-table-column label="数量" prop="sum" show-overflow-tooltip>
+              </el-table-column>
+            </el-table>
+          </div>
+          <div
+            v-if="parseMes.disposeStatus"
+            style="
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              width: 180px;
+              height: 180px;
+              margin-left: -90px;
+              z-index: -1;
+              margin-top: -90px;
+            "
+          >
+            <img src="~@/assets/img/purchase.png" />
+          </div>
+        </div>
+      </div>
+    </template>
+  </kuanjiaClick>
 </template>
 <style>
-	#app .tiaoxinmaMess .el-table .el-table__footer-wrapper .has-gutter tr td:nth-child(3){
-		    border-right: none !important;
-	}
-	#app .tiaoxinmaMess .el-table .el-table__footer-wrapper {
-		border-top:1px solid #EBEEF5;
-		background-color: #fff;
-	}
-	#app .tiaoxinmaMess .el-table .el-table__footer-wrapper td{
-		background-color: #fff;
-	}
+#app
+  .tiaoxinmaMess
+  .el-table
+  .el-table__footer-wrapper
+  .has-gutter
+  tr
+  td:nth-child(3) {
+  border-right: none !important;
+}
+#app .tiaoxinmaMess .el-table .el-table__footer-wrapper {
+  border-top: 1px solid #ebeef5;
+  background-color: #fff;
+}
+#app .tiaoxinmaMess .el-table .el-table__footer-wrapper td {
+  background-color: #fff;
+}
 </style>
 <script>
 /* eslint-disable*/
 import JsBarcode from "jsbarcode";
 import kuanjiaClick from "../../components/commin/kuanjiaClick";
-import {
-  pDeliverGoodsprintDeliverGoods
-} from "../../api/api";
+import { pDeliverGoodsprintDeliverGoods } from "../../api/api";
 export default {
   props: {
     parseMes: {
@@ -144,7 +144,7 @@ export default {
           orderCountyName: "dsdsa",
           orderAddr: "sadsa",
           disposeStatus: false,
-		  orderNo:"950615362747891312"
+          orderNo: "950615362747891312",
         };
       },
     },
@@ -163,19 +163,23 @@ export default {
         },
       ],
       parintBatchNumberArrs: [],
-	  printMess:()=>{
-		  this.$nextTick(() => {
-		    let Dom = document.getElementById("tiaoxinma"),
-			 orderNo = this.parseMes.orderNo
-			 setTimeout(()=>{
-				JsBarcode("#barcode")
-				  .options({font: "OCR-B",format: "CODE39", lineColor: "#000",
-				 displayValue:false})
-				  .CODE128(orderNo, {fontSize: 18, textMargin: 0,height: 59, })
-				  .render();
-			 },10)
-		  });
-	  }
+      printMess: () => {
+        this.$nextTick(() => {
+          let Dom = document.getElementById("tiaoxinma"),
+            orderNo = this.parseMes.orderNo;
+          setTimeout(() => {
+            JsBarcode("#barcode")
+              .options({
+                font: "OCR-B",
+                format: "CODE39",
+                lineColor: "#000",
+                displayValue: false,
+              })
+              .CODE128(orderNo, { fontSize: 18, textMargin: 0, height: 59 })
+              .render();
+          }, 10);
+        });
+      },
     };
   },
   components: {
@@ -214,9 +218,7 @@ export default {
     },
     //打印
     printWarehouseReceipt() {
-		pDeliverGoodsprintDeliverGoods([
-		  { id: this.parseMes.id },
-		])
+      pDeliverGoodsprintDeliverGoods([{ id: this.parseMes.id }]);
       this.$nextTick(() => {
         setTimeout(() => {
           this.LODOP = this.$getLodop();
