@@ -19,3 +19,6 @@
 	color: #000;
 	border: 1px solid #d1d6e2;
 }
+.quyuguanliActive{
+	background: linear-gradient(117deg, rgb(82, 168, 253), rgb(115, 207, 255))!important;
+}

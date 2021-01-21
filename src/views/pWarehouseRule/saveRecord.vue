@@ -1,5 +1,5 @@
 <template>
-  <div class="setUserIngBox" id="dindanlaiyuan">
+  <div class="setUserIngBox" id="dindanlaiyuan fahuoguizhepeizhi" >
     <kuanjiaClick
       :titles="
         lookerRecord
@@ -139,9 +139,10 @@
   </div>
 </template>
 <style>
-	#dindanlaiyuan .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
-	     top: 5px !important;
+	#fahuoguizhepeizhi .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
+	     top:4px !important;
 	}
+
 </style>
 <script>
 /*eslint-disable */

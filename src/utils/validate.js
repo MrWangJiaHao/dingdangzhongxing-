@@ -139,7 +139,7 @@ export const getConversionPx = (item) => {
         position: "absolute",
         top: item.y ? item.y * (10000 / 85) + "px" : 0 + "px",
         left: item.x ? item.x * (10000 / 85) + "px" : 0 + "px",
-        background: !item.back ? "#fff" : "rgba(221, 211, 88, 0.4)",
+        background: !item.back ? "#fff" : "linear-gradient(117deg, rgb(82, 168, 253), rgb(115, 207, 255))",
         cursor: "pointer",
     };
 }

@@ -146,7 +146,8 @@
     }
 
     .quyuKooler {
-        background: #f8f8f8;
+        background:rgb(216, 220, 231);
+		padding: 10px 0;
         max-width: 1000px;
         max-height: 750px;
         overflow: auto;

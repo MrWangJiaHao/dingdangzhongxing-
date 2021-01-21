@@ -215,6 +215,7 @@ export default {
     }
   },
   methods: {
+	 
     //拣货单 作废
     TovoidClick(e) {
       if (!this.multipleSelection.length)
@@ -222,9 +223,11 @@ export default {
           message: "请选择要作废的拣货单",
           type: "warning",
         });
+		 // `是否要作废，拣货单号${this.multipleSelection[0].pickOrderNo}？</br> 作废后，订单要重新集计处理!`
       this.$messageSelf
         .confirms(
-          `是否要作废，拣货单号${this.multipleSelection[0].pickOrderNo}？</br> 作废后，订单要重新集计处理!`,
+        this.$clearArr(this.multipleSelection,"作废") ,
+		  
           "作废",
           {
             confirmButtonText: "确定",
@@ -266,7 +269,11 @@ export default {
         .catch((err) => err);
     },
     getiscaigoudanDetail(e) {
-      this.isJianHuoDanShow = e;
+	  if(this.$route.query.id){
+		  this.$router.go(-1)
+	  }else{
+		  this.isJianHuoDanShow = e;
+	  }
     },
     //打印拣货单
     async _jijiJianhuodan(id) {

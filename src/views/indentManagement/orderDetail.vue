@@ -198,7 +198,7 @@ export default {
   }
   td:nth-of-type(odd) {
     text-align: right;
-    background: #ecf1f7;
+    background: #e1eaf5;
   }
   td:nth-of-type(even) {
     text-align: left;

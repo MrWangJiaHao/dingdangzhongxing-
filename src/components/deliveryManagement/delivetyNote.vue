@@ -124,6 +124,9 @@
 #app .tiaoxinmaMess .el-table .el-table__footer-wrapper td {
   background-color: #fff;
 }
+#app .tiaoxinmaMess  .el-table td, .el-table th.is-leaf { 
+   -webkit-background-clip:border-box !important; 
+}
 </style>
 <script>
 /* eslint-disable*/

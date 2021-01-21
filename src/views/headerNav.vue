@@ -1074,7 +1074,7 @@ export default {
       background: linear-gradient(0deg, #3795eb, #4bade4);
       width: 100%;
       position: fixed;
-      z-index: 20;
+      z-index:100;
     }
   }
 
