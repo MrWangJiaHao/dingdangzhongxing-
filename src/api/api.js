@@ -648,12 +648,11 @@ export function queryStorePhyDis(data) {
         })
     })
 }
-
-// 查询物流公司（条件查询）
-export function queryStorePhyDisCon(data) {
+// 查询仓库物流运费模板（条件查询）
+export function findRecordByWareOrOrg(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "/wbs-warehouse-manage/v1/pWareOrgExprFee/findExprInfo",
+            url: "/wbs-warehouse-manage/v1/pWareOrgExprFee/findRecordByWareOrOrg",
             method: "post",
             data,
         }).then((ok) => {
@@ -664,11 +663,11 @@ export function queryStorePhyDisCon(data) {
     })
 }
 
-// 查询委托公司运费模板
-export function queryEntrustComFee(data) {
+// 查询物流公司（条件查询）
+export function queryStorePhyDisCon(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "/om/v1/pWareOrgExprFee/findRecordPageOrg",
+            url: "/wbs-warehouse-manage/v1/pWareOrgExprFee/findExprInfo",
             method: "post",
             data,
         }).then((ok) => {

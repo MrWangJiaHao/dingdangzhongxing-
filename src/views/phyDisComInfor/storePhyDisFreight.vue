@@ -149,7 +149,7 @@
             >
             </el-table-column>
             <el-table-column
-              prop="unTakeEffect"
+              prop="unTakeEffectTime"
               label="生效状态"
               align="center"
             ></el-table-column>
@@ -210,10 +210,7 @@
             align="right"
             width="120"
           ></el-table-column>
-          <el-table-column
-            prop="areaName"
-            label="区域"
-          ></el-table-column>
+          <el-table-column prop="areaName" label="区域"></el-table-column>
         </el-table>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -225,7 +222,12 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { queryStorePhyDis, queryStorePhyDisCon } from "../../api/api";
+import {
+  queryStorePhyDis,
+  queryStorePhyDisCon,
+  findRecordByWareOrOrg,
+} from "../../api/api";
+import { reduceFun } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -263,70 +265,75 @@ export default {
           label: "启用",
         },
       ],
-      brandNameValueData: [],
-
       //----------弹窗里面的select选择框和输入框开始---------------
 
       //----------弹窗里面的select选择框和输入框结束---------------
       tableData: [],
       tableData1: [],
       multipleSelection: [],
-
       dialogFormVisible: false,
-
       pageComponentsData: {
-        pageNums: 0, //一共多少条 //默认一页10条
+        pageNums: 0,
       },
-      queryFun: "",
-      allInfroDate: [],
       idQueryData: {
         exprId: "",
         wareId: "",
         id: "",
       },
 
-      pagingQueryData: {
-        exprId: "", //物流公司
-        wareId: "", //仓库id
-        id: "", //模板id
-        unTakeEffect: "", //是否生效
-        enableStatus: "", //启用状态(1-启用 0-停用)
-        exprType: 2, //物流模板类型（1-平台；2-仓库经营者；3-委托公司）
+      queryData: {
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          exprId: "", //物流公司
+          wareId: "", //仓库id
+          orgId: "",
+          id: "", //模板id
+          exprFeeName: "",
+          unTakeEffect: "", //是否生效
+          enableStatus: "", //启用状态(1-启用 0-停用)
+          exprType: 3, //物流模板类型（1-平台；2-仓库经营者；3-委托公司）
+        },
       },
     };
   },
   mounted() {
-    this.queryFun = () => {
-      let pagingQueryData = this.pagingQueryData;
-      queryStorePhyDis(pagingQueryData).then((ok) => {
-        // console.log(ok);
-        if (ok.data.code === "10000") {
-          this.tableData = ok.data.result;
-          this.allInfroDate = ok.data.result;
-          this.tableData.forEach((v) => {
-            this.templateNameData.push({
-              value: v.id,
-              label: v.exprFeeName,
-            });
+    findRecordByWareOrOrg({
+      exprId: "",
+      wareId: "",
+      orgId: "",
+      id: "",
+      exprFeeName: "",
+      unTakeEffect: "",
+      enableStatus: "",
+      exprType: 2,
+    }).then((ok) => {
+      if (ok.data.code === "10000") {
+        ok.data.result.forEach((v) => {
+          this.templateNameData.push({
+            value: v.id,
+            label: v.exprFeeName,
+          });
+          this.phyComNameData.push({
+            value: v.exprId,
+            label: v.exprName,
+          });
+          this.templateNameData = reduceFun(this.templateNameData);
+          this.phyComNameData = reduceFun(this.phyComNameData);
+        });
+      }
+    });
 
-            this.phyComNameData.push({
-              value: v.exprId,
-              label: v.exprName,
-            });
-            let testObj = {};
-            this.phyComNameData = this.phyComNameData.reduce((item, next) => {
-              testObj[next.value]
-                ? ""
-                : (testObj[next.value] = true && item.push(next));
-              return item;
-            }, []);
-            if (v.unTakeEffect === 0) {
-              v.unTakeEffect = "未生效";
-            } else if (v.unTakeEffect === 1) {
-              v.unTakeEffect = "已生效";
-            } else if (v.unTakeEffect === 2) {
-              v.unTakeEffect = "已失效";
-            }
+    this.queryFun();
+  },
+  methods: {
+    queryFun() {
+      queryStorePhyDis(this.queryData).then((ok) => {
+        console.log(ok);
+        if (ok.data.code === "10000") {
+          this.tableData = [];
+          this.tableData = ok.data.result.list;
+          this.tableData.forEach((v) => {
             if (v.enableStatus === 0) {
               v.enableStatus = "停用";
             } else if (v.enableStatus === 1) {
@@ -344,37 +351,17 @@ export default {
             } else if (+v.feeType === 2) {
               v.feeType = "计体积";
             }
-          });
-        } else {
-          this.$messageSelf.message({
-            message: "未知错误",
-            type: "error",
+            // v.unTakeEffectTime
           });
         }
       });
-    };
-    this.queryFun();
-  },
-  methods: {
+    },
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
     clickQuery() {
       //点击查询
-      this.tableData = [];
-      let pagingQueryData = this.pagingQueryData;
-      console.log(pagingQueryData);
-      queryStorePhyDis(pagingQueryData).then((ok) => {
-        // console.log(ok);
-        if (ok.data.code === "10000") {
-          this.tableData = ok.data.result;
-        } else {
-          this.$messageSelf.message({
-            message: "未知错误",
-            type: "error",
-          });
-        }
-      });
+      this.queryFun();
     },
     clearInput() {
       //点击清空输入框
@@ -382,17 +369,11 @@ export default {
       this.templateName = "";
       this.takeEffectState = "";
       this.templateState = "";
-      this.tableData = [];
-      this.phyComNameData = [];
-      this.templateNameData = [];
-      this.pagingQueryData.exprId = "";
-      this.pagingQueryData.exprFeeName = "";
-      this.pagingQueryData.unTakeEffect = "";
-      this.pagingQueryData.enableStatus = "";
-      this.pagingQueryData.id = "";
+      Object.keys(this.queryData.paras).forEach((v) => {
+        this.queryData.paras[v] = "";
+      });
       this.queryFun();
     },
-
     lookDetail() {
       //查看
       this.tableData1 = [];
@@ -425,45 +406,23 @@ export default {
       });
     },
     phyComNames(val) {
-      this.phyComNameData.forEach((v) => {
-        if (val === v.value) {
-          this.phyComName = v.label;
-          let label = v.label;
-          this.allInfroDate.forEach((vv) => {
-            if (label === vv.exprName) {
-              this.pagingQueryData.exprId = vv.exprId;
-            }
-          });
-        }
-      });
+      this.queryData.paras.exprId = val;
     },
     templateNames(val) {
-      // this.templateNameData.forEach((v) => {
-      // if (val === v.value) {
-      // this.templateName = v.label;
-      this.pagingQueryData.id = val;
-      //   let label = v.label;
-      //   this.allInfroDate.forEach((vv) => {
-      // if (label === vv.exprFeeName) {
-      //   this.pagingQueryData.id = vv.id;
-      // }
-      //   });
-      // }
-      // });
+      this.queryData.paras.id = val;
     },
     takeEffectStates(val) {
-      this.takeEffectState = val;
-      this.pagingQueryData.unTakeEffect = val;
+      this.queryData.paras.unTakeEffect = val;
     },
     templateStates(val) {
-      this.templateState = val;
-      this.pagingQueryData.enableStatus = val;
+      this.queryData.paras.enableStatus = val;
     },
     getPageNum(e) {
-      this.pagingQueryData.pageNumber = e;
+      this.queryData.pageNumber = e;
     },
     sureSuccssBtn(e) {
-      this.pagingQueryData.pageNumber = e;
+      this.queryData.pageNumber = e;
+      this.queryFun();
     },
     changeData(data) {
       this.changePageData(data); //用来改变分页器的条数
