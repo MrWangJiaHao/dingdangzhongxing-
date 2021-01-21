@@ -70,12 +70,14 @@
             :stripe="true"
             tooltip-effect="dark"
             @selection-change="handleSelectionChange"
+            :row-key="getRowKeys"
           >
             <el-table-column
               type="selection"
               width="82"
               align="center"
               fixed="left"
+              :reserve-selection="true"
             ></el-table-column>
             <el-table-column
               label="序号"
@@ -152,6 +154,9 @@ export default {
   inject: ["reload"],
   data() {
     return {
+      getRowKeys(row){
+        return row.id
+      },
       mateCode: "",
       mateName: "",
       mateType: "",
@@ -177,7 +182,7 @@ export default {
       pageComponentsData: {
         pageNums: 0,
       },
-      pagingQueryData: {
+      queryData: {
         orderBy: "createTime",
         pageNumber: 1,
         pageSize: 10,
@@ -198,9 +203,10 @@ export default {
   },
   methods: {
     queryFun() {
-      queryMateRecord(this.pagingQueryData).then((ok) => {
+      queryMateRecord(this.queryData).then((ok) => {
         // console.log(ok);
         if (ok.data.code === "10000") {
+      this.tableData = [];
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
           this.tableData.forEach((v) => {
@@ -217,10 +223,9 @@ export default {
       });
     },
     clickQuery() {
-      this.tableData = [];
-      this.pagingQueryData.paras.materielCode = this.mateCode;
-      this.pagingQueryData.paras.materielName = this.mateName;
-      this.pagingQueryData.paras.specName = this.mateSpec;
+      this.queryData.paras.materielCode = this.mateCode;
+      this.queryData.paras.materielName = this.mateName;
+      this.queryData.paras.specName = this.mateSpec;
       this.queryFun();
     },
     clearInput() {
@@ -228,14 +233,13 @@ export default {
       this.mateName = "";
       this.mateType = "";
       this.mateSpec = "";
-      this.tableData = [];
-      Object.keys(this.pagingQueryData.paras).forEach((v) => {
-        this.pagingQueryData.paras[v] = "";
+      Object.keys(this.queryData.paras).forEach((v) => {
+        this.queryData.paras[v] = "";
       });
       this.queryFun();
     },
     mateTypes(val) {
-      this.pagingQueryData.paras.type = val;
+      this.queryData.paras.type = val;
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
@@ -249,7 +253,7 @@ export default {
     },
     submit() {
       if (!this.multipleSelection.length)
-        return this.$messageSelf, message("请选择需要借调的产品");
+        return this.$messageSelf, message({message:"请选择需要借调的产品",type:"warning"});
       this.$router.push({
         path: "/borrowManagement/createBorrowOrder",
         query: { val: this.multipleSelection, type: "addProd" },
@@ -261,7 +265,6 @@ export default {
     },
     sureSuccssBtn(e) {
       this.queryData.pageNumber = e;
-      this.tableData = [];
       this.queryFun();
     },
     changeData(data) {

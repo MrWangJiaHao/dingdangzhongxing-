@@ -1,5 +1,5 @@
 <template>
-  <div id="mateAdmin">
+  <div id="entrustComFreight">
     <!-- 这是委托公司运费模板页面 -->
     <div class="roleName">
       <div class="roleName-choose">
@@ -102,9 +102,13 @@
             @selection-change="handleSelectionChange"
             :stripe="true"
             tooltip-effect="dark"
-            :span-method="spanMethod"
           >
-            <el-table-column type="selection" width="82" align="center" fixed="left">
+            <el-table-column
+              type="selection"
+              width="82"
+              align="center"
+              fixed="left"
+            >
             </el-table-column>
             <el-table-column
               label="序号"
@@ -113,18 +117,20 @@
               width="71"
             >
             </el-table-column>
-            <el-table-column prop="exprFeeCode" label="模板编号" align="left">
+            <el-table-column prop="exprFeeCode" label="模板编号" width="230">
             </el-table-column>
-            <el-table-column prop="orgName" label="委托公司" align="center">
+            <el-table-column
+              prop="orgName"
+              label="委托公司"
+              align="center"
+              show-overflow-tooltip
+            >
             </el-table-column>
             <el-table-column prop="exprFeeName" label="模板名称" align="center">
             </el-table-column>
             <el-table-column prop="exprName" label="物流公司" align="center">
             </el-table-column>
-            <el-table-column
-              prop="effectStartTime"
-              label="生效日期"
-            >
+            <el-table-column prop="effectStartTime" label="生效日期">
             </el-table-column>
             <el-table-column
               prop="unTakeEffect"
@@ -149,7 +155,11 @@
     </div>
 
     <!-- 弹框 -->
-    <el-dialog title="配送区域查看" :visible.sync="dialogFormVisible" custom-class="animate__animated animate__zoomIn">
+    <el-dialog
+      title="配送区域查看"
+      :visible.sync="dialogFormVisible"
+      custom-class="animate__animated animate__zoomIn"
+    >
       <div class="dialogForm">
         <el-table
           :data="tableData1"
@@ -201,6 +211,7 @@
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
 import { queryStorePhyDis, queryStorePhyDisCon } from "../../api/api";
+import { reduceFun } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -239,37 +250,34 @@ export default {
           label: "启用",
         },
       ],
-      brandNameValueData: [],
-
       //----------弹窗里面的select选择框和输入框开始---------------
-
       //----------弹窗里面的select选择框和输入框结束---------------
       tableData: [],
       tableData1: [],
       multipleSelection: [],
-
       dialogFormVisible: false,
-
       pageComponentsData: {
-        pageNums: 0, //一共多少条 //默认一页10条
+        pageNums: 0,
       },
-      queryFun: () => {},
       allInfroDate: [],
       idQueryData: {
         exprId: "",
         wareId: "",
         id: "",
       },
-
-      pagingQueryData: {
-        exprId: "", //物流公司
-        wareId: "", //仓库id
-        orgId: "",
-        id: "", //模板id
-        exprFeeName: "",
-        unTakeEffect: "", //是否生效
-        enableStatus: "", //启用状态(1-启用 0-停用)
-        exprType: 3, //物流模板类型（1-平台；2-仓库经营者；3-委托公司）
+      queryData: {
+        pageNumber: 1,
+        pageSize: 10,
+        paras: {
+          exprId: "", //物流公司
+          wareId: "", //仓库id
+          orgId: "",
+          id: "", //模板id
+          exprFeeName: "",
+          unTakeEffect: "", //是否生效
+          enableStatus: "", //启用状态(1-启用 0-停用)
+          exprType: 3, //物流模板类型（1-平台；2-仓库经营者；3-委托公司）
+        },
       },
       spanArr: [],
       spanCodeArr: [],
@@ -278,14 +286,17 @@ export default {
     };
   },
   mounted() {
-    this.queryFun = () => {
-      let pagingQueryData = this.pagingQueryData;
-      queryStorePhyDis(pagingQueryData).then((ok) => {
+    this.queryFun();
+  },
+  methods: {
+    queryFun() {
+      queryStorePhyDis(this.queryData).then((ok) => {
         console.log(ok);
         if (ok.data.code === "10000") {
-          this.tableData = ok.data.result;
-          this.tableData.sort(this.creatCompare("orgName"));
-          this.allInfroDate = ok.data.result;
+          this.tableData = [];
+          this.tableData = ok.data.result.list;
+          this.allInfroDate = ok.data.result.list;
+          this.changeData(ok.data.result)
           this.tableData.forEach((v) => {
             if (v.unTakeEffect === 0) {
               v.unTakeEffect = "未生效";
@@ -307,13 +318,7 @@ export default {
               value: v.orgId,
               label: v.orgName,
             });
-            let testObj = {};
-            this.phyComNameData = this.phyComNameData.reduce((item, next) => {
-              testObj[next.value]
-                ? ""
-                : (testObj[next.value] = true && item.push(next));
-              return item;
-            }, []);
+            this.phyComNameData = reduceFun(this.phyComNameData);
           });
         } else {
           this.$messageSelf.message({
@@ -322,47 +327,13 @@ export default {
           });
         }
       });
-    };
-    this.queryFun();
-  },
-  methods: {
-    creatCompare(propertyName) {
-      return function (obj1, obj2) {
-        var value1 = obj1[propertyName];
-        var value2 = obj2[propertyName];
-        if (value1 < value2) {
-          return -1;
-        } else if (value1 > value2) {
-          return 1;
-        } else {
-          return 0;
-        }
-      };
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
-    spanMethod({ row, column, rowIndex, columnIndex }) {
-      console.log(row, column, rowIndex, columnIndex);
-      if (column.property === 3) {
-        return [2, 2];
-      }
-    },
     clickQuery() {
       //点击查询
-      this.tableData = [];
-      let pagingQueryData = this.pagingQueryData;
-      queryStorePhyDis(pagingQueryData).then((ok) => {
-        // console.log(ok);
-        if (ok.data.code === "10000") {
-          this.tableData = ok.data.result;
-        } else {
-          this.$messageSelf.message({
-            message: "未知错误",
-            type: "error",
-          });
-        }
-      });
+      this.queryFun();
     },
     clearInput() {
       //点击清空输入框
@@ -370,15 +341,17 @@ export default {
       this.templateName = "";
       this.takeEffectState = "";
       this.templateState = "";
-      this.tableData = [];
       this.phyComNameData = [];
       this.templateNameData = [];
-      this.pagingQueryData.exprId = "";
-      this.pagingQueryData.orgId = "";
-      this.pagingQueryData.exprFeeName = "";
-      this.pagingQueryData.unTakeEffect = "";
-      this.pagingQueryData.enableStatus = "";
-      this.pagingQueryData.id = "";
+      // Object.keys(this.queryBorrowListData.paras).forEach((v) => {
+      //   this.queryBorrowListData.paras[v] = "";
+      // });
+      this.queryData.exprId = "";
+      this.queryData.orgId = "";
+      this.queryData.exprFeeName = "";
+      this.queryData.unTakeEffect = "";
+      this.queryData.enableStatus = "";
+      this.queryData.id = "";
       this.queryFun();
     },
 
@@ -413,40 +386,27 @@ export default {
       });
     },
     phyComNames(val) {
-      this.pagingQueryData.orgId = val;
+      this.queryData.orgId = val;
     },
     templateNames(val) {
-      // this.templateNameData.forEach((v) => {
-      // if (val === v.value) {
-      // this.templateName = v.label;
-      this.pagingQueryData.id = val;
-      //   let label = v.label;
-      //   this.allInfroDate.forEach((vv) => {
-      // if (label === vv.exprFeeName) {
-      //   this.pagingQueryData.id = vv.id;
-      // }
-      //   });
-      // }
-      // });
+      this.queryData.id = val;
     },
     takeEffectStates(val) {
-      this.takeEffectState = val;
-      this.pagingQueryData.unTakeEffect = val;
+      this.queryData.paras.unTakeEffect = val;
     },
     templateStates(val) {
-      this.templateState = val;
-      this.pagingQueryData.enableStatus = val;
+      this.queryData.paras.enableStatus = val;
     },
     getPageNum(e) {
-      this.pagingQueryData.pageNumber = e;
+      this.queryData.pageNumber = e;
     },
     sureSuccssBtn(e) {
-      this.pagingQueryData.pageNumber = e;
+      this.queryData.pageNumber = e;
+      this.queryFun();
     },
     changeData(data) {
-      this.changePageData(data); //用来改变分页器的条数
+      this.changePageData(data);
     },
-    //用来改变分页器的条数
     changePageData(data) {
       let { totalRow } = data;
       this.pageComponentsData.pageNums = totalRow;
@@ -457,7 +417,7 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/scss/btn.scss";
-#mateAdmin {
+#entrustComFreight {
   padding: 20px 10px;
 }
 .roleName-choose {
@@ -544,10 +504,7 @@ export default {
 </style>
 
 <style lang="scss">
-#mateAdmin {
-  .el-dialog__wrapper {
-    // background: #eef1f8;
-  }
+#entrustComFreight {
   .el-dialog {
     width: 900px;
     height: 630px;
@@ -566,7 +523,6 @@ export default {
     .el-dialog__body {
       width: 100%;
       height: 500px;
-      border-top: 1px solid #d1d6e2;
       border-bottom: 1px solid #d1d6e2;
       padding: 0;
     }

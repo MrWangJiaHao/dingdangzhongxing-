@@ -25,14 +25,14 @@
           <div class="productName">
             <div class="roleName-text">产品名称：</div>
             <div class="roleName-checkBox" style="width: 400px">
-              <el-input placeholder="模糊搜索" v-model="productName" clearable>
+              <el-input placeholder="请输入产品名称" v-model="productName" clearable>
               </el-input>
             </div>
           </div>
           <div class="productCode">
             <div class="roleName-text">产品编码：</div>
             <div class="roleName-checkBox" style="width: 160px">
-              <el-input placeholder="模糊搜索" v-model="productCode" clearable>
+              <el-input placeholder="请输入产品编码" v-model="productCode" clearable>
               </el-input>
             </div>
           </div>
@@ -165,7 +165,7 @@
           <div class="pickSL">
             <div class="roleName-text">拣货库位：</div>
             <div class="roleName-checkBox" style="width: 160px">
-              <el-input placeholder="模糊搜索" v-model="pickSL" clearable>
+              <el-input placeholder="请输入拣货库位" v-model="pickSL" clearable>
               </el-input>
             </div>
           </div>

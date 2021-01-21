@@ -26,7 +26,7 @@
         </div>
         <div class="numberInfor1-upTime">
           <span>更新时间:&nbsp;</span>
-          <span>{{ timeFormate() }}</span>
+          <span>{{ timeFormate }}</span>
         </div>
       </div>
       <div class="numberInfor2">
@@ -119,6 +119,8 @@ import pickingFail from "@/assets/img/pickingFail.png";
 import pullGoods from "@/assets/img/pullGoods.png";
 
 import { indexRequest } from "../../api/api";
+
+import { timeFormate } from "../../utils/validate";
 export default {
   components: {
     ResalesEcharts,
@@ -139,6 +141,7 @@ export default {
       yesterdaySend: 0, //昨日发货数
       todaySendRate: 0, //今日发货速率
       rateData: "0.00%",
+      timeFormate: "",
     };
   },
   mounted() {
@@ -165,51 +168,14 @@ export default {
         });
       }
     });
-    this.timeFormate();
+    this.timeFormate = timeFormate();
     this.delMargin();
   },
   methods: {
     delMargin() {
       document.querySelector(".numberInfor2").lastChild.style.margin = "0";
     },
-    timeFormate() {
-      // 获取当前时间函数
-      let year = new Date().getFullYear();
-      let month =
-        new Date().getMonth() + 1 < 10
-          ? "0" + (new Date().getMonth() + 1)
-          : new Date().getMonth() + 1;
-      let date =
-        new Date().getDate() < 10
-          ? "0" + new Date().getDate()
-          : new Date().getDate();
-      let hh =
-        new Date().getHours() < 10
-          ? "0" + new Date().getHours()
-          : new Date().getHours();
-      let mm =
-        new Date().getMinutes() < 10
-          ? "0" + new Date().getMinutes()
-          : new Date().getMinutes();
-      let ss =
-        new Date().getSeconds() < 10
-          ? "0" + new Date().getSeconds()
-          : new Date().getSeconds();
-      return (
-        year +
-        "年" +
-        month +
-        "月" +
-        date +
-        "日" +
-        " " +
-        hh +
-        ":" +
-        mm +
-        ":" +
-        ss
-      );
-    },
+
     detail1() {
       this.$router.push({ path: "/statistics/labourStatistics" });
     },

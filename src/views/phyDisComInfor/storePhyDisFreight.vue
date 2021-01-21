@@ -1,5 +1,5 @@
 <template>
-  <div id="mateAdmin">
+  <div id="storePhyDisFreight">
     <!-- 这是仓库物流公司模板页面 -->
     <div class="roleName">
       <div class="roleName-choose">
@@ -103,7 +103,12 @@
             :stripe="true"
             tooltip-effect="dark"
           >
-            <el-table-column type="selection" width="82" align="center" fixed="left">
+            <el-table-column
+              type="selection"
+              width="82"
+              align="center"
+              fixed="left"
+            >
             </el-table-column>
             <el-table-column
               label="序号"
@@ -116,11 +121,15 @@
               prop="exprFeeCode"
               label="模板编号"
               align="left"
-              width="210"
-              min-width="210"
+              width="230"
             >
             </el-table-column>
-            <el-table-column prop="exprFeeName" label="模板名称" align="center">
+            <el-table-column
+              prop="exprFeeName"
+              label="模板名称"
+              show-overflow-tooltip
+              align="center"
+            >
             </el-table-column>
             <el-table-column prop="exprName" label="物流公司" align="center">
             </el-table-column>
@@ -162,7 +171,11 @@
     </div>
 
     <!-- 弹框 -->
-    <el-dialog title="配送区域查看" :visible.sync="dialogFormVisible" custom-class="animate__animated animate__zoomIn">
+    <el-dialog
+      title="配送区域查看"
+      :visible.sync="dialogFormVisible"
+      custom-class="animate__animated animate__zoomIn"
+    >
       <div class="dialogForm">
         <el-table
           :data="tableData1"
@@ -200,7 +213,6 @@
           <el-table-column
             prop="areaName"
             label="区域"
-            align="left"
           ></el-table-column>
         </el-table>
       </div>
@@ -467,7 +479,7 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/scss/btn.scss";
-#mateAdmin {
+#storePhyDisFreight {
   background: #eef1f8;
   padding: 20px 10px;
 }
@@ -555,7 +567,7 @@ export default {
 </style>
 
 <style lang="scss">
-#mateAdmin {
+#storePhyDisFreight {
   .el-dialog__wrapper {
     // background: #eef1f8;
   }
@@ -578,7 +590,6 @@ export default {
     .el-dialog__body {
       width: 100%;
       height: 500px;
-      border-top: 1px solid #d1d6e2;
       border-bottom: 1px solid #d1d6e2;
       padding: 0;
     }

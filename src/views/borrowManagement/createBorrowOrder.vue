@@ -16,6 +16,7 @@
                 :dateTimeData="datetimeDates"
                 @getDateTime="getStartTime"
                 ref="startTime"
+                :valueDataStart="saleDate"
               />
             </div>
           </div>
@@ -43,7 +44,7 @@
               type="selection"
               width="82"
               align="center"
-               fixed="left"
+              fixed="left"
             ></el-table-column>
             <el-table-column
               label="序号"
@@ -105,7 +106,6 @@
         </div>
       </div>
     </div>
-    
   </div>
 </template>
 
@@ -113,7 +113,7 @@
 import { saveBorrowOrder, BorrowOrderDetail } from "../../api/api";
 import dateTime from "../../components/commin/dateTime.vue"; //时间
 
-import { getCookie } from "../../utils/validate";
+import { getCookie, timeFormate } from "../../utils/validate";
 export default {
   components: {
     dateTime,
@@ -145,6 +145,7 @@ export default {
   },
   data() {
     return {
+      saleDate: timeFormate(),
       borrowSide: this.$store.state.loginRequest.loginData.user.wareFullName,
       textarea: "",
       tableData: [],
@@ -170,7 +171,7 @@ export default {
   methods: {
     queryFun() {
       BorrowOrderDetail({ loanId: this.editObj.id }).then((ok) => {
-        // console.log(ok);
+        console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = [];
           this.tableData = ok.data.result;
@@ -203,9 +204,7 @@ export default {
               type: "success",
             });
           })
-          .catch(() => {
-            console.log("取消");
-          });
+          .catch(() => {});
       }
     },
     delHandObj(arr, delArr) {
@@ -229,6 +228,7 @@ export default {
       });
     },
     submit() {
+      console.log(this.saleDate)
       if (this.requestData.expectedSendTime === "") {
         return this.$messageSelf.message({
           message: "请选择期望入库时间",
@@ -366,7 +366,7 @@ export default {
         .remark {
           margin-bottom: 10px;
         }
-        .textarea{
+        .textarea {
           width: 700px;
         }
       }

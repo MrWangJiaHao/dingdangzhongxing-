@@ -163,7 +163,6 @@ export function querySLInforCon(data) {
         })
     })
 }
-
 //查询库位映射关系(分页查询)
 export function storeMapRelation(data) {
     return new Promise((resolve, reject) => {
@@ -639,7 +638,7 @@ export function queryPhyDisComCon(data) {
 export function queryStorePhyDis(data) {
     return new Promise((resolve, reject) => {
         service.request({
-            url: "/wbs-warehouse-manage/v1/pWareOrgExprFee/findRecordByWareOrOrg",
+            url: "/wbs-warehouse-manage/v1/pWareOrgExprFee/findRecordByWareOrOrgPage",
             method: "post",
             data,
         }).then((ok) => {
@@ -981,7 +980,7 @@ export function submitBorrowOrder(data) {
 }
 
 //借调管理=>打印借调单
-export function pointBorrowOrder(data) {
+export function printBorrowOrder(data) {
     return new Promise((resolve, reject) => {
         service.request({
             url: "/wbs-warehouse-manage/v1/pWarehouseLoanDetail/findInWareDetail",

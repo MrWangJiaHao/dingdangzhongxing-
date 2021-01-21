@@ -26,14 +26,14 @@
           <div class="el-inputBox">
             <div class="el-inputBox-text">产品名称：</div>
             <div class="el-inputBox-checkBox" style="width: 400px">
-              <el-input v-model="productName" placeholder="模糊检索">
+              <el-input v-model="productName" placeholder="请输入产品名称">
               </el-input>
             </div>
           </div>
           <div class="el-inputBox">
             <div class="el-inputBox-text">产品编码：</div>
             <div class="el-inputBox-checkBox" style="width: 160px">
-              <el-input v-model="productCode" placeholder="模糊检索">
+              <el-input v-model="productCode" placeholder="请输入产品编码">
               </el-input>
             </div>
           </div>

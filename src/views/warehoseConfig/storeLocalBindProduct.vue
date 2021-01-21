@@ -170,7 +170,7 @@
             <div class="text_select">
               <div>库位：</div>
               <el-input
-                placeholder="模糊搜索"
+                placeholder="请输入库位号"
                 v-model="storageLocation1"
                 clearable
               >
@@ -275,7 +275,7 @@
             <div class="text_select">
               <div>库位：</div>
               <el-input
-                placeholder="模糊搜索"
+                placeholder="请输入库位号"
                 v-model="storageLocation2"
                 clearable
               >

@@ -116,17 +116,17 @@ export const removeCookie = function () {
     }
 }
 export const changeSureHenXian = function () {
-	  setTimeout(() => {
-	      let tablesCenter = document.getElementsByTagName("td");
-	      tablesCenter = Array.from(tablesCenter);
-	      tablesCenter.forEach((item) => {
-	        if (!item.children[0].children.length) {
-	          item.children[0].innerHTML = item.children[0].innerHTML
-	            ? item.children[0].innerHTML
-	            : "——";
-	        }
-	      });
-	  }, 700);
+    setTimeout(() => {
+        let tablesCenter = document.getElementsByTagName("td");
+        tablesCenter = Array.from(tablesCenter);
+        tablesCenter.forEach((item) => {
+            if (!item.children[0].children.length) {
+                item.children[0].innerHTML = item.children[0].innerHTML ?
+                    item.children[0].innerHTML :
+                    "——";
+            }
+        });
+    }, 700);
 }
 /**
  * 对编辑区域进行了图形化
@@ -571,12 +571,12 @@ export const moveBox = (Dom) => {
         };
     };
 }
+
 function windowLoad(e) {
     if (window.event) {
         //IE中阻止函数器默认动作的方式  
         window.event.returnValue = false;
-    }
-    else {
+    } else {
         //阻止默认浏览器动作  
         e.preventDefault();
     }
@@ -645,3 +645,42 @@ export const stretchingFun = (oparent, handle, isleft, istop, lookx, looky) => {
         };
     };
 }
+
+export const timeFormate = () => {
+        // 获取当前时间函数
+        let year = new Date().getFullYear();
+        let month =
+            new Date().getMonth() + 1 < 10 ?
+            "0" + (new Date().getMonth() + 1) :
+            new Date().getMonth() + 1;
+        let date =
+            new Date().getDate() < 10 ?
+            "0" + new Date().getDate() :
+            new Date().getDate();
+        let hh =
+            new Date().getHours() < 10 ?
+            "0" + new Date().getHours() :
+            new Date().getHours();
+        let mm =
+            new Date().getMinutes() < 10 ?
+            "0" + new Date().getMinutes() :
+            new Date().getMinutes();
+        let ss =
+            new Date().getSeconds() < 10 ?
+            "0" + new Date().getSeconds() :
+            new Date().getSeconds();
+        return (
+            year +
+            "年" +
+            month +
+            "月" +
+            date +
+            "日" +
+            " " +
+            hh +
+            ":" +
+            mm +
+            ":" +
+            ss
+        );
+    }

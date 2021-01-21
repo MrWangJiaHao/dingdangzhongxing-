@@ -83,13 +83,13 @@
           <div class="el-inputBox">
             <div class="el-inputBox-text">订单号：</div>
             <div class="el-inputBox-checkBox" style="width: 160px">
-              <el-input v-model="orderNo" placeholder="模糊检索"> </el-input>
+              <el-input v-model="orderNo" placeholder="请输入订单号"> </el-input>
             </div>
           </div>
           <div class="el-inputBox">
             <div class="el-inputBox-text">子单号：</div>
             <div class="el-inputBox-checkBox" style="width: 160px">
-              <el-input v-model="subOrderNo" placeholder="模糊检索"> </el-input>
+              <el-input v-model="subOrderNo" placeholder="请输入子单号"> </el-input>
             </div>
           </div>
           <div class="el-inputBox">

@@ -436,7 +436,7 @@ const routes = [{
                 name: "/borrowManagement/createBorrowOrder",
                 component: () => import("../views/borrowManagement/createBorrowOrder"),
                 meta: {
-                    keepAlive: false
+                    keepAlive: true
                 },
             },
             {

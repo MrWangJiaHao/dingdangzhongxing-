@@ -6,7 +6,8 @@
         <div class="el-inputBox">
           <div class="el-inputBox-text">借调单号：</div>
           <div class="el-inputBox-checkBox" style="width: 160px">
-            <el-input v-model="borrowOrder" placeholder="模糊检索"> </el-input>
+            <el-input v-model="borrowOrder" placeholder="请输入借调单号">
+            </el-input>
           </div>
         </div>
         <div class="el-inputBox">
@@ -129,7 +130,7 @@
           <div class="create" @click="edit">编辑</div>
           <div class="del" @click="del">删除</div>
           <div class="create" @click="submit">提交</div>
-          <div class="point" @click="point">打印借调单</div>
+          <div class="print" @click="print">打印借调单</div>
         </div>
       </div>
       <div class="resultForm">
@@ -141,7 +142,12 @@
           :stripe="true"
           tooltip-effect="dark"
         >
-          <el-table-column type="selection" width="82" align="center" fixed="left">
+          <el-table-column
+            type="selection"
+            width="82"
+            align="center"
+            fixed="left"
+          >
           </el-table-column>
           <el-table-column label="序号" align="center" type="index" width="71">
           </el-table-column>
@@ -188,45 +194,18 @@
         </div>
       </div>
     </div>
-    <!-- <div class="pointBox" v-show="pointIsShow">
-      <transition
-        enter-active-class="animate__animated animate__zoomIn"
-        leave-active-class="animate__animated animate__zoomOut"
-      >
-        <BreakageOrder
-          v-show="pointIsShow"
-          :tabledatasArr="tabledatasArr"
-          :ReplenishmentNote="replenishmentNoteJson"
-          @getiswuliudanOne="getiswuliudanOne"
-        ></BreakageOrder>
-      </transition>
-    </div> -->
     <el-dialog
-      :visible.sync="pointIsShow"
+      :visible.sync="printIsShow"
       custom-class="animate__animated animate__zoomIn"
     >
       <BreakageOrder
-        v-show="pointIsShow"
+        v-show="printIsShow"
         :tabledatasArr="tabledatasArr"
         :ReplenishmentNote="replenishmentNoteJson"
         @getiswuliudanOne="getiswuliudanOne"
       ></BreakageOrder>
     </el-dialog>
 
-    <!-- <div class="pointBox" v-show="lookDetailIsShow">
-      <transition
-        enter-active-class="animate__animated animate__zoomIn"
-        leave-active-class="animate__animated animate__zoomOut"
-      >
-        <BorrowOrderDetailPage
-          v-show="lookDetailIsShow"
-          :tableData="detailTableData"
-          :dataJson="detailObject"
-          :title="detailTitle"
-          @BorrowOrderDetailIsShow="BorrowOrderDetailIsShow"
-        ></BorrowOrderDetailPage>
-      </transition>
-    </div> -->
     <el-dialog
       :visible.sync="lookDetailIsShow"
       custom-class="animate__animated animate__zoomIn"
@@ -251,11 +230,11 @@ import {
   BorrowOrderDetail,
   delBorrowOrder,
   submitBorrowOrder,
-  pointBorrowOrder,
+  printBorrowOrder,
 } from "../../api/api";
 import BreakageOrder from "../../components/commin/componentList";
 import BorrowOrderDetailPage from "./borrowOrderDetail";
-import { getCookie } from "../../utils/validate";
+import { clearTimeInput, getCookie } from "../../utils/validate";
 export default {
   components: {
     pagecomponent,
@@ -266,9 +245,6 @@ export default {
   beforeRouteEnter(to, from, next) {
     if (from.name === "/breakageManagement/createBreakageOrder") {
       next((vm) => {
-        if (vm.$route.query.type === "quxiao") {
-          vm.$messageSelf.message("已取消");
-        }
         if (vm.$route.query.type === "submit") {
           vm.pageQueryFun();
         }
@@ -279,7 +255,7 @@ export default {
   },
   data() {
     return {
-      pointIsShow: false,
+      printIsShow: false,
       lookDetailIsShow: false,
       detailTableData: [],
       detailObject: {},
@@ -377,10 +353,10 @@ export default {
   watch: {},
   methods: {
     pageQueryFun() {
-      this.tableData = [];
       queryBorrowList(this.queryBorrowListData).then((ok) => {
         console.log(ok);
         if (ok.data.code === "10000") {
+          this.tableData = [];
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
           this.tableData.forEach((v) => {
@@ -400,9 +376,6 @@ export default {
       senddata.loanNo = this.borrowOrder;
       senddata.loanStatus = this.borrowType;
       senddata.outWareName = this.borrowOutSide;
-      // senddata.loanNo=this.borrowOrder
-      // senddata.loanNo=this.borrowOrder
-      // senddata.loanNo=this.borrowOrder
       this.pageQueryFun();
     },
     loanStatus(num) {
@@ -428,6 +401,7 @@ export default {
     },
 
     borrowTypes(val) {
+      console.log(val)
       this.breakageType = val;
     },
     borrowMates(val) {
@@ -436,10 +410,9 @@ export default {
     borrowOutSides(val) {
       this.borrowOutSide = val;
     },
-
     clearInput() {
       //点击清空输入框
-      this.clearTimeInput();
+      clearTimeInput()
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
       Object.keys(this.queryBorrowListData.paras).forEach((v) => {
@@ -466,10 +439,6 @@ export default {
           type: "warning",
         });
       } else {
-        // this.$router.push({
-        //   path: "/breakageManagement/createBreakageOrder",
-        //   query: { val: this.multipleSelection[0], type: "edit" },
-        // });
         if (this.multipleSelection[0].loanStatus !== "待审核") {
           return this.$messageSelf.message({
             message: "只有待审核的订单可编辑",
@@ -500,8 +469,7 @@ export default {
         .then(() => {
           this.delRequest({ ids: arr });
         })
-        .catch(() => {
-        });
+        .catch(() => {});
     },
     delRequest(data) {
       delBorrowOrder(data).then((ok) => {
@@ -547,9 +515,7 @@ export default {
           .then(() => {
             this.submitRequest({ ids: arr });
           })
-          .catch(() => {
-            this.$messageSelf.message({ message: "取消删除", type: "success" });
-          });
+          .catch(() => {});
       }
     },
     submitRequest(data) {
@@ -568,7 +534,7 @@ export default {
         }
       });
     },
-    point() {
+    print() {
       if (!this.multipleSelection.length) {
         return this.$messageSelf.message({
           message: "请选择需要打印的单号",
@@ -581,8 +547,8 @@ export default {
         });
       } else {
         this.tabledatasArr = [];
-        this.pointIsShow = true;
-        pointBorrowOrder({ loanId: this.multipleSelection[0].id }).then(
+        this.printIsShow = true;
+        printBorrowOrder({ loanId: this.multipleSelection[0].id }).then(
           (ok) => {
             // console.log(ok);
             if (ok.data.code === "10000") {
@@ -613,18 +579,19 @@ export default {
       this.multipleSelection = value;
     },
     lookDeatil(data) {
+          console.log(data)
       // console.log(data);
       BorrowOrderDetail({ loanId: data.id }).then((ok) => {
-        // console.log(ok);
+        console.log(ok);
         if (ok.data.code === "10000") {
           this.lookDetailIsShow = true;
           this.detailTableData = ok.data.result;
-          this.detailObject = ok.data.result[0];
+          this.detailObject = data;
         }
       });
     },
     getiswuliudanOne(e) {
-      this.pointIsShow = e;
+      this.printIsShow = e;
     },
     BorrowOrderDetailIsShow(e) {
       this.lookDetailIsShow = e;
@@ -655,23 +622,13 @@ export default {
     getEndTime1(e) {
       console.log(e);
     },
-    clearTimeInput() {
-      let input = document.getElementsByClassName("ivu-input");
-      for (let i = 0; i < input.length; i++) {
-        input[i].value = "";
-      }
-      let elInput = document.querySelectorAll(".el-input__inner");
-      for (let i = 0; i < elInput.length; i++) {
-        elInput[i].value = "";
-      }
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
-.pointBox {
+.printBox {
   position: fixed;
   left: 0;
   top: 0;
@@ -771,7 +728,7 @@ export default {
         @include BtnFunction("error");
         margin-right: 10px;
       }
-      .point {
+      .print {
         @include BtnFunction("success");
       }
     }
@@ -782,7 +739,7 @@ export default {
     .lookDeatil {
       color: #599af3;
       text-decoration: underline;
-      cursor: pointer;
+      cursor: printer;
     }
   }
 }

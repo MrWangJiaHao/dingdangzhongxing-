@@ -64,28 +64,28 @@
           <div class="el-inputBox">
             <div class="el-inputBox-text">订单号：</div>
             <div class="el-inputBox-checkBox" style="width: 160px">
-              <el-input v-model="orderNumberValue" placeholder="模糊检索">
+              <el-input v-model="orderNumberValue" placeholder="请输入订单号">
               </el-input>
             </div>
           </div>
           <div class="el-inputBox setMargin">
             <div class="el-inputBox-text">子单号：</div>
             <div class="el-inputBox-checkBox" style="width: 160px">
-              <el-input v-model="ChildOrderNumberValue" placeholder="模糊检索">
+              <el-input v-model="ChildOrderNumberValue" placeholder="请输入子单号">
               </el-input>
             </div>
           </div>
           <div class="el-inputBox childrenIndent">
             <div class="el-inputBox-text">产品名称：</div>
             <div class="el-inputBox-checkBox" style="width: 400px">
-              <el-input v-model="prodNameValue" placeholder="模糊检索">
+              <el-input v-model="prodNameValue" placeholder="请输入产品名称">
               </el-input>
             </div>
           </div>
           <div class="el-inputBox childrenIndent">
             <div class="el-inputBox-text">产品编码：</div>
             <div class="el-inputBox-checkBox" style="width: 160px">
-              <el-input v-model="prodCodeValue" placeholder="模糊检索">
+              <el-input v-model="prodCodeValue" placeholder="请输入产品编码">
               </el-input>
             </div>
           </div>

@@ -1,6 +1,9 @@
 <template>
   <div class="mian">
-    <div class="titleStyle">{{ title }}</div>
+    <div class="titleStyle">
+      <div class="titleText"> {{ title }}</div>
+      <div class="closeIcon" @click="closeDialog"></div>
+    </div>
     <div class="orderDetaiPage">
       <div class="orderDetailBox">
         <div class="orderDetail-title">借调单详情</div>
@@ -49,7 +52,7 @@
           </el-table-column>
           <el-table-column prop="materielName" label="物料名称" align="center">
           </el-table-column>
-          <el-table-column prop="specName" label="物料规格" align="center">
+          <el-table-column prop="specName" label="物料规格" align="center" width="180">
           </el-table-column>
           <el-table-column
             prop="actualInventory"
@@ -90,11 +93,15 @@ export default {
       id: "",
     };
   },
-  mounted() {},
+  mounted() {
+  },
   methods: {
     back() {
       this.$emit("BorrowOrderDetailIsShow", false);
     },
+    closeDialog(){
+      this.$emit("BorrowOrderDetailIsShow", false);
+    }
   },
 };
 </script>
@@ -105,10 +112,12 @@ export default {
   width: 960px;
   height: 580px;
   .titleStyle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
     height: 50px;
     background: #ecf1f7;
-    line-height: 50px;
     padding: 0 20px;
     font-size: 18px;
     font-weight: bold;
