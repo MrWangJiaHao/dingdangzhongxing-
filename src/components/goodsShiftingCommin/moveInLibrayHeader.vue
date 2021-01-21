@@ -13,6 +13,7 @@
                 <dropDownXiala
                         :xialaJson="yikuzhuangytaiJson"
                         @weiTuoGonShiClick="yikuzhuantaiFun"
+						drop='title'
                 />
                 <!-- 移库状态 -->
                 <searchBox :buhuodanhaoJson="chanpingCode" @changereplenishOrderNo="changpingbianma"/>
@@ -75,10 +76,23 @@
                     title: "移库状态",
                     wieTuoGonShiJson: {
                         placeholder: "请选择移库状态",
-                        dropDownBoxData: [],
+                        dropDownBoxData: [
+							{
+								moveStatus:'0',
+								title:"待移动",
+							},
+							{
+								moveStatus:'2',
+								title:"移动中",
+							},
+							{
+								moveStatus:'3',
+								title:"已移动",
+							}
+						],
                         select: "",
                     },
-                    drop: "",
+                    drop: "title",
                     w320: "w160",
                 },
                 changpingGuiGe: {
@@ -134,11 +148,14 @@
             },
             //移库状态
             yikuzhuantaiFun(e) {
-                this.paras.moveStatus =
-                    this.yikuzhuangytaiJson.wieTuoGonShiJson.dropDownBoxData[e]
-                        .moveStatus || "";
+				console.log( this.yikuzhuangytaiJson.wieTuoGonShiJson.dropDownBoxData[e])
+				if(this.yikuzhuangytaiJson.wieTuoGonShiJson.dropDownBoxData[e]){
+					 this.paras.moveStatus =
+					     this.yikuzhuangytaiJson.wieTuoGonShiJson.dropDownBoxData[e]
+					         .moveStatus || "";
+				}
+                
             },
-
             //产品规格
             chanbianCodeFun(e) {
                 this.paras.specId =
@@ -160,6 +177,18 @@
                 this.$emit("queryClick", this.paras);
             },
             clearInters() {
+				this.paras = {
+					innerMoveNo: "", //移库单号
+					moveStatus: "", //移库状态
+					innerMoveStartTime: "", //移库开始时间
+					innerMoveEndTime: "", //移库结束时间
+					createStartTime: "", //创建开始时间
+					createEndTime: "", //创建结束时间
+					prodCode: "", //产品编码
+					prodName: "", //产品名称
+					specId: "", //产品规格id
+					specName: "", //产品规格名称
+				}
                 this.yikuzhuangytaiJson.wieTuoGonShiJson.select = "";
                 this.changpingGuiGe.wieTuoGonShiJson.select = "";
                 this.buhuodanhaoJson.input = "";

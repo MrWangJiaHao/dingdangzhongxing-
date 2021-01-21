@@ -14,9 +14,10 @@
                                     class="titleBox nowrap"
                                     v-html="shezhizitiwiered(item.titles)"
                             ></div>
-                            <div class="centersBox">
+                            <div class="centersBox ml11">
                                 <div v-if="item.type == 'date'">
                                     <dateTime
+									
                                             width="200"
                                             :style="{ width: item.width ? item.width : '170px' }"
                                             :valueDataStart="item.centers"
@@ -32,6 +33,7 @@
                                             type="text"
                                             v-model="item.input"
                                             class="input"
+											:class="item.disabled?'is-disableds':''"
                                             :disabled="item.disabled"
                                             :placeholder="item.placeholder || ''"
                                             @input="item.onInputs || ''"
@@ -39,9 +41,7 @@
                                     />
                                 </div>
                                 <div v-else>
-                                    <div class="ml10">
-                                        {{ item.centers }}
-                                    </div>
+									{{ item.centers }}
                                 </div>
                             </div>
                         </div>
@@ -83,7 +83,6 @@
     };
 </script>
 <style>
-
     #CentersBox .ivu-input {
         height: 28px !important;
     }
@@ -99,7 +98,12 @@
         background: rgba(236, 241, 247, 0);
         border-radius: 2px;
     }
-
+#app input.is-disableds{
+	    background-color: #f3f3f3;
+	    opacity: 1;
+	    cursor: not-allowed;
+	    color: #ccc;
+}
     .centerBox {
         padding: 30px 20px;
         border-bottom: 1px solid #d1d6e2;
@@ -141,7 +145,7 @@
             border-left: none;
 
             .titleBox {
-                padding: 12px 20px 12px 0;
+                padding: 12px 10px 12px 0;
                 width: 129px;
                 border-right: 1px solid #d1d6e2;
                 background-color: #ecf1f7;

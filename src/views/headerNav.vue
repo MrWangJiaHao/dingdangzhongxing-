@@ -737,7 +737,6 @@ export default {
       let oDiv = document.querySelector(".el-tabs__nav-scroll");
       oDiv.style.left = `${this._rightMoveSteep()}px`;
       oDiv.style.transition = "0.5s";
-      console.log(this._rightMoveSteep())
     },
     _rightMoveSteep: function () {
       let steep;

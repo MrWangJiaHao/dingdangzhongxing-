@@ -1,12 +1,11 @@
 <template>
     <div>
-        <headerKuanJia @clickQueryUser="queryCenter" @clearInputAll="clearInters">
+        <headerKuanJia left-width='87%' @clickQueryUser="queryCenter" @clearInputAll="clearInters">
             <template>
                 <div class="inline mr20 mb16">
                     <dropDownXiala
                             :w320="'w320'"
                             :dropDowBox="wieTuoGonShiJson"
-                            @cliclInput="weiTuoGonShiClick"
                             @getDropDownData="weiTuoGonShiInput"
                             :drop="'orgName'"
                     />
@@ -36,7 +35,6 @@
                 <div class="inline mr20 mb16">
                     <dropDownXiala
                             :dropDowBox="specNameJson"
-                            @cliclInput="specNameClick"
                             @getDropDownData="specNameqInput"
                             :drop="'specName'"
                     />
@@ -45,18 +43,16 @@
                 <div class="inline mr20 mb16">
                     <dropDownXiala
                             :dropDowBox="disposeStatusJson"
-                            @cliclInput="disposeStatusClick"
                             @getDropDownData="disposeStatusInput"
-                            :drop="'disposeStatus'"
+                            :drop="'disposeStatuss'"
                     />
                 </div>
                 <!-- 补货状态 -->
                 <div class="inline mr20 mb16">
                     <dropDownXiala
                             :dropDowBox="orderSourceJson"
-                            @cliclInput="orderSourceClick"
                             @getDropDownData="orderSourceInput"
-                            :drop="'orderSource'"
+                            :drop="'orderSources'"
                     />
                 </div>
                 <!-- 补货类型 -->
@@ -120,6 +116,7 @@
     import dropDownXiala from "../commin/dropDownXiala"; //下拉框
     import searchBox from "../commin/searvhBoxs"; //下拉框
     import dateTime from "../../components/commin/dateTime.vue"; //时间
+	import { Heavy } from "../../utils/validate.js"
     export default {
         components: {
             dropDownXiala,
@@ -139,12 +136,14 @@
                     placeholder: "请选择产品规格",
                     title: "产品规格",
                     select: "",
+					drop:"spceName",
                     dropDownBoxData: [],
                 },
                 disposeStatusJson: {
                     placeholder: "请选择补货状态",
                     title: "补货状态",
                     select: "",
+					drop:"disposeStatuss",
                     dropDownBoxData: [],
                 },
                 orderSourceJson: {
@@ -205,30 +204,13 @@
             this.getTableData();
         },
         methods: {
-            //委托公司
-            weiTuoGonShiClick() {
-                let orgNume = {
-                    orgNume: "",
-                };
-                console.log(orgNume)
-                // this.wieTuoGonShiJson.dropDownBoxData.push(orgNume);
-            },
-            //点击产品规格
-            specNameClick() {
-            },
-            //补货状态
-            disposeStatusClick() {
-            },
-            //补货类型
-            orderSourceClick() {
-            },
             //捕获状态
             disposeStatusInput(e) {
-                this.paras.specName = this.disposeStatusJson.dropDownBoxData[e].id;
+                this.paras.disposeStatus = this.disposeStatusJson.dropDownBoxData[e].disposeStatus;
             },
             //补货类型
             orderSourceInput(e) {
-                this.paras.orderSource = this.orderSourceJson.dropDownBoxData[e].id;
+                this.paras.orderSource = this.orderSourceJson.dropDownBoxData[e].orderSource;
             },
             getcreateStartTime(e) {
                 this.paras.createStartTime = e;
@@ -261,6 +243,20 @@
                 this.$emit("jobTaskHeader", this.paras);
             },
             clearInters() {
+				this.paras = {
+					orgId: "", //委托公司id
+					createTime: "", //创建时间
+					createEndTime: "", //创建结束时间
+					createStartTime: "", //创建开始时间
+					replenishOrderNo: "", //补货单号
+					prodName: "", //产品名称
+					prodCode: "", //产品编码
+					specName: "", //产品规格
+					disposeStatus: "", //补货状态
+					orderSource: "", //补货类型
+					replenishStartTime: "", //补货开始时间，
+					replenishEndTime: "", //补货结束时间
+				}
                 this.wieTuoGonShiJson.select = ""; //清空委托公司
                 this.buhuodanhaoJson.input = ""; //清空补货单号
                 this.prodNumeJson.input = ""; //清空产品名称
@@ -288,11 +284,20 @@
             },
             _changeDatas(res) {
                 let {list} = res;
-
-                this.wieTuoGonShiJson.dropDownBoxData = list;
+				list.forEach(item=>{
+					item.orderSources = item.orderSource == 1 ?'手工创建':item.orderSource == 2 ? "缺货" : "未定义"
+					item.disposeStatuss = item. disposeStatus == 1
+                                    ? "待补货"
+                                    :  item.disposeStatus == 2
+                                    ? "补货中"
+                                    : item.disposeStatus == 3
+                                    ? "已补货"
+                                    : "未定义"
+				})
+                this.wieTuoGonShiJson.dropDownBoxData =Heavy(list,'orgName') ;
                 this.specNameJson.dropDownBoxData = list;
-                this.disposeStatusJson.dropDownBoxData = list;
-                this.orderSourceJson.dropDownBoxData = list;
+                this.disposeStatusJson.dropDownBoxData =Heavy(list,'disposeStatuss') ;
+                this.orderSourceJson.dropDownBoxData =Heavy(list,'orderSources')  ;
             },
         },
     };

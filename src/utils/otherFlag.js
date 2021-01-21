@@ -7,3 +7,7 @@ Vue.prototype.$clearArr = clearArr// 删除语录
 Vue.prototype.$getJsonTarget = getJsonTarget //[{id:""},{id:""}]
 
 Vue.prototype.$addHenXian = changeSureHenXian //给table加横线
+
+window.addEventListener('resize',()=>{
+		Vue.prototype.$echarts.resize();
+		})

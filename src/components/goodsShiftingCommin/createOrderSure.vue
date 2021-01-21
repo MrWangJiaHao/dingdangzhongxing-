@@ -1,7 +1,7 @@
 <template>
     <div id="sures">
         <kuanjiaClick
-                :titles="'补货确认'"
+                titles="补货确认"
                 @closeBtn="closeBtn"
                 :isLooker="isLooker"
                 @clickSubmit="clickSubmit"

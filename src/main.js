@@ -21,7 +21,8 @@ import {
     _isEmpty
 } from "./utils/validate"; //判断是否为空
 import "lib-flexible/flexible"
-
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 Vue.use(animated)
 import messageSelf from "./assets/js/toast"; //自定义弹框
 import isChaXun from "./assets/js/isChaXun"; //是否要展示
@@ -61,9 +62,7 @@ Vue.prototype.$isEmpty = _isEmpty
 
 // import 'lib-flexible'
 // 引入echarts
-import echarts from 'echarts'
 
-Vue.prototype.$echarts = echarts
 Vue.prototype.$messageSelf = messageSelf
 Vue.prototype.$isChaXun = isChaXun
 

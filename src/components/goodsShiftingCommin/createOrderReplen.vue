@@ -358,7 +358,6 @@
             }
             this._isTianJiaPinS();
             if (!_isJsonEmpty(this.editDataJson)) {
-                //来编辑
                 this.changeEdits();
             }
         },
@@ -432,7 +431,6 @@
                         type: "warning",
                     });
                 this.sendoutJson.detailList = this.muitiplites;
-
                 if (this._isBuHuoZuoYe) {
                     this.$emit("clickSubmit", this.sendoutJson);
                 } else {
@@ -444,12 +442,9 @@
                 let data = await this.$pOrgProductsApp.pReplenishOrderSaveRecord(
                     this.sendoutJson
                 );
-                if (data.code == "10000") {
-                    this.$messageSelf.message({messge: data.msg, type: "success"});
-                    this.closeBtn();
-                } else {
-                    this.$messageSelf.message({message: data.msg, type: "error"});
-                }
+				this.$messageSelf.isCode10000(data, data.msg, data.msg, () => {
+					this.closeBtn()
+				})
             },
         },
     };

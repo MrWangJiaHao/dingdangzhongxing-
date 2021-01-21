@@ -86,7 +86,7 @@
                                     ? "补货中"
                                     : scoped.row.disposeStatus == 3
                                     ? "已补货"
-                                    : "———"
+                                    : "未定义"
                                     }}
                                 </div>
                             </el-table-column>
@@ -101,7 +101,7 @@
                                     ? "手工创建"
                                     : scoped.row.orderSource == 2
                                     ? "缺货"
-                                    : "———"
+                                    : "未定义"
                                     }}
                                 </div>
                             </el-table-column>
@@ -451,8 +451,9 @@
                 });
                 this.tabledatasArr = data.result[0].detailList;
             },
+			
             jobTaskHeader(e) {
-                this.sendOutDataJson.paras = e;
+                this.sendOutDataJson.paras = {...e};
                 this.getTableData();
             },
             jobTaskClearBtn(e) {
