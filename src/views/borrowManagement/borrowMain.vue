@@ -205,7 +205,7 @@
         @getiswuliudanOne="getiswuliudanOne"
       ></BreakageOrder>
     </el-dialog>
-
+  <div class="borrowDetail">
     <el-dialog
       :visible.sync="lookDetailIsShow"
       custom-class="animate__animated animate__zoomIn"
@@ -218,6 +218,8 @@
         @BorrowOrderDetailIsShow="BorrowOrderDetailIsShow"
       ></BorrowOrderDetailPage>
     </el-dialog>
+  </div>
+    
   </div>
 </template>
 
@@ -285,6 +287,7 @@ export default {
               {
                 types: "specName",
                 centerStr: "物料规格",
+                width:"200"
               },
               { types: "materielNum", centerStr: "借调数量" },
               { types: "wareName", centerStr: "借出方" },
@@ -628,17 +631,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/scss/btn.scss";
-.printBox {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  z-index: 9999;
-  background: rgba(0, 0, 0, 0.3);
-}
-
 #borrowMain {
   background: #eef1f8;
   padding: 20px 10px;
@@ -733,14 +725,8 @@ export default {
       }
     }
   }
-
   .resultForm {
     padding: 16px 20px;
-    .lookDeatil {
-      color: #599af3;
-      text-decoration: underline;
-      cursor: printer;
-    }
   }
 }
 </style>
@@ -756,6 +742,12 @@ export default {
   }
   .el-dialog__body {
     padding: 0;
+  }
+  .borrowDetail{
+    .el-dialog{
+      width: 960px;
+      height: 626px;
+    }
   }
 }
 </style>

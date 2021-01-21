@@ -153,9 +153,9 @@
                           width="900"
                           @clickSubmit="_printWarehouseReceipt">
                 <template slot="centerKuanjia">
-                    <div id="ewms" style="width:900px;">
+                    <div id="ewms" style="width:900px;min-height:396px">
                         <div style="width: 900px;" class="displayCenter">
-                            <div v-if="ewms" class="clearfix tc ewmsCenters "
+                            <div v-if="ewms" class="clearfix tc ewmsCenters"
                             >
                                 <div
                                         v-for="(item, idx) in EwmArray"

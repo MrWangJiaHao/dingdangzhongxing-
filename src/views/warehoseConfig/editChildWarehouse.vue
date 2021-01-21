@@ -506,13 +506,10 @@ export default {
       }
     }
     .setArea {
-      // width: 100%;
-      // height: 930px;
       background: #eef1f8;
       border: 1px #d8dce7 dotted;
       border-radius: 10px;
       .temporarily_no {
-        // height: 930px;
         font-size: 22px;
         position: relative;
       }
@@ -530,6 +527,7 @@ export default {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
+      padding: 0 0 0 8px;
       .setInput {
         display: flex;
         align-items: center;

@@ -4,8 +4,6 @@
       class="setUserIngBoxCenter"
       :style="{
         maxWidth: width ? isPX(width) : '1000px',
-        minHeight: minHeight ? isPX(minHeight) : '700px',
-        maxHeight: maxHeight ? isPX(maxHeight) : '850px',
       }"
     >
       <div
@@ -141,8 +139,6 @@ export default {
   }
 
   .setUserIngBoxCenter {
-    min-height: 560px;
-    max-height: 600px;
     overflow: auto;
     background-color: #fff;
     padding-bottom: 54px;

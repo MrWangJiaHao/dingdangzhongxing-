@@ -1055,3 +1055,7 @@ textarea {
 .el-table .caret-wrapper {
     height: 22px !important;
 }
+.el-textarea.is-disabled .el-textarea__inner{
+    background: #eee !important;
+    color: #888 !important;
+}
