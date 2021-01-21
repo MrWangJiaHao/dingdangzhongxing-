@@ -138,7 +138,11 @@
     </kuanjiaClick>
   </div>
 </template>
-
+<style>
+	#dindanlaiyuan .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
+	     top: 5px !important;
+	}
+</style>
 <script>
 /*eslint-disable */
 import { getCookie } from "../../utils/validate";

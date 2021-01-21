@@ -612,10 +612,10 @@ export default {
         data,
       });
       if (datas.code == "10000") {
-        this.$messageSelf.message(datas.msg);
+        this.$messageSelf.message({type:'success',message:datas.msg});
         this.$router.go(-1);
       } else {
-        this.$messageSelf.message(datas.msg);
+        this.$messageSelf.message({type:'error',message:datas.msg})
       }
     },
   },

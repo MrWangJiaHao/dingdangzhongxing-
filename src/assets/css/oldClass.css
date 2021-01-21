@@ -1,0 +1,242 @@
+.el-message {
+    width: 320px;
+    height: 160px;
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.el-message-box {
+    width: 460px;
+    height: 310px;
+}
+
+.el-message-box__content {
+    display: flex;
+    flex-direction: column;
+}
+
+.el-message-box__container {
+    text-align: center;
+}
+
+
+.el-message__icon {
+    margin-top: 32px;
+    margin-bottom: 27px;
+}
+
+.el-message__icon::before {
+    content: " ";
+}
+
+.el-message .el-message__content {
+    color: #333333;
+}
+
+.el-message.el-message--error {
+    border: 2px solid #ff6b69;
+}
+
+.el-icon-error {
+    width: 50px;
+    height: 50px;
+    background: url(../img/shibai.png) center center no-repeat;
+    background-size: cover;
+}
+
+.el-message.el-message--error {
+    border: 2px solid #ff6b69;
+}
+
+.el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover{
+	ackground-color: #ecf5ff;
+	color: #66b1ff;
+}
+.el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+ ackground-color: #ecf5ff;
+ color: #66b1ff;
+}
+.el-icon-error {
+    background: url(../img/shibai.png) center center no-repeat;
+    background-size: cover;
+}
+
+.el-message.el-message--success {
+    border: 2px solid #5a9af2;
+}
+
+.el-icon-success {
+    width: 50px;
+    height: 50px;
+    background: url(../img/success.png) center center no-repeat;
+    background-size: cover;
+}
+
+.el-message.el-message--warning {
+    border: 2px solid #f99f3f;
+}
+
+.el-icon-warning {
+    width: 56px;
+    height: 50px;
+    background: url(../img/error.png) center center no-repeat;
+    background-size: cover;
+}
+
+.el-message.el-message--info {
+    border: 2px solid #5ac5f2;
+}
+
+.el-icon-info {
+    width: 56px;
+    height: 50px;
+    background: url(../img/quit.png) no-repeat;
+    background-size: cover;
+}
+
+
+.el-message-box__status.el-icon-warning {
+    background: url(../img/shibais.png) center center no-repeat;
+    width: 50px;
+    height: 50px;
+    margin-top: 80px;
+    position: inherit;
+}
+
+/*图标位置大小修改*/
+.el-message-box__status.el-icon-success {
+    width: 50px;
+    height: 50px;
+    margin-top: 80px;
+    position: inherit;
+}
+
+.el-message-box__status.el-icon-info {
+    width: 56px;
+    height: 50px;
+    margin-top: 80px;
+    position: inherit;
+}
+
+.el-message-box__status.el-icon-error {
+    width: 50px;
+    height: 50px;
+    margin-top: 80px;
+    position: inherit;
+}
+
+.el-select:hover .el-input__inner {
+    border-color: #409EFF;
+}
+
+.el-message-box {
+    position: relative;
+}
+
+.el-message-box__btns {
+    position: absolute;
+    right: 10px;
+    bottom: 20px;
+}
+
+.el-message-box__message {
+    padding-bottom: 16px;
+}
+
+.el-message-box__input {
+    width: 100%;
+    padding: 0;
+    margin-top: 90px;
+}
+
+.el-message-box__errormsg {
+    text-align: center;
+}
+
+.el-message-box__input .el-input {
+    width: 200px;
+    margin-left: 130px;
+}
+
+.el-message-box__status.el-icon-warning::before {
+    content: " ";
+}
+
+.el-message-box__status.el-icon-info::before {
+    content: " ";
+}
+
+.el-message-box__status.el-icon-success::before {
+    content: " ";
+}
+
+.el-message-box__status.el-icon-error::before {
+    content: " ";
+}
+
+
+.el-message-box__status+.el-message-box__message {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.el-button--primary {
+    color: #FFFFFF;
+    background: linear-gradient(117deg, #52A8FD, #73CFFF) !important;
+    border: none !important;
+}
+
+.el-table__row.el-table__row--striped {
+    background-color: #F3F8FE;
+}
+
+.el-input__inner {
+    height: 34px;
+}
+
+.el-select .el-input .el-select__caret {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+ .el-icon-arrow-up:before {
+    content: " ";
+    transition: all 0.5s;
+    display: inline-block;
+    width: 11px;
+    height: 8px;
+    background: url(../svg/dropDown.svg) center center no-repeat;
+    background-size: cover;
+    transform: rotate(-180deg);
+}
+
+.el-icon-arrow-down:before {
+    content: " ";
+    transition: all 0.5s;
+    display: inline-block;
+    width: 11px;
+    height: 8px;
+    background: url(../svg/dropDown.svg) center center no-repeat;
+    background-size: cover;
+}
+
+
+.el-checkbox__inner {
+    border-radius: 4px;
+}
+
+.el-tabs__item.is-top.is-active.is-closable .el-icon-close::before {
+    content: "";
+    background: url(../img/close.svg) center center no-repeat;
+    background-size: cover;
+    width: 10px;
+    height: 10px;
+}
+
+.el-tabs__item.is-top.is-active.is-closable .el-icon-close:hover {
+    /*修改icon鼠标移入后的效果*/
+}

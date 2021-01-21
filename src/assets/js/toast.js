@@ -7,7 +7,6 @@ class messageSelf {
         this.jsonArr = {
             message: "",
             duration: 1000,
-            offset: 400,
             type: "info",
         }
     }

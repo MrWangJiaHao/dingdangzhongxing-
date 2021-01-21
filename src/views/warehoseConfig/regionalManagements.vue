@@ -162,7 +162,7 @@
                   class="centers bkf p20"
                   v-if="quyuDatas.regionalManage.length"
                 >
-                  <div class="displayalign mb20">
+                  <div class="displayalign ">
                     {{ quyuMsg }}区域平面图（
                     <div class="juli">上北、下南、左西、右东</div>
                     ）
