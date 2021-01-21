@@ -10,6 +10,7 @@
     :load="changeDetail"
     @filter-change="filterHandler"
     @cell-click="cellClick"
+	:row-key="getRowKeys"
     @selection-change="handleSelectionChange"
   >
     <template v-for="(tableItem, tableIdx) in tableDataJson.typeData">
@@ -176,6 +177,9 @@ export default {
   data() {
     return {
       multipute: [],
+	  getRowKeys(row){
+		  return row.id
+	  }
     };
   },
   methods: {
