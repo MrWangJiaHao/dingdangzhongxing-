@@ -210,7 +210,11 @@
 
 <script>
 import pagecomponent from "../../components/commin/pageComponent"; //分页器
-import { queryStorePhyDis, queryStorePhyDisCon } from "../../api/api";
+import {
+  queryStorePhyDis,
+  queryStorePhyDisCon,
+  findRecordByWareOrOrg,
+} from "../../api/api";
 import { reduceFun } from "../../utils/validate";
 export default {
   components: {
@@ -259,7 +263,6 @@ export default {
       pageComponentsData: {
         pageNums: 0,
       },
-      allInfroDate: [],
       idQueryData: {
         exprId: "",
         wareId: "",
@@ -287,16 +290,40 @@ export default {
   },
   mounted() {
     this.queryFun();
+    findRecordByWareOrOrg({
+      exprId: "",
+      wareId: "",
+      orgId: "",
+      id: "",
+      exprFeeName: "",
+      unTakeEffect: "",
+      enableStatus: "",
+      exprType: 3,
+    }).then((ok) => {
+      if (ok.data.code === "10000") {
+        ok.data.result.forEach((v) => {
+          this.templateNameData.push({
+            value: v.id,
+            label: v.exprFeeName,
+          });
+          this.phyComNameData.push({
+            value: v.orgId,
+            label: v.orgName,
+          });
+          this.templateNameData = reduceFun(this.templateNameData);
+          this.phyComNameData = reduceFun(this.phyComNameData);
+        });
+      }
+    });
   },
   methods: {
     queryFun() {
       queryStorePhyDis(this.queryData).then((ok) => {
-        console.log(ok);
+        // console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = [];
           this.tableData = ok.data.result.list;
-          this.allInfroDate = ok.data.result.list;
-          this.changeData(ok.data.result)
+          this.changeData(ok.data.result);
           this.tableData.forEach((v) => {
             if (v.unTakeEffect === 0) {
               v.unTakeEffect = "未生效";
@@ -310,20 +337,6 @@ export default {
             } else if (v.enableStatus === 1) {
               v.enableStatus = "启用";
             }
-            this.templateNameData.push({
-              value: v.id,
-              label: v.exprFeeName,
-            });
-            this.phyComNameData.push({
-              value: v.orgId,
-              label: v.orgName,
-            });
-            this.phyComNameData = reduceFun(this.phyComNameData);
-          });
-        } else {
-          this.$messageSelf.message({
-            message: "未知错误",
-            type: "error",
           });
         }
       });
@@ -341,17 +354,10 @@ export default {
       this.templateName = "";
       this.takeEffectState = "";
       this.templateState = "";
-      this.phyComNameData = [];
-      this.templateNameData = [];
-      // Object.keys(this.queryBorrowListData.paras).forEach((v) => {
-      //   this.queryBorrowListData.paras[v] = "";
-      // });
-      this.queryData.exprId = "";
-      this.queryData.orgId = "";
-      this.queryData.exprFeeName = "";
-      this.queryData.unTakeEffect = "";
-      this.queryData.enableStatus = "";
-      this.queryData.id = "";
+      Object.keys(this.queryData.paras).forEach((v) => {
+        this.queryData.paras[v] = "";
+      });
+      this.queryData.paras.exprType = 3;
       this.queryFun();
     },
 
@@ -386,10 +392,10 @@ export default {
       });
     },
     phyComNames(val) {
-      this.queryData.orgId = val;
+      this.queryData.paras.orgId = val;
     },
     templateNames(val) {
-      this.queryData.id = val;
+      this.queryData.paras.id = val;
     },
     takeEffectStates(val) {
       this.queryData.paras.unTakeEffect = val;
