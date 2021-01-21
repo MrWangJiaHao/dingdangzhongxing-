@@ -52,7 +52,7 @@
           </div>
           <div class="el-inputBox">
             <div class="el-inputBox-text">创建类型：</div>
-            <div class="el-inputBox-checkBox" style="width: 120px">
+            <div class="el-inputBox-checkBox" style="width: 140px">
               <el-select
                 v-model="createType"
                 placeholder="请选择创建类型"

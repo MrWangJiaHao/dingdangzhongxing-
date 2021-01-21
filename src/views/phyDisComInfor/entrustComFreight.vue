@@ -133,7 +133,7 @@
             <el-table-column prop="effectStartTime" label="生效日期">
             </el-table-column>
             <el-table-column
-              prop="unTakeEffect"
+              prop="unTakeEffectTime"
               label="生效状态"
               align="center"
             ></el-table-column>
@@ -232,15 +232,15 @@ export default {
       templateNameData: [],
       takeEffectStateData: [
         {
-          value: "0",
+          value: 0,
           label: "未生效",
         },
         {
-          value: "1",
+          value: 1,
           label: "已生效",
         },
         {
-          value: "2",
+          value: 2,
           label: "已失效",
         },
       ],
@@ -325,24 +325,34 @@ export default {
           this.tableData = ok.data.result.list;
           this.changeData(ok.data.result);
           this.tableData.forEach((v) => {
-            if (v.unTakeEffect === 0) {
-              v.unTakeEffect = "未生效";
-            } else if (v.unTakeEffect === 1) {
-              v.unTakeEffect = "已生效";
-            } else if (v.unTakeEffect === 2) {
-              v.unTakeEffect = "已失效";
-            }
             if (v.enableStatus === 0) {
               v.enableStatus = "停用";
             } else if (v.enableStatus === 1) {
               v.enableStatus = "启用";
             }
+            v.unTakeEffectTime = this.isUnTakeEffect(
+              v.effectStartTime,
+              v.effectEndTime
+            );
           });
         }
       });
     },
     handleSelectionChange(value) {
       this.multipleSelection = value;
+    },
+    isUnTakeEffect(startTime, endTime) {
+      let state = "";
+      if (endTime === undefined) {
+        state = "已生效";
+      }
+      if (new Date(endTime) < new Date()) {
+        state = "已失效";
+      }
+      if (new Date(startTime) > new Date()) {
+        state = "未失效";
+      }
+      return state;
     },
     clickQuery() {
       //点击查询
@@ -513,7 +523,7 @@ export default {
 #entrustComFreight {
   .el-dialog {
     width: 900px;
-    height: 630px;
+    height: 530px;
     border-radius: 4px;
     .el-dialog__header {
       padding: 0 20px;
@@ -528,9 +538,10 @@ export default {
     }
     .el-dialog__body {
       width: 100%;
-      height: 500px;
+      height: 400px;
       border-bottom: 1px solid #d1d6e2;
-      padding: 0;
+      border-top: 1px solid #d1d6e2;
+      padding: 16px 20px;
     }
     .el-dialog__footer {
       width: 100%;
@@ -538,6 +549,8 @@ export default {
       padding: 20px 20px;
       .el-button {
         border: 1px solid #dcdfe6;
+        height: 36px;
+        padding: 0 20px;
       }
     }
   }

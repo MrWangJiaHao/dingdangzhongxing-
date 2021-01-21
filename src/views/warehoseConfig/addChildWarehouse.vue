@@ -417,7 +417,7 @@ export default {
               }
             }, spacingTime);
           };
-          ScrollTop(230, 300);
+          ScrollTop(0, 300);
           let oDiv = document.querySelector(".temporarily_no");
           let previewDiv = document.querySelector(".previewDiv");
           if (previewDiv !== null) {
@@ -426,12 +426,12 @@ export default {
           let childDiv = document.createElement("div");
           childDiv.style.width = (this.input2 * oDiv.offsetWidth) / 200 + "px";
           childDiv.style.height = (this.input3 * oDiv.offsetWidth) / 200 + "px";
-          childDiv.style.background = "#ddd";
+          childDiv.style.background = "linear-gradient(117deg, #52A8FD, #73CFFF)";
           childDiv.style.position = "absolute";
           childDiv.style.left = (this.input5 * oDiv.offsetWidth) / 200 + "px";
           childDiv.style.top = (this.input4 * oDiv.offsetWidth) / 200 + "px";
           childDiv.style.textAlign = "center";
-          childDiv.style.border = "1px solid #ddd";
+          childDiv.style.border = "1px solid linear-gradient(117deg, #52A8FD, #73CFFF)";
           childDiv.style.borderRadius = this.input2 * 0.2 + "px";
           childDiv.style.lineHeight =
             (this.input3 * oDiv.offsetWidth) / 200 + "px";
@@ -496,6 +496,7 @@ export default {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
+      padding: 0 0 0 8px;
       .setInput {
         display: flex;
         align-items: center;

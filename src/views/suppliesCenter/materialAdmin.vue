@@ -137,7 +137,7 @@
               width="71"
             >
             </el-table-column>
-            <el-table-column prop="materielName" label="物料名称" align="left">
+            <el-table-column prop="materielName" label="物料名称">
             </el-table-column>
             <el-table-column
               prop="specName"
@@ -261,25 +261,7 @@
                 </el-option>
               </el-select>
             </div>
-            <div class="name_con">
-              <div class="name_con_title">
-                <span class="addStar">供应商</span>
-              </div>
-              <el-select
-                v-model="dialogSupValue"
-                clearable
-                placeholder="请选择供应商"
-                @change="dialogSupValues"
-              >
-                <el-option
-                  v-for="item in dialogSupData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </div>
+
             <div class="name_con">
               <div class="name_con_title addStar1">
                 <span class="addStar">规格</span>
@@ -299,15 +281,35 @@
                 </el-option>
               </el-select>
             </div>
-          </div>
-          <div class="earlyWarnBox">
-            <div class="earlyWarn addStar2">
-              <span class="addStar">低库存预警值</span>
+            <div class="name_con">
+              <div class="name_con_title">
+                <span class="addStar">低库存预警值</span>
+              </div>
+              <el-input
+                v-model="dialogEarlyWarnValue"
+                placeholder="请输入低库存预警值"
+              ></el-input>
             </div>
-            <el-input
-              v-model="dialogEarlyWarnValue"
-              placeholder="请输入低库存预警值"
-            ></el-input>
+          </div>
+
+          <div class="earlyWarnBox">
+            <div class="earlyWarn">
+              <span class="addStar">供应商</span>
+            </div>
+            <el-select
+              v-model="dialogSupValue"
+              clearable
+              placeholder="请选择供应商"
+              @change="dialogSupValues"
+            >
+              <el-option
+                v-for="item in dialogSupData"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
           </div>
           <div class="remarkInforBox content_one">
             <div class="remarkInforTitle">
@@ -317,7 +319,7 @@
               type="textarea"
               placeholder="请输入备注信息"
               v-model="remarkInfor"
-              maxlength="100"
+              maxlength="200"
               show-word-limit
             >
             </el-input>
@@ -930,6 +932,7 @@ export default {
                 color: #000;
                 padding: 0 16px;
                 text-align: right;
+                white-space: nowrap;
               }
               .el-input {
                 width: 167px;
@@ -941,20 +944,22 @@ export default {
             }
           }
           .earlyWarnBox {
+            width: 354px;
             display: flex;
             border: 1px solid #d1d6e2;
             border-radius: 3px;
             margin-bottom: 16px;
             .earlyWarn {
-              width: 118px;
+              width: 104px;
               background: #ecf1f7;
               border-right: 1px solid #d1d6e2;
               color: #000;
-              text-align: center;
-              line-height: 36px;
+              text-align: right;
+              line-height: 34px;
+              padding: 0 16px;
             }
             .el-input {
-              width: 164px;
+              width: 250px;
               .el-input__inner {
                 border: none;
                 color: #000;
@@ -965,7 +970,7 @@ export default {
             border: 1px solid #d1d6e2;
             border-radius: 3px;
             .remarkInforTitle {
-              width: 118px;
+              width: 104px;
               background: #ecf1f7;
               border-right: 1px solid #d1d6e2;
               line-height: 84px;
