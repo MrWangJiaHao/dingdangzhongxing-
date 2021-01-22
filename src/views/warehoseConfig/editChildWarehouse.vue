@@ -385,7 +385,7 @@ export default {
           );
           v.style.setProperty(
             "border",
-            "linear-gradient(117deg, #52A8FD, #73CFFF)",
+            "1px solid linear-gradient(117deg, #52A8FD, #73CFFF)",
             "important"
           );
           v.style.setProperty("color", "white", "important");
