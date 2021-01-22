@@ -216,6 +216,15 @@ export default {
       next((vm) => {
         if (vm.$route.query.type === "addProd") {
           vm.$route.query.val.forEach((v) => {
+            vm.tableData.forEach((val, idx) => {
+              if (v.id === val.id) {
+                vm.tableData.splice(idx, 1);
+                return vm.$messageSelf.message({
+                  message: "该库位的产品已经添加过啦",
+                  type: "warning",
+                });
+              }
+            });
             vm.tableData.push(v);
           });
           vm.getEditData = JSON.parse(localStorage.getItem("editData"));
@@ -590,18 +599,5 @@ export default {
       height: 60px;
     }
   }
-
-  // .el-table td,
-  // .el-table th {
-  //   padding: 4px 0 !important;
-  // }
-  // .tableBox {
-  //   .el-input__inner {
-  //     height: 26px;
-  //   }
-  //   .el-icon-arrow-up:before {
-  //     margin-bottom: 6px;
-  //   }
-  // }
 }
 </style>
