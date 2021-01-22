@@ -3,7 +3,7 @@
     <kuanjiaClick
       :titles="
         lookerRecord
-          ? '查看发货规则配置'
+          ? '查看发货规则'
           : editSavaRecord
           ? '编辑发货规则'
           : '创建发货规则'
@@ -142,11 +142,10 @@
 	#fahuoguizhepeizhi .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
 	     top:4px !important;
 	}
-
 </style>
 <script>
 /*eslint-disable */
-import { getCookie } from "../../utils/validate";
+import { getCookie,_getArrTarget } from "../../utils/validate";
 import { pWarehouseRuleSaveRecord, getFindWareOrg } from "../../api/api";
 import kuanjiaClick from "../../components/commin/kuanjiaClick";
 
@@ -284,10 +283,11 @@ export default {
     });
   },
   created() {
-    this._changeRulesPeople();
     if (this.editSavaRecord || this.lookerRecord) {
+		console.log('来编辑，或者查看')
       this._changeCreateJson();
     }
+	this._changeRulesPeople();
   },
   methods: {
     //获取规则使用者
@@ -306,7 +306,8 @@ export default {
       );
 
       this.sendDataJson.orderSource = `${this.editAndLookdata.orderSource}`;
-      this.sendDataJson.orgIds = this.editAndLookdata.orgIds;
+	 
+      this.sendDataJson.orgIds =_getArrTarget( this.editAndLookdata.orgRuleList,"orgId");
       this._changeDindanJIji();
     },
     _changeDindanJIji() {

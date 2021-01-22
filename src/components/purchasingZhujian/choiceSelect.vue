@@ -1,179 +1,182 @@
 <template>
-    <kuanjiaClick titles="选择产品" @closeBtn="closeBtn" @clickSubmit="clickSubmit">
+    <kuanjiaClick titles="选择产品"
+	@closeBtn="closeBtn"
+	minHeight='600'
+	maxHeight='700'
+	@clickSubmit="clickSubmit"
+	>
         <template slot="centerKuanjia">
-            <div class="p20 botD1  clearfix  mb20">
-                <div class="setTitle">
-                    选择产品
-                </div>
-                <div class="dispalywrap mb16 ">
-
-                    <div class="mb20 ">
-                        <div class="displayalign ellipsis">
-                            <div class="noneIconTitle mr11">产品名称:</div>
-                            <div class="mr20">
-                                <el-autocomplete
-                                        class="inline-input"
-                                        v-model="sendoutDatas.paras.prodName"
-                                        :fetch-suggestions="prodNameQuerySearch"
-                                        placeholder="请输入产品名称"
-                                        :trigger-on-focus="false"
-                                        @select="prodNameHandleSelect"
-                                ></el-autocomplete>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 产品名称 -->
-                    <div class="mb20">
-                        <div class="displayalign ellipsis">
-                            <div class="noneIconTitle mr11">产品编码:</div>
-                            <div class="mr20">
-                                <el-autocomplete
-                                        class="inline-input"
-                                        v-model="sendoutDatas.paras.prodCode"
-                                        :fetch-suggestions="prodCodeQuerySearch"
-                                        placeholder="请输入产品编码"
-                                        :trigger-on-focus="false"
-                                        @select="prodCodeHandleSelect"
-                                ></el-autocomplete>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 产品名称 -->
-                    <div class="mb20">
-                        <div class="displayalign ellipsis">
-                            <div class="noneIconTitle mr11">产品规格:</div>
-                            <div class="mr20">
-                                <el-autocomplete
-                                        class="inline-input"
-                                        v-model="sendoutDatas.paras.specName"
-                                        :fetch-suggestions="specNameQuerySearch"
-                                        placeholder="请输入产品规格"
-                                        :trigger-on-focus="false"
-                                        @select="specNameHandleSelect"
-                                ></el-autocomplete>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 产品规格 -->
-                    <div>
-                        <div class="displayalign ellipsis">
-                            <div class="noneIconTitle mr11">
-                                品<span class="visibilityHidden">你好</span>牌:
-                            </div>
-                            <div class="mr20">
-                                <el-autocomplete
-                                        class="inline-input"
-                                        v-model="sendoutDatas.paras.braId"
-                                        :fetch-suggestions="specNameQuerySearch"
-                                        placeholder="请输入品牌"
-                                        :trigger-on-focus="false"
-                                        @select="specNameHandleSelect"
-                                ></el-autocomplete>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 品牌 -->
-                    <div class="disinb tijiaoBox tr mr11" @click="sendoutDataAsync">查询</div>
-                    <div class="disinb quxiaoBox tr" @click="clearChanPinMinChen">清空</div>
-                </div>
-
-            </div>
-
-            <div class="disspaceBetween pd20">
-                <div class="setTitle">
-                    产品明细
-                </div>
-                <div class="disinb quxiaoBoxs mb16 inline " @click="clearRemovetable">删除</div>
-            </div>
-            <div class="mb20 pd20">
-                <el-table
-                        ref="multipleTable"
-                        :data="tabledata"
-                        :stripe="true"
-                        :border="true"
-                        tooltip-effect="dark"
-                        style="width: 100%; height: 100%; overflow-y: auto"
-                        @selection-change="handleSelectionChange"
-                >
-                    <el-table-column type="selection" align="center" width="82" fixed="left"></el-table-column>
-                    <el-table-column
-                            label="序号"
-                            type="index"
-                            align="center"
-                            width="71"
-                            show-overflow-tooltip
-                    />
-                    <el-table-column
-                            label="产品编码"
-                            width="119"
-                            prop="prodCode"
-                            show-overflow-tooltip
-                    />
-                    <el-table-column
-                            label="产品名称"
-                            width="119"
-                            property="prodName"
-                            show-overflow-tooltip
-                    ></el-table-column>
-                    <el-table-column
-                            width="119"
-                            label="产品规格"
-                            prop="specName"
-                            show-overflow-tooltip
-                    ></el-table-column>
-                    <el-table-column
-                            label="品牌"
-                            prop="supName"
-                            show-overflow-tooltip
-                    ></el-table-column>
-                    <el-table-column
-                            label="产品规格"
-                            width="119"
-                            align="center"
-                            prop="braName"
-                            show-overflow-tooltip
-                    ></el-table-column>
-                    <el-table-column
-                            label="销售仓可用库存"
-                            width="119"
-                            prop="outOfProdNum"
-                            align="center"
-                            show-overflow-tooltip
-                    ></el-table-column>
-                    <el-table-column
-                            label="低库存预警值"
-                            width="119"
-                            prop="braName"
-                            show-overflow-tooltip
-                    ></el-table-column>
-                    <el-table-column
-                            label="高库存预警值"
-                            width="119"
-                            prop="braName"
-                            show-overflow-tooltip
-                    ></el-table-column>
-                    <el-table-column
-                            label="申请采购数量*"
-                            width="119"
-                            prop="prodNum"
-                            show-overflow-tooltip
-                    >
-                        <el-input
-                                slot-scope="scope"
-                                v-model="scope.row.prodNum"
-                                placeholder="请输入采购数量"
-                        ></el-input>
-                    </el-table-column>
-                </el-table>
-                <div class="tr pageComponent ">
-                    <pageComponent
-                            @handleSizeChange="handleSizeChange"
-                            @getPageNum="getPageNum"
-                            :pageComponentsData="pageComponentsData"
-                    />
-                </div>
-            </div>
-
+			<div class="pb20">
+				<div class="p20 botD1  clearfix  mb20">
+					<div class="setTitle">
+						选择产品
+					</div>
+					<div class="dispalywrap mb16 ">
+						<div class="mb20 ">
+							<div class="displayalign ellipsis">
+								<div class="noneIconTitle mr11">产品名称:</div>
+								<div class="mr20">
+									<el-autocomplete
+											class="inline-input"
+											v-model="sendoutDatas.paras.prodName"
+											:fetch-suggestions="prodNameQuerySearch"
+											placeholder="请输入产品名称"
+											:trigger-on-focus="false"
+											@select="prodNameHandleSelect"
+									></el-autocomplete>
+								</div>
+							</div>
+						</div>
+						<!-- 产品名称 -->
+						<div class="mb20">
+							<div class="displayalign ellipsis">
+								<div class="noneIconTitle mr11">产品编码:</div>
+								<div class="mr20">
+									<el-autocomplete
+											class="inline-input"
+											v-model="sendoutDatas.paras.prodCode"
+											:fetch-suggestions="prodCodeQuerySearch"
+											placeholder="请输入产品编码"
+											:trigger-on-focus="false"
+											@select="prodCodeHandleSelect"
+									></el-autocomplete>
+								</div>
+							</div>
+						</div>
+						<!-- 产品名称 -->
+						<div class="mb20">
+							<div class="displayalign ellipsis">
+								<div class="noneIconTitle mr11">产品规格:</div>
+								<div class="mr20">
+									<el-autocomplete
+											class="inline-input"
+											v-model="sendoutDatas.paras.specName"
+											:fetch-suggestions="specNameQuerySearch"
+											placeholder="请输入产品规格"
+											:trigger-on-focus="false"
+											@select="specNameHandleSelect"
+									></el-autocomplete>
+								</div>
+							</div>
+						</div>
+						<!-- 产品规格 -->
+						<div>
+							<div class="displayalign ellipsis">
+								<div class="noneIconTitle mr11">
+									品<span class="visibilityHidden">你好</span>牌:
+								</div>
+								<div class="mr20">
+									<el-autocomplete
+											class="inline-input"
+											v-model="sendoutDatas.paras.braId"
+											:fetch-suggestions="specNameQuerySearch"
+											placeholder="请输入品牌"
+											:trigger-on-focus="false"
+											@select="specNameHandleSelect"
+									></el-autocomplete>
+								</div>
+							</div>
+						</div>
+						<!-- 品牌 -->
+						<div class="disinb tijiaoBox tr mr11" @click="sendoutDataAsync">查询</div>
+						<div class="disinb quxiaoBox tr" @click="clearChanPinMinChen">清空</div>
+					</div>
+				</div>
+				<div class="disspaceBetween pd20">
+					<div class="setTitle">
+						产品明细
+					</div>
+					<div class="disinb quxiaoBoxs mb16 inline " @click="clearRemovetable">删除</div>
+				</div>
+				<div class="mb20 pd20">
+					<el-table
+							ref="multipleTable"
+							:data="tabledata"
+							:stripe="true"
+							:border="true"
+							tooltip-effect="dark"
+							style="width: 100%; height: 100%; overflow-y: auto"
+							@selection-change="handleSelectionChange"
+					>
+						<el-table-column type="selection" align="center" width="82" fixed="left"></el-table-column>
+						<el-table-column
+								label="序号"
+								type="index"
+								align="center"
+								width="71"
+								show-overflow-tooltip
+						/>
+						<el-table-column
+								label="产品编码"
+								width="119"
+								prop="prodCode"
+								show-overflow-tooltip
+						/>
+						<el-table-column
+								label="产品名称"
+								width="119"
+								property="prodName"
+								show-overflow-tooltip
+						></el-table-column>
+						<el-table-column
+								width="119"
+								label="产品规格"
+								prop="specName"
+								show-overflow-tooltip
+						></el-table-column>
+						<el-table-column
+								label="品牌"
+								prop="supName"
+								show-overflow-tooltip
+						></el-table-column>
+						<el-table-column
+								label="产品规格"
+								width="119"
+								align="center"
+								prop="braName"
+								show-overflow-tooltip
+						></el-table-column>
+						<el-table-column
+								label="销售仓可用库存"
+								width="119"
+								prop="outOfProdNum"
+								align="center"
+								show-overflow-tooltip
+						></el-table-column>
+						<el-table-column
+								label="低库存预警值"
+								width="119"
+								prop="braName"
+								show-overflow-tooltip
+						></el-table-column>
+						<el-table-column
+								label="高库存预警值"
+								width="119"
+								prop="braName"
+								show-overflow-tooltip
+						></el-table-column>
+						<el-table-column
+								label="申请采购数量*"
+								width="119"
+								prop="prodNum"
+								show-overflow-tooltip
+						>
+							<el-input
+									slot-scope="scope"
+									v-model="scope.row.prodNum"
+									placeholder="请输入采购数量"
+							></el-input>
+						</el-table-column>
+					</el-table>
+					<div class="tr pageComponent mb16">
+						<pageComponent
+								@handleSizeChange="handleSizeChange"
+								@getPageNum="getPageNum"
+								:pageComponentsData="pageComponentsData"
+						/>
+					</div>
+				</div>
+				</div>
         </template>
     </kuanjiaClick>
 </template>
@@ -181,6 +184,7 @@
     .centerBox {
         border-bottom: 1px solid #d1d6e2;
     }
+	
 </style>
 <script>
     import {

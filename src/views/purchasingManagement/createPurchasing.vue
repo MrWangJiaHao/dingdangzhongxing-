@@ -1,5 +1,4 @@
 <template>
-  <div>
     <div class="setUserIngBoxCenter">
       <kuanjiaClick
         :titles="
@@ -201,7 +200,6 @@
       </div>
       <!-- 添加产品 end -->
     </div>
-  </div>
 </template>
 
 <script>
@@ -338,7 +336,7 @@ export default {
     //点击了添加产品
     addChanpin() {
       if (!this.createUserData.expectedArrivalTime)
-        return this.$messageSelf.message("请选择期望到货时间");
+        return this.$messageSelf.message({message:"请选择期望到货时间",type:"warning"});
       this.addChanpins = true;
     },
     //关闭
@@ -364,11 +362,11 @@ export default {
     //点击了提交
     async goAJAXCreate() {
       if (!this.createUserData.orgId)
-        return this.$messageSelf.message("请选择委托公司");
+        return this.$messageSelf.message({message:"请选择委托公司",type:"warning"});
       if (!this.createUserData.expectedArrivalTime)
-        return this.$messageSelf.message("请选择期望到货时间");
+        return this.$messageSelf.message({message:"请选择期望到货时间",type:"warning"});
       if (!this.multipleSelection.length)
-        return this.$messageSelf.message("请选择要创建的产品明细");
+        return this.$messageSelf.message({message:"请选择要创建的产品明细",type:"warning"});
       this.createUserData.detailList = this.multipleSelection;
       let datas = await getpPurchaseOrdersaveRecord(this.createUserData);
       if (datas.code == "10000") {

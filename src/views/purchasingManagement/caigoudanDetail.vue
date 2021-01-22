@@ -59,7 +59,7 @@
                                     style="width: 100%; height: 100%; overflow: auto"
                                     @selection-change="handleSelectionChange"
                             >
-                                <el-table-column type="expand" width="82">
+                                <el-table-column label="展开" type="expand" width="82">
                                     <template slot-scope="scope">
                                         <el-table
                                                 border

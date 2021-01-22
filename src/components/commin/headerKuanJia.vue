@@ -42,15 +42,15 @@
         mounted() {
             let self = this
             window.addEventListener("resize", () => {
-                self.addZhanKaiRes(".btnArrs");
+                // self.addZhanKaiRes(".btnArrs");
             });
         },
         created() {
-            this.addZhanKaiRes(".btnArrs");
+            // this.addZhanKaiRes(".btnArrs");
         },
         watch: {
             $router() {
-                this.addZhanKaiRes(".btnArrs");
+                // this.addZhanKaiRes(".btnArrs");
             }
         },
         methods: {

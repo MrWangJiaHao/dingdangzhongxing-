@@ -4,6 +4,8 @@
       class="setUserIngBoxCenter"
       :style="{
         maxWidth: width ? isPX(width) : '1000px',
+		  minHeight:  isPX(minHeight),
+		  maxHeight:isPX(maxHeight)
       }"
     >
       <div
