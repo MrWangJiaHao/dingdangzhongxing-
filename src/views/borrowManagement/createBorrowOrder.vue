@@ -16,7 +16,6 @@
                 :dateTimeData="datetimeDates"
                 @getDateTime="getStartTime"
                 ref="startTime"
-                :valueDataStart="saleDate"
               />
             </div>
           </div>
@@ -124,9 +123,17 @@ export default {
         if (vm.$route.query.type === "addProd") {
           vm.requestData.id = "";
           vm.$route.query.val.forEach((v) => {
+            vm.tableData.forEach((val, idx) => {
+              if (v.id === val.id) {
+                vm.tableData.splice(idx, 1);
+                return vm.$messageSelf.message({
+                  message: "该物料已经添加过啦",
+                  type: "warning",
+                });
+              }
+            });
             vm.tableData.push(v);
           });
-          // console.log(vm.tableData);
         }
       });
     }
@@ -145,6 +152,7 @@ export default {
   },
   data() {
     return {
+      nowDate: timeFormate(),
       saleDate: timeFormate(),
       borrowSide: this.$store.state.loginRequest.loginData.user.wareFullName,
       textarea: "",
@@ -228,7 +236,6 @@ export default {
       });
     },
     submit() {
-      console.log(this.saleDate)
       if (this.requestData.expectedSendTime === "") {
         return this.$messageSelf.message({
           message: "请选择期望入库时间",

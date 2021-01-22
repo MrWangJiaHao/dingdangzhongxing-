@@ -295,9 +295,7 @@
         margin-right: 6px;
     }
 
-    #app #choice .el-input__inner {
-        height: 34px;
-    }
+    
 
 </style>
 
