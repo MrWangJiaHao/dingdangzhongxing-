@@ -116,7 +116,7 @@
 					vm.isBlock = "display:block";
 					if (vm.$route.query.type ) {
 						// console.log("点击了预览按钮");
-						if(vm.$route.query.type!='edit'){
+						if(vm.$route.query.type==='preview'){
 							vm.isDisabled = true;
 							vm.isBlock = "display:none";
 						}
@@ -177,6 +177,7 @@
 				childWarehouseList: "",
 				editId: "",
 				divChecked: false,
+				activeIdx:null,
 			};
 		},
 		created() {},
@@ -244,6 +245,7 @@
 					for (let i = 0; i < arr.length; i++) {
 						let item = arr[i]
 						if (item.childWareName == this.input1) {
+							this.activeIdx = i
 							let dom = document.getElementsByClassName('childViewDiv')[i]
 							dom.classList.add('quyuguanliActive')
 							break
@@ -314,6 +316,7 @@
 				let childViewDiv = document.querySelectorAll(".childViewDiv");
 				childViewDiv.forEach((v, i) => {
 					v.onclick = () => {
+					
 						this.input1 = childWarehouseList[i].childWareName; //子仓名称
 						this.input4 = childWarehouseList[i].northDistance; //距北距离
 						this.input5 = childWarehouseList[i].westDistance; //距西距离
@@ -334,6 +337,8 @@
 							this.siblings(v)[j].style.color = "#000";
 							this.siblings(v)[j].style.border = "1px solid #ddd";
 						}
+						let dom = document.getElementsByClassName('childViewDiv')[this.activeIdx];
+						dom.classList.remove('quyuguanliActive')
 					};
 				});
 				this.highlightDiv();
