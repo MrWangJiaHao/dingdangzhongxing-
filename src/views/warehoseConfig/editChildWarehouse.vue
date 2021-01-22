@@ -157,7 +157,7 @@
 </template>
 <script>
 import { add_edit_WH_Request } from "../../api/api";
-import { getCookie } from '../../utils/validate';
+import { getCookie } from "../../utils/validate";
 export default {
   beforeRouteEnter(to, from, next) {
     if (from.name === "/warehoseconfig/childWarehouseAdmin") {
@@ -362,7 +362,8 @@ export default {
           this.editId = childWarehouseList[i].id; //选中子仓的id
           this.divChecked = true;
           v.style.background = "linear-gradient(117deg, #52A8FD, #73CFFF)";
-          v.style.border = "1px solid linear-gradient(117deg, #52A8FD, #73CFFF)";
+          v.style.border =
+            "1px solid linear-gradient(117deg, #52A8FD, #73CFFF)";
           v.style.color = "white";
           for (let j = 0; j < childViewDiv.length - 1; j++) {
             this.siblings(v)[j].style.background = "#fff";
@@ -377,13 +378,17 @@ export default {
       let childViewDiv = document.querySelectorAll(".childViewDiv");
       childViewDiv.forEach((v) => {
         if (this.input1 === v.innerHTML) {
-          // v.style.background = "linear-gradient(117deg, #52A8FD, #73CFFF)";
-          // v.style.setProperty("background","linear-gradient(117deg, #52A8FD","important")
-          // v.style.setProperty("border","linear-gradient(117deg, #52A8FD","important")
-          // v.style.setProperty("color","white","important")
-          v.classList.add("quyuguanliActive");
-          // v.style.border = "1px solid linear-gradient(117deg, #52A8FD, #73CFFF)";
-          // v.style.color = "white";
+          v.style.setProperty(
+            "background",
+            "linear-gradient(117deg, #52A8FD, #73CFFF)",
+            "important"
+          );
+          v.style.setProperty(
+            "border",
+            "linear-gradient(117deg, #52A8FD, #73CFFF)",
+            "important"
+          );
+          v.style.setProperty("color", "white", "important");
         }
       });
     },
@@ -420,17 +425,17 @@ export default {
           type: "warning",
           message: "请输入子仓长度或宽度",
         });
-      }else if (this.input2 < 1 || this.input3 < 1) {
+      } else if (this.input2 < 1 || this.input3 < 1) {
         return this.$messageSelf.message({
           type: "error",
           message: "子仓长宽不能小于0",
         });
-      } else if (this.input4 === "" || this.input5 ==="") {
+      } else if (this.input4 === "" || this.input5 === "") {
         return this.$messageSelf.message({
           type: "warning",
           message: "请输入子仓距北距离或距西距离",
         });
-      }else if (this.input4 < 1 || this.input5 < 1) {
+      } else if (this.input4 < 1 || this.input5 < 1) {
         return this.$messageSelf.message({
           type: "error",
           message: "子仓距北距西距离不能小于0",

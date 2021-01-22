@@ -1,31 +1,42 @@
-.navMainImgBoxImg{
-	margin-right: 5px; margin-top: -2px
+.navMainImgBoxImg {
+	margin-right: 5px;
+	margin-top: -2px
 }
-.navMainDropdownImgBox{
-	margin-right: 8px; margin-top: -1px
+
+.navMainDropdownImgBox {
+	margin-right: 8px;
+	margin-top: -1px
 }
-.lineHeight34{
+
+.lineHeight34 {
 	line-height: 34px;
 }
-.w210{
+
+.w210 {
 	width: 210px;
 }
-#app .ischanpingOrOneTrue{
+
+#app .ischanpingOrOneTrue {
 	background: linear-gradient(117deg, #52A8FD, #73CFFF);
 	color: #FFFFFF;
 }
-#app  .ischanpingOrOneFalse{
+
+#app .ischanpingOrOneFalse {
 	background: #fff;
 	color: #000;
 	border: 1px solid #d1d6e2;
 }
-.quyuguanliActive{
-	background: linear-gradient(117deg, rgb(82, 168, 253), rgb(115, 207, 255))!important;
+
+.quyuguanliActive {
+	background: linear-gradient(117deg, rgb(82, 168, 253), rgb(115, 207, 255)) !important;
 	color: white;
 }
-.pb20{
-	padding-bottom:20px ;
+
+.pb20 {
+	padding-bottom: 20px;
 }
-#app  .el-table td, .el-table th.is-leaf { 
-   -webkit-background-clip:border-box !important; 
+
+#app .el-table td,
+.el-table th.is-leaf {
+	-webkit-background-clip: border-box !important;
 }
