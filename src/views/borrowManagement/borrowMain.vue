@@ -329,7 +329,7 @@ export default {
         },
       ],
       multipleSelection: [],
-      queryBorrowListData: {
+      queryData: {
         pageNumber: 1,
         pageSize: 10,
         paras: {
@@ -356,7 +356,7 @@ export default {
   watch: {},
   methods: {
     pageQueryFun() {
-      queryBorrowList(this.queryBorrowListData).then((ok) => {
+      queryBorrowList(this.queryData).then((ok) => {
         console.log(ok);
         if (ok.data.code === "10000") {
           this.tableData = [];
@@ -375,7 +375,7 @@ export default {
     },
     clickQuery() {
       //点击查询
-      let senddata = this.queryBorrowListData.paras;
+      let senddata = this.queryData.paras;
       senddata.loanNo = this.borrowOrder;
       senddata.loanStatus = this.borrowType;
       senddata.outWareName = this.borrowOutSide;
@@ -404,7 +404,6 @@ export default {
     },
 
     borrowTypes(val) {
-      console.log(val)
       this.breakageType = val;
     },
     borrowMates(val) {
@@ -418,8 +417,8 @@ export default {
       clearTimeInput()
       this.$refs.startTime.clear();
       this.$refs.endTime.clear();
-      Object.keys(this.queryBorrowListData.paras).forEach((v) => {
-        this.queryBorrowListData.paras[v] = "";
+      Object.keys(this.queryData.paras).forEach((v) => {
+        this.queryData.paras[v] = "";
       });
       this.pageQueryFun();
     },
@@ -600,10 +599,10 @@ export default {
       this.lookDetailIsShow = e;
     },
     getPageNum(e) {
-      this.queryBorrowListData.pageNumber = e;
+      this.queryData.pageNumber = e;
     },
     sureSuccssBtn(e) {
-      this.queryBorrowListData.pageNumber = e;
+      this.queryData.pageNumber = e;
       this.pageQueryFun();
     },
     changeData(data) {
@@ -614,10 +613,10 @@ export default {
       this.pageComponentsData.pageNums = totalRow;
     },
     getStartTime(e) {
-      this.queryBorrowListData.paras.createStartTime = e;
+      this.queryData.paras.createStartTime = e;
     },
     getEndTime(e) {
-      this.queryBorrowListData.paras.createEndTime = e;
+      this.queryData.paras.createEndTime = e;
     },
     getStartTime1(e) {
       console.log(e);

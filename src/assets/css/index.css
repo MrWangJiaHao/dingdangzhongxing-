@@ -198,7 +198,7 @@ padding: 0 10px;
 }
 
 .el-input__icon {
-    line-height: 34px;
+    line-height: 32px;
 }
 
 .displayCenter {
@@ -1030,6 +1030,9 @@ textarea {
 
 .tableInInput .el-input__inner {
     height: 26px !important;
+}
+.el-input__inner {
+    height: 34px !important;
 }
 
 .tableInInput .el-icon-arrow-up:before {

@@ -671,11 +671,10 @@ export const timeFormate = () => {
             new Date().getSeconds();
         return (
             year +
-            "年" +
+            "-" +
             month +
-            "月" +
+            "-" +
             date +
-            "日" +
             " " +
             hh +
             ":" +

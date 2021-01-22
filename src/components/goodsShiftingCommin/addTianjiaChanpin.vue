@@ -297,11 +297,6 @@
         },
     };
 </script>
-<style>
-    #app #creReplensss .el-input__inner {
-        height: 34px;
-    }
-</style>
 <style lang='scss' scoped>
     @import "../../assets/scss/btn.scss";
 
