@@ -4,11 +4,12 @@
       <kuanjiaClick
         :titles="editCreateWarehouse ? '编辑出库单' : '创建出库单'"
         @closeBtn="closeBtn"
+		min-height='600'
         @clickSubmit="goAJAXCreate"
         width="1000px"
       >
         <template slot="centerKuanjia">
-          <div class="centerBox">
+          <div class="centerBox botD1">
             <div class="setTitle">
               {{ editCreateWarehouse ? "编辑出库单" : "创建出库单" }}
             </div>
@@ -84,8 +85,8 @@
             </div>
           </div>
           <!-- 个人信息 -->
-          <div class="centerBox">
-            <div class="clearfix">
+          <div class="centerBox botD1">
+            <div class="clearfix ">
               <div class="setTitle fl">产品明细</div>
               <div class="mb20 fr">
                 <div class="tijiaoBox disinb mr20" @click="addChanpin">

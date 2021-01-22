@@ -151,6 +151,7 @@
             <kuanjiaClick titles="打印二维码" @closeBtn="closeBtnEwm" :isLookerShow="false"
                           print="打印"
                           width="900"
+						  min-height='500'
                           @clickSubmit="_printWarehouseReceipt">
                 <template slot="centerKuanjia">
                     <div id="ewms" style="width:900px;min-height:396px">
@@ -308,7 +309,7 @@
         methods: {
             locotpUserEWM() {
                 if (!this.multipleSelection.length) return this.$messageSelf.message({
-                    messages: "请选择要打印的二维码",
+                    message: "请选择要打印的二维码",
                     type: "warning"
                 })
                 this.EwmArray = []
