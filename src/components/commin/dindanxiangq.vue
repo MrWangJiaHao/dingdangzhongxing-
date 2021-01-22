@@ -3,7 +3,7 @@
         <div class="centerBox mb20" id="CentersBox">
             <div class="setTitle">{{ title }}</div>
             <div class="gerxinxiBox">
-                <div class="xinxiBitian">
+                <div >
                     <div class="dispalywrap rukuquerenparent">
                         <div
                                 v-for="(item, idx) in detailsArr"
