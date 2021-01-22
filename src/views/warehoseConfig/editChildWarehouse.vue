@@ -377,9 +377,13 @@ export default {
       let childViewDiv = document.querySelectorAll(".childViewDiv");
       childViewDiv.forEach((v) => {
         if (this.input1 === v.innerHTML) {
-          v.style.background = "linear-gradient(117deg, #52A8FD, #73CFFF)";
-          v.style.border = "1px solid linear-gradient(117deg, #52A8FD, #73CFFF)";
-          v.style.color = "white";
+          // v.style.background = "linear-gradient(117deg, #52A8FD, #73CFFF)";
+          // v.style.setProperty("background","linear-gradient(117deg, #52A8FD","important")
+          // v.style.setProperty("border","linear-gradient(117deg, #52A8FD","important")
+          // v.style.setProperty("color","white","important")
+          v.classList.add("quyuguanliActive");
+          // v.style.border = "1px solid linear-gradient(117deg, #52A8FD, #73CFFF)";
+          // v.style.color = "white";
         }
       });
     },

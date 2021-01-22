@@ -201,6 +201,8 @@ padding: 0 10px;
     line-height: 32px;
 }
 
+
+
 .displayCenter {
     display: flex;
     align-items: center;
@@ -1037,6 +1039,9 @@ textarea {
 
 .tableInInput .el-icon-arrow-up:before {
     margin-bottom: 6px;
+}
+.tableInInput .el-input__icon {
+    line-height: 36px;
 }
 
 .el-pagination .el-pagination__jump {
