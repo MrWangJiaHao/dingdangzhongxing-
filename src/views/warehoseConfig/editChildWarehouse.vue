@@ -114,10 +114,12 @@
 				next((vm) => {
 					vm.isDisabled = false;
 					vm.isBlock = "display:block";
-					if (vm.$route.query.type === "preview") {
+					if (vm.$route.query.type ) {
 						// console.log("点击了预览按钮");
-						vm.isDisabled = true;
-						vm.isBlock = "display:none";
+						if(vm.$route.query.type!='edit'){
+							vm.isDisabled = true;
+							vm.isBlock = "display:none";
+						}
 						vm.input1 = vm.$route.query.data.childWareName; //子仓名称
 						vm.input4 = vm.$route.query.data.northDistance; //距北距离
 						vm.input5 = vm.$route.query.data.westDistance; //距西距离
