@@ -5,9 +5,9 @@
                 <div class="closeTitle">打印{{ ReplenishmentNote.title }}</div>
                 <div class="closeIcon" @click="closeBtn"></div>
             </div>
-            <div style="border-bottom: 1px solid #d2d6e2; padding: 0 0 10px 0">
-                <div id="printCenter" style="padding: 20px">
-                    <div class="ptb20" style="border: 1px solid #d2d6e2; width: 1000px">
+            <div class="botD1 p20s">
+                <div id="printCenter" class="displayCenter">
+                    <div style="border: 1px solid #d2d6e2; width: 1000px">
                         <div
                                 style="
                 width: 1000px;
@@ -31,7 +31,7 @@
                                 {{ ReplenishmentNote.title }}
                             </div>
                             <div
-                                    style="position: absolute; top: 4px; right: 10px; z-index: -1"
+                                    style="position: absolute; top: 14px; right: 10px; z-index: -1"
                             >
                                 <img
                                         :src="baseurl+
@@ -139,7 +139,7 @@
                                 <!-- 表格title -->
                             </div>
                             <!-- 入库单表格 -->
-                            <div style="padding: 20px 30px 20px 0; text-align: right">
+                            <div style="padding: 10px 30px 10px 0; text-align: right">
                                 <div
                                         style="
                     display: inline-block;

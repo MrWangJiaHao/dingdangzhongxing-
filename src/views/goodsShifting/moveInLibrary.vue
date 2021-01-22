@@ -60,7 +60,7 @@
 		<div v-show="isBuHuoSures" class="bjBox">
 			<transition enter-active-class="animate__animated animate__zoomIn" leave-active-class="animate__animated animate__zoomOut">
 				<div v-if="isBuHuoSures">
-					<createOrderSure :kuangjiaTitle="'移库确认'" :detailsJson="moveSureDetailsJson" :chanpinminxiJson="moveSureChanpinminxiJson"
+					<createOrderSure :kuangjiaTitle="yikuSureOrDelite" :detailsJson="moveSureDetailsJson" :chanpinminxiJson="moveSureChanpinminxiJson"
 					 @closeBtnSure="closeBtnSure" @tableSelectArrs="moveSuretableSelectArrs" :isLooker="isLooker" @sureSubmit="sureSubmit" />
 				</div>
 			</transition>
@@ -97,6 +97,7 @@
 		data() {
 			let self = this;
 			return {
+				yikuSureOrDelite:"移库确认",
 				beizhuObj: {
 					changeInputs: (e) => {
 						self.createDataJson.remark = e;
@@ -600,6 +601,7 @@
 		methods: {
 			//点击移库单号
 			clickInnerMoveNo(data) {
+				this.yikuSureOrDelite='移库详情'
 				this.changePageSureData(data);
 				this._getdetailsChanPin(data);
 				this.isBuHuoSures = true;
@@ -695,6 +697,7 @@
 						message: "请选择要确认的移库单,并且只能选择一个确认",
 						type: "warning",
 					});
+					this.yikuSureOrDelite='移库确认'
 				this.createDataJson.moveStatus = 3;
 				this.createDataJson.operatorType = 3;
 				this.createDataJson.id = this.multipleSelection[0].id;

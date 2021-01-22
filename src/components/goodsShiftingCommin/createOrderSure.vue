@@ -6,6 +6,7 @@
                 :isLooker="isLooker"
                 @clickSubmit="clickSubmit"
                 width="1280"
+				min-height='600'
         >
             <template slot="centerKuanjia">
                 <div class="mb16">

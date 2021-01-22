@@ -1,5 +1,7 @@
 <template>
-    <kuanjiaClick titles="选择产品" @closeBtn="closeBtn" @clickSubmit="clickSubmit" width="1000">
+    <kuanjiaClick titles="选择产品"
+	 min-height='600'
+	 @closeBtn="closeBtn" @clickSubmit="clickSubmit" width="1000">
         <template>
 
             <div class="p20s botD1 mb20  ">

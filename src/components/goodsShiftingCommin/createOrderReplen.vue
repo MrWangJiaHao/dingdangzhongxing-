@@ -3,7 +3,7 @@
         <kuanjiaClick
                 :titles="chuanjianJsonAndArr.title"
                 @closeBtn="closeBtn"
-                min-height="610"
+                min-height="600"
                 @clickSubmit="clickSubmit"
         >
             <template slot="centerKuanjia">

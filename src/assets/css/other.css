@@ -32,3 +32,6 @@
 .headerPad{
 	padding: 16px 20px;
 }
+#creReplen  .tableInInput .el-input__inner{
+	height: 28px !important;
+}

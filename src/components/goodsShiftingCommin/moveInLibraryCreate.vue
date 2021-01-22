@@ -5,6 +5,7 @@
                 @closeBtn="closeBtn"
                 @clickSubmit="clickSubmit"
                 :isLooker="isLooker"
+				min-height='600'
         >
             <template slot="centerKuanjia">
                 <createMonent :chuanjianJsonAndArr="chuanjianJsonAndArr"/>

@@ -7,7 +7,7 @@
                 <slot></slot>
             </div>
         </div>
-        <div class="tableInInput">
+        <div >
             <tableCommin
                     :tableDataJson="chanpinminxiJson.tableDataJsonAndArr"
                     @tableSelectArr="tableSelectArrs"
