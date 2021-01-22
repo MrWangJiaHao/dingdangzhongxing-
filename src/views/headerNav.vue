@@ -55,7 +55,7 @@
             </el-tab-pane>
           </el-tabs>
         </div>
-        <div class="el-lr">
+        <!-- <div class="el-lr">
           <div
             class="el-icon-arrow-left left"
             @click="leftMove"
@@ -76,7 +76,7 @@
                   : 1,
             }"
           ></div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -622,6 +622,18 @@ export default {
     };
   },
   mounted() {
+    this.$nextTick(() => {
+      document.querySelectorAll(".el-tabs__item").forEach((v) => {
+        v.onmouseleave = () => {
+          document.querySelectorAll(".el-dropdown-menu").forEach((vv) => {
+            setTimeout(() => {
+              vv.style.transition = "0.5s";
+              vv.style.display = "none";
+            }, 150);
+          });
+        };
+      });
+    });
     let self = this;
     window.addEventListener("resize", () => {
       self._getMesAge();
@@ -697,6 +709,7 @@ export default {
   methods: {
     goToIndex() {
       this.$router.push("/index/indexFormJH");
+      this.activeName = "0";
     },
     _getMesAge() {
       this.$nextTick(() => {
@@ -842,7 +855,7 @@ export default {
       if (this.dataArr[+this.activeName].name == "") {
         return this.$messageSelf.message({
           message: "该模块在开发中，请耐心等候",
-		  type:"warning",
+          type: "warning",
           duration: 500,
         });
       }
@@ -1046,11 +1059,6 @@ export default {
 .el-tabs--card > .el-tabs__header {
   border: none;
 }
-
-// .el-tabs__item.is-top.is-closable {
-//   // margin-right: 18px;
-// }
-
 .el-tabs__item:hover {
   color: #000;
   cursor: pointer;
@@ -1059,37 +1067,33 @@ export default {
 <style scoped lang="scss">
 .imgbox {
   margin-left: 20px;
+  width: 5.7%;
 }
 
 #headerMain {
   background: #eef1f8;
   position: relative;
-
   .navMain {
     height: 90px;
-
     .tabContainer {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+
       height: 90px;
       background: linear-gradient(0deg, #3795eb, #4bade4);
       width: 100%;
       position: fixed;
-      z-index:100;
+      z-index: 100;
     }
   }
-
   .dianjiqiehuan {
     padding: 0 20px;
     background: #eef1f8;
     border-bottom: 1px solid #ced4de;
-
     .dianjiCenters {
       padding-top: 13px;
     }
   }
-
   .header-title {
     height: 90px;
   }
@@ -1098,6 +1102,20 @@ export default {
 <style lang="scss">
 .tabContainer .el-dropdown {
   color: white;
+}
+.tabContainer {
+  .el-tabs__nav-next,
+  .el-tabs__nav-prev {
+    top: 29px;
+    color: white;
+    font-size: 24px;
+  }
+  .el-tabs__nav-next {
+    right: -5px;
+  }
+  .el-tabs__nav-prev {
+    left: -5px;
+  }
 }
 
 .el-tabs__nav-next,
@@ -1147,36 +1165,32 @@ export default {
 }
 
 .el-nav {
-  margin-left: 38px;
-  margin-right: 10px;
-  width: 88%;
+  margin: 0 0 0 38px;
+  width: 90%;
   line-height: 90px;
-  width: 87%;
   display: inline-block;
 }
 
-.el-lr {
-  width: 44px;
-  font-size: 22px;
-  color: #fff;
-  display: flex;
-  justify-content: space-around;
+// .el-lr {
+//   width: 44px;
+//   font-size: 22px;
+//   color: #fff;
+//   display: flex;
+//   justify-content: space-around;
+//   div {
+//     cursor: pointer;
+//   }
+// }
 
-  div {
-    cursor: pointer;
-  }
-}
-
-.tabContainer .el-tabs__nav-scroll {
-  position: absolute;
-  display: flex;
-  align-items: center;
-}
+// .tabContainer .el-tabs__nav-scroll {
+//   position: absolute;
+//   display: flex;
+//   align-items: center;
+// }
 
 .tabContainer .el-tabs__nav-wrap.is-scrollable {
-  padding: 0;
+  padding: 0 25px;
 }
-
 .tabContainer .el-tabs__nav-wrap {
   position: relative;
   height: 90px;
