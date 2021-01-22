@@ -26,41 +26,25 @@
 			<div class="someInput">
 				<div class="setInput">
 					<span class="addStar">子仓名称：</span>
-          <el-input
-            v-model="input1"
-            placeholder="请输入子仓名称"
-            :disabled="isDisabled"
-          ></el-input>
+					<el-input v-model="input1" placeholder="请输入子仓名称" :disabled="isDisabled"></el-input>
 				</div>
 				<div class="setInput">
 					<span class="addStar">子仓编号：</span>
 					<div style="width: 80px">
 						<el-select v-model="value1" filterable :disabled="isDisabled">
-              <el-option
-                v-for="item in childWarehouseSerial"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
+							<el-option v-for="item in childWarehouseSerial" :key="item.value" :label="item.label" :value="item.value">
 							</el-option>
 						</el-select>
 					</div>
 				</div>
 				<div class="setInput setTransition">
 					<span class="addStar">
-            <el-checkbox v-model="checked" @change="clickNumber"
-              >数字：</el-checkbox
-            >
+						<el-checkbox v-model="checked" @change="clickNumber">数字：</el-checkbox>
 					</span>
 
 					<div style="width: 70px">
 						<el-select v-model="value3" filterable :disabled="isDisabled">
-              <el-option
-                v-for="item in childWarehouseNumber"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
+							<el-option v-for="item in childWarehouseNumber" :key="item.value" :label="item.label" :value="item.value">
 							</el-option>
 						</el-select>
 					</div>
@@ -68,43 +52,22 @@
 				<div class="setInput">
 					<span class="addStar">子仓长：</span>
 					<div style="width: 110px; margin-right: 10px">
-            <el-input
-              v-model="input2"
-              placeholder="请输入长度"
-              type="number"
-              :disabled="isDisabled"
-            ></el-input>
+						<el-input v-model="input2" placeholder="请输入长度" type="number" :disabled="isDisabled"></el-input>
 					</div>
 					<span>m</span>
 				</div>
 				<div class="setInput">
 					<span class="addStar">子仓宽：</span>
 					<div style="width: 110px; margin-right: 10px">
-            <el-input
-              v-model="input3"
-              placeholder="请输入宽度"
-              type="number"
-              :disabled="isDisabled"
-            ></el-input>
+						<el-input v-model="input3" placeholder="请输入宽度" type="number" :disabled="isDisabled"></el-input>
 					</div>
 					<span>m</span>
 				</div>
 				<div class="setInput">
 					<span class="addStar">子仓类型：</span>
 					<div style="width: 150px">
-            <el-select
-              v-model="value2"
-              filterable
-              placeholder="请选择子仓类型"
-              @change="value2Event"
-              :disabled="isDisabled"
-            >
-              <el-option
-                v-for="item in childWarehouseType"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
+						<el-select v-model="value2" filterable placeholder="请选择子仓类型" @change="value2Event" :disabled="isDisabled">
+							<el-option v-for="item in childWarehouseType" :key="item.value" :label="item.label" :value="item.value">
 							</el-option>
 						</el-select>
 					</div>
@@ -112,12 +75,7 @@
 				<div class="setInput">
 					<span class="addStar">距北距离：</span>
 					<div style="width: 110px; margin-right: 10px">
-            <el-input
-              v-model="input4"
-              placeholder="请输入长度"
-              type="number"
-              :disabled="isDisabled"
-            ></el-input>
+						<el-input v-model="input4" placeholder="请输入长度" type="number" :disabled="isDisabled"></el-input>
 					</div>
 
 					<span>m</span>
@@ -125,12 +83,7 @@
 				<div class="setInput">
 					<span class="addStar">距西距离：</span>
 					<div style="width: 110px; margin-right: 10px">
-            <el-input
-              v-model="input5"
-              placeholder="请输入长度"
-              type="number"
-              :disabled="isDisabled"
-            ></el-input>
+						<el-input v-model="input5" placeholder="请输入长度" type="number" :disabled="isDisabled"></el-input>
 					</div>
 
 					<span>m</span>
@@ -138,14 +91,7 @@
 			</div>
 			<div class="setRemark">
 				<span>备注：</span>
-        <el-input
-          type="textarea"
-          placeholder="请输入备注信息"
-          v-model="textarea"
-          maxlength="100"
-          show-word-limit
-          :disabled="isDisabled"
-        >
+				<el-input type="textarea" placeholder="请输入备注信息" v-model="textarea" maxlength="100" show-word-limit :disabled="isDisabled">
 				</el-input>
 			</div>
 		</div>
@@ -156,8 +102,12 @@
 	</div>
 </template>
 <script>
-import { add_edit_WH_Request } from "../../api/api";
-import { getCookie } from "../../utils/validate";
+	import {
+		add_edit_WH_Request
+	} from "../../api/api";
+	import {
+		getCookie
+	} from "../../utils/validate";
 	export default {
 		beforeRouteEnter(to, from, next) {
 			if (from.name === "/warehoseconfig/childWarehouseAdmin") {
@@ -166,7 +116,7 @@ import { getCookie } from "../../utils/validate";
 					vm.isBlock = "display:block";
 					if (vm.$route.query.type ) {
 						// console.log("点击了预览按钮");
-						if(vm.$route.query.type==='preview'){
+						if(vm.$route.query.type!='edit'){
 							vm.isDisabled = true;
 							vm.isBlock = "display:none";
 						}
@@ -179,9 +129,6 @@ import { getCookie } from "../../utils/validate";
 						vm.textarea = vm.$route.query.data.remark; //备注
 						vm.value1 = vm.$route.query.data.childWareCode.substring(0, 1); //子仓编号字母
 						vm.value3 = vm.$route.query.data.childWareCode.substring(1); //子仓编号数字
-          vm.$nextTick(() => {
-            vm.highlightDiv();
-          });
 					}
 				});
 			} else {
@@ -201,8 +148,7 @@ import { getCookie } from "../../utils/validate";
 				input5: "",
 				childWarehouseSerial: [],
 				value1: "A",
-      childWarehouseType: [
-        {
+				childWarehouseType: [{
 						value: "1",
 						label: "销售",
 					},
@@ -231,12 +177,11 @@ import { getCookie } from "../../utils/validate";
 				childWarehouseList: "",
 				editId: "",
 				divChecked: false,
-				activeIdx:null,
 			};
 		},
 		created() {},
 		mounted() {
-    // this.changeDataBoxZiChan()
+			this.changeDataBoxZiChan()
 			let letterArr = [
 				"A",
 				"B",
@@ -299,7 +244,6 @@ import { getCookie } from "../../utils/validate";
 					for (let i = 0; i < arr.length; i++) {
 						let item = arr[i]
 						if (item.childWareName == this.input1) {
-							this.activeIdx = i
 							let dom = document.getElementsByClassName('childViewDiv')[i]
 							dom.classList.add('quyuguanliActive')
 							break
@@ -370,7 +314,6 @@ import { getCookie } from "../../utils/validate";
 				let childViewDiv = document.querySelectorAll(".childViewDiv");
 				childViewDiv.forEach((v, i) => {
 					v.onclick = () => {
-					
 						this.input1 = childWarehouseList[i].childWareName; //子仓名称
 						this.input4 = childWarehouseList[i].northDistance; //距北距离
 						this.input5 = childWarehouseList[i].westDistance; //距西距离
@@ -391,11 +334,9 @@ import { getCookie } from "../../utils/validate";
 							this.siblings(v)[j].style.color = "#000";
 							this.siblings(v)[j].style.border = "1px solid #ddd";
 						}
-						let dom = document.getElementsByClassName('childViewDiv')[this.activeIdx];
-						dom.classList.remove('quyuguanliActive')
 					};
 				});
-      // this.highlightDiv();
+				this.highlightDiv();
 			},
 			highlightDiv() {
 				let childViewDiv = document.querySelectorAll(".childViewDiv");
