@@ -4,6 +4,7 @@
             @closeBtn="closeBtn"
             @clickSubmit="goAJAXCreate"
             width="1100"
+			min-height='600'
     >
         <template slot="centerKuanjia">
             <div style="width: 1100px">
@@ -51,7 +52,11 @@
         </template>
     </kuanjiaClick>
 </template>
-
+<style>
+	#creReplen .el-input__inner {
+	    height: 28px!important;
+	}
+</style>
 <script>
     /* eslint-disable */
     import createMonent from "../commin/createMonent"; //创建上面

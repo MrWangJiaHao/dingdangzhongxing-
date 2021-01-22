@@ -2,6 +2,7 @@
     <div>
         <kuanjiaClick :titles='edifManageMent ? "编辑入库单" : "创建入库单"' @closeBtn="closeBtn"
                       width="1200"
+					  min-height='600'
                       @clickSubmit="goAJAXCreate">
             <template slot="centerKuanjia">
                 <div class="centerBox">

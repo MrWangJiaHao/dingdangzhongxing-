@@ -5,6 +5,7 @@
         titles="选择产品"
         width="1260px"
         @closeBtn="closeBtn"
+		min-height='650'
         @clickSubmit="clickSubmit"
       >
         <template slot="centerKuanjia">

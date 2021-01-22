@@ -1,10 +1,10 @@
 <template>
 	<div class="setUserIngBox">
-		<kuanjiaClick titles="打印出库单" @closeBtn="closeBtn" :isLookerShow="false" print="打印" width="1080" @clickSubmit="printWarehouseReceipt">
+		<kuanjiaClick titles="打印出库单" min-height='500'  @closeBtn="closeBtn" :isLookerShow="false" print="打印" width="1080" @clickSubmit="printWarehouseReceipt">
 			<template slot="centerKuanjia">
-				<div class="mb16 centerBox">
-					<div id="printCenter" style="padding: 20px">
-						<div class="ptb20" style="border: 1px solid #d2d6e2; width: 1000px">
+				<div class="mb16 displayCenter">
+					<div id="printCenter" class="ptb3020">
+						<div  style="border: 1px solid #d2d6e2; width: 1000px">
 							<div style="
                 width: 1000px;
                 position: relative;
@@ -215,7 +215,7 @@
 									<!-- 表格title -->
 								</div>
 								<!-- 入库单表格 -->
-								<div style="padding: 20px 30px 20px 0; text-align: right">
+								<div style="padding: 10px 30px 10px 0; text-align: right">
 									<div style="
                     display: inline-block;
                     margin-right: 40px;

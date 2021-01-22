@@ -35,8 +35,12 @@
 .pb20 {
 	padding-bottom: 20px;
 }
-
-#app .el-table td,
-.el-table th.is-leaf {
-	-webkit-background-clip: border-box !important;
+#app  .el-table td, .el-table th.is-leaf { 
+   -webkit-background-clip:border-box !important; 
+}
+.headerPad{
+	padding: 16px 20px;
+}
+#creReplen  .tableInInput .el-input__inner{
+	height: 28px !important;
 }

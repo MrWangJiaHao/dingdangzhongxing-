@@ -1,12 +1,12 @@
 <template>
-    <div class="setUserIngBox" id="chukuSure">
+    <div class="setUserIngBsox" id="chukuSure">
         <kuanjiaClick :titles='!isDetails ? "出库确认" : "出库单详情"' :isLooker="isDetails || isLooker"
-                      @closeBtn="closeBtn" @clickSubmit="goAJAXCreate" width="1270px">
+                      @closeBtn="closeBtn" @clickSubmit="goAJAXCreate" min-height='600' width="1270px">
             <template slot="centerKuanjia">
                 <div class="centerBox botD1" style="width: 1270px;">
                     <div class="setTitle">{{ !isDetails ? "出库确认" : "出库单详情" }}</div>
                     <div class="gerxinxiBox">
-                        <div class="xinxiBitian">
+                        <div >
                             <div class="dispalywrap rukuquerenparent">
                                 <div
                                         v-for="(key, item, idx) in isDetailsFn()"
@@ -17,7 +17,7 @@
                                             class="titleBox  ellipsis"
                                             v-html="shezhizitiwiered(item)"
                                     ></div>
-                                    <div class="centersBox ">
+                                    <div class="centersBox ml10">
                                         <div v-if="item == '*取货人'">
                                             <input
                                                     v-model="createUserData.takeUser"
@@ -672,7 +672,7 @@
     }
 
     #chukuSure .el-input__inner {
-        height: 28px;
+        height: 28px!important;
     }
 
     #chukuSure .ivu-input {

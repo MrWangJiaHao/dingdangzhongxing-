@@ -1,8 +1,8 @@
 <template>
     <div>
         <div v-if="!isShowIdx" class="btnArr pd10">
-            <div class="backFF flexBetWeen botD1 pd20">
-                <div class="meiyiyetitle  pd30">{{title}}</div>
+            <div class="backFF flexBetWeen botD1 headerPad">
+                <div class="meiyiyetitle ">{{title}}</div>
                 <div class="displayalign " v-if="btnArr.length">
                     <button v-for="(item,idx) in btnArr" @click="item.onClick" :key="idx" :class="item.class">
                         {{item.title}}
@@ -11,7 +11,7 @@
             </div>
         </div>
         <div v-else class="btnArr ">
-            <div class="backFF flexBetWeen pd20">
+            <div class="backFF flexBetWeen headerPad">
                 <div class="meiyiyetitle pt20 ">{{title}}</div>
                 <div class="displayalign " v-if="btnArr.length">
                     <button v-for="(item,idx) in btnArr" @click="item.onClick" :key="idx" :class="item.class">
