@@ -68,7 +68,6 @@
     background-size: cover;
 }
 
-
 .el-message-box__status.el-icon-warning {
     background: url(../img/shibais.png) center center no-repeat;
     width: 50px;
@@ -117,7 +116,9 @@
     height: 2px;
     background: #2f4646;
     position: relative;
-    top: -4px;
+}
+.el-table__expand-icon>.el-icon{
+	margin-top: -8px;
 }
 .el-message-box__container {
     text-align: center;

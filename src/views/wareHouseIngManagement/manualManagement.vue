@@ -452,6 +452,10 @@
                             "parintBatchNumberArrs",
                             JSON.stringify(data.result)
                         );
+						if(!this.multipleSelection[0].batchNo) return this.$messageSelf.message({
+							type:"warning",
+							message:"该入库单暂无批次号，请入库确认后在打印批次号"
+						})
 						this.batchNo =  this.multipleSelection[0].batchNo
                         this.BatchNumber = !this.BatchNumber;
                     } else {

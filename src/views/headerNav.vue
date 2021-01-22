@@ -842,6 +842,7 @@ export default {
       if (this.dataArr[+this.activeName].name == "") {
         return this.$messageSelf.message({
           message: "该模块在开发中，请耐心等候",
+		  type:"warning",
           duration: 500,
         });
       }
