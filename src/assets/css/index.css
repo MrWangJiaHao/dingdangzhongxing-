@@ -1067,3 +1067,6 @@ textarea {
     background: #eee !important;
     color: #888 !important;
 }
+.el-pagination__editor.el-input .el-input__inner{
+    height: 28px !important;
+}

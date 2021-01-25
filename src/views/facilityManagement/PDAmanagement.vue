@@ -291,13 +291,13 @@ export default {
           this.tableData = [];
           this.tableData = ok.data.result.list;
           this.tableData.forEach((v) => {
-            v.stockStatus = this.useStateFun(v.stockStatus);
+            v.enableStatus = this.useStateFun(v.enableStatus);
           });
           this.changeData(ok.data.result);
         }
       });
     },
-    stockStatusFun(data) {
+    useStateFun(data) {
       let states = "";
       switch (data) {
         case 0:
