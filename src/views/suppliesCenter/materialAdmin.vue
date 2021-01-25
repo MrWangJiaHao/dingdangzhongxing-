@@ -979,7 +979,7 @@ export default {
               text-align: right;
             }
             .el-textarea {
-              width: 740px;
+              width: 756px;
             }
             .el-textarea__inner {
               border: none;

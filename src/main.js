@@ -7,6 +7,7 @@ import service from './utils/request'
 import {
     DatePicker
 } from 'iview';
+import "./assets/iconfont/iconfont.css"; //引入字体图标文件
 import 'iview/dist/styles/iview.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';

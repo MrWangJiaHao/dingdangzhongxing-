@@ -143,6 +143,7 @@
             prop="pdaName"
             label="设备名称"
             show-overflow-tooltip
+            align="center"
             width="140"
           >
             <template slot-scope="scope">
@@ -158,22 +159,32 @@
             show-overflow-tooltip
           >
           </el-table-column>
-          <el-table-column prop="braName" label="品牌" align="center" width="120">
+          <el-table-column
+            prop="braName"
+            label="品牌"
+            align="center"
+            width="120"
+          >
           </el-table-column>
           <el-table-column prop="productionDate" label="出厂日期" width="180">
           </el-table-column>
           <el-table-column prop="purchaseDate" label="采购日期" width="180">
           </el-table-column>
-          <el-table-column prop="cdKey" label="序列号" width="120">
+          <el-table-column prop="cdKey" label="序列号" width="160">
           </el-table-column>
           <el-table-column
             prop="qualityDate"
             label="质保周期(月)"
             align="center"
-            width="140"
+            width="110"
           >
           </el-table-column>
-          <el-table-column prop="" label="图片" align="center">
+          <el-table-column prop="image" label="图片">
+            <template slot-scope="scope">
+              <div class="lookDeatil" @click="lookDetailEvent(scope.row)">
+                {{ scope.row.image }}
+              </div>
+            </template>
           </el-table-column>
           <el-table-column prop="createUser" label="创建人" align="center">
           </el-table-column>
@@ -185,6 +196,7 @@
           <el-table-column
             prop="enableStatus"
             label="是否使用"
+            align="center"
           ></el-table-column>
         </el-table>
         <div class="pageComponent">
@@ -270,11 +282,11 @@ export default {
             value: v.id,
             label: v.pdaName,
           });
-          this.facilityNameData.push({
+          this.PDAtypeData.push({
             value: v.pdaCode,
             label: v.pdaCode,
           });
-          this.facilityNameData.push({
+          this.PDAbrandData.push({
             value: v.braName,
             label: v.braName,
           });
@@ -340,24 +352,29 @@ export default {
           message: "只能选择一个PDA设备进行编辑",
           type: "warning",
         });
+      if (this.multipleSelection[0].enableStatus === "已使用") {
+        return this.$messageSelf.message({
+          message: "该设备已使用无法编辑",
+          type: "warning",
+        });
+      }
       this.$router.push({
         path: "/facilityManagement/createPDA",
         query: { type: "edit", data: this.multipleSelection[0] },
       });
     },
     del() {
-      this.tableData.forEach((v) => {
-        if (v.stockStatus !== "待盘点") {
-          return this.$messageSelf.message({
-            message: "只有待盘点的计划可删除",
-            type: "warning",
-          });
-        }
-      });
       let arr = [];
       this.multipleSelection.forEach((item) => {
-        if (!arr.includes(item.id)) {
-          arr.push(item.id);
+        if (item.enableStatus === "未使用") {
+          if (!arr.includes(item.id)) {
+            arr.push(item.id);
+          }
+        } else {
+          return this.$messageSelf.message({
+            message: `${v.pdaName}设备已使用无法删除`,
+            type: "warning",
+          });
         }
       });
       if (!arr.length)
@@ -371,7 +388,8 @@ export default {
         })
         .then(() => {
           this.delRequest({ ids: arr });
-        });
+        })
+        .catch(() => {});
     },
     delRequest(data) {
       delPDA(data).then((ok) => {
@@ -383,7 +401,12 @@ export default {
         }
       });
     },
-    lookDetailEvent(data) {},
+    lookDetailEvent(data) {
+      this.$router.push({
+        path: "/facilityManagement/createPDA",
+        query: { type: "look", data },
+      });
+    },
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
