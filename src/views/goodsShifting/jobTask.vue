@@ -209,6 +209,7 @@
                                 :BuHuoSureJson="BuHuoSureJson"
                                 :tabledatasArr="tabledatasArr"
                                 :isLooker="isLooker"
+								:titles='sureQueren'
                         />
                     </div>
                 </div>
@@ -239,6 +240,7 @@
         },
         data() {
             return {
+				sureQueren:"",//补货确认sure
                 isLooker: false, //点击查看
                 isBuHuoSures: false, // 补货确认
                 daibuhuochanping: false, //点击了待补货产品
@@ -388,6 +390,7 @@
                     });
             },
             isBuHuoSureJson() {
+					this.sureQueren = '补货确认'
                 if (!this.multipleSelection.length || this.multipleSelection.length != 1)
                     return this.$messageSelf.message({
                         message: "请选择要确认的补货单,并且只能选择一个确认",
@@ -451,7 +454,6 @@
                 });
                 this.tabledatasArr = data.result[0].detailList;
             },
-			
             jobTaskHeader(e) {
                 this.sendOutDataJson.paras = {...e};
                 this.getTableData();
@@ -466,6 +468,7 @@
                 this.isReplenishmentNote = e;
             },
             goToDetailOut(e) {
+				this.sureQueren = '补货详情'
                 this.BuHuoSureJson = e;
                 this._getdetailsChanPin(e);
                 this.isLooker = true;

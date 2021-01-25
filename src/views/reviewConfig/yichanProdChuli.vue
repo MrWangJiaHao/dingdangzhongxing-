@@ -4,7 +4,6 @@
         <div class="tableInInput tableBoxCol center">
             <tableCommin :tableDataJson="tableDataJson"></tableCommin>
         </div>
-
     </div>
 </template>
 

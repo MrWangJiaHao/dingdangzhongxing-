@@ -1,12 +1,12 @@
 <template>
     <div id="sures">
         <kuanjiaClick
-                titles="补货确认"
+                :titles="titles"
                 @closeBtn="closeBtn"
                 :isLooker="isLooker"
                 @clickSubmit="clickSubmit"
                 width="1280"
-				min-height='600'
+				min-height='550'
         >
             <template slot="centerKuanjia">
                 <div class="mb16">
@@ -27,7 +27,11 @@
         </kuanjiaClick>
     </div>
 </template>
-
+<style>
+	#sures .Colord1d6e2{
+		border-bottom: none;
+	}
+</style>
 <script>
     import kuanjiaClick from "../commin/kuanjiaClick"; //点击架子
     import detailsData from "../commin/dindanxiangq"; //订单详情
@@ -235,6 +239,10 @@
                 type: Array,
                 default: () => [],
             },
+			titles:{
+				type:String,
+				default:""
+				}
         },
         components: {
             kuanjiaClick,

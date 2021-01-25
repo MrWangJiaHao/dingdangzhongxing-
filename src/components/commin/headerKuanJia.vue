@@ -42,7 +42,7 @@
         mounted() {
             let self = this
             window.addEventListener("resize", () => {
-                // self.addZhanKaiRes(".btnArrs");
+                self.addZhanKaiRes(".btnArrs");
             });
         },
         created() {

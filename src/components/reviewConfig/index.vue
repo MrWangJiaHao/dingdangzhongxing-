@@ -1,6 +1,6 @@
 <template>
     <headerKuanJia @clickQueryUser="clickQueryUser" @clearInputAll="clearInput">
-        <xialaHeader class="mb16" :xiala-json="weituonGonshi"></xialaHeader>
+        <xialaHeader class="mb16" :xiala-json="weituonGonshi" ></xialaHeader>
         <!-- 委托 -->
         <xialaHeader class="mb16" :xiala-json="qudaoJson"></xialaHeader>
         <!-- 渠道 -->
@@ -126,6 +126,7 @@
             };
         },
         methods: {
+			
             clickQueryUser() {
                 this.$emit("querySelect", this.sendoutData);
             },
@@ -138,6 +139,7 @@
                 this.fuehryuan.wieTuoGonShiJson.select = "";
                 this.fuhezhuangtai.wieTuoGonShiJson.select = "";
                 this.wuliuyuan.wieTuoGonShiJson.select = "";
+				this.sendoutData = {}
                 this.$refs.fuheStart.clearTime();
                 this.$refs.jianhuoStart.clearTime();
                 this.$emit("clearInput", this.sendoutData);
