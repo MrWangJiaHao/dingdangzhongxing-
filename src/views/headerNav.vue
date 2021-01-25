@@ -2,7 +2,7 @@
   <div id="headerMain">
     <div class="navMain">
       <div class="tabContainer">
-        <a class="imgbox ellipsis displayalign" @click="goToIndex">
+        <a class="imgbox ml30 ellipsis displayalign" @click="goToIndex">
           <img src="@/assets/img/logo.png" class="navMainImgBoxImg" />
           <span class="xitonwenzi">仓储系统</span>
         </a>
@@ -720,7 +720,7 @@ export default {
 					// let elNav = document.querySelector(".el-nav"); //子层
 					let TabNavsScroll = document.querySelector(".el-tabs__nav-scroll").offsetWidth;
 					let elTabs = document.querySelector(".el-tabs__nav-prev");
-					elTabs.style.left = TabNavsScroll + 10  + "px"
+					elTabs.style.left = TabNavsScroll + 20  + "px"
 					// this.innersWidth = inners.offsetWidth;
 					// this.Nums = Math.ceil(this.navWidth / this.innersWidth); //(倍数)
 				});
