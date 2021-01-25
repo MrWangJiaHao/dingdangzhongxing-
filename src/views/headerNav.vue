@@ -703,287 +703,292 @@ export default {
         let datames = [];
       }
 
-				return resultrArr;
-			},
-		},
-		methods: {
-			goToIndex() {
-				this.$router.push("/index/indexFormJH");
-				this.activeName = "0";
-			},
-			_getMesAge() {
-				this.$nextTick(() => {
-					// let TabNavs = document.querySelector(".el-tabs__nav-scroll"); //子层
-					// this.navWidth = TabNavs.offsetWidth;
-					// el-nav 父层
-					//el-tabs el-tabs--card el-tabs--top 
-					// let elNav = document.querySelector(".el-nav"); //子层
-					let TabNavsScroll = document.querySelector(".el-tabs__nav-scroll").offsetWidth;
-					let elTabs = document.querySelector(".el-tabs__nav-prev");
-					elTabs.style.left = TabNavsScroll + 30 + "px"
-					// this.innersWidth = inners.offsetWidth;
-					// this.Nums = Math.ceil(this.navWidth / this.innersWidth); //(倍数)
-				});
-			},
-			leftMove() {
-				this.leftMoveClick = true;
-				this.rightMoveClick = false;
-				let oDiv = document.querySelector(".el-tabs__nav-scroll");
-				oDiv.style.transition = "0.5s";
-				oDiv.style.left = `${this._returnLeft()}px`;
-			},
-			_returnLeft: function() {
-				let steep;
-				let ispandaun =
-					Math.abs(this.navWidth - this.innersWidth) > this.innersWidth;
-				let ress = this.navWidth - this.innersWidth * (a - 1);
-				if (this.Nums <= 2) {
-					steep = 0;
-				} else {
-					if (a == 0) return;
-					a--;
-					if (ispandaun && !a) {
-						steep = 0;
-					} else if (ispandaun && a) {
-						steep = this.innersWidth * a;
-					}
-				}
-				return -steep;
-			},
-			rightMove() {
-				this.leftMoveClick = false;
-				this.rightMoveClick = true;
-				let oDiv = document.querySelector(".el-tabs__nav-scroll");
-				oDiv.style.left = `${this._rightMoveSteep()}px`;
-				oDiv.style.transition = "0.5s";
-			},
-			_rightMoveSteep: function() {
-				let steep;
-				let ispandaun =
-					Math.abs(this.navWidth - this.innersWidth) > this.innersWidth;
-				if (this.Nums <= 2) {
-					steep = this.navWidth - this.innersWidth;
-				} else {
-					if (a == this.Nums - 1) return;
-					a++;
-					let ress = this.navWidth - this.innersWidth * (a - 1);
-					if (ispandaun && a == this.Nums) {
-						steep = this.navWidth - this.innersWidth;
-					} else if (ispandaun && a == this.Nums - 1) {
-						steep = ress;
-					} else {
-						steep = this.innersWidth * a;
-					}
-				}
-				return -steep;
-			},
-			//点击选中
-			handleTabsEdit() {
-				this.addHenxianTables();
-				let router =
-					this.dropdownArr[+this.activeTabsName].children.length != 0 ?
-					this.dropdownArr[+this.activeTabsName].children[0].name :
-					this.dropdownArr[+this.activeTabsName].name;
-				if (!router) {
-					this.$messageSelf.message({
-						message: "该模块在开发中请耐心等候稍后",
-					});
-				}
-				this.$router.push(router);
-				let dataArrJson =
-					this.dropdownArr[+this.activeTabsName].children.length != 0 ?
-					this.dropdownArr[+this.activeTabsName].children[0] :
-					this.dropdownArr[+this.activeTabsName];
-				this.mianbaoxieArr = [];
-				let mianbaoxieArrJson = this.dropdownArr[+this.activeTabsName];
-				if (
-					!this.Heavy({
-						list: this.mianbaoxieArr,
-						data: mianbaoxieArrJson,
-					})
-				) {}
-				this.mianbaoxieArr.splice(1, 1, dataArrJson);
-				this._isZhanNewStation(this.dropdownArr[+this.activeTabsName]);
-				this.setStorage();
-			},
-			_isZhanNewStation(data) {
-				let typesStr = _typesStr(data);
-				if (typesStr == "Object") {
-					if (data.name.includes("/newIndex")) {
-						sessionStorage.setItem("isZhanneixiaoxi", true);
-						return (this.isZhanneixiaoxi = true);
-					} else {
-						sessionStorage.setItem("isZhanneixiaoxi", false);
-						return (this.isZhanneixiaoxi = false);
-					}
-				}
-			},
-			addHenxianTables() {
-				setTimeout(() => {
-					this.$nextTick(() => {
-						let tablesCenter = document.getElementsByTagName("td");
-						tablesCenter = Array.from(tablesCenter);
-						tablesCenter.forEach((item) => {
-							if (!item.children[0].children.length) {
-								item.children[0].innerHTML = item.children[0].innerHTML ?
-									item.children[0].innerHTML :
-									"——";
-							}
-						});
-					});
-				}, 700);
-			},
-			//点击删除
-			removeTab(e) {
-				let removeSrc = e;
-				if (!removeSrc) return;
-				this.dropdownArr.splice(removeSrc, 1);
-				this.mianbaoxieArr.splice(removeSrc, 1);
-				let router =
-					this.dropdownArr[this.dropdownArr.length - 1].children.length != 0 ?
-					this.dropdownArr[this.dropdownArr.length - 1].children[0].name :
-					this.dropdownArr[this.dropdownArr.length - 1].name;
-				if (this.activeTabsName == e) {
-					this.activeTabsName = this.dropdownArr.length ?
-						this.dropdownArr.length - 1 + "" :
-						"0";
-					this.$router.push(router);
-				} else {
-					if (this.activeTabsName > this.dropdownArr.length - 1) {
-						this.activeTabsName = this.dropdownArr.length - 1 + "";
-					}
-				}
-				this.setStorage();
-			},
-			handleClick() {
-				if (this.dataArr[+this.activeName].name == "") {
-					return this.$messageSelf.message({
-						message: "该模块在开发中，请耐心等候",
-						type: "warning",
-						duration: 500,
-					});
-				}
-				let json = this.dataArr[+this.activeName];
-				let router = this.dataArr[+this.activeName].name;
-				this.$router.push(router);
-				//跳转路由
-				if (
-					!this.Heavy({
-						list: this.dropdownArr,
-						data: json,
-					})
-				) {
-					this.dropdownArr.push(this.dataArr[+this.activeName]);
-					this.activeTabsName = this.dropdownArr.length - 1 + "";
-				} else {
-					if (this.dropdownArr.length) {
-						for (var i = 0; i < this.dropdownArr.length; i++) {
-							if (
-								this.dropdownArr[i].name == this.dataArr[+this.activeName].name
-							) {
-								this.activeTabsName = i + "";
-								break;
-							}
-						}
-					}
-				}
-				if (
-					!this.Heavy({
-						list: this.mianbaoxieArr,
-						data: json,
-					})
-				) {
-					this.mianbaoxieArr.push(this.dropdownArr[+this.activeTabsName]);
-					this.mianbaoxieArr.splice(
-						this.dropdownArr[+this.activeTabsName].children[0]
-					);
-				}
-				this.oldName = +this.activeName;
-				this.handleTabsEdit();
-				this.setStorage();
-				this._mouseLeaveActive()
-			},
-			_mouseLeaveActive(){
-				let self = this,
-				 ul = document.querySelector("ul"),
-				 body = document.body
-				 if(ul) {
-					 ul.onmouseleave =function(){
-					 self.timers = 	setTimeout(()=>{
-					 		ul.style.transition = ".3s"
-					 		ul.style.display = 'none'
-					 		body.removeChild(ul)
-					 	},2000)
-					 }
-				 }
-			},
-			clickEventGoRouter(e) {
-				let dataArrJson = this.dropdownArr[+this.activeTabsName].children[e];
-				let mianbaoxieArrJson = this.dropdownArr[+this.activeTabsName];
-				if (
-					!this.Heavy({
-						list: this.mianbaoxieArr,
-						data: mianbaoxieArrJson,
-					})
-				) {
-					this.mianbaoxieArr.unshift(mianbaoxieArrJson);
-				}
-				this.mianbaoxieArr.splice(1, 1, dataArrJson);
-				let router = this.dropdownArr[+this.activeTabsName].children[e].name;
-				this.$router.push(router);
-				this.setStorage();
-			},
-			// 本地存储
-			setStorage: function() {
-				sessionStorage.setItem("activeName", this.activeName);
-				sessionStorage.setItem("activeTabsName", this.activeTabsName);
-				this.dropdownArr.length ?
-					sessionStorage.setItem(
-						"dropdownArr",
-						JSON.stringify(this.dropdownArr)
-					) :
-					"";
-				this.mianbaoxieArr.length ?
-					sessionStorage.setItem(
-						"mianbaoxieArr",
-						JSON.stringify(this.mianbaoxieArr)
-					) :
-					"";
-			},
-			// 获取本地缓存
-			getStorage: function() {
-				if (sessionStorage.getItem("activeName"))
-					this.activeName = sessionStorage.getItem("activeName");
-				if (sessionStorage.getItem("activeTabsName"))
-					this.activeTabsName = sessionStorage.getItem("activeTabsName");
-				if (sessionStorage.getItem("dropdownArr"))
-					this.dropdownArr = JSON.parse(sessionStorage.getItem("dropdownArr"));
-				if (sessionStorage.getItem("mianbaoxieArr"))
-					this.mianbaoxieArr = JSON.parse(
-						sessionStorage.getItem("mianbaoxieArr")
-					);
-			},
-			// 数组json去重
-			Heavy: function(data) {
-				var list = data.list;
-				var index = null;
-				for (var i = 0; i < list.length; i++) {
-					if (list[i]) {
-						if (list[i].name == data.data.name) {
-							return true;
-						} else {
-							index = i;
-						}
-					} else {
-						return false;
-					}
-				}
-				if (index == list.length - 1) {
-					return false;
-				}
-			},
-		},
-	};
+      return resultrArr;
+    },
+  },
+  methods: {
+    goToIndex() {
+      this.$router.push("/index/indexFormJH");
+      this.activeName = "0";
+    },
+    _getMesAge() {
+      this.$nextTick(() => {
+        // let TabNavs = document.querySelector(".el-tabs__nav-scroll"); //子层
+        // this.navWidth = TabNavs.offsetWidth;
+        // el-nav 父层
+        //el-tabs el-tabs--card el-tabs--top
+        // let elNav = document.querySelector(".el-nav"); //子层
+        setTimeout(() => {
+          let TabNavsScroll = document.querySelector(".el-tabs__nav-scroll")
+            .offsetWidth;
+          let elTabs = document.querySelector(".el-tabs__nav-prev");
+          elTabs.style.left = TabNavsScroll + 25 + "px";
+        }, 10);
+
+        // this.innersWidth = inners.offsetWidth;
+        // this.Nums = Math.ceil(this.navWidth / this.innersWidth); //(倍数)
+      });
+    },
+    leftMove() {
+      this.leftMoveClick = true;
+      this.rightMoveClick = false;
+      let oDiv = document.querySelector(".el-tabs__nav-scroll");
+      oDiv.style.transition = "0.5s";
+      oDiv.style.left = `${this._returnLeft()}px`;
+    },
+    _returnLeft: function () {
+      let steep;
+      let ispandaun =
+        Math.abs(this.navWidth - this.innersWidth) > this.innersWidth;
+      let ress = this.navWidth - this.innersWidth * (a - 1);
+      if (this.Nums <= 2) {
+        steep = 0;
+      } else {
+        if (a == 0) return;
+        a--;
+        if (ispandaun && !a) {
+          steep = 0;
+        } else if (ispandaun && a) {
+          steep = this.innersWidth * a;
+        }
+      }
+      return -steep;
+    },
+    rightMove() {
+      this.leftMoveClick = false;
+      this.rightMoveClick = true;
+      let oDiv = document.querySelector(".el-tabs__nav-scroll");
+      oDiv.style.left = `${this._rightMoveSteep()}px`;
+      oDiv.style.transition = "0.5s";
+    },
+    _rightMoveSteep: function () {
+      let steep;
+      let ispandaun =
+        Math.abs(this.navWidth - this.innersWidth) > this.innersWidth;
+      if (this.Nums <= 2) {
+        steep = this.navWidth - this.innersWidth;
+      } else {
+        if (a == this.Nums - 1) return;
+        a++;
+        let ress = this.navWidth - this.innersWidth * (a - 1);
+        if (ispandaun && a == this.Nums) {
+          steep = this.navWidth - this.innersWidth;
+        } else if (ispandaun && a == this.Nums - 1) {
+          steep = ress;
+        } else {
+          steep = this.innersWidth * a;
+        }
+      }
+      return -steep;
+    },
+    //点击选中
+    handleTabsEdit() {
+      this.addHenxianTables();
+      let router =
+        this.dropdownArr[+this.activeTabsName].children.length != 0
+          ? this.dropdownArr[+this.activeTabsName].children[0].name
+          : this.dropdownArr[+this.activeTabsName].name;
+      if (!router) {
+        this.$messageSelf.message({
+          message: "该模块在开发中请耐心等候稍后",
+        });
+      }
+      this.$router.push(router);
+      let dataArrJson =
+        this.dropdownArr[+this.activeTabsName].children.length != 0
+          ? this.dropdownArr[+this.activeTabsName].children[0]
+          : this.dropdownArr[+this.activeTabsName];
+      this.mianbaoxieArr = [];
+      let mianbaoxieArrJson = this.dropdownArr[+this.activeTabsName];
+      if (
+        !this.Heavy({
+          list: this.mianbaoxieArr,
+          data: mianbaoxieArrJson,
+        })
+      ) {
+      }
+      this.mianbaoxieArr.splice(1, 1, dataArrJson);
+      this._isZhanNewStation(this.dropdownArr[+this.activeTabsName]);
+      this.setStorage();
+    },
+    _isZhanNewStation(data) {
+      let typesStr = _typesStr(data);
+      if (typesStr == "Object") {
+        if (data.name.includes("/newIndex")) {
+          sessionStorage.setItem("isZhanneixiaoxi", true);
+          return (this.isZhanneixiaoxi = true);
+        } else {
+          sessionStorage.setItem("isZhanneixiaoxi", false);
+          return (this.isZhanneixiaoxi = false);
+        }
+      }
+    },
+    addHenxianTables() {
+      setTimeout(() => {
+        this.$nextTick(() => {
+          let tablesCenter = document.getElementsByTagName("td");
+          tablesCenter = Array.from(tablesCenter);
+          tablesCenter.forEach((item) => {
+            if (!item.children[0].children.length) {
+              item.children[0].innerHTML = item.children[0].innerHTML
+                ? item.children[0].innerHTML
+                : "——";
+            }
+          });
+        });
+      }, 700);
+    },
+    //点击删除
+    removeTab(e) {
+      let removeSrc = e;
+      if (!removeSrc) return;
+      this.dropdownArr.splice(removeSrc, 1);
+      this.mianbaoxieArr.splice(removeSrc, 1);
+      let router =
+        this.dropdownArr[this.dropdownArr.length - 1].children.length != 0
+          ? this.dropdownArr[this.dropdownArr.length - 1].children[0].name
+          : this.dropdownArr[this.dropdownArr.length - 1].name;
+      if (this.activeTabsName == e) {
+        this.activeTabsName = this.dropdownArr.length
+          ? this.dropdownArr.length - 1 + ""
+          : "0";
+        this.$router.push(router);
+      } else {
+        if (this.activeTabsName > this.dropdownArr.length - 1) {
+          this.activeTabsName = this.dropdownArr.length - 1 + "";
+        }
+      }
+      this.setStorage();
+    },
+    handleClick() {
+      if (this.dataArr[+this.activeName].name == "") {
+        return this.$messageSelf.message({
+          message: "该模块在开发中，请耐心等候",
+          type: "warning",
+          duration: 500,
+        });
+      }
+      let json = this.dataArr[+this.activeName];
+      let router = this.dataArr[+this.activeName].name;
+      this.$router.push(router);
+      //跳转路由
+      if (
+        !this.Heavy({
+          list: this.dropdownArr,
+          data: json,
+        })
+      ) {
+        this.dropdownArr.push(this.dataArr[+this.activeName]);
+        this.activeTabsName = this.dropdownArr.length - 1 + "";
+      } else {
+        if (this.dropdownArr.length) {
+          for (var i = 0; i < this.dropdownArr.length; i++) {
+            if (
+              this.dropdownArr[i].name == this.dataArr[+this.activeName].name
+            ) {
+              this.activeTabsName = i + "";
+              break;
+            }
+          }
+        }
+      }
+      if (
+        !this.Heavy({
+          list: this.mianbaoxieArr,
+          data: json,
+        })
+      ) {
+        this.mianbaoxieArr.push(this.dropdownArr[+this.activeTabsName]);
+        this.mianbaoxieArr.splice(
+          this.dropdownArr[+this.activeTabsName].children[0]
+        );
+      }
+      this.oldName = +this.activeName;
+      this.handleTabsEdit();
+      this.setStorage();
+      this._mouseLeaveActive();
+    },
+    _mouseLeaveActive() {
+      let self = this,
+        ul = document.querySelector("ul"),
+        body = document.body;
+      if (ul) {
+        ul.onmouseleave = function () {
+          self.timers = setTimeout(() => {
+            ul.style.transition = ".3s";
+            ul.style.display = "none";
+            body.removeChild(ul);
+          }, 2000);
+        };
+      }
+    },
+    clickEventGoRouter(e) {
+      let dataArrJson = this.dropdownArr[+this.activeTabsName].children[e];
+      let mianbaoxieArrJson = this.dropdownArr[+this.activeTabsName];
+      if (
+        !this.Heavy({
+          list: this.mianbaoxieArr,
+          data: mianbaoxieArrJson,
+        })
+      ) {
+        this.mianbaoxieArr.unshift(mianbaoxieArrJson);
+      }
+      this.mianbaoxieArr.splice(1, 1, dataArrJson);
+      let router = this.dropdownArr[+this.activeTabsName].children[e].name;
+      this.$router.push(router);
+      this.setStorage();
+    },
+    // 本地存储
+    setStorage: function () {
+      sessionStorage.setItem("activeName", this.activeName);
+      sessionStorage.setItem("activeTabsName", this.activeTabsName);
+      this.dropdownArr.length
+        ? sessionStorage.setItem(
+            "dropdownArr",
+            JSON.stringify(this.dropdownArr)
+          )
+        : "";
+      this.mianbaoxieArr.length
+        ? sessionStorage.setItem(
+            "mianbaoxieArr",
+            JSON.stringify(this.mianbaoxieArr)
+          )
+        : "";
+    },
+    // 获取本地缓存
+    getStorage: function () {
+      if (sessionStorage.getItem("activeName"))
+        this.activeName = sessionStorage.getItem("activeName");
+      if (sessionStorage.getItem("activeTabsName"))
+        this.activeTabsName = sessionStorage.getItem("activeTabsName");
+      if (sessionStorage.getItem("dropdownArr"))
+        this.dropdownArr = JSON.parse(sessionStorage.getItem("dropdownArr"));
+      if (sessionStorage.getItem("mianbaoxieArr"))
+        this.mianbaoxieArr = JSON.parse(
+          sessionStorage.getItem("mianbaoxieArr")
+        );
+    },
+    // 数组json去重
+    Heavy: function (data) {
+      var list = data.list;
+      var index = null;
+      for (var i = 0; i < list.length; i++) {
+        if (list[i]) {
+          if (list[i].name == data.data.name) {
+            return true;
+          } else {
+            index = i;
+          }
+        } else {
+          return false;
+        }
+      }
+      if (index == list.length - 1) {
+        return false;
+      }
+    },
+  },
+};
 </script>
 <style lang='scss'>
 .xitonwenzi {
@@ -1123,19 +1128,19 @@ export default {
 .tabContainer .el-dropdown {
   color: white;
 }
-	.tabContainer {
-		.el-tabs__nav-next,
-		.el-tabs__nav-prev {
-			top: 29px;
-			color: white;
-			font-size: 24px;
-		}
+.tabContainer {
+  .el-tabs__nav-next,
+  .el-tabs__nav-prev {
+    top: 29px;
+    color: white;
+    font-size: 24px;
+  }
 
-		.el-tabs__nav-prev {
-			left: 5px;
-			z-index: 100;
-		}
-	}
+  .el-tabs__nav-prev {
+    left: 5px;
+    z-index: 100;
+  }
+}
 
 .el-nav {
   margin-left: 20px;

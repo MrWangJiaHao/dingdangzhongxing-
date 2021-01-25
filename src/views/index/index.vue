@@ -106,7 +106,6 @@
 </template>
 
 <script>
-import "../../assets/iconfont/iconfont.css"; //引入字体图标文件
 import Shipment from "../../components/echarts/shipment"; //引用发货量统计echarts组件
 import ResalesEcharts from "../../components/echarts/resalesEcharts.vue"; //引用退货量统计echarts组件
 import StaffEcharts from "../../components/echarts/staffEcharts.vue"; //引用发货人员统计echarts组件
