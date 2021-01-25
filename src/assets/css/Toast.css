@@ -61,12 +61,6 @@
 .el-message-box__status.el-icon-error::before {
     content: " ";
 }
-.el-icon-info {
-    width: 56px;
-    height: 50px;
-    background: url(../img/quit.png) no-repeat;
-    background-size: cover;
-}
 
 .el-message-box__status.el-icon-warning {
     background: url(../img/shibais.png) center center no-repeat;
@@ -80,12 +74,16 @@
     height: 50px;
     margin-top: 80px;
     position: inherit;
+	background: url(../img/success.png) center center no-repeat;
+	background-size: cover;
 }
 
 .el-message-box__status.el-icon-info {
     width: 56px;
     height: 50px;
     margin-top: 80px;
+	background: url(../img/quit.png) no-repeat;
+	background-size: cover;
     position: inherit;
 }
 
