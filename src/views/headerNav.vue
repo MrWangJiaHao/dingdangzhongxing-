@@ -1123,7 +1123,6 @@ export default {
 .tabContainer .el-dropdown {
   color: white;
 }
-
 	.tabContainer {
 		.el-tabs__nav-next,
 		.el-tabs__nav-prev {
@@ -1131,10 +1130,6 @@ export default {
 			color: white;
 			font-size: 24px;
 		}
-
-  .el-tabs__nav-scroll {
-    margin-left: -27px;
-  }
 
 		.el-tabs__nav-prev {
 			left: 5px;

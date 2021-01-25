@@ -126,6 +126,7 @@
             };
         },
         methods: {
+			
             clickQueryUser() {
                 this.$emit("querySelect", this.sendoutData);
             },
