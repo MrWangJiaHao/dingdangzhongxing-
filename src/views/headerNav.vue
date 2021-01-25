@@ -656,7 +656,7 @@
 					// let elNav = document.querySelector(".el-nav"); //子层
 					let TabNavsScroll = document.querySelector(".el-tabs__nav-scroll").offsetWidth;
 					let elTabs = document.querySelector(".el-tabs__nav-prev");
-					elTabs.style.left = TabNavsScroll + 5  + "px"
+					elTabs.style.left = TabNavsScroll + 20  + "px"
 					// this.innersWidth = inners.offsetWidth;
 					// this.Nums = Math.ceil(this.navWidth / this.innersWidth); //(倍数)
 				});
@@ -1061,7 +1061,6 @@
 	}
 
 	.tabContainer {
-
 		.el-tabs__nav-next,
 		.el-tabs__nav-prev {
 			top: 29px;
@@ -1071,10 +1070,6 @@
 
 		.el-tabs__nav-next {
 			right: 10px;
-		}
-
-		.el-tabs__nav-scroll {
-			margin-left: -27px;
 		}
 
 		.el-tabs__nav-prev {
