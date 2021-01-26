@@ -1143,7 +1143,6 @@ export default {
 }
 
 .el-nav {
-  margin-left: 20px;
   width: 90%;
   line-height: 90px;
   display: inline-block;

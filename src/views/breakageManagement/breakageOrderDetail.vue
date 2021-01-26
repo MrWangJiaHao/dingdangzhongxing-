@@ -172,8 +172,5 @@ export default {
       padding: 10px 20px;
     }
   }
-  .backBtn {
-    margin-right: 20px !important;
-  }
 }
 </style>

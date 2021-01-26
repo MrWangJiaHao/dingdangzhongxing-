@@ -549,24 +549,6 @@ export default {
       top: 30%;
     }
   }
-  .footerBtn {
-    height: 76px;
-    background: white;
-    border-top: 1px solid #d1d6e2;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    .backBtn {
-      margin: 0 10px 0 0;
-      @include BtnFunction("");
-      background: white;
-      border: 1px solid #d1d6e2;
-    }
-    .submitBtn {
-      margin: 0 20px 0 0;
-      @include BtnFunction("success");
-    }
-  }
 }
 </style>
 <style lang="scss">

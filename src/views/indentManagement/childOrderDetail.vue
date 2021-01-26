@@ -466,10 +466,3 @@ export default {
   }
 }
 </style>
-<style lang="scss">
-.childOrderDetailMain {
-  .backBtn {
-    margin: 0 20px 0 0 !important;
-  }
-}
-</style>

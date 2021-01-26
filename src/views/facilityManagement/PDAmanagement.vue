@@ -181,7 +181,7 @@
           </el-table-column>
           <el-table-column prop="image" label="图片">
             <template slot-scope="scope">
-              <div class="lookDeatil" @click="lookDetailEvent(scope.row)">
+              <div class="lookDeatil" @click="lookImg(scope.row)">
                 {{ scope.row.image }}
               </div>
             </template>
@@ -208,6 +208,18 @@
         </div>
       </div>
     </div>
+    <el-dialog
+      title="查看图片"
+      :visible.sync="dialogFormVisible"
+      custom-class="animate__animated animate__zoomIn"
+    >
+      <div class="dialogImgBox">
+        <img :src="dialogImg" alt="" v-if="dialogImg" />
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <div @click="dialogFormVisible = false" class="quxiaoBox">关闭</div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -223,6 +235,8 @@ export default {
   },
   data() {
     return {
+      dialogFormVisible: false,
+      dialogImg: "",
       facilityName: "",
       PDAtype: "",
       PDAbrand: "",
@@ -333,6 +347,10 @@ export default {
       Object.keys(this.queryData.paras).forEach((v) => {
         this.queryData.paras[v] = "";
       });
+      this.facilityName = "";
+      this.PDAtype = "";
+      this.PDAbrand = "";
+      this.useState = "";
       this.queryFun();
     },
     create() {
@@ -407,20 +425,35 @@ export default {
         query: { type: "look", data },
       });
     },
+    lookImg(url) {
+      this.dialogImg = url.image;
+      if (
+        url.image !== "" &&
+        /^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/.test(url.image)
+      ) {
+        this.dialogFormVisible = true;
+        setTimeout(() => {
+          document.querySelector(".dialogImgBox").style.width =
+            document.querySelector(".dialogImgBox img").naturalWidth + "px";
+          document.querySelector(".dialogImgBox").style.height =
+            document.querySelector(".dialogImgBox img").naturalHeight + "px";
+        }, 0);
+      }
+    },
     handleSelectionChange(value) {
       this.multipleSelection = value;
     },
     facilityNames(val) {
-      this.queryData.paras.orgId = val;
+      this.queryData.paras.id = val;
     },
     PDAtypes(val) {
-      this.queryData.paras.stockCycle = +val;
+      this.queryData.paras.pdaCode = val;
     },
     PDAbrands(val) {
-      this.queryData.paras.stockType = val;
+      this.queryData.paras.braName = val;
     },
     useStates(val) {
-      this.queryData.paras.orderSource = val;
+      this.queryData.paras.enableStatus = val;
     },
     getPageNum(e) {
       this.queryData.pageNumber = e;
@@ -543,9 +576,51 @@ export default {
 }
 </style>
 <style lang="scss">
-.facilityName {
-  .el-select {
-    width: 100%;
+#PDAmanagement {
+  @import "../../assets/scss/btn.scss";
+  .el-dialog {
+    width: 900px;
+    border-radius: 4px;
+    .el-dialog__header {
+      padding: 0 20px;
+      font-weight: 600;
+      height: 50px;
+      width: 100%;
+      line-height: 50px;
+      background: #ecf1f7;
+      .el-dialog__headerbtn {
+        top: 0;
+      }
+    }
+    .el-dialog__body {
+      width: 100%;
+      border-top: 1px solid #d1d6e2;
+      border-bottom: 1px solid #d1d6e2;
+      padding: 0;
+      .dialogImgBox {
+        max-width: 900px;
+        max-height: 500px;
+        margin: 0 auto;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+    .el-dialog__footer {
+      width: 100%;
+      height: 76px;
+      padding: 0 20px;
+      .dialog-footer {
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        .quxiaoBox {
+          @include BtnFunction();
+        }
+      }
+    }
   }
 }
 </style>

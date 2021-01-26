@@ -14,10 +14,10 @@ export default {
       reload: this.reload,
     };
   },
-  beforeRouteEnter(to,from,next){
-	next((vm)=>{
-		vm.$addHenXian()
-	})  
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.$addHenXian();
+    });
   },
   created() {
     if (localStorage.getItem("data")) {
@@ -34,9 +34,7 @@ export default {
       localStorage.setItem("data", JSON.stringify(this.$store.state));
     });
   },
-  mounted() {
-    
-  },
+  mounted() {},
   methods: {
     reload() {
       this.isRouterAlive = false;
@@ -215,14 +213,15 @@ input[type="number"] {
   display: flex !important;
   align-items: center !important;
   justify-content: flex-end !important;
+  padding: 0 20px !important;
   .backBtn {
-    margin: 0 10px 0 0 !important;
-    @include BtnFunction("") ;
+    margin: 0 0 0 10px !important;
+    @include BtnFunction("");
     background: white !important;
     border: 1px solid #d1d6e2 !important;
   }
   .submitBtn {
-    margin: 0 20px 0 0 !important;
+    margin: 0 0 0 10px !important;
     @include BtnFunction("success");
   }
 }
@@ -293,7 +292,7 @@ input[type="number"] {
 //全局修改placeholder颜色
 ::-webkit-input-placeholder {
   color: #9b9b9b !important;
-  line-height: 32px;
+  // line-height: 32px;
 }
 
 //解决iview placeholder在苹果浏览器上显示的问题
