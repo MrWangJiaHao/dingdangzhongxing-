@@ -10,6 +10,7 @@
     :load="changeDetail"
     @filter-change="filterHandler"
     @cell-click="cellClick"
+	:row-class-name="tableRowClassName"
 	:row-key="getRowKeys"
     @selection-change="handleSelectionChange"
   >
@@ -183,6 +184,12 @@ export default {
     };
   },
   methods: {
+	  tableRowClassName({row}){
+		  if(row.gaolian && row.gaolian == true ){
+			  return 'tableRowClassName'
+		  }
+		  return ""
+	  },
     changeDetail(e) {
       console.log(e, "1");
     },
@@ -203,7 +210,11 @@ export default {
   },
 };
 </script>
-
+<style>
+	.tableRowClassName{
+		background: oldlace;
+	}
+</style>
 <style lang='scss' scoped>
 .input {
   border: 1px solid #d2d6e2;
