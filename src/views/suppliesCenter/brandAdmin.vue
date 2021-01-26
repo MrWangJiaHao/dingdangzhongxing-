@@ -477,7 +477,6 @@ export default {
   .el-dialog {
     width: 900px;
     height: 466px;
-    // box-shadow: 0 0 5px 3px #e1e2e5;
     border-radius: 4px;
     .el-dialog__header {
       padding: 0 20px;

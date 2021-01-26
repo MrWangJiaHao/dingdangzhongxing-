@@ -214,11 +214,4 @@ export default {
   }
 }
 </style>
-<style lang="scss">
-  .orderDetailMain {
-  .backBtn {
-    margin: 0 20px 0 0 !important;
-  }
-}
-</style>
 

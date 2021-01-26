@@ -1481,6 +1481,64 @@ export function uploadImg(data) {
         })
     })
 }
+//设备管理=>监控设备管理=新增/修改监控设备
+export function saveMonitoringAids(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWarehouseMonitor/saveRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//设备管理=>监控设备管理=分页查询
+export function queryMonitoringAids(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWarehouseMonitor/findRecordPage",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//设备管理=>监控设备管理=条件查询
+export function queryMonitoringAidsCon(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWarehouseMonitor/findRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+//设备管理=>监控设备管理=删除监控设备
+export function delMonitoringAids(data) {
+    return new Promise((resolve, reject) => {
+        service.request({
+            url: "/wbs-warehouse-manage/v1/pWarehouseMonitor/delRecord",
+            method: "post",
+            data,
+        }).then((ok) => {
+            resolve(ok)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
+
 
 
 

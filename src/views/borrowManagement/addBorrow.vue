@@ -363,20 +363,5 @@ export default {
       }
     }
   }
-
-  .backBtnBox {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 16px;
-    .backBtn {
-      margin: 0 16px 0 0;
-      @include BtnFunction();
-      background: white;
-    }
-    .submitBtn {
-      @include BtnFunction("success");
-    }
-  }
 }
 </style>

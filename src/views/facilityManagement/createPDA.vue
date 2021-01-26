@@ -25,6 +25,7 @@
                   :dateTimeData="datetimeDate"
                   @getDateTime="leaveTime"
                   ref="startTime"
+                  :valueDataStart="productionDate"
                 />
               </div>
             </div>
@@ -78,7 +79,9 @@
                     </el-upload>
                   </div>
                   <div class="imgPreview">
-                    <div class="outViewDiv" @click="lookImg"></div>
+                    <div class="outViewDiv" @click="lookImg">
+                      <img :src="exampleImg" alt="" v-if="exampleImg" />
+                    </div>
                     <div class="sampleGraph">
                       <span>示例图 </span>
                       <span class="iconfont icon-fangdajing"></span>
@@ -113,6 +116,7 @@
                   :dateTimeData="datetimeDate1"
                   @getDateTime="purchaseTime"
                   ref="startTime"
+                  :valueDataStart="purchaseDate"
                 />
               </div>
             </div>
@@ -165,10 +169,22 @@
         </div>
       </div>
     </div>
-    <div class="footerBtn" :style="isBlock">
+    <div class="footerBtn">
       <div class="backBtn" @click="back">返回</div>
-      <div class="submitBtn" @click="submit">提交</div>
+      <div class="submitBtn" @click="submit" :style="isBlock">提交</div>
     </div>
+    <el-dialog
+      title="查看图片"
+      :visible.sync="dialogFormVisible"
+      custom-class="animate__animated animate__zoomIn"
+    >
+      <div class="dialogImgBox">
+        <img :src="dialogImg" alt="" v-if="dialogImg" />
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <div @click="dialogFormVisible = false" class="quxiaoBox">关闭</div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <style>
@@ -192,6 +208,7 @@ export default {
         if (vm.$route.query.type === "edit") {
           vm.operation = "编辑";
           vm.id = vm.$route.query.data.id;
+          vm.quneryFun();
         }
         if (vm.$route.query.type === "look") {
           vm.isBlock = "display:none";
@@ -203,6 +220,10 @@ export default {
           vm.braName = vm.$route.query.data.braName;
           vm.contacts = vm.$route.query.data.contact;
           vm.phoneCode = vm.$route.query.data.contactPhone;
+          vm.exampleImg = vm.$route.query.data.image;
+          vm.remarkInfor = vm.$route.query.data.remark;
+          vm.productionDate = vm.$route.query.data.productionDate;
+          vm.purchaseDate = vm.$route.query.data.purchaseDate;
         }
       });
     } else {
@@ -211,8 +232,11 @@ export default {
   },
   data() {
     return {
-      isBlock: "display:flex",
+      isBlock: "display:block",
+      dialogFormVisible: false,
       imageUrl: "",
+      exampleImg: "",
+      dialogImg: "",
       uploadUrl:
         "http://139.196.176.227:8902/wbs-warehouse-manage/v1/pWarehousePda/saveOrgImg",
       datetimeDate: {
@@ -240,6 +264,25 @@ export default {
   },
   mounted() {},
   methods: {
+    quneryFun() {
+      lookPDAdetail({ id: this.id }).then((ok) => {
+        console.log(ok);
+        if (ok.data.code === "10000") {
+          let data = ok.data.result[0];
+          this.exampleImg = data.image;
+          this.PDAname = data.pdaName;
+          this.PDAmodel = data.pdaCode;
+          this.expirationDate = data.qualityDate;
+          this.seriesCode = data.cdKey;
+          this.supName = data.supName;
+          this.braName = data.braName;
+          this.contacts = data.contact;
+          this.phoneCode = data.contactPhone;
+          this.productionDate = data.productionDate;
+          this.purchaseDate = data.purchaseDate;
+        }
+      });
+    },
     back() {
       this.$router.go(-1);
     },
@@ -305,7 +348,21 @@ export default {
     purchaseTime(t) {
       this.purchaseDate = t;
     },
-    lookImg() {},
+    lookImg() {
+      this.dialogImg = this.exampleImg;
+      if (
+        this.exampleImg !== "" &&
+        /^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/.test(this.exampleImg)
+      ) {
+        this.dialogFormVisible = true;
+        setTimeout(() => {
+          document.querySelector(".dialogImgBox").style.width =
+            document.querySelector(".dialogImgBox img").naturalWidth + "px";
+          document.querySelector(".dialogImgBox").style.height =
+            document.querySelector(".dialogImgBox img").naturalHeight + "px";
+        }, 0);
+      }
+    },
     handleAvatarSuccess(res, file) {
       this.imgInfor = res;
       this.imageUrl = URL.createObjectURL(file.raw);
@@ -314,10 +371,16 @@ export default {
       const isJPG = file.type === "image/jpeg" || "image/png";
       const isLt2M = file.size / 1024 < 500;
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG/png 格式!");
+        this.$messageSelf.message({
+          message: "上传头像图片只能是 JPG/png 格式!",
+          type: "warning",
+        });
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 500KB!");
+        this.$messageSelf.message({
+          message: "上传头像图片大小不能超过 500KB!",
+          type: "warning",
+        });
       }
       return isJPG && isLt2M;
     },
@@ -369,10 +432,6 @@ export default {
     bottom: 20px;
   }
   .avatar-uploader-icon {
-    // font-size: 28px;
-    // color: #8c939d;
-    // line-height: 178px;
-    // text-align: center;
     width: 158px;
     height: 158px;
     position: relative;
@@ -402,6 +461,51 @@ export default {
   }
   .el-textarea__inner {
     width: 944px;
+  }
+  @import "../../assets/scss/btn.scss";
+  .el-dialog {
+    width: 900px;
+    border-radius: 4px;
+    .el-dialog__header {
+      padding: 0 20px;
+      font-weight: 600;
+      height: 50px;
+      width: 100%;
+      line-height: 50px;
+      background: #ecf1f7;
+      .el-dialog__headerbtn {
+        top: 0;
+      }
+    }
+    .el-dialog__body {
+      width: 100%;
+      border-top: 1px solid #d1d6e2;
+      border-bottom: 1px solid #d1d6e2;
+      padding: 0;
+      .dialogImgBox {
+        max-width: 900px;
+        max-height: 500px;
+        margin: 0 auto;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+    .el-dialog__footer {
+      width: 100%;
+      height: 76px;
+      padding: 0 20px;
+      .dialog-footer {
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        .quxiaoBox {
+          @include BtnFunction();
+        }
+      }
+    }
   }
 }
 </style>
@@ -474,6 +578,15 @@ export default {
                   border: 1px solid #d1d6e2;
                   border-radius: 10px;
                   cursor: pointer;
+                  img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 10px;
+                    display: block;
+                  }
+                }
+                .outViewDiv:hover {
+                  border-color: #409eff;
                 }
                 .sampleGraph {
                   margin-top: 15px;
