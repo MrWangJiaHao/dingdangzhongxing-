@@ -96,11 +96,12 @@ export default {
       from.name === "/indentManagement/resalesIndentManage" ||
       from.name === "/deliveryManagement/normalDelivery" ||
       from.name === "/deliveryManagement/quetyNormal" ||
-      from.name === "/deliveryManagement/delivetyNotePrint"
+      from.name === "/deliveryManagement/delivetyNotePrint" || 
+	  from.name==='/reviewConfig/reviewManagement'
     ) {
       next((vm) => {
         if (vm.$route.query.type === "orderNo") {
-          let data = vm.$route.query.orderNo;
+          let data = vm.$route.query.orderNo; 
           // console.log(data)
           vm.subOrderNo = data.subOrderNo;
           vm.id = data.id;

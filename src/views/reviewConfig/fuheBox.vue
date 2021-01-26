@@ -7,10 +7,10 @@
 					发货单条形码: <input class="input" v-model="subOrderNo" placeholder="请扫描/输入发货单条形码" @keyup.enter="querSuborderNo" @focus="subOrderNo = '' "
 					 type="text">
 				</div>
-				<div v-for="(item,indexs) in headerConter" :key="indexs" class="inline titlesBox mb16 mr60">
-					<span>{{item.title}}:</span>
-					<span v-if="item.center">{{item.center}}</span>
-				</div>
+				<div v-for="(itemsss,indexsss) in headerConter" :key="indexsss" class="inline titlesBox mb16 mr60">
+					<span>{{itemsss.title}}:</span>
+					<span v-if="itemsss.center" :class="itemsss.class || ''">&nbsp;{{itemsss.center}}</span>
+				</div>	
 				<div class="titlesBox">
 					复核结果:
 					<span>订单拣货正确；订单多拣XX产品，请放到异常区，其它产品正常发货；订单少拣XX产品，请将整单放置异常区</span>
@@ -131,13 +131,16 @@
 					tabledata: []
 				},
 				headerConter: [{
-						title: "发货条形码"
+						title: "发货条形码",
+						class:''
 					},
 					{
 						title: "产品总数"
 					},
 					{
-						title: "待扫产品数"
+						title: "待扫产品数",
+						center:"3",
+						class:"colred"
 					},
 					{
 						title: '委托公司'
@@ -155,11 +158,16 @@
 						title: '复核开始时间',
 					}
 				],
-				fuhejieguo: "asdsa"
+				fuhejieguo: "asdsa",
+				jieguoArr:['suborderNo','prods.length','prodsLength','supName']
 			}
 		},
 		methods: {
 			querSuborderNo() {
+				if(!this.subOrderNo) return this.$messageSelf.message({
+					type:"warning",
+					message:'请扫描/输入发货单条形码'
+				})
 				this.getSuborderNoFun()
 			},
 			async getSuborderNoFun() {
@@ -175,7 +183,6 @@
 				}
 			},
 			_changeDatasArr(data){
-				console.log(data,'产品只当好')
 				let { prods } = data
 				prods.forEach(item=>{
 					item.gaolian = false

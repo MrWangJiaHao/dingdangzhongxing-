@@ -2350,8 +2350,18 @@ export const pOrgProductsApp = {
     pOrgOrderReCheckFindSubOrderDetail: (data) => post({
         data,
         url: "/wbs-warehouse-manage/v1/pOrgOrderReCheck/findSubOrderDetail"
-    })
+    }),
     //复核配置 end
+	// 货架管理
+	pWarehouseShelfFindRecordPage:(data)=>post({
+		data,
+		url:"/wbs-warehouse-manage/v1/pWarehouseShelf/findRecordPage"
+	}),
+	///wbs-warehouse-manage/pWarehouseShelf/delRecord 删除货架管理
+	pWarehouseShelfDelRecord:(data)=>post({
+		data,
+		url:"/wbs-warehouse-manage/pWarehouseShelf/delRecord"
+	})
 }
 
 //=========================================货品移位 end ========================================

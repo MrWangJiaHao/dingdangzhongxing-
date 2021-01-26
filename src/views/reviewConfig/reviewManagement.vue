@@ -1,13 +1,13 @@
 <template>
 	<div>
 		<reviewHeader @querySelect="querySelect" @clearInput="clearInput"></reviewHeader>
-		<centerBtnArr title="复核管理"></centerBtnArr>
+		<centerBtnArr title="复核管理" :btnArr='btnArr'></centerBtnArr>
 		<div class="pd10">
 			<div class="tableInInput tableBoxCol center" id="purchasingIndexss">
 				<tableCommin :tableDataJson="tableDataJson" @clickEvents="clickEventsOuter" @tableSelectArr="handleSelectionChangeDatas">
 				</tableCommin>
 				<div class="pageComponent">
-					<pageComponent :pageComponentsData="pageComponentsData">
+					<pageComponent :pageComponentsData="pageComponentsData" >
 					</pageComponent>
 				</div>
 			</div>
@@ -31,6 +31,7 @@
 			reviewHeader,
 		},
 		data() {
+			let self = this
 			return {
 				tableDataJson: {
 					typeData: [{
@@ -57,14 +58,41 @@
 						{
 							label: "订单号",
 							types: "orderNo",
+							flag:"puton",
+							OnClicks:(res)=>{
+								let json = {
+									type:'orderNo',
+									orderNo:res
+								}
+								self.$router.push({
+									query:{
+										...json
+									},
+									path:'/indentManagement/orderDetail'
+								})
+							}
 						},
 						{
 							label: "子订单号",
 							types: "subOrderNo",
+							flag:"puton",
+							OnClicks:(res)=>{
+								let json = {
+									subOrderNos:res,
+									type:"subOrderNos"
+								}
+								self.$router.push({
+									path:"/indentManagement/childOrderDetail",
+									query:{
+										...json
+									}
+								})
+							}
 						},
 						{
 							label: "复核状态",
 							types: "reCheckResults", //复核结果 0-失败 1-成功
+							
 						},
 						{
 							label: "物流公司",
@@ -130,6 +158,22 @@
 					pageNumber: 1,
 					paras: {},
 				},
+				btnArr:[
+					{
+						title:"打印拣货单",
+					class: "mr10 bianjiUser",
+					onClick(){
+						
+					}
+					},
+					{
+						title: "失败原因",
+						onClick() {
+						
+						},
+						class: "bianjiUser"
+					}
+				]
 			};
 		},
 		created() {

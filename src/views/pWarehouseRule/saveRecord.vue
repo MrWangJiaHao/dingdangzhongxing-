@@ -40,7 +40,7 @@
                   <el-input
                     v-model="sendDataJson.ruleName"
                     :placeholder="items.placeholder"
-                    :disabled="lookerRecord ? true : false"
+                    :disabled="lookerRecord || editSavaRecord ? true : false"
                     :maxlength="items.maxlength"
                   >
                   </el-input>
@@ -48,7 +48,7 @@
                 <div v-else-if="items.ruleUsers" id="guizheuser">
                   <div class="displayalign mb20 mt20">
                     <el-checkbox
-                      :disabled="lookerRecord ? true : false"
+                      :disabled="lookerRecord || editSavaRecord ? true : false"
                       style="margin-right: 30px"
                       :indeterminate="isIndeterminate"
                       v-model="itemsRuleUsers"
@@ -57,7 +57,7 @@
                     </el-checkbox>
                     <el-checkbox-group
                       v-model="sendDataJson.orgIds"
-                      :disabled="lookerRecord ? true : false"
+                      :disabled="lookerRecord || editSavaRecord ? true : false"
                       @change="handleCheckedCitiesChange"
                     >
                       <el-checkbox
@@ -142,6 +142,12 @@
 	#fahuoguizhepeizhi .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
 	     top:4px !important;
 	}
+	.el-input.is-disabled .el-input__inner{
+		background-color:#F2F6FC ;
+	}
+	.el-radio__input.is-disabled.is-checked .el-radio__inner::after{
+		background-color: #C0C4CC;
+	}
 </style>
 <script>
 /*eslint-disable */
@@ -154,10 +160,10 @@ export default {
   components: { kuanjiaClick },
   data() {
     return {
-      prodNumIndex: 5, //产品订单种类大于 多少的订单 集计规则
+      prodNumIndex: 2, //产品订单种类大于 多少的订单 集计规则
       sendDataJson: {
         id: "", //发货规则id
-        orderNum: "", //订单合并数量
+        orderNum: "10", //订单合并数量
         orderSource: "", //订单来源合并规则
         orgIds: [], //发货规则应用委托公司id集合
         guizheArr: [], //订单集计规则

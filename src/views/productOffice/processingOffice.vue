@@ -139,6 +139,15 @@ export default {
           onClick() {
             if (!getCookie("X-Auth-wareId"))
               return this.$messageSelf.message("该登入员没有创建权限");
+			  if(!self.tableDataJson.dataResult.length ||
+              self.tableDataJson.dataResult.length != 1 ) return self.$messageSelf.message({
+				  type:"warning",
+				  message:"请选择要转采购的作业，并且只能选择一条"
+			  })
+			  if(!self.tableDataJson.dataResult[0].lackProd) return self.$messageSelf.message({
+				  type:"warning",
+				  message:"改转采购的作业并不缺货，请重新选择"
+			  })
             self.isShowShop = true;
           },
           class: "mr10 bianjiUser",

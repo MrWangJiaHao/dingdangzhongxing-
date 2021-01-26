@@ -13,6 +13,9 @@
 </template>
 
 <style lang="scss">
+	#app .fenxyechaxun .el-input__inner {
+	    padding: 0 ; 
+	}
     .el-pagination .el-pager,
     .el-pagination .el-pager li {
         padding: 0 0px;

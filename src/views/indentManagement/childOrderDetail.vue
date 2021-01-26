@@ -157,7 +157,8 @@ export default {
       from.name === "/indentManagement/resalesIndentManage" ||
       from.name === "/deliveryManagement/normalDelivery" ||
       from.name === "/deliveryManagement/quetyNormal" ||
-      from.name === "/deliveryManagement/delivetyNotePrint"
+      from.name === "/deliveryManagement/delivetyNotePrint" || 
+	  from.name==='/reviewConfig/reviewManagement'
     ) {
       next((vm) => {
         if (vm.$route.query.type === "subOrderNos") {

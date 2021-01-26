@@ -1,5 +1,5 @@
 <template>
-    <div class="fuzzyQueryBoxs clearfix  ">
+    <div class="fuzzyQueryBoxs clearfix" >
         <div class="biaogeBox dispalywrap " :style="{
             width:leftWidth?leftWidth:'94%'
         }">
@@ -31,7 +31,8 @@
             isBtns: {
                 type: String,
                 default: "100%"
-            }
+            },
+			parentHeader:String
         },
         computed: {
             isBaifenhao() {
@@ -71,7 +72,7 @@
     };
 </script>
 
-<style lang='scss' scope>
+<style lang='scss' >
     @import "../../assets/scss/btn.scss";
 
     .fuzzyQueryBoxs {
